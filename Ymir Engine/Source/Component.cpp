@@ -24,12 +24,12 @@ Component::~Component()
 
 void Component::Enable()
 {
-
+	active = true;
 }
 
 void Component::Disable()
 {
-
+	active = false;
 }
 
 void Component::Update()

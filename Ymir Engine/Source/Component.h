@@ -19,8 +19,8 @@ public:
 	Component(GameObject* owner, ComponentType type);
 	virtual ~Component();
 
-	virtual void Enable(); 
-	virtual void Disable();
+	void Enable(); 
+	void Disable();
 
 	virtual void Update();
 	virtual void OnInspector();

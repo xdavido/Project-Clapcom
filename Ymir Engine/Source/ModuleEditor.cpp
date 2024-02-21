@@ -2505,7 +2505,7 @@ void ModuleEditor::DrawInspector()
 
             if ((*it)->selected) {
 
-                ImGui::Checkbox(" Active   ", &(*it)->active);
+                ImGui::Checkbox("##Active", &(*it)->active);
                 ImGui::SameLine();
                 char nameBuffer[256]; // You can adjust the buffer size as needed
 
