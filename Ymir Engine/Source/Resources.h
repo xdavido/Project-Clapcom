@@ -5,13 +5,16 @@
 
 enum class ResourceType {
 
-	UNKNOWN,
+	UNKNOWN = -1,
+
 	TEXTURE,
 	MESH,
 	MODEL,
 	SCENE,
 	SHADER,
 	MATERIAL,
+
+	ALL_TYPES
 
 };
 
