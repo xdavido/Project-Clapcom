@@ -6,6 +6,8 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <vector>
+#include <map>
 
 #include "External/Glew/include/glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -37,3 +39,27 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "Ymir Engine"
+
+
+// Clear a vector
+template <class T>
+void ClearVec(std::vector<T>& x)
+{
+	x.clear();
+	x.shrink_to_fit();
+}
+
+// Clear a vector of pointers
+template <class T>
+void ClearVecPtr(std::vector<T*>& x)
+{
+	for (auto it = x.rbegin(); it != x.rend(); ++it)
+	{
+		// code
+		delete(*it);
+		(*it) = nullptr;
+	}
+
+	x.clear();
+	x.shrink_to_fit();
+}

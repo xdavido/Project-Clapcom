@@ -13,6 +13,7 @@
 #include "ModuleResourceManager.h"
 
 #include "GameObject.h"
+#include "PhysfsEncapsule.h"
 
 #include "External/SDL/include/SDL_opengl.h"
 
@@ -21,18 +22,18 @@
 #include "External/Optick/include/optick.h"
 
 // Constructor
-ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app,start_enabled)
+ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-    // Reserve memory for Framerate Histograms vectors
-    FPSvec.reserve(30);
-    DTvec.reserve(30);
-    MSvec.reserve(30);
-    
-    licenseFileContents = ReadFile("../../LICENSE");
-    memleaksFileContents = ReadFile("memleaks.log");
-    AssimpLogFileContents = ReadFile("AssimpLog.txt");
+	// Reserve memory for Framerate Histograms vectors
+	FPSvec.reserve(30);
+	DTvec.reserve(30);
+	MSvec.reserve(30);
 
-    LOG("Creating ModuleEditor");
+	licenseFileContents = ReadFile("../../LICENSE");
+	memleaksFileContents = ReadFile("memleaks.log");
+	AssimpLogFileContents = ReadFile("AssimpLog.txt");
+
+	LOG("Creating ModuleEditor");
 
 }
 
@@ -44,2880 +45,3148 @@ ModuleEditor::~ModuleEditor()
 
 bool ModuleEditor::Init()
 {
-    LOG("Initializing editor...");
+	LOG("Initializing editor...");
 
-    bool ret = true;
+	bool ret = true;
 
-    // Retrieving data from window initial status
+	// Retrieving data from window initial status
 
-    windowWidth = App->window->width;
-    windowHeight = App->window->height;
-    opacity = 1.0f;
+	windowWidth = App->window->width;
+	windowHeight = App->window->height;
+	opacity = 1.0f;
 
-    // Setup Dear ImGui context
+	// Setup Dear ImGui context
 
-    IMGUI_CHECKVERSION();
+	IMGUI_CHECKVERSION();
 
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-    //io.ConfigViewportsNoAutoMerge = true;
-    //io.ConfigViewportsNoTaskBarIcon = true;
+	//io.ConfigViewportsNoAutoMerge = true;
+	//io.ConfigViewportsNoTaskBarIcon = true;
 
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 
-        UpdateAndRenderAdditionalPlatformWindows = true;
+		UpdateAndRenderAdditionalPlatformWindows = true;
 
-    }
+	}
 
-    // Setup Dear ImGui style
+	// Setup Dear ImGui style
 
-    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 
-    ImGuiStyle& style = ImGui::GetStyle();
-    
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        style.WindowRounding = 0.0f;
-        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-    }
+	ImGuiStyle& style = ImGui::GetStyle();
 
-    // Setup Platform/Renderer backends
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
 
-    ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-    ImGui_ImplOpenGL3_Init();
+	// Setup Platform/Renderer backends
 
-    // Gizmo Handlers
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
+	ImGui_ImplOpenGL3_Init();
 
-    gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
-    gizmoMode = ImGuizmo::MODE::WORLD;
-    modelMatrix = float4x4::identity;
+	// Gizmo Handlers
 
-    // Node Editor
+	gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+	gizmoMode = ImGuizmo::MODE::WORLD;
+	modelMatrix = float4x4::identity;
 
-    nodeEditor.Create();
+	// Node Editor
 
-    // Shader Editor
+	nodeEditor.Create();
 
-    shaderEditor.Init();
+	// Shader Editor
+
+	shaderEditor.Init();
 
 	return ret;
 }
 
 void ModuleEditor::DrawEditor()
 {
-    OPTICK_EVENT();
+	OPTICK_EVENT();
 
-    // Start the Dear ImGui frame
+	// Start the Dear ImGui frame
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 
-    // --------------------------------- Here starts the code for the editor ----------------------------------------
+	// --------------------------------- Here starts the code for the editor ----------------------------------------
 
-    // Manages the docking functionality with the main window
-    WindowDockSpaceManagement();
+	// Manages the docking functionality with the main window
+	WindowDockSpaceManagement();
 
-    // MAIN MENU BAR START
+	// MAIN MENU BAR START
 
-    if (ImGui::BeginMainMenuBar()) {
+	if (ImGui::BeginMainMenuBar()) {
 
-        if (ImGui::BeginMenu("File")) {
+		if (ImGui::BeginMenu("File")) {
 
-            ImGui::SeparatorText("Scene");
+			ImGui::SeparatorText("Scene");
 
-            if (ImGui::MenuItem("New Scene")) {
+			if (ImGui::MenuItem("New Scene")) {
 
 
 
-            }
+			}
 
-            if (ImGui::MenuItem("Open Scene")) {
+			if (ImGui::MenuItem("Open Scene")) {
 
 
 
-            }
+			}
 
-            ImGui::SeparatorText("Save");
+			ImGui::SeparatorText("Save");
 
-            if (ImGui::MenuItem("Save")) {
+			if (ImGui::MenuItem("Save")) {
 
 
 
-            }
+			}
 
-            if (ImGui::MenuItem("Save As...")) {
+			if (ImGui::MenuItem("Save As...")) {
 
 
 
-            }
+			}
 
-            ImGui::SeparatorText("Project");
+			ImGui::SeparatorText("Project");
 
-            if (ImGui::MenuItem("New Project")) {
+			if (ImGui::MenuItem("New Project")) {
 
 
 
-            }
+			}
 
-            if (ImGui::MenuItem("Open Project")) {
+			if (ImGui::MenuItem("Open Project")) {
 
 
 
-            }
+			}
 
-            ImGui::SeparatorText("Exit");
+			ImGui::SeparatorText("Exit");
 
-            if (ImGui::MenuItem("Exit")) {
+			if (ImGui::MenuItem("Exit")) {
 
-                App->input->quit = true;
+				App->input->quit = true;
 
-            }
+			}
 
-            ImGui::EndMenu();
-       
-        }
+			ImGui::EndMenu();
 
-        if (ImGui::BeginMenu("Edit")) {
+		}
 
-            ImGui::SeparatorText("Editor");
+		if (ImGui::BeginMenu("Edit")) {
 
-            if (ImGui::MenuItem("Save editor configuration")) {
+			ImGui::SeparatorText("Editor");
 
+			if (ImGui::MenuItem("Save editor configuration")) {
 
 
-            }
 
-            if (ImGui::MenuItem("Load editor configuration")) {
+			}
 
+			if (ImGui::MenuItem("Load editor configuration")) {
 
 
-            }
 
-            ImGui::SeparatorText("Other");
+			}
 
-            if (ImGui::MenuItem("Preferences")) {
+			ImGui::SeparatorText("Other");
 
+			if (ImGui::MenuItem("Preferences")) {
 
 
-            }
 
-            ImGui::EndMenu();
+			}
 
-        }
+			ImGui::EndMenu();
 
-        if (ImGui::BeginMenu("View")) {
+		}
 
+		if (ImGui::BeginMenu("View")) {
 
 
-            ImGui::EndMenu();
 
-        }
+			ImGui::EndMenu();
 
-        if (ImGui::BeginMenu("GameObject")) {
+		}
 
-            if (ImGui::MenuItem("Empty")) {
+		if (ImGui::BeginMenu("GameObject")) {
 
-                GameObject* empty = App->scene->CreateGameObject("Empty", App->scene->mRootNode);
-                empty->UID = Random::Generate();
+			if (ImGui::MenuItem("Empty")) {
 
-            }
+				GameObject* empty = App->scene->CreateGameObject("Empty", App->scene->mRootNode);
+				empty->UID = Random::Generate();
 
-            if (ImGui::BeginMenu("3D Primitives")) {
+			}
 
-                if (ImGui::MenuItem("Plane")) {
+			if (ImGui::BeginMenu("3D Primitives")) {
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
+				if (ImGui::MenuItem("Plane")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
 
-                    LOG("Plane created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Plane created successfully");
 
-                if (ImGui::MenuItem("Cube")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
+				if (ImGui::MenuItem("Cube")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
 
-                    LOG("Cube created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Cube created successfully");
 
-                if (ImGui::MenuItem("Pyramid")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
+				if (ImGui::MenuItem("Pyramid")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
 
-                    LOG("Pyramid created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Pyramid created successfully");
 
-                if (ImGui::MenuItem("Cylinder")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
+				if (ImGui::MenuItem("Cylinder")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
 
-                    LOG("Cylinder created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Cylinder created successfully");
 
-                if (ImGui::MenuItem("Cone")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
+				if (ImGui::MenuItem("Cone")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
 
-                    LOG("Cone created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Cone created successfully");
 
-                if (ImGui::MenuItem("Sphere")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
+				if (ImGui::MenuItem("Sphere")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
 
-                    LOG("Sphere created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Sphere created successfully");
 
-                if (ImGui::MenuItem("Torus")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
+				if (ImGui::MenuItem("Torus")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
 
-                    LOG("Torus created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Torus created successfully");
 
-                if (ImGui::MenuItem("Capsule")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
+				if (ImGui::MenuItem("Capsule")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
 
-                    LOG("Capsule created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Capsule created successfully");
 
-                if (ImGui::MenuItem("Disc")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
+				if (ImGui::MenuItem("Disc")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
 
-                    LOG("Disc created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Disc created successfully");
 
-                if (ImGui::MenuItem("Platonic Solid")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
+				if (ImGui::MenuItem("Platonic Solid")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
 
-                    LOG("Platonic Solid created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Platonic Solid created successfully");
 
-                if (ImGui::MenuItem("Prism")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
+				if (ImGui::MenuItem("Prism")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
 
-                    LOG("Prism created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Prism created successfully");
 
-                if (ImGui::MenuItem("Pipe")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
+				if (ImGui::MenuItem("Pipe")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
 
-                    LOG("Pipe created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Pipe created successfully");
 
-                if (ImGui::MenuItem("Helix")) {
+				}
 
-                    App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
+				if (ImGui::MenuItem("Helix")) {
 
-                    App->renderer3D->ReloadTextures();
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
 
-                    LOG("Helix created successfully");
+					App->renderer3D->ReloadTextures();
 
-                }
+					LOG("Helix created successfully");
 
-                ImGui::EndMenu();
+				}
 
-            }
+				ImGui::EndMenu();
 
-            ImGui::Separator();
+			}
 
-            if (ImGui::MenuItem("Clear Scene")) {
+			ImGui::Separator();
 
-                App->scene->ClearScene();
+			if (ImGui::MenuItem("Clear Scene")) {
 
-                LOG("Scene cleared successfully");
+				App->scene->ClearScene();
 
-            }
+				LOG("Scene cleared successfully");
 
-            ImGui::EndMenu();
-        }
+			}
 
-        if (ImGui::BeginMenu("Windows")) {
+			ImGui::EndMenu();
+		}
 
-            if (ImGui::MenuItem("Application")) {
+		if (ImGui::BeginMenu("Windows")) {
 
-                showApplication = true;
+			if (ImGui::MenuItem("Application")) {
 
-            }
+				showApplication = true;
 
-            if (ImGui::MenuItem("Console")) {
+			}
 
-                showConsole = true;
+			if (ImGui::MenuItem("Console")) {
 
-            }
+				showConsole = true;
 
-            if (ImGui::MenuItem("Memory Leaks")) {
+			}
 
-                showMemoryLeaks = true;
+			if (ImGui::MenuItem("Memory Leaks")) {
 
+				showMemoryLeaks = true;
 
 
-            }
 
-            if (ImGui::MenuItem("Assimp Log")) {
+			}
 
-                showAssimpLog = true;
+			if (ImGui::MenuItem("Assimp Log")) {
 
-            }
+				showAssimpLog = true;
 
-            if (ImGui::MenuItem("Hierarchy")) {
+			}
 
-                showHierarchy = true;
+			if (ImGui::MenuItem("Hierarchy")) {
 
-            }
+				showHierarchy = true;
 
-            if (ImGui::MenuItem("Inspector")) {
+			}
 
-                showInspector = true;
+			if (ImGui::MenuItem("Inspector")) {
 
-            }
+				showInspector = true;
 
-            if (ImGui::MenuItem("Scene")) {
+			}
 
-                showScene = true;
+			if (ImGui::MenuItem("Scene")) {
 
-            }
+				showScene = true;
 
-            if (ImGui::MenuItem("Game")) {
+			}
 
-                showGame = true;
+			if (ImGui::MenuItem("Game")) {
 
-            }
+				showGame = true;
 
-            if (ImGui::MenuItem("Resources")) {
+			}
 
-                showResources = true;
+			if (ImGui::MenuItem("Resources")) {
 
-            }
+				showResources = true;
 
-            if (ImGui::MenuItem("File Explorer")) {
+			}
 
-                showFileExplorer = true;
+			if (ImGui::MenuItem("File Explorer")) {
 
-            }
+				showFileExplorer = true;
 
-            if (ImGui::MenuItem("Assets")) {
+			}
 
-                showAssets = true;
+			if (ImGui::MenuItem("Assets")) {
 
-            }
+				showAssets = true;
 
-            if (ImGui::MenuItem("Library")) {
+			}
 
-                showLibrary = true;
+			if (ImGui::MenuItem("Library")) {
 
-            }
+				showLibrary = true;
 
-            if (ImGui::MenuItem("Node Editor")) {
+			}
 
-                showNodeEditor = true;
+			if (ImGui::MenuItem("Node Editor")) {
 
-            }
+				showNodeEditor = true;
 
-            if (ImGui::MenuItem("Shader Editor")) {
+			}
 
-                showShaderEditor = true;
+			if (ImGui::MenuItem("Shader Editor")) {
 
-            }
+				showShaderEditor = true;
 
-            ImGui::EndMenu();
-        }
+			}
 
-        if (ImGui::BeginMenu("Help")) {
+			ImGui::EndMenu();
+		}
 
-            if (ImGui::MenuItem("About")) {
+		if (ImGui::BeginMenu("Help")) {
 
-                showAboutPopUp = true;
+			if (ImGui::MenuItem("About")) {
 
-            }
+				showAboutPopUp = true;
 
-            if (ImGui::MenuItem("Repository")) {
+			}
 
-                RequestBrowser("https://github.com/francesctr4/Ymir-Engine");
+			if (ImGui::MenuItem("Repository")) {
 
-            }
+				RequestBrowser("https://github.com/francesctr4/Ymir-Engine");
 
-            if (ImGui::MenuItem("Documentation")) {
+			}
 
-                
+			if (ImGui::MenuItem("Documentation")) {
 
-            }
 
-            if (ImGui::MenuItem("Releases")) {
 
+			}
 
+			if (ImGui::MenuItem("Releases")) {
 
-            }
 
-            if (ImGui::MenuItem("Bug report")) {
 
+			}
 
+			if (ImGui::MenuItem("Bug report")) {
 
-            }
 
-            ImGui::EndMenu();
 
-        }
+			}
 
-        ImGui::EndMainMenuBar();
+			ImGui::EndMenu();
 
-    }
+		}
 
-    if (showAboutPopUp) {
+		ImGui::EndMainMenuBar();
 
-        ImGui::OpenPopup("About");
+	}
 
-        if (ImGui::BeginPopupModal("About")) {
+	if (showAboutPopUp) {
 
-            AboutModalWindowContent();
+		ImGui::OpenPopup("About");
 
-            ImGui::EndPopup();
+		if (ImGui::BeginPopupModal("About")) {
 
-        }
+			AboutModalWindowContent();
 
-    }
+			ImGui::EndPopup();
 
-    // END OF MAIN MENU BAR
+		}
 
-    // APPLICATION MENU START
+	}
 
-    if (showApplication) {
+	// END OF MAIN MENU BAR
 
-        if (ImGui::Begin("Application", &showApplication), true) {
+	// APPLICATION MENU START
 
-            if (ImGui::CollapsingHeader("OpenGL")) {
+	if (showApplication) {
 
-                // Functions to enable/disable opengl config with checkboxes
+		if (ImGui::Begin("Application", &showApplication), true) {
 
-                ImGui::Indent(); // Indent to make the checkbox visually nested under the header
+			if (ImGui::CollapsingHeader("OpenGL")) {
 
-                if (ImGui::BeginTable("split", 2))
-                {
-                    ImGui::TableNextColumn();
+				// Functions to enable/disable opengl config with checkboxes
 
-                    if (ImGui::Checkbox("Depth Testing", &gl_DepthTesting)) {
+				ImGui::Indent(); // Indent to make the checkbox visually nested under the header
 
-                        Toggle_GL_DepthTesting(gl_DepthTesting);
+				if (ImGui::BeginTable("split", 2))
+				{
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Depth Testing", &gl_DepthTesting)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_DepthTesting(gl_DepthTesting);
 
-                    if (ImGui::Checkbox("Face Culling", &gl_FaceCulling)) {
+					}
 
-                        Toggle_GL_FaceCulling(gl_FaceCulling);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Face Culling", &gl_FaceCulling)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_FaceCulling(gl_FaceCulling);
 
-                    if (ImGui::Checkbox("Lighting", &gl_Lighting)) {
+					}
 
-                        Toggle_GL_Lighting(gl_Lighting);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Lighting", &gl_Lighting)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_Lighting(gl_Lighting);
 
-                    if (ImGui::Checkbox("Color Material", &gl_ColorMaterial)) {
+					}
 
-                        Toggle_GL_ColorMaterial(gl_ColorMaterial);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Color Material", &gl_ColorMaterial)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_ColorMaterial(gl_ColorMaterial);
 
-                    if (ImGui::Checkbox("Texture Mapping 2D", &gl_TextureMapping2D)) {
+					}
 
-                        Toggle_GL_TextureMapping2D(gl_TextureMapping2D);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Texture Mapping 2D", &gl_TextureMapping2D)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_TextureMapping2D(gl_TextureMapping2D);
 
-                    if (ImGui::Checkbox("Texture Mapping 3D", &gl_TextureMapping3D)) {
+					}
 
-                        Toggle_GL_TextureMapping3D(gl_TextureMapping3D);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Texture Mapping 3D", &gl_TextureMapping3D)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_TextureMapping3D(gl_TextureMapping3D);
 
-                    if (ImGui::Checkbox("Blending", &gl_Blending)) {
+					}
 
-                        Toggle_GL_Blending(gl_Blending);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Blending", &gl_Blending)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_Blending(gl_Blending);
 
-                    if (ImGui::Checkbox("MSAA", &gl_MSAA)) {
+					}
 
-                        Toggle_GL_MSAA(gl_MSAA);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("MSAA", &gl_MSAA)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_MSAA(gl_MSAA);
 
-                    if (ImGui::Checkbox("Stencil Testing", &gl_StencilTesting)) {
+					}
 
-                        Toggle_GL_StencilTesting(gl_StencilTesting);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Stencil Testing", &gl_StencilTesting)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_StencilTesting(gl_StencilTesting);
 
-                    if (ImGui::Checkbox("Scissor Testing", &gl_ScissorTesting)) {
+					}
 
-                        Toggle_GL_ScissorTesting(gl_ScissorTesting);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Scissor Testing", &gl_ScissorTesting)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_ScissorTesting(gl_ScissorTesting);
 
-                    if (ImGui::Checkbox("Alpha Testing", &gl_AlphaTesting)) {
+					}
 
-                        Toggle_GL_AlphaTesting(gl_AlphaTesting);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Alpha Testing", &gl_AlphaTesting)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_AlphaTesting(gl_AlphaTesting);
 
-                    if (ImGui::Checkbox("Point Sprites", &gl_PointSprites)) {
+					}
 
-                        Toggle_GL_PointSprites(gl_PointSprites);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Point Sprites", &gl_PointSprites)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_PointSprites(gl_PointSprites);
 
-                    if (ImGui::Checkbox("Fog", &gl_Fog)) {
+					}
 
-                        Toggle_GL_Fog(gl_Fog);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Fog", &gl_Fog)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_Fog(gl_Fog);
 
-                    if (ImGui::Checkbox("Point Smooth", &gl_PointSmooth)) {
+					}
 
-                        Toggle_GL_PointSmooth(gl_PointSmooth);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Point Smooth", &gl_PointSmooth)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_PointSmooth(gl_PointSmooth);
 
-                    if (ImGui::Checkbox("Line Smooth", &gl_LineSmooth)) {
+					}
 
-                        Toggle_GL_LineSmooth(gl_LineSmooth);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Line Smooth", &gl_LineSmooth)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_LineSmooth(gl_LineSmooth);
 
-                    if (ImGui::Checkbox("Auto Normalization", &gl_Normalization)) {
+					}
 
-                        Toggle_GL_Normalization(gl_Normalization);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Auto Normalization", &gl_Normalization)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_Normalization(gl_Normalization);
 
-                    if (ImGui::Checkbox("Polygon Offset", &gl_PolygonOffset)) {
+					}
 
-                        Toggle_GL_PolygonOffset(gl_PolygonOffset);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Polygon Offset", &gl_PolygonOffset)) {
 
-                    ImGui::TableNextColumn();
+						Toggle_GL_PolygonOffset(gl_PolygonOffset);
 
-                    if (ImGui::Checkbox("Wireframe Mode", &gl_WireframeMode)) {
+					}
 
-                        Toggle_GL_WireframeMode(gl_WireframeMode);
+					ImGui::TableNextColumn();
 
-                    }
+					if (ImGui::Checkbox("Wireframe Mode", &gl_WireframeMode)) {
 
-                    ImGui::EndTable();
+						Toggle_GL_WireframeMode(gl_WireframeMode);
 
-                }
+					}
 
-                ImGui::Unindent(); // Unindent to return to the previous level of indentation
+					ImGui::EndTable();
 
-            }
+				}
 
-            if (ImGui::CollapsingHeader("Window")) {
+				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
-                // Window Options
+			}
 
-                ImGui::Indent(); // Indent to make the checkbox visually nested under the header
+			if (ImGui::CollapsingHeader("Window")) {
 
-                // Width and Height Sliders
-                ImGui::SliderInt("Width", &windowWidth, 0, 1280);
-                ImGui::SliderInt("Height", &windowHeight, 0, 1024);
-                SDL_SetWindowSize(App->window->window, windowWidth, windowHeight);
+				// Window Options
 
-                // Opacity Slider
-                ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f);
-                SDL_SetWindowOpacity(App->window->window, opacity);
+				ImGui::Indent(); // Indent to make the checkbox visually nested under the header
 
-                // Window Options Checkbox
-                if (ImGui::Checkbox("Fullscreen", &fullscreen)) {
+				// Width and Height Sliders
+				ImGui::SliderInt("Width", &windowWidth, 0, 1280);
+				ImGui::SliderInt("Height", &windowHeight, 0, 1024);
+				SDL_SetWindowSize(App->window->window, windowWidth, windowHeight);
 
-                    ToggleFullscreen(fullscreen);
+				// Opacity Slider
+				ImGui::SliderFloat("Opacity", &opacity, 0.0f, 1.0f);
+				SDL_SetWindowOpacity(App->window->window, opacity);
 
-                }
-                ImGui::SameLine();
-                if (ImGui::Checkbox("Resizable", &resizable)) {
+				// Window Options Checkbox
+				if (ImGui::Checkbox("Fullscreen", &fullscreen)) {
 
-                    ToggleResizable(resizable);
+					ToggleFullscreen(fullscreen);
 
-                }
+				}
+				ImGui::SameLine();
+				if (ImGui::Checkbox("Resizable", &resizable)) {
 
-                if (ImGui::Checkbox("Borderless", &borderless)) {
+					ToggleResizable(resizable);
 
-                    ToggleBorderless(borderless);
+				}
 
-                }
-                ImGui::SameLine();
-                if (ImGui::Checkbox("Fullscreen Desktop", &fullscreenDesktop)) {
+				if (ImGui::Checkbox("Borderless", &borderless)) {
 
-                    ToggleFullscreenDesktop(fullscreenDesktop);
+					ToggleBorderless(borderless);
 
-                }
+				}
+				ImGui::SameLine();
+				if (ImGui::Checkbox("Fullscreen Desktop", &fullscreenDesktop)) {
 
-                ImGui::Unindent(); // Unindent to return to the previous level of indentation
+					ToggleFullscreenDesktop(fullscreenDesktop);
 
-            }
+				}
 
-            if (ImGui::CollapsingHeader("Renderer3D")) {
+				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
-                ImGui::Indent(); // Indent to make the checkbox visually nested under the header
+			}
 
-                if (ImGui::Checkbox("VSync", &vsync)) {
+			if (ImGui::CollapsingHeader("Renderer3D")) {
 
-                    ToggleVSync(vsync);
+				ImGui::Indent(); // Indent to make the checkbox visually nested under the header
 
-                }
+				if (ImGui::Checkbox("VSync", &vsync)) {
 
-                ImGui::Unindent(); // Unindent to return to the previous level of indentation
+					ToggleVSync(vsync);
 
-            }
+				}
 
-            if (ImGui::CollapsingHeader("Camera3D")) {
+				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
-                // Camera Options
+			}
 
-                ImGui::SeparatorText("POSITION");
+			if (ImGui::CollapsingHeader("Camera3D")) {
 
-                ImGui::BulletText("Camera Position: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
+				// Camera Options
 
-                ImGui::SeparatorText("ORIENTATION");
+				ImGui::SeparatorText("POSITION");
 
-                ImGui::BulletText("Camera X: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetRight().x, App->camera->editorCamera->GetRight().y, App->camera->editorCamera->GetRight().z);
-                ImGui::BulletText("Camera Y: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetUp().x, App->camera->editorCamera->GetUp().y, App->camera->editorCamera->GetUp().z);
-                ImGui::BulletText("Camera Z: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetFront().x, App->camera->editorCamera->GetFront().y, App->camera->editorCamera->GetFront().z);
+				ImGui::BulletText("Camera Position: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
 
-            }
+				ImGui::SeparatorText("ORIENTATION");
 
-            if (ImGui::CollapsingHeader("Input")) {
+				ImGui::BulletText("Camera X: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetRight().x, App->camera->editorCamera->GetRight().y, App->camera->editorCamera->GetRight().z);
+				ImGui::BulletText("Camera Y: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetUp().x, App->camera->editorCamera->GetUp().y, App->camera->editorCamera->GetUp().z);
+				ImGui::BulletText("Camera Z: (%.2f, %.2f, %.2f)", App->camera->editorCamera->GetFront().x, App->camera->editorCamera->GetFront().y, App->camera->editorCamera->GetFront().z);
 
-                // Input Options
+			}
 
-                ImGuiIO& io = ImGui::GetIO();
+			if (ImGui::CollapsingHeader("Input")) {
 
-                // Mouse Info
+				// Input Options
 
-                ImGui::SeparatorText("MOUSE");
+				ImGuiIO& io = ImGui::GetIO();
 
-                if (ImGui::IsMousePosValid()) {
+				// Mouse Info
 
-                    ImGui::BulletText("Mouse pos: (%g, %g)", io.MousePos.x, io.MousePos.y);
+				ImGui::SeparatorText("MOUSE");
 
-                }
-                else {
+				if (ImGui::IsMousePosValid()) {
 
-                    ImGui::BulletText("Mouse pos: <INVALID>");
+					ImGui::BulletText("Mouse pos: (%g, %g)", io.MousePos.x, io.MousePos.y);
 
-                }
+				}
+				else {
 
-                ImGui::BulletText("Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
-                ImGui::BulletText("Mouse down:");
+					ImGui::BulletText("Mouse pos: <INVALID>");
 
-                for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDown(i)) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
-                ImGui::BulletText("Mouse wheel: %.1f", io.MouseWheel);
+				}
 
-                // Keys info
+				ImGui::BulletText("Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
+				ImGui::BulletText("Mouse down:");
 
-                ImGui::SeparatorText("KEYS");
+				for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDown(i)) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
+				ImGui::BulletText("Mouse wheel: %.1f", io.MouseWheel);
 
-                struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
-                ImGuiKey start_key = (ImGuiKey)0;
+				// Keys info
 
-                ImGui::BulletText("Keys down:");         for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1)) { if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine(); ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key); }
-                ImGui::BulletText("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
-                ImGui::BulletText("Chars queue:");       for (int i = 0; i < io.InputQueueCharacters.Size; i++) { ImWchar c = io.InputQueueCharacters[i]; ImGui::SameLine();  ImGui::Text("\'%c\' (0x%04X)", (c > ' ' && c <= 255) ? (char)c : '?', c); } // FIXME: We should convert 'c' to UTF-8 here but the functions are not public.
+				ImGui::SeparatorText("KEYS");
 
-            }
+				struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+				ImGuiKey start_key = (ImGuiKey)0;
 
-            if (ImGui::CollapsingHeader("Editor")) {
+				ImGui::BulletText("Keys down:");         for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1)) { if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine(); ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key); }
+				ImGui::BulletText("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
+				ImGui::BulletText("Chars queue:");       for (int i = 0; i < io.InputQueueCharacters.Size; i++) { ImWchar c = io.InputQueueCharacters[i]; ImGui::SameLine();  ImGui::Text("\'%c\' (0x%04X)", (c > ' ' && c <= 255) ? (char)c : '?', c); } // FIXME: We should convert 'c' to UTF-8 here but the functions are not public.
 
-                ImGui::Indent(); // Indent to make the checkbox visually nested under the header
+			}
 
-                // Light/Dark Mode Checkbox
-                if (ImGui::Checkbox("Toggle light mode", &lightMode)) {
+			if (ImGui::CollapsingHeader("Editor")) {
 
-                    ToggleLightMode(lightMode);
+				ImGui::Indent(); // Indent to make the checkbox visually nested under the header
 
-                }
+				// Light/Dark Mode Checkbox
+				if (ImGui::Checkbox("Toggle light mode", &lightMode)) {
 
-                // ImGui Demo Window Checkbox
-                if (ImGui::Checkbox("Show ImGui demo window", &showImGuiDemo));
+					ToggleLightMode(lightMode);
 
-                // World Grid Checkbox
-                if (ImGui::Checkbox("Show Grid", &App->renderer3D->showGrid));
+				}
 
-                ImGui::Unindent(); // Unindent to return to the previous level of indentation
+				// ImGui Demo Window Checkbox
+				if (ImGui::Checkbox("Show ImGui demo window", &showImGuiDemo));
 
-            }
+				// World Grid Checkbox
+				if (ImGui::Checkbox("Show Grid", &App->renderer3D->showGrid));
 
-            if (ImGui::CollapsingHeader("Framerate")) {
+				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
-                // FPS Graph
+			}
 
-                char title[50];
+			if (ImGui::CollapsingHeader("Framerate")) {
 
-                sprintf_s(title, 50, "Framerate (FPS): %.3f", FPSvec[FPSvec.size() - 1]);
-                ImGui::PlotHistogram("## Framerate", &FPSvec[0], FPSvec.size(), 0, title, 0.0f, 250.0f, ImVec2(300, 100));
+				// FPS Graph
 
-                sprintf_s(title, 50, "DeltaTime (DT): %.3f", DTvec[DTvec.size() - 1]);
-                ImGui::PlotHistogram("## DeltaTime", &DTvec[0], DTvec.size(), 0, title, 0.0f, 0.032f, ImVec2(300, 100));
+				char title[50];
 
-                sprintf_s(title, 50, "Milliseconds (MS): %.3f", MSvec[MSvec.size() - 1]);
-                ImGui::PlotHistogram("## Milliseconds", &MSvec[0], MSvec.size(), 0, title, 0.0f, 32.0f, ImVec2(300, 100));
+				sprintf_s(title, 50, "Framerate (FPS): %.3f", FPSvec[FPSvec.size() - 1]);
+				ImGui::PlotHistogram("## Framerate", &FPSvec[0], FPSvec.size(), 0, title, 0.0f, 250.0f, ImVec2(300, 100));
 
-            }
+				sprintf_s(title, 50, "DeltaTime (DT): %.3f", DTvec[DTvec.size() - 1]);
+				ImGui::PlotHistogram("## DeltaTime", &DTvec[0], DTvec.size(), 0, title, 0.0f, 0.032f, ImVec2(300, 100));
 
-            if (ImGui::CollapsingHeader("Hardware")) {
+				sprintf_s(title, 50, "Milliseconds (MS): %.3f", MSvec[MSvec.size() - 1]);
+				ImGui::PlotHistogram("## Milliseconds", &MSvec[0], MSvec.size(), 0, title, 0.0f, 32.0f, ImVec2(300, 100));
 
-                // Hardware Detection
+			}
 
-                ShowPlatformInfo();
+			if (ImGui::CollapsingHeader("Hardware")) {
 
-                ImGui::Separator();
+				// Hardware Detection
 
-                ShowCPUInfo();
+				ShowPlatformInfo();
 
-                ImGui::Separator();
+				ImGui::Separator();
 
-                ShowRAMInfo();
+				ShowCPUInfo();
 
-                ImGui::Separator();
+				ImGui::Separator();
 
-                ShowGPUInfo();
+				ShowRAMInfo();
 
-                ImGui::Separator();
+				ImGui::Separator();
 
-                ShowDiskInfo();
+				ShowGPUInfo();
 
-            }
+				ImGui::Separator();
 
-            if (ImGui::CollapsingHeader("Meshes")) {
+				ShowDiskInfo();
 
-                // 3D Meshes Configuration
+			}
 
-                ImGui::Indent(); // Indent to make the checkbox visually nested under the header
+			if (ImGui::CollapsingHeader("Meshes")) {
 
-                if (ImGui::Checkbox("Show Vertex Normals", &showVertexNormals)) {
+				// 3D Meshes Configuration
 
-                    ToggleMeshesVertexNormals(showVertexNormals);
+				ImGui::Indent(); // Indent to make the checkbox visually nested under the header
 
-                }
+				if (ImGui::Checkbox("Show Vertex Normals", &showVertexNormals)) {
 
-                if (ImGui::Checkbox("Show Face Normals", &showFaceNormals)) {
+					ToggleMeshesVertexNormals(showVertexNormals);
 
-                    ToggleMeshesFaceNormals(showFaceNormals);
+				}
 
-                }
+				if (ImGui::Checkbox("Show Face Normals", &showFaceNormals)) {
 
-                if (ImGui::Button("Apply Checker Texture")) {
+					ToggleMeshesFaceNormals(showFaceNormals);
 
-                    App->renderer3D->ApplyCheckerTexture();
+				}
 
-                }
+				if (ImGui::Button("Apply Checker Texture")) {
 
-                if (ImGui::Button("Clear Actual Texture")) {
+					App->renderer3D->ApplyCheckerTexture();
 
-                    App->renderer3D->ClearActualTexture();
+				}
 
-                }
+				if (ImGui::Button("Clear Actual Texture")) {
 
-                ImGui::Unindent(); // Unindent to return to the previous level of indentation
+					App->renderer3D->ClearActualTexture();
 
-            }
+				}
 
-            ImGui::End();
+				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
-        }
+			}
 
-    }
+			ImGui::End();
 
-    if (showConsole) {
+		}
 
-        if (ImGui::Begin("Console", &showConsole), true) {
+	}
 
-            // Redirect Log Output
+	if (showConsole) {
 
-            RedirectLogOutput();
+		if (ImGui::Begin("Console", &showConsole), true) {
 
-            ImGui::End();
+			// Redirect Log Output
 
-        }
+			RedirectLogOutput();
 
-    }
+			ImGui::End();
 
-    if (showMemoryLeaks) {
+		}
 
-        if (ImGui::Begin("Memory Leaks", &showMemoryLeaks), true) {
+	}
 
-            // Show Memory Leaks File
+	if (showMemoryLeaks) {
 
-            MemoryLeaksOutput();
+		if (ImGui::Begin("Memory Leaks", &showMemoryLeaks), true) {
 
-            ImGui::End();
+			// Show Memory Leaks File
 
-        }
+			MemoryLeaksOutput();
 
-    }
+			ImGui::End();
 
-    if (showAssimpLog) {
+		}
 
-        if (ImGui::Begin("Assimp Log", &showAssimpLog), true) {
+	}
 
-            // Show Assimp Log File
+	if (showAssimpLog) {
 
-            AssimpLogOutput();
+		if (ImGui::Begin("Assimp Log", &showAssimpLog), true) {
 
-            ImGui::End();
+			// Show Assimp Log File
 
-        }
+			AssimpLogOutput();
 
-    }
+			ImGui::End();
 
-    if (showHierarchy) {
+		}
 
-        if (ImGui::Begin("Hierarchy", &showHierarchy), true) {
+	}
 
-            // Show scene hierarchy
+	if (showHierarchy) {
 
-            DrawHierarchy();
+		if (ImGui::Begin("Hierarchy", &showHierarchy), true) {
 
-            ImGui::End();
+			// Show scene hierarchy
 
-        }
+			DrawHierarchy();
 
-    }
+			ImGui::End();
 
-    if (showInspector) {
+		}
 
-        if (ImGui::Begin("Inspector", &showInspector), true) {
+	}
 
-            // Show GameObject Inspector
+	if (showInspector) {
 
-            DrawInspector();
+		if (ImGui::Begin("Inspector", &showInspector), true) {
 
-            ImGui::End();
+			// Show GameObject Inspector
 
-        }
+			DrawInspector();
 
-    }
+			ImGui::End();
 
-    // END OF APPLICATION MENU
+		}
 
-    if (showImGuiDemo) {
+	}
 
-        ImGui::ShowDemoWindow();
+	// END OF APPLICATION MENU
 
-    }
+	if (showImGuiDemo) {
 
-    // Time Management
+		ImGui::ShowDemoWindow();
 
-    if (ImGui::Begin(" ", NULL, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse)) {
+	}
 
-        float windowWidth = ImGui::GetWindowWidth();
-        float buttonWidth = 50.0f; 
-        float posX = (windowWidth - (3 * buttonWidth + 2 * ImGui::GetStyle().ItemSpacing.x)) * 0.5f;
+	// Time Management
 
-        ImGui::SameLine(20.0f);
+	if (ImGui::Begin(" ", NULL, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse)) {
 
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 1.0f, 1.0f), "Graphics Time: %.3f", TimeManager::graphicsTimer.ReadSec());
+		float windowWidth = ImGui::GetWindowWidth();
+		float buttonWidth = 50.0f;
+		float posX = (windowWidth - (3 * buttonWidth + 2 * ImGui::GetStyle().ItemSpacing.x)) * 0.5f;
 
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 20.0f);
+		ImGui::SameLine(20.0f);
 
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 1.0f, 1.0f), "Frame Count: %d", TimeManager::FrameCount);
+		ImGui::TextColored(ImVec4(0.7f, 0.7f, 1.0f, 1.0f), "Graphics Time: %.3f", TimeManager::graphicsTimer.ReadSec());
 
-        ImGui::SameLine();
+		ImGui::SameLine();
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 20.0f);
 
-        ImGui::SetCursorPosX(posX);
+		ImGui::TextColored(ImVec4(0.7f, 0.7f, 1.0f, 1.0f), "Frame Count: %d", TimeManager::FrameCount);
 
-        static bool isPlaying = false;
-        static bool isPaused = false;
+		ImGui::SameLine();
 
-        if (isPlaying) {
+		ImGui::SetCursorPosX(posX);
 
-            if (ImGui::Button("Stop")) {
+		static bool isPlaying = false;
+		static bool isPaused = false;
 
-                TimeManager::gameTimer.Stop();
+		if (isPlaying) {
 
-                isPlaying = false;
-                isPaused = false;
+			if (ImGui::Button("Stop")) {
 
-                // App->scene->LoadScene();
+				TimeManager::gameTimer.Stop();
 
-            }
+				isPlaying = false;
+				isPaused = false;
 
-        }
-        else {
+				// App->scene->LoadScene();
 
-            if (ImGui::Button("Play")) {
+			}
 
-                TimeManager::gameTimer.Start();
+		}
+		else {
 
-                isPlaying = true;
+			if (ImGui::Button("Play")) {
 
-                App->scene->SaveScene();
+				TimeManager::gameTimer.Start();
 
-            }
+				isPlaying = true;
 
-        }
+				App->scene->SaveScene();
 
-        ImGui::SameLine();
+			}
 
-        if (isPaused) {
+		}
 
-            if (ImGui::Button("Resume")) {
+		ImGui::SameLine();
 
-                if (isPlaying) {
+		if (isPaused) {
 
-                    TimeManager::gameTimer.Resume();
+			if (ImGui::Button("Resume")) {
 
-                    isPaused = false;
+				if (isPlaying) {
 
-                }
+					TimeManager::gameTimer.Resume();
 
-            }
+					isPaused = false;
 
-        }
-        else {
+				}
 
-            if (ImGui::Button("Pause")) {
+			}
 
-                if (isPlaying) {
+		}
+		else {
 
-                    TimeManager::gameTimer.Pause();
+			if (ImGui::Button("Pause")) {
 
-                    isPaused = true;
+				if (isPlaying) {
 
-                }
+					TimeManager::gameTimer.Pause();
 
-            }
+					isPaused = true;
 
-        }
+				}
 
-        ImGui::SameLine();
+			}
 
-        if (ImGui::Button("Step")) {
+		}
 
-            TimeManager::gameTimer.StepFrame(TimeManager::DeltaTime);
+		ImGui::SameLine();
 
-        }
+		if (ImGui::Button("Step")) {
 
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 20.0f);
+			TimeManager::gameTimer.StepFrame(TimeManager::DeltaTime);
 
-        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Game Time: %.3f", TimeManager::gameTimer.ReadSec());
+		}
 
-        ImGui::SameLine(ImGui::GetWindowWidth() - 250.0f);
+		ImGui::SameLine();
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 20.0f);
 
-        ImGui::PushItemWidth(100.0f);
+		ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "Game Time: %.3f", TimeManager::gameTimer.ReadSec());
 
-        static float scale = 1.0f; // Default Scale
-        if (ImGui::SliderFloat("Time Scale", &scale, 0.1f, 5.0f, "%.2f"))
-        {
-            TimeManager::gameTimer.SetTimeScale(scale);
-        }
+		ImGui::SameLine(ImGui::GetWindowWidth() - 250.0f);
 
-        ImGui::PushItemWidth(-1);
+		ImGui::PushItemWidth(100.0f);
 
-        ImGui::SameLine();
+		static float scale = 1.0f; // Default Scale
+		if (ImGui::SliderFloat("Time Scale", &scale, 0.1f, 5.0f, "%.2f"))
+		{
+			TimeManager::gameTimer.SetTimeScale(scale);
+		}
 
-        if (ImGui::Button("Reset"))
-        {
-            scale = 1.0f;
-            TimeManager::gameTimer.SetTimeScale(scale);
-        }
+		ImGui::PushItemWidth(-1);
 
-        ImGui::End();
-    }
+		ImGui::SameLine();
 
-    if (showAssets) {
+		if (ImGui::Button("Reset"))
+		{
+			scale = 1.0f;
+			TimeManager::gameTimer.SetTimeScale(scale);
+		}
 
-        if (ImGui::Begin("Assets", &showAssets), true) {
+		ImGui::End();
+	}
 
-            DrawAssetsWindow("Assets/");
+	if (showAssets) {
 
-            // Display the modal when showModal is true
-            if (showModal) {
+		if (ImGui::Begin("Assets", &showAssets), true) {
 
-                ImGui::OpenPopup(selectedFilePath.c_str());
+			DrawAssetsWindow("Assets/");
 
-                showModal = false;  // Reset the flag
+			// Display the modal when showModal is true
+			if (showModal) {
 
-            }
+				ImGui::OpenPopup(selectedFilePath.c_str());
 
-            // Modal window for displaying file contents
-            if (ImGui::BeginPopupModal(selectedFilePath.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+				showModal = false;  // Reset the flag
 
-                // Read and display the contents of the selected file
+			}
 
-                std::ifstream file(selectedFilePath);
+			// Modal window for displaying file contents
+			if (ImGui::BeginPopupModal(selectedFilePath.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
 
-                if (file.is_open()) {
+				// Read and display the contents of the selected file
 
-                    std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+				std::ifstream file(selectedFilePath);
 
-                    ImGui::Text("%s", fileContents.c_str());
+				if (file.is_open()) {
 
-                    file.close();
+					std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-                }
+					ImGui::Text("%s", fileContents.c_str());
 
-                // Close the modal window
+					file.close();
 
-                if (ImGui::Button("Close")) {
+				}
 
-                    ImGui::CloseCurrentPopup();
+				// Close the modal window
 
-                }
+				if (ImGui::Button("Close")) {
 
-                ImGui::EndPopup();
-            }
+					ImGui::CloseCurrentPopup();
 
-            ImGui::End();
-        }
+				}
 
-    }
+				ImGui::EndPopup();
+			}
 
-    if (showLibrary) {
+			ImGui::End();
+		}
 
-        if (ImGui::Begin("Library", &showLibrary), true) {
+	}
 
-            DrawLibraryWindow("Library/");
+	if (showLibrary) {
 
-            std::string completeFilePath = selectedFilePath.c_str();
-            std::string shortenedFilePath;
+		if (ImGui::Begin("Library", &showLibrary), true) {
 
-            // Find the position of the first "/" in the string
-            size_t found = completeFilePath.find("/");
+			DrawLibraryWindow("Library/");
 
-            if (found != std::string::npos) {
+			std::string completeFilePath = selectedFilePath.c_str();
+			std::string shortenedFilePath;
 
-                shortenedFilePath = selectedFilePath.substr(found + 1);
+			// Find the position of the first "/" in the string
+			size_t found = completeFilePath.find("/");
 
-            }
-            else {
+			if (found != std::string::npos) {
 
-                shortenedFilePath = completeFilePath;
+				shortenedFilePath = selectedFilePath.substr(found + 1);
 
-            }
+			}
+			else {
 
-            // Display the modal when showModal is true
-            if (showModal) {
+				shortenedFilePath = completeFilePath;
 
-                ImGui::OpenPopup(shortenedFilePath.c_str());
-                showModal = false;  // Reset the flag
+			}
 
-            }
+			// Display the modal when showModal is true
+			if (showModal) {
 
-            // Modal window for displaying file contents
+				ImGui::OpenPopup(shortenedFilePath.c_str());
+				showModal = false;  // Reset the flag
 
-            if (ImGui::BeginPopupModal(shortenedFilePath.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+			}
 
-                // Read and display the contents of the selected file
+			// Modal window for displaying file contents
 
-                std::ifstream file(selectedFilePath);
+			if (ImGui::BeginPopupModal(shortenedFilePath.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
 
-                if (file.is_open()) {
+				// Read and display the contents of the selected file
 
-                    std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+				std::ifstream file(selectedFilePath);
 
-                    ImGui::Text("%s", fileContents.c_str());
+				if (file.is_open()) {
 
-                    file.close();
-                }
+					std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-                // Close the modal window
-                if (ImGui::Button("Close")) {
+					ImGui::Text("%s", fileContents.c_str());
 
-                    ImGui::CloseCurrentPopup();
+					file.close();
+				}
 
-                }
+				// Close the modal window
+				if (ImGui::Button("Close")) {
 
-                ImGui::EndPopup();
-            }
+					ImGui::CloseCurrentPopup();
 
-            ImGui::End();
-        }
+				}
 
-    }
+				ImGui::EndPopup();
+			}
 
-    if (showFileExplorer) {
+			ImGui::End();
+		}
 
-        if (ImGui::Begin("File Explorer", &showFileExplorer), true) {
+	}
 
-            DrawFileExplorer(".");
+	if (showFileExplorer) {
 
-            ImGui::End();
-        }
+		if (ImGui::Begin("File Explorer", &showFileExplorer), true) {
 
-    }
+			DrawFileExplorer(".");
 
-    if (showResources) {
+			ImGui::End();
+		}
 
-        if (ImGui::Begin("Resources", &showResources), true) {
+	}
 
-            ImGui::TextColored(ImVec4(1.f, 0.5f, 0.5f, 1.f), "Total Resources Loaded: %d", App->resourceManager->GetResourcesMap().size());
+	if (showResources) {
 
-            for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap()) 
-            {
-                ImGui::Text("Type: %s | UID: %d | References: %d", App->resourceManager->GetStringFromType(Resource->GetType()), Resource->GetUID(), Resource->GetReferenceCount());
-            }
+		if (ImGui::Begin("Resources", &showResources), true) {
 
-            ImGui::End();
-        }
+			ImGui::TextColored(ImVec4(1.f, 0.5f, 0.5f, 1.f), "Total Resources Loaded: %d", App->resourceManager->GetResourcesMap().size());
 
-    }
-    
-    if (showGame) {
+			for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap())
+			{
+				ImGui::Text("Type: %s | UID: %d | References: %d", App->resourceManager->GetStringFromType(Resource->GetType()), Resource->GetUID(), Resource->GetReferenceCount());
+			}
 
-        if (ImGui::Begin("Game", &showGame), true) {
+			ImGui::End();
+		}
 
-            // Display the contents of the framebuffer texture
-            ImVec2 size = ImGui::GetContentRegionAvail();
-            App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-            ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+	}
 
-            ImGui::End();
-        }
+	if (showGame) {
 
-    }
+		if (ImGui::Begin("Game", &showGame), true) {
 
-    if (showScene) {
+			// Display the contents of the framebuffer texture
+			ImVec2 size = ImGui::GetContentRegionAvail();
+			App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
+			ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
 
-        if (ImGui::Begin("Scene", &showScene), true) {
+			ImGui::End();
+		}
 
-            // Display the contents of the framebuffer texture
-            ImVec2 size = ImGui::GetContentRegionAvail();
-            App->camera->editorCamera->SetAspectRatio(size.x / size.y);
-            ImGui::Image((ImTextureID)App->camera->editorCamera->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+	}
 
-            // Retrieve Info from ImGui Scene Window
-            
-            // Get the Mouse Position using ImGui.
-            ImVec2 mousePosition = ImGui::GetMousePos();
+	if (showScene) {
 
-            // Get the position of the ImGui window.
-            ImVec2 sceneWindowPos = ImGui::GetWindowPos();
+		if (ImGui::Begin("Scene", &showScene), true) {
 
-            // Get the size of the ImGui window.
-            ImVec2 sceneWindowSize = ImGui::GetWindowSize();
+			// Display the contents of the framebuffer texture
+			ImVec2 size = ImGui::GetContentRegionAvail();
+			App->camera->editorCamera->SetAspectRatio(size.x / size.y);
+			ImGui::Image((ImTextureID)App->camera->editorCamera->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
 
-            // Get the maximum content region size of the ImGui window.
-            ImVec2 sceneContentRegionMax = ImGui::GetContentRegionMax();
+			// Retrieve Info from ImGui Scene Window
 
-            // Calculate the vertical offset for the gizmo to be centered in the ImGui window frame.
-            float sceneFrameHeightOffset = ImGui::GetFrameHeight() / 2.0f;
+			// Get the Mouse Position using ImGui.
+			ImVec2 mousePosition = ImGui::GetMousePos();
 
-            // Gizmo Management
-            DrawGizmo(sceneWindowPos, sceneContentRegionMax, sceneFrameHeightOffset);
+			// Get the position of the ImGui window.
+			ImVec2 sceneWindowPos = ImGui::GetWindowPos();
 
-            // Mouse Picking Management
-            
-            if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !ImGuizmo::IsUsing())
-            {
-                MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
-            }
+			// Get the size of the ImGui window.
+			ImVec2 sceneWindowSize = ImGui::GetWindowSize();
 
-            ImGui::End();
-        }
+			// Get the maximum content region size of the ImGui window.
+			ImVec2 sceneContentRegionMax = ImGui::GetContentRegionMax();
 
-    }
+			// Calculate the vertical offset for the gizmo to be centered in the ImGui window frame.
+			float sceneFrameHeightOffset = ImGui::GetFrameHeight() / 2.0f;
 
-    if (showNodeEditor) {
+			// Gizmo Management
+			DrawGizmo(sceneWindowPos, sceneContentRegionMax, sceneFrameHeightOffset);
 
-        if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
+			// Mouse Picking Management
 
-            nodeEditor.Update();
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !ImGuizmo::IsUsing())
+			{
+				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
+			}
 
-            ImGui::End();
-        }
+			ImGui::End();
+		}
 
-    }
+	}
 
-    if (showShaderEditor) {
+	if (showNodeEditor) {
 
-        if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
+		if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
 
-            shaderEditor.Update();
+			nodeEditor.Update();
 
-            ImGui::End();
-        }
+			ImGui::End();
+		}
 
-    }
+	}
 
-    // --------------------------------- Here finishes the code for the editor ----------------------------------------
-    
-    // Rendering
+	if (showShaderEditor) {
 
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
 
-    // Update and Render additional Platform Windows
-       // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-       //  For this specific demo app we could also call SDL_GL_MakeCurrent(window, gl_context) directly)
+			shaderEditor.Update();
 
-    if (UpdateAndRenderAdditionalPlatformWindows) {
+			ImGui::End();
+		}
 
-        SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
-        SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+	}
 
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
+	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
-        SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+	// Rendering
 
-    }
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	// Update and Render additional Platform Windows
+	   // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+	   //  For this specific demo app we could also call SDL_GL_MakeCurrent(window, gl_context) directly)
+
+	if (UpdateAndRenderAdditionalPlatformWindows) {
+
+		SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+		SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+
+		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+
+	}
 
 }
 
 void ModuleEditor::WindowDockSpaceManagement()
 {
-    // Set DockSpace Invisible Window Flags
-    ImGuiWindowFlags window = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
-                              ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | 
-                              ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	// Set DockSpace Invisible Window Flags
+	ImGuiWindowFlags window = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-    // Get Window Viewport
-    ImGuiViewport* viewport = ImGui::GetWindowViewport();
+	// Get Window Viewport
+	ImGuiViewport* viewport = ImGui::GetWindowViewport();
 
-    // Set Window Parameters
-    ImGui::SetNextWindowPos(viewport->Pos);
-    ImGui::SetNextWindowSize(viewport->Size);
-    ImGui::SetNextWindowViewport(viewport->ID);
-    ImGui::SetNextWindowBgAlpha(0.0f);
+	// Set Window Parameters
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::SetNextWindowBgAlpha(0.0f);
 
-    // Set Window Style Parameters
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	// Set Window Style Parameters
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
-    // Begin DockSpace Invisible Window with the flags
-    ImGui::Begin("Dockspace", (bool)0, window);
+	// Begin DockSpace Invisible Window with the flags
+	ImGui::Begin("Dockspace", (bool)0, window);
 
-    // Apply Window Style Parameters
-    ImGui::PopStyleVar(3);
+	// Apply Window Style Parameters
+	ImGui::PopStyleVar(3);
 
-    // Create DockSpace on the invisible window
-    ImGui::DockSpace(ImGui::GetID("Dockspace"), ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+	// Create DockSpace on the invisible window
+	ImGui::DockSpace(ImGui::GetID("Dockspace"), ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
-    // End DockSpace Window
-    ImGui::End();
+	// End DockSpace Window
+	ImGui::End();
 }
 
 void ModuleEditor::Toggle_GL_DepthTesting(bool depthTesting)
 {
-    // Allows objects to be rendered based on their depth in the scene, 
-    // ensuring that closer objects are rendered in front of farther objects. 
+	// Allows objects to be rendered based on their depth in the scene, 
+	// ensuring that closer objects are rendered in front of farther objects. 
 
-    if (depthTesting) {
+	if (depthTesting) {
 
-        glEnable(GL_DEPTH_TEST);
-        LOG("Enabled Depth Testing");
+		glEnable(GL_DEPTH_TEST);
+		LOG("Enabled Depth Testing");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_DEPTH_TEST);
-        LOG("Disabled Depth Testing");
+		glDisable(GL_DEPTH_TEST);
+		LOG("Disabled Depth Testing");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_FaceCulling(bool faceCulling)
 {
-    // Enables the removal of back-facing or front-facing triangles, 
-    // which can improve rendering performance.
+	// Enables the removal of back-facing or front-facing triangles, 
+	// which can improve rendering performance.
 
-    if (faceCulling) {
+	if (faceCulling) {
 
-        glEnable(GL_CULL_FACE);
-        LOG("Enabled Face Culling");
+		glEnable(GL_CULL_FACE);
+		LOG("Enabled Face Culling");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_CULL_FACE);
-        LOG("Disabled Face Culling");
+		glDisable(GL_CULL_FACE);
+		LOG("Disabled Face Culling");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_Lighting(bool lighting)
 {
-    // Enables OpenGL's lighting and shading capabilities.
+	// Enables OpenGL's lighting and shading capabilities.
 
-    if (lighting) {
+	if (lighting) {
 
-        glEnable(GL_LIGHTING);
-        LOG("Enabled Lighting");
+		glEnable(GL_LIGHTING);
+		LOG("Enabled Lighting");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_LIGHTING);
-        LOG("Disabled Lighting");
+		glDisable(GL_LIGHTING);
+		LOG("Disabled Lighting");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_ColorMaterial(bool colorMaterial)
 {
-    // Enables the automatic generation of material properties based on the current color.
+	// Enables the automatic generation of material properties based on the current color.
 
-    if (colorMaterial) {
+	if (colorMaterial) {
 
-        glEnable(GL_COLOR_MATERIAL);
-        LOG("Enabled Color Material");
+		glEnable(GL_COLOR_MATERIAL);
+		LOG("Enabled Color Material");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_COLOR_MATERIAL);
-        LOG("Disabled Color Material");
+		glDisable(GL_COLOR_MATERIAL);
+		LOG("Disabled Color Material");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_TextureMapping2D(bool textureMapping2D)
 {
-    // Enables texture mapping for 2D objects. This is essential for applying textures to surfaces.
+	// Enables texture mapping for 2D objects. This is essential for applying textures to surfaces.
 
-    if (textureMapping2D) {
+	if (textureMapping2D) {
 
-        glEnable(GL_TEXTURE_2D);
-        App->renderer3D->texturingEnabled = true;
-        LOG("Enabled Texture Mapping 2D");
+		glEnable(GL_TEXTURE_2D);
+		App->renderer3D->texturingEnabled = true;
+		LOG("Enabled Texture Mapping 2D");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_TEXTURE_2D);
-        App->renderer3D->texturingEnabled = false;
-        LOG("Disabled Texture Mapping 2D");
+		glDisable(GL_TEXTURE_2D);
+		App->renderer3D->texturingEnabled = false;
+		LOG("Disabled Texture Mapping 2D");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_TextureMapping3D(bool textureMapping3D)
 {
-    // Enables texture mapping for 3D objects.
+	// Enables texture mapping for 3D objects.
 
-    if (textureMapping3D) {
+	if (textureMapping3D) {
 
-        glEnable(GL_TEXTURE_3D);
-        LOG("Enabled Texture Mapping 3D");
+		glEnable(GL_TEXTURE_3D);
+		LOG("Enabled Texture Mapping 3D");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_TEXTURE_3D);
-        LOG("Disabled Texture Mapping 3D");
+		glDisable(GL_TEXTURE_3D);
+		LOG("Disabled Texture Mapping 3D");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_Blending(bool blending)
 {
-    // Enables alpha blending, which is used to create transparency 
-    // and translucency effects in your renderings.
+	// Enables alpha blending, which is used to create transparency 
+	// and translucency effects in your renderings.
 
-    if (blending) {
+	if (blending) {
 
-        glEnable(GL_BLEND);
-        LOG("Enabled Blending");
+		glEnable(GL_BLEND);
+		LOG("Enabled Blending");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_BLEND);
-        LOG("Disabled Blending");
+		glDisable(GL_BLEND);
+		LOG("Disabled Blending");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_MSAA(bool msaa)
 {
-    // Multisampling Anti-Aliasing (MSAA): Provides smoother edges by 
-    // sampling multiple points within a pixel.
+	// Multisampling Anti-Aliasing (MSAA): Provides smoother edges by 
+	// sampling multiple points within a pixel.
 
-    if (msaa) {
+	if (msaa) {
 
-        glEnable(GL_MULTISAMPLE);
-        LOG("Enabled Multisampling Anti-Aliasing (MSAA)");
+		glEnable(GL_MULTISAMPLE);
+		LOG("Enabled Multisampling Anti-Aliasing (MSAA)");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_MULTISAMPLE);
-        LOG("Disabled Multisampling Anti-Aliasing (MSAA)");
+		glDisable(GL_MULTISAMPLE);
+		LOG("Disabled Multisampling Anti-Aliasing (MSAA)");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_StencilTesting(bool stencilTesting)
 {
-    // Allows you to perform operations based on stencil values, 
-    // which can be used for various effects.
+	// Allows you to perform operations based on stencil values, 
+	// which can be used for various effects.
 
-    if (stencilTesting) {
+	if (stencilTesting) {
 
-        glEnable(GL_STENCIL_TEST);
-        LOG("Enabled Stencil Testing");
+		glEnable(GL_STENCIL_TEST);
+		LOG("Enabled Stencil Testing");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_STENCIL_TEST);
-        LOG("Disabled Stencil Testing");
+		glDisable(GL_STENCIL_TEST);
+		LOG("Disabled Stencil Testing");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_ScissorTesting(bool scissorTesting)
 {
-    // Clips rendering to a specified rectangular region on the screen.
+	// Clips rendering to a specified rectangular region on the screen.
 
-    if (scissorTesting) {
+	if (scissorTesting) {
 
-        glEnable(GL_SCISSOR_TEST);
-        LOG("Enabled Scissor Testing");
+		glEnable(GL_SCISSOR_TEST);
+		LOG("Enabled Scissor Testing");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_SCISSOR_TEST);
-        LOG("Disabled Scissor Testing");
+		glDisable(GL_SCISSOR_TEST);
+		LOG("Disabled Scissor Testing");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_AlphaTesting(bool alphaTesting)
 {
-    // Enables the discarding of fragments based on an alpha test value. 
-    // This can be useful for certain rendering effects.
+	// Enables the discarding of fragments based on an alpha test value. 
+	// This can be useful for certain rendering effects.
 
-    if (alphaTesting) {
+	if (alphaTesting) {
 
-        glEnable(GL_ALPHA_TEST);
-        LOG("Enabled Alpha Testing");
+		glEnable(GL_ALPHA_TEST);
+		LOG("Enabled Alpha Testing");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_ALPHA_TEST);
-        LOG("Disabled Alpha Testing");
+		glDisable(GL_ALPHA_TEST);
+		LOG("Disabled Alpha Testing");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_PointSprites(bool pointSprites)
 {
-    // Enables rendering points as sprites, which can be textured and have other properties.
+	// Enables rendering points as sprites, which can be textured and have other properties.
 
-    if (pointSprites) {
+	if (pointSprites) {
 
-        glEnable(GL_POINT_SPRITE);
-        LOG("Enabled Point Sprites");
+		glEnable(GL_POINT_SPRITE);
+		LOG("Enabled Point Sprites");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_POINT_SPRITE);
-        LOG("Disabled Point Sprites");
+		glDisable(GL_POINT_SPRITE);
+		LOG("Disabled Point Sprites");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_Fog(bool fog)
 {
-    // Enables fog effects in the scene.
+	// Enables fog effects in the scene.
 
-    if (fog) {
+	if (fog) {
 
-        glEnable(GL_FOG);
-        LOG("Enabled Fog");
+		glEnable(GL_FOG);
+		LOG("Enabled Fog");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_FOG);
-        LOG("Disabled Fog");
+		glDisable(GL_FOG);
+		LOG("Disabled Fog");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_PointSmooth(bool pointSmooth)
 {
-    // Enables point size smoothing, which can make points appear smoother.
+	// Enables point size smoothing, which can make points appear smoother.
 
-    if (pointSmooth) {
+	if (pointSmooth) {
 
-        glEnable(GL_POINT_SMOOTH);
-        LOG("Enabled Point Smooth");
+		glEnable(GL_POINT_SMOOTH);
+		LOG("Enabled Point Smooth");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_POINT_SMOOTH);
-        LOG("Disabled Point Smooth");
+		glDisable(GL_POINT_SMOOTH);
+		LOG("Disabled Point Smooth");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_LineSmooth(bool lineSmooth)
 {
-    // Enables line width smoothing for smoother lines.
+	// Enables line width smoothing for smoother lines.
 
-    if (lineSmooth) {
+	if (lineSmooth) {
 
-        glEnable(GL_LINE_SMOOTH);
-        LOG("Enabled Line Smooth");
+		glEnable(GL_LINE_SMOOTH);
+		LOG("Enabled Line Smooth");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_LINE_SMOOTH);
-        LOG("Disabled Line Smooth");
+		glDisable(GL_LINE_SMOOTH);
+		LOG("Disabled Line Smooth");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_Normalization(bool normalization)
 {
-    // Automatically normalizes normals in fixed-function lighting calculations.
+	// Automatically normalizes normals in fixed-function lighting calculations.
 
-    if (normalization) {
+	if (normalization) {
 
-        glEnable(GL_NORMALIZE);
-        LOG("Enabled Auto Normalization");
+		glEnable(GL_NORMALIZE);
+		LOG("Enabled Auto Normalization");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_NORMALIZE);
-        LOG("Disabled Auto Normalization");
+		glDisable(GL_NORMALIZE);
+		LOG("Disabled Auto Normalization");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_PolygonOffset(bool polygonOffset)
 {
-    // Enables the addition of an offset to the depth values of 
-    // rendered polygons, useful for avoiding z-fighting.
+	// Enables the addition of an offset to the depth values of 
+	// rendered polygons, useful for avoiding z-fighting.
 
-    if (polygonOffset) {
+	if (polygonOffset) {
 
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        LOG("Enabled Polygon Offset");
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		LOG("Enabled Polygon Offset");
 
-    }
-    else {
+	}
+	else {
 
-        glDisable(GL_POLYGON_OFFSET_FILL);
-        LOG("Disabled Polygon Offset");
+		glDisable(GL_POLYGON_OFFSET_FILL);
+		LOG("Disabled Polygon Offset");
 
-    }
+	}
 }
 
 void ModuleEditor::Toggle_GL_WireframeMode(bool wireframe)
 {
-    // Enable or disable wireframe mode for rendering by setting the 
-    // polygon mode to either GL_FILL or GL_LINE. When you set it to GL_FILL, 
-    // the objects will be rendered as solid surfaces, while setting 
-    // it to GL_LINE will render them in wireframe mode.
+	// Enable or disable wireframe mode for rendering by setting the 
+	// polygon mode to either GL_FILL or GL_LINE. When you set it to GL_FILL, 
+	// the objects will be rendered as solid surfaces, while setting 
+	// it to GL_LINE will render them in wireframe mode.
 
-    if (wireframe) {
+	if (wireframe) {
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        LOG("Enabled Wireframe Mode");
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		LOG("Enabled Wireframe Mode");
 
-    }
-    else {
+	}
+	else {
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        LOG("Disabled Wireframe Mode");
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		LOG("Disabled Wireframe Mode");
 
-    }
+	}
 }
 
 bool ModuleEditor::CleanUp()
 {
-    bool ret = true;
+	bool ret = true;
 
-    LOG("Deleting editor...");
+	LOG("Deleting editor...");
 
-    nodeEditor.Destroy();
+	nodeEditor.Destroy();
 
-    // ImGui CleanUp
+	// ImGui CleanUp
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 
 	return ret;
 }
 
 void ModuleEditor::AddFPS(const float aFPS)
 {
-    if (FPSvec.size() < 30) {
+	if (FPSvec.size() < 30) {
 
-        FPSvec.push_back(aFPS);
+		FPSvec.push_back(aFPS);
 
-    }
-    else {
+	}
+	else {
 
-        for (int i = 0; i < FPSvec.size(); i++) {
+		for (int i = 0; i < FPSvec.size(); i++) {
 
-            if (i + 1 < FPSvec.size()) {
+			if (i + 1 < FPSvec.size()) {
 
-                float copy = FPSvec[i + 1];
-                FPSvec[i] = copy;
+				float copy = FPSvec[i + 1];
+				FPSvec[i] = copy;
 
-            }
-            
-        }
-        FPSvec[FPSvec.capacity() - 1] = aFPS;
-    }
+			}
+
+		}
+		FPSvec[FPSvec.capacity() - 1] = aFPS;
+	}
 
 }
 
 void ModuleEditor::AddDT(const float aDT)
 {
-    if (DTvec.size() < 30) {
+	if (DTvec.size() < 30) {
 
-        DTvec.push_back(aDT);
+		DTvec.push_back(aDT);
 
-    }
-    else {
+	}
+	else {
 
-        for (int i = 0; i < DTvec.size(); i++) {
+		for (int i = 0; i < DTvec.size(); i++) {
 
-            if (i + 1 < DTvec.size()) {
+			if (i + 1 < DTvec.size()) {
 
-                float copy = DTvec[i + 1];
-                DTvec[i] = copy;
+				float copy = DTvec[i + 1];
+				DTvec[i] = copy;
 
-            }
+			}
 
-        }
-        DTvec[DTvec.capacity() - 1] = aDT;
-    }
+		}
+		DTvec[DTvec.capacity() - 1] = aDT;
+	}
 
 }
 
 void ModuleEditor::AddMS(const float aMS)
 {
-    if (MSvec.size() < 30) {
+	if (MSvec.size() < 30) {
 
-        MSvec.push_back(aMS);
+		MSvec.push_back(aMS);
 
-    }
-    else {
+	}
+	else {
 
-        for (int i = 0; i < MSvec.size(); i++) {
+		for (int i = 0; i < MSvec.size(); i++) {
 
-            if (i + 1 < MSvec.size()) {
+			if (i + 1 < MSvec.size()) {
 
-                float copy = MSvec[i + 1];
-                MSvec[i] = copy;
+				float copy = MSvec[i + 1];
+				MSvec[i] = copy;
 
-            }
+			}
 
-        }
-        MSvec[MSvec.capacity() - 1] = aMS;
-    }
+		}
+		MSvec[MSvec.capacity() - 1] = aMS;
+	}
 
 }
 
 void ModuleEditor::RequestBrowser(const char* url)
 {
-    HINSTANCE result = ShellExecuteA(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
+	HINSTANCE result = ShellExecuteA(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
 }
 
 void ModuleEditor::ToggleFullscreen(bool fullscreen)
 {
-    if (fullscreen) {
+	if (fullscreen) {
 
-        SDL_SetWindowFullscreen(App->window->window, SDL_WINDOW_FULLSCREEN);
+		SDL_SetWindowFullscreen(App->window->window, SDL_WINDOW_FULLSCREEN);
 
-    }
-    else {
+	}
+	else {
 
-        SDL_SetWindowFullscreen(App->window->window, 0);
+		SDL_SetWindowFullscreen(App->window->window, 0);
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleResizable(bool resizable)
 {
-    if (resizable) {
+	if (resizable) {
 
-        SDL_SetWindowResizable(App->window->window, SDL_TRUE);
+		SDL_SetWindowResizable(App->window->window, SDL_TRUE);
 
-    }
-    else {
+	}
+	else {
 
-        SDL_SetWindowResizable(App->window->window, SDL_FALSE);
+		SDL_SetWindowResizable(App->window->window, SDL_FALSE);
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleBorderless(bool borderless)
 {
-    if (borderless) {
+	if (borderless) {
 
-        SDL_SetWindowBordered(App->window->window, SDL_FALSE);
+		SDL_SetWindowBordered(App->window->window, SDL_FALSE);
 
-    }
-    else {
+	}
+	else {
 
-        SDL_SetWindowBordered(App->window->window, SDL_TRUE);
+		SDL_SetWindowBordered(App->window->window, SDL_TRUE);
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleFullscreenDesktop(bool fullscreenDesktop)
 {
-    if (fullscreenDesktop) {
+	if (fullscreenDesktop) {
 
-        SDL_SetWindowFullscreen(App->window->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_SetWindowFullscreen(App->window->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-    }
-    else {
+	}
+	else {
 
-        SDL_SetWindowFullscreen(App->window->window, 0);
+		SDL_SetWindowFullscreen(App->window->window, 0);
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleVSync(bool vsync)
 {
-    if (vsync) {
+	if (vsync) {
 
-        SDL_GL_SetSwapInterval(1);
+		SDL_GL_SetSwapInterval(1);
 
-    }
-    else {
+	}
+	else {
 
-        SDL_GL_SetSwapInterval(0);
+		SDL_GL_SetSwapInterval(0);
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleLightMode(bool lightMode)
 {
-    if (lightMode) {
+	if (lightMode) {
 
-        ImGui::StyleColorsLight();
-        LOG("Enable light mode");
+		ImGui::StyleColorsLight();
+		LOG("Enable light mode");
 
-    }
-    else {
+	}
+	else {
 
-        ImGui::StyleColorsDark();
-        LOG("Enable dark mode");
+		ImGui::StyleColorsDark();
+		LOG("Enable dark mode");
 
-    }
+	}
 }
 
 void ModuleEditor::ToggleMeshesVertexNormals(bool showVertexNormals)
 {
-    for (auto it1 = App->renderer3D->models.begin(); it1 != App->renderer3D->models.end(); ++it1) {
-     
-        for (auto it2 = (*it1).meshes.begin(); it2 != (*it1).meshes.end(); ++it2) {
+	for (auto it1 = App->renderer3D->models.begin(); it1 != App->renderer3D->models.end(); ++it1) {
 
-            if (showVertexNormals) {
+		for (auto it2 = (*it1).meshes.begin(); it2 != (*it1).meshes.end(); ++it2) {
 
-                (*it2).enableVertexNormals = true;
+			if (showVertexNormals) {
 
-            }
-            else {
+				(*it2).enableVertexNormals = true;
 
-                (*it2).enableVertexNormals = false;
+			}
+			else {
 
-            }
+				(*it2).enableVertexNormals = false;
 
-        }
-        
-    }
+			}
+
+		}
+
+	}
 
 }
 
 void ModuleEditor::ToggleMeshesFaceNormals(bool showFaceNormals)
 {
-    for (auto it1 = App->renderer3D->models.begin(); it1 != App->renderer3D->models.end(); ++it1) {
+	for (auto it1 = App->renderer3D->models.begin(); it1 != App->renderer3D->models.end(); ++it1) {
 
-        for (auto it2 = (*it1).meshes.begin(); it2 != (*it1).meshes.end(); ++it2) {
+		for (auto it2 = (*it1).meshes.begin(); it2 != (*it1).meshes.end(); ++it2) {
 
-            if (showFaceNormals) {
+			if (showFaceNormals) {
 
-                (*it2).enableFaceNormals = true;
+				(*it2).enableFaceNormals = true;
 
-            }
-            else {
+			}
+			else {
 
-                (*it2).enableFaceNormals = false;
+				(*it2).enableFaceNormals = false;
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
 }
 
 void ModuleEditor::ShowPlatformInfo() {
 
-    ImGui::Text("Platform:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetPlatform());
+	ImGui::Text("Platform:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetPlatform());
 
-    ImGui::Text("SDL Version:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "2.0.4");
+	ImGui::Text("SDL Version:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "2.0.4");
 
 }
 
 void ModuleEditor::ShowCPUInfo()
 {
-    ImGui::Text("CPU Cores:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(SDL_GetCPUCount()).c_str());
+	ImGui::Text("CPU Cores:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(SDL_GetCPUCount()).c_str());
 
-    ImGui::Text("CPU Cache:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s kb", std::to_string(SDL_GetCPUCacheLineSize()).c_str());
+	ImGui::Text("CPU Cache:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s kb", std::to_string(SDL_GetCPUCacheLineSize()).c_str());
 
-    ImGui::Text("Caps:");
-    ImGui::SameLine();
+	ImGui::Text("Caps:");
+	ImGui::SameLine();
 
-    if (SDL_Has3DNow()) {
+	if (SDL_Has3DNow()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "3DNow,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "3DNow,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasAltiVec()) {
+	if (SDL_HasAltiVec()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Altivec,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Altivec,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasAVX()) {
+	if (SDL_HasAVX()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "AVX,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "AVX,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasAVX2()) {
+	if (SDL_HasAVX2()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "AVX2,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "AVX2,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasMMX()) {
+	if (SDL_HasMMX()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "MMX,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "MMX,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasRDTSC()) {
+	if (SDL_HasRDTSC()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "RDTSC,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "RDTSC,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasSSE()) {
+	if (SDL_HasSSE()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE,");
 
-    }
+	}
 
-    if (SDL_HasSSE2()) {
+	if (SDL_HasSSE2()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE2,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE2,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasSSE3()) {
+	if (SDL_HasSSE3()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE3,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE3,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasSSE41()) {
+	if (SDL_HasSSE41()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE41,");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE41,");
 
-    }
+	}
 
-    ImGui::SameLine();
+	ImGui::SameLine();
 
-    if (SDL_HasSSE42()) {
+	if (SDL_HasSSE42()) {
 
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE42");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "SSE42");
 
-    }
+	}
 
 }
 
 void ModuleEditor::ShowGPUInfo()
 {
-    const GLubyte* vendor = glGetString(GL_VENDOR);
-    ImGui::Text("Vendor:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", vendor);
+	const GLubyte* vendor = glGetString(GL_VENDOR);
+	ImGui::Text("Vendor:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", vendor);
 
-    const GLubyte* renderer = glGetString(GL_RENDERER);
-    ImGui::Text("GPU:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", renderer);
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	ImGui::Text("GPU:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", renderer);
 
-    const GLubyte* version = glGetString(GL_VERSION);
-    ImGui::Text("OpenGL version supported:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", version);
+	const GLubyte* version = glGetString(GL_VERSION);
+	ImGui::Text("OpenGL version supported:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", version);
 
-    const GLubyte* glsl = glGetString(GL_SHADING_LANGUAGE_VERSION);
-    ImGui::Text("GLSL:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glsl);
+	const GLubyte* glsl = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	ImGui::Text("GLSL:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glsl);
 
-    GLint totalMemoryKB = 0;
-    glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &totalMemoryKB);
-    ImGui::Text("Total VRAM:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(totalMemoryKB / 1000.0f));
+	GLint totalMemoryKB = 0;
+	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &totalMemoryKB);
+	ImGui::Text("Total VRAM:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(totalMemoryKB / 1000.0f));
 
-    GLint currentMemoryKB = 0;
-    glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &currentMemoryKB);
-    ImGui::Text("Available VRAM:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(currentMemoryKB / 1000.0f));
+	GLint currentMemoryKB = 0;
+	glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &currentMemoryKB);
+	ImGui::Text("Available VRAM:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(currentMemoryKB / 1000.0f));
 
-    PERFORMANCE_INFORMATION perfInfo;
-    GetPerformanceInfo(&perfInfo, sizeof(perfInfo));
-    ImGui::Text("VRAM Usage:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(perfInfo.CommitTotal / 1000000.0f));
+	PERFORMANCE_INFORMATION perfInfo;
+	GetPerformanceInfo(&perfInfo, sizeof(perfInfo));
+	ImGui::Text("VRAM Usage:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(perfInfo.CommitTotal / 1000000.0f));
 }
 
 void ModuleEditor::ShowRAMInfo()
 {
-    ImGui::Text("System Total RAM:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f gb", static_cast<float>(SDL_GetSystemRAM()) / 1000.0f);
+	ImGui::Text("System Total RAM:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f gb", static_cast<float>(SDL_GetSystemRAM()) / 1000.0f);
 
-    MEMORYSTATUSEX memStatus;
-    memStatus.dwLength = sizeof(memStatus);
-    GlobalMemoryStatusEx(&memStatus);
+	MEMORYSTATUSEX memStatus;
+	memStatus.dwLength = sizeof(memStatus);
+	GlobalMemoryStatusEx(&memStatus);
 
-    ImGui::Text("Available RAM:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(memStatus.ullAvailPhys / (1024.0f * 1024.0f)));
+	ImGui::Text("Available RAM:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(memStatus.ullAvailPhys / (1024.0f * 1024.0f)));
 
-    ImGui::Text("Total RAM Usage:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(memStatus.ullTotalPhys - memStatus.ullAvailPhys) / (1024.0f * 1024.0f));
+	ImGui::Text("Total RAM Usage:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f mb", static_cast<float>(memStatus.ullTotalPhys - memStatus.ullAvailPhys) / (1024.0f * 1024.0f));
 }
 
 void ModuleEditor::ShowDiskInfo()
 {
-    ULARGE_INTEGER totalFreeBytes;
-    ULARGE_INTEGER totalBytes;
-    ULARGE_INTEGER totalFreeBytesToCaller;
+	ULARGE_INTEGER totalFreeBytes;
+	ULARGE_INTEGER totalBytes;
+	ULARGE_INTEGER totalFreeBytesToCaller;
 
-    GetDiskFreeSpaceEx(
-        nullptr,                   // Use the default drive (usually C:)
-        &totalFreeBytesToCaller,   // Total number of free bytes available to the caller
-        &totalBytes,               // Total number of bytes on the disk
-        &totalFreeBytes            // Total number of free bytes on the disk
-    );
+	GetDiskFreeSpaceEx(
+		nullptr,                   // Use the default drive (usually C:)
+		&totalFreeBytesToCaller,   // Total number of free bytes available to the caller
+		&totalBytes,               // Total number of bytes on the disk
+		&totalFreeBytes            // Total number of free bytes on the disk
+	);
 
-    double totalSpaceGB = static_cast<double>(totalBytes.QuadPart) / (1024 * 1024 * 1024);
-    double freeSpaceGB = static_cast<double>(totalFreeBytes.QuadPart) / (1024 * 1024 * 1024);
+	double totalSpaceGB = static_cast<double>(totalBytes.QuadPart) / (1024 * 1024 * 1024);
+	double freeSpaceGB = static_cast<double>(totalFreeBytes.QuadPart) / (1024 * 1024 * 1024);
 
-    ImGui::Text("Total C: Disk Space:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f gb", static_cast<float>(totalSpaceGB));
+	ImGui::Text("Total C: Disk Space:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f gb", static_cast<float>(totalSpaceGB));
 
-    ImGui::Text("Available C: Disk Space:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f gb", static_cast<float>(freeSpaceGB));
+	ImGui::Text("Available C: Disk Space:");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f gb", static_cast<float>(freeSpaceGB));
 }
 
 void ModuleEditor::AboutModalWindowContent()
 {
-    ImGui::Text("Ymir Engine v0.1");
+	ImGui::Text("Ymir Engine v0.1");
 
-    ImGui::NewLine();
+	ImGui::NewLine();
 
-    ImGui::SeparatorText("DESCRIPTION");
-    ImGui::NewLine();
+	ImGui::SeparatorText("DESCRIPTION");
+	ImGui::NewLine();
 
-    const char* engineInfo = "Ymir Engine is part of the Game Engines subject, on the third year of the\nVideogame Design and Development degree, taught at CITM UPC (Terrassa)\nand supervised by Miquel Suau.\n\nThe engine has been made from scratch in C++ using SDL and OpenGL to manage\ngraphics. The main target of the project is to be able to integrate complex\nsystems such as graphics management and game engine architecture in a simple\nand understandable way for educational purposes.";
+	const char* engineInfo = "Ymir Engine is part of the Game Engines subject, on the third year of the\nVideogame Design and Development degree, taught at CITM UPC (Terrassa)\nand supervised by Miquel Suau.\n\nThe engine has been made from scratch in C++ using SDL and OpenGL to manage\ngraphics. The main target of the project is to be able to integrate complex\nsystems such as graphics management and game engine architecture in a simple\nand understandable way for educational purposes.";
 
-    ImGui::Text("%s", engineInfo);
+	ImGui::Text("%s", engineInfo);
 
-    ImGui::NewLine();
+	ImGui::NewLine();
 
-    ImGui::SeparatorText("AUTHORS");
-    ImGui::NewLine();
+	ImGui::SeparatorText("AUTHORS");
+	ImGui::NewLine();
 
-    ImGui::Text("Francesc Teruel Rodriguez ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "francesctr4");
-    if (ImGui::IsItemClicked()) {
+	ImGui::Text("Francesc Teruel Rodriguez ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "francesctr4");
+	if (ImGui::IsItemClicked()) {
 
-        RequestBrowser("https://github.com/francesctr4");
+		RequestBrowser("https://github.com/francesctr4");
 
-    }
+	}
 
-    ImGui::Text("Joel Romero Botella ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "Joeltecke25");
-    if (ImGui::IsItemClicked()) {
+	ImGui::Text("Joel Romero Botella ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "Joeltecke25");
+	if (ImGui::IsItemClicked()) {
 
-        RequestBrowser("https://github.com/Joeltecke25");
+		RequestBrowser("https://github.com/Joeltecke25");
 
-    }
+	}
 
-    ImGui::NewLine();
-    ImGui::SeparatorText("THIRD PARTY LIBRARIES");
-    ImGui::NewLine();
+	ImGui::NewLine();
+	ImGui::SeparatorText("THIRD PARTY LIBRARIES");
+	ImGui::NewLine();
 
-    SDL_version version;
-    SDL_GetVersion(&version);
-    
-    ImGui::BulletText("SDL v%d.%d.%d -> ", version.major, version.minor, version.patch);
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/libsdl-org/SDL");
-    if (ImGui::IsItemClicked()) {
+	SDL_version version;
+	SDL_GetVersion(&version);
 
-        RequestBrowser("https://github.com/libsdl-org/SDL");
+	ImGui::BulletText("SDL v%d.%d.%d -> ", version.major, version.minor, version.patch);
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/libsdl-org/SDL");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/libsdl-org/SDL");
 
-    ImGui::BulletText("OpenGL v%s ->", glGetString(GL_VERSION));
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://www.opengl.org/");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://www.opengl.org/");
+	ImGui::BulletText("OpenGL v%s ->", glGetString(GL_VERSION));
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://www.opengl.org/");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://www.opengl.org/");
 
-    ImGui::BulletText("Glew v%s ->", glewGetString(GLEW_VERSION));
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/nigels-com/glew");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/nigels-com/glew");
+	ImGui::BulletText("Glew v%s ->", glewGetString(GLEW_VERSION));
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/nigels-com/glew");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/nigels-com/glew");
 
-    ImGui::BulletText("ImGui v%s ->", IMGUI_VERSION);
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/ocornut/imgui");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/ocornut/imgui");
+	ImGui::BulletText("ImGui v%s ->", IMGUI_VERSION);
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/ocornut/imgui");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/ocornut/imgui");
 
-    ImGui::BulletText("Assimp v%d.%d.%d ->", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/assimp/assimp");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/assimp/assimp");
+	ImGui::BulletText("Assimp v%d.%d.%d ->", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/assimp/assimp");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/assimp/assimp");
 
-    ILint ILversion = ilGetInteger(IL_VERSION_NUM);
+	}
 
-    uint ILmajor = (ILversion / 100) % 10;
-    uint ILminor = ILversion % 100;
+	ILint ILversion = ilGetInteger(IL_VERSION_NUM);
 
-    ImGui::BulletText("DevIL v%d.%d ->", ILmajor, ILminor);
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://openil.sourceforge.net/download.php");
-    if (ImGui::IsItemClicked()) {
+	uint ILmajor = (ILversion / 100) % 10;
+	uint ILminor = ILversion % 100;
 
-        RequestBrowser("https://openil.sourceforge.net/download.php");
+	ImGui::BulletText("DevIL v%d.%d ->", ILmajor, ILminor);
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://openil.sourceforge.net/download.php");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://openil.sourceforge.net/download.php");
 
-    ImGui::BulletText("MathGeoLib ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/juj/MathGeoLib");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/juj/MathGeoLib");
+	ImGui::BulletText("MathGeoLib ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/juj/MathGeoLib");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/juj/MathGeoLib");
 
-    ImGui::BulletText("Optick ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/bombomby/optick");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/bombomby/optick");
+	ImGui::BulletText("Optick ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/bombomby/optick");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/bombomby/optick");
 
-    ImGui::BulletText("mmgr ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
+	ImGui::BulletText("mmgr ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
 
-    ImGui::BulletText("Parson ->");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/kgabis/parson");
-    if (ImGui::IsItemClicked()) {
+	}
 
-        RequestBrowser("https://github.com/kgabis/parson");
+	ImGui::BulletText("Parson ->");
+	ImGui::SameLine();
+	ImGui::TextColored(ImVec4(0.0f, 0.5f, 1.0f, 1.0f), "https://github.com/kgabis/parson");
+	if (ImGui::IsItemClicked()) {
 
-    }
+		RequestBrowser("https://github.com/kgabis/parson");
 
-    ImGui::NewLine();
-    ImGui::SeparatorText("LICENSE");
-    ImGui::NewLine();
+	}
 
-    ImGui::TextWrapped("%s", licenseFileContents.c_str());
+	ImGui::NewLine();
+	ImGui::SeparatorText("LICENSE");
+	ImGui::NewLine();
 
-    ImGui::NewLine();
-    if (ImGui::Button("Close")) {
+	ImGui::TextWrapped("%s", licenseFileContents.c_str());
 
-        showAboutPopUp = false;
+	ImGui::NewLine();
+	if (ImGui::Button("Close")) {
 
-        ImGui::CloseCurrentPopup();
+		showAboutPopUp = false;
 
-    }
+		ImGui::CloseCurrentPopup();
+
+	}
 }
 
 std::string ModuleEditor::ReadFile(const std::string& filename) {
 
-    std::ifstream file(filename);
+	std::ifstream file(filename);
 
-    if (!file.is_open()) {
+	if (!file.is_open()) {
 
-        return "Error: Unable to open file.";
+		return "Error: Unable to open file.";
 
-    }
+	}
 
-    std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-    file.close();
+	file.close();
 
-    return fileContents;
+	return fileContents;
 }
 
 void ModuleEditor::RedirectLogOutput()
 {
-    for (auto it = Log::debugStrings.begin(); it != Log::debugStrings.end(); ++it) {
+	for (auto it = Log::debugStrings.begin(); it != Log::debugStrings.end(); ++it) {
 
-        ImGui::Text((*it).c_str());
-        
-    }
+		ImGui::Text((*it).c_str());
+
+	}
 }
 
 void ModuleEditor::MemoryLeaksOutput()
 {
-    ImGui::TextWrapped("%s", memleaksFileContents.c_str());
+	ImGui::TextWrapped("%s", memleaksFileContents.c_str());
 }
 
 void ModuleEditor::AssimpLogOutput()
 {
-    ImGui::TextWrapped("%s", AssimpLogFileContents.c_str());
+	ImGui::TextWrapped("%s", AssimpLogFileContents.c_str());
 }
 
 void ModuleEditor::DrawHierarchy()
 {
-    CreateHierarchyTree(App->scene->mRootNode);
+	CreateHierarchyTree(App->scene->mRootNode);
 }
 
 void ModuleEditor::CreateHierarchyTree(GameObject* node)
 {
-    if (node != nullptr) {
+	if (node != nullptr) {
 
-        // Set flags to open the tree nodes
-        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | (node->selected ? ImGuiTreeNodeFlags_Selected : 0) | (node->mChildren.size() ? 0 : ImGuiTreeNodeFlags_Leaf);
+		// Set flags to open the tree nodes
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | (node->selected ? ImGuiTreeNodeFlags_Selected : 0) | (node->mChildren.size() ? 0 : ImGuiTreeNodeFlags_Leaf);
 
-        if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
+		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
 
-        bool isNodeOpen = ImGui::TreeNodeEx(node->name.c_str(), flags);
+		bool isNodeOpen = ImGui::TreeNodeEx(node->name.c_str(), flags);
 
-        if (!node->active) ImGui::PopStyleColor();
+		if (!node->active) ImGui::PopStyleColor();
 
-        if (ImGui::IsItemClicked()) {
+		if (ImGui::IsItemClicked()) {
 
-            node->selected = true; // Toggle the selected state when clicked
+			node->selected = true; // Toggle the selected state when clicked
 
-            for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-                if ((*it) != node) {
+				if ((*it) != node) {
 
-                    (*it)->selected = false;
+					(*it)->selected = false;
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-        if (ImGui::BeginDragDropSource())
-        {
-            ImGui::SetDragDropPayload("GameObject", node, sizeof(GameObject*));
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload("GameObject", node, sizeof(GameObject*));
 
-            draggedGO = node;
-            ImGui::Text("Drag to");
-            ImGui::EndDragDropSource();
-        }
+			draggedGO = node;
+			ImGui::Text("Drag to");
+			ImGui::EndDragDropSource();
+		}
 
-        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
-        {
-            hoveredGO = node;
-        }
+		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+		{
+			hoveredGO = node;
+		}
 
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
 
-                draggedGO->SetParent(hoveredGO);
-            }
-            ImGui::EndDragDropTarget();
-        }
+				draggedGO->SetParent(hoveredGO);
+			}
+			ImGui::EndDragDropTarget();
+		}
 
-        if (ImGui::IsItemClicked(1)) {
+		if (ImGui::IsItemClicked(1)) {
 
-            ImGui::OpenPopup("DeleteGameObject");
+			ImGui::OpenPopup("DeleteGameObject");
 
-        }
+		}
 
-        if (ImGui::BeginPopupContextItem()) {
+		if (ImGui::BeginPopupContextItem()) {
 
-            if (ImGui::MenuItem("Delete")) {
+			if (ImGui::MenuItem("Delete")) {
 
-                if (node != App->scene->mRootNode && node->selected) {
+				if (node != App->scene->mRootNode && node->selected) {
 
-                    // This should be reworked for the next delivery (A2)
+					// This should be reworked for the next delivery (A2)
 
-                    App->editor->DestroyHierarchyTree(node);
+					App->editor->DestroyHierarchyTree(node);
 
-                    App->renderer3D->models.erase(
-                        std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
-                            [](const Model& model) { return model.modelGO->selected; }
-                        ),
-                        App->renderer3D->models.end()
-                    );
+					App->renderer3D->models.erase(
+						std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
+							[](const Model& model) { return model.modelGO->selected; }
+						),
+						App->renderer3D->models.end()
+					);
 
-                    for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
-                        // Check if the entire model is selected
-                        if ((*it).modelGO->selected) {
+					for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
+						// Check if the entire model is selected
+						if ((*it).modelGO->selected) {
 
-                            it = App->renderer3D->models.erase(it); // Remove the entire model
+							it = App->renderer3D->models.erase(it); // Remove the entire model
 
-                        }
-                        else {
-                            // If the model is not selected, check its meshes
-                            auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
+						}
+						else {
+							// If the model is not selected, check its meshes
+							auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
 
-                            meshes.erase(
-                                std::remove_if(meshes.begin(), meshes.end(),
-                                    [](const Mesh& mesh) { return mesh.meshGO->selected; }
-                                ),
-                                meshes.end()
-                            );
-                        }
-                    }
+							meshes.erase(
+								std::remove_if(meshes.begin(), meshes.end(),
+									[](const Mesh& mesh) { return mesh.meshGO->selected; }
+								),
+								meshes.end()
+							);
+						}
+					}
 
-                    App->scene->gameObjects.erase(
-                        std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-                            [](const GameObject* obj) { return obj->selected; }
-                        ),
-                        App->scene->gameObjects.end()
-                    );
+					App->scene->gameObjects.erase(
+						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
+							[](const GameObject* obj) { return obj->selected; }
+						),
+						App->scene->gameObjects.end()
+					);
 
-                    for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+					for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-                        (*it)->selected = false;
+						(*it)->selected = false;
 
-                    }
+					}
 
-                    delete node;
-                    node = nullptr;
+					delete node;
+					node = nullptr;
 
-                }
-                else if (node == App->scene->mRootNode && node->selected) {
+				}
+				else if (node == App->scene->mRootNode && node->selected) {
 
-                    App->scene->ClearScene();
+					App->scene->ClearScene();
 
-                }
+				}
 
-            }
+			}
 
-            if (ImGui::MenuItem("Create Empty Children")) {
+			if (ImGui::MenuItem("Create Empty Children")) {
 
-                GameObject* empty = App->scene->CreateGameObject("Empty", node);
-                empty->UID = Random::Generate();
+				GameObject* empty = App->scene->CreateGameObject("Empty", node);
+				empty->UID = Random::Generate();
 
-            }
+			}
 
-            ImGui::EndPopup();
-        }
+			ImGui::EndPopup();
+		}
 
-        if (isNodeOpen)
-        {
-            // Display the children if the node is open
+		if (isNodeOpen)
+		{
+			// Display the children if the node is open
 
-            if (node != nullptr) {
+			if (node != nullptr) {
 
-                if (node->mChildren.size())
-                {
-                    for (uint i = 0; i < node->mChildren.size(); i++)
-                    {
-                        CreateHierarchyTree(node->mChildren[i]);
-                    }
-                }
+				if (node->mChildren.size())
+				{
+					for (uint i = 0; i < node->mChildren.size(); i++)
+					{
+						CreateHierarchyTree(node->mChildren[i]);
+					}
+				}
 
-            }
+			}
 
-            // Close the TreeNode when you're done with its children
-            ImGui::TreePop();
-        }
+			// Close the TreeNode when you're done with its children
+			ImGui::TreePop();
+		}
 
-    }
+	}
 
 }
 
 void ModuleEditor::DestroyHierarchyTree(GameObject* node)
 {
-    if (node == nullptr) {
-        return;
-    }
+	if (node == nullptr) {
+		return;
+	}
 
-    App->scene->DestroyGameObject(node);
+	App->scene->DestroyGameObject(node);
 
 }
 
 void ModuleEditor::DrawInspector()
 {
-    for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-        if ((*it) != nullptr) {
+		if ((*it) != nullptr) {
 
-            if ((*it)->selected) {
+			if ((*it)->selected) {
 
-                ImGui::Checkbox("##Active", &(*it)->active);
-                ImGui::SameLine();
-                char nameBuffer[256]; // You can adjust the buffer size as needed
+				ImGui::Checkbox("##Active", &(*it)->active);
+				ImGui::SameLine();
+				char nameBuffer[256]; // You can adjust the buffer size as needed
 
-                // Copy the current name to the buffer
-                strcpy(nameBuffer, (*it)->name.c_str());
+				// Copy the current name to the buffer
+				strcpy(nameBuffer, (*it)->name.c_str());
 
-                // Create an input text field in your ImGui window
-                if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
-                {
-                    // The input text has changed, update the name
-                    (*it)->name = nameBuffer;
-                }
+				// Create an input text field in your ImGui window
+				if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
+				{
+					// The input text has changed, update the name
+					(*it)->name = nameBuffer;
+				}
 
-                ImGui::Spacing();
+				ImGui::Spacing();
 
-                ImGui::Text("UID: %d", (*it)->UID);
+				ImGui::Text("UID: %d", (*it)->UID);
 
-                ImGui::Spacing();
+				ImGui::Spacing();
 
-                Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
-                Component* mesh = (*it)->GetComponent(ComponentType::MESH);
-                Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
-                Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
+				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
+				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
 
-                if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
-                if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
-                if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-                if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
+				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
+				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
 
-                float buttonWidth = 120.0f;  // Adjust the width as needed
-                float windowWidth = ImGui::GetWindowWidth();
-                float xPos = (windowWidth - buttonWidth) * 0.5f;
+				float buttonWidth = 120.0f;  // Adjust the width as needed
+				float windowWidth = ImGui::GetWindowWidth();
+				float xPos = (windowWidth - buttonWidth) * 0.5f;
 
-                // Set the cursor position to center the button within the menu
-                ImGui::SetCursorPosX(xPos);
+				// Set the cursor position to center the button within the menu
+				ImGui::SetCursorPosX(xPos);
 
-                ImGui::Button("Add Component");
+				ImGui::Button("Add Component");
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
 }
 
 void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset)
 {
-    // Begin the ImGuizmo frame.
-    ImGuizmo::BeginFrame(); 
-   
-    // Iterate through all game objects in the scene.
-    for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	// Begin the ImGuizmo frame.
+	ImGuizmo::BeginFrame();
 
-        // Check if the current game object is selected.
-        if ((*it)->selected) {
+	// Iterate through all game objects in the scene.
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-            // Check for key presses to set the gizmo operation and mode.
-            if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+		// Check if the current game object is selected.
+		if ((*it)->selected) {
 
-                gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
-            }
+			// Check for key presses to set the gizmo operation and mode.
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 
-            if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+			}
 
-                gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-            }
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
 
-            if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+			}
 
-                gizmoOperation = ImGuizmo::OPERATION::SCALE;
+			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 
-            }
+				gizmoOperation = ImGuizmo::OPERATION::SCALE;
 
-            if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+			}
 
-                gizmoMode = ImGuizmo::MODE::WORLD;
+			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 
-            }
+				gizmoMode = ImGuizmo::MODE::WORLD;
 
-            if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+			}
 
-                gizmoMode = ImGuizmo::MODE::LOCAL;
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
 
-            }
+				gizmoMode = ImGuizmo::MODE::LOCAL;
 
-            ImGuizmo::MODE modeApplied;
-            
-            // Hardcoded local mode to prevent Scale from Reseting the Rotation.
-            if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
+			}
 
-                modeApplied = ImGuizmo::MODE::LOCAL; 
-            }
-            else {
+			ImGuizmo::MODE modeApplied;
 
-                modeApplied = gizmoMode;
+			// Hardcoded local mode to prevent Scale from Reseting the Rotation.
+			if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
 
-            }
+				modeApplied = ImGuizmo::MODE::LOCAL;
+			}
+			else {
 
-            // Get the view and projection matrices from the editor camera.
-            float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
-            float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
+				modeApplied = gizmoMode;
 
-            // Get the transform component of the current game object.
-            CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
+			}
 
-            modelMatrix = ctransform->mGlobalMatrix;
+			// Get the view and projection matrices from the editor camera.
+			float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
+			float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
 
-            // Copy the model matrix to a float array for ImGuizmo.
-            float modelPtr[16];
-            memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
+			// Get the transform component of the current game object.
+			CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 
-            // Set the rectangle for ImGuizmo in the editor window.
-            ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
+			modelMatrix = ctransform->mGlobalMatrix;
 
-            // Use ImGuizmo to manipulate the object in the scene.
-            ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelPtr);
+			// Copy the model matrix to a float array for ImGuizmo.
+			float modelPtr[16];
+			memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
 
-            // Check if the gizmo is being used.
-            if (ImGuizmo::IsUsing())
-            {
-                // Convert the modified matrix back to float4x4.
-                float4x4 newMatrix;
-                newMatrix.Set(modelPtr);
-                modelMatrix = newMatrix;
+			// Set the rectangle for ImGuizmo in the editor window.
+			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-                // Safety check to avoid nullptr transformations.
-                if ((ctransform->translationPtr != nullptr) && 
-                    (ctransform->rotationPtr != nullptr) && 
-                    (ctransform->scalePtr != nullptr)) {
+			// Use ImGuizmo to manipulate the object in the scene.
+			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelPtr);
 
-                    // Update the transform components based on the modified matrix.
-                    *ctransform->translationPtr = modelMatrix.Transposed().TranslatePart();
-                    *ctransform->rotationPtr = modelMatrix.Transposed().RotatePart().ToEulerXYZ() * RADTODEG;
-                    *ctransform->scalePtr = modelMatrix.Transposed().GetScale();
+			// Check if the gizmo is being used.
+			if (ImGuizmo::IsUsing())
+			{
+				// Convert the modified matrix back to float4x4.
+				float4x4 newMatrix;
+				newMatrix.Set(modelPtr);
+				modelMatrix = newMatrix;
 
-                }
-                
-            }
+				// Safety check to avoid nullptr transformations.
+				if ((ctransform->translationPtr != nullptr) &&
+					(ctransform->rotationPtr != nullptr) &&
+					(ctransform->scalePtr != nullptr)) {
 
-            // Check if the reset button is pressed, and reset the model matrix.
-            if (ctransform->resetPressed) {
+					// Update the transform components based on the modified matrix.
+					*ctransform->translationPtr = modelMatrix.Transposed().TranslatePart();
+					*ctransform->rotationPtr = modelMatrix.Transposed().RotatePart().ToEulerXYZ() * RADTODEG;
+					*ctransform->scalePtr = modelMatrix.Transposed().GetScale();
 
-                modelMatrix = float4x4::identity;
-                ctransform->resetPressed = false;
+				}
 
-            }
+			}
 
-        }
+			// Check if the reset button is pressed, and reset the model matrix.
+			if (ctransform->resetPressed) {
 
-    }
+				modelMatrix = float4x4::identity;
+				ctransform->resetPressed = false;
+			}
+		}
+	}
+}
 
+void ModuleEditor::DrawProjectFiles()
+{
+	std::string title = "Project";
+	title.append("##");
+
+	ImVec2 pos = ImGui::GetMainViewport()->WorkPos;
+	ImVec2 size = ImGui::GetMainViewport()->Size;
+	pos.y += size.y;
+	//ImGui::SetNextWindowPos(pos, ImGuiCond_Appearing, ImVec2(-0.01f, 1.0f));
+	//ImGui::SetNextWindowSize(ImVec2(size.x - 15, 200), ImGuiCond_Appearing);
+	if (ImGui::Begin(title.c_str()))
+	{
+		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		ImGui::Columns(2, "Folders", true);
+
+		// TODO: Set a default width but make it resizeable
+		ImGui::SetColumnWidth(0, 300);
+
+		ImGui::BeginChild("ProjectDirs");
+		ShowDir("Assets", "Assets");
+		ShowDir("PinkyAssets", "PinkyAssets");
+		ImGui::EndChild();
+
+		ImGui::NextColumn();
+
+		ImGui::BeginChild("ProjectFiles");
+		for (int i = 0; i < vSelectedDirFiles.size(); i++)
+		{
+			if (selectedFile == vSelectedDirFiles[i])
+			{
+				node_flags |= ImGuiTreeNodeFlags_Selected;
+			}
+			else
+			{
+				node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+			}
+
+			ImGui::TreeNodeEx(vSelectedDirFiles[i].c_str(), node_flags);
+			FilesMouseEvents(vSelectedDirFiles[i], selectedDir + "/");
+		}
+		ImGui::EndChild();
+
+		ImGui::Columns(1);
+
+	} ImGui::End();
+}
+
+void ModuleEditor::ShowDir(std::string directory, std::string dir)
+{
+	std::vector<std::string> vDirs, vFiles;
+	std::vector<std::string> vChildrenDirs, vChildrenFiles;
+
+	PhysfsEncapsule::DiscoverFiles(directory.c_str(), vFiles, vDirs);
+
+	ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
+
+	bool open = TreeNode(directory, node_flags, vDirs.empty());
+	DirsMouseEvents(directory, vFiles, dir);
+
+	if (open)
+	{
+		ShowDirectories(directory);
+
+		if (!vDirs.empty())
+		{
+			ImGui::TreePop();
+		}
+	}
+}
+
+void ModuleEditor::ShowDirectories(std::string directory)
+{
+	std::vector<std::string> vDirs, vFiles;
+	std::vector<std::string> vChildrenDirs, vChildrenFiles;
+
+	PhysfsEncapsule::DiscoverFiles(directory.c_str(), vFiles, vDirs);
+
+	// Update info shown
+	for (int i = 0; i < vFiles.size(); i++)
+	{
+		// Get full relative path
+		if (vFiles[i] == selectedFile)
+		{
+			selectedDirFullPath = selectedDir;
+		}
+		if (directory == selectedDir)
+		{
+			vSelectedDirFiles = vFiles;
+		}
+	}
+
+
+	ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
+
+	for (int i = 0; i < vDirs.size(); i++)
+	{
+		PhysfsEncapsule::DiscoverFiles((directory + "/" + vDirs[i]).c_str(), vChildrenFiles, vChildrenDirs);
+
+		// Update info shown
+		if (vDirs[i] == selectedDir)
+		{
+			vSelectedDirFiles = vChildrenFiles;
+		}
+
+		// Get full relative path
+		for (int i = 0; i < vChildrenFiles.size(); i++)
+		{
+			if (vChildrenFiles[i] == selectedFile)
+			{
+				selectedDirFullPath = directory + "/" + selectedDir;
+			}
+		}
+
+		if (!vChildrenDirs.empty())
+		{
+			node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick
+				| ImGuiTreeNodeFlags_SpanAvailWidth;
+
+			bool open = TreeNode(vDirs[i], node_flags, false);
+			DirsMouseEvents(vDirs[i], vChildrenFiles, directory);
+
+			if (open)
+			{
+				ShowDirectories(directory + "/" + vDirs[i]);
+				ImGui::TreePop();
+			}
+		}
+		else
+		{
+			node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+			TreeNode(vDirs[i], node_flags, true);
+			DirsMouseEvents(vDirs[i], vChildrenFiles, directory);
+		}
+
+		vChildrenFiles.clear();
+		vChildrenDirs.clear();
+	}
+}
+
+bool ModuleEditor::TreeNode(std::string currentDir, ImGuiTreeNodeFlags node_flags, bool finalDir)
+{
+	bool ret = false;
+
+	if (!finalDir)
+	{
+		node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick
+			| ImGuiTreeNodeFlags_SpanAvailWidth;
+	}
+	else
+	{
+		node_flags = ImGuiTreeNodeFlags_None;
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
+	if (currentDir == selectedDir)
+	{
+		node_flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
+	ret = ImGui::TreeNodeEx(currentDir.c_str(), node_flags);
+
+	return ret;
+}
+
+void ModuleEditor::DirsMouseEvents(std::string current, std::vector<std::string> files, std::string dir)
+{
+	// ---Click event---
+	if (ImGui::IsItemClicked())
+	{
+		selectedDir = current;
+		selectedDirFullPath = dir + "/" + selectedDir;
+		ClearVec(vSelectedDirFiles);
+		vSelectedDirFiles = files;
+	}
+	// ------
+
+	// ---RMB Click event---
+	if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+	{
+		ImGui::MenuItem(current.c_str(), NULL, false, false);
+		ImGui::Separator();
+		//if (ImGui::MenuItem("Create Folder"))
+		//{
+
+		//}
+		//if (ImGui::MenuItem("Delete Folder"))
+		//{
+		//	//App->fs->Remove((selectedFileFullPath + "/" + current).c_str());
+		//}
+
+		selectedDir = current;
+		selectedDirFullPath = dir + "/" + selectedDir;
+		ClearVec(vSelectedDirFiles);
+		vSelectedDirFiles = files;
+		ImGui::EndPopup();
+	}
+}
+
+void ModuleEditor::FilesMouseEvents(std::string currentFile, std::string currentDir)
+{
+	// ---Click event---
+	if (ImGui::IsItemClicked())
+	{
+		selectedFile = currentFile;
+	}
+	// ------
+	// 
+	// ---RMB Click event---
+	if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+	{
+		ImGui::MenuItem(currentFile.c_str(), NULL, false, false);
+		ImGui::Separator();
+
+		//App->resource->CheckExtensionType(currentFile.c_str());
+		if (ImGui::MenuItem("Import to Scene"))
+		{
+			//App->resource->pendingToLoadScene = true;
+
+			//App->resource->sceneFileName = currentFile;
+			//App->resource->ImportToSceneV(currentFile, selectedDirFullPath + "/");
+		}
+		//if (ImGui::MenuItem("Create File (WIP)", NULL, false, false))	// TODO:
+		//{
+
+		//}
+		if (ImGui::MenuItem("Delete File"))
+		{
+			DeleteFileAndRefs((selectedDirFullPath + "/" + currentFile).c_str());
+		}
+
+		selectedFile = currentFile;
+		ImGui::EndPopup();
+	}
+}
+
+// TODO: Sara
+void ModuleEditor::DeleteFileAndRefs(const char* filePath)
+{
+	std::string path = filePath;
+
+	/*switch (App->resource->CheckExtensionType(filePath))
+	{
+	case R_TYPE::MESH:
+		if (App->fs->Exists((path + ".meta").c_str()))
+		{
+			App->parson->DeleteLibDirs((path + ".meta").c_str());
+			App->fs->Remove((path + ".meta").c_str());
+		}
+		break;
+	case R_TYPE::TEXTURE:
+		if (App->fs->Exists((path + ".meta").c_str()))
+		{
+			App->parson->DeleteLibDirs((path + ".meta").c_str());
+			App->fs->Remove((path + ".meta").c_str());
+		}
+		break;
+	case R_TYPE::O_META:
+	{
+		App->parson->DeleteLibDirs(path.c_str());
+	}
+	break;
+	case R_TYPE::NONE:
+		break;
+	default:
+		break;
+	}
+
+	App->fs->Remove(filePath);*/
 }
 
 void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
 
-    // Process Directories First
+	// Process Directories First
 
-    for (const auto& entry : std::filesystem::directory_iterator(rootFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(rootFolder)) {
 
-        if (entry.is_directory()) {
+		if (entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
+				if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
 
-                    DrawFileExplorer(entry.path().string());
+					DrawFileExplorer(entry.path().string());
 
-                    ImGui::TreePop();
+					ImGui::TreePop();
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    // Process Files Afterwards
+	// Process Files Afterwards
 
-    for (const auto& entry : std::filesystem::directory_iterator(rootFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(rootFolder)) {
 
-        if (!entry.is_directory()) {
+		if (!entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                ImGui::Selectable(entryName.c_str());
+				ImGui::Selectable(entryName.c_str());
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
 }
 
 void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder) {
 
-    // Process Directories First
+	// Process Directories First
 
-    for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
 
-        if (entry.is_directory()) {
+		if (entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
-                if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
-                    // ---Click event---
-                    if (ImGui::IsItemClicked())
-                    {
-                        selectedDir = entry.path().string();
-                    }
-                    DrawAssetsWindow(entry.path().string());
+				if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
+					// ---Click event---
+					if (ImGui::IsItemClicked())
+					{
+						selectedDir = entry.path().string();
+					}
+					DrawAssetsWindow(entry.path().string());
 
-                    ImGui::TreePop();
-                }                
+					ImGui::TreePop();
+				}
 
-                ImGui::PopStyleColor();
+				ImGui::PopStyleColor();
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    // Process Files Afterwards
+	// Process Files Afterwards
 
-    for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
 
-        if (!entry.is_directory()) {
+		if (!entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                if ((entryName.find(".meta") != std::string::npos) ||                   
-                    (entryName.find(".json") != std::string::npos)) {
+				if ((entryName.find(".meta") != std::string::npos) ||
+					(entryName.find(".json") != std::string::npos)) {
 
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f)); 
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
 
-                    if (ImGui::Selectable(entryName.c_str())) {
+					if (ImGui::Selectable(entryName.c_str())) {
 
-                        selectedFilePath = entry.path().string();
-                        showModal = true;  // Set the flag to open the modal
-                    }
+						selectedFilePath = entry.path().string();
+						showModal = true;  // Set the flag to open the modal
+					}
 
-                    ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 
-                }
-                else if (entryName.find(".glsl") != std::string::npos) {
+				}
+				else if (entryName.find(".glsl") != std::string::npos) {
 
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
 
-                    if (ImGui::Selectable(entryName.c_str())) {
+					if (ImGui::Selectable(entryName.c_str())) {
 
-                        shaderEditor.LoadShaderTXT(entry.path().string());
+						shaderEditor.LoadShaderTXT(entry.path().string());
 
-                    }
+					}
 
-                    ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 
-                }
-                else {
+				}
+				else {
 
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-                    ImGui::Selectable(entryName.c_str());
+					ImGui::Selectable(entryName.c_str());
 
-                    ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
 }
 
 void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 
-    // Process Directories First
+	// Process Directories First
 
-    for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-        if (entry.is_directory()) {
+		if (entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
-                if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
+				if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
 
-                    DrawLibraryWindow(entry.path().string());
+					DrawLibraryWindow(entry.path().string());
 
-                    ImGui::TreePop();
+					ImGui::TreePop();
 
-                }
+				}
 
-                ImGui::PopStyleColor();
+				ImGui::PopStyleColor();
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    // Process Files Afterwards
+	// Process Files Afterwards
 
-    for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-        if (!entry.is_directory()) {
+		if (!entry.is_directory()) {
 
-            std::string entryName = entry.path().filename().string();
+			std::string entryName = entry.path().filename().string();
 
-            if (entryName != "." && entryName != "..") {
+			if (entryName != "." && entryName != "..") {
 
-                if ((entryName.find(".yscene") != std::string::npos) || 
-                    (entryName.find(".ymodel") != std::string::npos) ||
-                    (entryName.find(".json") != std::string::npos)) {
+				if ((entryName.find(".yscene") != std::string::npos) ||
+					(entryName.find(".ymodel") != std::string::npos) ||
+					(entryName.find(".json") != std::string::npos)) {
 
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
 
-                    if (ImGui::Selectable(entryName.c_str())) {
+					if (ImGui::Selectable(entryName.c_str())) {
 
-                        selectedFilePath = entry.path().string();
-                        showModal = true;  // Set the flag to open the modal
+						selectedFilePath = entry.path().string();
+						showModal = true;  // Set the flag to open the modal
 
-                    }
+					}
 
-                    ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 
-                }
-                else {
+				}
+				else {
 
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-                    ImGui::Selectable(entryName.c_str());
+					ImGui::Selectable(entryName.c_str());
 
-                    if ((entryName.find(".dds") != std::string::npos)) {
+					if ((entryName.find(".dds") != std::string::npos)) {
 
-                        if (ImGui::BeginDragDropSource())
-                        {
-                            ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
 
-                            ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
 
-                            ImGui::EndDragDropSource();
-                        }
+							ImGui::EndDragDropSource();
+						}
 
-                    }
+					}
 
-                    if ((entryName.find(".ymesh") != std::string::npos)) {
+					if ((entryName.find(".ymesh") != std::string::npos)) {
 
-                        if (ImGui::BeginDragDropSource())
-                        {
-                            ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
 
-                            ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+							ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
 
-                            ImGui::EndDragDropSource();
-                        }
+							ImGui::EndDragDropSource();
+						}
 
-                    }
-                    
-                    ImGui::PopStyleColor();
+					}
 
-                }
+					ImGui::PopStyleColor();
 
-            }
+				}
 
-        }
+			}
 
-    }
+		}
+
+	}
 
 }
 
 // Function to handle Mouse Picking
 void ModuleEditor::MousePickingManagement(const ImVec2& mousePosition, const ImVec2& sceneWindowPos, const ImVec2& sceneWindowSize, const float& sceneFrameHeightOffset) {
 
-    ImVec2 normalizedPoint = NormalizePoint(sceneWindowPos.x, sceneWindowPos.y + (sceneFrameHeightOffset * 2), sceneWindowSize.x, sceneWindowSize.y - (sceneFrameHeightOffset * 2), mousePosition);
+	ImVec2 normalizedPoint = NormalizePoint(sceneWindowPos.x, sceneWindowPos.y + (sceneFrameHeightOffset * 2), sceneWindowSize.x, sceneWindowSize.y - (sceneFrameHeightOffset * 2), mousePosition);
 
-    // The point values should be within the range of [-1,1] for the frustum.UnProjectLineSegment() function.
+	// The point values should be within the range of [-1,1] for the frustum.UnProjectLineSegment() function.
 
-    normalizedPoint.x = (normalizedPoint.x - 0.5f) / 0.5f;
-    normalizedPoint.y = -((normalizedPoint.y - 0.5f) / 0.5f);
+	normalizedPoint.x = (normalizedPoint.x - 0.5f) / 0.5f;
+	normalizedPoint.y = -((normalizedPoint.y - 0.5f) / 0.5f);
 
-    if ((normalizedPoint.x >= -1 && normalizedPoint.x <= 1) && (normalizedPoint.y >= -1 && normalizedPoint.y <= 1))
-    {
-        App->camera->CreateMousePickingRay(normalizedPoint.x, normalizedPoint.y);
-    }
+	if ((normalizedPoint.x >= -1 && normalizedPoint.x <= 1) && (normalizedPoint.y >= -1 && normalizedPoint.y <= 1))
+	{
+		App->camera->CreateMousePickingRay(normalizedPoint.x, normalizedPoint.y);
+	}
 
 }
 
 // Support function to normalize the given coordinates based on the specified ImGui Window Bounding Box.
 ImVec2 ModuleEditor::NormalizePoint(const float& x, const float& y, const float& w, const float& h, const ImVec2& originalPoint)
 {
-    ImVec2 normalizedPoint;
+	ImVec2 normalizedPoint;
 
-    normalizedPoint.x = (originalPoint.x - x) / ((x + w) - x);
-    normalizedPoint.y = (originalPoint.y - y) / ((y + h) - y);
+	normalizedPoint.x = (originalPoint.x - x) / ((x + w) - x);
+	normalizedPoint.y = (originalPoint.y - y) / ((y + h) - y);
 
-    return normalizedPoint;
+	return normalizedPoint;
 }
