@@ -25,6 +25,7 @@ public:
 
 	// Specific Functions
 
+	void ImportFileToEngine(const char* path);
 	Resource* ImportFile(const std::string& assetsFilePath);
 	void SaveResourceToLibrary(Resource* resource);
 

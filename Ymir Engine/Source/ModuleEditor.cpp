@@ -2721,12 +2721,15 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder) {
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
                 if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
-
+                    // ---Click event---
+                    if (ImGui::IsItemClicked())
+                    {
+                        selectedDir = entry.path().string();
+                    }
                     DrawAssetsWindow(entry.path().string());
 
                     ImGui::TreePop();
-
-                }
+                }                
 
                 ImGui::PopStyleColor();
 

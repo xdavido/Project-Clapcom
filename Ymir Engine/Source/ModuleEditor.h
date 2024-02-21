@@ -225,12 +225,14 @@ public:
 	ImGuizmo::MODE gizmoMode;
 	float4x4 modelMatrix;
 
+	// Assets folder
+	std::string selectedDir;
+
 	// Node Editor
 	NodeEditorWindow nodeEditor;
 
 	// Shader Editor
 	ShaderEditor shaderEditor;
-
 };
 
 #endif // MODULE_EDITOR

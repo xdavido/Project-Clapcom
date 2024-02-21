@@ -4,6 +4,7 @@
 #include "External/Optick/include/optick.h"
 #include "Random.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 #include "PhysfsEncapsule.h"
 #include "JsonFile.h"
 
@@ -68,6 +69,11 @@ bool ModuleResourceManager::CleanUp()
 	LOG("Deleting Resource Manager");
 
 	return ret;
+}
+
+void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
+{
+	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str());
 }
 
 Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)

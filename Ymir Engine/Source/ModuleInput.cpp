@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "Log.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 
@@ -140,11 +141,13 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			droppedFile = true;
 			droppedFileDirectory = e.drop.file;
+
+			App->resourceManager->ImportFileToEngine(droppedFileDirectory);
+
 			// Shows directory of dropped file
 			SDL_free(&droppedFileDirectory); // Free dropped_filedir memory
 			
 			break;
-
 		}
 
 		}

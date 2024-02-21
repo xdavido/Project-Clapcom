@@ -1,5 +1,6 @@
 #include "PhysfsEncapsule.h"
 #include "Log.h"
+#include "Globals.h"
 
 void PhysfsEncapsule::InitializePhysFS()
 {
@@ -127,4 +128,148 @@ void PhysfsEncapsule::DeinitializePhysFS()
 {
     // Deinitialize PhysFS
     PHYSFS_deinit();
+}
+
+bool PhysfsEncapsule::IsDirectory(const char* file)
+{
+    return PHYSFS_isDirectory(file) != 0;
+}
+
+void PhysfsEncapsule::DiscoverFiles(const char* directory, std::vector<std::string>& vFiles, std::vector<std::string>& vDirs)
+{
+    char** rc = PHYSFS_enumerateFiles(directory);
+
+    for (char** i = rc; *i != nullptr; i++)
+    {
+        std::string str = std::string(directory) + std::string("/") + std::string(*i);
+
+        (IsDirectory(str.c_str())) ? vDirs.push_back(*i) : vFiles.push_back(*i);
+    }
+
+    PHYSFS_freeList(rc);
+}
+
+std::string PhysfsEncapsule::GetUniqueName(const char* path, const char* name)
+{
+    //TODO: modify to distinguix files and dirs?
+    std::vector<std::string> vFiles, vDirectories;
+    DiscoverFiles(path, vFiles, vDirectories);
+
+    std::string finalName(name);
+    bool unique = false;
+
+    for (uint i = 0; i < 50 && unique == false; ++i)
+    {
+        unique = true;
+
+        // Build the compare name (name_i)
+        if (i > 0)
+        {
+            finalName = std::string(name).append("_");
+
+            if (i < 10)
+            {
+                finalName.append("0");
+            }
+            finalName.append(std::to_string(i));
+        }
+
+        // Iterate through all the files to find a matching name
+        for (uint f = 0; f < vFiles.size(); ++f)
+        {
+            std::string filePath, fileName, fileExt;
+            SplitFilePath(vFiles[f].c_str(), &filePath, &fileName, &fileExt);
+
+            if (finalName == fileName)
+            {
+                unique = false;
+                break;
+            }
+        }
+    }
+
+    return finalName;
+}
+
+void PhysfsEncapsule::SplitFilePath(const char* full_path, std::string* path, std::string* file, std::string* extension)
+{
+    if (full_path != nullptr)
+    {
+        std::string full(full_path);
+        size_t pos_separator = full.find_last_of("\\/");
+        size_t pos_dot = full.find_last_of(".");
+
+        if (path != nullptr)
+        {
+            if (pos_separator < full.length())
+            {
+                *path = full.substr(0, pos_separator + 1);
+            }
+            else
+            {
+                path->clear();
+            }
+        }
+
+        if (file != nullptr)
+        {
+            if (pos_separator < full.length())
+            {
+                *file = full.substr(pos_separator + 1, pos_dot - pos_separator - 1);
+            }
+            else
+            {
+                *file = full.substr(0, pos_dot);
+            }
+        }
+
+        if (extension != nullptr)
+        {
+            if (pos_dot < full.length())
+            {
+                *extension = full.substr(pos_dot + 1);
+            }
+            else
+            {
+                extension->clear();
+            }
+        }
+    }
+}
+
+bool PhysfsEncapsule::DuplicateFile(const char* file, const char* dstFolder, std::string& relativePath)
+{
+    std::string fileStr, extensionStr;
+    SplitFilePath(file, nullptr, &fileStr, &extensionStr);
+
+    std::string finalName = dstFolder;
+    std::string name = finalName + "/" + GetUniqueName(dstFolder, fileStr.c_str()) + "." + extensionStr;
+    return DuplicateFile(file, name.c_str());
+}
+
+bool PhysfsEncapsule::DuplicateFile(const char* srcFile, const char* dstFile)
+{
+    //TODO: Compare performance to calling Load(srcFile) and then Save(dstFile)
+    std::ifstream src;
+    src.open(srcFile, std::ios::binary);
+    bool srcOpen = src.is_open();
+    std::ofstream  dst(dstFile, std::ios::binary);
+    bool dstOpen = dst.is_open();
+
+    dst << src.rdbuf();
+
+    src.close();
+    dst.close();
+
+    if (srcOpen && dstOpen)
+    {
+        LOG("File System: File %s Duplicated Correctly", srcFile);
+        return true;
+    }
+    else
+    {
+        LOG("[ERROR] File System: Could not be duplicated");
+        return false;
+    }
+    return false;
 }
