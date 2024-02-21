@@ -173,16 +173,16 @@ bool ModuleRenderer3D::Init()
 
 	// Load Street Environment from the start
 
-	//models.push_back(Model("Assets/BakerHouse.fbx"));
-	models.push_back(Model("Assets/Street_Environment/StreetEnvironment.fbx"));
+	models.push_back(Model("Assets/BakerHouse.fbx"));
+	//models.push_back(Model("Assets/Street_Environment/StreetEnvironment.fbx"));
 
 	// Skybox
 
-	models.push_back(Model("Assets/Skybox/Skybox.fbx"));
+	//models.push_back(Model("Assets/Skybox/Skybox.fbx"));
 
 	// Water Shader
 
-	models.push_back(Model("Assets/Water.fbx", WATER_SHADER));
+	//models.push_back(Model("Assets/Water.fbx", WATER_SHADER));
 
 	// Shaders already loaded from the start
 
