@@ -62,9 +62,9 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-	ImporterMesh::Load("Library/Meshes/.ymesh", &mymesh);
+	//ImporterMesh::Load("Library/Meshes/.ymesh", &mymesh);
 
-	mymesh.LoadInMemory();
+	//mymesh.LoadInMemory();
 
 	return ret;
 }
@@ -110,7 +110,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	mymesh.Render();
+	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }

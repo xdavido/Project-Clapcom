@@ -118,6 +118,7 @@ bool ModuleEditor::Init()
 	fileIcon.LoadTexture("Assets/Editor/files.dds");
 	imageIcon.LoadTexture("Assets/Editor/image.dds");
 	modelIcon.LoadTexture("Assets/Editor/model.dds");
+	shaderIcon.LoadTexture("Assets/Editor/shader.dds");
 
 	return ret;
 }
@@ -2877,7 +2878,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					}
 					else if (entryName.find(".glsl") != std::string::npos) {
 
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
 
 						if (ImGui::IsItemClicked()) {
 
