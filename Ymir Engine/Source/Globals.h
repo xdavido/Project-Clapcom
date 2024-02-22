@@ -20,6 +20,7 @@
 #define PI 3.14159265358979323846264338327950288
 
 typedef unsigned int uint;
+typedef unsigned __int64 uint64;
 
 enum update_status
 {
@@ -40,6 +41,26 @@ enum update_status
 #define VSYNC true
 #define TITLE "Ymir Engine"
 
+
+// Deletes a buffer
+#define RELEASE( x )\
+    {\
+       if( x != nullptr )\
+       {\
+         delete x;\
+	     x = nullptr;\
+       }\
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x )\
+	{\
+       if( x != nullptr )\
+       {\
+           delete[] x;\
+	       x = nullptr;\
+		 }\
+	 }
 
 // Clear a vector
 template <class T>

@@ -140,7 +140,7 @@ bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& fi
 
 	if (!outFile.is_open()) {
 
-		LOG("Error: Unable to open the file for writing: %s", filename);
+		LOG("[ERROR]: Unable to open the file for writing: %s", filename);
 
 		return false;
 	}

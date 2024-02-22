@@ -12,7 +12,9 @@ uint ImporterMesh::Save(const Mesh* ourMesh, char** fileBuffer)
     uint vertexSize = sizeof(float) * 3 + sizeof(float) * 3 + sizeof(float) * 2; // size of Vertex structure
 
     // Calculate the total size of the file buffer
-    uint size = headerSize + sizeof(uint) * ourMesh->indices.size() + vertexSize * ourMesh->vertices.size();
+    uint ranges[2] = { ourMesh->indices.size(), ourMesh->vertices.size() };
+    //uint size = headerSize + sizeof(uint) * ourMesh->indices.size() + vertexSize * ourMesh->vertices.size();
+    uint64 size = sizeof(ranges) + sizeof(uint) * ourMesh->indices.size() + (sizeof(uint) * 3) * ourMesh->vertices.size();
 
     // Allocate memory for the file buffer
     *fileBuffer = new char[size];
@@ -21,8 +23,7 @@ uint ImporterMesh::Save(const Mesh* ourMesh, char** fileBuffer)
     char* cursor = *fileBuffer;
 
     // Store the header (ranges)
-    uint ranges[2] = { ourMesh->indices.size(), ourMesh->vertices.size() };
-    uint bytes = headerSize;
+    uint bytes = sizeof(ranges);
     memcpy(cursor, ranges, bytes);
     cursor += bytes;
 
@@ -32,11 +33,12 @@ uint ImporterMesh::Save(const Mesh* ourMesh, char** fileBuffer)
     cursor += bytes;
 
     // Store the vertices
-    bytes = sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 2 * ourMesh->vertices.size();
+    bytes = sizeof(float) * 3 * ourMesh->vertices.size();
     memcpy(cursor, ourMesh->vertices.data(), bytes);
     cursor += bytes;
 
     // Return the size of the file buffer
+    cursor = nullptr;
     return size;
 }
 
@@ -46,6 +48,7 @@ void ImporterMesh::Load(const char* fileBuffer, ResourceMesh* ourMesh)
 
     // Load the header (ranges)
     uint ranges[2];
+
     uint bytes = sizeof(ranges);
     memcpy(ranges, cursor, bytes);
     cursor += bytes;
@@ -56,6 +59,7 @@ void ImporterMesh::Load(const char* fileBuffer, ResourceMesh* ourMesh)
 
     // Load indices
     bytes = sizeof(uint) * ourMesh->indices.size();
+    //ourMesh->indices.push_back(new uint[ourMesh->indices.size()]);
     memcpy(ourMesh->indices.data(), cursor, bytes);
     cursor += bytes;
 

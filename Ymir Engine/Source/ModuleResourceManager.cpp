@@ -513,3 +513,31 @@ std::map<uint, Resource*> ModuleResourceManager::GetResourcesMap() const
 {
 	return resources;
 }
+
+ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
+{
+	std::vector<std::string> obj_ext = { "fbx", "FBX", "obj", "OBJ", "DAE", "dae" };
+	std::vector<std::string> tex_ext = { "png", "PNG", "jpg", "JPG", "dds", "DDS", "tga", "TGA" };
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
+	{
+		return ResourceType::SCENE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, obj_ext))
+	{
+		return ResourceType::MESH;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, tex_ext))
+	{
+		return ResourceType::TEXTURE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "glsl"))
+	{
+		return ResourceType::SHADER;
+	}
+
+	return ResourceType::UNKNOWN;
+}

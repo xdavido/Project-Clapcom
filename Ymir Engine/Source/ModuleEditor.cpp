@@ -1282,6 +1282,8 @@ void ModuleEditor::DrawEditor()
 			App->camera->editorCamera->SetAspectRatio(size.x / size.y);
 			ImGui::Image((ImTextureID)App->camera->editorCamera->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
 
+			(ImGui::IsWindowHovered()) ? App->camera->hoveringEditor = true : App->camera->hoveringEditor = false;
+
 			// Retrieve Info from ImGui Scene Window
 
 			// Get the Mouse Position using ImGui.
@@ -2337,12 +2339,10 @@ void ModuleEditor::RedirectLogOutput()
 		}
 		if (ImGui::Button("Show Errors"))
 		{
-			filter.Clear();
 			filter.Filters.push_back(ImGuiTextFilter::ImGuiTextRange("[ERROR", NULL));
 		}
 		if (ImGui::Button("Show Warnings"))
 		{
-			filter.Clear();
 			filter.Filters.push_back(ImGuiTextFilter::ImGuiTextRange("[WARNING", NULL));
 		}
 		if (ImGui::Button("Add Error"))
@@ -2722,34 +2722,52 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 {
 	std::string path = filePath;
 
-	/*switch (App->resource->CheckExtensionType(filePath))
+	switch (App->resourceManager->CheckExtensionType(filePath))
 	{
-	case R_TYPE::MESH:
-		if (App->fs->Exists((path + ".meta").c_str()))
-		{
-			App->parson->DeleteLibDirs((path + ".meta").c_str());
-			App->fs->Remove((path + ".meta").c_str());
-		}
+	case ResourceType::UNKNOWN:
 		break;
-	case R_TYPE::TEXTURE:
-		if (App->fs->Exists((path + ".meta").c_str()))
+	case ResourceType::TEXTURE:
+
+		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			App->parson->DeleteLibDirs((path + ".meta").c_str());
-			App->fs->Remove((path + ".meta").c_str());
+			// TODO: Sara -> borrar library file from meta
+			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			PhysfsEncapsule::DeleteFilePhysFS((path + ".meta").c_str());
 		}
+
 		break;
-	case R_TYPE::O_META:
+	case ResourceType::MESH:
+
+		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
+		{
+			// TODO: Sara -> borrar library file from meta
+			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			PhysfsEncapsule::DeleteFilePhysFS((path + ".meta").c_str());
+		}
+
+		break;
+	case ResourceType::MODEL:
+		break;
+	case ResourceType::SCENE:
+		break;
+	case ResourceType::META:
 	{
-		App->parson->DeleteLibDirs(path.c_str());
+		// TODO: Sara -> borrar library file from meta
+		//App->parson->DeleteLibDirs(path.c_str());
 	}
+
 	break;
-	case R_TYPE::NONE:
+	case ResourceType::SHADER:
+		break;
+	case ResourceType::MATERIAL:
+		break;
+	case ResourceType::ALL_TYPES:
 		break;
 	default:
 		break;
 	}
 
-	App->fs->Remove(filePath);*/
+	PhysfsEncapsule::DeleteFilePhysFS(filePath);
 }
 
 void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
@@ -2898,6 +2916,45 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					}
 
 					ImGui::Text(entryName.c_str());
+
+					//// ---RMB Click event---
+					//if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+					//{
+					//	ImGui::MenuItem(currentFile.c_str(), NULL, false, false);
+					//	ImGui::Separator();
+
+					//	//App->resource->CheckExtensionType(currentFile.c_str());
+					//	if (ImGui::MenuItem("Import to Scene"))
+					//	{
+					//		//App->resource->pendingToLoadScene = true;
+
+					//		if (currentFile == "MainScreen.pnk")
+					//		{
+					//			App->scene->ImportDefaultMainScreen();
+					//		}
+					//		else if (currentFile == "Street.pnk")
+					//		{
+					//			App->scene->ImportDefaultScene();
+					//			App->scene->crossHair = true;
+					//		}
+					//		else
+					//		{
+					//			App->resource->sceneFileName = currentFile;
+					//			App->resource->ImportToSceneV(currentFile, selectedDirFullPath + "/");
+					//		}
+					//	}
+					//	//if (ImGui::MenuItem("Create File (WIP)", NULL, false, false))	// TODO:
+					//	//{
+
+					//	//}
+					//	if (ImGui::MenuItem("Delete File"))
+					//	{
+					//		DeleteFileAndRefs((selectedDirFullPath + "/" + currentFile).c_str());
+					//	}
+
+					//	selectedFile = currentFile;
+					//	ImGui::EndPopup();
+					//}
 
 					ImGui::PopStyleColor();
 

@@ -26,4 +26,5 @@ public:
 	CCamera* editorCamera;
 	LineSegment mousePickingRay;
 
+	bool hoveringEditor;
 };

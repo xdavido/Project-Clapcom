@@ -14,6 +14,8 @@ enum class ResourceType {
 	SHADER,
 	MATERIAL,
 
+	META,
+
 	ALL_TYPES
 
 };

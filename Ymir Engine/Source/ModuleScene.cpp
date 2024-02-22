@@ -62,9 +62,13 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-	ImporterMesh::Load("Library/Meshes/.ymesh", &mymesh);
+	/*char* buffer = nullptr;
+	if (PhysfsEncapsule::LoadFile("Library/Meshes/532460321.ymesh", &buffer) != 0)
+	{
+		ImporterMesh::Load(buffer, &mymesh);
+	}
 
-	mymesh.LoadInMemory();
+	mymesh.LoadInMemory();*/
 
 	return ret;
 }
@@ -110,7 +114,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	mymesh.Render();
+	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -226,7 +230,7 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 					// Store the mesh in the map based on the closest intersection distance.
 					meshCandidates[closest] = meshToTest;
 				}
-				
+
 			}
 
 		}
@@ -322,10 +326,10 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 
 bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 {
-	return point.x >= aabb.minPoint.x 
-		&& point.x <= aabb.maxPoint.x 
-		&& point.y >= aabb.minPoint.y 
+	return point.x >= aabb.minPoint.x
+		&& point.x <= aabb.maxPoint.x
+		&& point.y >= aabb.minPoint.y
 		&& point.y <= aabb.maxPoint.y
-		&& point.z >= aabb.minPoint.z 
+		&& point.z >= aabb.minPoint.z
 		&& point.z <= aabb.maxPoint.z;
 }

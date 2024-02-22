@@ -55,8 +55,10 @@ update_status ModuleCamera3D::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) speed *= 2;
 
 	// Mouse wheel Zoom In and Zoom Out handling
-
-	editorCamera->ZoomHandling(newPos, speed);
+	if (hoveringEditor)
+	{
+		editorCamera->ZoomHandling(newPos, speed);
+	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
 

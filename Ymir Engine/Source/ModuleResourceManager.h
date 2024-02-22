@@ -53,6 +53,7 @@ public:
 
 	std::map<uint, Resource*> GetResourcesMap() const;
 
+	ResourceType CheckExtensionType(const char* fileDir);
 private:
 
 	void LoadResource(const uint& UID);
