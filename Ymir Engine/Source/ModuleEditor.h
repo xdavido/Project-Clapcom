@@ -17,6 +17,8 @@
 #include "NodeEditor.h"
 #include "ShaderEditor.h"
 
+#include "Texture.h"
+
 class GameObject;
 
 class ModuleEditor : public Module
@@ -117,16 +119,17 @@ public:
 	void DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset);
 
 	// Project assets window
-	//// Function to draw File Explorer
+	
+	// Function to draw File Explorer
 	void DrawFileExplorer(const std::string& rootFolder);
 
-	//// Function to draw Assets Window
+	// Function to draw Assets Window
 	void DrawAssetsWindow(const std::string& assetsFolder);
 
-	//// Function to draw Library Window
+	// Function to draw Library Window
 	void DrawLibraryWindow(const std::string& libraryFolder);
 
-	//// Function to delete a file
+	// Function to delete a file
 	void DeleteFileAndRefs(const char* filePath);
 
 	// Function to handle Mouse Picking
@@ -241,6 +244,13 @@ public:
 
 	// Shader Editor
 	ShaderEditor shaderEditor;
+
+	// Editor Icons
+	Texture folderIcon;
+	Texture fileIcon;
+	Texture imageIcon;
+	Texture modelIcon;
+
 };
 
 #endif // MODULE_EDITOR

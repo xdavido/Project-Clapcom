@@ -21,6 +21,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "Texture.h"
+
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -109,6 +111,13 @@ bool ModuleEditor::Init()
 	// Shader Editor
 
 	shaderEditor.Init();
+
+	// Editor Icons Textures
+
+	folderIcon.LoadTexture("Assets/Editor/folder.dds");
+	fileIcon.LoadTexture("Assets/Editor/files.dds");
+	imageIcon.LoadTexture("Assets/Editor/image.dds");
+	modelIcon.LoadTexture("Assets/Editor/model.dds");
 
 	return ret;
 }
@@ -2789,102 +2798,111 @@ void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
 
 }
 
-void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder) {
+void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder) 
+{
+	if (ImGui::BeginTable("DirectoryTable", 8))
+	{
+		int columnCount = 0;
 
-	// Process Directories First
+		// Process directories
 
-	for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
 
-		if (entry.is_directory()) {
+			if (entry.is_directory()) {
 
-			std::string entryName = entry.path().filename().string();
+				std::string entryName = entry.path().filename().string();
 
-			if (entryName != "." && entryName != "..") {
+				if (entryName != "." && entryName != "..") {
 
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+					ImGui::TableNextColumn();
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
-				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
-				if (entry.path().string() == selectedDir)
-				{
-					node_flags |= ImGuiTreeNodeFlags_Selected;
-				}
+					// Display folder icon and name
+					ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64));
 
-				if (ImGui::TreeNodeEx(entryName.c_str(), node_flags)) {
+					if (ImGui::IsItemClicked()) {
 
-					// ---Click event---
-					if (ImGui::IsItemClicked())
-					{
 						selectedDir = entry.path().string();
+
 					}
 
-					if (ImGui::IsMouseDoubleClicked(0))
-					{
+					if (ImGui::IsMouseDoubleClicked(0)) {
+						
 						currentDir = selectedDir;
+						
 					}
 
-					DrawAssetsWindow(entry.path().string());
-
-					ImGui::TreePop();
-				}
-
-				ImGui::PopStyleColor();
-
-			}
-
-		}
-
-	}
-
-	// Process Files Afterwards
-
-	for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
-
-		if (!entry.is_directory()) {
-
-			std::string entryName = entry.path().filename().string();
-
-			if (entryName != "." && entryName != "..") {
-
-				if ((entryName.find(".meta") != std::string::npos) ||
-					(entryName.find(".json") != std::string::npos)) {
-
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
-
-					if (ImGui::Selectable(entryName.c_str())) {
-
-						selectedFilePath = entry.path().string();
-						showModal = true;  // Set the flag to open the modal
-					}
-
+					ImGui::Text("%s", entryName.c_str());
 					ImGui::PopStyleColor();
 
-				}
-				else if (entryName.find(".glsl") != std::string::npos) {
-
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
-
-					if (ImGui::Selectable(entryName.c_str())) {
-
-						shaderEditor.LoadShaderTXT(entry.path().string());
-
-					}
-
-					ImGui::PopStyleColor();
-
-				}
-				else {
-
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-					ImGui::Selectable(entryName.c_str());
-
-					ImGui::PopStyleColor();
+					++columnCount;
 
 				}
 
 			}
 
 		}
+
+		// Process files
+
+		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+
+			if (!entry.is_directory()) {
+
+				std::string entryName = entry.path().filename().string();
+
+				if (entryName != "." && entryName != "..") {
+
+					ImGui::TableNextColumn();
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
+
+					// Process different file types
+
+					if ((entryName.find(".meta") != std::string::npos) || (entryName.find(".json") != std::string::npos)) {
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+
+					}
+					else if ((entryName.find(".png") != std::string::npos) || (entryName.find(".dds") != std::string::npos)) {
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+
+					}
+					else if (entryName.find(".glsl") != std::string::npos) {
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+
+						if (ImGui::IsItemClicked()) {
+
+							shaderEditor.LoadShaderTXT(entry.path().string());
+
+						}
+
+					}
+					else if (entryName.find(".fbx") != std::string::npos) {
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+
+					}
+					else {
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+
+					}
+
+					ImGui::Text(entryName.c_str());
+
+					ImGui::PopStyleColor();
+
+					++columnCount;
+
+				}
+
+			}
+
+		}
+
+		ImGui::EndTable();
 
 	}
 
