@@ -250,6 +250,7 @@ public:
 	Texture fileIcon;
 	Texture imageIcon;
 	Texture modelIcon;
+	Texture shaderIcon;
 
 };
 
