@@ -159,6 +159,7 @@ public:
 	bool showScene = true;
 	bool showGame = true;
 	bool showResources = true;
+	bool showProjectFiles = true;
 	bool showFileExplorer = true;
 	bool showAssets = true;
 	bool showLibrary = true;

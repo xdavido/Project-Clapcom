@@ -1229,6 +1229,10 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+	if (showProjectFiles) {
+		DrawProjectFiles();
+	}
+
 	if (showResources) {
 
 		if (ImGui::Begin("Resources", &showResources), true) {
@@ -2659,15 +2663,12 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 
 void ModuleEditor::DrawProjectFiles()
 {
-	std::string title = "Project";
-	title.append("##");
-
 	ImVec2 pos = ImGui::GetMainViewport()->WorkPos;
 	ImVec2 size = ImGui::GetMainViewport()->Size;
 	pos.y += size.y;
 	//ImGui::SetNextWindowPos(pos, ImGuiCond_Appearing, ImVec2(-0.01f, 1.0f));
 	//ImGui::SetNextWindowSize(ImVec2(size.x - 15, 200), ImGuiCond_Appearing);
-	if (ImGui::Begin(title.c_str()))
+	if (ImGui::Begin("Project"))
 	{
 		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
@@ -2677,8 +2678,7 @@ void ModuleEditor::DrawProjectFiles()
 		ImGui::SetColumnWidth(0, 300);
 
 		ImGui::BeginChild("ProjectDirs");
-		ShowDir("Assets", "Assets");
-		ShowDir("PinkyAssets", "PinkyAssets");
+		ShowDir("../", "Assets");
 		ImGui::EndChild();
 
 		ImGui::NextColumn();

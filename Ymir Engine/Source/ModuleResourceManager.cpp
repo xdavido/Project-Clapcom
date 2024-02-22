@@ -73,7 +73,8 @@ bool ModuleResourceManager::CleanUp()
 
 void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
 {
-	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str());
+	std::string filePath;
+	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
 Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
