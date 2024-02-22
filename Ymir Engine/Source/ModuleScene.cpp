@@ -15,6 +15,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "ImporterMesh.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	// UID regenerated = duplication (This will be fixed with scene serialization)
@@ -60,6 +62,10 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
+	ImporterMesh::Load("Library/Meshes/.ymesh", &mymesh);
+
+	mymesh.LoadInMemory();
+
 	return ret;
 }
 
@@ -103,6 +109,8 @@ update_status ModuleScene::Update(float dt)
 		LoadScene();
 
 	}
+
+	mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
