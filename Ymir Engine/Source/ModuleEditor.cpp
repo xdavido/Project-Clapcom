@@ -913,16 +913,7 @@ void ModuleEditor::DrawEditor()
 
 	if (showConsole) {
 
-		if (ImGui::Begin("Console", &showConsole), true) {
-
-			// Redirect Log Output
-
-			RedirectLogOutput();
-
-			ImGui::End();
-
-		}
-
+		RedirectLogOutput();
 	}
 
 	if (showMemoryLeaks) {
@@ -2326,11 +2317,57 @@ std::string ModuleEditor::ReadFile(const std::string& filename) {
 
 void ModuleEditor::RedirectLogOutput()
 {
-	for (auto it = Log::debugStrings.begin(); it != Log::debugStrings.end(); ++it) {
+	if (ImGui::Begin("Console", &showConsole, ImGuiWindowFlags_MenuBar))
+	{
+		static ImGuiTextFilter filter;
 
-		ImGui::Text((*it).c_str());
+		ImGui::BeginMenuBar();
+		if (ImGui::Button("Clear"))
+		{
+			ClearVec(Log::debugStrings);
+		}
+		if (ImGui::Button("Show Errors"))
+		{
+			filter.Clear();
+			filter.Filters.push_back(ImGuiTextFilter::ImGuiTextRange("[ERROR", NULL));
+		}
+		if (ImGui::Button("Show Warnings"))
+		{
+			filter.Clear();
+			filter.Filters.push_back(ImGuiTextFilter::ImGuiTextRange("[WARNING", NULL));
+		}
+		if (ImGui::Button("Add Error"))
+		{
+			Log::debugStrings.push_back("[ERROR] debug error message");
+		}
+		if (ImGui::Button("Add Warning"))
+		{
+			Log::debugStrings.push_back("[WARNING] debug warning message");
+		}
 
-	}
+		ImGui::Dummy(ImVec2(720 / 4, 0));
+		filter.Draw("Search", ImGui::GetFontSize() * 15);
+		ImGui::EndMenuBar();
+
+		//const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+		ImGui::BeginChild("##output", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+
+		for (int n = 0; n < Log::debugStrings.size(); n++)
+		{
+			if (filter.PassFilter(Log::debugStrings[n].c_str()))
+			{
+				if (strstr(Log::debugStrings[n].c_str(), "[ERROR")) { ImGui::TextColored(ImVec4(0.9f, 0.0f, 0.0f, 1.0f), Log::debugStrings[n].c_str()); }
+				else if (strstr(Log::debugStrings[n].c_str(), "[WARNING")) { ImGui::TextColored(ImVec4(1.0f, 0.7f, 0.0f, 1.0f), Log::debugStrings[n].c_str()); }
+				else { ImGui::Text(Log::debugStrings[n].c_str(), n); }
+			}
+		}
+
+		// Keep up at the bottom of the scroll region if we were already at the bottom at the beginning of the frame.
+		// Using a scrollbar or mouse-wheel will take away from the bottom edge.
+		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) { ImGui::SetScrollHereY(1.0f); }
+
+		ImGui::EndChild();
+	} ImGui::End();
 }
 
 void ModuleEditor::MemoryLeaksOutput()

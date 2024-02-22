@@ -116,16 +116,18 @@ public:
 	// Function to manage Gizmo
 	void DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset);
 
-	void DeleteFileAndRefs(const char* filePath);
-
-	// Function to draw File Explorer
+	// Project assets window
+	//// Function to draw File Explorer
 	void DrawFileExplorer(const std::string& rootFolder);
 
-	// Function to draw Assets Window
+	//// Function to draw Assets Window
 	void DrawAssetsWindow(const std::string& assetsFolder);
 
-	// Function to draw Library Window
+	//// Function to draw Library Window
 	void DrawLibraryWindow(const std::string& libraryFolder);
+
+	//// Function to delete a file
+	void DeleteFileAndRefs(const char* filePath);
 
 	// Function to handle Mouse Picking
 	void MousePickingManagement(const ImVec2& mousePosition, const ImVec2& sceneWindowPos, const ImVec2& sceneWindowSize, const float& sceneFrameHeightOffset);
