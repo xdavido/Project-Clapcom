@@ -789,6 +789,12 @@
     <ClInclude Include="Source\ShaderEditor.h">
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CScript.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleMonoManager.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1102,6 +1108,12 @@
     </ClCompile>
     <ClCompile Include="Source\ShaderEditor.cpp">
       <Filter>Sources\Features\Shader Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CScript.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleMonoManager.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
