@@ -2818,18 +2818,25 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
 					// Display folder icon and name
-					ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64));
+					if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
-					if (ImGui::IsItemClicked()) {
+						if (ImGui::IsItemClicked()) {
 
-						selectedDir = entry.path().string();
+							selectedDir = entry.path().string();
 
-					}
+						}
+						else {
 
-					if (ImGui::IsMouseDoubleClicked(0)) {
-						
-						currentDir = selectedDir;
-						
+							selectedDir = currentDir;
+
+						}
+
+						if (ImGui::IsMouseDoubleClicked(0)) {
+
+							currentDir = selectedDir;
+
+						}
+
 					}
 
 					ImGui::Text("%s", entryName.c_str());
