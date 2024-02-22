@@ -116,15 +116,6 @@ public:
 	// Function to manage Gizmo
 	void DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset);
 
-	// Function to show project files from file explorer
-	void DrawProjectFiles();
-	void ShowDir(std::string directory, std::string dir);
-	void ShowDirectories(std::string directory);
-
-	bool TreeNode(std::string currentDir, ImGuiTreeNodeFlags node_flags, bool finalDir);
-	void DirsMouseEvents(std::string current, std::vector<std::string> files, std::string dir);
-	void FilesMouseEvents(std::string currentFile, std::string currentDir);
-
 	void DeleteFileAndRefs(const char* filePath);
 
 	// Function to draw File Explorer
@@ -159,7 +150,6 @@ public:
 	bool showScene = true;
 	bool showGame = true;
 	bool showResources = true;
-	bool showProjectFiles = true;
 	bool showFileExplorer = true;
 	bool showAssets = true;
 	bool showLibrary = true;
@@ -238,8 +228,8 @@ public:
 	float4x4 modelMatrix;
 
 	// Assets folder
+	std::string currentDir;
 	std::string selectedDir;
-	std::string selectedDirFullPath;
 	std::vector<std::string> vSelectedDirFiles;
 
 	std::string selectedFile;
