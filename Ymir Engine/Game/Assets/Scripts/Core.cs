@@ -22,6 +22,8 @@ public class Core : YmirComponent
 
 	public void Update(/*int x*/)
 	{
+        testString = "Susu";
+
 		if (this.reference == null)
 			return;
 

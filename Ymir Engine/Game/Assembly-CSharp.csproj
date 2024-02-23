@@ -42,12 +42,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\YmirComponent.cs" />
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\GameObject.cs" />
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\InternalCalls.cs" />
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\Quaternion.cs" />
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\Time.cs" />
-    <Compile Include="Assembly-CSharp\Diamond Engine Utility\Vector3.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\YmirComponent.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\GameObject.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\InternalCalls.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Quaternion.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Time.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Vector3.cs" />
     <Compile Include="Assets\Scripts\BH_Bullet.cs" />
     <Compile Include="Assets\Scripts\BH_Plane.cs" />
     <Compile Include="Assets\Scripts\Core.cs" />
