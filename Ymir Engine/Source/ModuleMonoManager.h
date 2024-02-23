@@ -14,7 +14,7 @@ typedef struct _MonoAssembly MonoAssembly;
 typedef struct _MonoClassField MonoClassField;
 
 class GameObject;
-class C_Script;
+class CScript;
 
 #define USER_SCRIPTS_NAMESPACE ""
 #define DE_SCRIPTS_NAMESPACE "DiamondEngine"
@@ -30,12 +30,12 @@ union FieldValue
 struct SerializedField
 {
 	SerializedField();
-	SerializedField(MonoClassField* _field, MonoObject* _object, C_Script* parent);
+	SerializedField(MonoClassField* _field, MonoObject* _object, CScript* parent);
 
 	MonoClassField* field;
 	MonoTypeEnum type = MonoTypeEnum::MONO_TYPE_END;
 	FieldValue fiValue;
-	C_Script* parentSC;
+	CScript* parentSC;
 	std::string displayName;
 };
 
@@ -54,7 +54,7 @@ public:
 
 	static void LoadFieldData(SerializedField& _field, MonoObject* _object);
 	static void DebugAllMethods(const char* nsName, const char* className, std::vector<std::string>& _data);
-	static void DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, C_Script* script);
+	static void DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script);
 
 	void CreateAssetsScript(const char* localPath);
 	void AddScriptToSLN(const char* scriptLocalPath);
