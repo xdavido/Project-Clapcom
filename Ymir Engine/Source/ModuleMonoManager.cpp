@@ -13,16 +13,16 @@
 #include "External/mono/metadata/threads.h"
 
 #include "GameObject.h"
-#include "ComponentScript.h"
-#include "CS_Transform_Bindings.h"
+#include "CScript.h"
+//#include "CS_Transform_Bindings.h"
 
 #include <iostream>
 #include <fstream> 
-#include "PugiXML/pugixml.hpp"
-#include "IM_FileSystem.h"
-#include "ImGui/imgui.h"
-#include "WI_TextEditor.h"
-#include "MO_Editor.h"
+//#include "PugiXML/pugixml.hpp"
+//#include "IM_FileSystem.h"
+//#include "ImGui/imgui.h"
+//#include "WI_TextEditor.h"
+//#include "MO_Editor.h"
 
 #include "Log.h"
 
