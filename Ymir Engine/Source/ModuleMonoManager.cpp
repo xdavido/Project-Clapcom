@@ -14,7 +14,7 @@
 
 #include "GameObject.h"
 #include "CScript.h"
-//#include "CS_Transform_Bindings.h"
+#include "CS_Transform_Bindings.h"
 
 #include <iostream>
 #include <fstream> 
@@ -25,6 +25,7 @@
 //#include "MO_Editor.h"
 
 #include "Log.h"
+#include <ImGui/imgui.h>
 
 #pragma comment( lib, "mono/libx86/mono-2.0-boehm.lib" )
 #pragma comment( lib, "mono/libx86/mono-2.0-sgen.lib" )
@@ -45,7 +46,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("DiamondEngine.Input::GetMouseY", MouseY);
 
 	mono_add_internal_call("DiamondEngine.InternalCalls::Destroy", Destroy);
-	mono_add_internal_call("DiamondEngine.InternalCalls::CreateBullet", CreateBullet);
+	//mono_add_internal_call("DiamondEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
 
 	mono_add_internal_call("DiamondEngine.GameObject::get_localPosition", SendPosition);
 	mono_add_internal_call("DiamondEngine.GameObject::get_globalPosition", SendGlobalPosition);
@@ -101,13 +102,14 @@ void ModuleMonoManager::OnGUI()
 
 void ModuleMonoManager::ReCompileCS()
 {
-	if (DETime::state == GameState::PLAY)
+	if (DETime::state == GameState::PLAY)	//TODO: Preguntar donde están los GameState timmer
 		return;
 
-	App->moduleScene->SaveScene("Library/Scenes/tmp.des");
+	//App->scene->SaveScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
+	App->scene->SaveScene();
 
-	App->moduleScene->CleanScene();
-	App->moduleRenderer3D->ClearAllRenderData();
+	App->scene->CleanScene();		//TODO: No tenemos estas funciones
+	App->renderer3D->ClearAllRenderData();
 
 	mono_domain_unload(domain);
 	mono_thread_cleanup();
@@ -120,12 +122,15 @@ void ModuleMonoManager::ReCompileCS()
 	CMDCompileCS();
 	InitMono();
 
-	App->moduleScene->LoadScene("Library/Scenes/tmp.des");
-	App->moduleFileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Duplicated code, mmove to method
+	//TODO: No hay nada de esto creado en Ymir
+	//App->scene->LoadScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
+	App->scene->LoadScene();
+	App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta canción no existe
 
-	W_TextEditor* txtEditor = dynamic_cast<W_TextEditor*>(App->moduleEditor->GetEditorWindow(EditorWindow::TEXTEDITOR));
-	if (txtEditor != nullptr)
-		txtEditor->SetTextFromFile(txtEditor->txtName.c_str());
+	
+	//W_TextEditor* txtEditor = dynamic_cast<W_TextEditor*>(App->editor->GetEditorWindow(EditorWindow::TEXTEDITOR));	//TODO: Crear una ventana que se encarga de editar scripts (ez)
+	//if (txtEditor != nullptr)
+	//	txtEditor->SetTextFromFile(txtEditor->txtName.c_str());
 }
 
 //ASK: Is this the worst idea ever? TOO SLOW
@@ -152,11 +157,11 @@ Quat ModuleMonoManager::UnboxQuat(MonoObject* _obj)
 	return ret;
 }
 
-void ModuleMonoManager::DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, C_Script* script)
+void ModuleMonoManager::DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script)
 {
 	void* iter = NULL;
 	MonoClassField* field;
-	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(EngineExternal->moduleMono->assembly), USER_SCRIPTS_NAMESPACE, className);
+	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(External->moduleMono->assembly), USER_SCRIPTS_NAMESPACE, className);
 	while (field = mono_class_get_fields(klass, &iter))
 	{
 		SerializedField pushField = SerializedField(field, obj, script);
@@ -172,7 +177,7 @@ void ModuleMonoManager::DebugAllMethods(const char* nsName, const char* classNam
 {
 	void* iter = NULL;
 	MonoMethod* method2;
-	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(EngineExternal->moduleMono->assembly), nsName, className);
+	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(External->moduleMono->assembly), nsName, className);
 	while (method2 = mono_class_get_methods(klass, &iter))
 	{
 		_data.push_back(mono_method_full_name(method2, 1));
@@ -288,7 +293,7 @@ SerializedField::SerializedField() : field(nullptr), parentSC(nullptr)
 	fiValue.iValue = 0;
 }
 
-SerializedField::SerializedField(MonoClassField* _field, MonoObject* _object, C_Script* parent) : field(_field)
+SerializedField::SerializedField(MonoClassField* _field, MonoObject* _object, CScript* parent) : field(_field)
 {
 	type = static_cast<MonoTypeEnum>(mono_type_get_type(mono_field_get_type(field)));
 	fiValue.iValue = 0;
@@ -304,7 +309,7 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 {
 	std::string unnormalizedPath("Assets/");
 	unnormalizedPath += localPath;
-	unnormalizedPath = FileSystem::UnNormalizePath(unnormalizedPath.c_str());
+	unnormalizedPath = FileSystem::UnNormalizePath(unnormalizedPath.c_str());	//TODO: IDK como arreglar esto, ¿crear un Filesystem.h?
 
 	std::ofstream outfile(unnormalizedPath.c_str());
 
@@ -324,6 +329,7 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 
 void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 {
+	//TODO: El Miquel usa XML, no entiendo como
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
 
@@ -398,7 +404,7 @@ void ModuleMonoManager::InitMono()
 	assembly = mono_assembly_open("Library/ScriptsAssembly/Assembly-CSharp.dll", &sts);
 	//assembly = mono_domain_assembly_open(domain, "CSSolution/Assembly-CSharp/Build/Assembly-CSharp.dll");
 	if (!assembly)
-		LOG(LogType::L_ERROR, "ERROR");
+		LOG("ERROR");
 
 	image = mono_assembly_get_image(assembly);
 
@@ -421,7 +427,7 @@ void ModuleMonoManager::InitMono()
 		if (strcmp(mono_class_get_namespace(_class), DE_SCRIPTS_NAMESPACE) != 0 && !mono_class_is_enum(_class))
 		{
 			userScripts.push_back(_class);
-			LOG(LogType::L_WARNING, "%s", mono_class_get_name(_class));
+			LOG("%s", mono_class_get_name(_class));
 		}
 	}
 }

@@ -38,7 +38,7 @@ enum update_status
 #define VSYNC true
 #define TITLE "Ymir Engine"
 
-//Scripting fuction: Va a buscar un proyecto .sln y lo compila. El proyecto Assembly-CSharp.sln
+//Scripting fuction: Va a buscar un proyecto .sln y lo compila -> El proyecto Assembly-CSharp.sln
 static void CMDCompileCS()
 {
 #pragma region ShellExecute

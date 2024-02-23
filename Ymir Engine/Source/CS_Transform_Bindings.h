@@ -4,7 +4,6 @@
 #include "Application.h"
 
 #include"GameObject.h"
-//#include"DETime.h"
 #include"ResourceMesh.h"
 
 #include"CMesh.h"
@@ -207,6 +206,12 @@ void Destroy(MonoObject* go)
 	}
 
 	workGO->DestroyGameObject();
+}
+
+float GetDT()
+{
+	//IDK if this would work
+	return External->GetDT();
 }
 
 //TODO:
