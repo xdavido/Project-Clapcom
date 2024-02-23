@@ -20,6 +20,9 @@
 //------//
 MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posición del objeto
 {
+	//TODO: Quitar esto mas adelante, cuando esté arreglado el Transform
+	return nullptr;
+
 	if (External == nullptr)
 		return nullptr;
 
@@ -41,6 +44,9 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 }
 MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotación del objeto
 {
+	//TODO: Quitar esto mas adelante, cuando esté arreglado el Transform
+	return nullptr;
+
 	if (External == nullptr)
 		return nullptr;
 

@@ -62,14 +62,22 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-	GameObject* goTest = CreateGameObject("Test", mRootNode);
-	const char* t = "Core";
+	for (int i = 0; i < 3; i++)
+	{
+		const char* n = "Test";
+		std::string numStr = std::to_string(i);
+		std::string name = n + numStr;
 
-	Component* c = nullptr;
+		GameObject* goTest = CreateGameObject(name, mRootNode);
+		const char* t = "Core";
 
-	c = new CScript(goTest, t);
+		Component* c = nullptr;
 
-	goTest->AddComponent(c);
+		c = new CScript(goTest, t);
+
+		goTest->AddComponent(c);
+	}
+	
 
 	return ret;
 }

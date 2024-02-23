@@ -38,9 +38,11 @@ public class Core : YmirComponent
         if (Input.GetKey(DEKeyCode.D) == KeyState.KEY_REPEAT)
             reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, -rotationSpeed * Time.deltaTime);
 
+        if (Input.GetKey(DEKeyCode.X) == KeyState.KEY_REPEAT)
+            InternalCalls.Destroy(reference);
 
-        if (Input.GetMouseX() != 0 && turret != null)
-            turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
+        //if (Input.GetMouseX() != 0 && turret != null)
+        //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
 
         //if (Input.GetMouseY() != 0 && turret != null)
         //    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);

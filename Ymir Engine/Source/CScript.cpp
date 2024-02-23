@@ -224,7 +224,17 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 		}
 
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), (field.fiValue.goValue != nullptr) ? field.fiValue.goValue->name.c_str() : "this");
-		field.fiValue.goValue = External->editor->hoveredGO;
+
+		//for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
+		//{
+		//	if ((*it)->selected)
+		//	{
+		//		field.fiValue.goValue = External->editor->hoveredGO;
+		//		SetField(field.field, field.fiValue.goValue);
+		//	}
+		//}
+
+		field.fiValue.goValue = mOwner;
 		SetField(field.field, field.fiValue.goValue);
 
 		//if (ImGui::BeginDragDropTarget())				//TODO: Esto se encarga de hager Drag & Drop el elemento reference
