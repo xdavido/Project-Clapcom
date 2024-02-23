@@ -2316,7 +2316,7 @@ std::string ModuleEditor::ReadFile(const std::string& filename) {
 
 	if (!file.is_open()) {
 
-		return "Error: Unable to open file.";
+		return "[ERROR] Unable to open file.";
 
 	}
 

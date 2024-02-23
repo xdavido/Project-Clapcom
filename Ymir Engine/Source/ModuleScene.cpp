@@ -62,13 +62,18 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-	/*char* buffer = nullptr;
-	if (PhysfsEncapsule::LoadFile("Library/Meshes/532460321.ymesh", &buffer) != 0)
-	{
-		ImporterMesh::Load(buffer, &mymesh);
-	}
 
-	mymesh.LoadInMemory();*/
+
+
+	
+
+	//char* buffer = nullptr;
+	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
+	//{
+	//	ImporterMesh::Load(buffer, &mymesh);
+	//}
+
+	mymesh.LoadInMemory();
 
 	return ret;
 }

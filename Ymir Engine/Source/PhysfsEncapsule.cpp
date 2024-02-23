@@ -97,6 +97,55 @@ void PhysfsEncapsule::DeinitializePhysFS()
 	PHYSFS_deinit();
 }
 
+uint PhysfsEncapsule::SaveFile(const char* file, const void* buffer, uint size, bool append)
+{
+	uint ret = 0;
+
+	bool overwrite;
+
+	(PHYSFS_exists(file) == 0) ? overwrite = false : overwrite = true;
+
+	PHYSFS_file* fs_file = (append) ? PHYSFS_openAppend(file) : PHYSFS_openWrite(file);
+
+	if (fs_file != nullptr)
+	{
+		uint written = (uint)PHYSFS_write(fs_file, (const void*)buffer, 1, size);
+
+		if (written != size)
+		{
+			LOG("[ERROR] File System: Could not write to file %s: %s", file, PHYSFS_getLastError());
+		}
+		else
+		{
+			if (append == true)
+			{
+				LOG("[File System] Added %u data to [%s%s]", size, PHYSFS_getWriteDir(), file);
+			}
+			else if (overwrite == true)
+			{
+				LOG("[File System] File [%s%s] overwritten with %u bytes", PHYSFS_getWriteDir(), file, size);
+			}
+			else
+			{
+				LOG("[File System] New file created [%s%s] of %u bytes", PHYSFS_getWriteDir(), file, size);
+			}
+
+			ret = written;
+		}
+
+		if (PHYSFS_close(fs_file) == 0)
+		{
+			LOG("[ERROR] [File System] Could not close file %s: %s", file, PHYSFS_getLastError());
+		}
+	}
+	else
+	{
+		LOG("[ERROR] [File System] Could not open file %s: %s", file, PHYSFS_getLastError());
+	}
+
+	return ret;
+}
+
 uint PhysfsEncapsule::LoadFile(const char* file, char** buffer)
 {
 	uint ret = 0;

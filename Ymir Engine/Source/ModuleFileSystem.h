@@ -25,8 +25,13 @@ public:
 	void CreateMetaFileFromAsset(std::string assetPath, JsonFile& jsonFile);
 	void CreateLibraryFolder();
 
+	// Save
 	bool SaveMeshToFile(const Mesh* ourMesh, const std::string& filename);
 	bool SaveTextureToFile(const Texture* ourTexture, const std::string& filename);
+
+	// Load
+	bool LoadMeshToFile(Mesh* ourMesh, const std::string& filename);
+	bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 public:
 

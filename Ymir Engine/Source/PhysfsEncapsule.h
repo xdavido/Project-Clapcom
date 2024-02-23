@@ -27,11 +27,14 @@ namespace PhysfsEncapsule {
     void DeinitializePhysFS();
     
     //
+    // Save
+    uint SaveFile(const char* file, const void* buffer, uint size, bool append = false);
+
     // Load
 	//// Open for Read/Write
     uint LoadFile(const char* file, char** buffer);
 
-    //
+	// Getters
     bool IsDirectory(const char* file);
     void DiscoverFiles(const char* directory, std::vector<std::string>& vFiles, std::vector<std::string>& vDirs);
 

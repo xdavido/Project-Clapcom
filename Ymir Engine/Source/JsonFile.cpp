@@ -96,7 +96,7 @@ JsonFile* JsonFile::GetJSON(const std::string& route) {
     // Error handling
     if (!jsonFile->rootValue) {
 
-        LOG("Error: Unable to load JSON file from %s", route.c_str());
+        LOG("[ERROR] Unable to load JSON file from %s", route.c_str());
 
         delete jsonFile;
 

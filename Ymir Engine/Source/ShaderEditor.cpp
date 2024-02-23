@@ -127,7 +127,7 @@ bool ShaderEditor::SaveShaderTXT(std::string shaderText, std::string fileName)
 	// Check if the file is opened successfully
 	if (!outputFile.is_open()) {
 		// Handle the error
-		LOG("Error: Unable to open file for writing - %s", fullPath.c_str());
+		LOG("[ERROR] Unable to open file for writing - %s", fullPath.c_str());
 		ret = false;
 	}
 
@@ -140,7 +140,7 @@ bool ShaderEditor::SaveShaderTXT(std::string shaderText, std::string fileName)
 	// Check if the file is closed successfully
 	if (!outputFile) {
 		// Handle the error
-		LOG("Error: Failed to write content to file - %s", fullPath.c_str());
+		LOG("[ERROR] Failed to write content to file - %s", fullPath.c_str());
 		ret = false;
 	}
 
@@ -169,7 +169,7 @@ void ShaderEditor::DeleteShaderTXT(std::string fileName)
 	else
 	{
 		// File deletion failed
-		LOG("Error: Unable to delete file: %s", fullPath.c_str());
+		LOG("[ERROR] Unable to delete file: %s", fullPath.c_str());
 	}
 
 	// Use find to locate the element in loadedShaders
@@ -193,7 +193,7 @@ void ShaderEditor::LoadShaderTXT(std::string filePath)
 
 	if (!file.is_open()) {
 
-		LOG("Error: Unable to open file.");
+		LOG("[ERROR] Unable to open file.");
 
 	}
 
