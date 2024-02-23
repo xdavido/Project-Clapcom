@@ -2733,7 +2733,7 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 		{
 			// TODO: Sara -> borrar library file from meta
 			//App->parson->DeleteLibDirs((path + ".meta").c_str());
-			PhysfsEncapsule::DeleteFilePhysFS((path + ".meta").c_str());
+			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 
 		break;
@@ -2743,7 +2743,7 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 		{
 			// TODO: Sara -> borrar library file from meta
 			//App->parson->DeleteLibDirs((path + ".meta").c_str());
-			PhysfsEncapsule::DeleteFilePhysFS((path + ".meta").c_str());
+			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 
 		break;
@@ -2768,7 +2768,7 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 		break;
 	}
 
-	PhysfsEncapsule::DeleteFilePhysFS(filePath);
+	PhysfsEncapsule::DeleteFS(filePath);
 }
 
 void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
@@ -2817,7 +2817,7 @@ void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
 
 }
 
-void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder) 
+void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 {
 	if (ImGui::BeginTable("DirectoryTable", 8))
 	{
@@ -2839,6 +2839,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					// Display folder icon and name
 					if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
+						// ---Click event---
 						if (ImGui::IsItemClicked()) {
 
 							selectedDir = entry.path().string();
@@ -2854,6 +2855,27 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							currentDir = selectedDir;
 
+						}
+
+						// ---RMB Click event---
+						if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+						{
+							ImGui::MenuItem(entry.path().filename().string().c_str(), NULL, false, false);
+							ImGui::Separator();
+
+							//App->resource->CheckExtensionType(currentFile.c_str());
+							if (ImGui::MenuItem("Import to Scene"))
+							{
+								//App->resource->pendingToLoadScene = true;
+							}
+
+							if (ImGui::MenuItem("Delete File"))
+							{
+								DeleteFileAndRefs(entry.path().string().c_str(), true);
+							}
+
+							selectedFile = entry.path().filename().string();
+							ImGui::EndPopup();
 						}
 
 					}

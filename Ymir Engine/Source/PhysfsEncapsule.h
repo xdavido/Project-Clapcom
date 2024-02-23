@@ -18,8 +18,9 @@ namespace PhysfsEncapsule {
     bool FileExists(std::string route);
     void CreateFolder(std::string route, std::string folderName);
     void ReadFolder(std::string route);
-    void DeleteFolder(std::string route);
-    void DeleteFilePhysFS(std::string route);
+
+    // Delete file or folder
+    void DeleteFS(std::string route);
 
     bool CopyFileFromSource(std::string source, std::string destination);   
 
@@ -34,6 +35,7 @@ namespace PhysfsEncapsule {
     bool IsDirectory(const char* file);
     void DiscoverFiles(const char* directory, std::vector<std::string>& vFiles, std::vector<std::string>& vDirs);
 
+    //
     std::string GetUniqueName(const char* path, const char* name);
     void SplitFilePath(const char* full_path, std::string* path, std::string* file = nullptr, std::string* extension = nullptr);
    

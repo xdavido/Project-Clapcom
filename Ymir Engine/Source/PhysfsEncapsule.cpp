@@ -56,43 +56,10 @@ void PhysfsEncapsule::ReadFolder(std::string route)
 	   PHYSFS_freeList(files);*/
 }
 
-void PhysfsEncapsule::DeleteFolder(std::string route)
+void PhysfsEncapsule::DeleteFS(std::string route)
 {
-	// Iterate over the directory and delete files
-	for (const auto& entry : std::filesystem::directory_iterator(route)) {
-
-		if (std::filesystem::is_directory(entry.path())) {
-			// Recursively delete subdirectories
-			DeleteFolder(entry.path().string());
-		}
-		else {
-			// Delete files
-			if (PHYSFS_delete(entry.path().string().c_str()) == 0) {
-			}
-		}
-	}
-
-	// Delete the empty directory
-	if (PHYSFS_delete(route.c_str()) == 0) {
-
-
-
-	}
-
-	//// Check if the file exists using std::filesystem
-	//if (std::filesystem::exists(route)) {
-	//    // Use PhysFS to delete the file
-	//    if (PHYSFS_delete(route.c_str()) == 0) {
-	//        
-	//    }
-	//  
-	//}
-
-}
-
-void PhysfsEncapsule::DeleteFilePhysFS(std::string route)
-{
-	std::filesystem::remove(route);
+	// It calls std::filesystem::remove(route); recursively in case its a folder
+	std::filesystem::remove_all(route);
 }
 
 bool PhysfsEncapsule::CopyFileFromSource(std::string source, std::string destination)
