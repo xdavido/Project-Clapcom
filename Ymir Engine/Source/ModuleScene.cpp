@@ -12,6 +12,8 @@
 
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "ModuleMonoManager.h"
+#include "CScript.h"
 
 #include "External/Optick/include/optick.h"
 
@@ -72,6 +74,22 @@ bool ModuleScene::Init()
 	//}
 
 	//mymesh.LoadInMemory();
+	for (int i = 0; i < 3; i++)
+	{
+		const char* n = "Test";
+		std::string numStr = std::to_string(i);
+		std::string name = n + numStr;
+
+		GameObject* goTest = CreateGameObject(name, mRootNode);
+		const char* t = "Core";
+
+		Component* c = nullptr;
+
+		c = new CScript(goTest, t);
+
+		goTest->AddComponent(c);
+	}
+	
 
 	return ret;
 }

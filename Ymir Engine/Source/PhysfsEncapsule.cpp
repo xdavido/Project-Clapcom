@@ -364,3 +364,18 @@ bool PhysfsEncapsule::DuplicateFile(const char* srcFile, const char* dstFile)
 	}
 	return false;
 }
+
+
+
+std::string PhysfsEncapsule::UnNormalizePath(const char* full_path)
+{
+    std::string newPath(full_path);
+    for (int i = 0; i < newPath.size(); ++i)
+    {
+        if (newPath[i] == '/')
+            newPath[i] = '\\';
+    }
+    return newPath;
+}
+
+

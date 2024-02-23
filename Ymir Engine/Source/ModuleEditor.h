@@ -161,6 +161,7 @@ public:
 
 	bool showNodeEditor = false;
 	bool showShaderEditor = true;
+	bool showScriptingSettings = true;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;

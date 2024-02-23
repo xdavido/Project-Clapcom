@@ -42,6 +42,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
+    <IncludePath>$(ProjectDir)Source\External;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)Source\External;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,7 +86,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CS_Transform_Bindings.h" />
     <ClInclude Include="Source\CCamera.h" />
+    <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Transform_Bindings.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
@@ -285,6 +292,7 @@
     <ClInclude Include="Source\ModuleCamera3D.h" />
     <ClInclude Include="Source\ModuleEditor.h" />
     <ClInclude Include="Source\ModuleFileSystem.h" />
+    <ClInclude Include="Source\ModuleMonoManager.h" />
     <ClInclude Include="Source\ModuleRenderer3D.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\ModuleInput.h" />
@@ -318,6 +326,7 @@
     <ClCompile Include="Source\CMesh.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\CScript.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
@@ -393,6 +402,7 @@
     <ClCompile Include="Source\ModuleEditor.cpp" />
     <ClCompile Include="Source\ModuleFileSystem.cpp" />
     <ClCompile Include="Source\ModuleInput.cpp" />
+    <ClCompile Include="Source\ModuleMonoManager.cpp" />
     <ClCompile Include="Source\ModuleRenderer3D.cpp" />
     <ClCompile Include="Source\ModuleResourceManager.cpp" />
     <ClCompile Include="Source\ModuleScene.cpp" />

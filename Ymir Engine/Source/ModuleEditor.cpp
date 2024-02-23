@@ -11,6 +11,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModuleMonoManager.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -990,6 +991,9 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+
+    // END OF APPLICATION MENU
+
 	// Time Management
 
 	if (ImGui::Begin(" ", NULL, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse)) {
@@ -1336,12 +1340,25 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
+    if (showScriptingSettings) {
+
+        if (ImGui::Begin("Scripting Settings", &showScriptingSettings), true) {
+
+            App->moduleMono->OnGUI();
+
+            ImGui::End();
+
+        }
+
+    }
+
+    // --------------------------------- Here finishes the code for the editor ----------------------------------------
+    
+    // Rendering
+
 
 	}
-
-	// --------------------------------- Here finishes the code for the editor ----------------------------------------
-
-	// Rendering
+	
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -2587,15 +2604,17 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
-				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
-				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
-				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+                Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+                Component* mesh = (*it)->GetComponent(ComponentType::MESH);
+                Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
+                Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+                Component* script = (*it)->GetComponent(ComponentType::SCRIPT);
 
-				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
-				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
-				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+                if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
+                if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
+                if (material != nullptr) material->OnInspector(); ImGui::Spacing();
+                if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+                if (script != nullptr) script->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
