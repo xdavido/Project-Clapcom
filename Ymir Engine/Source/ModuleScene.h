@@ -59,6 +59,7 @@ public:
 
 	JsonFile ysceneFile;
 
+	Mesh* ourMesh;
 	ResourceMesh mymesh{ 0 };
 
 };

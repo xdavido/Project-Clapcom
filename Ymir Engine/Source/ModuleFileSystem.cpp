@@ -179,7 +179,7 @@ bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::s
 	return false; // Return false if saving failed or if size was 0
 }
 
-bool ModuleFileSystem::LoadMeshToFile(Mesh* ourMesh, const std::string& filename)
+bool ModuleFileSystem::LoadMeshToFile(const std::string filename, Mesh* ourMesh)
 {
 	// Get size of file to know how much memory to allocate
 	std::uintmax_t filesize = std::filesystem::file_size(filename);
@@ -191,9 +191,12 @@ bool ModuleFileSystem::LoadMeshToFile(Mesh* ourMesh, const std::string& filename
 	if (!fin) {
 
 		LOG("[ERROR] File mode read-only, could only read. %f bytes", fin.gcount());
+		fin.close();
+		return false;
 	}
 	// Close file
 	fin.close();
 
 	ImporterMesh::Load(buf, ourMesh);
+	return true;
 }

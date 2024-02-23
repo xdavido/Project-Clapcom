@@ -30,7 +30,7 @@ public:
 	bool SaveTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 	// Load
-	bool LoadMeshToFile(Mesh* ourMesh, const std::string& filename);
+	bool LoadMeshToFile(const std::string filename, Mesh* ourMesh);
 	bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 public:
