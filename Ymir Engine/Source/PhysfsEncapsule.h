@@ -22,4 +22,6 @@ namespace PhysfsEncapsule {
 
     void DeinitializePhysFS();
 
+    std::string UnNormalizePath(const char* full_path);
+
 }

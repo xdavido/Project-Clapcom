@@ -16,6 +16,8 @@
 #include "CScript.h"
 #include "CS_Transform_Bindings.h"
 
+#include "PhysfsEncapsule.h"
+
 #include <iostream>
 #include <fstream> 
 //#include "PugiXML/pugixml.hpp"
@@ -27,8 +29,8 @@
 #include "Log.h"
 #include <ImGui/imgui.h>
 
-#pragma comment( lib, "mono/libx86/mono-2.0-boehm.lib" )
-#pragma comment( lib, "mono/libx86/mono-2.0-sgen.lib" )
+#pragma comment( lib, "Source/External/mono/libx86/mono-2.0-boehm.lib" )
+#pragma comment( lib, "Source/External/mono/libx86/mono-2.0-sgen.lib" )
 
 ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Module(app, start_enabled), domain(nullptr), domainThread(nullptr), assembly(nullptr), image(nullptr), jitDomain(nullptr)
 {
@@ -52,8 +54,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("DiamondEngine.GameObject::get_globalPosition", SendGlobalPosition);
 	mono_add_internal_call("DiamondEngine.GameObject::set_localPosition", RecievePosition);
 
-	mono_add_internal_call("DiamondEngine.GameObject::GetForward", GetForward);
-	mono_add_internal_call("DiamondEngine.GameObject::GetRight", GetRight);
+	//mono_add_internal_call("DiamondEngine.GameObject::GetForward", GetForward);
+	//mono_add_internal_call("DiamondEngine.GameObject::GetRight", GetRight);
 
 	mono_add_internal_call("DiamondEngine.GameObject::get_localRotation", SendRotation);
 	mono_add_internal_call("DiamondEngine.GameObject::get_globalRotation", SendGlobalRotation);
@@ -102,14 +104,14 @@ void ModuleMonoManager::OnGUI()
 
 void ModuleMonoManager::ReCompileCS()
 {
-	if (DETime::state == GameState::PLAY)	//TODO: Preguntar donde están los GameState timmer
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 		return;
 
 	//App->scene->SaveScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
-	App->scene->SaveScene();
+	//App->scene->SaveScene();
 
-	App->scene->CleanScene();		//TODO: No tenemos estas funciones
-	App->renderer3D->ClearAllRenderData();
+	//App->scene->CleanScene();		//TODO: No tenemos estas funciones
+	//App->renderer3D->ClearAllRenderData();
 
 	mono_domain_unload(domain);
 	mono_thread_cleanup();
@@ -124,8 +126,9 @@ void ModuleMonoManager::ReCompileCS()
 
 	//TODO: No hay nada de esto creado en Ymir
 	//App->scene->LoadScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
-	App->scene->LoadScene();
-	App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta canción no existe
+	
+	//App->scene->LoadScene();
+	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta canción no existe
 
 	
 	//W_TextEditor* txtEditor = dynamic_cast<W_TextEditor*>(App->editor->GetEditorWindow(EditorWindow::TEXTEDITOR));	//TODO: Crear una ventana que se encarga de editar scripts (ez)
@@ -309,7 +312,7 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 {
 	std::string unnormalizedPath("Assets/");
 	unnormalizedPath += localPath;
-	unnormalizedPath = FileSystem::UnNormalizePath(unnormalizedPath.c_str());	//TODO: IDK como arreglar esto, ¿crear un Filesystem.h?
+	unnormalizedPath = PhysfsEncapsule::UnNormalizePath(unnormalizedPath.c_str());
 
 	std::ofstream outfile(unnormalizedPath.c_str());
 
@@ -323,70 +326,70 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 
 	outfile.close();
 
-	AddScriptToSLN(unnormalizedPath.c_str());
+	//AddScriptToSLN(unnormalizedPath.c_str());		//TODO: Descomentar cuand esté AddScriptToSLN
 	ReCompileCS();
 }
 
-void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
-{
-	//TODO: El Miquel usa XML, no entiendo como
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
+//void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
+//{
+//	//TODO: El Miquel usa XML, no entiendo como
+//	pugi::xml_document doc;
+//	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
+//
+//	if (result.status == pugi::xml_parse_status::status_file_not_found)
+//		assert(false, "XML File not loaded");
+//
+//	std::string path; // Should be like ../Assets/Scripts/Hola.cs
+//	path += scriptLocalPath;
+//	std::string name = path.substr(path.find_last_of("\\"));
+//
+//	pugi::xml_node whereToAdd = doc.child("Project");
+//	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
+//	{
+//		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
+//		{
+//			panel = panel.append_child();
+//			panel.set_name("Compile");
+//			pugi::xml_attribute att = panel.append_attribute("Include");
+//			att.set_value(path.c_str());
+//
+//			break;
+//		}
+//	}
+//
+//	doc.save_file("Assembly-CSharp.csproj");
+//}
 
-	if (result.status == pugi::xml_parse_status::status_file_not_found)
-		assert(false, "XML File not loaded");
-
-	std::string path; // Should be like ../Assets/Scripts/Hola.cs
-	path += scriptLocalPath;
-	std::string name = path.substr(path.find_last_of("\\"));
-
-	pugi::xml_node whereToAdd = doc.child("Project");
-	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
-	{
-		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
-		{
-			panel = panel.append_child();
-			panel.set_name("Compile");
-			pugi::xml_attribute att = panel.append_attribute("Include");
-			att.set_value(path.c_str());
-
-			break;
-		}
-	}
-
-	doc.save_file("Assembly-CSharp.csproj");
-}
-
-void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)
-{
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
-
-	if (result.status == pugi::xml_parse_status::status_file_not_found)
-		assert(false, "XML File not loaded");
-
-	std::string path; // Should be like ../Assets/Scripts/Hola.cs
-
-	pugi::xml_node whereToRemove = doc.child("Project");
-	for (pugi::xml_node panel = whereToRemove.first_child(); panel != nullptr; panel = panel.next_sibling())
-	{
-		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
-		{
-			for (pugi::xml_node toRemove = panel.first_child(); toRemove != nullptr; toRemove = toRemove.next_sibling())
-			{
-				path = FileSystem::NormalizePath(toRemove.attribute("Include").as_string());
-
-				if (strcmp(path.c_str(), scriptLocalPath) == 0)
-				{
-					panel.remove_child(toRemove);
-					break;
-				}
-			}
-		}
-	}
-
-	doc.save_file("Assembly-CSharp.csproj");
-}
+//void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)
+//{
+//	pugi::xml_document doc;
+//	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
+//
+//	if (result.status == pugi::xml_parse_status::status_file_not_found)
+//		assert(false, "XML File not loaded");
+//
+//	std::string path; // Should be like ../Assets/Scripts/Hola.cs
+//
+//	pugi::xml_node whereToRemove = doc.child("Project");
+//	for (pugi::xml_node panel = whereToRemove.first_child(); panel != nullptr; panel = panel.next_sibling())
+//	{
+//		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
+//		{
+//			for (pugi::xml_node toRemove = panel.first_child(); toRemove != nullptr; toRemove = toRemove.next_sibling())
+//			{
+//				path = FileSystem::NormalizePath(toRemove.attribute("Include").as_string());
+//
+//				if (strcmp(path.c_str(), scriptLocalPath) == 0)
+//				{
+//					panel.remove_child(toRemove);
+//					break;
+//				}
+//			}
+//		}
+//	}
+//
+//	doc.save_file("Assembly-CSharp.csproj");
+//}
 
 
 void ModuleMonoManager::InitMono()

@@ -128,3 +128,18 @@ void PhysfsEncapsule::DeinitializePhysFS()
     // Deinitialize PhysFS
     PHYSFS_deinit();
 }
+
+
+
+std::string PhysfsEncapsule::UnNormalizePath(const char* full_path)
+{
+    std::string newPath(full_path);
+    for (int i = 0; i < newPath.size(); ++i)
+    {
+        if (newPath[i] == '/')
+            newPath[i] = '\\';
+    }
+    return newPath;
+}
+
+

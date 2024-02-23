@@ -49,7 +49,9 @@ MonoObject* DE_Box_Quat(MonoObject* obj, bool global)
 	Quat value;
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj);
 
-	(global == true) ? value = workGO->mTransform->mGlobalMatrix.RotatePart().ToQuat().Normalized() : value = workGO->mTransform->rotation;	//TODO: Revisar porque da error
+	Quat qTmp = Quat::FromEulerXYZ(workGO->mTransform->rotation[0] * DEGTORAD, workGO->mTransform->rotation[1] * DEGTORAD, workGO->mTransform->rotation[2] * DEGTORAD);
+
+	(global == true) ? value = workGO->mTransform->mGlobalMatrix.RotatePart().ToQuat().Normalized() : value = qTmp;
 
 
 	return External->moduleMono->QuatToCS(value);
@@ -126,31 +128,32 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 
 	if (workGO->mTransform)
 	{
-		workGO->mTransform->SetPosition(omgItWorks, workGO->mTransform->rotation, workGO->mTransform);
+		//workGO->mTransform->SetPosition(omgItWorks, workGO->mTransform->rotation, workGO->mTransform);
 		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
 	}
 }
-MonoObject* GetForward(MonoObject* go)
-{
-	if (External == nullptr || CScript::runningScript == nullptr)
-		return nullptr;
 
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
-
-	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
-
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	//TODO: No tenemos GetForward()
-}
-MonoObject* GetRight(MonoObject* go)
-{
-	if (External == nullptr)
-		return nullptr;
-
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
-
-	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	//TODO: No tenemos GetRight()
-}
+//MonoObject* GetForward(MonoObject* go)	
+//{
+//	if (External == nullptr || CScript::runningScript == nullptr)
+//		return nullptr;
+//
+//	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+//
+//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
+//
+//	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	//TODO: No tenemos GetForward()
+//}
+//MonoObject* GetRight(MonoObject* go)
+//{
+//	if (External == nullptr)
+//		return nullptr;
+//
+//	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+//
+//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
+//	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	//TODO: No tenemos GetRight()
+//}
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
@@ -166,7 +169,7 @@ void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float
 
 	if (workGO->mTransform)
 	{
-		workGO->mTransform->SetPosition(workGO->mTransform->translation, omgItWorks, workGO->mTransform->localScale);
+		//workGO->mTransform->SetPosition(workGO->mTransform->translation, omgItWorks, workGO->mTransform->localScale);
 		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
 	}
 }
@@ -185,7 +188,7 @@ void RecieveScale(MonoObject* obj, MonoObject* secObj)
 
 	if (workGO->mTransform)
 	{
-		workGO->mTransform->SetTransformMatrix(workGO->mTransform->translation, workGO->mTransform->rotation, omgItWorks);
+		//workGO->mTransform->SetTransformMatrix(workGO->mTransform->translation, workGO->mTransform->rotation, omgItWorks);
 		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
 	}
 }

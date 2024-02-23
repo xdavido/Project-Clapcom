@@ -6,16 +6,15 @@
 
 #include "GameObject.h"
 #include "Application.h"
-//#include "DETime.h"
 #include "CTransform.h"
 
-//#include "DEJsonSupport.h"
+//#include "DEJsonSupport.h"		//TODO: IDK si necesitaremos esto
 #include <mono/metadata/class.h>
 #include <mono/metadata/object.h>
 #include <mono/metadata/debug-helpers.h>
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm), noGCobject(0), updateMethod(nullptr)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
@@ -42,22 +41,23 @@ CScript::~CScript()
 
 	mono_gchandle_free(noGCobject);
 
-	for (unsigned int i = 0; i < fields.size(); i++)
+	/*for (unsigned int i = 0; i < fields.size(); i++)
 	{
 		if (fields[i].type == MonoTypeEnum::MONO_TYPE_CLASS && fields[i].fiValue.goValue != nullptr && fields[i].fiValue.goValue->csReferences.size() != 0)
 		{
 			fields[i].fiValue.goValue->csReferences.erase(std::find(fields[i].fiValue.goValue->csReferences.begin(), fields[i].fiValue.goValue->csReferences.end(), &fields[i]));
 		}
-	}
+	}*/
 
 	methods.clear();
 	fields.clear();
-	name.clear();
+	//name.clear();
+
 }
 
 void CScript::Update()
 {
-	if (DETime::state == GameState::STOP || DETime::state == GameState::PAUSE || updateMethod == nullptr)
+	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED || TimeManager::gameTimer.GetState() == TimerState::PAUSED || updateMethod == nullptr)
 		return;
 
 	CScript::runningScript = this; // I really think this is the peak of stupid code, but hey, it works, slow as hell but works.
@@ -78,12 +78,8 @@ void CScript::Update()
 	}
 }
 
-bool CScript::OnEditor()
+void CScript::OnInspector()
 {
-	if (Component::OnEditor() == true)
-	{
-		//ImGui::Separator();
-
 		for (int i = 0; i < fields.size(); i++)
 		{
 			DropField(fields[i], "_GAMEOBJECT");
@@ -93,105 +89,102 @@ bool CScript::OnEditor()
 		{
 			ImGui::Text(methods[i].c_str());
 		}
-
-		return true;
-	}
-	return false;
 }
 
-void CScript::SaveData(JSON_Object* nObj)
-{
-	Component::SaveData(nObj);
-	DEJson::WriteString(nObj, "ScriptName", name.c_str());
-
-	for (int i = 0; i < fields.size(); i++)
-	{
-		switch (fields[i].type)
-		{
-		case MonoTypeEnum::MONO_TYPE_BOOLEAN:
-			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.bValue);
-			DEJson::WriteBool(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.bValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_I4:
-			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.iValue);
-			DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.iValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_CLASS:
-			if (fields[i].fiValue.goValue != nullptr)
-				DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.goValue->UID);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_R4:
-			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.fValue);
-			DEJson::WriteFloat(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.fValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_STRING:
-			DEJson::WriteString(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.strValue);
-			break;
-
-		default:
-			DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.iValue);
-			break;
-		}
-	}
-}
-void CScript::LoadData(DEConfig& nObj)
-{
-	Component::LoadData(nObj);
-
-	SerializedField* _field = nullptr;
-	for (int i = 0; i < fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
-	{
-		_field = &fields[i];
-
-		switch (_field->type)
-		{
-		case MonoTypeEnum::MONO_TYPE_BOOLEAN:
-			_field->fiValue.bValue = nObj.ReadBool(mono_field_get_name(_field->field));
-			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.bValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_I4:
-			_field->fiValue.iValue = nObj.ReadInt(mono_field_get_name(_field->field));
-			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.iValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_CLASS:
-		{
-			if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "DiamondEngine.GameObject") == 0)
-				EngineExternal->moduleScene->referenceMap.emplace(nObj.ReadInt(mono_field_get_name(_field->field)), _field);
-
-			break;
-		}
-		case MonoTypeEnum::MONO_TYPE_R4:
-			_field->fiValue.fValue = nObj.ReadFloat(mono_field_get_name(_field->field));
-			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.fValue);
-			break;
-
-		case MonoTypeEnum::MONO_TYPE_STRING:
-		{
-			const char* ret = nObj.ReadString(mono_field_get_name(_field->field));
-
-			if (ret == NULL)
-				ret = "\0";
-
-			strcpy(&_field->fiValue.strValue[0], ret);
-
-			MonoString* str = mono_string_new(EngineExternal->moduleMono->domain, _field->fiValue.strValue);
-			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, str);
-			break;
-		}
-
-		default:
-			_field->fiValue.iValue = nObj.ReadInt(mono_field_get_name(_field->field));
-			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.iValue);
-			break;
-		}
-	}
-}
+//
+//void CScript::SaveData(JSON_Object* nObj)
+//{
+//	Component::SaveData(nObj);
+//	DEJson::WriteString(nObj, "ScriptName", name.c_str());
+//
+//	for (int i = 0; i < fields.size(); i++)
+//	{
+//		switch (fields[i].type)
+//		{
+//		case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+//			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.bValue);
+//			DEJson::WriteBool(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.bValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_I4:
+//			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.iValue);
+//			DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.iValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_CLASS:
+//			if (fields[i].fiValue.goValue != nullptr)
+//				DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.goValue->UID);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_R4:
+//			mono_field_get_value(mono_gchandle_get_target(noGCobject), fields[i].field, &fields[i].fiValue.fValue);
+//			DEJson::WriteFloat(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.fValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_STRING:
+//			DEJson::WriteString(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.strValue);
+//			break;
+//
+//		default:
+//			DEJson::WriteInt(nObj, mono_field_get_name(fields[i].field), fields[i].fiValue.iValue);
+//			break;
+//		}
+//	}
+//}
+//void CScript::LoadData(DEConfig& nObj)
+//{
+//	Component::LoadData(nObj);
+//
+//	SerializedField* _field = nullptr;
+//	for (int i = 0; i < fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
+//	{
+//		_field = &fields[i];
+//
+//		switch (_field->type)
+//		{
+//		case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+//			_field->fiValue.bValue = nObj.ReadBool(mono_field_get_name(_field->field));
+//			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.bValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_I4:
+//			_field->fiValue.iValue = nObj.ReadInt(mono_field_get_name(_field->field));
+//			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.iValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_CLASS:
+//		{
+//			if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "DiamondEngine.GameObject") == 0)
+//				EngineExternal->moduleScene->referenceMap.emplace(nObj.ReadInt(mono_field_get_name(_field->field)), _field);
+//
+//			break;
+//		}
+//		case MonoTypeEnum::MONO_TYPE_R4:
+//			_field->fiValue.fValue = nObj.ReadFloat(mono_field_get_name(_field->field));
+//			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.fValue);
+//			break;
+//
+//		case MonoTypeEnum::MONO_TYPE_STRING:
+//		{
+//			const char* ret = nObj.ReadString(mono_field_get_name(_field->field));
+//
+//			if (ret == NULL)
+//				ret = "\0";
+//
+//			strcpy(&_field->fiValue.strValue[0], ret);
+//
+//			MonoString* str = mono_string_new(EngineExternal->moduleMono->domain, _field->fiValue.strValue);
+//			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, str);
+//			break;
+//		}
+//
+//		default:
+//			_field->fiValue.iValue = nObj.ReadInt(mono_field_get_name(_field->field));
+//			mono_field_set_value(mono_gchandle_get_target(noGCobject), _field->field, &_field->fiValue.iValue);
+//			break;
+//		}
+//	}
+//}
 
 void CScript::DropField(SerializedField& field, const char* dropType)
 {
@@ -225,15 +218,15 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 		}
 
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), (field.fiValue.goValue != nullptr) ? field.fiValue.goValue->name.c_str() : "None");
-		if (ImGui::BeginDragDropTarget())
+		/*if (ImGui::BeginDragDropTarget())				//TODO: IDK si eso hace algo
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dropType))
 			{
-				field.fiValue.goValue = EngineExternal->moduleEditor->GetDraggingGO();
+				field.fiValue.goValue = External->editor->GetDraggingGO();
 				SetField(field.field, field.fiValue.goValue);
 			}
 			ImGui::EndDragDropTarget();
-		}
+		}*/
 		break;
 
 	case MonoTypeEnum::MONO_TYPE_R4: {
@@ -256,7 +249,7 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 
 		if (ImGui::InputText(field.displayName.c_str(), &field.fiValue.strValue[0], 50))
 		{
-			str = mono_string_new(EngineExternal->moduleMono->domain, field.fiValue.strValue);
+			str = mono_string_new(External->moduleMono->domain, field.fiValue.strValue);
 			mono_field_set_value(mono_gchandle_get_target(noGCobject), field.field, str);
 			//mono_free(str);
 		}
@@ -278,28 +271,28 @@ void CScript::LoadScriptData(const char* scriptName)
 	fields.clear();
 
 
-	MonoClass* klass = mono_class_from_name(EngineExternal->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName);
+	MonoClass* klass = mono_class_from_name(External->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName);
 
 	if (klass == nullptr)
 	{
-		LOG(LogType::L_ERROR, "Script %s was deleted and can't be loaded", scriptName);
+		LOG("Script %s was deleted and can't be loaded", scriptName);
 		name = "Missing script reference";
 		return;
 	}
 
-	EngineExternal->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName, methods);
+	External->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName, methods);
 
-	noGCobject = mono_gchandle_new(mono_object_new(EngineExternal->moduleMono->domain, klass), false);
+	noGCobject = mono_gchandle_new(mono_object_new(External->moduleMono->domain, klass), false);
 	mono_runtime_object_init(mono_gchandle_get_target(noGCobject));
 
 	MonoMethodDesc* mdesc = mono_method_desc_new(":Update", false);
 	updateMethod = mono_method_desc_search_in_class(mdesc, klass);
 	mono_method_desc_free(mdesc);
 
-	EngineExternal->moduleMono->DebugAllFields(scriptName, fields, mono_gchandle_get_target(noGCobject), this);
+	External->moduleMono->DebugAllFields(scriptName, fields, mono_gchandle_get_target(noGCobject), this);
 }
 
 void CScript::SetField(MonoClassField* field, GameObject* value)
 {
-	mono_field_set_value(mono_gchandle_get_target(noGCobject), field, EngineExternal->moduleMono->GoToCSGO(value));
+	mono_field_set_value(mono_gchandle_get_target(noGCobject), field, External->moduleMono->GoToCSGO(value));
 }
