@@ -18,8 +18,8 @@ public:
 
 	void OnInspector() override;
 
-	//void SaveData(JSON_Object* nObj) override;
-	//void LoadData(DEConfig& nObj) override;
+	void SaveData(JSON_Object* nObj);
+	void LoadData(DEConfig& nObj);
 
 	void SetField(MonoClassField* field, GameObject* value);
 	void DropField(SerializedField& fieldName, const char* dropType);
@@ -28,4 +28,11 @@ public:
 
 public:
 
+	std::vector<std::string> methods;
+	std::vector<SerializedField> fields;
+
+	MonoMethod* updateMethod;
+	uint32_t noGCobject;
+
+	static CScript* runningScript;
 };
