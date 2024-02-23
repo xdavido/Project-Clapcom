@@ -17,7 +17,7 @@ class GameObject;
 class CScript;
 
 #define USER_SCRIPTS_NAMESPACE ""
-#define DE_SCRIPTS_NAMESPACE "DiamondEngine"
+#define DE_SCRIPTS_NAMESPACE "YmirEngine"
 
 union FieldValue
 {

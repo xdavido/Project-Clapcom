@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace DiamondEngine
+namespace YmirEngine
 {
     class InternalCalls
     {

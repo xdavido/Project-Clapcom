@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 using System.Collections;
 
-namespace DiamondEngine
+namespace YmirEngine
 {
 
     [StructLayout(LayoutKind.Sequential)]

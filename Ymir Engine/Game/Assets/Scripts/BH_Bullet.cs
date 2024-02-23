@@ -1,8 +1,8 @@
 ﻿using System;
-using DiamondEngine;
+using YmirEngine;
 
 
-public class BH_Bullet : DiamondComponent
+public class BH_Bullet : YmirComponent
 {
     public GameObject thisReference = null; //This is needed until i make all this be part of a component base class
 

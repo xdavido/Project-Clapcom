@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace DiamondEngine
+namespace YmirEngine
 {
-    public class DiamondComponent
+    public class YmirComponent
     {
 
         public extern GameObject gameObject

@@ -154,7 +154,7 @@ void CScript::OnInspector()
 //
 //		case MonoTypeEnum::MONO_TYPE_CLASS:
 //		{
-//			if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "DiamondEngine.GameObject") == 0)
+//			if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
 //				EngineExternal->moduleScene->referenceMap.emplace(nObj.ReadInt(mono_field_get_name(_field->field)), _field);
 //
 //			break;
@@ -211,7 +211,7 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 
 	case MonoTypeEnum::MONO_TYPE_CLASS:
 
-		if (strcmp(mono_type_get_name(mono_field_get_type(field.field)), "DiamondEngine.GameObject") != 0)
+		if (strcmp(mono_type_get_name(mono_field_get_type(field.field)), "YmirEngine.GameObject") != 0)
 		{
 			ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "The class %s can't be serialized yet", mono_type_get_name(mono_field_get_type(field.field)));
 			break;

@@ -11,6 +11,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModuleMonoManager.h"
 
 #include "GameObject.h"
 
@@ -977,6 +978,8 @@ void ModuleEditor::DrawEditor()
 
     }
 
+
+
     // END OF APPLICATION MENU
 
     if (showImGuiDemo) {
@@ -1317,6 +1320,18 @@ void ModuleEditor::DrawEditor()
             shaderEditor.Update();
 
             ImGui::End();
+        }
+
+    }
+
+    if (showScriptingSettings) {
+
+        if (ImGui::Begin("Scripting Settings", &showScriptingSettings), true) {
+
+            App->moduleMono->OnGUI();
+
+            ImGui::End();
+
         }
 
     }

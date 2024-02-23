@@ -40,32 +40,32 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_config_parse(NULL);
 	jitDomain = mono_jit_init("myapp");
 
-	mono_add_internal_call("DiamondEngine.Debug::Log", CSLog);
-	mono_add_internal_call("DiamondEngine.Input::GetKey", GetKey);
-	mono_add_internal_call("DiamondEngine.Input::GetMouseClick", GetMouseClick);
-	mono_add_internal_call("DiamondEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
-	mono_add_internal_call("DiamondEngine.Input::GetMouseX", MouseX);
-	mono_add_internal_call("DiamondEngine.Input::GetMouseY", MouseY);
+	mono_add_internal_call("YmirEngine.Debug::Log", CSLog);
+	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
+	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
+	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
+	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
 
-	mono_add_internal_call("DiamondEngine.InternalCalls::Destroy", Destroy);
-	//mono_add_internal_call("DiamondEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
+	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
+	//mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
 
-	mono_add_internal_call("DiamondEngine.GameObject::get_localPosition", SendPosition);
-	mono_add_internal_call("DiamondEngine.GameObject::get_globalPosition", SendGlobalPosition);
-	mono_add_internal_call("DiamondEngine.GameObject::set_localPosition", RecievePosition);
+	mono_add_internal_call("YmirEngine.GameObject::get_localPosition", SendPosition);
+	mono_add_internal_call("YmirEngine.GameObject::get_globalPosition", SendGlobalPosition);
+	mono_add_internal_call("YmirEngine.GameObject::set_localPosition", RecievePosition);
 
-	//mono_add_internal_call("DiamondEngine.GameObject::GetForward", GetForward);
-	//mono_add_internal_call("DiamondEngine.GameObject::GetRight", GetRight);
+	//mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
+	//mono_add_internal_call("YmirEngine.GameObject::GetRight", GetRight);
 
-	mono_add_internal_call("DiamondEngine.GameObject::get_localRotation", SendRotation);
-	mono_add_internal_call("DiamondEngine.GameObject::get_globalRotation", SendGlobalRotation);
-	mono_add_internal_call("DiamondEngine.GameObject::set_localRotation", RecieveRotation);
+	mono_add_internal_call("YmirEngine.GameObject::get_localRotation", SendRotation);
+	mono_add_internal_call("YmirEngine.GameObject::get_globalRotation", SendGlobalRotation);
+	mono_add_internal_call("YmirEngine.GameObject::set_localRotation", RecieveRotation);
 
-	mono_add_internal_call("DiamondEngine.GameObject::get_localScale", SendScale);
-	mono_add_internal_call("DiamondEngine.GameObject::get_globalScale", SendGlobalScale);
-	mono_add_internal_call("DiamondEngine.GameObject::set_localScale", RecieveScale);
+	mono_add_internal_call("YmirEngine.GameObject::get_localScale", SendScale);
+	mono_add_internal_call("YmirEngine.GameObject::get_globalScale", SendGlobalScale);
+	mono_add_internal_call("YmirEngine.GameObject::set_localScale", RecieveScale);
 
-	mono_add_internal_call("DiamondEngine.Time::get_deltaTime", GetDT);
+	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
 
 	InitMono();
 }
@@ -198,7 +198,7 @@ MonoObject* ModuleMonoManager::GoToCSGO(GameObject* inGo) const
 	args[1] = &goPtr;
 
 
-	MonoMethodDesc* constructorDesc = mono_method_desc_new("DiamondEngine.GameObject:.ctor(string,uintptr)", true);
+	MonoMethodDesc* constructorDesc = mono_method_desc_new("YmirEngine.GameObject:.ctor(string,uintptr)", true);
 	MonoMethod* method = mono_method_desc_search_in_class(constructorDesc, goClass);
 	MonoObject* goObj = mono_object_new(domain, goClass);
 	mono_runtime_invoke(method, goObj, args, NULL);
@@ -221,7 +221,7 @@ MonoObject* ModuleMonoManager::Float3ToCS(float3& inVec) const
 	args[1] = &inVec.y;
 	args[2] = &inVec.z;
 
-	MonoMethodDesc* constDesc = mono_method_desc_new("DiamondEngine.Vector3:.ctor(single,single,single)", true);
+	MonoMethodDesc* constDesc = mono_method_desc_new("YmirEngine.Vector3:.ctor(single,single,single)", true);
 	MonoMethod* method = mono_method_desc_search_in_class(constDesc, vecClass);
 
 	mono_runtime_invoke(method, vecObject, args, NULL);
@@ -272,7 +272,7 @@ MonoObject* ModuleMonoManager::QuatToCS(Quat& inVec) const
 	args[2] = &inVec.z;
 	args[3] = &inVec.w;
 
-	MonoMethodDesc* constDesc = mono_method_desc_new("DiamondEngine.Quaternion:.ctor(single,single,single,single)", true);
+	MonoMethodDesc* constDesc = mono_method_desc_new("YmirEngine.Quaternion:.ctor(single,single,single,single)", true);
 	MonoMethod* method = mono_method_desc_search_in_class(constDesc, quadClass);
 
 	mono_runtime_invoke(method, quatObject, args, NULL);
@@ -321,7 +321,7 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 	className = className.substr(className.find_last_of("/") + 1);
 	className = className.substr(0, className.find_last_of("."));
 
-	outfile << "using System;" << std::endl << "using DiamondEngine;" << std::endl << std::endl << "public class " << className.c_str() << " : DiamondComponent" << std::endl << "{" << std::endl <<
+	outfile << "using System;" << std::endl << "using YmirEngine;" << std::endl << std::endl << "public class " << className.c_str() << " : YmirComponent" << std::endl << "{" << std::endl <<
 		"	public void Update()" << std::endl << "	{" << std::endl << std::endl << "	}" << std::endl << std::endl << "}";
 
 	outfile.close();

@@ -1,8 +1,8 @@
 ﻿using System;
-using DiamondEngine;
+using YmirEngine;
 
 
-public class BH_Plane : DiamondComponent
+public class BH_Plane : YmirComponent
 {
     public GameObject thisReference = null;
     public float speedIncrement = 0.03f;

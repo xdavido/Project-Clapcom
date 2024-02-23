@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using DiamondEngine;
+using YmirEngine;
 
-public class Core : DiamondComponent
+public class Core : YmirComponent
 {
 	public GameObject reference = null;
 	public GameObject turret = null;
