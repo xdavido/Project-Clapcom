@@ -83,6 +83,8 @@ void ClearVecPtr(std::vector<T*>& x)
 
 	x.clear();
 	x.shrink_to_fit();
+
+}
 //Scripting fuction: Va a buscar un proyecto .sln y lo compila -> El proyecto Assembly-CSharp.sln
 static void CMDCompileCS()
 {
