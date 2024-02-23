@@ -22,11 +22,12 @@ public class Core : YmirComponent
 
 	public void Update(/*int x*/)
 	{
-        testString = "Susu";
+        testString = "Still an Error";
 
 		if (this.reference == null)
 			return;
 
+        testString = "Got It";
  
         if (Input.GetKey(DEKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;

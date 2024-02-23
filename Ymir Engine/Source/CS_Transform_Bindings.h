@@ -18,7 +18,7 @@
 #include"MathGeoLib/include/Math/float3.h"
 
 //------//
-MonoObject* DE_Box_Vector(MonoObject* obj, const char* type, bool global)
+MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posición del objeto
 {
 	if (External == nullptr)
 		return nullptr;
@@ -39,7 +39,7 @@ MonoObject* DE_Box_Vector(MonoObject* obj, const char* type, bool global)
 
 	return External->moduleMono->Float3ToCS(value);
 }
-MonoObject* DE_Box_Quat(MonoObject* obj, bool global)
+MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotación del objeto
 {
 	if (External == nullptr)
 		return nullptr;
@@ -116,7 +116,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
-	return DE_Box_Vector(obj, "POSITION", false); //Use this method to send class types
+	return Ymir_Box_Vector(obj, "POSITION", false); //Use this method to send class types
 }
 void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
@@ -157,7 +157,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
-	return DE_Box_Quat(obj, false); //Use this method to send class types
+	return Ymir_Box_Quat(obj, false); //Use this method to send class types
 }
 void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
@@ -176,7 +176,7 @@ void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float
 
 MonoObject* SendScale(MonoObject* obj)
 {
-	return DE_Box_Vector(obj, "SCALE", false);
+	return Ymir_Box_Vector(obj, "SCALE", false);
 }
 void RecieveScale(MonoObject* obj, MonoObject* secObj)
 {
@@ -248,17 +248,17 @@ float GetDT()
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
-	return DE_Box_Vector(obj, "POSITION", true); //Use this method to send class types
+	return Ymir_Box_Vector(obj, "POSITION", true); //Use this method to send class types
 }
 MonoObject* SendGlobalRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
-	return DE_Box_Quat(obj, true); //Use this method to send class types
+	return Ymir_Box_Quat(obj, true); //Use this method to send class types
 }
 MonoObject* SendGlobalScale(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
-	return DE_Box_Vector(obj, "SCALE", true); //Use this method to send class types
+	return Ymir_Box_Vector(obj, "SCALE", true); //Use this method to send class types
 }
 
 #pragma endregion
