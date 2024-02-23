@@ -13,7 +13,8 @@ GameObject::GameObject()
 	active = true;
 	selected = false;
 
-	AddComponent(new CTransform(this));
+	mTransform = new CTransform(this);
+	AddComponent(mTransform);
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
@@ -24,12 +25,13 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	active = true;
 	selected = false;
 
-	AddComponent(new CTransform(this));
+	mTransform = new CTransform(this);
+	AddComponent(mTransform);
 }
 
 GameObject::~GameObject()
 {
-	
+	RELEASE(mTransform);
 }
 
 void GameObject::Update()

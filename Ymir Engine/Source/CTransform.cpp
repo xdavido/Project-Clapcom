@@ -12,6 +12,7 @@ CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRAN
 {
 	translation = float3::zero;
 	eulerRot = float3::zero;
+	rotation = Quat::FromEulerXYZ(eulerRot[0] * DEGTORAD, eulerRot[1] * DEGTORAD, eulerRot[2] * DEGTORAD);
 	scale = float3::zero;
 
 	translationPtr = nullptr;
@@ -20,6 +21,7 @@ CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRAN
 
 	resetPressed = false;
 
+	mLocalMatrix = float4x4::identity;
 	mGlobalMatrix = float4x4::identity;
 
 	// Load transform info from shader --------------- bad, component mesh doesn't exist before transform
@@ -42,8 +44,8 @@ CTransform::CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool star
 	eulerRot = rotation.ToEulerXYZ();
 	scale = sc;
 
-	mGlobalMatrix = math::float4x4::FromTRS(pos, rot, sc);
-	mLocalMatrix = math::float4x4::identity;
+	mGlobalMatrix = float4x4::FromTRS(pos, rot, sc);
+	mLocalMatrix = float4x4::identity;
 
 	resetPressed = false;
 
@@ -52,7 +54,7 @@ CTransform::CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool star
 
 CTransform::~CTransform()
 { 
-	// TODO: RELEASE(meshComponent);
+	RELEASE(meshComponent);
 }
 
 void CTransform::Update()
@@ -225,9 +227,9 @@ void CTransform::UpdateLocalMatrix()
 	meshComponent = static_cast<CMesh*>(mOwner->GetComponent(ComponentType::MESH));
 	if (meshComponent != nullptr)
 	{
-		meshComponent->meshReference->meshShader.translation = translation;
-		meshComponent->meshReference->meshShader.rotation = eulerRot;
-		meshComponent->meshReference->meshShader.scale = scale;
+		meshComponent->meshReference->meshShader.Translate(translation);
+		meshComponent->meshReference->meshShader.Rotate(eulerRot);
+		meshComponent->meshReference->meshShader.Scale(scale);
 	}
 }
 
