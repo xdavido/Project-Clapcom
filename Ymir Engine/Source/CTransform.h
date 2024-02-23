@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "CMesh.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
@@ -61,5 +62,7 @@ public:
 	bool dirty_;
 
 	bool resetPressed;
+
+	CMesh* meshComponent; // Game object's mesh
 
 };
