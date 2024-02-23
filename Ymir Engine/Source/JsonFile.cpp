@@ -80,7 +80,7 @@ void JsonFile::DeleteJSON(const std::string& route)
     if (PhysfsEncapsule::FileExists(route))
     {
         // Delete the file
-        PhysfsEncapsule::DeleteFilePhysFS(route);
+        PhysfsEncapsule::DeleteFS(route);
 
     }
 }

@@ -2871,7 +2871,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							if (ImGui::MenuItem("Delete File"))
 							{
-								DeleteFileAndRefs(entry.path().string().c_str(), true);
+								DeleteFileAndRefs(entry.path().string().c_str());
 							}
 
 							selectedFile = entry.path().filename().string();
