@@ -62,18 +62,16 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-
-	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
-
-	//char* buffer = nullptr;
-	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
-	//{
-	//	ImporterMesh::Load(buffer, &mymesh);
-	//}
-
-	//mymesh.LoadInMemory();
+	ImporterMesh::Load("Library/Meshes/1916781802.ymesh", &mymesh);
 
 	return ret;
+}
+
+bool ModuleScene::Start()
+{
+	mymesh.LoadInMemory();
+
+	return false;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
@@ -117,7 +115,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	//mymesh.Render();
+	mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }

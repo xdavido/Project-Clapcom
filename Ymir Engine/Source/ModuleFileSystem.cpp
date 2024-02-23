@@ -132,9 +132,8 @@ void ModuleFileSystem::CreateLibraryFolder()
 
 bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& filename) {
 
-	char* fileBuffer;
-
-	uint bufferSize = ImporterMesh::Save(ourMesh, &fileBuffer);
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);
 
 	std::ofstream outFile(filename, std::ios::binary);
 

@@ -7,6 +7,8 @@
 
 #include "Globals.h"
 
+#include "Log.h"
+
 #include "External/PhysFS/include/physfs.h"
 #pragma comment (lib, "Source/External/PhysFS/libx86/physfs.lib")
 
@@ -32,7 +34,7 @@ namespace PhysfsEncapsule {
 
     // Load
 	//// Open for Read/Write
-    uint LoadFile(const char* file, char** buffer);
+    uint LoadFileToBuffer(const char* file, char** buffer);
 
 	// Getters
     bool IsDirectory(const char* file);
@@ -52,4 +54,5 @@ namespace PhysfsEncapsule {
     // Duplicate
     bool DuplicateFile(const char* file, const char* dstFolder, std::string& relativePath);
     bool DuplicateFile(const char* srcFile, const char* dstFile);
+
 }
