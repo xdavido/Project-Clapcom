@@ -62,14 +62,14 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-	ImporterMesh::Load("Library/Meshes/1916781802.ymesh", &mymesh);
+	/*ImporterMesh::Load("Library/Meshes/1916781802.ymesh", &mymesh);*/
 
 	return ret;
 }
 
 bool ModuleScene::Start()
 {
-	mymesh.LoadInMemory();
+	/*mymesh.LoadInMemory();*/
 
 	return false;
 }
@@ -115,7 +115,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	mymesh.Render();
+	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -191,6 +191,7 @@ void ModuleScene::SaveScene()
 void ModuleScene::LoadScene()
 {
 	JsonFile* sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+	//JsonFile* sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + "454793782.yscene");
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));

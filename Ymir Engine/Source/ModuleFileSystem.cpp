@@ -178,7 +178,7 @@ bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::s
 	return false; // Return false if saving failed or if size was 0
 }
 
-bool ModuleFileSystem::LoadMeshToFile(const std::string filename, Mesh* ourMesh)
+bool ModuleFileSystem::LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh)
 {
 	// Get size of file to know how much memory to allocate
 	std::uintmax_t filesize = std::filesystem::file_size(filename);

@@ -1023,7 +1023,7 @@ void ModuleEditor::DrawEditor()
 				isPlaying = false;
 				isPaused = false;
 
-				// App->scene->LoadScene();
+				App->scene->LoadScene();
 
 			}
 
@@ -1252,7 +1252,10 @@ void ModuleEditor::DrawEditor()
 
 			for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap())
 			{
-				ImGui::Text("Type: %s | UID: %d | References: %d", App->resourceManager->GetStringFromType(Resource->GetType()), Resource->GetUID(), Resource->GetReferenceCount());
+				ImGui::Text("Type: %s | UID: %d | References: %d", 
+					App->resourceManager->GetStringFromType(Resource->GetType()).c_str(),
+					Resource->GetUID(), 
+					Resource->GetReferenceCount());
 			}
 
 			ImGui::End();

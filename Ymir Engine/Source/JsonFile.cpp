@@ -8,6 +8,9 @@
 #include "Application.h"
 #include "ModuleScene.h"
 
+#include "ImporterMesh.h"
+#include "ModuleResourceManager.h"
+
 JsonFile::JsonFile()
 {
     InitializeJSON();
@@ -849,6 +852,18 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
     // Set UID
     json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
+    // Set Type 
+
+    for (Component* component : gameObject.mComponents) {
+
+        if (component->ctype == ComponentType::MESH) {
+
+            json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
+
+        }
+
+    }
+
     // Set Parent UID
     if (gameObject.mParent != nullptr) {
         json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
@@ -1082,6 +1097,14 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
     // Get UID
 
     gameObject.UID = json_object_get_number(gameObjectObject, "UID");
+
+    // Load Mesh from library
+    if (json_object_get_string(gameObjectObject, "Element_Type")) {
+
+        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject.UID) + ".ymesh";
+        External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject.UID);
+
+    }
 
     // Get Parent UID
 

@@ -453,6 +453,8 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
 
+		tmpResource->LoadInMemory();
+
 		tmpResource->IncreaseReferenceCount();
 	}
 
