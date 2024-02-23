@@ -9,6 +9,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
 
 #include "Log.h"
 
@@ -28,6 +29,7 @@ Application::Application()
 	scene = new ModuleScene(this);
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
+	moduleMono = new ModuleMonoManager(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -41,6 +43,7 @@ Application::Application()
 	// Utility Modules
 	AddModule(fileSystem);
 	AddModule(resourceManager);
+	AddModule(moduleMono);
 	AddModule(scene);
 
 	// Renderer last, and then editor!
