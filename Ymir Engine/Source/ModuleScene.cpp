@@ -12,6 +12,8 @@
 
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "ModuleMonoManager.h"
+#include "CScript.h"
 
 #include "External/Optick/include/optick.h"
 
@@ -59,6 +61,15 @@ bool ModuleScene::Init()
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+
+	GameObject* goTest = CreateGameObject("Test", mRootNode);
+	const char* t = "Core";
+
+	Component* c = nullptr;
+
+	c = new CScript(goTest, t);
+
+	goTest->AddComponent(c);
 
 	return ret;
 }

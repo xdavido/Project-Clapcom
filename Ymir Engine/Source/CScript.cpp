@@ -80,6 +80,12 @@ void CScript::Update()
 
 void CScript::OnInspector()
 {
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+	if (ImGui::CollapsingHeader("Script", flags))
+	{
+		ImGui::Text("Scripting things");
+	}
 		for (int i = 0; i < fields.size(); i++)
 		{
 			DropField(fields[i], "_GAMEOBJECT");
