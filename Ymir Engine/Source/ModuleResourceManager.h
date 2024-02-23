@@ -24,7 +24,10 @@ public:
 	bool CleanUp() override;
 
 	// Specific Functions
-
+	/// <summary>
+	/// If first time import to engine --> Create a copy in local space
+	/// If it already exists the file --> Dupe it with another name (nameN.ext) { N == number}
+	void ImportFileToEngine(const char* path);
 	Resource* ImportFile(const std::string& assetsFilePath);
 	void SaveResourceToLibrary(Resource* resource);
 
@@ -35,7 +38,7 @@ public:
 	bool ExistsInLibrary(ResourceType type, const uint& UID) const;
 
 	bool IsResourceLoaded(const uint& UID);
-	
+
 	Resource* RequestResource(const uint& UID, const char* libraryFilePath = nullptr);
 	void UnloadResource(const uint& UID);
 
@@ -48,8 +51,9 @@ public:
 	ResourceType GetTypeFromString(std::string typeString);
 	std::string GetStringFromType(ResourceType type);
 
-	std::map<uint, Resource*> GetResourcesMap() const; 
+	std::map<uint, Resource*> GetResourcesMap() const;
 
+	ResourceType CheckExtensionType(const char* fileDir);
 private:
 
 	void LoadResource(const uint& UID);
@@ -61,7 +65,7 @@ private:
 
 	// Utility maps
 
-	std::map<ResourceType, std::string> resourceTypeToString {
+	std::map<ResourceType, std::string> resourceTypeToString{
 
 		{ResourceType::MESH, "ymesh"},
 		{ResourceType::MODEL, "ymodel"},
@@ -72,7 +76,7 @@ private:
 
 	};
 
-	std::map<ResourceType, std::string> resourceTypeToLibraryFolder {
+	std::map<ResourceType, std::string> resourceTypeToLibraryFolder{
 
 		{ResourceType::MESH, "Library/Meshes/"},
 		{ResourceType::MODEL, "Library/Models/"},

@@ -46,7 +46,7 @@ void Shader::LoadShader(const std::string& vertexShaderPath, const std::string& 
 
 	if (shaderProgram == 0) {
 
-		LOG("Error creating shader program.");
+		LOG("[ERROR] Could not create shader program.");
 		return;
 	}
 	else {
@@ -74,7 +74,7 @@ void Shader::LoadShader(const std::string& vertexShaderPath, const std::string& 
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Error linking shader program: '%s'\n", errorLog);
+		LOG("[ERROR] Could not link shader program: '%s'\n", errorLog);
 		return;
 	}
 	else {
@@ -91,7 +91,7 @@ void Shader::LoadShader(const std::string& vertexShaderPath, const std::string& 
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Invalid shader program: '%s\n", errorLog);
+		LOG("[ERROR] Invalid shader program: '%s\n", errorLog);
 		return;
 	}
 	else {
@@ -111,7 +111,7 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 
 	if (shaderProgram == 0) {
 
-		LOG("Error creating shader program.");
+		LOG("[ERROR] Could not shader program.");
 		return;
 	}
 	else {
@@ -167,7 +167,7 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Error linking shader program: '%s'\n", errorLog);
+		LOG("[ERROR] Could not link shader program: '%s'\n", errorLog);
 		return;
 	}
 	else {
@@ -184,7 +184,7 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Invalid shader program: '%s\n", errorLog);
+		LOG("[ERROR] Invalid shader program: '%s\n", errorLog);
 		return;
 	}
 	else {
@@ -204,7 +204,7 @@ void Shader::LoadShaderFromString(const std::string& shaderString)
 
 	if (shaderProgram == 0) {
 
-		LOG("Error creating shader program.");
+		LOG("[ERROR] Could not create shader program.");
 		return;
 	}
 	else {
@@ -254,7 +254,7 @@ void Shader::LoadShaderFromString(const std::string& shaderString)
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Error linking shader program: '%s'\n", errorLog);
+		LOG("[ERROR] Could not link shader program: '%s'\n", errorLog);
 		return;
 	}
 	else {
@@ -271,7 +271,7 @@ void Shader::LoadShaderFromString(const std::string& shaderString)
 
 		glGetProgramInfoLog(shaderProgram, sizeof(errorLog), NULL, errorLog);
 
-		LOG("Invalid shader program: '%s\n", errorLog);
+		LOG("[ERROR] Invalid shader program: '%s\n", errorLog);
 		return;
 	}
 	else {
@@ -395,7 +395,7 @@ void Shader::AddShader(GLuint shaderProgram, const char* pShaderText, GLenum sha
 
 	if (ShaderObj == 0) {
 
-		LOG("Error creating shader type %d\n", shaderType);
+		LOG("[ERROR] Could not create shader type %d\n", shaderType);
 		return;
 	}
 
@@ -418,7 +418,7 @@ void Shader::AddShader(GLuint shaderProgram, const char* pShaderText, GLenum sha
 
 		glGetShaderInfoLog(ShaderObj, 1024, NULL, InfoLog);
 
-		LOG("Error compiling shader type %d: '%s'\n", shaderType, InfoLog);
+		LOG("[ERROR] Could not compile shader type %d: '%s'\n", shaderType, InfoLog);
 		return;
 	}
 
@@ -433,7 +433,7 @@ std::string Shader::ReadShaderFile(const std::string& filename) {
 
 	if (!file.is_open()) {
 
-		LOG("Error: Unable to open file.");
+		LOG("[ERROR] Unable to open file.");
 
 	}
 

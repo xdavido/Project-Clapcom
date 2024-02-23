@@ -10,9 +10,6 @@ public:
 	CMesh(GameObject* owner);
 	virtual ~CMesh();
 
-	void Enable() override;
-	void Disable() override;
-
 	void Update() override;
 	void OnInspector() override;
 

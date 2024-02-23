@@ -25,7 +25,7 @@ bool ResourceMesh::LoadInMemory()
 
     // 0. Load Mesh from Library (retrieve the vectors info)
     
-    ImporterMesh::Load(this->GetLibraryFilePath().c_str(), this);
+    //ImporterMesh::Load(this->GetLibraryFilePath().c_str(), this);
 
     // 1. Create Buffers
 

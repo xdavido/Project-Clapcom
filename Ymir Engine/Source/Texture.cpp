@@ -58,7 +58,7 @@ void Texture::LoadTexture(const std::string& path)
 	}
 	else {
 		// Error loading the image
-		LOG("Error in loading image.");
+		LOG("[ERROR] Unable to load image.");
 		return;
 	}
 
@@ -71,7 +71,7 @@ void Texture::LoadTexture(const std::string& path)
 	else {
 		// Error converting the image
 		ILenum error = ilGetError();
-		LOG("Error converting the image: %s\n", iluErrorString(error));
+		LOG("[ERROR] Could not convert the image: %s\n", iluErrorString(error));
 		return;
 	}
 

@@ -17,6 +17,8 @@
 #include "NodeEditor.h"
 #include "ShaderEditor.h"
 
+#include "Texture.h"
+
 class GameObject;
 
 class ModuleEditor : public Module
@@ -116,6 +118,8 @@ public:
 	// Function to manage Gizmo
 	void DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset);
 
+	// Project assets window
+	
 	// Function to draw File Explorer
 	void DrawFileExplorer(const std::string& rootFolder);
 
@@ -124,6 +128,9 @@ public:
 
 	// Function to draw Library Window
 	void DrawLibraryWindow(const std::string& libraryFolder);
+
+	// Function to delete a file
+	void DeleteFileAndRefs(const char* filePath);
 
 	// Function to handle Mouse Picking
 	void MousePickingManagement(const ImVec2& mousePosition, const ImVec2& sceneWindowPos, const ImVec2& sceneWindowSize, const float& sceneFrameHeightOffset);
@@ -225,11 +232,26 @@ public:
 	ImGuizmo::MODE gizmoMode;
 	float4x4 modelMatrix;
 
+	// Assets folder
+	std::string currentDir;
+	std::string selectedDir;
+	std::vector<std::string> vSelectedDirFiles;
+
+	std::string selectedFile;
+	bool rmbMenu = false;
+
 	// Node Editor
 	NodeEditorWindow nodeEditor;
 
 	// Shader Editor
 	ShaderEditor shaderEditor;
+
+	// Editor Icons
+	Texture folderIcon;
+	Texture fileIcon;
+	Texture imageIcon;
+	Texture modelIcon;
+	Texture shaderIcon;
 
 };
 

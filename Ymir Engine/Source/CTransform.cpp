@@ -55,16 +55,6 @@ CTransform::~CTransform()
 	// TODO: RELEASE(meshComponent);
 }
 
-void CTransform::Enable()
-{
-
-}
-
-void CTransform::Disable()
-{
-
-}
-
 void CTransform::Update()
 {
 	if (dirty_)

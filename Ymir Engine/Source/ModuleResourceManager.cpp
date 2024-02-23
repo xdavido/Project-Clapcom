@@ -4,6 +4,7 @@
 #include "External/Optick/include/optick.h"
 #include "Random.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 #include "PhysfsEncapsule.h"
 #include "JsonFile.h"
 
@@ -68,6 +69,12 @@ bool ModuleResourceManager::CleanUp()
 	LOG("Deleting Resource Manager");
 
 	return ret;
+}
+
+void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
+{
+	std::string filePath;
+	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
 Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
@@ -505,4 +512,32 @@ std::string ModuleResourceManager::GetStringFromType(ResourceType type)
 std::map<uint, Resource*> ModuleResourceManager::GetResourcesMap() const
 {
 	return resources;
+}
+
+ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
+{
+	std::vector<std::string> obj_ext = { "fbx", "FBX", "obj", "OBJ", "DAE", "dae" };
+	std::vector<std::string> tex_ext = { "png", "PNG", "jpg", "JPG", "dds", "DDS", "tga", "TGA" };
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
+	{
+		return ResourceType::SCENE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, obj_ext))
+	{
+		return ResourceType::MESH;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, tex_ext))
+	{
+		return ResourceType::TEXTURE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "glsl"))
+	{
+		return ResourceType::SHADER;
+	}
+
+	return ResourceType::UNKNOWN;
 }
