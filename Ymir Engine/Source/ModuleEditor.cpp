@@ -2857,10 +2857,11 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						}
 
+						// TODO: Sara ajustar esto para que el menu no muestre todas las carpetas
 						// ---RMB Click event---
-						if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
 						{
-							ImGui::MenuItem(entry.path().filename().string().c_str(), NULL, false, false);
+							ImGui::MenuItem(entryName.c_str(), NULL, false, false);
 							ImGui::Separator();
 
 							//App->resource->CheckExtensionType(currentFile.c_str());
@@ -2871,12 +2872,22 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							if (ImGui::MenuItem("Delete File"))
 							{
-								DeleteFileAndRefs(entry.path().string().c_str());
+								DeleteFileAndRefs(entryName.c_str());
 							}
 
-							selectedFile = entry.path().filename().string();
 							ImGui::EndPopup();
 						}
+						else
+						{
+							rmbMenu = false;
+						}
+
+						/*if (!rmbMenu && ImGui::GetIO().MouseClicked[1])
+						{
+							selectedDir = entry.path().string();
+							selectedFile = entry.path().filename().string();
+							rmbMenu = true;
+						}*/
 
 					}
 

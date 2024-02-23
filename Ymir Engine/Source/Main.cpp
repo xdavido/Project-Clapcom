@@ -80,7 +80,7 @@ int main(int argc, char ** argv)
 
 			// Easy solution to close the program
 
-			if (App->input->quit == true || App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_UP) {
+			if (App->input->quit == true/* || App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_UP*/) {
 
 				return MAIN_FINISH;
 

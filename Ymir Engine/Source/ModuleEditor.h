@@ -238,6 +238,7 @@ public:
 	std::vector<std::string> vSelectedDirFiles;
 
 	std::string selectedFile;
+	bool rmbMenu = false;
 
 	// Node Editor
 	NodeEditorWindow nodeEditor;
