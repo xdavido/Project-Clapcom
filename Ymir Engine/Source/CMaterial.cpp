@@ -21,16 +21,6 @@ CMaterial::~CMaterial()
 
 }
 
-void CMaterial::Enable()
-{
-
-}
-
-void CMaterial::Disable()
-{
-
-}
-
 void CMaterial::Update()
 {
 

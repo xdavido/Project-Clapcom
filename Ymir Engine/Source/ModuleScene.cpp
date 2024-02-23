@@ -15,6 +15,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "ImporterMesh.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	// UID regenerated = duplication (This will be fixed with scene serialization)
@@ -60,6 +62,17 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
+
+	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
+
+	//char* buffer = nullptr;
+	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
+	//{
+	//	ImporterMesh::Load(buffer, &mymesh);
+	//}
+
+	//mymesh.LoadInMemory();
+
 	return ret;
 }
 
@@ -103,6 +116,8 @@ update_status ModuleScene::Update(float dt)
 		LoadScene();
 
 	}
+
+	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -218,7 +233,7 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 					// Store the mesh in the map based on the closest intersection distance.
 					meshCandidates[closest] = meshToTest;
 				}
-				
+
 			}
 
 		}
@@ -314,10 +329,10 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 
 bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 {
-	return point.x >= aabb.minPoint.x 
-		&& point.x <= aabb.maxPoint.x 
-		&& point.y >= aabb.minPoint.y 
+	return point.x >= aabb.minPoint.x
+		&& point.x <= aabb.maxPoint.x
+		&& point.y >= aabb.minPoint.y
 		&& point.y <= aabb.maxPoint.y
-		&& point.z >= aabb.minPoint.z 
+		&& point.z >= aabb.minPoint.z
 		&& point.z <= aabb.maxPoint.z;
 }

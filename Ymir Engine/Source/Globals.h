@@ -6,6 +6,8 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <vector>
+#include <map>
 
 #include "External/Glew/include/glew.h"
 #include "External/SDL/include/SDL_opengl.h"
@@ -18,6 +20,7 @@
 #define PI 3.14159265358979323846264338327950288
 
 typedef unsigned int uint;
+typedef unsigned __int64 uint64;
 
 enum update_status
 {
@@ -37,3 +40,47 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "Ymir Engine"
+
+
+// Deletes a buffer
+#define RELEASE( x )\
+    {\
+       if( x != nullptr )\
+       {\
+         delete x;\
+	     x = nullptr;\
+       }\
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x )\
+	{\
+       if( x != nullptr )\
+       {\
+           delete[] x;\
+	       x = nullptr;\
+		 }\
+	 }
+
+// Clear a vector
+template <class T>
+void ClearVec(std::vector<T>& x)
+{
+	x.clear();
+	x.shrink_to_fit();
+}
+
+// Clear a vector of pointers
+template <class T>
+void ClearVecPtr(std::vector<T*>& x)
+{
+	for (auto it = x.rbegin(); it != x.rend(); ++it)
+	{
+		// code
+		delete(*it);
+		(*it) = nullptr;
+	}
+
+	x.clear();
+	x.shrink_to_fit();
+}

@@ -12,6 +12,7 @@
 #include "External/MathGeoLib/include/Geometry/LineSegment.h"
 
 #include "JsonFile.h"
+#include "ResourceMesh.h"
 
 class GameObject;
 class CCamera;
@@ -57,5 +58,8 @@ public:
 	std::vector<GameObject*> gameObjects;
 
 	JsonFile ysceneFile;
+
+	Mesh* ourMesh;
+	ResourceMesh mymesh{ 0 };
 
 };

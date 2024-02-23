@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "Log.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 
@@ -31,7 +32,7 @@ bool ModuleInput::Init()
 
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG("[ERROR] SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
@@ -140,11 +141,13 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			droppedFile = true;
 			droppedFileDirectory = e.drop.file;
+
+			App->resourceManager->ImportFileToEngine(droppedFileDirectory);
+
 			// Shows directory of dropped file
 			SDL_free(&droppedFileDirectory); // Free dropped_filedir memory
 			
 			break;
-
 		}
 
 		}

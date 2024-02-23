@@ -29,16 +29,6 @@ CTransform::~CTransform()
 
 }
 
-void CTransform::Enable()
-{
-
-}
-
-void CTransform::Disable()
-{
-
-}
-
 void CTransform::Update()
 {
 

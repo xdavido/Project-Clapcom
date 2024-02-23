@@ -11,20 +11,10 @@
 
 CMesh::CMesh(GameObject* owner) : Component(owner, ComponentType::MESH)
 {
-    meshReference = nullptr;
+	meshReference = nullptr;
 }
 
 CMesh::~CMesh()
-{
-
-}
-
-void CMesh::Enable()
-{
-
-}
-
-void CMesh::Disable()
 {
 
 }
@@ -36,71 +26,74 @@ void CMesh::Update()
 
 void CMesh::OnInspector()
 {
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-    if (ImGui::CollapsingHeader("Mesh", flags))
-    {
-        ImGui::Indent();
+	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+	ImGui::SameLine();
 
-        ImGui::Spacing();
+	if (ImGui::CollapsingHeader("Mesh", flags))
+	{
+		ImGui::Indent();
 
-        ImGui::Button("Drop .ymesh to change mesh", ImVec2(200, 50));
-        YmeshDragDropTarget();
+		ImGui::Spacing();
 
-        ImGui::Spacing();
+		ImGui::Button("Drop .ymesh to change mesh", ImVec2(200, 50));
+		YmeshDragDropTarget();
 
-        ImGui::Text("Vertices: %d", nVertices);
+		ImGui::Spacing();
 
-        ImGui::Spacing();
+		ImGui::Text("Vertices: %d", nVertices);
 
-        ImGui::Text("Indices: %d", nIndices);
+		ImGui::Spacing();
 
-        ImGui::Spacing();
+		ImGui::Text("Indices: %d", nIndices);
 
-        for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+		ImGui::Spacing();
 
-            for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+		for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
 
-                if ((*jt).meshGO->selected || (*it).modelGO->selected) {
+			for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
 
-                    ImGui::Checkbox("Show Vertex Normals", &(*jt).enableVertexNormals);
-                    ImGui::Spacing();
+				if ((*jt).meshGO->selected || (*it).modelGO->selected) {
 
-                    ImGui::Checkbox("Show Face Normals", &(*jt).enableFaceNormals);
-                    ImGui::Spacing();
+					ImGui::Checkbox("Show Vertex Normals", &(*jt).enableVertexNormals);
+					ImGui::Spacing();
 
-                }
+					ImGui::Checkbox("Show Face Normals", &(*jt).enableFaceNormals);
+					ImGui::Spacing();
 
-            }
+				}
 
-        }
+			}
 
-        ImGui::Unindent();
-    }
+		}
+
+		ImGui::Unindent();
+	}
 }
 
 void CMesh::YmeshDragDropTarget()
 {
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ymesh"))
-        {
-            std::string* libraryFilePathDrop = (std::string*)payload->Data;
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ymesh"))
+		{
+			std::string* libraryFilePathDrop = (std::string*)payload->Data;
 
-            if (meshReference != nullptr) {
+			if (meshReference != nullptr) {
 
-                //External->resourceManager->UnloadResource(meshReference->GetUID());
+				//External->resourceManager->UnloadResource(meshReference->GetUID());
 
-                meshReference = nullptr;
+				meshReference = nullptr;
 
-            }
+			}
 
-            // Retrieve name of the file dropped, and then get the UID.
+			// Retrieve name of the file dropped, and then get the UID.
 
-            // Lastly, Request Resource of the Mesh with given UID, Path and Type and render it (add a reference).
+			// Lastly, Request Resource of the Mesh with given UID, Path and Type and render it (add a reference).
 
-        }
+		}
 
-        ImGui::EndDragDropTarget();
-    }
+		ImGui::EndDragDropTarget();
+	}
 }

@@ -140,7 +140,7 @@ bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& fi
 
 	if (!outFile.is_open()) {
 
-		LOG("Error: Unable to open the file for writing: %s", filename);
+		LOG("[ERROR] Unable to open the file for writing: %s", filename);
 
 		return false;
 	}
@@ -177,4 +177,26 @@ bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::s
 	}
 
 	return false; // Return false if saving failed or if size was 0
+}
+
+bool ModuleFileSystem::LoadMeshToFile(const std::string filename, Mesh* ourMesh)
+{
+	// Get size of file to know how much memory to allocate
+	std::uintmax_t filesize = std::filesystem::file_size(filename);
+	// Allocate buffer to hold file
+	char* buf = new char[filesize];
+	// Read file
+	std::ifstream fin(filename, std::ios::binary);
+	fin.read(buf, filesize);
+	if (!fin) {
+
+		LOG("[ERROR] File mode read-only, could only read. %f bytes", fin.gcount());
+		fin.close();
+		return false;
+	}
+	// Close file
+	fin.close();
+
+	ImporterMesh::Load(buf, ourMesh);
+	return true;
 }

@@ -1,4 +1,5 @@
 #include "CCamera.h"
+#include "GameObject.h"
 
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
@@ -29,16 +30,6 @@ CCamera::~CCamera()
 
 }
 
-void CCamera::Enable()
-{
-
-}
-
-void CCamera::Disable()
-{
-
-}
-
 void CCamera::Update()
 {
 	glLoadIdentity();
@@ -53,6 +44,8 @@ void CCamera::OnInspector()
 {
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
+	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+	ImGui::SameLine();
 	if (ImGui::CollapsingHeader("Camera", flags))
 	{
 		ImGui::Indent();
