@@ -3,18 +3,13 @@
 #include <vector>
 
 #include "Resources.h"
-#include "Mesh.h" // Temporal
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/float2.h"
 
-//struct Vertex {
-//
-//	float3 position;
-//	float3 normal;
-//	float2 textureCoordinates;
-//
-//};
+#include "Shader.h"
+
+#include "Mesh.h"
 
 class ResourceMaterial;
 
@@ -33,13 +28,17 @@ public:
 
 	// Specific Functions
 
-	bool Render() const;
+	bool Render();
 
 public:
 
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	ResourceMaterial* material;
+
+	//Shader para renderizar
+	bool loadedShader = false;
+	Shader meshShader;
 
 private:
 

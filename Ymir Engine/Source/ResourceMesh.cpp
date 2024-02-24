@@ -25,7 +25,7 @@ bool ResourceMesh::LoadInMemory()
 
     // 0. Load Mesh from Library (retrieve the vectors info)
     
-    //ImporterMesh::Load(this->GetLibraryFilePath().c_str(), this);
+    ImporterMesh::Load(this->GetLibraryFilePath().c_str(), this);
 
     // 1. Create Buffers
 
@@ -121,15 +121,28 @@ bool ResourceMesh::UnloadFromMemory()
     return ret;
 }
 
-bool ResourceMesh::Render() const
+bool ResourceMesh::Render()
 {
     bool ret = true;
+
+    if (!loadedShader) {
+
+        meshShader.LoadShader("Assets/Shaders/RainbowShader.glsl");
+
+        loadedShader = true;
+    }
+
+    meshShader.UseShader(true);
+
+    meshShader.SetShaderUniforms();
 
     glBindVertexArray(VAO);
 
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
+
+    meshShader.UseShader(false);
 
     return ret;
 }

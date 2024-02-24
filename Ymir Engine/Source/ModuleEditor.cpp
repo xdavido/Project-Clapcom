@@ -114,11 +114,11 @@ bool ModuleEditor::Init()
 
 	// Editor Icons Textures
 
-	folderIcon.LoadTexture("Assets/Editor/folder.dds");
-	fileIcon.LoadTexture("Assets/Editor/files.dds");
-	imageIcon.LoadTexture("Assets/Editor/image.dds");
-	modelIcon.LoadTexture("Assets/Editor/model.dds");
-	shaderIcon.LoadTexture("Assets/Editor/shader.dds");
+	folderIcon.LoadEngineIconTexture("Assets/Editor/folder.dds");
+	fileIcon.LoadEngineIconTexture("Assets/Editor/files.dds");
+	imageIcon.LoadEngineIconTexture("Assets/Editor/image.dds");
+	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
+	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 
 	return ret;
 }
@@ -1023,7 +1023,7 @@ void ModuleEditor::DrawEditor()
 				isPlaying = false;
 				isPaused = false;
 
-				// App->scene->LoadScene();
+				App->scene->LoadScene();
 
 			}
 
@@ -1252,7 +1252,10 @@ void ModuleEditor::DrawEditor()
 
 			for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap())
 			{
-				ImGui::Text("Type: %s | UID: %d | References: %d", App->resourceManager->GetStringFromType(Resource->GetType()), Resource->GetUID(), Resource->GetReferenceCount());
+				ImGui::Text("Type: %s | UID: %d | References: %d", 
+					App->resourceManager->GetStringFromType(Resource->GetType()).c_str(),
+					Resource->GetUID(), 
+					Resource->GetReferenceCount());
 			}
 
 			ImGui::End();

@@ -62,18 +62,17 @@ bool ModuleScene::Init()
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
-
-	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
-
-	//char* buffer = nullptr;
-	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
-	//{
-	//	ImporterMesh::Load(buffer, &mymesh);
-	//}
-
-	//mymesh.LoadInMemory();
-
 	return ret;
+}
+
+bool ModuleScene::Start()
+{
+	// Hardcoded Scene To test Resource Manager (delete Library makes them not functionable)
+	
+	// LoadScene("Library/Scenes/1574951872.yscene"); // Baker House
+	// LoadScene("Library/Scenes/261139822.yscene"); // Street Environment
+
+	return false;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
@@ -116,8 +115,6 @@ update_status ModuleScene::Update(float dt)
 		LoadScene();
 
 	}
-
-	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -190,9 +187,20 @@ void ModuleScene::SaveScene()
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 }
 
-void ModuleScene::LoadScene()
+void ModuleScene::LoadScene(std::string path)
 {
-	JsonFile* sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+	JsonFile* sceneToLoad = nullptr;
+
+	if (path == "\0") {
+
+		sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+
+	}
+	else {
+
+		sceneToLoad = JsonFile::GetJSON(path);
+
+	}
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));

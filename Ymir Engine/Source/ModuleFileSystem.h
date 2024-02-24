@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Module.h"
-#include "Mesh.h"
+#include "ResourceMesh.h"
 #include "Texture.h"
 
 #include "JsonFile.h"
@@ -30,7 +30,7 @@ public:
 	bool SaveTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 	// Load
-	bool LoadMeshToFile(const std::string filename, Mesh* ourMesh);
+	bool LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh);
 	bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 public:

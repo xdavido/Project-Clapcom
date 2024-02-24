@@ -132,9 +132,8 @@ void ModuleFileSystem::CreateLibraryFolder()
 
 bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& filename) {
 
-	char* fileBuffer;
-
-	uint bufferSize = ImporterMesh::Save(ourMesh, &fileBuffer);
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);
 
 	std::ofstream outFile(filename, std::ios::binary);
 
@@ -179,7 +178,7 @@ bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::s
 	return false; // Return false if saving failed or if size was 0
 }
 
-bool ModuleFileSystem::LoadMeshToFile(const std::string filename, Mesh* ourMesh)
+bool ModuleFileSystem::LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh)
 {
 	// Get size of file to know how much memory to allocate
 	std::uintmax_t filesize = std::filesystem::file_size(filename);

@@ -1,98 +1,84 @@
 #include "ImporterMesh.h"
+#include "PhysfsEncapsule.h"
 
 void ImporterMesh::Import(const aiMesh* mesh, Mesh* ourMesh)
 {
 
 }
 
-uint ImporterMesh::Save(const Mesh* ourMesh, char** fileBuffer)
+// Function to save mesh data into a file buffer
+const char* ImporterMesh::Save(const Mesh* ourMesh, uint& retSize)
 {
-    // Define the size of the header (ranges) and data (vertices)
-    uint headerSize = sizeof(uint) * 2; // num_indices and num_vertices
-    uint vertexSize = sizeof(float) * 3 + sizeof(float) * 3 + sizeof(float) * 2; // size of Vertex structure
+    // Array to store counts of indices and vertices
+    uint aCounts[2] = { ourMesh->indices.size(), ourMesh->vertices.size() };
 
-    // Calculate the total size of the file buffer
-    uint ranges[2] = { ourMesh->indices.size(), ourMesh->vertices.size() };
-    //uint size = headerSize + sizeof(uint) * ourMesh->indices.size() + vertexSize * ourMesh->vertices.size();
-    uint64 size = sizeof(ranges) + sizeof(uint) * ourMesh->indices.size() + (sizeof(uint) * 3) * ourMesh->vertices.size();
+    // Calculate total size required for file buffer
+    retSize = sizeof(aCounts) + (sizeof(uint) * aCounts[0]) + (sizeof(Vertex) * aCounts[1]);
 
-    // Allocate memory for the file buffer
-    *fileBuffer = new char[size];
+    // Allocate memory for file buffer
+    char* fileBuffer = new char[retSize];
+    // Cursor to track writing position in the file buffer
+    char* cursor = fileBuffer;
 
-    // Create a cursor to keep track of the current position in the buffer
-    char* cursor = *fileBuffer;
-
-    // Store the header (ranges)
-    uint bytes = sizeof(ranges);
-    memcpy(cursor, ranges, bytes);
+    // Copy counts of indices and vertices to the file buffer
+    uint bytes = sizeof(aCounts);
+    memcpy(cursor, aCounts, bytes);
     cursor += bytes;
 
-    // Store the indices
-    bytes = sizeof(uint) * ourMesh->indices.size();
+    // Copy indices data to the file buffer
+    bytes = sizeof(uint) * aCounts[0];
     memcpy(cursor, ourMesh->indices.data(), bytes);
     cursor += bytes;
 
-    // Store the vertices
-    bytes = sizeof(float) * 3 * ourMesh->vertices.size();
+    // Copy vertices data to the file buffer
+    bytes = sizeof(Vertex) * aCounts[1];
     memcpy(cursor, ourMesh->vertices.data(), bytes);
     cursor += bytes;
 
-    // Return the size of the file buffer
-    cursor = nullptr;
-    return size;
+    // Return the file buffer
+    return fileBuffer;
 }
 
-void ImporterMesh::Load(const char* fileBuffer, ResourceMesh* ourMesh)
+// Function to load mesh data from a file buffer
+void ImporterMesh::Load(const char* path, ResourceMesh* ourMesh)
 {
-    char* cursor = const_cast<char*>(fileBuffer);
+    // Pointer to hold file buffer data
+    char* fileBuffer = nullptr;
 
-    // Load the header (ranges)
-    uint ranges[2];
+    // Load file contents into file buffer and get its size
+    uint size = PhysfsEncapsule::LoadFileToBuffer(path, &fileBuffer);
 
-    uint bytes = sizeof(ranges);
-    memcpy(ranges, cursor, bytes);
+    // If file is empty, return
+    if (size == 0)
+        return;
+
+    // Cursor to track reading position in the file buffer
+    char* cursor = fileBuffer;
+    // Array to store counts of indices and vertices
+    uint variables[2];
+
+    // Read counts of indices and vertices from the file buffer
+    uint bytes = sizeof(variables);
+    memcpy(variables, cursor, bytes);
+
+    // Resize indices and vertices vectors in ourMesh
+    ourMesh->indices.resize(variables[0]);
+    ourMesh->vertices.resize(variables[1]);
+
+    // Move cursor to next position after counts data
     cursor += bytes;
 
-    // Resize indices and vertices
-    ourMesh->indices.resize(ranges[0]);
-    ourMesh->vertices.resize(ranges[1]);
-
-    // Load indices
-    bytes = sizeof(uint) * ourMesh->indices.size();
-    //ourMesh->indices.push_back(new uint[ourMesh->indices.size()]);
-    memcpy(ourMesh->indices.data(), cursor, bytes);
-    cursor += bytes;
-
-    // Load vertices
-    bytes = sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 2 * ourMesh->vertices.size();
-    memcpy(ourMesh->vertices.data(), cursor, bytes);
-    cursor += bytes;
-}
-
-void ImporterMesh::Load(const char* fileBuffer, Mesh* ourMesh)
-{
-    char* cursor = const_cast<char*>(fileBuffer);
-
-    // Load the header (ranges)
-    uint ranges[2];
-    uint bytes = sizeof(ranges);
-    memcpy(ranges, cursor, bytes);
-    cursor += bytes;
-
-    // Resize indices and vertices
-    ourMesh->indices.resize(ranges[0]);
-    ourMesh->vertices.resize(ranges[1]);
-
-    // Load indices
+    // Read indices data from the file buffer and copy it to ourMesh
     bytes = sizeof(uint) * ourMesh->indices.size();
     memcpy(ourMesh->indices.data(), cursor, bytes);
     cursor += bytes;
 
-    // Load vertices
-    bytes = sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 3 * ourMesh->vertices.size() + sizeof(float) * 2 * ourMesh->vertices.size();
+    // Read vertices data from the file buffer and copy it to ourMesh
+    bytes = sizeof(Vertex) * ourMesh->vertices.size();
     memcpy(ourMesh->vertices.data(), cursor, bytes);
     cursor += bytes;
 
-    ourMesh->LoadMesh();
-
+    // Deallocate memory for file buffer
+    delete[] fileBuffer;
+    fileBuffer = nullptr;
 }

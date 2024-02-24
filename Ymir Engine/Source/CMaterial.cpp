@@ -13,6 +13,7 @@
 CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERIAL)
 {
     ID = 0;
+    UID = 0;
     selectedShader = 0;
 }
 

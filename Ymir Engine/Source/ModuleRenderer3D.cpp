@@ -9,6 +9,7 @@
 #include "Globals.h"
 #include "Log.h"
 #include "GameObject.h"
+#include "ModuleResourceManager.h"
 
 #include "DefaultShader.h"
 
@@ -173,7 +174,7 @@ bool ModuleRenderer3D::Init()
 
 	// Load Street Environment from the start
 
-	models.push_back(Model("Assets/BakerHouse.fbx"));
+	//models.push_back(Model("Assets/BakerHouse.fbx"));
 	//models.push_back(Model("Assets/Street_Environment/StreetEnvironment.fbx"));
 
 	// Skybox
@@ -266,6 +267,24 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	HandleDragAndDrop();
 
 	DrawModels();
+
+	// Iterate over all resources
+	for (const auto& pair : App->resourceManager->GetResourcesMap()) {
+		Resource* resource = pair.second;
+
+		// Check if resource is of type ResourceMesh
+		if (resource->GetType() == ResourceType::MESH) {
+			// Cast resource to ResourceMesh*
+			if (auto* meshResource = dynamic_cast<ResourceMesh*>(resource)) {
+				// Render the resource
+				meshResource->Render();
+			}
+			else {
+				// Handle error if casting fails
+				std::cerr << "Failed to cast resource to ResourceMesh" << std::endl;
+			}
+		}
+	}
 
 	// Render Bounding Boxes
 

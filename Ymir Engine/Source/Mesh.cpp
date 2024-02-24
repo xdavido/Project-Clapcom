@@ -77,8 +77,6 @@ void Mesh::DrawMesh()
                 if ((*it).IsLoaded() && !addedMaterialComponent) {
 
                     CMaterial* cmaterial = new CMaterial(meshGO);
-                    cmaterial->path = (*it).path;
-                    cmaterial->ID = (*it).ID;
                     meshGO->AddComponent(cmaterial);
 
                     addedMaterialComponent = true;
@@ -106,8 +104,9 @@ void Mesh::DrawMesh()
                 if ((*it).IsLoaded() && !addedMaterialComponent) {
 
                     CMaterial* cmaterial = new CMaterial(meshGO);
-                    cmaterial->path = (*it).path;
+                    cmaterial->path = (External->fileSystem->libraryTexturesPath + std::to_string((*it).UID) + ".dds").c_str();
                     cmaterial->ID = (*it).ID;
+                    cmaterial->UID = (*it).UID;
                     meshGO->AddComponent(cmaterial);
 
                     addedMaterialComponent = true;

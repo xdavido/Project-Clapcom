@@ -26,6 +26,7 @@ public:
 	virtual ~ModuleScene();
 
 	bool Init() override;
+	bool Start() override;
 	update_status PreUpdate(float dt) override;
 	update_status Update(float dt) override;
 	update_status PostUpdate(float dt) override;
@@ -37,7 +38,7 @@ public:
 	void ClearScene();
 
 	void SaveScene();
-	void LoadScene();
+	void LoadScene(std::string path = "\0");
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);

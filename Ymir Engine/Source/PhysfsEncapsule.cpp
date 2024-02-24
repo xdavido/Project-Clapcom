@@ -146,41 +146,45 @@ uint PhysfsEncapsule::SaveFile(const char* file, const void* buffer, uint size, 
 	return ret;
 }
 
-uint PhysfsEncapsule::LoadFile(const char* file, char** buffer)
+uint PhysfsEncapsule::LoadFileToBuffer(const char* file, char** buffer)
 {
 	uint ret = 0;
-	PHYSFS_file* fs_file = PHYSFS_openRead(file);
+	std::filesystem::path filepath(file);
 
-	if (fs_file != nullptr)
+	if (std::filesystem::exists(filepath) && !std::filesystem::is_directory(filepath))
 	{
-		PHYSFS_sint32 size = (PHYSFS_sint32)PHYSFS_fileLength(fs_file);
+		std::ifstream fs_file(filepath, std::ios::binary | std::ios::ate);
 
-		if (size > 0)
+		if (fs_file.is_open())
 		{
-			*buffer = new char[size + 1];
-			uint readed = (uint)PHYSFS_read(fs_file, *buffer, 1, size);
+			std::streamsize size = fs_file.tellg();
+			fs_file.seekg(0, std::ios::beg);
 
-			if (readed != size)
+			if (size > 0)
 			{
-				LOG("[ERROR] File System: Could not read from file %s: %s\n", file, PHYSFS_getLastError());
-				RELEASE_ARRAY(buffer);
+				*buffer = new char[size + 1];
+				if (fs_file.read(*buffer, size))
+				{
+					ret = static_cast<uint>(size);
+					(*buffer)[size] = '\0';
+				}
+				else
+				{
+					LOG("[ERROR] File System: Could not read from file %s\n", file);
+					delete[] * buffer;
+					*buffer = nullptr;
+				}
 			}
-			else
-			{
-				ret = readed;
-				//Adding end of file at the end of the buffer. Loading a shader file does not add this for some reason
-				(*buffer)[size] = '\0';
-			}
+			fs_file.close();
 		}
-
-		if (PHYSFS_close(fs_file) == 0)
+		else
 		{
-			LOG("[ERROR] File System: Could not close file %s: %s\n", file, PHYSFS_getLastError());
+			LOG("[ERROR] File System: Could not open file %s\n", file);
 		}
 	}
 	else
 	{
-		LOG("[ERROR] File System: Could not open file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("[ERROR] File System: File does not exist or is a directory: %s\n", file);
 	}
 
 	return ret;
