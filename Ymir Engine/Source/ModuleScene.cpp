@@ -163,6 +163,7 @@ void ModuleScene::DestroyGameObject(GameObject* toDestroy)
 void ModuleScene::ClearScene()
 {
 	//JsonFile::DeleteJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+
 	uint deletedSceneUID = mRootNode->UID;
 
 	App->editor->DestroyHierarchyTree(mRootNode);
@@ -182,6 +183,7 @@ void ModuleScene::SaveScene()
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
 	ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
+
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
