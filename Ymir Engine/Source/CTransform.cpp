@@ -78,6 +78,11 @@ void CTransform::OnInspector()
 			SetScale(scale);
 		}
 
+		if (ImGui::Button("Reset Transform")) 
+		{
+			SetTransform(float3(0, 0, 0), float3(0, 0, 0), float3(1, 1, 1));
+		}
+
 		ImGui::Unindent();
 	}
 

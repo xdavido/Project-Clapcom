@@ -307,8 +307,8 @@ void CCamera::MovementHandling(float3& newPos, float speed)
 	if (External->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= GetRight() * speed;
 	if (External->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += GetRight() * speed;
 
-	//if (External->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos += GetUp() * speed;
-	//if (External->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos -= GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos += GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos -= GetUp() * speed;
 }
 
 void CCamera::RotationHandling(float speed, float dt)
