@@ -69,7 +69,7 @@ bool ModuleScene::Start()
 {
 	// Hardcoded Scene To test Resource Manager (delete Library makes them not functionable)
 	
-	LoadScene("Library/Scenes/584079883.yscene"); // Baker House
+	//LoadScene("Library/Scenes/584079883.yscene"); // Baker House
 	// LoadScene("Assets/Scenes/aa.yscene"); // Street Environment
 
 	return false;
