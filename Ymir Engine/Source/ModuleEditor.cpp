@@ -3021,7 +3021,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						{
 							if (ImGui::MenuItem("Import to Scene"))
 							{
-								App->resourceManager->ImportFile(entry.path().string().c_str());
+								App->resourceManager->ImportFile(entry.path().string());
 							}
 						}
 

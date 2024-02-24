@@ -28,7 +28,7 @@ public:
 	/// If first time import to engine --> Create a copy in local space
 	/// If it already exists the file --> Dupe it with another name (nameN.ext) { N == number}
 	void ImportFileToEngine(const char* path);
-	Resource* ImportFile(const std::string& assetsFilePath);
+	void ImportFile(const std::string& assetsFilePath);
 	void SaveResourceToLibrary(Resource* resource);
 
 	uint GenerateNewUID();

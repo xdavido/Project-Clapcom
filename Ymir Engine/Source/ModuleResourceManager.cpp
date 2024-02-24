@@ -1,4 +1,5 @@
 #include "ModuleResourceManager.h"
+#include "ModuleRenderer3D.h"
 
 #include "Log.h"
 #include "External/Optick/include/optick.h"
@@ -77,76 +78,104 @@ void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
 	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
-Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
+void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 {
 	// Create Meta
 
 	std::string metaFilePath = assetsFilePath + ".meta"; // Assuming the meta file exists.
+	std::string path = assetsFilePath;
 
 	// Retrieve info from Meta
 
 	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
 
-	// If meta file exists
+
+	// If meta file doesn't exist
 	if (metaFile == nullptr)
 	{
-
-	}
-	else
-	{
-		uint UID = metaFile->GetInt("UID");
-
-		std::string ext;
-		PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
-
-		ResourceType type = GetTypeFromString(ext);
-
-		//Resource* resource = CreateResourceFromAssets(assetsFilePath, type, UID);
-		Resource* resource = CreateResourceFromLibrary(metaFile->GetString("Library Path"), type, UID);
-
-		/* The resources that have to be transformed to Ymir Engine format have to be imported,
-		but the resources that are already in the custom format only have to be loaded. */
-
-		switch (resource->GetType()) {
-
-		case ResourceType::MESH:
-
-			ImporterMesh::Load(assetsFilePath.c_str(), (ResourceMesh*)resource);
+		switch (CheckExtensionType(assetsFilePath.c_str()))
+		{
+		case ResourceType::UNKNOWN:
 			break;
-
-		case ResourceType::MODEL:
-
-			//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
-			break;
-
-		case ResourceType::SCENE:
-
-			//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
-			break;
-
 		case ResourceType::TEXTURE:
-
-			//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
 			break;
-
-		case ResourceType::MATERIAL:
-
-			//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
+		case ResourceType::MESH:
+		{
+			App->renderer3D->models.push_back(Model(path));
+		}
+		break;
+		case ResourceType::SCENE:
 			break;
-
 		case ResourceType::SHADER:
-
-			//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
 			break;
-
+		case ResourceType::MATERIAL:
+			break;
+		case ResourceType::META:
+			break;
+		case ResourceType::ALL_TYPES:
+			break;
+		default:
+			break;
 		}
 
-		return resource;
-
 	}
 
-	return nullptr;
+	metaFile = JsonFile::GetJSON(metaFilePath);
+	uint UID = metaFile->GetInt("UID");
 
+	std::string ext;
+	PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
+
+	ResourceType type = GetTypeFromString(ext);
+
+	/* The resources that have to be transformed to Ymir Engine format have to be imported,
+	but the resources that are already in the custom format only have to be loaded. */
+
+	switch (type) {
+
+	case ResourceType::MESH:
+
+		//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+		break;
+
+	case ResourceType::MODEL:
+	{
+		//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+		int* ids = metaFile->GetIntArray("Meshes Embedded UID");
+		for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+		{
+			ResourceMesh* resource = static_cast<ResourceMesh*>
+				(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
+
+			//ResourceMesh* resource2 = new ResourceMesh(ids[i]);
+			//ImporterMesh::Load((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), resource2);
+		}
+
+		//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
+	}
+	break;
+
+	case ResourceType::SCENE:
+
+		//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
+		break;
+
+	case ResourceType::TEXTURE:
+
+		//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
+		break;
+
+	case ResourceType::MATERIAL:
+
+		//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
+		break;
+
+	case ResourceType::SHADER:
+
+		//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+		break;
+
+	}
 }
 
 void ModuleResourceManager::SaveResourceToLibrary(Resource* resource)

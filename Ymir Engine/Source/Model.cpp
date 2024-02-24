@@ -409,6 +409,7 @@ void Model::GenerateModelMetaFile()
 	modelMetaFile.SetString("Library Path", (External->fileSystem->libraryModelsPath + std::to_string(modelGO->UID) + ".ymodel").c_str());
 	modelMetaFile.SetInt("UID", modelGO->UID);
 	modelMetaFile.SetString("Type", "Model");
+	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
 	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
 
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);
