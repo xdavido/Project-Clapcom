@@ -46,7 +46,6 @@ bool ModuleScene::Init()
 	gameCameraComponent = new CCamera(gameCameraObject);
 
 	// TODO: remove and do with proper constructor
-	gameCameraObject->mTransform = new CTransform(gameCameraObject);
 	gameCameraObject->mTransform->SetPosition(float3( - 40.0f, 29.0f, 54.0f));
 
 	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);

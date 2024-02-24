@@ -13,7 +13,7 @@ CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRAN
 	translation = float3::zero;
 	eulerRot = float3::zero;
 	rotation = Quat::FromEulerXYZ(eulerRot[0] * DEGTORAD, eulerRot[1] * DEGTORAD, eulerRot[2] * DEGTORAD);
-	scale = float3::zero;
+	scale = float3::one;
 
 	translationPtr = nullptr;
 	rotationPtr = nullptr;
@@ -214,15 +214,6 @@ void CTransform::UpdateGlobalMatrix()
 		mGlobalMatrix = mLocalMatrix;
 	}
 
-	UpdateBoundingBoxes();
-}
-
-void CTransform::UpdateLocalMatrix()
-{
-	mLocalMatrix = float4x4::FromTRS(translation, rotation, scale);
-	eulerRot = rotation.ToEulerXYZ();
-	eulerRot *= RADTODEG;
-
 	// TODO: Check if mesh exists? Probably there is a better way to do it. Then, update shader values.
 	meshComponent = static_cast<CMesh*>(mOwner->GetComponent(ComponentType::MESH));
 	if (meshComponent != nullptr)
@@ -231,6 +222,15 @@ void CTransform::UpdateLocalMatrix()
 		meshComponent->meshReference->meshShader.Rotate(eulerRot);
 		meshComponent->meshReference->meshShader.Scale(scale);
 	}
+
+	UpdateBoundingBoxes();
+}
+
+void CTransform::UpdateLocalMatrix()
+{
+	mLocalMatrix = float4x4::FromTRS(translation, rotation, scale);
+	eulerRot = rotation.ToEulerXYZ();
+	eulerRot *= RADTODEG;
 }
 
 void CTransform::ReparentTransform(float4x4 matrix)

@@ -13,8 +13,7 @@ GameObject::GameObject()
 	active = true;
 	selected = false;
 
-	mTransform = new CTransform(this);
-	AddComponent(mTransform);
+	mTransform = nullptr;
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
@@ -25,8 +24,13 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	active = true;
 	selected = false;
 
-	mTransform = new CTransform(this);
-	AddComponent(mTransform);
+	mTransform = nullptr;
+
+	if (mParent != nullptr)
+	{
+		mTransform = new CTransform(this);
+		AddComponent(mTransform);
+	}
 }
 
 GameObject::~GameObject()
