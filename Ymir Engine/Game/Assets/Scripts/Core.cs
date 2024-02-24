@@ -27,7 +27,7 @@ public class Core : YmirComponent
 		if (this.reference == null)
 			return;
 
-        testString = "Got It";
+        testString = "J";
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
@@ -60,6 +60,25 @@ public class Core : YmirComponent
         return;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

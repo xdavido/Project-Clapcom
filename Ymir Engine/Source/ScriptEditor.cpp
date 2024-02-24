@@ -2,10 +2,16 @@
 #include"ModuleMonoManager.h"
 
 #include <filesystem>
+#include "Log.h"
 
 ScriptEditor::ScriptEditor()
 {
 	name = "Script Editor";
+	txtName = "null";
+
+	// Set Text Editor Language for editing the script, in this case, we are using C#.
+	codeLanguage = TextEditor::LanguageDefinition::CPlusPlus();
+	txtEditor.SetLanguageDefinition(codeLanguage);
 }
 
 ScriptEditor::~ScriptEditor()
@@ -32,10 +38,22 @@ void ScriptEditor::Draw()
 		ImGui::SameLine();
 		if (ImGui::Button("Save and Reload Script"))
 		{
-			std::string str = txtEditor.GetText();
-			char* cstr = &str[0];
+			if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+			{
+				LOG("[WARNING] You cannot save a script while running program");
+				return;
+			}
+			else
+			{
 
-			PhysfsEncapsule::SaveFile(txtName.c_str(), cstr, str.length(), false);
+				std::string str = txtEditor.GetText();
+				char* cstr = &str[0];
+
+				SaveScriptTXT(str, txtName.c_str());
+				External->moduleMono->ReCompileCS();
+				//CMDCompileCS();
+				//PhysfsEncapsule::SaveFile(("Assets/Scripts/" + txtName + ".cs").c_str(), cstr, str.length(), false);
+			}
 		}
 
 		ImGui::Dummy(ImVec2(10, 10));
@@ -48,26 +66,120 @@ void ScriptEditor::Draw()
 	}
 	ImGui::End();
 
+	//// Render the Script Editor
+	//txtEditor.Render("Script Editor");
+
 }
 
-void ScriptEditor::SetTextFromFile(const char* path)
+
+void ScriptEditor::CreateScriptTXT()
 {
-	//txtEditor.Delete();
+	txtEditor.SetText(baseSource);
+	txtName = "New Script";
+}
 
-	char* buffer = nullptr;
-	PhysfsEncapsule::LoadToBuffer(path, &buffer);
+bool ScriptEditor::SaveScriptTXT(std::string scriptText, std::string fileName)
+{
+	bool ret = true;
 
-	//std::string test = FileSystem::FileToText(path); //Can't use physFS because it's
+	std::string fullPath = SCRIPTING_ASSETS_PATH + fileName + ".cs";
 
-	if (buffer != nullptr)
+	// Open the file for writing
+	std::ofstream outputFile(fullPath);
+
+	// Check if the file is opened successfully
+	if (!outputFile.is_open()) {
+		// Handle the error
+		LOG("[ERROR] Unable to open file for writing - %s", fullPath.c_str());
+		ret = false;
+	}
+
+	// Write the scriptText to the file
+	outputFile << scriptText;
+
+	// Close the file
+	outputFile.close();
+
+	// Check if the file is closed successfully
+	if (!outputFile) {
+		// Handle the error
+		LOG("[ERROR] Failed to write content to file - %s", fullPath.c_str());
+		ret = false;
+	}
+
+	//// Load Shader into memory to be able to be selected on the inspector
+	//Shader* tmpShader = new Shader();
+	//tmpShader->LoadShader(fullPath);
+	//delete tmpShader;
+
+	return ret;
+}
+
+void ScriptEditor::DeleteScriptTXT(std::string fileName)
+{
+	std::string fullPath = SCRIPTING_ASSETS_PATH + fileName + ".glsl";
+
+	// Reset variables when deleting the current script
+	txtEditor.SetText("");
+	txtName = "";
+
+	// Using std::filesystem::remove to delete the file
+	if (std::filesystem::remove(fullPath))
 	{
-		txtName = path;
-		txtEditor.SetText(buffer);
-
-		RELEASE_ARRAY(buffer);
+		// File deletion successful
+		LOG("File deleted successfully: %s", fullPath.c_str());
 	}
 	else
 	{
-		txtName = "";
+		// File deletion failed
+		LOG("[ERROR] Unable to delete file: %s", fullPath.c_str());
 	}
+
 }
+
+void ScriptEditor::LoadScriptTXT(std::string filePath)
+{
+	std::ifstream file;
+
+	file.open(filePath);
+
+	if (!file.is_open()) {
+
+		LOG("[ERROR] Unable to open file.");
+
+	}
+
+	std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+	file.close();
+
+	// Retrieve the script file contents for the Scripting Editor
+	txtName = std::filesystem::path(filePath).stem().string();
+	txtEditor.SetText(fileContents);
+}
+
+
+
+
+//SUSU things
+//void ScriptEditor::SetTextFromFile(const char* path)
+//{
+//	//txtEditor.Delete();
+//
+//	char* buffer = nullptr;
+//	PhysfsEncapsule::LoadToBuffer(path, &buffer);
+//
+//	//std::string test = FileSystem::FileToText(path); //Can't use physFS because it's
+//
+//	if (buffer != nullptr)
+//	{
+//		txtName = path;
+//		txtEditor.SetText(buffer);
+//
+//		RELEASE_ARRAY(buffer);
+//	}
+//	else
+//	{
+//		txtName = "";
+//	}
+//}

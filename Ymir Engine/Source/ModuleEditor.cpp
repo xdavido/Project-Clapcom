@@ -124,6 +124,7 @@ bool ModuleEditor::Init()
 
 
 	scriptEditor = new ScriptEditor();
+	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 
 	return ret;
 }

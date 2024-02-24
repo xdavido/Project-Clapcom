@@ -17,6 +17,7 @@
 #include "CS_Transform_Bindings.h"
 
 #include "PhysfsEncapsule.h"
+#include "ModuleEditor.h"
 
 #include <iostream>
 #include <fstream>  
@@ -111,7 +112,6 @@ void ModuleMonoManager::ReCompileCS()
 		return;
 
 	//App->scene->SaveScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
-	//App->scene->SaveScene();
 
 	//App->scene->CleanScene();		//TODO: No tenemos estas funciones
 	//App->renderer3D->ClearAllRenderData();
@@ -131,12 +131,10 @@ void ModuleMonoManager::ReCompileCS()
 	//App->scene->LoadScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
 	
 	//App->scene->LoadScene();
-	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta canción no existe
+	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta función no existe
 
 	
-	//ScriptEditor* txtEditor = dynamic_cast<ScriptEditor*>(App->editor->GetEditorWindow(EditorWindow::TEXTEDITOR));	//TODO: Crear una ventana que se encarga de editar scripts (ez)
-	//if (txtEditor != nullptr)
-	//	txtEditor->SetTextFromFile(txtEditor->txtName.c_str());
+	External->editor->scriptEditor->LoadScriptTXT(("Assets/Scripts/" + External->editor->scriptEditor->txtName + ".cs").c_str());
 }
 
 //ASK: Is this the worst idea ever? TOO SLOW
