@@ -134,7 +134,7 @@ void ModuleMonoManager::ReCompileCS()
 	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta canción no existe
 
 	
-	//W_TextEditor* txtEditor = dynamic_cast<W_TextEditor*>(App->editor->GetEditorWindow(EditorWindow::TEXTEDITOR));	//TODO: Crear una ventana que se encarga de editar scripts (ez)
+	//ScriptEditor* txtEditor = dynamic_cast<ScriptEditor*>(App->editor->GetEditorWindow(EditorWindow::TEXTEDITOR));	//TODO: Crear una ventana que se encarga de editar scripts (ez)
 	//if (txtEditor != nullptr)
 	//	txtEditor->SetTextFromFile(txtEditor->txtName.c_str());
 }

@@ -23,6 +23,7 @@
 #include "External/Optick/include/optick.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -120,6 +121,9 @@ bool ModuleEditor::Init()
 	imageIcon.LoadTexture("Assets/Editor/image.dds");
 	modelIcon.LoadTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadTexture("Assets/Editor/shader.dds");
+
+
+	scriptEditor = new ScriptEditor();
 
 	return ret;
 }
@@ -1340,11 +1344,11 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
-    if (showScriptingSettings) {
+    if (showScriptingEditor) {
 
-        if (ImGui::Begin("Scripting Settings", &showScriptingSettings), true) {
+        if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
 
-            App->moduleMono->OnGUI();
+			scriptEditor->Draw();
 
             ImGui::End();
 

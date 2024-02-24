@@ -313,6 +313,7 @@
     <ClInclude Include="Source\ResourceShader.h" />
     <ClInclude Include="Source\ResourceTexture.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\ScriptEditor.h" />
     <ClInclude Include="Source\Settings.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\ShaderEditor.h" />
@@ -422,6 +423,7 @@
     <ClCompile Include="Source\ResourceShader.cpp" />
     <ClCompile Include="Source\ResourceTexture.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
+    <ClCompile Include="Source\ScriptEditor.cpp" />
     <ClCompile Include="Source\Settings.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\ShaderEditor.cpp" />

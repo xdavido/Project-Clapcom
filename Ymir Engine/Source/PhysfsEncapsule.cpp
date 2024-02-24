@@ -388,3 +388,41 @@ std::string PhysfsEncapsule::NormalizePath(const char* full_path)
 	}
 	return newPath;
 }
+
+// Read a whole file and put it in a new buffer
+uint PhysfsEncapsule::LoadToBuffer(const char* file, char** buffer)
+{
+	uint ret = 0;
+
+	PHYSFS_file* fs_file = PHYSFS_openRead(file);
+
+	if (fs_file != nullptr)
+	{
+		PHYSFS_sint64 size = PHYSFS_fileLength(fs_file);
+		//LOG(LogType::L_ERROR, "[%s]", PHYSFS_getLastError())
+
+		if (size > 0)
+		{
+			*buffer = new char[size + 1];
+			uint readed = (uint)PHYSFS_read(fs_file, *buffer, 1, size);
+			if (readed != size)
+			{
+				LOG("[ERROR] File System error while reading from file %s: %s\n", file, PHYSFS_getLastError());
+				RELEASE_ARRAY(buffer);
+			}
+			else
+			{
+				ret = readed;
+				//Adding end of file at the end of the buffer. Loading a shader file does not add this for some reason
+				(*buffer)[size] = '\0';
+			}
+		}
+
+		if (PHYSFS_close(fs_file) == 0)
+			LOG("[ERROR] File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
+	}
+	else
+		LOG("[ERROR] File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+
+	return ret;
+}

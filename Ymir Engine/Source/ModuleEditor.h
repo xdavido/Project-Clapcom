@@ -18,6 +18,7 @@
 #include "ShaderEditor.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
 
 class GameObject;
 
@@ -161,7 +162,7 @@ public:
 
 	bool showNodeEditor = false;
 	bool showShaderEditor = true;
-	bool showScriptingSettings = true;
+	bool showScriptingEditor = true;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;
@@ -253,6 +254,9 @@ public:
 	Texture imageIcon;
 	Texture modelIcon;
 	Texture shaderIcon;
+
+	//Script Editor
+	ScriptEditor* scriptEditor;
 
 };
 
