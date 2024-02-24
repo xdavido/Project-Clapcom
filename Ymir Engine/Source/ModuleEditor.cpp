@@ -1285,6 +1285,10 @@ void ModuleEditor::DrawEditor()
 
 			(ImGui::IsWindowHovered()) ? App->camera->hoveringEditor = true : App->camera->hoveringEditor = false;
 
+			if (App->camera->hoveringEditor)
+			{
+				App->camera->CameraInput();
+			}
 			// Retrieve Info from ImGui Scene Window
 
 			// Get the Mouse Position using ImGui.
@@ -2629,35 +2633,39 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			// Set the rectangle for ImGuizmo in the editor window.
 			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-			// Check for key presses to set the gizmo operation and mode.
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+			if (App->camera->hoveringEditor)
+			{
+				// Check for key presses to set the gizmo operation and mode.
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 
-				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+					gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+
+					gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+
+					gizmoOperation = ImGuizmo::OPERATION::SCALE;
+
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+
+					gizmoMode = ImGuizmo::MODE::WORLD;
+
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+					gizmoMode = ImGuizmo::MODE::LOCAL;
+
+				}
+
 			}
-
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-
-				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-
-				gizmoOperation = ImGuizmo::OPERATION::SCALE;
-
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-
-				gizmoMode = ImGuizmo::MODE::WORLD;
-
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-
-				gizmoMode = ImGuizmo::MODE::LOCAL;
-
-			}
-
+			
 			ImGuizmo::MODE modeApplied;
 
 			// Hardcoded local mode to prevent Scale from Reseting the Rotation.

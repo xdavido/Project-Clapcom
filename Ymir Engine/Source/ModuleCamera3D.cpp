@@ -17,7 +17,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	editorCamera->SetPos(-36.0f, 48.00f, 100.0f);
 	editorCamera->LookAt(float3(0.f, 0.f, 0.f));
-	editorCamera->SetAspectRatio(SCREEN_WIDTH/SCREEN_HEIGHT);
+	editorCamera->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 
 	LOG("Creating ModuleCamera3D");
 
@@ -47,6 +47,8 @@ bool ModuleCamera3D::CleanUp()
 update_status ModuleCamera3D::Update(float dt)
 {
 	OPTICK_EVENT();
+
+	// TODO: consider moving all camera input to CameraInput function, so that it doesn't work while not hovering
 
 	float3 newPos(0, 0, 0);
 
@@ -79,18 +81,73 @@ update_status ModuleCamera3D::Update(float dt)
 		editorCamera->RotationHandling(speed, dt);
 
 	}
-	
+
 	editorCamera->UpdatePos(newPos);
 
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) {
+	//if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) {
 
-		// Center camera to 0,0,0 when pressing Left Alt
+	//	// Center camera to 0,0,0 when pressing Left Alt
+	//	Focus();
+	//	//editorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
 
-		editorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
-
-	}
+	//}
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleCamera3D::Focus()
+{
+	float3 center = float3::zero;
+
+	for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+
+		for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+
+			if ((*jt).meshGO->selected || (*it).modelGO->selected)
+			{
+				//Reference = selectedList[i]->mesh->global_aabb.CenterPoint();
+				float3 size = (*jt).globalAABB.Size();
+				center = (*jt).globalAABB.CenterPoint();
+				editorCamera->frustum.pos.Set(center.x + size.x, center.y + size.y, center.z + size.z);
+				editorCamera->LookAt((*jt).globalAABB.CenterPoint());
+			}
+		}
+	}
+
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+
+		// Check if the current game object is selected.
+		if ((*it)->selected)
+		{
+			// TODO: mesh reference doesn't work
+			//if ((*it)->GetComponent(ComponentType::MESH) != nullptr)
+			//{
+			//	// TODO: orbit camera
+			//	//Reference = selectedList[i]->mesh->global_aabb.CenterPoint();
+			//	float3 size = static_cast<CMesh*>((*it)->GetComponent(ComponentType::MESH))->meshReference->globalAABB.Size();
+			//	center = static_cast<CMesh*>((*it)->GetComponent(ComponentType::MESH))->meshReference->globalAABB.CenterPoint();
+			//	editorCamera->frustum.pos.Set(center.x + size.x, center.y + size.y, center.z + size.z);
+			//	editorCamera->LookAt(static_cast<CMesh*>((*it)->GetComponent(ComponentType::MESH))->meshReference->globalAABB.CenterPoint());
+			//}
+
+			if ((*it)->GetComponent(ComponentType::MESH) == nullptr)
+			{
+				CTransform* transform = (CTransform*)(*it)->mTransform;
+				float3 position = transform->GetGlobalPosition();
+				//Reference = position;
+				editorCamera->frustum.pos.Set(position.x + 5.0f, position.y + 5.0f, position.z + +5.0f);
+				editorCamera->LookAt(position);
+			}
+		}
+	}
+}
+
+void ModuleCamera3D::CameraInput()
+{
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) 
+	{
+		Focus();
+	}
 }
 
 void ModuleCamera3D::CreateMousePickingRay(float mousePosX_normalized, float mousePosY_normalized)

@@ -17,6 +17,9 @@ public:
 
 	bool Start() override;
 	update_status Update(float dt) override;
+	void Focus();
+	void CameraInput();
+
 	bool CleanUp() override;
 
 	void CreateMousePickingRay(float mousePosX_normalized, float mousePosY_normalized);
@@ -27,4 +30,7 @@ public:
 	LineSegment mousePickingRay;
 
 	bool hoveringEditor;
+private:
+
+	float speed;
 };
