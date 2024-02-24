@@ -114,11 +114,11 @@ bool ModuleEditor::Init()
 
 	// Editor Icons Textures
 
-	folderIcon.LoadTexture("Assets/Editor/folder.dds");
-	fileIcon.LoadTexture("Assets/Editor/files.dds");
-	imageIcon.LoadTexture("Assets/Editor/image.dds");
-	modelIcon.LoadTexture("Assets/Editor/model.dds");
-	shaderIcon.LoadTexture("Assets/Editor/shader.dds");
+	folderIcon.LoadEngineIconTexture("Assets/Editor/folder.dds");
+	fileIcon.LoadEngineIconTexture("Assets/Editor/files.dds");
+	imageIcon.LoadEngineIconTexture("Assets/Editor/image.dds");
+	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
+	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 
 	return ret;
 }

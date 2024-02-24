@@ -22,11 +22,10 @@
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1919123428,
+            "UID": 1810464157,
             "Children UID": [
-                1292728836,
-                1689865975,
-                210347121
+                85428790,
+                1903633990
             ],
             "Components": [
                 {
@@ -52,8 +51,8 @@
         },
         {
             "Name": "Main Camera",
-            "UID": 1292728836,
-            "Parent UID": 1919123428,
+            "UID": 85428790,
+            "Parent UID": 1810464157,
             "Components": [
                 {
                     "Type": "Transform",
@@ -102,11 +101,11 @@
         },
         {
             "Name": "BakerHouse",
-            "UID": 1689865975,
-            "Parent UID": 1919123428,
+            "UID": 1903633990,
+            "Parent UID": 1810464157,
             "Children UID": [
-                348421214,
-                997376623
+                1632782280,
+                1896492994
             ],
             "Components": [
                 {
@@ -132,8 +131,9 @@
         },
         {
             "Name": "Chimney",
-            "UID": 348421214,
-            "Parent UID": 1689865975,
+            "UID": 1632782280,
+            "Element_Type": "Mesh",
+            "Parent UID": 1903633990,
             "Components": [
                 {
                     "Type": "Transform",
@@ -168,8 +168,9 @@
         },
         {
             "Name": "Baker_house",
-            "UID": 997376623,
-            "Parent UID": 1689865975,
+            "UID": 1896492994,
+            "Element_Type": "Mesh",
+            "Parent UID": 1903633990,
             "Components": [
                 {
                     "Type": "Transform",
@@ -195,71 +196,6 @@
                     "Active": 1,
                     "Vertex Count": 1641,
                     "Index Count": 2751
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1
-                }
-            ]
-        },
-        {
-            "Name": "Skybox",
-            "UID": 210347121,
-            "Parent UID": 1919123428,
-            "Children UID": [
-                2147315820
-            ],
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Scale": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Sphere",
-            "UID": 2147315820,
-            "Parent UID": 210347121,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Scale": [
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 2143,
-                    "Index Count": 11904
                 },
                 {
                     "Type": "Material",

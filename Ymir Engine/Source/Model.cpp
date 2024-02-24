@@ -278,15 +278,13 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	}
 
-	// Process Textures
+	// Process Texture Maps
 
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-		uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
-
-		if (numTextures > 0) {
+		if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
 
 			aiString aiPath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &aiPath);
@@ -297,6 +295,86 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			tmpTexture.path = path;
 			tmpTexture.type = TextureTypes::DIFFUSE;
+
+			textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_SPECULAR)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_SPECULAR, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			Texture tmpTexture;
+
+			tmpTexture.path = path;
+			tmpTexture.type = TextureTypes::SPECULAR;
+
+			textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_NORMALS)) {
+			 
+			aiString aiPath;
+			material->GetTexture(aiTextureType_NORMALS, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			Texture tmpTexture;
+
+			tmpTexture.path = path;
+			tmpTexture.type = TextureTypes::NORMALS;
+
+			textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_HEIGHT)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_HEIGHT, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			Texture tmpTexture;
+
+			tmpTexture.path = path;
+			tmpTexture.type = TextureTypes::HEIGHT;
+
+			textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_AMBIENT)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_AMBIENT, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			Texture tmpTexture;
+
+			tmpTexture.path = path;
+			tmpTexture.type = TextureTypes::AMBIENT;
+
+			textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_EMISSIVE)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_EMISSIVE, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			Texture tmpTexture;
+
+			tmpTexture.path = path;
+			tmpTexture.type = TextureTypes::EMISSIVE;
 
 			textures.push_back(tmpTexture);
 

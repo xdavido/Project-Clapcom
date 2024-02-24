@@ -34,6 +34,7 @@ public:
 
 	// Textures
 
+	uint UID;
 	uint ID;
 	std::string path;
 

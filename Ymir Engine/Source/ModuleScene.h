@@ -38,7 +38,7 @@ public:
 	void ClearScene();
 
 	void SaveScene();
-	void LoadScene();
+	void LoadScene(std::string path = "\0");
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);

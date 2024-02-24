@@ -7,6 +7,7 @@
 #include "Log.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "ResourceTexture.h"
 
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
@@ -783,7 +784,7 @@ GameObject* JsonFile::GetGameObject(const char* key) const
                     Component* component = new Component();
 
                     // Call the existing GetComponent function to retrieve individual Component properties
-                    GetComponent(componentObject, *component);
+                    //GetComponent(componentObject, *component);
 
                     // Add the Component to the GameObject's components vector
                     gameObject->mComponents.push_back(component);
@@ -977,6 +978,11 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
         json_object_set_number(componentObject, "Active", cmaterial->active);
 
+        // Texture maps
+        json_object_set_number(componentObject, "ID", cmaterial->ID);
+        json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
+        json_object_set_number(componentObject, "UID", cmaterial->UID);
+
     }
     else if (component.ctype == ComponentType::CAMERA) {
 
@@ -1158,14 +1164,8 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
                 JSON_Object* componentObject = json_value_get_object(componentValue);
 
-                // Create a new Component
-                Component* component = new Component();
-
                 // Call the existing GetComponent function to extract individual Component properties
-                GetComponent(componentObject, *component);
-
-                // Add the Component to the GameObject's components vector
-                gameObject.mComponents.push_back(component);
+                GetComponent(componentObject, &gameObject);
 
             }
 
@@ -1175,29 +1175,48 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 }
 
-void JsonFile::GetComponent(const JSON_Object* componentObject, Component& component) const {
+void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const {
 
     // Get common properties
     std::string type = json_object_get_string(componentObject, "Type");
 
     if (type == "Transform") {
 
-        component.ctype = ComponentType::TRANSFORM;
+        CTransform* ctransform = new CTransform(gameObject);
+
+        gameObject->AddComponent(ctransform);
 
     }
     else if (type == "Mesh") {
 
-        component.ctype = ComponentType::MESH;
+        CMesh* cmesh = new CMesh(gameObject);
+
+        gameObject->AddComponent(cmesh);
 
     }
     else if (type == "Material") {
 
-        component.ctype = ComponentType::MATERIAL;
+        CMaterial* cmaterial = new CMaterial(gameObject);
+
+        uint ID = json_object_get_number(componentObject, "ID");
+        cmaterial->ID = ID;
+
+        const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
+        cmaterial->path = diffusePath;
+        
+        uint UID = json_object_get_number(componentObject, "UID");
+        cmaterial->UID = UID;
+
+        gameObject->AddComponent(cmaterial);
+
+        ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
 
     }
     else if (type == "Camera") {
 
-        component.ctype = ComponentType::CAMERA;
+        CCamera* ccamera = new CCamera(gameObject);
+
+        gameObject->AddComponent(ccamera);
 
     }
 
