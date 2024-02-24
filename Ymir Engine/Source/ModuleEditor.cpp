@@ -1121,7 +1121,13 @@ void ModuleEditor::DrawEditor()
 				std::size_t found = currentDir.find_last_of("/");
 				currentDir = currentDir.substr(0, found);
 			}
+
+			if (ImGui::Button("Create Folder"))
+			{
+				createFolder = true;
+			}
 			ImGui::Dummy(ImVec2(10, 0));
+
 			static ImGuiTextFilter filter;
 			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
 			ImGui::EndMenuBar();
@@ -1252,9 +1258,9 @@ void ModuleEditor::DrawEditor()
 
 			for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap())
 			{
-				ImGui::Text("Type: %s | UID: %d | References: %d", 
+				ImGui::Text("Type: %s | UID: %d | References: %d",
 					App->resourceManager->GetStringFromType(Resource->GetType()).c_str(),
-					Resource->GetUID(), 
+					Resource->GetUID(),
 					Resource->GetReferenceCount());
 			}
 
@@ -2820,8 +2826,41 @@ void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
 
 }
 
+void ModuleEditor::CreateNewFolder()
+{
+	if (createFolder)
+	{
+		ImGui::OpenPopup("Create new folder");
+	}
+
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+	if (ImGui::BeginPopupModal("Create new folder", &createFolder, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		static std::string sceneName_saveAS = "NewFolder";
+		ImGui::InputText("File Name", &sceneName_saveAS);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			PhysfsEncapsule::CreateFolder(currentDir, sceneName_saveAS);
+			createFolder = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			createFolder = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
 void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 {
+	CreateNewFolder();
+
 	if (ImGui::BeginTable("DirectoryTable", 8))
 	{
 		int columnCount = 0;
@@ -2840,9 +2879,11 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
 					// Display folder icon and name
+
 					if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
 						// ---Click event---
+
 						if (ImGui::IsItemClicked()) {
 
 							selectedDir = entry.path().string();
@@ -2862,20 +2903,15 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						// TODO: Sara ajustar esto para que el menu no muestre todas las carpetas
 						// ---RMB Click event---
+
 						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
 						{
 							ImGui::MenuItem(entryName.c_str(), NULL, false, false);
 							ImGui::Separator();
 
-							//App->resource->CheckExtensionType(currentFile.c_str());
-							if (ImGui::MenuItem("Import to Scene"))
+							if (ImGui::MenuItem("Delete Folder"))
 							{
-								//App->resource->pendingToLoadScene = true;
-							}
-
-							if (ImGui::MenuItem("Delete File"))
-							{
-								DeleteFileAndRefs(entryName.c_str());
+								DeleteFileAndRefs(entry.path().string().c_str());
 							}
 
 							ImGui::EndPopup();
@@ -2920,18 +2956,27 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					// Process different file types
 
-					if ((entryName.find(".meta") != std::string::npos) || (entryName.find(".json") != std::string::npos)) {
-
+					switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
+					{
+					case ResourceType::UNKNOWN:
+					{
 						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-
 					}
-					else if ((entryName.find(".png") != std::string::npos) || (entryName.find(".dds") != std::string::npos)) {
-
+					break;
+					case ResourceType::TEXTURE:
+					{
 						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
-
 					}
-					else if (entryName.find(".glsl") != std::string::npos) {
-
+					break;
+					case ResourceType::MESH:
+					{
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+					}
+					break;
+					case ResourceType::SCENE:
+						break;
+					case ResourceType::SHADER:
+					{
 						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
 
 						if (ImGui::IsItemClicked()) {
@@ -2939,59 +2984,48 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							shaderEditor.LoadShaderTXT(entry.path().string());
 
 						}
-
 					}
-					else if (entryName.find(".fbx") != std::string::npos) {
-
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
-
-					}
-					else {
-
+					break;
+					case ResourceType::MATERIAL:
+						break;
+					case ResourceType::META:
+					{
 						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+					}
+					break;
+					case ResourceType::ALL_TYPES:
+						break;
+					default:
+						break;
+					}
 
+					// ---RMB Click event---
+
+					if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+					{
+						selectedFile = entryName;
+						currentFile = selectedFile;
+
+						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+						ImGui::Separator();
+
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META)
+						{
+							if (ImGui::MenuItem("Import to Scene"))
+							{
+								App->resourceManager->ImportFile(entry.path().string().c_str());
+							}
+						}
+
+						if (ImGui::MenuItem("Delete File"))
+						{
+							DeleteFileAndRefs(entry.path().string().c_str());
+						}
+
+						ImGui::EndPopup();
 					}
 
 					ImGui::Text(entryName.c_str());
-
-					//// ---RMB Click event---
-					//if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
-					//{
-					//	ImGui::MenuItem(currentFile.c_str(), NULL, false, false);
-					//	ImGui::Separator();
-
-					//	//App->resource->CheckExtensionType(currentFile.c_str());
-					//	if (ImGui::MenuItem("Import to Scene"))
-					//	{
-					//		//App->resource->pendingToLoadScene = true;
-
-					//		if (currentFile == "MainScreen.pnk")
-					//		{
-					//			App->scene->ImportDefaultMainScreen();
-					//		}
-					//		else if (currentFile == "Street.pnk")
-					//		{
-					//			App->scene->ImportDefaultScene();
-					//			App->scene->crossHair = true;
-					//		}
-					//		else
-					//		{
-					//			App->resource->sceneFileName = currentFile;
-					//			App->resource->ImportToSceneV(currentFile, selectedDirFullPath + "/");
-					//		}
-					//	}
-					//	//if (ImGui::MenuItem("Create File (WIP)", NULL, false, false))	// TODO:
-					//	//{
-
-					//	//}
-					//	if (ImGui::MenuItem("Delete File"))
-					//	{
-					//		DeleteFileAndRefs((selectedDirFullPath + "/" + currentFile).c_str());
-					//	}
-
-					//	selectedFile = currentFile;
-					//	ImGui::EndPopup();
-					//}
 
 					ImGui::PopStyleColor();
 

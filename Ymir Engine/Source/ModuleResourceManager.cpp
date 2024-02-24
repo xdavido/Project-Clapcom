@@ -29,7 +29,7 @@ ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enable
 
 ModuleResourceManager::~ModuleResourceManager()
 {
-	
+
 }
 
 bool ModuleResourceManager::Init()
@@ -87,19 +87,31 @@ Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
 
-	uint UID = metaFile->GetInt("UID");
-	ResourceType type = GetTypeFromString(metaFile->GetString("Type"));
+	// If meta file exists
+	if (metaFile == nullptr)
+	{
 
-	Resource* resource = CreateResourceFromAssets(assetsFilePath, type, UID);
+	}
+	else
+	{
+		uint UID = metaFile->GetInt("UID");
 
-	/* The resources that have to be transformed to Ymir Engine format have to be imported,
-	but the resources that are already in the custom format only have to be loaded. */
+		std::string ext;
+		PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
 
-	switch (resource->GetType()) {
+		ResourceType type = GetTypeFromString(ext);
+
+		//Resource* resource = CreateResourceFromAssets(assetsFilePath, type, UID);
+		Resource* resource = CreateResourceFromLibrary(metaFile->GetString("Library Path"), type, UID);
+
+		/* The resources that have to be transformed to Ymir Engine format have to be imported,
+		but the resources that are already in the custom format only have to be loaded. */
+
+		switch (resource->GetType()) {
 
 		case ResourceType::MESH:
 
-			//ImporterMesh::Load(assetsFilePath.c_str(), (ResourceMesh*)resource);
+			ImporterMesh::Load(assetsFilePath.c_str(), (ResourceMesh*)resource);
 			break;
 
 		case ResourceType::MODEL:
@@ -127,44 +139,49 @@ Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
 			break;
 
+		}
+
+		return resource;
+
 	}
 
-	return resource;
+	return nullptr;
+
 }
 
 void ModuleResourceManager::SaveResourceToLibrary(Resource* resource)
 {
 	switch (resource->GetType()) {
 
-		case ResourceType::MESH:
-		
-			//ImporterMesh::Save((ResourceMesh*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MESH:
 
-		case ResourceType::MODEL:
+		//ImporterMesh::Save((ResourceMesh*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterModel::Save((ResourceModel*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MODEL:
 
-		case ResourceType::SCENE:
+		//ImporterModel::Save((ResourceModel*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterScene::Save((ResourceScene*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::SCENE:
 
-		case ResourceType::TEXTURE:
+		//ImporterScene::Save((ResourceScene*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterTexture::Save((ResourceTexture*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::TEXTURE:
 
-		case ResourceType::MATERIAL:
+		//ImporterTexture::Save((ResourceTexture*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterMaterial::Save((ResourceMaterial*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MATERIAL:
 
-		case ResourceType::SHADER:
+		//ImporterMaterial::Save((ResourceMaterial*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::SHADER:
+
+		//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
+		break;
 
 	}
 
@@ -192,7 +209,7 @@ uint ModuleResourceManager::ExistsInLibrary(const std::string& assetsFilePath) c
 			return UID;
 
 		}
-		
+
 	}
 
 	return 0;
@@ -202,7 +219,7 @@ bool ModuleResourceManager::ExistsInLibrary(ResourceType type, const uint& UID) 
 {
 	std::string libraryFilePath = resourceTypeToLibraryFolder.at(type) + std::to_string(UID) + "." + resourceTypeToString.at(type);
 
-	if (PhysfsEncapsule::FileExists(libraryFilePath)) 
+	if (PhysfsEncapsule::FileExists(libraryFilePath))
 	{
 		return true;
 	}
@@ -228,7 +245,7 @@ bool ModuleResourceManager::IsResourceLoaded(const uint& UID)
 		return true;
 
 	}
-		
+
 	return false;
 }
 
@@ -236,7 +253,7 @@ void ModuleResourceManager::LoadResource(const uint& UID)
 {
 	std::map<uint, Resource*>::iterator it = resources.find(UID);
 
-	if (it == resources.end()) 
+	if (it == resources.end())
 	{
 		return;
 	}
@@ -270,41 +287,41 @@ Resource* ModuleResourceManager::RequestResource(const uint& UID, const char* li
 
 				switch (tmpType) {
 
-					case ResourceType::MESH:
+				case ResourceType::MESH:
 
-						tmpResource = new ResourceMesh(UID);
+					tmpResource = new ResourceMesh(UID);
 
-						break;
+					break;
 
-					case ResourceType::MODEL:
+				case ResourceType::MODEL:
 
-						tmpResource = new ResourceModel(UID);
+					tmpResource = new ResourceModel(UID);
 
-						break;
+					break;
 
-					case ResourceType::SCENE:
+				case ResourceType::SCENE:
 
-						tmpResource = new ResourceScene(UID);
+					tmpResource = new ResourceScene(UID);
 
-						break;
+					break;
 
-					case ResourceType::TEXTURE:
+				case ResourceType::TEXTURE:
 
-						tmpResource = new ResourceTexture(UID);
+					tmpResource = new ResourceTexture(UID);
 
-						break;
+					break;
 
-					case ResourceType::MATERIAL:
+				case ResourceType::MATERIAL:
 
-						tmpResource = new ResourceMaterial(UID);
+					tmpResource = new ResourceMaterial(UID);
 
-						break;
+					break;
 
-					case ResourceType::SHADER:
+				case ResourceType::SHADER:
 
-						tmpResource = new ResourceShader(UID);
+					tmpResource = new ResourceShader(UID);
 
-						break;
+					break;
 
 				}
 
@@ -362,35 +379,35 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 
 	switch (type) {
 
-		case ResourceType::MESH:
+	case ResourceType::MESH:
 
-			tmpResource = new ResourceMesh(UID);
-			break;
+		tmpResource = new ResourceMesh(UID);
+		break;
 
-		case ResourceType::MODEL:
+	case ResourceType::MODEL:
 
-			tmpResource = new ResourceModel(UID);
-			break;
+		tmpResource = new ResourceModel(UID);
+		break;
 
-		case ResourceType::SCENE: 
+	case ResourceType::SCENE:
 
-			tmpResource = new ResourceScene(UID);
-			break;
+		tmpResource = new ResourceScene(UID);
+		break;
 
-		case ResourceType::TEXTURE: 
+	case ResourceType::TEXTURE:
 
-			tmpResource = new ResourceTexture(UID);
-			break;
+		tmpResource = new ResourceTexture(UID);
+		break;
 
-		case ResourceType::MATERIAL:
+	case ResourceType::MATERIAL:
 
-			tmpResource = new ResourceMaterial(UID);
-			break;
+		tmpResource = new ResourceMaterial(UID);
+		break;
 
-		case ResourceType::SHADER:
+	case ResourceType::SHADER:
 
-			tmpResource = new ResourceShader(UID);
-			break;
+		tmpResource = new ResourceShader(UID);
+		break;
 
 	}
 
@@ -485,7 +502,7 @@ ResourceType ModuleResourceManager::GetTypeFromLibraryPath(std::string libraryFi
 	else if (extension == "ymat") return ResourceType::MATERIAL;
 	else if (extension == "dds") return ResourceType::TEXTURE;
 	else if (extension == "spv") return ResourceType::SHADER;
-	
+
 	return ResourceType::UNKNOWN;
 }
 
@@ -520,10 +537,16 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 {
 	std::vector<std::string> obj_ext = { "fbx", "FBX", "obj", "OBJ", "DAE", "dae" };
 	std::vector<std::string> tex_ext = { "png", "PNG", "jpg", "JPG", "dds", "DDS", "tga", "TGA" };
+	std::vector<std::string> meta_ext = { "meta", "json" };
 
 	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
 	{
 		return ResourceType::SCENE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, meta_ext))
+	{
+		return ResourceType::META;
 	}
 
 	if (PhysfsEncapsule::HasExtension(fileDir, obj_ext))
