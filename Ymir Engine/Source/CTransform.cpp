@@ -218,9 +218,16 @@ void CTransform::UpdateGlobalMatrix()
 	meshComponent = static_cast<CMesh*>(mOwner->GetComponent(ComponentType::MESH));
 	if (meshComponent != nullptr)
 	{
-		meshComponent->meshReference->meshShader.Translate(translation);
-		meshComponent->meshReference->meshShader.Rotate(eulerRot);
-		meshComponent->meshReference->meshShader.Scale(scale);
+		float3 pos, sc;
+		Quat rot;
+		mGlobalMatrix.Decompose(pos, rot, sc);
+
+		float3 eulerRotation = rot.ToEulerXYZ();
+		eulerRotation *= RADTODEG;
+
+		meshComponent->meshReference->meshShader.translation = pos;
+		meshComponent->meshReference->meshShader.rotation = eulerRotation;
+		meshComponent->meshReference->meshShader.scale = scale;
 	}
 
 	UpdateBoundingBoxes();
