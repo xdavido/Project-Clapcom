@@ -59,7 +59,4 @@ public:
 	bool dirty_;
 
 	bool resetPressed;
-
-	CMesh* meshComponent; // Game object's mesh
-
 };

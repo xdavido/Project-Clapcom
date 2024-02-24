@@ -44,7 +44,7 @@ CTransform::CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool star
 
 CTransform::~CTransform()
 { 
-	RELEASE(meshComponent);
+
 }
 
 void CTransform::Update()
@@ -62,42 +62,6 @@ void CTransform::OnInspector()
 	if (ImGui::CollapsingHeader("Transform", flags))
 	{
 		ImGui::Indent();
-
-		/*for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
-
-			for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-				if ((*jt).meshGO->selected || (*it).modelGO->selected) {
-
-					translation = (*jt).meshShader.translation;
-					rotation = (*jt).meshShader.rotation;
-					scale = (*jt).meshShader.scale;
-
-					translationPtr = &(*jt).meshShader.translation;
-					rotationPtr = &(*jt).meshShader.rotation;
-					scalePtr = &(*jt).meshShader.scale;
-
-					mGlobalMatrix = float4x4::FromTRS(*translationPtr, Quat::FromEulerXYZ((*rotationPtr).x * DEGTORAD, (*rotationPtr).y * DEGTORAD, (*rotationPtr).z * DEGTORAD).Normalized(), *scalePtr).Transposed();
-
-					ImGui::DragFloat3("Transform", (*translationPtr).ptr(), 0.1f);
-					ImGui::DragFloat3("Rotation", (*rotationPtr).ptr(), 0.1f);
-					ImGui::DragFloat3("Scale", (*scalePtr).ptr(), 0.1f);
-
-					if (ImGui::Button("Reset Transformations")) {
-
-						(*jt).meshShader.Translate({ 0,0,0 });
-						(*jt).meshShader.Rotate({ 0,0,0 });
-						(*jt).meshShader.Scale({ 1,1,1 });
-
-						resetPressed = true;
-
-					}
-
-				}
-
-			}
-
-		}*/
 
 		if (ImGui::DragFloat3("Position", &translation[0], 0.1f))
 		{
@@ -204,23 +168,6 @@ void CTransform::UpdateGlobalMatrix()
 		mGlobalMatrix = mLocalMatrix;
 	}
 
-	// TODO: Check if mesh exists? Probably there is a better way to do it. Then, update shader values.
-	meshComponent = static_cast<CMesh*>(mOwner->GetComponent(ComponentType::MESH));
-
-	if (meshComponent != nullptr)
-	{
-		float3 pos, sc;
-		Quat rot;
-		mGlobalMatrix.Decompose(pos, rot, sc);
-		float3 eulerRotation = rot.ToEulerXYZ();
-		eulerRotation *= RADTODEG;
-
-		meshComponent->meshReference->meshShader.translation = pos;
-		meshComponent->meshReference->meshShader.rotation = eulerRotation;
-		meshComponent->meshReference->meshShader.scale = sc;
-	}
-
-	//UpdateBoundingBoxes();
 }
 
 void CTransform::UpdateLocalMatrix()

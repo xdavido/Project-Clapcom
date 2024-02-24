@@ -230,6 +230,7 @@ public:
 	// ImGuizmo handlers
 	ImGuizmo::OPERATION gizmoOperation;
 	ImGuizmo::MODE gizmoMode;
+	float snapValue;// Snap Guizmo
 	float4x4 modelMatrix;
 
 	// Assets folder
