@@ -350,7 +350,7 @@ namespace YmirEngine
     }
 }
 
-public enum DEKeyCode //This is a mirror from the SDL scancode enum to allow C# to C++ compatibility
+public enum YmirKeyCode //This is a mirror from the SDL scancode enum to allow C# to C++ compatibility
 {
     SDL_SCANCODE_UNKNOWN = 0,
     A = 4,

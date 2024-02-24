@@ -29,21 +29,21 @@ public class Core : YmirComponent
 
         testString = "Got It";
  
-        if (Input.GetKey(DEKeyCode.W) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
-        if (Input.GetKey(DEKeyCode.S) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * -movementSpeed * Time.deltaTime;
-        if (Input.GetKey(DEKeyCode.A) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
             reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, rotationSpeed * Time.deltaTime);
-        if (Input.GetKey(DEKeyCode.D) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
             reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, -rotationSpeed * Time.deltaTime);
 
         //Destroy current GameObject - It works
-        if (Input.GetKey(DEKeyCode.X) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.X) == KeyState.KEY_REPEAT)
             InternalCalls.Destroy(reference);
 
         //Create a GameObject - Not working
-        if (Input.GetKey(DEKeyCode.C) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
             InternalCalls.CreateGameObject("Cube", reference);
 
         //if (Input.GetMouseX() != 0 && turret != null)
