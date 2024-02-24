@@ -31,6 +31,7 @@ public:
 	// Shaders
 
 	int selectedShader;
+	//std::string shaderPath;
 
 	// Textures
 

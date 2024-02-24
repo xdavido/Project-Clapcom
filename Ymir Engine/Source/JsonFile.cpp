@@ -978,6 +978,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
         json_object_set_number(componentObject, "Active", cmaterial->active);
 
+        // Shader
+     
+        //json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
+
         // Texture maps
         json_object_set_number(componentObject, "ID", cmaterial->ID);
         json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
