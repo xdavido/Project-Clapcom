@@ -103,6 +103,9 @@
     <Filter Include="Externals\ImGuiTextEditor">
       <UniqueIdentifier>{e58bded8-c50c-4799-a1f8-6f87896d18b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\PugiXML">
+      <UniqueIdentifier>{6834f278-314d-4c2a-8d49-9cbe147332b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -801,6 +804,12 @@
     <ClInclude Include="Source\CS_Transform_Bindings.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\External\PugiXML\pugiconfig.hpp">
+      <Filter>Externals\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\PugiXML\pugixml.hpp">
+      <Filter>Externals\PugiXML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1120,6 +1129,9 @@
     </ClCompile>
     <ClCompile Include="Source\ModuleMonoManager.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\PugiXML\pugixml.cpp">
+      <Filter>Externals\PugiXML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
