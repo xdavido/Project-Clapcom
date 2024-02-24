@@ -102,6 +102,8 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	return nullptr;
 }
 
+
+
 void GameObject::DestroyGameObject()
 {
 	mTransform = nullptr;

@@ -17,6 +17,8 @@ public:
 
 	void Update() override;
 
+	void ReloadComponent();
+
 	void OnInspector() override;
 
 	//void SaveData(JSON_Object* nObj);

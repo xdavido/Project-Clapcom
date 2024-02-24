@@ -133,8 +133,22 @@ void ModuleMonoManager::ReCompileCS()
 	//App->scene->LoadScene();
 	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta función no existe
 
+
 	
 	External->editor->scriptEditor->LoadScriptTXT(("Assets/Scripts/" + External->editor->scriptEditor->txtName + ".cs").c_str());
+
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+
+		if ((*it) != nullptr) {
+
+
+			CScript* script = (CScript*)(*it)->GetComponent(ComponentType::SCRIPT);
+			if (script != nullptr) script->ReloadComponent();
+
+		}
+
+
+	}
 }
 
 //ASK: Is this the worst idea ever? TOO SLOW

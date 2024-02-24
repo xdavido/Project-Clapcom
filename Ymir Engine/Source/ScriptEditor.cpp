@@ -41,7 +41,7 @@ void ScriptEditor::Draw()
 			if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 			{
 				LOG("[WARNING] You cannot save a script while running program");
-				return;
+				
 			}
 			else
 			{

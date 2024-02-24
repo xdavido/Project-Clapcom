@@ -20,7 +20,7 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 	//strcpy(name, scriptName);
 
 	//EngineExternal->moduleMono->DebugAllMethods(DE_SCRIPTS_NAMESPACE, "GameObject", methods);
-	LoadScriptData(scriptName);
+	LoadScriptData(name.c_str());
 
 	for (unsigned int i = 0; i < fields.size(); i++)
 	{
@@ -64,19 +64,28 @@ void CScript::Update()
 	CScript::runningScript = this; // I really think this is the peak of stupid code, but hey, it works, slow as hell but works.
 
 	MonoObject* exec = nullptr;
-	mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);
 
-	if (exec != nullptr)
-	{
-		if (strcmp(mono_class_get_name(mono_object_get_class(exec)), "NullReferenceException") == 0)
-		{
-			LOG("Null reference exception detected");
-		}
-		else
-		{
-			LOG("Something went wrong");
-		}
-	}
+	//mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);  //Peta al hacer PLAY en el motor
+
+	//if (exec != nullptr)
+	//{
+	//	if (strcmp(mono_class_get_name(mono_object_get_class(exec)), "NullReferenceException") == 0)
+	//	{
+	//		LOG("Null reference exception detected");
+	//	}
+	//	else
+	//	{
+	//		LOG("Something went wrong");
+	//	}
+	//}
+}
+
+void CScript::ReloadComponent() {
+
+
+	LoadScriptData(name.c_str());
+
+
 }
 
 void CScript::OnInspector()

@@ -15,7 +15,7 @@ public class Core : YmirComponent
     public float mouseSens = 5.0f;
 
 	public bool testBool = false;
-	public string testString = "Hello World";
+	public string testString = "aaaaaaa";
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
@@ -46,8 +46,8 @@ public class Core : YmirComponent
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
             InternalCalls.CreateGameObject("Cube", reference);
 
-        //if (Input.GetMouseX() != 0 && turret != null)
-        //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
+        if (Input.GetMouseX() != 0 && turret != null)
+            turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
 
         //if (Input.GetMouseY() != 0 && turret != null)
         //    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);
@@ -60,6 +60,27 @@ public class Core : YmirComponent
         return;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
