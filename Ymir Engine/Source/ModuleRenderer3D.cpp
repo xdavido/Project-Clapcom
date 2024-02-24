@@ -374,7 +374,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::HandleDragAndDrop()
 {
-	if (App->input->droppedFile) {
+	/*if (App->input->droppedFile) {
 
 		if (IsFileExtension(App->input->droppedFileDirectory, ".fbx") || IsFileExtension(App->input->droppedFileDirectory, ".FBX") || IsFileExtension(App->input->droppedFileDirectory, ".DAE") || IsFileExtension(App->input->droppedFileDirectory, ".dae")) {
 
@@ -412,7 +412,7 @@ void ModuleRenderer3D::HandleDragAndDrop()
 		
 		App->input->droppedFile = false;
 
-	}
+	}*/
 }
 
 bool ModuleRenderer3D::IsFileExtension(const char* directory, const char* extension)

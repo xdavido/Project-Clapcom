@@ -386,13 +386,13 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	Mesh tmpMesh(vertices, indices, textures, linkGO, transform, shaderPath);
 
-	CMesh* cmesh = new CMesh(linkGO);
+	/*CMesh* cmesh = new CMesh(linkGO);
 
 	cmesh->meshReference = &tmpMesh;
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
 
-	linkGO->AddComponent(cmesh);
+	linkGO->AddComponent(cmesh);*/
 
 	JsonFile ymeshFile(External->fileSystem->libraryMeshesPath, std::to_string(linkGO->UID) + ".ymesh");
 
