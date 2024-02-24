@@ -27,6 +27,7 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 		const char* name = mono_field_get_name(fields[i].field);
 		if (strcmp(mono_field_get_name(fields[i].field), "thisReference") == 0)
 		{
+			//WORKING HERE: Un for que itera todos los "fields" y los rellena con el GO "_gm"
 			fields[i].fiValue.goValue = _gm;
 			SetField(fields[i].field, _gm);
 		}

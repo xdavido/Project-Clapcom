@@ -378,4 +378,13 @@ std::string PhysfsEncapsule::UnNormalizePath(const char* full_path)
     return newPath;
 }
 
-
+std::string PhysfsEncapsule::NormalizePath(const char* full_path)
+{
+	std::string newPath(full_path);
+	for (int i = 0; i < newPath.size(); ++i)
+	{
+		if (newPath[i] == '\\')
+			newPath[i] = '/';
+	}
+	return newPath;
+}

@@ -19,8 +19,11 @@
 #include "PhysfsEncapsule.h"
 
 #include <iostream>
-#include <fstream> 
-//#include "PugiXML/pugixml.hpp"
+#include <fstream>  
+#include <filesystem>
+
+#include "External/PugiXML/pugixml.hpp"
+
 //#include "IM_FileSystem.h"
 //#include "ImGui/imgui.h"
 //#include "WI_TextEditor.h"
@@ -326,70 +329,70 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 
 	outfile.close();
 
-	//AddScriptToSLN(unnormalizedPath.c_str());		//TODO: Descomentar cuand esté AddScriptToSLN
+	AddScriptToSLN(unnormalizedPath.c_str());
 	ReCompileCS();
 }
 
-//void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
-//{
-//	//TODO: El Miquel usa XML, no entiendo como
-//	pugi::xml_document doc;
-//	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
-//
-//	if (result.status == pugi::xml_parse_status::status_file_not_found)
-//		assert(false, "XML File not loaded");
-//
-//	std::string path; // Should be like ../Assets/Scripts/Hola.cs
-//	path += scriptLocalPath;
-//	std::string name = path.substr(path.find_last_of("\\"));
-//
-//	pugi::xml_node whereToAdd = doc.child("Project");
-//	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
-//	{
-//		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
-//		{
-//			panel = panel.append_child();
-//			panel.set_name("Compile");
-//			pugi::xml_attribute att = panel.append_attribute("Include");
-//			att.set_value(path.c_str());
-//
-//			break;
-//		}
-//	}
-//
-//	doc.save_file("Assembly-CSharp.csproj");
-//}
+void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
+{
+	//TODO: El Miquel usa XML, no entiendo como
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
 
-//void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)
-//{
-//	pugi::xml_document doc;
-//	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
-//
-//	if (result.status == pugi::xml_parse_status::status_file_not_found)
-//		assert(false, "XML File not loaded");
-//
-//	std::string path; // Should be like ../Assets/Scripts/Hola.cs
-//
-//	pugi::xml_node whereToRemove = doc.child("Project");
-//	for (pugi::xml_node panel = whereToRemove.first_child(); panel != nullptr; panel = panel.next_sibling())
-//	{
-//		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
-//		{
-//			for (pugi::xml_node toRemove = panel.first_child(); toRemove != nullptr; toRemove = toRemove.next_sibling())
-//			{
-//				path = FileSystem::NormalizePath(toRemove.attribute("Include").as_string());
-//
-//				if (strcmp(path.c_str(), scriptLocalPath) == 0)
-//				{
-//					panel.remove_child(toRemove);
-//					break;
-//				}
-//			}
-//		}
-//	}
-//
-//	doc.save_file("Assembly-CSharp.csproj");
-//}
+	if (result.status == pugi::xml_parse_status::status_file_not_found)
+		assert(false, "XML File not loaded");
+
+	std::string path; // Should be like ../Assets/Scripts/Hola.cs
+	path += scriptLocalPath;
+	std::string name = path.substr(path.find_last_of("\\"));
+
+	pugi::xml_node whereToAdd = doc.child("Project");
+	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
+	{
+		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
+		{
+			panel = panel.append_child();
+			panel.set_name("Compile");
+			pugi::xml_attribute att = panel.append_attribute("Include");
+			att.set_value(path.c_str());
+
+			break;
+		}
+	}
+
+	doc.save_file("Assembly-CSharp.csproj");
+}
+
+void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)
+{
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("Assembly-CSharp.csproj");
+
+	if (result.status == pugi::xml_parse_status::status_file_not_found)
+		assert(false, "XML File not loaded");
+
+	std::string path; // Should be like ../Assets/Scripts/Hola.cs
+
+	pugi::xml_node whereToRemove = doc.child("Project");
+	for (pugi::xml_node panel = whereToRemove.first_child(); panel != nullptr; panel = panel.next_sibling())
+	{
+		if (strcmp(panel.name(), "ItemGroup") == 0 && strcmp(panel.first_child().name(), "Compile") == 0)
+		{
+			for (pugi::xml_node toRemove = panel.first_child(); toRemove != nullptr; toRemove = toRemove.next_sibling())
+			{
+				path = PhysfsEncapsule::NormalizePath(toRemove.attribute("Include").as_string());
+
+				if (strcmp(path.c_str(), scriptLocalPath) == 0)
+				{
+					panel.remove_child(toRemove);
+					break;
+				}
+			}
+		}
+	}
+
+	doc.save_file("Assembly-CSharp.csproj");
+}
 
 
 void ModuleMonoManager::InitMono()
