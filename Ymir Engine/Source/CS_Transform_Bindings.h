@@ -210,7 +210,7 @@ void Destroy(MonoObject* go)
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
 	//GameObject* workGO = C_Script::runningScript->GetGO();
 	if (workGO == nullptr) {
-		LOG("AY LMAO CANT DELETE AYAYAYAYTA");		//Que le pasa al Miquel?
+		LOG("[ERROR] Can't delete GameObject from CS");
 		return;
 	}
 

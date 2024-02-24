@@ -38,8 +38,13 @@ public class Core : YmirComponent
         if (Input.GetKey(DEKeyCode.D) == KeyState.KEY_REPEAT)
             reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, -rotationSpeed * Time.deltaTime);
 
+        //Destroy current GameObject - It works
         if (Input.GetKey(DEKeyCode.X) == KeyState.KEY_REPEAT)
             InternalCalls.Destroy(reference);
+
+        //Create a GameObject - Not working
+        if (Input.GetKey(DEKeyCode.C) == KeyState.KEY_REPEAT)
+            InternalCalls.CreateGameObject("Cube", reference);
 
         //if (Input.GetMouseX() != 0 && turret != null)
         //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
