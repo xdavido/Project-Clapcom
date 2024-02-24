@@ -156,7 +156,7 @@ bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& fi
 	return true;
 }
 
-bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::string& filename)
+bool ModuleFileSystem::SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename)
 {
 	ILuint size;
 	ILubyte* data;

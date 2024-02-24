@@ -102,7 +102,7 @@ void Texture::LoadTexture(const std::string& path)
 
 	// 6. Save texture on Library as .dds
 
-	External->fileSystem->SaveTextureToFile(this, External->fileSystem->libraryTexturesPath + std::to_string(UID) + ".dds");
+	//External->fileSystem->SaveTextureToFile(this, External->fileSystem->libraryTexturesPath + std::to_string(UID) + ".dds");
 
 	// 7. Clean Up
 

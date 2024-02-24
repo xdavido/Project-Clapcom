@@ -42,11 +42,13 @@ public:
 
     void BindTexture(bool bind);
 
-private:
+public:
 
-    GLuint ID;
-    
     TextureType type;
+    GLuint ID;
+    uint UID;
+
+private:
 
     uint width; 
     uint height; 

@@ -30,6 +30,12 @@ public:
 
 	bool Render();
 
+	// AABB & OBB
+
+	void InitBoundingBoxes();
+	void UpdateBoundingBoxes();
+	void RenderBoundingBoxes();
+
 public:
 
 	std::vector<Vertex> vertices;
@@ -41,5 +47,12 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 	GLuint VAO;
+
+	// Bounding Boxes Handling
+
+	AABB globalAABB;
+
+	AABB aabb;
+	OBB obb;
 
 };

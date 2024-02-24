@@ -6,6 +6,8 @@
 #include "Module.h"
 #include "Resources.h"
 
+class GameObject;
+
 class ModuleResourceManager : public Module
 {
 public:

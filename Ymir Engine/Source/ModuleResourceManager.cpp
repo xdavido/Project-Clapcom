@@ -6,8 +6,10 @@
 #include "Random.h"
 #include "ModuleFileSystem.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
 #include "PhysfsEncapsule.h"
 #include "JsonFile.h"
+#include "GameObject.h"
 
 #include "ResourceModel.h"
 #include "ResourceMesh.h"
@@ -121,58 +123,77 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			}
 
 		}
+		else {
 
-		metaFile = JsonFile::GetJSON(metaFilePath);
-		uint UID = metaFile->GetInt("UID");
+			metaFile = JsonFile::GetJSON(metaFilePath);
+			uint UID = metaFile->GetInt("UID");
 
-		std::string ext;
-		PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
+			std::string ext;
+			PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
 
-		ResourceType type = GetTypeFromString(ext);
+			ResourceType type = GetTypeFromString(ext);
 
-		/* The resources that have to be transformed to Ymir Engine format have to be imported,
-		but the resources that are already in the custom format only have to be loaded. */
+			/* The resources that have to be transformed to Ymir Engine format have to be imported,
+			but the resources that are already in the custom format only have to be loaded. */
 
-		switch (type) {
+			switch (type) {
 
-		case ResourceType::MESH:
+			case ResourceType::MESH:
 
-			//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
-			break;
+				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+				break;
 
-		case ResourceType::MODEL:
-		{
-			//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
-			int* ids = metaFile->GetIntArray("Meshes Embedded UID");
-			for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+			case ResourceType::MODEL:
 			{
-				ResourceMesh* resource = static_cast<ResourceMesh*>
-					(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
+				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+
+				GameObject* modelGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), App->scene->mRootNode);
+
+				modelGO->UID = metaFile->GetInt("UID");
+
+				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
+
+				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+				{
+					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), modelGO);
+					meshGO->UID = ids[0];
+
+					ResourceMesh* rMesh = static_cast<ResourceMesh*>
+						(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
+
+					CMesh* cmesh = new CMesh(meshGO);
+
+					cmesh->rMeshReference = rMesh;
+
+					meshGO->AddComponent(cmesh);
+
+				}
+
+				//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
 			}
-
-			//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
-		}
-		break;
-
-		case ResourceType::SCENE:
-
-			//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
 			break;
 
-		case ResourceType::TEXTURE:
+			case ResourceType::SCENE:
 
-			//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
-			break;
+				//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
+				break;
 
-		case ResourceType::MATERIAL:
+			case ResourceType::TEXTURE:
 
-			//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
-			break;
+				//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
+				break;
 
-		case ResourceType::SHADER:
+			case ResourceType::MATERIAL:
 
-			//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
-			break;
+				//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
+				break;
+
+			case ResourceType::SHADER:
+
+				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+				break;
+
+			}
 
 		}
 	}
