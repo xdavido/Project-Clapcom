@@ -47,7 +47,7 @@ bool ModuleScene::Init()
 
 	// TODO: remove and do with proper constructor
 	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 0.0f));
+	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
 
 	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
 	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));

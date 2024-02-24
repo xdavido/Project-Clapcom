@@ -193,7 +193,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-		meshes.push_back(ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));
+		meshes.push_back(*ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));// TODO: mem leak
 	}
 
 	// Then do the same for each of its children
@@ -205,7 +205,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -306,11 +306,11 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	// Create the mesh
 
-	Mesh tmpMesh(vertices, indices, textures, linkGO, transform, shaderPath);
+	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
 
 	CMesh* cmesh = new CMesh(linkGO);
 
-	cmesh->meshReference = &tmpMesh;
+	cmesh->meshReference = tmpMesh;
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
 
@@ -318,7 +318,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	JsonFile ymeshFile(External->fileSystem->libraryMeshesPath, std::to_string(linkGO->UID) + ".ymesh");
 
-	External->fileSystem->SaveMeshToFile(&tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+	External->fileSystem->SaveMeshToFile(tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
 
 	return tmpMesh; // Retrieve the Mesh with all the necessary data to draw
 }

@@ -24,17 +24,7 @@ CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRAN
 	mLocalMatrix = float4x4::identity;
 	mGlobalMatrix = float4x4::identity;
 
-	// Load transform info from shader --------------- bad, component mesh doesn't exist before transform
-	//meshComponent = static_cast<CMesh*>(owner->GetComponent(ComponentType::MESH));
-	//if (meshComponent != nullptr)
-	//{
-	//	 translation = meshComponent->meshReference->meshShader.translation;
-	//	 eulerRot = meshComponent->meshReference->meshShader.rotation;
-	//	 scale = meshComponent->meshReference->meshShader.scale;
-	//}
-
 	dirty_ = true;
-
 }
 
 CTransform::CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled)
@@ -216,21 +206,21 @@ void CTransform::UpdateGlobalMatrix()
 
 	// TODO: Check if mesh exists? Probably there is a better way to do it. Then, update shader values.
 	meshComponent = static_cast<CMesh*>(mOwner->GetComponent(ComponentType::MESH));
+
 	if (meshComponent != nullptr)
 	{
 		float3 pos, sc;
 		Quat rot;
 		mGlobalMatrix.Decompose(pos, rot, sc);
-
 		float3 eulerRotation = rot.ToEulerXYZ();
 		eulerRotation *= RADTODEG;
 
 		meshComponent->meshReference->meshShader.translation = pos;
 		meshComponent->meshReference->meshShader.rotation = eulerRotation;
-		meshComponent->meshReference->meshShader.scale = scale;
+		meshComponent->meshReference->meshShader.scale = sc;
 	}
 
-	UpdateBoundingBoxes();
+	//UpdateBoundingBoxes();
 }
 
 void CTransform::UpdateLocalMatrix()

@@ -1303,7 +1303,7 @@ void ModuleEditor::DrawEditor()
 			float sceneFrameHeightOffset = ImGui::GetFrameHeight() / 2.0f;
 
 			// Gizmo Management
-			DrawGizmo(sceneWindowPos, sceneContentRegionMax, sceneFrameHeightOffset);
+			//DrawGizmo(sceneWindowPos, sceneContentRegionMax, sceneFrameHeightOffset);
 
 			// Mouse Picking Management
 
