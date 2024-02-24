@@ -125,24 +125,11 @@ bool ResourceMesh::Render()
 {
     bool ret = true;
 
-    if (!loadedShader) {
-
-        meshShader.LoadShader("Assets/Shaders/RainbowShader.glsl");
-
-        loadedShader = true;
-    }
-
-    meshShader.UseShader(true);
-
-    meshShader.SetShaderUniforms();
-
     glBindVertexArray(VAO);
 
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
-
-    meshShader.UseShader(false);
 
     return ret;
 }

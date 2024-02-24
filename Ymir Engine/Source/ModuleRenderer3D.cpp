@@ -174,7 +174,7 @@ bool ModuleRenderer3D::Init()
 
 	// Load Street Environment from the start
 
-	models.push_back(Model("Assets/BakerHouse.fbx"));
+	//models.push_back(Model("Assets/BakerHouse.fbx"));
 	//models.push_back(Model("Assets/Street_Environment/StreetEnvironment.fbx"));
 
 	// Skybox
@@ -268,22 +268,42 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	DrawModels();
 
-	// Iterate over all resources
-	for (const auto& pair : App->resourceManager->GetResourcesMap()) {
-		Resource* resource = pair.second;
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-		// Check if resource is of type ResourceMesh
-		if (resource->GetType() == ResourceType::MESH) {
-			// Cast resource to ResourceMesh*
-			if (auto* meshResource = dynamic_cast<ResourceMesh*>(resource)) {
-				// Render the resource
-				meshResource->Render();
+		if (materialComponent != nullptr) {
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(true);
+
 			}
-			else {
-				// Handle error if casting fails
-				std::cerr << "Failed to cast resource to ResourceMesh" << std::endl;
-			}
+
+			materialComponent->shader.UseShader(true);
+			materialComponent->shader.SetShaderUniforms();
+
 		}
+
+		if (meshComponent != nullptr) {
+
+			meshComponent->rMeshReference->Render();
+
+		}
+
+		if (materialComponent != nullptr) {
+
+			materialComponent->shader.UseShader(false);
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(false);
+
+			}
+
+		}
+
 	}
 
 	// Render Bounding Boxes

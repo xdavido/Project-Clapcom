@@ -1108,14 +1108,6 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
     gameObject.UID = json_object_get_number(gameObjectObject, "UID");
 
-    // Load Mesh from library
-    if (json_object_get_string(gameObjectObject, "Element_Type")) {
-
-        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject.UID) + ".ymesh";
-        External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject.UID);
-
-    }
-
     // Get Parent UID
 
     if (json_object_has_value_of_type(gameObjectObject, "Parent UID", JSONNumber)) {
@@ -1193,7 +1185,15 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
     }
     else if (type == "Mesh") {
 
+        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject->UID) + ".ymesh";
+        ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject->UID);
+
         CMesh* cmesh = new CMesh(gameObject);
+
+        cmesh->nVertices = json_object_get_number(componentObject, "Vertex Count");
+        cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
+
+        cmesh->rMeshReference = rMesh;
 
         gameObject->AddComponent(cmesh);
 
@@ -1211,9 +1211,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
         uint UID = json_object_get_number(componentObject, "UID");
         cmaterial->UID = UID;
 
-        gameObject->AddComponent(cmaterial);
-
         ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+        cmaterial->rTextures.push_back(rTex);
+
+        gameObject->AddComponent(cmaterial);
 
     }
     else if (type == "Camera") {

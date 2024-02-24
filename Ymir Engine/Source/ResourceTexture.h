@@ -40,6 +40,8 @@ public:
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
 
+    void BindTexture(bool bind);
+
 private:
 
     GLuint ID;

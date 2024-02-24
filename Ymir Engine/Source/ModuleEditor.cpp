@@ -2468,36 +2468,34 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					// This should be reworked for the next delivery (A2)
-
 					App->editor->DestroyHierarchyTree(node);
 
-					App->renderer3D->models.erase(
-						std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
-							[](const Model& model) { return model.modelGO->selected; }
-						),
-						App->renderer3D->models.end()
-					);
+					//App->renderer3D->models.erase(
+					//	std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
+					//		[](const Model& model) { return model.modelGO->selected; }
+					//	),
+					//	App->renderer3D->models.end()
+					//);
 
-					for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
-						// Check if the entire model is selected
-						if ((*it).modelGO->selected) {
+					//for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
+					//	// Check if the entire model is selected
+					//	if ((*it).modelGO->selected) {
 
-							it = App->renderer3D->models.erase(it); // Remove the entire model
+					//		it = App->renderer3D->models.erase(it); // Remove the entire model
 
-						}
-						else {
-							// If the model is not selected, check its meshes
-							auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
+					//	}
+					//	else {
+					//		// If the model is not selected, check its meshes
+					//		auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
 
-							meshes.erase(
-								std::remove_if(meshes.begin(), meshes.end(),
-									[](const Mesh& mesh) { return mesh.meshGO->selected; }
-								),
-								meshes.end()
-							);
-						}
-					}
+					//		meshes.erase(
+					//			std::remove_if(meshes.begin(), meshes.end(),
+					//				[](const Mesh& mesh) { return mesh.meshGO->selected; }
+					//			),
+					//			meshes.end()
+					//		);
+					//	}
+					//}
 
 					App->scene->gameObjects.erase(
 						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
@@ -2512,6 +2510,8 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 					}
 
+					App->resourceManager->UnloadResource(node->UID);
+
 					delete node;
 					node = nullptr;
 
@@ -2519,6 +2519,14 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 				else if (node == App->scene->mRootNode && node->selected) {
 
 					App->scene->ClearScene();
+
+					for (const auto& pair : App->resourceManager->GetResourcesMap()) {
+
+						Resource* resource = pair.second;
+
+						App->resourceManager->ReleaseResource(resource);
+
+					}
 
 				}
 

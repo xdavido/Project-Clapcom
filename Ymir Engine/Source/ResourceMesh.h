@@ -36,10 +36,6 @@ public:
 	std::vector<GLuint> indices;
 	ResourceMaterial* material;
 
-	//Shader para renderizar
-	bool loadedShader = false;
-	Shader meshShader;
-
 private:
 
 	GLuint VBO;

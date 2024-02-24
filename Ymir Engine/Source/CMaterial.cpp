@@ -15,6 +15,9 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
     ID = 0;
     UID = 0;
     selectedShader = 0;
+
+    shader.LoadShader(SHADER_VS_FS);
+
 }
 
 CMaterial::~CMaterial()
