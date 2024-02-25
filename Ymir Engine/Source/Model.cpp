@@ -178,7 +178,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		//else {
 
 			// The meta file doesn't exists; first time loading the texture.
-			currentNodeGO->UID = Random::Generate();
+		currentNodeGO->UID = Random::Generate();
 
 		//}
 
@@ -296,8 +296,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			std::string path = directory + aiPath.C_Str();
 
-			// Hay que cargar de 0 la textura, pero resource texture asume que ya existe en library.
-
 			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
 			if (metaFile == nullptr) {
@@ -306,17 +304,10 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				ImporterTexture::Import(path, rTexTemp);
 
-				JsonFile textureMetaFile;
-
-				textureMetaFile.SetString("Assets Path", path.c_str());
-				textureMetaFile.SetString("Library Path", (External->fileSystem->libraryTexturesPath + std::to_string(rTexTemp->UID) + ".dds").c_str());
-				textureMetaFile.SetInt("UID", rTexTemp->UID);
-				textureMetaFile.SetString("Type", "Texture");
-
-				External->fileSystem->CreateMetaFileFromAsset(path, textureMetaFile);
-
 				delete rTexTemp;
 				rTexTemp = nullptr;
+
+				// Get meta
 
 				JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
@@ -330,6 +321,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				cmaterial->UID = UID;
 				cmaterial->path = libraryPath;
 				cmaterial->rTextures.push_back(rTex);
+
+				delete metaFile;
 
 			}
 			else {
@@ -348,6 +341,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				cmaterial->rTextures.push_back(rTex);
 
 			}
+
+			delete metaFile;
 
 		}
 

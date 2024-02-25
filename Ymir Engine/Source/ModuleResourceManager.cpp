@@ -158,6 +158,12 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), modelGO);
 					meshGO->UID = ids[0];
 
+					if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
+
+						App->renderer3D->models.push_back(Model(path));
+
+					}
+
 					ResourceMesh* rMesh = static_cast<ResourceMesh*>
 						(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
 
