@@ -15,7 +15,7 @@ public class Core : YmirComponent
     public float mouseSens = 5.0f;
 
 	public bool testBool = false;
-	public string testString = "aaaaaaa";
+	public string testString = "Juan";
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
@@ -60,3 +60,4 @@ public class Core : YmirComponent
         return;
 	}
 }
+
