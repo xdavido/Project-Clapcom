@@ -16,15 +16,24 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		// The meta file exists; it's not the first time we load the texture.
 		ourTexture->UID = tmpMetaFile->GetInt("UID");
 
-		delete tmpMetaFile;
-
 	}
 	else {
 
 		// The meta file doesn't exists; first time loading the texture.
 		ourTexture->UID = Random::Generate();
 
+		JsonFile textureMetaFile;
+
+		textureMetaFile.SetString("Assets Path", path.c_str());
+		textureMetaFile.SetString("Library Path", (External->fileSystem->libraryTexturesPath + std::to_string(ourTexture->UID) + ".dds").c_str());
+		textureMetaFile.SetInt("UID", ourTexture->UID);
+		textureMetaFile.SetString("Type", "Texture");
+
+		External->fileSystem->CreateMetaFileFromAsset(path, textureMetaFile);
+
 	}
+
+	delete tmpMetaFile;
 
 	// 1. Load DevIL Image
 
@@ -88,6 +97,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
+
 }
 
 uint ImporterTexture::Save(const Texture* ourTexture, char** fileBuffer)

@@ -99,7 +99,10 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, -1);
+		int it = 0;
+		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
+
+		GenerateModelMetaFile();
 
 		LOG("Model created: %s", name.c_str());
 
@@ -112,7 +115,7 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int iteration)
+void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration)
 {
 	// Retrieve transformation from Assimp
 
@@ -157,6 +160,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		}
 
+		modelGO->type = "Model";
+
 	}
 	else {
 
@@ -165,28 +170,25 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		// Model Meta File and Library File Creation
 
-		//JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+		JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-		//if (tmpMetaFile) {
+		if (tmpMetaFile) {
 
-			// The meta file exists; it's not the first time we load the texture.
-			//currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
-			
-			//delete tmpMetaFile;
+			// The meta file exists; it's not the first time we load the model.
+			currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+			iteration++;
 
-		//}
-		//else {
+		}
+		else {
 
-			// The meta file doesn't exists; first time loading the texture.
+			// The meta file doesn't exists; first time loading the model.
 			currentNodeGO->UID = Random::Generate();
 
-		//}
+		}
 
 		embeddedMeshesUID.push_back(currentNodeGO->UID);
 
-		GenerateModelMetaFile();
-
-		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
+		delete tmpMetaFile;
 
 	}
 
@@ -205,6 +207,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 	{
 		ProcessNode(node->mChildren[i], scene, currentNodeGO, shaderPath, iteration);
 	}
+
+	GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
 
 }
 
@@ -296,27 +300,18 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			std::string path = directory + aiPath.C_Str();
 
-			// Hay que cargar de 0 la textura, pero resource texture asume que ya existe en library.
-
 			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
+
+			ResourceTexture* rTexTemp = new ResourceTexture(0);
+			
+			ImporterTexture::Import(path, rTexTemp);
+
+			delete rTexTemp;
+			rTexTemp = nullptr;
 
 			if (metaFile == nullptr) {
 
-				ResourceTexture* rTexTemp = new ResourceTexture(0);
-
-				ImporterTexture::Import(path, rTexTemp);
-
-				JsonFile textureMetaFile;
-
-				textureMetaFile.SetString("Assets Path", path.c_str());
-				textureMetaFile.SetString("Library Path", (External->fileSystem->libraryTexturesPath + std::to_string(rTexTemp->UID) + ".dds").c_str());
-				textureMetaFile.SetInt("UID", rTexTemp->UID);
-				textureMetaFile.SetString("Type", "Texture");
-
-				External->fileSystem->CreateMetaFileFromAsset(path, textureMetaFile);
-
-				delete rTexTemp;
-				rTexTemp = nullptr;
+				// Get meta
 
 				JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
@@ -330,6 +325,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				cmaterial->UID = UID;
 				cmaterial->path = libraryPath;
 				cmaterial->rTextures.push_back(rTex);
+
+				delete metaFile;
 
 			}
 			else {
@@ -348,6 +345,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				cmaterial->rTextures.push_back(rTex);
 
 			}
+
+			delete metaFile;
 
 		}
 

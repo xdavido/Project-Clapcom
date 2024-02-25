@@ -1,31 +1,31 @@
 {
     "Editor Camera Position": [
-        -36,
-        48,
-        100
+        2.2884836196899414,
+        3.3341774940490723,
+        5.4993891716003418
     ],
     "Editor Camera Right (X)": [
-        0.94088733196258545,
-        0,
-        0.33871945738792419
+        0.92618691921234131,
+        -2.0116567611694336e-07,
+        -0.37708574533462524
     ],
     "Editor Camera Up (Y)": [
-        0.13941577076911926,
-        0.91136610507965088,
-        -0.38726601004600525
+        -0.10421056300401688,
+        0.96105808019638062,
+        -0.25595942139625549
     ],
     "Editor Camera Front (Z)": [
-        0.30869746208190918,
-        -0.41159659624099731,
-        -0.85749292373657227
+        -0.36239853501319885,
+        -0.2763608992099762,
+        -0.89011240005493164
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1810464157,
+            "UID": 1250520319,
+            "Element_Type": "None",
             "Children UID": [
-                85428790,
-                1903633990
+                1004644429
             ],
             "Components": [
                 {
@@ -50,62 +50,13 @@
             ]
         },
         {
-            "Name": "Main Camera",
-            "UID": 85428790,
-            "Parent UID": 1810464157,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Scale": [
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "Type": "Camera",
-                    "Active": 1,
-                    "Right": [
-                        0.80355727672576904,
-                        0,
-                        0.59522765874862671
-                    ],
-                    "Up": [
-                        0.23584151268005371,
-                        0.91815537214279175,
-                        -0.3183860182762146
-                    ],
-                    "Front": [
-                        0.54651135206222534,
-                        -0.39622071385383606,
-                        -0.73779028654098511
-                    ],
-                    "FOV": 60.000003814697266,
-                    "Near Plane": 1,
-                    "Far Plane": 1000,
-                    "Frustum Culling": 1,
-                    "Draw Bounding Boxes": 0
-                }
-            ]
-        },
-        {
             "Name": "BakerHouse",
-            "UID": 1903633990,
-            "Parent UID": 1810464157,
+            "UID": 1004644429,
+            "Element_Type": "Model",
+            "Parent UID": 1250520319,
             "Children UID": [
-                1632782280,
-                1896492994
+                526634802,
+                862718486
             ],
             "Components": [
                 {
@@ -131,9 +82,9 @@
         },
         {
             "Name": "Chimney",
-            "UID": 1632782280,
-            "Element_Type": "Mesh",
-            "Parent UID": 1903633990,
+            "UID": 526634802,
+            "Element_Type": "None",
+            "Parent UID": 1004644429,
             "Components": [
                 {
                     "Type": "Transform",
@@ -153,24 +104,27 @@
                         0,
                         0
                     ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
+                    "UID": 1079353372
                 },
                 {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 160,
                     "Index Count": 324
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1
                 }
             ]
         },
         {
             "Name": "Baker_house",
-            "UID": 1896492994,
-            "Element_Type": "Mesh",
-            "Parent UID": 1903633990,
+            "UID": 862718486,
+            "Element_Type": "None",
+            "Parent UID": 1004644429,
             "Components": [
                 {
                     "Type": "Transform",
@@ -192,14 +146,17 @@
                     ]
                 },
                 {
+                    "Type": "Material",
+                    "Active": 1,
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
+                    "UID": 1079353372
+                },
+                {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 1641,
                     "Index Count": 2751
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1
                 }
             ]
         }

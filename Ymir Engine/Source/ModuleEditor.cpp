@@ -1023,7 +1023,7 @@ void ModuleEditor::DrawEditor()
 				isPlaying = false;
 				isPaused = false;
 
-				App->scene->LoadScene();
+				App->scene->QuickLoadScene();
 
 			}
 
@@ -1036,7 +1036,7 @@ void ModuleEditor::DrawEditor()
 
 				isPlaying = true;
 
-				App->scene->SaveScene();
+				App->scene->QuickSaveScene();
 
 			}
 
@@ -3053,93 +3053,97 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 
-	// Process Directories First
+	if (PhysfsEncapsule::FolderExists(libraryFolder)) {
 
-	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+		// Process Directories First
 
-		if (entry.is_directory()) {
+		for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-			std::string entryName = entry.path().filename().string();
+			if (entry.is_directory()) {
 
-			if (entryName != "." && entryName != "..") {
+				std::string entryName = entry.path().filename().string();
 
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				if (entryName != "." && entryName != "..") {
 
-				if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
-					DrawLibraryWindow(entry.path().string());
+					if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
 
-					ImGui::TreePop();
+						DrawLibraryWindow(entry.path().string());
+
+						ImGui::TreePop();
+
+					}
+
+					ImGui::PopStyleColor();
 
 				}
-
-				ImGui::PopStyleColor();
 
 			}
 
 		}
 
-	}
+		// Process Files Afterwards
 
-	// Process Files Afterwards
+		for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+			if (!entry.is_directory()) {
 
-		if (!entry.is_directory()) {
+				std::string entryName = entry.path().filename().string();
 
-			std::string entryName = entry.path().filename().string();
+				if (entryName != "." && entryName != "..") {
 
-			if (entryName != "." && entryName != "..") {
+					if ((entryName.find(".yscene") != std::string::npos) ||
+						(entryName.find(".ymodel") != std::string::npos) ||
+						(entryName.find(".json") != std::string::npos)) {
 
-				if ((entryName.find(".yscene") != std::string::npos) ||
-					(entryName.find(".ymodel") != std::string::npos) ||
-					(entryName.find(".json") != std::string::npos)) {
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
 
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
+						if (ImGui::Selectable(entryName.c_str())) {
 
-					if (ImGui::Selectable(entryName.c_str())) {
+							selectedFilePath = entry.path().string();
+							showModal = true;  // Set the flag to open the modal
 
-						selectedFilePath = entry.path().string();
-						showModal = true;  // Set the flag to open the modal
-
-					}
-
-					ImGui::PopStyleColor();
-
-				}
-				else {
-
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-					ImGui::Selectable(entryName.c_str());
-
-					if ((entryName.find(".dds") != std::string::npos)) {
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
 						}
 
+						ImGui::PopStyleColor();
+
 					}
+					else {
 
-					if ((entryName.find(".ymesh") != std::string::npos)) {
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
+						ImGui::Selectable(entryName.c_str());
 
-							ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+						if ((entryName.find(".dds") != std::string::npos)) {
 
-							ImGui::EndDragDropSource();
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
 						}
 
-					}
+						if ((entryName.find(".ymesh") != std::string::npos)) {
 
-					ImGui::PopStyleColor();
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
+						ImGui::PopStyleColor();
+
+					}
 
 				}
 

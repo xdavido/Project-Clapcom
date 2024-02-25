@@ -362,3 +362,25 @@ bool PhysfsEncapsule::DuplicateFile(const char* srcFile, const char* dstFile)
 	}
 
 }
+
+bool PhysfsEncapsule::RenameFile(std::string oldFile, std::string newFile) {
+
+	try {
+		// Check if the old file exists
+		if (!std::filesystem::exists(oldFile)) {
+			// Old file does not exist
+			return false;
+		}
+
+		// Rename the file
+		std::filesystem::rename(oldFile, newFile);
+
+		return true;
+	}
+	catch (const std::filesystem::filesystem_error& e) {
+		// An error occurred while renaming the file
+		// You can handle the error here
+		return false;
+	}
+
+}
