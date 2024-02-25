@@ -216,9 +216,12 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 	for (uint i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
+		
+		// Initialize bone data
+		SetVertexBoneDataDefault(vertex);
 
 		// Retrieve vertex positions
-
+		
 		float3 vPosition;
 
 		vPosition.x = mesh->mVertices[i].x;
@@ -427,4 +430,22 @@ void Model::GenerateYmodelFile(const float3& translation, const float3& rotation
 	ymodelFile.SetIntArray("Children UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
 
 	ymodelFile.CreateJSON(External->fileSystem->libraryModelsPath, std::to_string(modelGO->UID) + ".ymodel");
+}
+
+void Model::SetVertexBoneDataDefault(Vertex& vertex)
+{
+	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
+		vertex.boneIDs[i] = 1;
+		vertex.weights[i] = 0.0f;
+	}
+}
+
+void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
+{
+	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
+		if (vertex.boneIDs[i] < 0) {
+			vertex.boneIDs[i] = boneID;
+			vertex.weights[i] = weight;
+		}
+	}
 }

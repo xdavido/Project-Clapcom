@@ -42,6 +42,9 @@ private:
     void GenerateModelMetaFile();
     void GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale);
 
+    void SetVertexBoneDataDefault(Vertex& vertex);
+    void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
+
 public:
 
     // Model Data
