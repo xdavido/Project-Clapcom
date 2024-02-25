@@ -46,67 +46,17 @@ public class Core : YmirComponent
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
             InternalCalls.CreateGameObject("Cube", reference);
 
-        if (Input.GetMouseX() != 0 && turret != null)
-            turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
+        //if (Input.GetMouseX() != 0 && turret != null)
+        //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
 
-        //if (Input.GetMouseY() != 0 && turret != null)
-        //    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);
+        ////if (Input.GetMouseY() != 0 && turret != null)
+        ////    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);
 
-        if (Input.GetMouseClick(MouseButton.LEFT) == KeyState.KEY_DOWN)
-        {
-            InternalCalls.CreateBullet(shootPoint.globalPosition, shootPoint.globalRotation, shootPoint.globalScale);
-        }
+        //if (Input.GetMouseClick(MouseButton.LEFT) == KeyState.KEY_DOWN)
+        //{
+        //    InternalCalls.CreateBullet(shootPoint.globalPosition, shootPoint.globalRotation, shootPoint.globalScale);
+        //}
 
         return;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

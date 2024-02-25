@@ -65,19 +65,19 @@ void CScript::Update()
 
 	MonoObject* exec = nullptr;
 
-	//mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);  //Peta al hacer PLAY en el motor
+	mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);  //Peta al hacer PLAY en el motor
 
-	//if (exec != nullptr)
-	//{
-	//	if (strcmp(mono_class_get_name(mono_object_get_class(exec)), "NullReferenceException") == 0)
-	//	{
-	//		LOG("Null reference exception detected");
-	//	}
-	//	else
-	//	{
-	//		LOG("Something went wrong");
-	//	}
-	//}
+	if (exec != nullptr)
+	{
+		if (strcmp(mono_class_get_name(mono_object_get_class(exec)), "NullReferenceException") == 0)
+		{
+			LOG("[WARNING] Null reference exception detected");
+		}
+		else
+		{
+			LOG("[ERROR] Something went wrong");
+		}
+	}
 }
 
 void CScript::ReloadComponent() {
