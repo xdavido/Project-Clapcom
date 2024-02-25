@@ -103,6 +103,9 @@
     <Filter Include="Externals\ImGuiTextEditor">
       <UniqueIdentifier>{e58bded8-c50c-4799-a1f8-6f87896d18b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\ImGui\misc">
+      <UniqueIdentifier>{5b0e3b31-337f-408b-9e83-4393ca9991e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -789,6 +792,9 @@
     <ClInclude Include="Source\ShaderEditor.h">
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
+      <Filter>Externals\ImGui\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1102,6 +1108,9 @@
     </ClCompile>
     <ClCompile Include="Source\ShaderEditor.cpp">
       <Filter>Sources\Features\Shader Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

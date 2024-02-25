@@ -5,6 +5,7 @@
 #include "Module.h"
 #include "ResourceMesh.h"
 #include "Texture.h"
+#include "ResourceTexture.h"
 
 #include "JsonFile.h"
 
@@ -27,11 +28,11 @@ public:
 
 	// Save
 	bool SaveMeshToFile(const Mesh* ourMesh, const std::string& filename);
-	bool SaveTextureToFile(const Texture* ourTexture, const std::string& filename);
+	bool SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename);
 
 	// Load
 	bool LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh);
-	bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
+	//bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
 
 public:
 

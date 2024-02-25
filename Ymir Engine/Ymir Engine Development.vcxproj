@@ -99,6 +99,7 @@
     <ClInclude Include="Source\External\ImGuizmo\include\ImGuizmo.h" />
     <ClInclude Include="Source\External\ImGuizmo\include\ImSequencer.h" />
     <ClInclude Include="Source\External\ImGuizmo\include\ImZoomSlider.h" />
+    <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="Source\FrameBuffer.h" />
     <ClInclude Include="Source\Icon.h" />
     <ClInclude Include="Source\Application.h" />
@@ -338,6 +339,7 @@
     <ClCompile Include="Source\External\ImGui\imgui_draw.cpp" />
     <ClCompile Include="Source\External\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Source\External\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="Source\External\mmgr\mmgr.cpp" />
     <ClCompile Include="Source\External\Parson\parson.cpp" />
     <ClCompile Include="Source\FrameBuffer.cpp" />

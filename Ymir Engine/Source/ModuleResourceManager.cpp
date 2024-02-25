@@ -1,12 +1,15 @@
 #include "ModuleResourceManager.h"
+#include "ModuleRenderer3D.h"
 
 #include "Log.h"
 #include "External/Optick/include/optick.h"
 #include "Random.h"
 #include "ModuleFileSystem.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
 #include "PhysfsEncapsule.h"
 #include "JsonFile.h"
+#include "GameObject.h"
 
 #include "ResourceModel.h"
 #include "ResourceMesh.h"
@@ -29,7 +32,7 @@ ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enable
 
 ModuleResourceManager::~ModuleResourceManager()
 {
-	
+
 }
 
 bool ModuleResourceManager::Init()
@@ -77,94 +80,158 @@ void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
 	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
-Resource* ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
+void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 {
 	// Create Meta
 
 	std::string metaFilePath = assetsFilePath + ".meta"; // Assuming the meta file exists.
+	std::string path = assetsFilePath;
 
 	// Retrieve info from Meta
 
 	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
 
-	uint UID = metaFile->GetInt("UID");
-	ResourceType type = GetTypeFromString(metaFile->GetString("Type"));
+	// TODO: si no existe en escena --> check meta file / si existe, buscar el resource y crear gameobject nuveo con referencias a esos resources
+	if (true)
+	{
+		// If meta file doesn't exist
+		if (metaFile == nullptr)
+		{
+			switch (CheckExtensionType(assetsFilePath.c_str()))
+			{
+			case ResourceType::UNKNOWN:
+				break;
+			case ResourceType::TEXTURE:
+				break;
+			case ResourceType::MESH:
+			{
+				App->renderer3D->models.push_back(Model(path));
+			}
+			break;
+			case ResourceType::SCENE:
+				break;
+			case ResourceType::SHADER:
+				break;
+			case ResourceType::MATERIAL:
+				break;
+			case ResourceType::META:
+				break;
+			case ResourceType::ALL_TYPES:
+				break;
+			default:
+				break;
+			}
 
-	Resource* resource = CreateResourceFromAssets(assetsFilePath, type, UID);
+		}
+		else {
 
-	/* The resources that have to be transformed to Ymir Engine format have to be imported,
-	but the resources that are already in the custom format only have to be loaded. */
+			metaFile = JsonFile::GetJSON(metaFilePath);
+			uint UID = metaFile->GetInt("UID");
 
-	switch (resource->GetType()) {
+			std::string ext;
+			PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
 
-		case ResourceType::MESH:
+			ResourceType type = GetTypeFromString(ext);
 
-			//ImporterMesh::Load(assetsFilePath.c_str(), (ResourceMesh*)resource);
+			/* The resources that have to be transformed to Ymir Engine format have to be imported,
+			but the resources that are already in the custom format only have to be loaded. */
+
+			switch (type) {
+
+			case ResourceType::MESH:
+
+				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+				break;
+
+			case ResourceType::MODEL:
+			{
+				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+
+				GameObject* modelGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), App->scene->mRootNode);
+
+				modelGO->UID = metaFile->GetInt("UID");
+
+				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
+
+				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+				{
+					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), modelGO);
+					meshGO->UID = ids[0];
+
+					ResourceMesh* rMesh = static_cast<ResourceMesh*>
+						(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
+
+					CMesh* cmesh = new CMesh(meshGO);
+
+					cmesh->rMeshReference = rMesh;
+
+					meshGO->AddComponent(cmesh);
+
+				}
+
+				//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
+			}
 			break;
 
-		case ResourceType::MODEL:
+			case ResourceType::SCENE:
 
-			//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
-			break;
+				//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
+				break;
 
-		case ResourceType::SCENE:
+			case ResourceType::TEXTURE:
 
-			//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
-			break;
+				//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
+				break;
 
-		case ResourceType::TEXTURE:
+			case ResourceType::MATERIAL:
 
-			//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
-			break;
+				//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
+				break;
 
-		case ResourceType::MATERIAL:
+			case ResourceType::SHADER:
 
-			//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
-			break;
+				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+				break;
 
-		case ResourceType::SHADER:
+			}
 
-			//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
-			break;
-
+		}
 	}
-
-	return resource;
 }
 
 void ModuleResourceManager::SaveResourceToLibrary(Resource* resource)
 {
 	switch (resource->GetType()) {
 
-		case ResourceType::MESH:
-		
-			//ImporterMesh::Save((ResourceMesh*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MESH:
 
-		case ResourceType::MODEL:
+		//ImporterMesh::Save((ResourceMesh*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterModel::Save((ResourceModel*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MODEL:
 
-		case ResourceType::SCENE:
+		//ImporterModel::Save((ResourceModel*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterScene::Save((ResourceScene*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::SCENE:
 
-		case ResourceType::TEXTURE:
+		//ImporterScene::Save((ResourceScene*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterTexture::Save((ResourceTexture*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::TEXTURE:
 
-		case ResourceType::MATERIAL:
+		//ImporterTexture::Save((ResourceTexture*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterMaterial::Save((ResourceMaterial*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::MATERIAL:
 
-		case ResourceType::SHADER:
+		//ImporterMaterial::Save((ResourceMaterial*)resource, resource->GetLibraryFilePath());
+		break;
 
-			//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
-			break;
+	case ResourceType::SHADER:
+
+		//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
+		break;
 
 	}
 
@@ -192,7 +259,7 @@ uint ModuleResourceManager::ExistsInLibrary(const std::string& assetsFilePath) c
 			return UID;
 
 		}
-		
+
 	}
 
 	return 0;
@@ -202,7 +269,7 @@ bool ModuleResourceManager::ExistsInLibrary(ResourceType type, const uint& UID) 
 {
 	std::string libraryFilePath = resourceTypeToLibraryFolder.at(type) + std::to_string(UID) + "." + resourceTypeToString.at(type);
 
-	if (PhysfsEncapsule::FileExists(libraryFilePath)) 
+	if (PhysfsEncapsule::FileExists(libraryFilePath))
 	{
 		return true;
 	}
@@ -228,7 +295,7 @@ bool ModuleResourceManager::IsResourceLoaded(const uint& UID)
 		return true;
 
 	}
-		
+
 	return false;
 }
 
@@ -236,7 +303,7 @@ void ModuleResourceManager::LoadResource(const uint& UID)
 {
 	std::map<uint, Resource*>::iterator it = resources.find(UID);
 
-	if (it == resources.end()) 
+	if (it == resources.end())
 	{
 		return;
 	}
@@ -270,41 +337,41 @@ Resource* ModuleResourceManager::RequestResource(const uint& UID, const char* li
 
 				switch (tmpType) {
 
-					case ResourceType::MESH:
+				case ResourceType::MESH:
 
-						tmpResource = new ResourceMesh(UID);
+					tmpResource = new ResourceMesh(UID);
 
-						break;
+					break;
 
-					case ResourceType::MODEL:
+				case ResourceType::MODEL:
 
-						tmpResource = new ResourceModel(UID);
+					tmpResource = new ResourceModel(UID);
 
-						break;
+					break;
 
-					case ResourceType::SCENE:
+				case ResourceType::SCENE:
 
-						tmpResource = new ResourceScene(UID);
+					tmpResource = new ResourceScene(UID);
 
-						break;
+					break;
 
-					case ResourceType::TEXTURE:
+				case ResourceType::TEXTURE:
 
-						tmpResource = new ResourceTexture(UID);
+					tmpResource = new ResourceTexture(UID);
 
-						break;
+					break;
 
-					case ResourceType::MATERIAL:
+				case ResourceType::MATERIAL:
 
-						tmpResource = new ResourceMaterial(UID);
+					tmpResource = new ResourceMaterial(UID);
 
-						break;
+					break;
 
-					case ResourceType::SHADER:
+				case ResourceType::SHADER:
 
-						tmpResource = new ResourceShader(UID);
+					tmpResource = new ResourceShader(UID);
 
-						break;
+					break;
 
 				}
 
@@ -362,35 +429,35 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 
 	switch (type) {
 
-		case ResourceType::MESH:
+	case ResourceType::MESH:
 
-			tmpResource = new ResourceMesh(UID);
-			break;
+		tmpResource = new ResourceMesh(UID);
+		break;
 
-		case ResourceType::MODEL:
+	case ResourceType::MODEL:
 
-			tmpResource = new ResourceModel(UID);
-			break;
+		tmpResource = new ResourceModel(UID);
+		break;
 
-		case ResourceType::SCENE: 
+	case ResourceType::SCENE:
 
-			tmpResource = new ResourceScene(UID);
-			break;
+		tmpResource = new ResourceScene(UID);
+		break;
 
-		case ResourceType::TEXTURE: 
+	case ResourceType::TEXTURE:
 
-			tmpResource = new ResourceTexture(UID);
-			break;
+		tmpResource = new ResourceTexture(UID);
+		break;
 
-		case ResourceType::MATERIAL:
+	case ResourceType::MATERIAL:
 
-			tmpResource = new ResourceMaterial(UID);
-			break;
+		tmpResource = new ResourceMaterial(UID);
+		break;
 
-		case ResourceType::SHADER:
+	case ResourceType::SHADER:
 
-			tmpResource = new ResourceShader(UID);
-			break;
+		tmpResource = new ResourceShader(UID);
+		break;
 
 	}
 
@@ -485,7 +552,7 @@ ResourceType ModuleResourceManager::GetTypeFromLibraryPath(std::string libraryFi
 	else if (extension == "ymat") return ResourceType::MATERIAL;
 	else if (extension == "dds") return ResourceType::TEXTURE;
 	else if (extension == "spv") return ResourceType::SHADER;
-	
+
 	return ResourceType::UNKNOWN;
 }
 
@@ -520,10 +587,16 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 {
 	std::vector<std::string> obj_ext = { "fbx", "FBX", "obj", "OBJ", "DAE", "dae" };
 	std::vector<std::string> tex_ext = { "png", "PNG", "jpg", "JPG", "dds", "DDS", "tga", "TGA" };
+	std::vector<std::string> meta_ext = { "meta", "json" };
 
 	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
 	{
 		return ResourceType::SCENE;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, meta_ext))
+	{
+		return ResourceType::META;
 	}
 
 	if (PhysfsEncapsule::HasExtension(fileDir, obj_ext))

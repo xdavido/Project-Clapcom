@@ -30,20 +30,29 @@ public:
 
 	bool Render();
 
+	// AABB & OBB
+
+	void InitBoundingBoxes();
+	void UpdateBoundingBoxes();
+	void RenderBoundingBoxes();
+
 public:
 
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	ResourceMaterial* material;
 
-	//Shader para renderizar
-	bool loadedShader = false;
-	Shader meshShader;
-
 private:
 
 	GLuint VBO;
 	GLuint EBO;
 	GLuint VAO;
+
+	// Bounding Boxes Handling
+
+	AABB globalAABB;
+
+	AABB aabb;
+	OBB obb;
 
 };

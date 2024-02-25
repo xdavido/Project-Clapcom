@@ -2,7 +2,9 @@
 
 #include "Component.h"
 #include "Globals.h"
+
 #include "Mesh.h"
+#include "ResourceMesh.h"
 
 class CMesh : public Component {
 public:
@@ -21,5 +23,6 @@ public:
 	uint nIndices;
 
 	Mesh* meshReference;
+	ResourceMesh* rMeshReference;
 
 };

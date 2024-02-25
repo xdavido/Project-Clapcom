@@ -69,8 +69,8 @@ bool ModuleScene::Start()
 {
 	// Hardcoded Scene To test Resource Manager (delete Library makes them not functionable)
 	
-	// LoadScene("Library/Scenes/1574951872.yscene"); // Baker House
-	// LoadScene("Library/Scenes/261139822.yscene"); // Street Environment
+	// LoadScene("Library/Scenes/1289471974.yscene"); // Baker House
+	// LoadScene("Assets/Scenes/aa.yscene"); // Street Environment
 
 	return false;
 }
@@ -123,6 +123,8 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -163,6 +165,7 @@ void ModuleScene::DestroyGameObject(GameObject* toDestroy)
 void ModuleScene::ClearScene()
 {
 	//JsonFile::DeleteJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+
 	uint deletedSceneUID = mRootNode->UID;
 
 	App->editor->DestroyHierarchyTree(mRootNode);
@@ -182,6 +185,7 @@ void ModuleScene::SaveScene()
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
 	ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
+
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");

@@ -344,27 +344,21 @@ bool PhysfsEncapsule::DuplicateFile(const char* file, const char* dstFolder, std
 
 bool PhysfsEncapsule::DuplicateFile(const char* srcFile, const char* dstFile)
 {
-	//TODO: Compare performance to calling Load(srcFile) and then Save(dstFile)
-	std::ifstream src;
-	src.open(srcFile, std::ios::binary);
-	bool srcOpen = src.is_open();
-	std::ofstream  dst(dstFile, std::ios::binary);
-	bool dstOpen = dst.is_open();
+	try {
 
-	dst << src.rdbuf();
+		std::filesystem::copy_file(srcFile, dstFile, std::filesystem::copy_options::overwrite_existing);
 
-	src.close();
-	dst.close();
+		LOG("File System: File %s duplicated correctly.\n", srcFile);
 
-	if (srcOpen && dstOpen)
-	{
-		LOG("File System: File %s Duplicated Correctly", srcFile);
 		return true;
+
 	}
-	else
-	{
-		LOG("[ERROR] File System: Could not be duplicated");
+	catch (const std::filesystem::filesystem_error& e) {
+
+		LOG("[ERROR] File System: %s\n", e.what());
+
 		return false;
+
 	}
-	return false;
+
 }
