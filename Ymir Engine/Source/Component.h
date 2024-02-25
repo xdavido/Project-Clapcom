@@ -8,6 +8,7 @@ enum ComponentType {
 	TRANSFORM,
 	MESH,
 	MATERIAL,
+	ANIMATION,
 	CAMERA
 
 };
