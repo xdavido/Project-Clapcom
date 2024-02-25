@@ -99,7 +99,10 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, -1);
+		int it = 0;
+		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
+
+		GenerateModelMetaFile();
 
 		LOG("Model created: %s", name.c_str());
 
@@ -112,7 +115,7 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int iteration)
+void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration)
 {
 	// Retrieve transformation from Assimp
 
@@ -165,28 +168,25 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		// Model Meta File and Library File Creation
 
-		//JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+		JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-		//if (tmpMetaFile) {
+		if (tmpMetaFile) {
 
-			// The meta file exists; it's not the first time we load the texture.
-			//currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
-			
-			//delete tmpMetaFile;
+			// The meta file exists; it's not the first time we load the model.
+			currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+			iteration++;
 
-		//}
-		//else {
+		}
+		else {
 
-			// The meta file doesn't exists; first time loading the texture.
-		currentNodeGO->UID = Random::Generate();
+			// The meta file doesn't exists; first time loading the model.
+			currentNodeGO->UID = Random::Generate();
 
-		//}
+		}
 
 		embeddedMeshesUID.push_back(currentNodeGO->UID);
 
-		GenerateModelMetaFile();
-
-		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
+		delete tmpMetaFile;
 
 	}
 
@@ -205,6 +205,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 	{
 		ProcessNode(node->mChildren[i], scene, currentNodeGO, shaderPath, iteration);
 	}
+
+	GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
 
 }
 
