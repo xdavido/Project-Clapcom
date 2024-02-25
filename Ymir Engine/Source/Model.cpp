@@ -461,6 +461,7 @@ void Model::GenerateModelMetaFile()
 {
 	JsonFile modelMetaFile;
 
+	modelMetaFile.SetString("Name", name.c_str());
 	modelMetaFile.SetString("Assets Path", path.c_str());
 	modelMetaFile.SetString("Library Path", (External->fileSystem->libraryModelsPath + std::to_string(modelGO->UID) + ".ymodel").c_str());
 	modelMetaFile.SetInt("UID", modelGO->UID);
