@@ -95,16 +95,17 @@ void CScript::OnInspector()
 	if (ImGui::CollapsingHeader("Script", flags))
 	{
 		ImGui::Text("Scripting things");
+		for (int i = 0; i < fields.size(); i++)
+		{
+			DropField(fields[i], "_GAMEOBJECT");
+		}
+		ImGui::Separator();
+		for (int i = 0; i < methods.size(); i++)
+		{
+			ImGui::Text(methods[i].c_str());
+		}
 	}
-	for (int i = 0; i < fields.size(); i++)
-	{
-		DropField(fields[i], "_GAMEOBJECT");
-	}
-	ImGui::Separator();
-	for (int i = 0; i < methods.size(); i++)
-	{
-		ImGui::Text(methods[i].c_str());
-	}
+
 }
 
 //
