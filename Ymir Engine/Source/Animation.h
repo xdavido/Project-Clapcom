@@ -15,18 +15,6 @@
 
 #include "Globals.h"
 
-struct Channel {
-
-	std::string name;
-
-	std::map<double, float3> positionKeys;
-	std::map<double, Quat> rotationKeys;
-	std::map<double, float3> scaleKeys;
-
-
-
-};
-
 class Animation {
 public:
 
@@ -46,8 +34,6 @@ private:
 
 	bool isLoopable;
 	bool canPingPong;
-
-	std::map<std::string, Channel> channels;
 
 };
 

@@ -35,11 +35,6 @@ struct Vertex {
     float weights[MAX_BONE_INFLUENCE];
 };
 
-struct BoneInfo {
-    int id;
-
-    float4x4 offset;
-};
 
 
 class Mesh {
@@ -60,9 +55,6 @@ public:
 
     void ApplyTransformation(Vertex& vertex);
 
-    std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap;}
-
-    int GetBoneCount() { return boneCounter; }
 
 public:
 
@@ -95,9 +87,7 @@ public:
     AABB aabb;
     OBB obb;
 
-    //Animation stuff
-    std::map<std::string, BoneInfo> boneInfoMap;
-    int boneCounter;
+    
 
 private:
 

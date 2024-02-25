@@ -22,6 +22,12 @@ struct NodeTransform {
 
 };
 
+struct BoneInfo {
+    int id;
+
+    float4x4 offset;
+};
+
 class Model {
 
 public:
@@ -45,6 +51,10 @@ private:
     void SetVertexBoneDataDefault(Vertex& vertex);
     void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
 
+    void ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
+    std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }
+    int GetBoneCount() { return boneCounter; }
+
 public:
 
     // Model Data
@@ -62,5 +72,9 @@ public:
     //std::vector<Texture> loadedTextures;
 
     std::vector<int> embeddedMeshesUID;
+
+    //Animation stuff
+    std::map<std::string, BoneInfo> boneInfoMap;
+    int boneCounter;
 
 };

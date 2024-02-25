@@ -795,6 +795,12 @@
     <ClInclude Include="Source\Bone.h">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnimationController.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1110,6 +1116,12 @@
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Source\Bone.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnimationController.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
   </ItemGroup>
