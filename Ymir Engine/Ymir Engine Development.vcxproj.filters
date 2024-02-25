@@ -103,6 +103,9 @@
     <Filter Include="Externals\ImGuiTextEditor">
       <UniqueIdentifier>{e58bded8-c50c-4799-a1f8-6f87896d18b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\Skeletal Animation">
+      <UniqueIdentifier>{52007188-27cd-47f9-82c5-ec5a1a0585a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -789,6 +792,15 @@
     <ClInclude Include="Source\ShaderEditor.h">
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnimationController.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAnimation.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1102,6 +1114,15 @@
     </ClCompile>
     <ClCompile Include="Source\ShaderEditor.cpp">
       <Filter>Sources\Features\Shader Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnimationController.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAnimation.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
