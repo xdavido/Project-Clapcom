@@ -148,16 +148,15 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			{
 				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
-				GameObject* modelGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), App->scene->mRootNode);
-
+				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
 
 				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
 
 				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
 				{
-					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(metaFile->GetInt("UID")), modelGO);
-					meshGO->UID = ids[0];
+					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+					meshGO->UID = ids[i];
 
 					if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
 
@@ -172,6 +171,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					CMesh* cmesh = new CMesh(meshGO);
 
 					cmesh->rMeshReference = rMesh;
+					cmesh->nIndices = 0;
+					cmesh->nVertices = 0;
 
 					meshGO->AddComponent(cmesh);
 
