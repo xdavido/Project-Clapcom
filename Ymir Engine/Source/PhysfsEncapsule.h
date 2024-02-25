@@ -55,4 +55,7 @@ namespace PhysfsEncapsule {
     bool DuplicateFile(const char* file, const char* dstFolder, std::string& relativePath);
     bool DuplicateFile(const char* srcFile, const char* dstFile);
 
+    //Rename
+    bool RenameFile(std::string oldFile, std::string newFile);
+
 }

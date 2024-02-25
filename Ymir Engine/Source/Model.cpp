@@ -160,6 +160,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		}
 
+		modelGO->type = "Model";
+
 	}
 	else {
 
@@ -300,14 +302,14 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
+			ResourceTexture* rTexTemp = new ResourceTexture(0);
+			
+			ImporterTexture::Import(path, rTexTemp);
+
+			delete rTexTemp;
+			rTexTemp = nullptr;
+
 			if (metaFile == nullptr) {
-
-				ResourceTexture* rTexTemp = new ResourceTexture(0);
-
-				ImporterTexture::Import(path, rTexTemp);
-
-				delete rTexTemp;
-				rTexTemp = nullptr;
 
 				// Get meta
 
@@ -447,6 +449,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
+	cmesh->originModelPath = path;
 
 	cmesh->rMeshReference = rMesh;
 

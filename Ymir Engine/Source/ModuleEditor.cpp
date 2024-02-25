@@ -1023,7 +1023,7 @@ void ModuleEditor::DrawEditor()
 				isPlaying = false;
 				isPaused = false;
 
-				App->scene->LoadScene();
+				App->scene->QuickLoadScene();
 
 			}
 
@@ -1036,7 +1036,7 @@ void ModuleEditor::DrawEditor()
 
 				isPlaying = true;
 
-				App->scene->SaveScene();
+				App->scene->QuickSaveScene();
 
 			}
 
