@@ -449,7 +449,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
-	cmesh->originModelPath = path;
 
 	cmesh->rMeshReference = rMesh;
 
