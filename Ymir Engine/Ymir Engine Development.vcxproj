@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\AnimationController.h" />
+    <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\CAnimation.h" />
     <ClInclude Include="Source\CCamera.h" />
@@ -318,9 +319,9 @@
   <ItemGroup>
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\AnimationController.cpp" />
+    <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
-    <ClCompile Include="Source\CAnimation.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />

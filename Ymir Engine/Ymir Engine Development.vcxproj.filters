@@ -804,6 +804,9 @@
     <ClInclude Include="Source\CAnimation.h">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animator.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1127,8 +1130,8 @@
     <ClCompile Include="Source\AnimationController.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CAnimation.cpp">
-      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    <ClCompile Include="Source\Animator.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,6 +40,9 @@ public:
     void LoadModel(const std::string& path, const std::string& shaderPath);
     void DrawModel();
 
+    std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }
+    int GetBoneCount() { return boneCounter; }
+
 private:
 
     void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int iteration);
@@ -52,8 +55,7 @@ private:
     void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
 
     void ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
-    std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }
-    int GetBoneCount() { return boneCounter; }
+    
 
 public:
 

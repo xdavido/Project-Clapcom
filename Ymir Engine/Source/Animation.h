@@ -4,25 +4,34 @@
 #include <vector>
 #include <string>
 #include <map>
-
-#include "External/MathGeoLib/include/Math/float4.h"
-#include "External/MathGeoLib/include/Math/float3.h"
-#include "External/MathGeoLib/include/Math/float2.h"
-#include "External/MathGeoLib/include/Math/float4x4.h"
-
-#include "External/MathGeoLib/include/Math/Quat.h"
-
-
+#include "Bone.h"
 #include "Globals.h"
+#include "Model.h"
+
+struct AssimpNodeData {
+	float4x4 transformation; 
+	std::string name; 
+	int childrenCount; 
+	std::vector<AssimpNodeData> children; 
+};
 
 class Animation {
 public:
 
 	Animation();
+	Animation(const std::string& animationPath, Model* model);
 	~Animation();
 
-private:
+	Bone* FindBone(std::string& name); 
 
+	inline float GetTickPerSecond() { return ticksPerSecond; }
+	inline float GetDuration() { return duration; }
+	inline const AssimpNodeData& GetRootNode() { return rootNode; }
+	inline const std::map<std::string, BoneInfo>& GetBoneIDMap(){ return boneInfoMap; }
+private:
+	void ReadMissingBones(const aiAnimation* animation, Model& model);
+
+	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src);
 
 public:
 
@@ -32,8 +41,9 @@ private:
 	float duration;
 	float ticksPerSecond;
 
-	bool isLoopable;
-	bool canPingPong;
+	std::vector<Bone> bones; 
+	AssimpNodeData rootNode;
+	std::map<std::string, BoneInfo> boneInfoMap;
 
 };
 
