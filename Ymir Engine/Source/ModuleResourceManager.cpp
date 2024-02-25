@@ -105,6 +105,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				break;
 			case ResourceType::MESH:
 			{
+				// Rework to ImporterModel::Import(path);
 				App->renderer3D->models.push_back(Model(path));
 			}
 			break;
@@ -160,6 +161,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 					if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
 
+						// Rework to ImporterModel::Import(path);
 						App->renderer3D->models.push_back(Model(path));
 
 					}

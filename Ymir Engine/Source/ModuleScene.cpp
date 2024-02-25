@@ -54,6 +54,8 @@ bool ModuleScene::Init()
 
 	// yscene file creation
 
+	// You shouldn't save from default
+
 	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
