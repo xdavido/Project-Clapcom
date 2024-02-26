@@ -55,7 +55,7 @@ public:
 	void OnResize(int width, int height);
 	void SetGameCamera(CCamera* cam = nullptr);
 
-	void DrawModels();
+	void DrawGameObjects();
 	void ClearModels();
 
 	void EnableAssimpDebugger();

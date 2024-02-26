@@ -268,44 +268,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	// DrawModels();
 
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
-	{
-		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
-		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
-		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
-
-		if (materialComponent != nullptr) {
-
-			for (auto& textures : materialComponent->rTextures) {
-
-				textures->BindTexture(true);
-
-			}
-
-			materialComponent->shader.UseShader(true);
-			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
-
-		}
-
-		if (meshComponent != nullptr) {
-
-			meshComponent->rMeshReference->Render();
-
-		}
-
-		if (materialComponent != nullptr) {
-
-			materialComponent->shader.UseShader(false);
-
-			for (auto& textures : materialComponent->rTextures) {
-
-				textures->BindTexture(false);
-
-			}
-
-		}
-
-	}
+	DrawGameObjects();
 
 	// Render Bounding Boxes
 
@@ -323,7 +286,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		if (App->scene->gameCameraObject->active) {
 
-			DrawModels();
+			DrawGameObjects();
 
 			if (External->scene->gameCameraComponent->drawBoundingBoxes) {
 
@@ -607,11 +570,44 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 	return true;
 }
 
-void ModuleRenderer3D::DrawModels()
+void ModuleRenderer3D::DrawGameObjects()
 {
-	for (auto it = models.begin(); it != models.end(); ++it) {
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-		(*it).DrawModel();
+		if (materialComponent != nullptr) {
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(true);
+
+			}
+
+			materialComponent->shader.UseShader(true);
+			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
+
+		}
+
+		if (meshComponent != nullptr) {
+
+			meshComponent->rMeshReference->Render();
+
+		}
+
+		if (materialComponent != nullptr) {
+
+			materialComponent->shader.UseShader(false);
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(false);
+
+			}
+
+		}
 
 	}
 }
