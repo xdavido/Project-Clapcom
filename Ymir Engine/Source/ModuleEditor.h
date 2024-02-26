@@ -256,6 +256,7 @@ public:
 	Texture imageIcon;
 	Texture modelIcon;
 	Texture shaderIcon;
+	Texture sceneIcon;
 
 };
 

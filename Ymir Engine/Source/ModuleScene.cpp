@@ -70,7 +70,7 @@ bool ModuleScene::Init()
 bool ModuleScene::Start()
 {
 	// Hardcoded Scene To test Resource Manager
-	LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
+	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
 
 	return false;
 }
@@ -189,6 +189,7 @@ void ModuleScene::QuickSaveScene()
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+
 }
 
 void ModuleScene::QuickLoadScene()
