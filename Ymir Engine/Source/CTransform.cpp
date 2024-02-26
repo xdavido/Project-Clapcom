@@ -172,7 +172,6 @@ void CTransform::UpdateGlobalMatrix()
 	{
 		mGlobalMatrix = mLocalMatrix;
 	}
-
 }
 
 void CTransform::UpdateLocalMatrix()
@@ -188,17 +187,6 @@ void CTransform::ReparentTransform(float4x4 matrix)
 	eulerRot = rotation.ToEulerXYZ();
 	eulerRot *= RADTODEG;
 	dirty_ = true;
-}
-
-void CTransform::UpdateBoundingBoxes()
-{
-	//if (mOwner->mesh != nullptr)
-	//{
-	//    gameObject->mesh->obb = gameObject->mesh->mesh->local_aabb;
-	//    gameObject->mesh->obb.Transform(gameObject->transform->GetGlobalTransform());
-	//    gameObject->mesh->global_aabb.SetNegativeInfinity();
-	//    gameObject->mesh->global_aabb.Enclose(gameObject->mesh->obb);
-	//}
 }
 
 void CTransform::UpdateTransformGuizmo(float4x4 matrix)

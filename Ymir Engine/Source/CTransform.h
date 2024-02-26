@@ -35,8 +35,6 @@ public:
 
 	void ReparentTransform(float4x4 matrix);
 
-	// Update global AABB and OBB when updating transform
-	void UpdateBoundingBoxes();
 	void UpdateTransformGuizmo(float4x4 matrix);
 
 public:
