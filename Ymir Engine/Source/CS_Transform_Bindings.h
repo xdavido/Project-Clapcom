@@ -52,10 +52,10 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 	const char* name = mono_class_get_name(mono_object_get_class(obj));
 
-	Quat value;
+	Quat value	;
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj);
 
-	Quat qTmp = Quat::FromEulerXYZ(workGO->mTransform->rotation[0] * DEGTORAD, workGO->mTransform->rotation[1] * DEGTORAD, workGO->mTransform->rotation[2] * DEGTORAD);
+	Quat qTmp = Quat::FromEulerXYZ(workGO->mTransform->rotation.x * DEGTORAD, workGO->mTransform->rotation.y * DEGTORAD, workGO->mTransform->rotation.z * DEGTORAD);
 
 	(global == true) ? value = workGO->mTransform->mGlobalMatrix.RotatePart().ToQuat().Normalized() : value = qTmp;
 
@@ -65,7 +65,7 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 #pragma region Internals
 //-------------------------------------------- Internals -----------------------------------------------//
-void CSLog(MonoString* x)
+void CSLog(MonoString* x)	
 {
 	if (x == NULL)
 		return;
