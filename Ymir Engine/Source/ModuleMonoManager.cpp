@@ -14,7 +14,7 @@
 
 #include "GameObject.h"
 #include "CScript.h"
-#include "CS_Transform_Bindings.h"
+#include "CS_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -48,6 +48,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
+	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
 
@@ -68,6 +69,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.GameObject::get_localScale", SendScale);
 	mono_add_internal_call("YmirEngine.GameObject::get_globalScale", SendGlobalScale);
 	mono_add_internal_call("YmirEngine.GameObject::set_localScale", RecieveScale);
+
+	
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
 

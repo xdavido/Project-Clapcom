@@ -18,6 +18,10 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Destroy(object go);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetGameObjectByName(string name);
+
     }
     public class Input
     {

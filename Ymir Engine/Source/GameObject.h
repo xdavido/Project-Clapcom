@@ -34,6 +34,8 @@ public:
 
 	void DestroyGameObject();
 
+	void CollectChilds(std::vector<GameObject*>& vector);
+
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
 public:

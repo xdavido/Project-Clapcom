@@ -142,6 +142,13 @@ void GameObject::DestroyGameObject()
 
 }
 
+void GameObject::CollectChilds(std::vector<GameObject*>& vector)
+{
+	vector.push_back(this);
+	for (uint i = 0; i < mChildren.size(); i++)
+		mChildren[i]->CollectChilds(vector);
+}
+
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
 {
 	GameObject* gameObjectWithUID = nullptr;

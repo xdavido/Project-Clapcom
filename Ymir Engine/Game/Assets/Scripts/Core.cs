@@ -6,7 +6,7 @@ using YmirEngine;
 
 public class Core : YmirComponent
 {
-	public GameObject reference = null;
+	public GameObject reference = InternalCalls.GetGameObjectByName("Test0");;
 	public GameObject turret = null;
 	public GameObject shootPoint = null;
 		
@@ -14,7 +14,7 @@ public class Core : YmirComponent
 	public float movementSpeed = 35.0f;
     public float mouseSens = 5.0f;
 
-	public bool testBool = false;
+	public bool testBool = true;
 	public string testString = "Juan";
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
@@ -22,12 +22,14 @@ public class Core : YmirComponent
 
 	public void Update(/*int x*/)
 	{
+
+ 
         testString = "Still an Error";
 
 		if (this.reference == null)
 			return;
 
-        testString = "J";
+        testString = "MarcoAulerio";    
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
@@ -60,4 +62,7 @@ public class Core : YmirComponent
         return;
 	}
 }
+
+
+
 

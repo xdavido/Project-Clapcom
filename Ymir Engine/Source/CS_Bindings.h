@@ -22,7 +22,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 {
 	//TODO: Quitar esto mas adelante, cuando esté arreglado el Transform
 	return nullptr;
-
+		
 	if (External == nullptr)
 		return nullptr;
 
@@ -117,6 +117,34 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	go->mTransform->translation = posVector;
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
+}
+
+MonoObject* FindObjectWithName(MonoString* name) {
+
+	std::vector<GameObject*> gameObjectVec;
+	External->scene->mRootNode->CollectChilds(gameObjectVec);
+
+	if (name == NULL) {
+		assert("The name you passed is null. >:/");
+		return nullptr;
+	}
+
+	char* _name = mono_string_to_utf8(name);
+
+	for (int i = 0; i < gameObjectVec.size(); i++) {
+
+		if (strcmp(gameObjectVec[i]->name.c_str(), _name) == 0) {
+
+			return External->moduleMono->GoToCSGO(gameObjectVec[i]);
+
+		}
+
+	}
+	mono_free(_name);
+
+	assert("The object you searched for doesn't exist. :/");
+	return nullptr;
+
 }
 
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class

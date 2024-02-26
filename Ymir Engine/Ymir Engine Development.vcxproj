@@ -126,10 +126,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CS_Transform_Bindings.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CScript.h" />
-    <ClInclude Include="Source\CS_Transform_Bindings.h" />
+    <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
