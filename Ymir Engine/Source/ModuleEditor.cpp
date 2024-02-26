@@ -1295,6 +1295,10 @@ void ModuleEditor::DrawEditor()
 
 			(ImGui::IsWindowHovered()) ? App->camera->hoveringEditor = true : App->camera->hoveringEditor = false;
 
+			if (App->camera->hoveringEditor)
+			{
+				App->camera->CameraInput();
+			}
 			// Retrieve Info from ImGui Scene Window
 
 			// Get the Mouse Position using ImGui.
@@ -2643,35 +2647,43 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 		// Check if the current game object is selected.
 		if ((*it)->selected) {
 
-			// Check for key presses to set the gizmo operation and mode.
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+			ImGuizmo::SetDrawlist();
+			// Set the rectangle for ImGuizmo in the editor window.
+			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+			if (App->camera->hoveringEditor)
+			{
+				// Check for key presses to set the gizmo operation and mode.
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+
+					gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+
+					gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+
+					gizmoOperation = ImGuizmo::OPERATION::SCALE;
+
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+
+					gizmoMode = ImGuizmo::MODE::WORLD;
+
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+					gizmoMode = ImGuizmo::MODE::LOCAL;
+
+				}
+
 			}
-
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-
-				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-
-				gizmoOperation = ImGuizmo::OPERATION::SCALE;
-
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-
-				gizmoMode = ImGuizmo::MODE::WORLD;
-
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-
-				gizmoMode = ImGuizmo::MODE::LOCAL;
-
-			}
-
+			
 			ImGuizmo::MODE modeApplied;
 
 			// Hardcoded local mode to prevent Scale from Reseting the Rotation.
@@ -2692,38 +2704,38 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			// Get the transform component of the current game object.
 			CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 
-			modelMatrix = ctransform->mGlobalMatrix;
+			modelMatrix = ctransform->mGlobalMatrix.Transposed();
 
-			// Copy the model matrix to a float array for ImGuizmo.
-			float modelPtr[16];
-			memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
+			//// Copy the model matrix to a float array for ImGuizmo.
+			//float modelPtr[16];
+			//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
 
-			// Set the rectangle for ImGuizmo in the editor window.
-			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
+			//Snap
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+			{
+				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
+				{
+					// Snap to 45 degrees for rotation
+					snapValue = 45.0f;
+				}
+			}
+
+			else
+			{
+				snapValue = 0.0f;
+			}
+			
+			float snapValues[3] = { snapValue, snapValue, snapValue };
 
 			// Use ImGuizmo to manipulate the object in the scene.
-			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelPtr);
+			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
 
 			// Check if the gizmo is being used.
 			if (ImGuizmo::IsUsing())
 			{
-				// Convert the modified matrix back to float4x4.
-				float4x4 newMatrix;
-				newMatrix.Set(modelPtr);
-				modelMatrix = newMatrix;
-
-				// Safety check to avoid nullptr transformations.
-				if ((ctransform->translationPtr != nullptr) &&
-					(ctransform->rotationPtr != nullptr) &&
-					(ctransform->scalePtr != nullptr)) {
-
-					// Update the transform components based on the modified matrix.
-					*ctransform->translationPtr = modelMatrix.Transposed().TranslatePart();
-					*ctransform->rotationPtr = modelMatrix.Transposed().RotatePart().ToEulerXYZ() * RADTODEG;
-					*ctransform->scalePtr = modelMatrix.Transposed().GetScale();
-
-				}
-
+				float4x4 matrix = modelMatrix.Transposed();
+				(*it)->mTransform->UpdateTransformGuizmo(matrix);
 			}
 
 			// Check if the reset button is pressed, and reset the model matrix.

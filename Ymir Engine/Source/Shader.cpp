@@ -358,7 +358,7 @@ void Shader::Scale(float3 scale)
 }
 
 
-void Shader::SetShaderUniforms()
+void Shader::SetShaderUniforms(float4x4* matrix)
 {
 	// Set shader uniforms that are essential (matrices, time, etc.):
 
@@ -372,9 +372,14 @@ void Shader::SetShaderUniforms()
 	this->SetMatrix4x4("view", view.Transposed()); // Note: Transpose the matrix when passing to shader
 	this->view = view;
 
-	translationMatrix = CreateTranslationMatrix(translation);
-	rotationMatrix = CreateRotationMatrix(rotation);
-	scaleMatrix = CreateScaleMatrix(scale);
+	float3 pos, sc;
+	Quat rot;
+	matrix->Decompose(pos, rot, sc);
+	float3 eulerRotation = rot.ToEulerXYZ();
+	eulerRotation *= RADTODEG;
+	translationMatrix = CreateTranslationMatrix(pos);
+	rotationMatrix = CreateRotationMatrix(eulerRotation);
+	scaleMatrix = CreateScaleMatrix(sc);
 
 	float4x4 model = float4x4::identity;
 	model = model * translationMatrix * rotationMatrix * scaleMatrix;
