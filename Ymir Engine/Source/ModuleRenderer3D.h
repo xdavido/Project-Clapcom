@@ -53,6 +53,7 @@ public:
 	bool CleanUp() override;
 
 	void OnResize(int width, int height);
+	void SetGameCamera(CCamera* cam = nullptr);
 
 	void DrawModels();
 	void ClearModels();

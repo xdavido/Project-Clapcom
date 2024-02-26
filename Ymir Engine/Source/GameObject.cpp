@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
@@ -36,6 +37,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 GameObject::~GameObject()
 {
 	RELEASE(mTransform);
+	//ClearVecPtr(mComponents);
 }
 
 void GameObject::Update()
@@ -101,6 +103,7 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::AddComponent(Component* component)
 {
+	component->mOwner = this;
 	mComponents.push_back(component);
 }
 
@@ -134,9 +137,16 @@ void GameObject::DestroyGameObject()
 
 	for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
 	{
+		(*it)->DestroyGameObject();
 		delete (*it);
 		(*it) = nullptr;
 	}
+
+	//for (std::vector<GameObject*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+	//{
+	//	delete (*it);
+	//	(*it) = nullptr;
+	//}
 
 }
 

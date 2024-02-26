@@ -1,6 +1,8 @@
 #include "CCamera.h"
 #include "GameObject.h"
 
+#include "ModuleScene.h"
+
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
@@ -23,11 +25,15 @@ CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
+	isGameCam = true;
 }
 
 CCamera::~CCamera()
 {
-
+	if (isGameCam)
+	{
+		External->renderer3D->SetGameCamera();
+	}
 }
 
 void CCamera::Update()
@@ -285,6 +291,23 @@ void CCamera::DrawFrustumBox() const
 	float3 vertices[8];
 	frustum.GetCornerPoints(vertices);
 	External->renderer3D->DrawBox(vertices, float3(0, 255, 0));
+}
+
+void CCamera::SetAsMain(bool mainCam)
+{
+	if (mainCam)
+	{
+		if (External->scene->gameCameraComponent != nullptr)
+		{
+			External->scene->gameCameraComponent->isGameCam = false;
+		}
+
+		External->renderer3D->SetGameCamera(this);
+	}
+	else
+	{
+		External->scene->gameCameraComponent = nullptr;
+	}
 }
 
 float4x4 CCamera::GetProjectionMatrix() const 

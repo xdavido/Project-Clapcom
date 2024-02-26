@@ -315,23 +315,27 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	// --------------------------- Game Camera FrameBuffer -----------------------------------
 
-	App->scene->gameCameraComponent->framebuffer.Render(true);
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->framebuffer.Render(true);
 
-	App->scene->gameCameraComponent->Update();
+		App->scene->gameCameraComponent->Update();
 
-	if (App->scene->gameCameraObject->active) {
+		if (App->scene->gameCameraObject->active) {
 
-		DrawModels();
+			DrawModels();
 
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) {
+			if (External->scene->gameCameraComponent->drawBoundingBoxes) {
 
-			DrawBoundingBoxes();
+				DrawBoundingBoxes();
+
+			}
 
 		}
 
-	}
+		App->scene->gameCameraComponent->framebuffer.Render(false);
 
-	App->scene->gameCameraComponent->framebuffer.Render(false);
+	}
 
 	// --------------------------- Drawing editor and Swaping Window -------------------------
 
@@ -371,6 +375,15 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	}
 
+}
+
+void ModuleRenderer3D::SetGameCamera(CCamera* cam)
+{
+	if (cam != nullptr)
+	{
+		OnResize(SDL_GetWindowSurface(App->window->window)->w, SDL_GetWindowSurface(App->window->window)->h);
+		App->scene->gameCameraComponent = cam;
+	}
 }
 
 void ModuleRenderer3D::HandleDragAndDrop()

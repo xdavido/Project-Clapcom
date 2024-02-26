@@ -75,7 +75,7 @@ bool ModuleScene::Start()
 {
 	// Hardcoded Scene To test Resource Manager
 	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
-
+	currentSceneDir = "Assets";
 	return false;
 }
 
@@ -108,15 +108,22 @@ update_status ModuleScene::Update(float dt)
 
 	//}
 
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT) &&
+		App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT &&
+		TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
 
-		QuickSaveScene();
+		SaveScene(currentSceneDir, currentSceneFile);
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT && TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
+	if ((App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT) &&
+		App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT &&
+		TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
 
-		QuickLoadScene();
+		if (currentSceneFile != "")
+		{
+			LoadScene(currentSceneDir, currentSceneFile);
+		}
 
 	}
 
@@ -183,7 +190,7 @@ void ModuleScene::ClearScene()
 	mRootNode->UID = deletedSceneUID;
 }
 
-void ModuleScene::QuickSaveScene()
+void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 {
 	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
@@ -192,13 +199,33 @@ void ModuleScene::QuickSaveScene()
 
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
-	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+	if (dir != External->fileSystem->libraryScenesPath)
+	{
+		App->scene->currentSceneDir = dir;
+		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
+
+		ysceneFile.CreateJSON(dir +"/", App->scene->currentSceneFile + ".yscene");
+
+		LOG("Scene '%s' saved to %s", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
+	}
+	else
+	{
+		ysceneFile.CreateJSON(dir, std::to_string(mRootNode->UID) + ".yscene");
+	}
 
 }
 
-void ModuleScene::QuickLoadScene()
+void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 {
-	JsonFile* sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+	if (dir != External->fileSystem->libraryScenesPath)
+	{
+		App->scene->currentSceneDir = dir;
+		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
+
+		LOG("Scene '%s' loaded", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
+	}
+
+	JsonFile* sceneToLoad = JsonFile::GetJSON(dir + "/" + App->scene->currentSceneFile + ".yscene");
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
@@ -209,12 +236,13 @@ void ModuleScene::QuickLoadScene()
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
-	delete sceneToLoad;
+	RELEASE(sceneToLoad);
 }
 
-void ModuleScene::LoadSceneFromAssets(std::string path)
+void ModuleScene::LoadSceneFromAssets(const std::string& dir, const std::string& fileName)
 {
 	// 1. Create meta of the scene in assets
+	std::string path = dir + "/" + fileName;
 
 	JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 

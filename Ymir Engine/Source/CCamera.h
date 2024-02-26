@@ -68,6 +68,8 @@ public:
 
 	void DrawFrustumBox() const;
 
+	void SetAsMain(bool mainCam);
+
 public:
 
 	Frustum frustum;
@@ -75,5 +77,7 @@ public:
 
 	bool drawBoundingBoxes;
 	bool enableFrustumCulling;
+
+	bool isGameCam = false;
 
 };

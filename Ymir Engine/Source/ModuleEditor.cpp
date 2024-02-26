@@ -161,16 +161,15 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::SeparatorText("Save");
 
-			if (ImGui::MenuItem("Save")) {
 
-
-
+			if (ImGui::MenuItem("Save", "Ctrl+S"))
+			{
+				App->scene->SaveScene(App->scene->currentSceneDir, App->scene->currentSceneFile);
 			}
 
-			if (ImGui::MenuItem("Save As...")) {
-
-
-
+			if (ImGui::MenuItem("Save As..."))
+			{
+				showSaveAs = true;
 			}
 
 			ImGui::SeparatorText("Project");
@@ -523,6 +522,8 @@ void ModuleEditor::DrawEditor()
 		ImGui::EndMainMenuBar();
 
 	}
+
+	SaveAs();
 
 	if (showAboutPopUp) {
 
@@ -1024,7 +1025,7 @@ void ModuleEditor::DrawEditor()
 				isPlaying = false;
 				isPaused = false;
 
-				App->scene->QuickLoadScene();
+				App->scene->LoadScene();
 
 			}
 
@@ -1037,7 +1038,7 @@ void ModuleEditor::DrawEditor()
 
 				isPlaying = true;
 
-				App->scene->QuickSaveScene();
+				App->scene->SaveScene();
 
 			}
 
@@ -1376,6 +1377,47 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+}
+
+void ModuleEditor::SaveAs()
+{
+	if (showSaveAs)
+	{
+		ImGui::OpenPopup("Save As");
+	}
+
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+	if (ImGui::BeginPopupModal("Save As", &showSaveAs, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		static std::string sceneName_saveAS = "New Scene";
+		ImGui::Text("Scene will be saved in %s as '%s'", currentDir.c_str(), sceneName_saveAS.c_str());
+		ImGui::Separator();
+
+		ImGui::InputText("File Name", &sceneName_saveAS);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			App->scene->SaveScene(currentDir, sceneName_saveAS);
+			App->scene->currentSceneDir = currentDir;
+			App->scene->currentSceneFile = sceneName_saveAS;
+
+			showSaveAs = false;
+			sceneName_saveAS = "New Scene";
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			showSaveAs = false;
+			sceneName_saveAS = "New Scene";
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
 }
 
 void ModuleEditor::WindowDockSpaceManagement()
@@ -2858,12 +2900,12 @@ void ModuleEditor::CreateNewFolder()
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 	if (ImGui::BeginPopupModal("Create new folder", &createFolder, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		static std::string sceneName_saveAS = "NewFolder";
-		ImGui::InputText("File Name", &sceneName_saveAS);
+		static std::string folderName = "NewFolder";
+		ImGui::InputText("File Name", &folderName);
 
 		if (ImGui::Button("OK", ImVec2(120, 0)))
 		{
-			PhysfsEncapsule::CreateFolder(currentDir, sceneName_saveAS);
+			PhysfsEncapsule::CreateFolder(currentDir, folderName);
 			createFolder = false;
 			ImGui::CloseCurrentPopup();
 		}
@@ -3045,7 +3087,9 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						{
 							if (ImGui::MenuItem("Load Scene"))
 							{
-								App->scene->LoadSceneFromAssets(entry.path().string());
+								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
+								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
+								//App->scene->LoadSceneFromAssets(currentDir, entryName);
 							}
 						}
 
