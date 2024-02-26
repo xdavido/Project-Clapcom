@@ -1133,6 +1133,9 @@
     <ClCompile Include="Source\Animator.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CAnimation.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\MathGeoLib\include\Geometry\KDTree.inl">
