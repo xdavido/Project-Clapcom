@@ -137,16 +137,15 @@ void GameObject::DestroyGameObject()
 
 	for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
 	{
-		(*it)->DestroyGameObject();
 		delete (*it);
 		(*it) = nullptr;
 	}
 
-	//for (std::vector<GameObject*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
-	//{
-	//	delete (*it);
-	//	(*it) = nullptr;
-	//}
+	for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+	{
+		delete (*it);
+		(*it) = nullptr;
+	}
 
 }
 
