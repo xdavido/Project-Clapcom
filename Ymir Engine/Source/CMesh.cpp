@@ -16,7 +16,7 @@ CMesh::CMesh(GameObject* owner) : Component(owner, ComponentType::MESH)
 
 CMesh::~CMesh()
 {
-	RELEASE(meshReference);
+
 }
 
 void CMesh::Update()

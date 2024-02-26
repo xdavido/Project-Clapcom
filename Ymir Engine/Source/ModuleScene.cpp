@@ -274,7 +274,7 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 			LineSegment localRay = ray;
 
 			// Transform the ray using the mesh's transform.
-			localRay.Transform(mesh->meshShader.model);
+			localRay.Transform(mesh->meshGO->mTransform->mGlobalMatrix.Inverted());
 
 			// Iterate over triangles in the mesh.
 			for (uint j = 0; j < mesh->indices.size(); j += 3) {
