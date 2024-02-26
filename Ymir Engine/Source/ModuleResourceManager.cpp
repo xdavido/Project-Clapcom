@@ -178,6 +178,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					cmesh->nVertices = 0;
 
 					meshGO->AddComponent(cmesh);
+
+					CMaterial* cmat = new CMaterial(meshGO);
+					meshGO->AddComponent(cmat);
 				}
 				else
 				{
@@ -191,6 +194,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					cmesh->nVertices = 0;
 
 					meshGO->AddComponent(cmesh);
+
+					CMaterial* cmat = new CMaterial(meshGO);
+					meshGO->AddComponent(cmat);
 
 					itr->second->IncreaseReferenceCount();
 				}

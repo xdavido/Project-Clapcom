@@ -290,6 +290,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (meshComponent != nullptr) {
 
 			meshComponent->rMeshReference->Render();
+			meshComponent->rMeshReference->RenderBoundingBoxes(); // TODO: bool to enable rendering BBs
 
 		}
 

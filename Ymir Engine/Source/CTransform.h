@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "CMesh.h"
+#include "ResourceMesh.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
@@ -34,6 +35,8 @@ public:
 	void UpdateLocalMatrix();
 
 	void ReparentTransform(float4x4 matrix);
+
+	void UpdateBoundingBoxes();
 
 	void UpdateTransformGuizmo(float4x4 matrix);
 
