@@ -322,6 +322,7 @@
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
+    <ClCompile Include="Source\CAnimation.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />
