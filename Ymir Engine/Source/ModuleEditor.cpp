@@ -119,6 +119,7 @@ bool ModuleEditor::Init()
 	imageIcon.LoadEngineIconTexture("Assets/Editor/image.dds");
 	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
+	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
 	return ret;
 }
@@ -2982,6 +2983,9 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					}
 					break;
 					case ResourceType::SCENE:
+
+						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
+
 						break;
 					case ResourceType::SHADER:
 					{
@@ -3017,11 +3021,19 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
 						ImGui::Separator();
 
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META)
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE)
 						{
 							if (ImGui::MenuItem("Import to Scene"))
 							{
 								App->resourceManager->ImportFile(entry.path().string());
+							}
+						}
+
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
+						{
+							if (ImGui::MenuItem("Load Scene"))
+							{
+								App->scene->LoadSceneFromAssets(entry.path().string());
 							}
 						}
 
