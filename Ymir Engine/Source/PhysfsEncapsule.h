@@ -7,6 +7,8 @@
 
 #include "Globals.h"
 
+#include "Log.h"
+
 #include "External/PhysFS/include/physfs.h"
 #pragma comment (lib, "Source/External/PhysFS/libx86/physfs.lib")
 
@@ -32,7 +34,7 @@ namespace PhysfsEncapsule {
 
     // Load
 	//// Open for Read/Write
-    uint LoadFile(const char* file, char** buffer);
+    uint LoadFileToBuffer(const char* file, char** buffer);
 
 	// Getters
     bool IsDirectory(const char* file);
@@ -58,5 +60,7 @@ namespace PhysfsEncapsule {
     std::string NormalizePath(const char* full_path);
 
     uint LoadToBuffer(const char* file, char** buffer);
+    //Rename
+    bool RenameFile(std::string oldFile, std::string newFile);
 
 }

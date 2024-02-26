@@ -45,6 +45,7 @@ public:
 
     void LoadCheckerImage();
     void LoadTexture(const std::string& path);
+    void LoadEngineIconTexture(const std::string& path);
 
     void BindTexture(bool bind);
 
@@ -58,7 +59,7 @@ public:
 
     uint UID;
 
-    std::string path; // With the path we can compare with other textures to not load already loaded textures
+    std::string path;
     TextureTypes type;
 
     //uint width; 

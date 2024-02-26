@@ -3,18 +3,13 @@
 #include <vector>
 
 #include "Resources.h"
-#include "Mesh.h" // Temporal
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/float2.h"
 
-//struct Vertex {
-//
-//	float3 position;
-//	float3 normal;
-//	float2 textureCoordinates;
-//
-//};
+#include "Shader.h"
+
+#include "Mesh.h"
 
 class ResourceMaterial;
 
@@ -33,7 +28,13 @@ public:
 
 	// Specific Functions
 
-	bool Render() const;
+	bool Render();
+
+	// AABB & OBB
+
+	void InitBoundingBoxes();
+	void UpdateBoundingBoxes();
+	void RenderBoundingBoxes();
 
 public:
 
@@ -46,5 +47,12 @@ private:
 	GLuint VBO;
 	GLuint EBO;
 	GLuint VAO;
+
+	// Bounding Boxes Handling
+
+	AABB globalAABB;
+
+	AABB aabb;
+	OBB obb;
 
 };

@@ -146,41 +146,45 @@ uint PhysfsEncapsule::SaveFile(const char* file, const void* buffer, uint size, 
 	return ret;
 }
 
-uint PhysfsEncapsule::LoadFile(const char* file, char** buffer)
+uint PhysfsEncapsule::LoadFileToBuffer(const char* file, char** buffer)
 {
 	uint ret = 0;
-	PHYSFS_file* fs_file = PHYSFS_openRead(file);
+	std::filesystem::path filepath(file);
 
-	if (fs_file != nullptr)
+	if (std::filesystem::exists(filepath) && !std::filesystem::is_directory(filepath))
 	{
-		PHYSFS_sint32 size = (PHYSFS_sint32)PHYSFS_fileLength(fs_file);
+		std::ifstream fs_file(filepath, std::ios::binary | std::ios::ate);
 
-		if (size > 0)
+		if (fs_file.is_open())
 		{
-			*buffer = new char[size + 1];
-			uint readed = (uint)PHYSFS_read(fs_file, *buffer, 1, size);
+			std::streamsize size = fs_file.tellg();
+			fs_file.seekg(0, std::ios::beg);
 
-			if (readed != size)
+			if (size > 0)
 			{
-				LOG("[ERROR] File System: Could not read from file %s: %s\n", file, PHYSFS_getLastError());
-				RELEASE_ARRAY(buffer);
+				*buffer = new char[size + 1];
+				if (fs_file.read(*buffer, size))
+				{
+					ret = static_cast<uint>(size);
+					(*buffer)[size] = '\0';
+				}
+				else
+				{
+					LOG("[ERROR] File System: Could not read from file %s\n", file);
+					delete[] * buffer;
+					*buffer = nullptr;
+				}
 			}
-			else
-			{
-				ret = readed;
-				//Adding end of file at the end of the buffer. Loading a shader file does not add this for some reason
-				(*buffer)[size] = '\0';
-			}
+			fs_file.close();
 		}
-
-		if (PHYSFS_close(fs_file) == 0)
+		else
 		{
-			LOG("[ERROR] File System: Could not close file %s: %s\n", file, PHYSFS_getLastError());
+			LOG("[ERROR] File System: Could not open file %s\n", file);
 		}
 	}
 	else
 	{
-		LOG("[ERROR] File System: Could not open file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("[ERROR] File System: File does not exist or is a directory: %s\n", file);
 	}
 
 	return ret;
@@ -340,29 +344,45 @@ bool PhysfsEncapsule::DuplicateFile(const char* file, const char* dstFolder, std
 
 bool PhysfsEncapsule::DuplicateFile(const char* srcFile, const char* dstFile)
 {
-	//TODO: Compare performance to calling Load(srcFile) and then Save(dstFile)
-	std::ifstream src;
-	src.open(srcFile, std::ios::binary);
-	bool srcOpen = src.is_open();
-	std::ofstream  dst(dstFile, std::ios::binary);
-	bool dstOpen = dst.is_open();
+	try {
 
-	dst << src.rdbuf();
+		std::filesystem::copy_file(srcFile, dstFile, std::filesystem::copy_options::overwrite_existing);
 
-	src.close();
-	dst.close();
+		LOG("File System: File %s duplicated correctly.\n", srcFile);
 
-	if (srcOpen && dstOpen)
-	{
-		LOG("File System: File %s Duplicated Correctly", srcFile);
+		return true;
+
+	}
+	catch (const std::filesystem::filesystem_error& e) {
+
+		LOG("[ERROR] File System: %s\n", e.what());
+
+		return false;
+
+	}
+
+}
+
+bool PhysfsEncapsule::RenameFile(std::string oldFile, std::string newFile) {
+
+	try {
+		// Check if the old file exists
+		if (!std::filesystem::exists(oldFile)) {
+			// Old file does not exist
+			return false;
+		}
+
+		// Rename the file
+		std::filesystem::rename(oldFile, newFile);
+
 		return true;
 	}
-	else
-	{
-		LOG("[ERROR] File System: Could not be duplicated");
+	catch (const std::filesystem::filesystem_error& e) {
+		// An error occurred while renaming the file
+		// You can handle the error here
 		return false;
 	}
-	return false;
+
 }
 
 

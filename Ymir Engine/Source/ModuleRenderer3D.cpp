@@ -9,6 +9,7 @@
 #include "Globals.h"
 #include "Log.h"
 #include "GameObject.h"
+#include "ModuleResourceManager.h"
 
 #include "DefaultShader.h"
 
@@ -173,7 +174,7 @@ bool ModuleRenderer3D::Init()
 
 	// Load Street Environment from the start
 
-	models.push_back(Model("Assets/BakerHouse.fbx"));
+	//models.push_back(Model("Assets/BakerHouse.fbx"));
 	//models.push_back(Model("Assets/Street_Environment/StreetEnvironment.fbx"));
 
 	// Skybox
@@ -263,9 +264,48 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	}
 
-	HandleDragAndDrop();
+	// HandleDragAndDrop();
 
-	DrawModels();
+	// DrawModels();
+
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
+
+		if (materialComponent != nullptr) {
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(true);
+
+			}
+
+			materialComponent->shader.UseShader(true);
+			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
+
+		}
+
+		if (meshComponent != nullptr) {
+
+			meshComponent->rMeshReference->Render();
+
+		}
+
+		if (materialComponent != nullptr) {
+
+			materialComponent->shader.UseShader(false);
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(false);
+
+			}
+
+		}
+
+	}
 
 	// Render Bounding Boxes
 
@@ -335,7 +375,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::HandleDragAndDrop()
 {
-	if (App->input->droppedFile) {
+	/*if (App->input->droppedFile) {
 
 		if (IsFileExtension(App->input->droppedFileDirectory, ".fbx") || IsFileExtension(App->input->droppedFileDirectory, ".FBX") || IsFileExtension(App->input->droppedFileDirectory, ".DAE") || IsFileExtension(App->input->droppedFileDirectory, ".dae")) {
 
@@ -373,7 +413,7 @@ void ModuleRenderer3D::HandleDragAndDrop()
 		
 		App->input->droppedFile = false;
 
-	}
+	}*/
 }
 
 bool ModuleRenderer3D::IsFileExtension(const char* directory, const char* extension)
@@ -494,6 +534,20 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 		}
 
 	}
+
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	//{
+	//	CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+
+	//	if (meshComponent != nullptr) {
+
+	//		meshComponent->rMeshReference->UpdateBoundingBoxes();
+	//		meshComponent->rMeshReference->RenderBoundingBoxes();
+
+	//	}
+
+	//}
+
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)

@@ -14,6 +14,8 @@
 
 #include "External/MathGeoLib/include/Math/Quat.h"
 
+#include "ResourceMesh.h"
+
 class GameObject;
 class Component;
 
@@ -97,7 +99,7 @@ public:
 
     std::vector<GameObject*> GetHierarchy(const char* key) const;
     void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const;
-    void GetComponent(const JSON_Object* componentObject, Component& component) const;
+    void GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const;
 
 private:
 

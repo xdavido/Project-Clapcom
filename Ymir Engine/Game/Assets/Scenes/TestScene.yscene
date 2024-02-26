@@ -1,0 +1,164 @@
+{
+    "Editor Camera Position": [
+        2.2884836196899414,
+        3.3341774940490723,
+        5.4993891716003418
+    ],
+    "Editor Camera Right (X)": [
+        0.92618691921234131,
+        -2.0116567611694336e-07,
+        -0.37708574533462524
+    ],
+    "Editor Camera Up (Y)": [
+        -0.10421056300401688,
+        0.96105808019638062,
+        -0.25595942139625549
+    ],
+    "Editor Camera Front (Z)": [
+        -0.36239853501319885,
+        -0.2763608992099762,
+        -0.89011240005493164
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1250520319,
+            "Element_Type": "None",
+            "Children UID": [
+                1004644429
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 1004644429,
+            "Element_Type": "Model",
+            "Parent UID": 1250520319,
+            "Children UID": [
+                526634802,
+                862718486
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Chimney",
+            "UID": 526634802,
+            "Element_Type": "None",
+            "Parent UID": 1004644429,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
+                    "UID": 1079353372
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "UID": 862718486,
+            "Element_Type": "None",
+            "Parent UID": 1004644429,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Scale": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
+                    "UID": 1079353372
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                }
+            ]
+        }
+    ]
+}

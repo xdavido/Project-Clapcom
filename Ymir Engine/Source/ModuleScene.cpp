@@ -47,8 +47,12 @@ bool ModuleScene::Init()
 
 	gameCameraComponent = new CCamera(gameCameraObject);
 
-	gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	// TODO: remove and do with proper constructor
+	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+
+	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
 	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 
 	gameCameraObject->AddComponent(gameCameraComponent);
@@ -56,13 +60,13 @@ bool ModuleScene::Init()
 
 	// yscene file creation
 
-	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
-	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
-	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
-	ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
-	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
+	// You shouldn't save from default
 
-	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+	//ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
+	//ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
+	//ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
+	//ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
+	//ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 
 	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
@@ -90,8 +94,17 @@ bool ModuleScene::Init()
 		goTest->AddComponent(c);
 	}
 	
+	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
 	return ret;
+}
+
+bool ModuleScene::Start()
+{
+	// Hardcoded Scene To test Resource Manager
+	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
+
+	return false;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
@@ -125,17 +138,15 @@ update_status ModuleScene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
 
-		SaveScene();
+		QuickSaveScene();
 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT && TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
 
-		LoadScene();
+		QuickLoadScene();
 
 	}
-
-	//mymesh.Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -143,6 +154,8 @@ update_status ModuleScene::Update(float dt)
 update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
+
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -184,6 +197,7 @@ void ModuleScene::DestroyGameObject(GameObject* toDestroy)
 void ModuleScene::ClearScene()
 {
 	//JsonFile::DeleteJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
+
 	uint deletedSceneUID = mRootNode->UID;
 
 	App->editor->DestroyHierarchyTree(mRootNode);
@@ -197,18 +211,20 @@ void ModuleScene::ClearScene()
 	mRootNode->UID = deletedSceneUID;
 }
 
-void ModuleScene::SaveScene()
+void ModuleScene::QuickSaveScene()
 {
 	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
 	ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
+
 	ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
 	ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+
 }
 
-void ModuleScene::LoadScene()
+void ModuleScene::QuickLoadScene()
 {
 	JsonFile* sceneToLoad = JsonFile::GetJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
 
@@ -221,6 +237,75 @@ void ModuleScene::LoadScene()
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
+	delete sceneToLoad;
+}
+
+void ModuleScene::LoadSceneFromAssets(std::string path)
+{
+	// 1. Create meta of the scene in assets
+
+	JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+	if (tmpMetaFile == nullptr) {
+
+		JsonFile* sceneToLoad = JsonFile::GetJSON(path);
+
+		JsonFile sceneMetaFile;
+
+		sceneMetaFile.SetString("Assets Path", path.c_str());
+		sceneMetaFile.SetString("Library Path", (External->fileSystem->libraryScenesPath + std::to_string(sceneToLoad->GetHierarchy("Hierarchy")[0]->UID) + ".yscene").c_str());
+		sceneMetaFile.SetInt("UID", sceneToLoad->GetHierarchy("Hierarchy")[0]->UID);
+		sceneMetaFile.SetString("Type", "Scene");
+
+		External->fileSystem->CreateMetaFileFromAsset(path, sceneMetaFile);
+
+		tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+		delete sceneToLoad;
+
+	}
+
+	// 2. Create the scene in Library from the meta file of assets
+
+	if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene")) {
+
+		std::string filePath;
+		PhysfsEncapsule::DuplicateFile(path.c_str(), External->fileSystem->libraryScenesPath.c_str(), filePath);
+
+		// Input string
+		std::string input_string = path;
+
+		// Find the position of the last '/' in the string
+		size_t last_slash_position = input_string.find_last_of('/');
+
+		// Extract the substring starting from the character after the last '/'
+		std::string filename_with_extension = input_string.substr(last_slash_position + 1);
+
+		// Find the position of the '.' in the filename
+		size_t dot_position = filename_with_extension.find('.');
+
+		// Extract the substring before the '.'
+		std::string filename = filename_with_extension.substr(0, dot_position);
+
+		PhysfsEncapsule::RenameFile((External->fileSystem->libraryScenesPath + filename + ".yscene"), (External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene"));
+
+	}
+
+	// 3. Load that scene from Library to the engine
+
+	std::string libraryPath = tmpMetaFile->GetString("Library Path");
+	JsonFile* sceneToLoad = JsonFile::GetJSON(libraryPath);
+
+	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
+	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
+	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
+
+	ClearScene();
+
+	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
+	mRootNode = gameObjects[0];
+
+	delete tmpMetaFile;
 	delete sceneToLoad;
 }
 
@@ -288,7 +373,7 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 			LineSegment localRay = ray;
 
 			// Transform the ray using the mesh's transform.
-			localRay.Transform(mesh->meshShader.model);
+			localRay.Transform(mesh->meshGO->mTransform->mGlobalMatrix.Inverted());
 
 			// Iterate over triangles in the mesh.
 			for (uint j = 0; j < mesh->indices.size(); j += 3) {

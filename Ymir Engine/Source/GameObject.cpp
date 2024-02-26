@@ -13,7 +13,7 @@ GameObject::GameObject()
 	active = true;
 	selected = false;
 
-	AddComponent(new CTransform(this));
+	mTransform = nullptr;
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
@@ -24,12 +24,18 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	active = true;
 	selected = false;
 
-	AddComponent(new CTransform(this));
+	mTransform = nullptr;
+
+	if (mParent != nullptr)
+	{
+		mTransform = new CTransform(this);
+		AddComponent(mTransform);
+	}
 }
 
 GameObject::~GameObject()
 {
-	
+	RELEASE(mTransform);
 }
 
 void GameObject::Update()
@@ -75,6 +81,17 @@ void GameObject::SetParent(GameObject* newParent)
 
 	mParent = newParent;
 	mParent->AddChild(this);
+
+	// Update transform values, there is a bug where if the parent has a different scale it changes the scale of the children
+	if (mParent->mTransform != nullptr)
+	{
+		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
+	}
+
+	else
+	{
+		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
+	}
 }
 
 void GameObject::AddChild(GameObject* child)

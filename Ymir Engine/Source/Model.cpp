@@ -7,6 +7,9 @@
 
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "ImporterTexture.h"
+
+#include "ModuleResourceManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "External/stb_image/stb_image.h"
@@ -96,7 +99,10 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, -1);
+		int it = 0;
+		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
+
+		GenerateModelMetaFile();
 
 		LOG("Model created: %s", name.c_str());
 
@@ -109,7 +115,7 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int iteration)
+void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration)
 {
 	// Retrieve transformation from Assimp
 
@@ -154,6 +160,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		}
 
+		modelGO->type = "Model";
+
 	}
 	else {
 
@@ -162,28 +170,25 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		// Model Meta File and Library File Creation
 
-		//JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+		JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-		//if (tmpMetaFile) {
+		if (tmpMetaFile) {
 
-			// The meta file exists; it's not the first time we load the texture.
-			//currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
-			
-			//delete tmpMetaFile;
+			// The meta file exists; it's not the first time we load the model.
+			currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+			iteration++;
 
-		//}
-		//else {
+		}
+		else {
 
-			// The meta file doesn't exists; first time loading the texture.
+			// The meta file doesn't exists; first time loading the model.
 			currentNodeGO->UID = Random::Generate();
 
-		//}
+		}
 
 		embeddedMeshesUID.push_back(currentNodeGO->UID);
 
-		GenerateModelMetaFile();
-
-		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
+		delete tmpMetaFile;
 
 	}
 
@@ -193,7 +198,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-		meshes.push_back(ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));
+		meshes.push_back(*ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));// TODO: mem leak
 	}
 
 	// Then do the same for each of its children
@@ -203,9 +208,11 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		ProcessNode(node->mChildren[i], scene, currentNodeGO, shaderPath, iteration);
 	}
 
+	GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
+
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -278,47 +285,174 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	}
 
-	// Process Textures
+	// Process Texture Maps
 
 	if (mesh->mMaterialIndex >= 0)
 	{
+		CMaterial* cmaterial = new CMaterial(linkGO);
+
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-		uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
-
-		if (numTextures > 0) {
+		if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
 
 			aiString aiPath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &aiPath);
 
 			std::string path = directory + aiPath.C_Str();
 
-			Texture tmpTexture;
+			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
-			tmpTexture.path = path;
-			tmpTexture.type = TextureTypes::DIFFUSE;
+			ResourceTexture* rTexTemp = new ResourceTexture(0);
+			
+			ImporterTexture::Import(path, rTexTemp);
 
-			textures.push_back(tmpTexture);
+			delete rTexTemp;
+			rTexTemp = nullptr;
+
+			if (metaFile == nullptr) {
+
+				// Get meta
+
+				JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
+
+				std::string libraryPath = metaFile->GetString("Library Path");
+				uint UID = metaFile->GetInt("UID");
+
+				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+
+				rTex->type = TextureType::DIFFUSE;
+
+				cmaterial->UID = UID;
+				cmaterial->path = libraryPath;
+				cmaterial->rTextures.push_back(rTex);
+
+				delete metaFile;
+
+			}
+			else {
+
+				// Get meta
+
+				std::string libraryPath = metaFile->GetString("Library Path");
+				uint UID = metaFile->GetInt("UID");
+
+				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+
+				rTex->type = TextureType::DIFFUSE;
+
+				cmaterial->UID = UID;
+				cmaterial->path = libraryPath;
+				cmaterial->rTextures.push_back(rTex);
+
+			}
+
+			delete metaFile;
 
 		}
+
+		if (material->GetTextureCount(aiTextureType_SPECULAR)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_SPECULAR, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			//Texture tmpTexture;
+
+			//tmpTexture.path = path;
+			//tmpTexture.type = TextureTypes::SPECULAR;
+
+			//textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_NORMALS)) {
+			 
+			aiString aiPath;
+			material->GetTexture(aiTextureType_NORMALS, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			//Texture tmpTexture;
+
+			//tmpTexture.path = path;
+			//tmpTexture.type = TextureTypes::NORMALS;
+
+			//textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_HEIGHT)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_HEIGHT, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			//Texture tmpTexture;
+
+			//tmpTexture.path = path;
+			//tmpTexture.type = TextureTypes::HEIGHT;
+
+			//textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_AMBIENT)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_AMBIENT, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			//Texture tmpTexture;
+
+			//tmpTexture.path = path;
+			//tmpTexture.type = TextureTypes::AMBIENT;
+
+			//textures.push_back(tmpTexture);
+
+		}
+
+		if (material->GetTextureCount(aiTextureType_EMISSIVE)) {
+
+			aiString aiPath;
+			material->GetTexture(aiTextureType_EMISSIVE, 0, &aiPath);
+
+			std::string path = directory + aiPath.C_Str();
+
+			//Texture tmpTexture;
+
+			//tmpTexture.path = path;
+			//tmpTexture.type = TextureTypes::EMISSIVE;
+
+			//textures.push_back(tmpTexture);
+
+		}
+
+		linkGO->AddComponent(cmaterial);
 
 	}
 
 	// Create the mesh
 
-	Mesh tmpMesh(vertices, indices, textures, linkGO, transform, shaderPath);
+	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
+
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh";
+
+	JsonFile ymeshFile(libraryPath, std::to_string(linkGO->UID) + ".ymesh");
+	External->fileSystem->SaveMeshToFile(tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+
+	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
 	CMesh* cmesh = new CMesh(linkGO);
 
-	cmesh->meshReference = &tmpMesh;
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
 
+	cmesh->rMeshReference = rMesh;
+
 	linkGO->AddComponent(cmesh);
-
-	JsonFile ymeshFile(External->fileSystem->libraryMeshesPath, std::to_string(linkGO->UID) + ".ymesh");
-
-	External->fileSystem->SaveMeshToFile(&tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
 
 	return tmpMesh; // Retrieve the Mesh with all the necessary data to draw
 }
@@ -327,10 +461,12 @@ void Model::GenerateModelMetaFile()
 {
 	JsonFile modelMetaFile;
 
+	modelMetaFile.SetString("Name", name.c_str());
 	modelMetaFile.SetString("Assets Path", path.c_str());
 	modelMetaFile.SetString("Library Path", (External->fileSystem->libraryModelsPath + std::to_string(modelGO->UID) + ".ymodel").c_str());
 	modelMetaFile.SetInt("UID", modelGO->UID);
 	modelMetaFile.SetString("Type", "Model");
+	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
 	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
 
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);

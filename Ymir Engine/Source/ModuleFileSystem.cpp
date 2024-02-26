@@ -12,6 +12,14 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	workingDirectory = "./";
 	libraryPath = workingDirectory + "Library/";
 
+	libraryScenesPath = libraryPath + "Scenes/";
+	libraryModelsPath = libraryPath + "Models/";
+	libraryMeshesPath = libraryPath + "Meshes/";
+	libraryMaterialsPath = libraryPath + "Materials/";
+	libraryShadersPath = libraryPath + "Shaders/";
+	libraryTexturesPath = libraryPath + "Textures/";
+	librarySettingsPath = libraryPath + "Settings/";
+
 	LOG("Creating ModuleFileSystem");
 }
 
@@ -28,19 +36,9 @@ bool ModuleFileSystem::Init()
 
 	PhysfsEncapsule::InitializePhysFS();
 
-	CreateLibraryFolder();
+	if (!PhysfsEncapsule::FolderExists(libraryPath)) {
 
-	if (PhysfsEncapsule::FolderExists(libraryPath)) {
-
-		// For testing purposes
-
-		/*outputFile.SetBoolean("Json Support Working", true);
-
-		float4x4 identityMatrix = float4x4::identity;
-
-		outputFile.SetMatrix4x4("myMatrix", identityMatrix);
-
-		outputFile.CreateJSON(libraryPath, "output.json");*/
+		CreateLibraryFolder();
 
 	}
 
@@ -109,32 +107,18 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(workingDirectory, "Library");
 
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scenes"); // Custom File Format (JSON)
-	libraryScenesPath = libraryPath + "Scenes/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Models"); // Custom File Format (JSON)
-	libraryModelsPath = libraryPath + "Models/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Meshes"); // Custom File Format
-	libraryMeshesPath = libraryPath + "Meshes/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Materials"); // Custom File Format (JSON)
-	libraryMaterialsPath = libraryPath + "Materials/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Shaders"); // SPIR-V
-	libraryShadersPath = libraryPath + "Shaders/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Textures"); // DDS 
-	libraryTexturesPath = libraryPath + "Textures/";
-
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
-	librarySettingsPath = libraryPath + "Settings/";
 }
 
-bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& filename) {
+bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {
 
-	char* fileBuffer;
-
-	uint bufferSize = ImporterMesh::Save(ourMesh, &fileBuffer);
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);
 
 	std::ofstream outFile(filename, std::ios::binary);
 
@@ -157,7 +141,7 @@ bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& fi
 	return true;
 }
 
-bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::string& filename)
+bool ModuleFileSystem::SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename)
 {
 	ILuint size;
 	ILubyte* data;
@@ -179,7 +163,7 @@ bool ModuleFileSystem::SaveTextureToFile(const Texture* ourTexture, const std::s
 	return false; // Return false if saving failed or if size was 0
 }
 
-bool ModuleFileSystem::LoadMeshToFile(const std::string filename, Mesh* ourMesh)
+bool ModuleFileSystem::LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh)
 {
 	// Get size of file to know how much memory to allocate
 	std::uintmax_t filesize = std::filesystem::file_size(filename);
