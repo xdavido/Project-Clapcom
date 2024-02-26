@@ -115,7 +115,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
 }
 
-bool ModuleFileSystem::SaveMeshToFile(const Mesh* ourMesh, const std::string& filename) {
+bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {
 
 	uint bufferSize = 0;
 	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);

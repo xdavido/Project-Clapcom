@@ -270,6 +270,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
+		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
@@ -282,7 +283,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			}
 
 			materialComponent->shader.UseShader(true);
-			materialComponent->shader.SetShaderUniforms();
+			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
 
 		}
 
