@@ -129,6 +129,15 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
+	// Delete GameObject
+	if ((App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN ||
+		App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN) &&
+		!ImGui::GetIO().WantTextInput/* && !App->input->GetInputActive()*/)
+	{
+		// TODO: Sara --> multiple selection
+		//node->mParent->DeleteChild(node);
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -181,9 +190,11 @@ void ModuleScene::ClearScene()
 
 	uint deletedSceneUID = mRootNode->UID;
 
-	App->editor->DestroyHierarchyTree(mRootNode);
+	/*App->editor->DestroyHierarchyTree(mRootNode);
 	delete mRootNode;
-	mRootNode = nullptr;
+	mRootNode = nullptr;*/
+
+	RELEASE(mRootNode);
 
 	gameObjects.clear();
 

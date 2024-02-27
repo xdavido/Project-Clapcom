@@ -2607,7 +2607,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
 
-		bool isNodeOpen = ImGui::TreeNodeEx(node->name.c_str(), flags);
+		bool isNodeOpen = ImGui::TreeNodeEx((node->name + "##" + std::to_string(node->UID)).c_str(), flags);
 
 		if (!node->active) ImGui::PopStyleColor();
 
@@ -2651,6 +2651,17 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		}
 
 		if (ImGui::BeginPopupContextItem()) {
+
+			// TODO: Sara --> hacer bien esto
+			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+
+				if ((*it) != node) {
+
+					(*it)->selected = false;
+
+				}
+
+			}
 
 			node->selected = true;
 

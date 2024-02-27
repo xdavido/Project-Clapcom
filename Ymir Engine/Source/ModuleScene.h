@@ -67,4 +67,6 @@ public:
 
 	std::string currentSceneDir;
 	std::string currentSceneFile;
+
+	std::vector<GameObject*> vSelectedGOs;
 };
