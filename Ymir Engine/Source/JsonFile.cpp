@@ -1211,6 +1211,61 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		gameObject->mTransform = new CTransform(gameObject);
 
+		// Translation
+
+		JSON_Value* jsonTranslationValue = json_object_get_value(componentObject, "Translation");
+
+		if (jsonTranslationValue == nullptr || json_value_get_type(jsonTranslationValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonTranslationArray = json_value_get_array(jsonTranslationValue);
+
+		float3 translation;
+
+		translation.x = static_cast<float>(json_array_get_number(jsonTranslationArray, 0));
+		translation.y = static_cast<float>(json_array_get_number(jsonTranslationArray, 1));
+		translation.z = static_cast<float>(json_array_get_number(jsonTranslationArray, 2));
+
+		// Rotation
+
+		JSON_Value* jsonRotationValue = json_object_get_value(componentObject, "Rotation");
+
+		if (jsonRotationValue == nullptr || json_value_get_type(jsonRotationValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonRotationArray = json_value_get_array(jsonRotationValue);
+
+		float3 rotation;
+
+		rotation.x = static_cast<float>(json_array_get_number(jsonRotationArray, 0));
+		rotation.y = static_cast<float>(json_array_get_number(jsonRotationArray, 1));
+		rotation.z = static_cast<float>(json_array_get_number(jsonRotationArray, 2));
+
+		// Scale
+
+		JSON_Value* jsonScaleValue = json_object_get_value(componentObject, "Scale");
+
+		if (jsonScaleValue == nullptr || json_value_get_type(jsonScaleValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonScaleArray = json_value_get_array(jsonScaleValue);
+
+		float3 scale;
+
+		scale.x = static_cast<float>(json_array_get_number(jsonScaleArray, 0));
+		scale.y = static_cast<float>(json_array_get_number(jsonScaleArray, 1));
+		scale.z = static_cast<float>(json_array_get_number(jsonScaleArray, 2));
+
+		gameObject->mTransform->SetPosition(translation);
+		gameObject->mTransform->SetRotation(rotation);
+		gameObject->mTransform->SetScale(scale);
+
 		gameObject->AddComponent(gameObject->mTransform);
 
 	}
