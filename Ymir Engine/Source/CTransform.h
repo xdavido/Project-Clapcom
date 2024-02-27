@@ -44,9 +44,9 @@ public:
 	Quat rotation; // Quaternion rotation
 	float3 eulerRot;
 	float3 scale;
-	float3* translationPtr;
-	float3* rotationPtr;
-	float3* scalePtr;
+	//float3* translationPtr;
+	//float3* rotationPtr;
+	//float3* scalePtr;
 
 	float4x4 mLocalMatrix;
 

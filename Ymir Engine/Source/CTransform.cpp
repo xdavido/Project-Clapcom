@@ -15,9 +15,9 @@ CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRAN
 	rotation = Quat::FromEulerXYZ(eulerRot[0] * DEGTORAD, eulerRot[1] * DEGTORAD, eulerRot[2] * DEGTORAD);
 	scale = float3::one;
 
-	translationPtr = nullptr;
-	rotationPtr = nullptr;
-	scalePtr = nullptr;
+	//translationPtr = nullptr;
+	//rotationPtr = nullptr;
+	//scalePtr = nullptr;
 
 	resetPressed = false;
 
