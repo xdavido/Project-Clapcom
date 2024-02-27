@@ -585,6 +585,11 @@ void JsonFile::SetComponent(const char* key, const Component& component)
         json_object_set_string(componentObject, "Type", "Camera");
         // Additional properties specific to the Camera component can be added here
         break;
+    
+    case ANIMATION:
+        json_object_set_string(componentObject, "Type", "Animation");
+        // Additional properties specific to the Camera component can be added here
+        break;
     }
 
     // Add the component object to the main object
@@ -627,7 +632,13 @@ Component* JsonFile::GetComponent(const char* key) const
 
             component->ctype = ComponentType::CAMERA;
 
-        }       
+        }
+
+        if (type == "Animation") {
+
+            component->ctype = ComponentType::ANIMATION;
+
+        }
 
         return component;
     }
@@ -1046,6 +1057,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
         json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
     }
+    else if (component.ctype == ComponentType::ANIMATION) {
+        //Empty for now
+
+    }
 
 }
 
@@ -1218,6 +1233,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
         gameObject->AddComponent(ccamera);
 
+    }
+    else if (type == "Animation") {
+
+        CAnimation* canimation = new CAnimation(gameObject);
+
+        gameObject->AddComponent(canimation);
     }
 
 }
