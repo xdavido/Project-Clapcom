@@ -49,6 +49,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
+	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
 

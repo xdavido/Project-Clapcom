@@ -28,6 +28,7 @@ public class Core : YmirComponent
         {
             Debug.Log("[WARNING] testString: " + testString);
             reference = InternalCalls.GetGameObjectByName("Test1");
+            reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
             Debug.Log("[WARNING] Reference str: " + reference.name);
 
             start = false;

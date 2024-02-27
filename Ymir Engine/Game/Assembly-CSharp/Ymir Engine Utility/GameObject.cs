@@ -7,6 +7,9 @@ namespace YmirEngine
 
     public sealed class GameObject
     {
+        public string name;
+        public UIntPtr pointer;
+        
         public GameObject()
         {
             name = "Empty";
@@ -20,8 +23,16 @@ namespace YmirEngine
             //Debug.Log("Created: " + UID.ToString());
         }
 
-        public string name;
-        public UIntPtr pointer; //Searching all the GO's with UID's? Nah boy we cast stuff here
+        public extern string Name
+        {
+            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            get;
+        }
+        public extern GameObject parent
+        {
+            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            get;
+        } 
         public extern Vector3 localPosition
         {
             [MethodImplAttribute(MethodImplOptions.InternalCall)]

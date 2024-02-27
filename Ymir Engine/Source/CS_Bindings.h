@@ -118,7 +118,15 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 	go->mTransform->translation = posVector;
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
 }
+MonoString* Get_GO_Name(MonoObject* go)
+{
+	if (External == nullptr)
+		return nullptr;
 
+	return mono_string_new(
+		External->moduleMono->domain,
+		External->moduleMono->GameObject_From_CSGO(go)->name.c_str());
+}
 MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
