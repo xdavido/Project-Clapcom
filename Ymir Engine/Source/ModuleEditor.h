@@ -39,6 +39,7 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void SaveAs();
 
 	// Manages the docking functionality with the main window
 	void WindowDockSpaceManagement();
@@ -112,7 +113,7 @@ public:
 	// Function to encapsulate GameObjects hierarchy
 	void DrawHierarchy();
 	void CreateHierarchyTree(GameObject* node);
-	void DestroyHierarchyTree(GameObject* node);
+	//void DestroyHierarchyTree(GameObject* node);
 
 	// Function to encapsulate GameObjects inspector
 	void DrawInspector();
@@ -157,6 +158,7 @@ public:
 
 	bool showScene = true;
 	bool showGame = true;
+	bool showSaveAs = false;
 	bool showResources = true;
 	bool showFileExplorer = true;
 	bool showAssets = true;

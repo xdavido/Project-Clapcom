@@ -4,6 +4,7 @@
 #include <map>
 
 #include "Module.h"
+#include "ModuleFileSystem.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -33,13 +34,13 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	void DestroyGameObject(GameObject* toDestroy);
+	//void DestroyGameObject(GameObject* toDestroy);
 
 	void ClearScene();
 
-	void QuickSaveScene();
-	void QuickLoadScene();
-	void LoadSceneFromAssets(std::string path);
+	void SaveScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+	void LoadSceneFromAssets(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -64,4 +65,8 @@ public:
 	Mesh* ourMesh;
 	ResourceMesh mymesh{ 0 };
 
+	std::string currentSceneDir;
+	std::string currentSceneFile;
+
+	std::vector<GameObject*> vSelectedGOs;
 };

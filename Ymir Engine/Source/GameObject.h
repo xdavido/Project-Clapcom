@@ -32,7 +32,10 @@ public:
 	void AddComponent(Component* component);
 	Component* GetComponent(ComponentType ctype);
 
-	void DestroyGameObject();
+	void DeleteChild(GameObject* go);
+	//Remove from children vector (do not use)
+	void RemoveChild(GameObject* go);
+	//void DestroyGameObject();
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 

@@ -358,7 +358,7 @@ void Shader::Scale(float3 scale)
 }
 
 
-void Shader::SetShaderUniforms(float4x4* matrix)
+void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 {
 	// Set shader uniforms that are essential (matrices, time, etc.):
 
@@ -387,7 +387,7 @@ void Shader::SetShaderUniforms(float4x4* matrix)
 	this->model = model;
 
 	// Selected uniform management
-	this->SetBool("selected", selected);
+	this->SetBool("selected", isSelected);
 
 	// Time uniform management
 	this->SetFloat("time", TimeManager::graphicsTimer.ReadSec());

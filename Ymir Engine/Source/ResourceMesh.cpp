@@ -14,9 +14,6 @@ ResourceMesh::ResourceMesh(uint UID) : Resource(UID, ResourceType::MESH)
     VAO = 0;
 
     material = ResourceMaterial::defaultMaterial;
-
-    //InitBoundingBoxes();
-
 }
 
 ResourceMesh::~ResourceMesh()
@@ -82,6 +79,8 @@ bool ResourceMesh::LoadInMemory()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     isLoaded = true;
+
+    InitBoundingBoxes();
 
     return ret;
 }

@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "CMesh.h"
+#include "ResourceMesh.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
@@ -35,6 +36,8 @@ public:
 
 	void ReparentTransform(float4x4 matrix);
 
+	void UpdateBoundingBoxes();
+
 	void UpdateTransformGuizmo(float4x4 matrix);
 
 public:
@@ -44,9 +47,9 @@ public:
 	Quat rotation; // Quaternion rotation
 	float3 eulerRot;
 	float3 scale;
-	float3* translationPtr;
-	float3* rotationPtr;
-	float3* scalePtr;
+	//float3* translationPtr;
+	//float3* rotationPtr;
+	//float3* scalePtr;
 
 	float4x4 mLocalMatrix;
 

@@ -1,11 +1,13 @@
 #include "CCamera.h"
 #include "GameObject.h"
 
+#include "ModuleScene.h"
+
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 
-CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
+CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentType::CAMERA)
 {
 	this->mOwner = owner;
 
@@ -23,11 +25,20 @@ CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
+	if (isGame)
+	{
+		External->renderer3D->SetGameCamera(this);
+	}
 }
 
 CCamera::~CCamera()
 {
+	if (isGameCam)
+	{
+		External->renderer3D->SetGameCamera();
+	}
 
+	framebuffer.Delete();
 }
 
 void CCamera::Update()
@@ -57,9 +68,12 @@ void CCamera::OnInspector()
 
 	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
+
 	if (ImGui::CollapsingHeader("Camera", flags))
 	{
 		ImGui::Indent();
+
+		if (!active) { ImGui::BeginDisabled(); }
 
 		//// Position (Needs to be reworked into Transform)
 
@@ -175,6 +189,18 @@ void CCamera::OnInspector()
 
 		ImGui::Spacing();
 
+		// Enable/Disable Game Camera
+
+		if (ImGui::Checkbox("Game Camera", &isGameCam))
+		{
+			SetAsMain(isGameCam);
+			//RestartCulling();
+		}
+
+		if (!active) { ImGui::EndDisabled(); }
+
+		ImGui::Spacing();
+
 		ImGui::Unindent();
 	}
 }
@@ -285,6 +311,23 @@ void CCamera::DrawFrustumBox() const
 	float3 vertices[8];
 	frustum.GetCornerPoints(vertices);
 	External->renderer3D->DrawBox(vertices, float3(0, 255, 0));
+}
+
+void CCamera::SetAsMain(bool mainCam)
+{
+	if (mainCam)
+	{
+		if (External->scene->gameCameraComponent != nullptr)
+		{
+			External->scene->gameCameraComponent->isGameCam = false;
+		}
+
+		External->renderer3D->SetGameCamera(this);
+	}
+	else
+	{
+		External->scene->gameCameraComponent = nullptr;
+	}
 }
 
 float4x4 CCamera::GetProjectionMatrix() const 

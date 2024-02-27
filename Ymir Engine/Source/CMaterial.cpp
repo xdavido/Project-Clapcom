@@ -6,6 +6,7 @@
 
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "GameObject.h"
 
 #include "ShaderEditor.h"
@@ -22,7 +23,13 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
 
 CMaterial::~CMaterial()
 {
+    shader.ClearShader();
 
+    for (auto it = rTextures.rbegin(); it != rTextures.rend(); ++it)
+    {
+        External->resourceManager->UnloadResource((*it)->GetUID());
+        (*it) = nullptr;
+    }
 }
 
 void CMaterial::Update()
@@ -49,11 +56,17 @@ void CMaterial::OnInspector()
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
+    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+    ImGui::SameLine();
+
     if (ImGui::CollapsingHeader("Material", flags))
     {
+
         ImGui::Indent();
 
         ImGui::Spacing();
+
+        if (!active) { ImGui::BeginDisabled(); }
 
         // ------------------------------------ SHADER ------------------------------------
 
@@ -304,6 +317,8 @@ void CMaterial::OnInspector()
             External->renderer3D->ClearActualTexture();
 
         }
+
+        if (!active) { ImGui::EndDisabled(); }
 
         ImGui::Spacing();
 

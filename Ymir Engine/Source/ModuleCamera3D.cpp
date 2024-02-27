@@ -13,7 +13,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	editorCamera = new CCamera(nullptr);
+	editorCamera = new CCamera(nullptr, false);
 
 	editorCamera->SetPos(-36.0f, 48.00f, 100.0f);
 	editorCamera->LookAt(float3(0.f, 0.f, 0.f));
@@ -99,17 +99,19 @@ void ModuleCamera3D::Focus()
 {
 	float3 center = float3::zero;
 
-	for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 
-		for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-			if ((*jt).meshGO->selected || (*it).modelGO->selected)
+		if (meshComponent!=nullptr)
+		{
+			if ((*meshComponent).mOwner->selected)
 			{
 				//Reference = selectedList[i]->mesh->global_aabb.CenterPoint();
-				float3 size = (*jt).globalAABB.Size();
-				center = (*jt).globalAABB.CenterPoint();
+				float3 size = meshComponent->rMeshReference->globalAABB.Size();
+				center = meshComponent->rMeshReference->globalAABB.CenterPoint();
 				editorCamera->frustum.pos.Set(center.x + size.x, center.y + size.y, center.z + size.z);
-				editorCamera->LookAt((*jt).globalAABB.CenterPoint());
+				editorCamera->LookAt(meshComponent->rMeshReference->globalAABB.CenterPoint());
 			}
 		}
 	}

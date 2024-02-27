@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
@@ -35,7 +36,14 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 GameObject::~GameObject()
 {
-	RELEASE(mTransform);
+	ClearVecPtr(mComponents);
+
+	mTransform = nullptr;
+
+	if (!mChildren.empty())
+	{
+		ClearVecPtr(mChildren);
+	}
 }
 
 void GameObject::Update()
@@ -101,6 +109,7 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::AddComponent(Component* component)
 {
+	component->mOwner = this;
 	mComponents.push_back(component);
 }
 
@@ -119,26 +128,41 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	return nullptr;
 }
 
-void GameObject::DestroyGameObject()
+void GameObject::DeleteChild(GameObject* go)
 {
-	mTransform = nullptr;
-
-	if (this->mParent)
-	{
-		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
-		if (it != this->mParent->mChildren.end())
-		{
-			this->mParent->mChildren.erase(it);
-		}
-	}
-
-	for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
-	{
-		delete (*it);
-		(*it) = nullptr;
-	}
-
+	RemoveChild(go);
+	RELEASE(go);
 }
+
+void GameObject::RemoveChild(GameObject* go)
+{
+	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
+	mChildren.shrink_to_fit();
+}
+
+//void GameObject::DestroyGameObject()
+//{
+//	if (this->mParent)
+//	{
+//		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
+//		if (it != this->mParent->mChildren.end())
+//		{
+//			this->mParent->mChildren.erase(it);
+//		}
+//	}
+//
+//	//for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
+//	//{
+//	//	delete (*it);
+//	//	(*it) = nullptr;
+//	//}
+//
+//	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+//	//{
+//	//	delete (*it);
+//	//	(*it) = nullptr;
+//	//}
+//}
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
 {

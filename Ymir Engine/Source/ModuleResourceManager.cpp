@@ -178,6 +178,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					cmesh->nVertices = 0;
 
 					meshGO->AddComponent(cmesh);
+
+					CMaterial* cmat = new CMaterial(meshGO);
+					meshGO->AddComponent(cmat);
 				}
 				else
 				{
@@ -191,6 +194,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					cmesh->nVertices = 0;
 
 					meshGO->AddComponent(cmesh);
+
+					CMaterial* cmat = new CMaterial(meshGO);
+					meshGO->AddComponent(cmat);
 
 					itr->second->IncreaseReferenceCount();
 				}
@@ -431,13 +437,13 @@ Resource* ModuleResourceManager::RequestResource(const uint& UID, const char* li
 
 }
 
-void ModuleResourceManager::UnloadResource(const uint& UID)
+bool ModuleResourceManager::UnloadResource(const uint& UID)
 {
 	std::map<uint, Resource*>::iterator it = resources.find(UID);
 
 	if (it == resources.end())
 	{
-		return;
+		return false;
 	}
 
 	Resource* tmpResource = it->second;
@@ -447,8 +453,10 @@ void ModuleResourceManager::UnloadResource(const uint& UID)
 	if (tmpResource->GetReferenceCount() == 0) {
 
 		ReleaseResource(tmpResource);
-
+		return true;
 	}
+
+	return false;
 }
 
 Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFilePath, ResourceType type, const uint& UID)

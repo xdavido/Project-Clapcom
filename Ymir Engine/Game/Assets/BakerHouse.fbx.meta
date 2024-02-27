@@ -1,12 +1,12 @@
 {
     "Name": "BakerHouse",
     "Assets Path": "Assets\/BakerHouse.fbx",
-    "Library Path": ".\/Library\/Models\/1004644429.ymodel",
-    "UID": 1004644429,
+    "Library Path": ".\/Library\/Models\/917673120.ymodel",
+    "UID": 917673120,
     "Type": "Model",
     "Meshes num": 2,
     "Meshes Embedded UID": [
-        526634802,
-        862718486
+        1388085129,
+        80893934
     ]
 }

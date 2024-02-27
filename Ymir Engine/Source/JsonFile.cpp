@@ -15,62 +15,62 @@
 
 JsonFile::JsonFile()
 {
-    InitializeJSON();
+	InitializeJSON();
 }
 
 JsonFile::JsonFile(std::string route, std::string fileName)
 {
-    InitializeJSON();
-    CreateJSON(route, fileName);
+	InitializeJSON();
+	CreateJSON(route, fileName);
 }
 
 JsonFile::~JsonFile()
 {
-    DeinitializeJSON();
+	DeinitializeJSON();
 }
 
 void JsonFile::InitializeJSON()
 {
-    rootValue = json_value_init_object();
-    rootObject = json_value_get_object(rootValue);
+	rootValue = json_value_init_object();
+	rootObject = json_value_get_object(rootValue);
 }
 
 void JsonFile::DeinitializeJSON()
 {
-    if (rootValue != nullptr)
-    {
-        json_value_free(rootValue);
-        rootValue = nullptr;
-        rootObject = nullptr;
-    }
+	if (rootValue != nullptr)
+	{
+		json_value_free(rootValue);
+		rootValue = nullptr;
+		rootObject = nullptr;
+	}
 }
 
 void JsonFile::CreateJSON(std::string route, std::string fileName)
 {
-    std::string fullRoute = route + fileName;
+	std::string fullRoute = route + fileName;
 
-    FILE* file;
-    errno_t err = fopen_s(&file, fullRoute.c_str(), "w");
+	FILE* file;
+	errno_t err = fopen_s(&file, fullRoute.c_str(), "w");
 
-    if (err == 0 && file != nullptr) {
+	if (err == 0 && file != nullptr) {
 
-        char* serialized_json = json_serialize_to_string_pretty(rootValue);
+		char* serialized_json = json_serialize_to_string_pretty(rootValue);
 
-        if (serialized_json) {
+		if (serialized_json) {
 
-            fprintf(file, "%s\n", serialized_json);
-            json_free_serialized_string(serialized_json);
+			fprintf(file, "%s\n", serialized_json);
+			json_free_serialized_string(serialized_json);
 
-        }
+		}
 
-        fclose(file);
+		fclose(file);
 
-    }
-    else {
+	}
+	else {
 
-        LOG("JsonFile: Failed to open file.");
+		LOG("[ERROR] [JsonFile] Failed to open file.");
 
-    }
+	}
 
 }
 
@@ -81,475 +81,475 @@ void JsonFile::ModifyJSON(std::string route, std::string fileName)
 
 void JsonFile::DeleteJSON(const std::string& route)
 {
-    // Check if the file exists before attempting to delete
-    if (PhysfsEncapsule::FileExists(route))
-    {
-        // Delete the file
-        PhysfsEncapsule::DeleteFS(route);
+	// Check if the file exists before attempting to delete
+	if (PhysfsEncapsule::FileExists(route))
+	{
+		// Delete the file
+		PhysfsEncapsule::DeleteFS(route);
 
-    }
+	}
 }
 
 JsonFile* JsonFile::GetJSON(const std::string& route) {
 
-    JsonFile* jsonFile = new JsonFile();
+	JsonFile* jsonFile = new JsonFile();
 
-    // Load the existing JSON file
+	// Load the existing JSON file
 
-    jsonFile->rootValue = json_parse_file(route.c_str());
+	jsonFile->rootValue = json_parse_file(route.c_str());
 
-    // Error handling
-    if (!jsonFile->rootValue) {
+	// Error handling
+	if (!jsonFile->rootValue) {
 
-        LOG("[ERROR] Unable to load JSON file from %s", route.c_str());
+		LOG("[ERROR] Unable to load JSON file from %s", route.c_str());
 
-        delete jsonFile;
+		delete jsonFile;
 
-        return nullptr;
-    }
+		return nullptr;
+	}
 
-    // Get the JSON object from the root value
-    jsonFile->rootObject = json_value_get_object(jsonFile->rootValue);
+	// Get the JSON object from the root value
+	jsonFile->rootObject = json_value_get_object(jsonFile->rootValue);
 
-    return jsonFile;
+	return jsonFile;
 }
 
 // -------------------------- Support functions --------------------------------
 
 void JsonFile::SetInt(const char* key, int value) {
 
-    json_object_set_number(rootObject, key, (int)value);
+	json_object_set_number(rootObject, key, (int)value);
 
 }
 
 int JsonFile::GetInt(const char* key) const
 {
-    return (int)json_object_get_number(rootObject, key);
+	return (int)json_object_get_number(rootObject, key);
 }
 
 void JsonFile::SetFloat(const char* key, float value) {
 
-    json_object_set_number(rootObject, key, (float)value);
+	json_object_set_number(rootObject, key, (float)value);
 
 }
 
 float JsonFile::GetFloat(const char* key) const
 {
-    return (float)json_object_get_number(rootObject, key);
+	return (float)json_object_get_number(rootObject, key);
 }
 
 void JsonFile::SetDouble(const char* key, double value)
 {
-    json_object_set_number(rootObject, key, value);
+	json_object_set_number(rootObject, key, value);
 }
 
 double JsonFile::GetDouble(const char* key) const
 {
-    return json_object_get_number(rootObject, key);
+	return json_object_get_number(rootObject, key);
 }
 
 void JsonFile::SetBoolean(const char* key, bool value) {
 
-    json_object_set_boolean(rootObject, key, (bool)value);
+	json_object_set_boolean(rootObject, key, (bool)value);
 
 }
 
 bool JsonFile::GetBoolean(const char* key) const
 {
-    return (bool)json_object_get_boolean(rootObject, key);
+	return (bool)json_object_get_boolean(rootObject, key);
 }
 
 void JsonFile::SetString(const char* key, const char* string) {
 
-    json_object_set_string(rootObject, key, string);
+	json_object_set_string(rootObject, key, string);
 
 }
 
 std::string JsonFile::GetString(const char* key) const
 {
-    return json_object_get_string(rootObject, key);
+	return json_object_get_string(rootObject, key);
 }
 
 void JsonFile::SetIntArray(const char* key, const int* array, size_t size) {
 
-    JSON_Value* jsonArrayValue = json_value_init_array();
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	JSON_Value* jsonArrayValue = json_value_init_array();
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
 
-    for (unsigned int i = 0; i < size; i++)
-    {
-        json_array_append_number(jsonArrayObject, array[i]);
-    }
+	for (unsigned int i = 0; i < size; i++)
+	{
+		json_array_append_number(jsonArrayObject, array[i]);
+	}
 
-    json_object_set_value(rootObject, key, jsonArrayValue);
+	json_object_set_value(rootObject, key, jsonArrayValue);
 
 }
 
 int* JsonFile::GetIntArray(const char* key) const {
 
-    JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
 
-    if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
-    {
-        return nullptr;
-    }
+	if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
+	{
+		return nullptr;
+	}
 
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
-    size_t size = json_array_get_count(jsonArrayObject);
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	size_t size = json_array_get_count(jsonArrayObject);
 
-    int* resultArray = new int[size + 1];
+	int* resultArray = new int[size + 1];
 
-    for (size_t i = 0; i < size; i++)
-    {
-        resultArray[i] = static_cast<int>(json_array_get_number(jsonArrayObject, i));
-    }
+	for (size_t i = 0; i < size; i++)
+	{
+		resultArray[i] = static_cast<int>(json_array_get_number(jsonArrayObject, i));
+	}
 
-    resultArray[size] = -1;
+	resultArray[size] = -1;
 
-    return resultArray;
+	return resultArray;
 }
 
 void JsonFile::SetFloatArray(const char* key, const float* array, size_t size) {
 
-    JSON_Value* jsonArrayValue = json_value_init_array();
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	JSON_Value* jsonArrayValue = json_value_init_array();
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
 
-    for (unsigned int i = 0; i < size; i++)
-    {
-        json_array_append_number(jsonArrayObject, array[i]);
-    }
+	for (unsigned int i = 0; i < size; i++)
+	{
+		json_array_append_number(jsonArrayObject, array[i]);
+	}
 
-    json_object_set_value(rootObject, key, jsonArrayValue);
+	json_object_set_value(rootObject, key, jsonArrayValue);
 
 }
 
 float* JsonFile::GetFloatArray(const char* key) const {
 
-    JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
 
-    if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
-    {
-        return nullptr;
-    }
+	if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
+	{
+		return nullptr;
+	}
 
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
-    size_t size = json_array_get_count(jsonArrayObject);
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	size_t size = json_array_get_count(jsonArrayObject);
 
-    float* resultArray = new float[size + 1];
+	float* resultArray = new float[size + 1];
 
-    for (size_t i = 0; i < size; i++)
-    {
-        resultArray[i] = static_cast<float>(json_array_get_number(jsonArrayObject, i));
-    }
+	for (size_t i = 0; i < size; i++)
+	{
+		resultArray[i] = static_cast<float>(json_array_get_number(jsonArrayObject, i));
+	}
 
-    resultArray[size] = -1;
+	resultArray[size] = -1;
 
-    return resultArray;
+	return resultArray;
 }
 
 void JsonFile::SetDoubleArray(const char* key, const double* array, size_t size)
 {
-    JSON_Value* jsonArrayValue = json_value_init_array();
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	JSON_Value* jsonArrayValue = json_value_init_array();
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
 
-    for (unsigned int i = 0; i < size; i++)
-    {
-        json_array_append_number(jsonArrayObject, array[i]);
-    }
+	for (unsigned int i = 0; i < size; i++)
+	{
+		json_array_append_number(jsonArrayObject, array[i]);
+	}
 
-    json_object_set_value(rootObject, key, jsonArrayValue);
+	json_object_set_value(rootObject, key, jsonArrayValue);
 }
 
 double* JsonFile::GetDoubleArray(const char* key) const
 {
-    JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonArrayValue = json_object_get_value(rootObject, key);
 
-    if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
-    {
-        return nullptr;
-    }
+	if (jsonArrayValue == nullptr || json_value_get_type(jsonArrayValue) != JSONArray)
+	{
+		return nullptr;
+	}
 
-    JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
-    size_t size = json_array_get_count(jsonArrayObject);
+	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
+	size_t size = json_array_get_count(jsonArrayObject);
 
-    double* resultArray = new double[size + 1];
+	double* resultArray = new double[size + 1];
 
-    for (size_t i = 0; i < size; i++)
-    {
-        resultArray[i] = static_cast<double>(json_array_get_number(jsonArrayObject, i));
-    }
+	for (size_t i = 0; i < size; i++)
+	{
+		resultArray[i] = static_cast<double>(json_array_get_number(jsonArrayObject, i));
+	}
 
-    resultArray[size] = -1;
+	resultArray[size] = -1;
 
-    return resultArray;
+	return resultArray;
 }
 
 // -------------------------- MathGeoLib functions --------------------------------
 
 void JsonFile::SetFloat2(const char* key, const float2& value)
 {
-    JSON_Value* jsonFloat2Value = json_value_init_array();
-    JSON_Array* jsonFloat2Array = json_value_get_array(jsonFloat2Value);
+	JSON_Value* jsonFloat2Value = json_value_init_array();
+	JSON_Array* jsonFloat2Array = json_value_get_array(jsonFloat2Value);
 
-    json_array_append_number(jsonFloat2Array, value.x);
-    json_array_append_number(jsonFloat2Array, value.y);
+	json_array_append_number(jsonFloat2Array, value.x);
+	json_array_append_number(jsonFloat2Array, value.y);
 
-    json_object_set_value(rootObject, key, jsonFloat2Value);
+	json_object_set_value(rootObject, key, jsonFloat2Value);
 }
 
 float2 JsonFile::GetFloat2(const char* key) const
 {
-    JSON_Value* jsonFloat2Value = json_object_get_value(rootObject, key);
+	JSON_Value* jsonFloat2Value = json_object_get_value(rootObject, key);
 
-    if (jsonFloat2Value == nullptr || json_value_get_type(jsonFloat2Value) != JSONArray) {
+	if (jsonFloat2Value == nullptr || json_value_get_type(jsonFloat2Value) != JSONArray) {
 
-        return float2();
-    }
+		return float2();
+	}
 
-    JSON_Array* jsonFloat2Array = json_value_get_array(jsonFloat2Value);
+	JSON_Array* jsonFloat2Array = json_value_get_array(jsonFloat2Value);
 
-    if (json_array_get_count(jsonFloat2Array) != 2) {
+	if (json_array_get_count(jsonFloat2Array) != 2) {
 
-        return float2(); 
-    }
+		return float2();
+	}
 
-    float2 resultFloat2;
-    resultFloat2.x = static_cast<float>(json_array_get_number(jsonFloat2Array, 0));
-    resultFloat2.y = static_cast<float>(json_array_get_number(jsonFloat2Array, 1));
+	float2 resultFloat2;
+	resultFloat2.x = static_cast<float>(json_array_get_number(jsonFloat2Array, 0));
+	resultFloat2.y = static_cast<float>(json_array_get_number(jsonFloat2Array, 1));
 
-    return resultFloat2;
+	return resultFloat2;
 }
 
 void JsonFile::SetFloat3(const char* key, const float3& value)
 {
-    JSON_Value* jsonFloat3Value = json_value_init_array();
-    JSON_Array* jsonFloat3Array = json_value_get_array(jsonFloat3Value);
+	JSON_Value* jsonFloat3Value = json_value_init_array();
+	JSON_Array* jsonFloat3Array = json_value_get_array(jsonFloat3Value);
 
-    json_array_append_number(jsonFloat3Array, value.x);
-    json_array_append_number(jsonFloat3Array, value.y);
-    json_array_append_number(jsonFloat3Array, value.z);
+	json_array_append_number(jsonFloat3Array, value.x);
+	json_array_append_number(jsonFloat3Array, value.y);
+	json_array_append_number(jsonFloat3Array, value.z);
 
-    json_object_set_value(rootObject, key, jsonFloat3Value);
+	json_object_set_value(rootObject, key, jsonFloat3Value);
 }
 
 float3 JsonFile::GetFloat3(const char* key) const
 {
-    JSON_Value* jsonFloat3Value = json_object_get_value(rootObject, key);
+ 	JSON_Value* jsonFloat3Value = json_object_get_value(rootObject, key);
 
-    if (jsonFloat3Value == nullptr || json_value_get_type(jsonFloat3Value) != JSONArray) {
+	if (jsonFloat3Value == nullptr || json_value_get_type(jsonFloat3Value) != JSONArray) {
 
-        return float3(); 
-    }
+		return float3();
+	}
 
-    JSON_Array* jsonFloat3Array = json_value_get_array(jsonFloat3Value);
+	JSON_Array* jsonFloat3Array = json_value_get_array(jsonFloat3Value);
 
-    if (json_array_get_count(jsonFloat3Array) != 3) {
+	if (json_array_get_count(jsonFloat3Array) != 3) {
 
-        return float3(); 
-    }
+		return float3();
+	}
 
-    float3 resultFloat3;
-    resultFloat3.x = static_cast<float>(json_array_get_number(jsonFloat3Array, 0));
-    resultFloat3.y = static_cast<float>(json_array_get_number(jsonFloat3Array, 1));
-    resultFloat3.z = static_cast<float>(json_array_get_number(jsonFloat3Array, 2));
+	float3 resultFloat3;
+	resultFloat3.x = static_cast<float>(json_array_get_number(jsonFloat3Array, 0));
+	resultFloat3.y = static_cast<float>(json_array_get_number(jsonFloat3Array, 1));
+	resultFloat3.z = static_cast<float>(json_array_get_number(jsonFloat3Array, 2));
 
-    return resultFloat3;
+	return resultFloat3;
 }
 
 void JsonFile::SetFloat4(const char* key, const float4& value)
 {
-    JSON_Value* jsonFloat4Value = json_value_init_array();
-    JSON_Array* jsonFloat4Array = json_value_get_array(jsonFloat4Value);
+	JSON_Value* jsonFloat4Value = json_value_init_array();
+	JSON_Array* jsonFloat4Array = json_value_get_array(jsonFloat4Value);
 
-    json_array_append_number(jsonFloat4Array, value.x);
-    json_array_append_number(jsonFloat4Array, value.y);
-    json_array_append_number(jsonFloat4Array, value.z);
-    json_array_append_number(jsonFloat4Array, value.w);
+	json_array_append_number(jsonFloat4Array, value.x);
+	json_array_append_number(jsonFloat4Array, value.y);
+	json_array_append_number(jsonFloat4Array, value.z);
+	json_array_append_number(jsonFloat4Array, value.w);
 
-    json_object_set_value(rootObject, key, jsonFloat4Value);
+	json_object_set_value(rootObject, key, jsonFloat4Value);
 }
 
 float4 JsonFile::GetFloat4(const char* key) const
 {
-    JSON_Value* jsonFloat4Value = json_object_get_value(rootObject, key);
+	JSON_Value* jsonFloat4Value = json_object_get_value(rootObject, key);
 
-    if (jsonFloat4Value == nullptr || json_value_get_type(jsonFloat4Value) != JSONArray) {
+	if (jsonFloat4Value == nullptr || json_value_get_type(jsonFloat4Value) != JSONArray) {
 
-        return float4(); 
-    }
+		return float4();
+	}
 
-    JSON_Array* jsonFloat4Array = json_value_get_array(jsonFloat4Value);
+	JSON_Array* jsonFloat4Array = json_value_get_array(jsonFloat4Value);
 
-    if (json_array_get_count(jsonFloat4Array) != 4) {
- 
-        return float4(); 
-    }
+	if (json_array_get_count(jsonFloat4Array) != 4) {
 
-    float4 resultFloat4;
-    resultFloat4.x = static_cast<float>(json_array_get_number(jsonFloat4Array, 0));
-    resultFloat4.y = static_cast<float>(json_array_get_number(jsonFloat4Array, 1));
-    resultFloat4.z = static_cast<float>(json_array_get_number(jsonFloat4Array, 2));
-    resultFloat4.w = static_cast<float>(json_array_get_number(jsonFloat4Array, 3));
+		return float4();
+	}
 
-    return resultFloat4;
+	float4 resultFloat4;
+	resultFloat4.x = static_cast<float>(json_array_get_number(jsonFloat4Array, 0));
+	resultFloat4.y = static_cast<float>(json_array_get_number(jsonFloat4Array, 1));
+	resultFloat4.z = static_cast<float>(json_array_get_number(jsonFloat4Array, 2));
+	resultFloat4.w = static_cast<float>(json_array_get_number(jsonFloat4Array, 3));
+
+	return resultFloat4;
 }
 
 void JsonFile::SetMatrix3x3(const char* key, const float3x3& matrix)
 {
-    JSON_Value* jsonMatrixValue = json_value_init_array();
-    JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
+	JSON_Value* jsonMatrixValue = json_value_init_array();
+	JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
 
-    for (unsigned int i = 0; i < 3; i++) { 
+	for (unsigned int i = 0; i < 3; i++) {
 
-        JSON_Value* jsonRowValue = json_value_init_array();
-        JSON_Array* jsonRowArray = json_value_get_array(jsonRowValue);
+		JSON_Value* jsonRowValue = json_value_init_array();
+		JSON_Array* jsonRowArray = json_value_get_array(jsonRowValue);
 
-        for (unsigned int j = 0; j < 3; j++) {
+		for (unsigned int j = 0; j < 3; j++) {
 
-            json_array_append_number(jsonRowArray, matrix[i][j]);
+			json_array_append_number(jsonRowArray, matrix[i][j]);
 
-        }
+		}
 
-        json_array_append_value(jsonMatrixArray, jsonRowValue);
+		json_array_append_value(jsonMatrixArray, jsonRowValue);
 
-    }
+	}
 
-    json_object_set_value(rootObject, key, jsonMatrixValue);
+	json_object_set_value(rootObject, key, jsonMatrixValue);
 }
 
 float3x3 JsonFile::GetMatrix3x3(const char* key) const
 {
-    JSON_Value* jsonMatrixValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonMatrixValue = json_object_get_value(rootObject, key);
 
-    if (jsonMatrixValue == nullptr || json_value_get_type(jsonMatrixValue) != JSONArray) {
+	if (jsonMatrixValue == nullptr || json_value_get_type(jsonMatrixValue) != JSONArray) {
 
-        return float3x3(); 
-    }
+		return float3x3();
+	}
 
-    JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
+	JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
 
-    if (json_array_get_count(jsonMatrixArray) != 3) {
+	if (json_array_get_count(jsonMatrixArray) != 3) {
 
-        return float3x3();
-    }
+		return float3x3();
+	}
 
-    float3x3 resultMatrix;
+	float3x3 resultMatrix;
 
-    for (size_t i = 0; i < 3; i++) {
+	for (size_t i = 0; i < 3; i++) {
 
-        JSON_Array* jsonRowArray = json_array_get_array(jsonMatrixArray, i);
+		JSON_Array* jsonRowArray = json_array_get_array(jsonMatrixArray, i);
 
-        if (json_array_get_count(jsonRowArray) != 3) {
+		if (json_array_get_count(jsonRowArray) != 3) {
 
-            return float3x3();
-        }
+			return float3x3();
+		}
 
-        for (size_t j = 0; j < 3; j++) {
+		for (size_t j = 0; j < 3; j++) {
 
-            resultMatrix[i][j] = static_cast<float>(json_array_get_number(jsonRowArray, j));
+			resultMatrix[i][j] = static_cast<float>(json_array_get_number(jsonRowArray, j));
 
-        }
+		}
 
-    }
+	}
 
-    return resultMatrix;
+	return resultMatrix;
 }
 
 void JsonFile::SetMatrix4x4(const char* key, const float4x4& matrix)
 {
-    JSON_Value* jsonMatrixValue = json_value_init_array();
-    JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
+	JSON_Value* jsonMatrixValue = json_value_init_array();
+	JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
 
-    for (unsigned int i = 0; i < 4; i++) { 
+	for (unsigned int i = 0; i < 4; i++) {
 
-        JSON_Value* jsonRowValue = json_value_init_array();
-        JSON_Array* jsonRowArray = json_value_get_array(jsonRowValue);
+		JSON_Value* jsonRowValue = json_value_init_array();
+		JSON_Array* jsonRowArray = json_value_get_array(jsonRowValue);
 
-        for (unsigned int j = 0; j < 4; j++) { 
+		for (unsigned int j = 0; j < 4; j++) {
 
-            json_array_append_number(jsonRowArray, matrix[i][j]);
+			json_array_append_number(jsonRowArray, matrix[i][j]);
 
-        }
+		}
 
-        json_array_append_value(jsonMatrixArray, jsonRowValue);
+		json_array_append_value(jsonMatrixArray, jsonRowValue);
 
-    }
+	}
 
-    json_object_set_value(rootObject, key, jsonMatrixValue);
+	json_object_set_value(rootObject, key, jsonMatrixValue);
 }
 
 float4x4 JsonFile::GetMatrix4x4(const char* key) const
 {
-    JSON_Value* jsonMatrixValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonMatrixValue = json_object_get_value(rootObject, key);
 
-    if (jsonMatrixValue == nullptr || json_value_get_type(jsonMatrixValue) != JSONArray) {
-   
-        return float4x4(); 
-    }
+	if (jsonMatrixValue == nullptr || json_value_get_type(jsonMatrixValue) != JSONArray) {
 
-    JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
+		return float4x4();
+	}
 
-    if (json_array_get_count(jsonMatrixArray) != 4) {
- 
-        return float4x4(); 
-    }
+	JSON_Array* jsonMatrixArray = json_value_get_array(jsonMatrixValue);
 
-    float4x4 resultMatrix;
+	if (json_array_get_count(jsonMatrixArray) != 4) {
 
-    for (size_t i = 0; i < 4; i++) {
+		return float4x4();
+	}
 
-        JSON_Array* jsonRowArray = json_array_get_array(jsonMatrixArray, i);
+	float4x4 resultMatrix;
 
-        if (json_array_get_count(jsonRowArray) != 4) {
- 
-            return float4x4(); 
-        }
+	for (size_t i = 0; i < 4; i++) {
 
-        for (size_t j = 0; j < 4; j++) {
+		JSON_Array* jsonRowArray = json_array_get_array(jsonMatrixArray, i);
 
-            resultMatrix[i][j] = static_cast<float>(json_array_get_number(jsonRowArray, j));
+		if (json_array_get_count(jsonRowArray) != 4) {
 
-        }
-    }
+			return float4x4();
+		}
 
-    return resultMatrix;
+		for (size_t j = 0; j < 4; j++) {
+
+			resultMatrix[i][j] = static_cast<float>(json_array_get_number(jsonRowArray, j));
+
+		}
+	}
+
+	return resultMatrix;
 }
 
 void JsonFile::SetQuat(const char* key, const Quat& quaternion)
 {
-    JSON_Value* jsonQuatValue = json_value_init_array();
-    JSON_Array* jsonQuatArray = json_value_get_array(jsonQuatValue);
+	JSON_Value* jsonQuatValue = json_value_init_array();
+	JSON_Array* jsonQuatArray = json_value_get_array(jsonQuatValue);
 
-    json_array_append_number(jsonQuatArray, quaternion.w);
-    json_array_append_number(jsonQuatArray, quaternion.x);
-    json_array_append_number(jsonQuatArray, quaternion.y);
-    json_array_append_number(jsonQuatArray, quaternion.z);
+	json_array_append_number(jsonQuatArray, quaternion.w);
+	json_array_append_number(jsonQuatArray, quaternion.x);
+	json_array_append_number(jsonQuatArray, quaternion.y);
+	json_array_append_number(jsonQuatArray, quaternion.z);
 
-    json_object_set_value(rootObject, key, jsonQuatValue);
+	json_object_set_value(rootObject, key, jsonQuatValue);
 }
 
 Quat JsonFile::GetQuat(const char* key) const
 {
-    JSON_Value* jsonQuatValue = json_object_get_value(rootObject, key);
+	JSON_Value* jsonQuatValue = json_object_get_value(rootObject, key);
 
-    if (jsonQuatValue == nullptr || json_value_get_type(jsonQuatValue) != JSONArray) {
+	if (jsonQuatValue == nullptr || json_value_get_type(jsonQuatValue) != JSONArray) {
 
-        return Quat(); 
-    }
+		return Quat();
+	}
 
-    JSON_Array* jsonQuatArray = json_value_get_array(jsonQuatValue);
+	JSON_Array* jsonQuatArray = json_value_get_array(jsonQuatValue);
 
-    if (json_array_get_count(jsonQuatArray) != 4) {
+	if (json_array_get_count(jsonQuatArray) != 4) {
 
-        return Quat();
-    }
+		return Quat();
+	}
 
-    Quat resultQuat;
-    resultQuat.w = static_cast<float>(json_array_get_number(jsonQuatArray, 0));
-    resultQuat.x = static_cast<float>(json_array_get_number(jsonQuatArray, 1));
-    resultQuat.y = static_cast<float>(json_array_get_number(jsonQuatArray, 2));
-    resultQuat.z = static_cast<float>(json_array_get_number(jsonQuatArray, 3));
+	Quat resultQuat;
+	resultQuat.w = static_cast<float>(json_array_get_number(jsonQuatArray, 0));
+	resultQuat.x = static_cast<float>(json_array_get_number(jsonQuatArray, 1));
+	resultQuat.y = static_cast<float>(json_array_get_number(jsonQuatArray, 2));
+	resultQuat.z = static_cast<float>(json_array_get_number(jsonQuatArray, 3));
 
-    return resultQuat;
+	return resultQuat;
 }
 
 // -------------------------- Scene Serialization functions --------------------------------
@@ -558,692 +558,774 @@ Quat JsonFile::GetQuat(const char* key) const
 
 void JsonFile::SetComponent(const char* key, const Component& component)
 {
-    JSON_Value* componentValue = json_value_init_object();
-    JSON_Object* componentObject = json_value_get_object(componentValue);
+	JSON_Value* componentValue = json_value_init_object();
+	JSON_Object* componentObject = json_value_get_object(componentValue);
 
-    switch (component.ctype)
-    {
-    case NONE:
-        // Handle NONE case (if needed)
-        break;
+	switch (component.ctype)
+	{
+	case NONE:
+		// Handle NONE case (if needed)
+		break;
 
-    case TRANSFORM:
-        json_object_set_string(componentObject, "Type", "Transform");
-        // Additional properties specific to the Transform component can be added here
-        break;
+	case TRANSFORM:
+		json_object_set_string(componentObject, "Type", "Transform");
+		// Additional properties specific to the Transform component can be added here
+		break;
 
-    case MESH:
-        json_object_set_string(componentObject, "Type", "Mesh");
-        // Additional properties specific to the Mesh component can be added here
-        break;
+	case MESH:
+		json_object_set_string(componentObject, "Type", "Mesh");
+		// Additional properties specific to the Mesh component can be added here
+		break;
 
-    case MATERIAL:
-        json_object_set_string(componentObject, "Type", "Material");
-        // Additional properties specific to the Material component can be added here
-        break;
+	case MATERIAL:
+		json_object_set_string(componentObject, "Type", "Material");
+		// Additional properties specific to the Material component can be added here
+		break;
 
-    case CAMERA:
-        json_object_set_string(componentObject, "Type", "Camera");
-        // Additional properties specific to the Camera component can be added here
-        break;
-    }
+	case CAMERA:
+		json_object_set_string(componentObject, "Type", "Camera");
+		// Additional properties specific to the Camera component can be added here
+		break;
+	}
 
-    // Add the component object to the main object
-    json_object_set_value(rootObject, key, componentValue);
+	// Add the component object to the main object
+	json_object_set_value(rootObject, key, componentValue);
 }
 
 Component* JsonFile::GetComponent(const char* key) const
 {
-    JSON_Value* componentValue = json_object_get_value(rootObject, key);
+	JSON_Value* componentValue = json_object_get_value(rootObject, key);
 
-    if (componentValue != nullptr && json_value_get_type(componentValue) == JSONObject) {
+	if (componentValue != nullptr && json_value_get_type(componentValue) == JSONObject) {
 
-        JSON_Object* componentObject = json_value_get_object(componentValue);
+		JSON_Object* componentObject = json_value_get_object(componentValue);
 
-        // Create a new Component
-        Component* component = new Component();
+		// Create a new Component
+		Component* component = new Component();
 
-        // Get common properties
-        std::string type = json_object_get_string(componentObject, "Type");
+		// Get common properties
+		std::string type = json_object_get_string(componentObject, "Type");
 
-        if (type == "Transform") {
+		if (type == "Transform") {
 
-            component->ctype = ComponentType::TRANSFORM;
+			component->ctype = ComponentType::TRANSFORM;
 
-        }
+		}
 
-        if (type == "Mesh") {
+		if (type == "Mesh") {
 
-            component->ctype = ComponentType::MESH;
+			component->ctype = ComponentType::MESH;
 
-        }
+		}
 
-        if (type == "Material") {
+		if (type == "Material") {
 
-            component->ctype = ComponentType::MATERIAL;
+			component->ctype = ComponentType::MATERIAL;
 
-        }
+		}
 
-        if (type == "Camera") {
+		if (type == "Camera") {
 
-            component->ctype = ComponentType::CAMERA;
+			component->ctype = ComponentType::CAMERA;
 
-        }       
+		}
 
-        return component;
-    }
+		return component;
+	}
 
-    return nullptr;
+	return nullptr;
 }
 
 void JsonFile::SetGameObject(const char* key, const GameObject& gameObject)
 {
-    JSON_Value* gameObjectValue = json_value_init_object();
-    JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+	JSON_Value* gameObjectValue = json_value_init_object();
+	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-    // Set Name
+	// Set Name
 
-    json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
+	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
-    // Set Position
+	// Set Position
 
-    //JSON_Value* positionValue = json_value_init_array();
-    //JSON_Array* positionArray = json_value_get_array(positionValue);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.x);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.y);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.z);
-    //json_object_set_value(gameObjectObject, "Position", positionValue);
+	//JSON_Value* positionValue = json_value_init_array();
+	//JSON_Array* positionArray = json_value_get_array(positionValue);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.x);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.y);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.z);
+	//json_object_set_value(gameObjectObject, "Position", positionValue);
 
-    // Set Rotation
+	// Set Rotation
 
-    //JSON_Value* rotationValue = json_value_init_array();
-    //JSON_Array* rotationArray = json_value_get_array(rotationValue);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.x);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.y);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.z);
-    //json_object_set_value(gameObjectObject, "Rotation", rotationValue);
+	//JSON_Value* rotationValue = json_value_init_array();
+	//JSON_Array* rotationArray = json_value_get_array(rotationValue);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.x);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.y);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.z);
+	//json_object_set_value(gameObjectObject, "Rotation", rotationValue);
 
-    // Set Scale
+	// Set Scale
 
-    /*JSON_Value* scaleValue = json_value_init_array();
-    JSON_Array* scaleArray = json_value_get_array(scaleValue);
-    json_array_append_number(scaleArray, gameObject.mTransform->scale.x);
-    json_array_append_number(scaleArray, gameObject.mTransform->scale.y);
-    json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
-    json_object_set_value(gameObjectObject, "Scale", scaleValue);*/
+	/*JSON_Value* scaleValue = json_value_init_array();
+	JSON_Array* scaleArray = json_value_get_array(scaleValue);
+	json_array_append_number(scaleArray, gameObject.mTransform->scale.x);
+	json_array_append_number(scaleArray, gameObject.mTransform->scale.y);
+	json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
+	json_object_set_value(gameObjectObject, "Scale", scaleValue);*/
 
-    // Set UID
+	// Set UID
 
-    json_object_set_number(gameObjectObject, "UID", gameObject.UID);
+	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
-    // Set Parent UID
+	// Set Parent UID
 
-    if (gameObject.mParent != nullptr) {
+	if (gameObject.mParent != nullptr) {
 
-        json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
+		json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
 
-    }
+	}
 
-    // Set Children UID
+	// Set Children UID
 
-    std::vector<int> childrenUID;
+	std::vector<int> childrenUID;
 
-    for (auto& child : gameObject.mChildren) {
+	for (auto& child : gameObject.mChildren) {
 
-        childrenUID.push_back(child->UID);
+		childrenUID.push_back(child->UID);
 
-    }
+	}
 
-    if (!childrenUID.empty()) {
+	if (!childrenUID.empty()) {
 
-        JSON_Value* childrenValue = json_value_init_array();
-        JSON_Array* childrenArray = json_value_get_array(childrenValue);
+		JSON_Value* childrenValue = json_value_init_array();
+		JSON_Array* childrenArray = json_value_get_array(childrenValue);
 
-        for (const auto& childUID : childrenUID) {
+		for (const auto& childUID : childrenUID) {
 
-            json_array_append_number(childrenArray, childUID);
+			json_array_append_number(childrenArray, childUID);
 
-        }
+		}
 
-        json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
 
-    }
+	}
 
-    // Save Components Info
+	// Save Components Info
 
-    JSON_Value* componentsValue = json_value_init_array();
-    JSON_Array* componentsArray = json_value_get_array(componentsValue);
+	JSON_Value* componentsValue = json_value_init_array();
+	JSON_Array* componentsArray = json_value_get_array(componentsValue);
 
-    for (const auto& component : gameObject.mComponents) {
+	for (const auto& component : gameObject.mComponents) {
 
-        JSON_Value* componentValue = json_value_init_object();
-        JSON_Object* componentObject = json_value_get_object(componentValue);
+		JSON_Value* componentValue = json_value_init_object();
+		JSON_Object* componentObject = json_value_get_object(componentValue);
 
-        // Call the existing SetGameObject function to set individual GameObject properties
-        SetComponent(componentObject, *component);
+		// Call the existing SetGameObject function to set individual GameObject properties
+		SetComponent(componentObject, *component);
 
-        // Add the GameObject to the hierarchy array
-        json_array_append_value(componentsArray, componentValue);
-    }
+		// Add the GameObject to the hierarchy array
+		json_array_append_value(componentsArray, componentValue);
+	}
 
-    // Add the hierarchy array to the main object
-    json_object_set_value(gameObjectObject, "Components", componentsValue);
+	// Add the hierarchy array to the main object
+	json_object_set_value(gameObjectObject, "Components", componentsValue);
 
-    // Add the GameObject to the main array
-    json_object_set_value(rootObject, key, gameObjectValue);
+	// Add the GameObject to the main array
+	json_object_set_value(rootObject, key, gameObjectValue);
 }
 
 GameObject* JsonFile::GetGameObject(const char* key) const
 {
-    JSON_Value* gameObjectValue = json_object_get_value(rootObject, key);
+	JSON_Value* gameObjectValue = json_object_get_value(rootObject, key);
 
-    if (gameObjectValue != nullptr && json_value_get_type(gameObjectValue) == JSONObject) {
-        JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+	if (gameObjectValue != nullptr && json_value_get_type(gameObjectValue) == JSONObject) {
+		JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-        // Create a new GameObject
-        GameObject* gameObject = new GameObject();
+		// Create a new GameObject
+		GameObject* gameObject = new GameObject();
 
-        // Get Name
-        const char* name = json_object_get_string(gameObjectObject, "Name");
-        gameObject->name = (name != nullptr) ? name : "";
+		// Get Name
+		const char* name = json_object_get_string(gameObjectObject, "Name");
+		gameObject->name = (name != nullptr) ? name : "";
 
-        // Get UID
-        gameObject->UID = static_cast<int>(json_object_get_number(gameObjectObject, "UID"));
+		// Get UID
+		gameObject->UID = static_cast<int>(json_object_get_number(gameObjectObject, "UID"));
 
-        // Get Parent UID
-        if (json_object_has_value_of_type(gameObjectObject, "Parent UID", JSONNumber)) {
-            gameObject->mParent->UID = static_cast<int>(json_object_get_number(gameObjectObject, "Parent UID"));
-        }
+		// Get Parent UID
+		if (json_object_has_value_of_type(gameObjectObject, "Parent UID", JSONNumber)) {
+			gameObject->mParent->UID = static_cast<int>(json_object_get_number(gameObjectObject, "Parent UID"));
+		}
 
-        // Get Children UID
-        if (json_object_has_value_of_type(gameObjectObject, "Children UID", JSONArray)) {
-            JSON_Array* childrenArray = json_object_get_array(gameObjectObject, "Children UID");
-            size_t numChildren = json_array_get_count(childrenArray);
+		// Get Children UID
+		if (json_object_has_value_of_type(gameObjectObject, "Children UID", JSONArray)) {
+			JSON_Array* childrenArray = json_object_get_array(gameObjectObject, "Children UID");
+			size_t numChildren = json_array_get_count(childrenArray);
 
-            for (size_t i = 0; i < numChildren; ++i) {
-                int childUID = static_cast<int>(json_array_get_number(childrenArray, i));
-                // You need to find the corresponding child GameObject using the UID
-                // and add it to gameObject->mChildren.
-                // Assuming you have a function like FindGameObjectByUID, implement it accordingly.
-                //gameObject->mChildren.push_back(FindGameObjectByUID(childUID));
-            }
+			for (size_t i = 0; i < numChildren; ++i) {
+				int childUID = static_cast<int>(json_array_get_number(childrenArray, i));
+				// You need to find the corresponding child GameObject using the UID
+				// and add it to gameObject->mChildren.
+				// Assuming you have a function like FindGameObjectByUID, implement it accordingly.
+				//gameObject->mChildren.push_back(FindGameObjectByUID(childUID));
+			}
 
-        }
+		}
 
-        // Get Components
-        if (json_object_has_value_of_type(gameObjectObject, "Components", JSONArray)) {
-            JSON_Array* componentsArray = json_object_get_array(gameObjectObject, "Components");
-            size_t numComponents = json_array_get_count(componentsArray);
+		// Get Components
+		if (json_object_has_value_of_type(gameObjectObject, "Components", JSONArray)) {
+			JSON_Array* componentsArray = json_object_get_array(gameObjectObject, "Components");
+			size_t numComponents = json_array_get_count(componentsArray);
 
-            for (size_t i = 0; i < numComponents; ++i) {
-                JSON_Value* componentValue = json_array_get_value(componentsArray, i);
+			for (size_t i = 0; i < numComponents; ++i) {
+				JSON_Value* componentValue = json_array_get_value(componentsArray, i);
 
-                if (json_value_get_type(componentValue) == JSONObject) {
-                    JSON_Object* componentObject = json_value_get_object(componentValue);
+				if (json_value_get_type(componentValue) == JSONObject) {
+					JSON_Object* componentObject = json_value_get_object(componentValue);
 
-                    // Create a new Component
-                    Component* component = new Component();
+					// Create a new Component
+					Component* component = new Component();
 
-                    // Call the existing GetComponent function to retrieve individual Component properties
-                    //GetComponent(componentObject, *component);
+					// Call the existing GetComponent function to retrieve individual Component properties
+					//GetComponent(componentObject, *component);
 
-                    // Add the Component to the GameObject's components vector
-                    gameObject->mComponents.push_back(component);
-                }
-            }
-        }
+					// Add the Component to the GameObject's components vector
+					gameObject->mComponents.push_back(component);
+				}
+			}
+		}
 
-        return gameObject;
-    }
+		return gameObject;
+	}
 
-    return nullptr;
+	return nullptr;
 }
 
 // ---------- Save Scene 
 
 void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gameObjects)
 {
-    JSON_Value* hierarchyValue = json_value_init_array();
-    JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
+	JSON_Value* hierarchyValue = json_value_init_array();
+	JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
-    for (const auto& gameObject : gameObjects) {
+	for (const auto& gameObject : gameObjects) {
 
-        JSON_Value* gameObjectValue = json_value_init_object();
-        JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+		JSON_Value* gameObjectValue = json_value_init_object();
+		JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-        // Call the existing SetGameObject function to set individual GameObject properties
-        SetGameObject(gameObjectObject, *gameObject);
+		// Call the existing SetGameObject function to set individual GameObject properties
+		SetGameObject(gameObjectObject, *gameObject);
 
-        // Add the GameObject to the hierarchy array
-        json_array_append_value(hierarchyArray, gameObjectValue);
-    }
+		// Add the GameObject to the hierarchy array
+		json_array_append_value(hierarchyArray, gameObjectValue);
+	}
 
-    // Add the hierarchy array to the main object
-    json_object_set_value(rootObject, key, hierarchyValue);
+	// Add the hierarchy array to the main object
+	json_object_set_value(rootObject, key, hierarchyValue);
 }
 
 void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& gameObject)
 {
-    // Set Name
-    json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
+	// Set Name
+	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
-    // Set Position
-    //JSON_Value* positionValue = json_value_init_array();
-    //JSON_Array* positionArray = json_value_get_array(positionValue);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.x);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.y);
-    //json_array_append_number(positionArray, gameObject.mTransform->translation.z);
-    //json_object_set_value(gameObjectObject, "Position", positionValue);
+	// Set Position
+	//JSON_Value* positionValue = json_value_init_array();
+	//JSON_Array* positionArray = json_value_get_array(positionValue);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.x);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.y);
+	//json_array_append_number(positionArray, gameObject.mTransform->translation.z);
+	//json_object_set_value(gameObjectObject, "Position", positionValue);
 
-    // Set Rotation
-    //JSON_Value* rotationValue = json_value_init_array();
-    //JSON_Array* rotationArray = json_value_get_array(rotationValue);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.x);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.y);
-    //json_array_append_number(rotationArray, gameObject.mTransform->rotation.z);
-    //json_object_set_value(gameObjectObject, "Rotation", rotationValue);
+	// Set Rotation
+	//JSON_Value* rotationValue = json_value_init_array();
+	//JSON_Array* rotationArray = json_value_get_array(rotationValue);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.x);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.y);
+	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.z);
+	//json_object_set_value(gameObjectObject, "Rotation", rotationValue);
 
-    // Set Scale
-    //JSON_Value* scaleValue = json_value_init_array();
-    //JSON_Array* scaleArray = json_value_get_array(scaleValue);
-    //json_array_append_number(scaleArray, gameObject.mTransform->scale.x);
-    //json_array_append_number(scaleArray, gameObject.mTransform->scale.y);
-    //json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
-    //json_object_set_value(gameObjectObject, "Scale", scaleValue);
+	// Set Scale
+	//JSON_Value* scaleValue = json_value_init_array();
+	//JSON_Array* scaleArray = json_value_get_array(scaleValue);
+	//json_array_append_number(scaleArray, gameObject.mTransform->scale.x);
+	//json_array_append_number(scaleArray, gameObject.mTransform->scale.y);
+	//json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
+	//json_object_set_value(gameObjectObject, "Scale", scaleValue);
 
-    // Set UID
-    json_object_set_number(gameObjectObject, "UID", gameObject.UID);
+	// Set UID
+	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
-    // Set Type 
+	// Set Type 
 
-    json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
+	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
-    //for (Component* component : gameObject.mComponents) {
+	//for (Component* component : gameObject.mComponents) {
 
-    //    if (component->ctype == ComponentType::MESH) {
+	//    if (component->ctype == ComponentType::MESH) {
 
-    //        json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
+	//        json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
 
-    //    }
+	//    }
 
-    //}
+	//}
 
-    // Set Parent UID
-    if (gameObject.mParent != nullptr) {
-        json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
-    }
+	// Set Parent UID
+	if (gameObject.mParent != nullptr) {
+		json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
+	}
 
-    // Set Children UID
-    std::vector<int> childrenUID;
-    for (const auto& child : gameObject.mChildren) {
-        childrenUID.push_back(child->UID);
-    }
+	// Set Children UID
+	std::vector<int> childrenUID;
+	for (const auto& child : gameObject.mChildren) {
+		childrenUID.push_back(child->UID);
+	}
 
-    if (!childrenUID.empty()) {
-        JSON_Value* childrenValue = json_value_init_array();
-        JSON_Array* childrenArray = json_value_get_array(childrenValue);
+	if (!childrenUID.empty()) {
+		JSON_Value* childrenValue = json_value_init_array();
+		JSON_Array* childrenArray = json_value_get_array(childrenValue);
 
-        for (const auto& childUID : childrenUID) {
-            json_array_append_number(childrenArray, childUID);
-        }
+		for (const auto& childUID : childrenUID) {
+			json_array_append_number(childrenArray, childUID);
+		}
 
-        json_object_set_value(gameObjectObject, "Children UID", childrenValue);
-    }
+		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+	}
 
-    // Save Components Info
+	// Save Components Info
 
-    JSON_Value* componentsValue = json_value_init_array();
-    JSON_Array* componentsArray = json_value_get_array(componentsValue);
+	JSON_Value* componentsValue = json_value_init_array();
+	JSON_Array* componentsArray = json_value_get_array(componentsValue);
 
-    for (const auto& component : gameObject.mComponents) {
+	for (const auto& component : gameObject.mComponents) {
 
-        JSON_Value* componentValue = json_value_init_object();
-        JSON_Object* componentObject = json_value_get_object(componentValue);
+		JSON_Value* componentValue = json_value_init_object();
+		JSON_Object* componentObject = json_value_get_object(componentValue);
 
-        // Call the existing SetGameObject function to set individual GameObject properties
-        SetComponent(componentObject, *component);
+		// Call the existing SetGameObject function to set individual GameObject properties
+		SetComponent(componentObject, *component);
 
-        // Add the GameObject to the hierarchy array
-        json_array_append_value(componentsArray, componentValue);
-    }
+		// Add the GameObject to the hierarchy array
+		json_array_append_value(componentsArray, componentValue);
+	}
 
-    // Add the hierarchy array to the main object
-    json_object_set_value(gameObjectObject, "Components", componentsValue);
+	// Add the hierarchy array to the main object
+	json_object_set_value(gameObjectObject, "Components", componentsValue);
 
 }
 
 void JsonFile::SetComponent(JSON_Object* componentObject, const Component& component)
 {
-    if (component.ctype == ComponentType::NONE) {
+	switch (component.ctype)
+	{
+	case NONE:
+	{
+		// Handle NONE case (if needed)
+	}
+	break;
+	case TRANSFORM:
+	{
+		json_object_set_string(componentObject, "Type", "Transform");
 
-        // Handle NONE case (if needed)
+		CTransform* ctransform = (CTransform*)&component;
 
-    }
-    else if (component.ctype == ComponentType::TRANSFORM) {
+		json_object_set_number(componentObject, "Active", ctransform->active);
 
-        json_object_set_string(componentObject, "Type", "Transform");
+		// Translation
 
-        CTransform* ctransform = (CTransform*)&component;
+		JSON_Value* translationArrayValue = json_value_init_array();
+		JSON_Array* translationArray = json_value_get_array(translationArrayValue);
 
-        json_object_set_number(componentObject, "Active", ctransform->active);
+		json_array_append_number(translationArray, ctransform->translation.x);
+		json_array_append_number(translationArray, ctransform->translation.y);
+		json_array_append_number(translationArray, ctransform->translation.z);
 
-        // Translation
+		json_object_set_value(componentObject, "Translation", translationArrayValue);
 
-        JSON_Value* translationArrayValue = json_value_init_array();
-        JSON_Array* translationArray = json_value_get_array(translationArrayValue);
+		// Rotation
 
-        json_array_append_number(translationArray, ctransform->translation.x);
-        json_array_append_number(translationArray, ctransform->translation.y);
-        json_array_append_number(translationArray, ctransform->translation.z);
+		JSON_Value* rotationArrayValue = json_value_init_array();
+		JSON_Array* rotationArray = json_value_get_array(rotationArrayValue);
 
-        json_object_set_value(componentObject, "Translation", translationArrayValue);
+		json_array_append_number(rotationArray, ctransform->eulerRot.x);
+		json_array_append_number(rotationArray, ctransform->eulerRot.y);
+		json_array_append_number(rotationArray, ctransform->eulerRot.z);
 
-        // Rotation
+		json_object_set_value(componentObject, "Rotation", rotationArrayValue);
 
-        JSON_Value* rotationArrayValue = json_value_init_array();
-        JSON_Array* rotationArray = json_value_get_array(rotationArrayValue);
+		// Scale
 
-        json_array_append_number(rotationArray, ctransform->rotation.x);
-        json_array_append_number(rotationArray, ctransform->rotation.y);
-        json_array_append_number(rotationArray, ctransform->rotation.z);
+		JSON_Value* scaleArrayValue = json_value_init_array();
+		JSON_Array* scaleArray = json_value_get_array(scaleArrayValue);
 
-        json_object_set_value(componentObject, "Rotation", rotationArrayValue);
+		json_array_append_number(scaleArray, ctransform->scale.x);
+		json_array_append_number(scaleArray, ctransform->scale.y);
+		json_array_append_number(scaleArray, ctransform->scale.z);
 
-        // Scale
+		json_object_set_value(componentObject, "Scale", scaleArrayValue);
+	}
+	break;
+	case MESH:
+	{
+		json_object_set_string(componentObject, "Type", "Mesh");
 
-        JSON_Value* scaleArrayValue = json_value_init_array();
-        JSON_Array* scaleArray = json_value_get_array(scaleArrayValue);
+		CMesh* cmesh = (CMesh*)&component;
 
-        json_array_append_number(scaleArray, ctransform->scale.x);
-        json_array_append_number(scaleArray, ctransform->scale.y);
-        json_array_append_number(scaleArray, ctransform->scale.z);
+		json_object_set_number(componentObject, "Active", cmesh->active);
 
-        json_object_set_value(componentObject, "Scale", scaleArrayValue);
+		//json_object_set_string(componentObject, "Model Path", cmesh->originModelPath.c_str());
 
-    }
-    else if (component.ctype == ComponentType::MESH) {
+		json_object_set_number(componentObject, "Vertex Count", cmesh->nVertices);
+		json_object_set_number(componentObject, "Index Count", cmesh->nIndices);
+	}
+		break;
+	case MATERIAL:
+	{
+		json_object_set_string(componentObject, "Type", "Material");
 
-        json_object_set_string(componentObject, "Type", "Mesh");
+		CMaterial* cmaterial = (CMaterial*)&component;
 
-        CMesh* cmesh = (CMesh*)&component;
+		json_object_set_number(componentObject, "Active", cmaterial->active);
 
-        json_object_set_number(componentObject, "Active", cmesh->active);
-        
-        //json_object_set_string(componentObject, "Model Path", cmesh->originModelPath.c_str());
+		// Shader
 
-        json_object_set_number(componentObject, "Vertex Count", cmesh->nVertices);
-        json_object_set_number(componentObject, "Index Count", cmesh->nIndices);
+		//json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
-    }
-    else if (component.ctype == ComponentType::MATERIAL) {
+		// Texture maps
+		json_object_set_number(componentObject, "ID", cmaterial->ID);
+		json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
+		json_object_set_number(componentObject, "UID", cmaterial->UID);
+	}
+		break;
+	case CAMERA:
+	{
+		json_object_set_string(componentObject, "Type", "Camera");
 
-        json_object_set_string(componentObject, "Type", "Material");
+		CCamera* ccamera = (CCamera*)&component;
 
-        CMaterial* cmaterial = (CMaterial*)&component;
+		json_object_set_number(componentObject, "Active", ccamera->active);
 
-        json_object_set_number(componentObject, "Active", cmaterial->active);
+		// Right
 
-        // Shader
-     
-        //json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
+		JSON_Value* rightArrayValue = json_value_init_array();
+		JSON_Array* rightArray = json_value_get_array(rightArrayValue);
 
-        // Texture maps
-        json_object_set_number(componentObject, "ID", cmaterial->ID);
-        json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
-        json_object_set_number(componentObject, "UID", cmaterial->UID);
+		json_array_append_number(rightArray, ccamera->GetRight().x);
+		json_array_append_number(rightArray, ccamera->GetRight().y);
+		json_array_append_number(rightArray, ccamera->GetRight().z);
 
-    }
-    else if (component.ctype == ComponentType::CAMERA) {
+		json_object_set_value(componentObject, "Right", rightArrayValue);
 
-        json_object_set_string(componentObject, "Type", "Camera");
+		// Up
 
-        CCamera* ccamera = (CCamera*)&component;
+		JSON_Value* upArrayValue = json_value_init_array();
+		JSON_Array* upArray = json_value_get_array(upArrayValue);
 
-        json_object_set_number(componentObject, "Active", ccamera->active);
+		json_array_append_number(upArray, ccamera->GetUp().x);
+		json_array_append_number(upArray, ccamera->GetUp().y);
+		json_array_append_number(upArray, ccamera->GetUp().z);
 
-        // Right
+		json_object_set_value(componentObject, "Up", upArrayValue);
 
-        JSON_Value* rightArrayValue = json_value_init_array();
-        JSON_Array* rightArray = json_value_get_array(rightArrayValue);
+		// Front
 
-        json_array_append_number(rightArray, ccamera->GetRight().x);
-        json_array_append_number(rightArray, ccamera->GetRight().y);
-        json_array_append_number(rightArray, ccamera->GetRight().z);
+		JSON_Value* frontArrayValue = json_value_init_array();
+		JSON_Array* frontArray = json_value_get_array(frontArrayValue);
 
-        json_object_set_value(componentObject, "Right", rightArrayValue);
+		json_array_append_number(frontArray, ccamera->GetFront().x);
+		json_array_append_number(frontArray, ccamera->GetFront().y);
+		json_array_append_number(frontArray, ccamera->GetFront().z);
 
-        // Up
+		json_object_set_value(componentObject, "Front", frontArrayValue);
 
-        JSON_Value* upArrayValue = json_value_init_array();
-        JSON_Array* upArray = json_value_get_array(upArrayValue);
+		// FOV
 
-        json_array_append_number(upArray, ccamera->GetUp().x);
-        json_array_append_number(upArray, ccamera->GetUp().y);
-        json_array_append_number(upArray, ccamera->GetUp().z);
+		json_object_set_number(componentObject, "FOV", ccamera->GetVerticalFOV());
 
-        json_object_set_value(componentObject, "Up", upArrayValue);
+		// Near Plane
 
-        // Front
+		json_object_set_number(componentObject, "Near Plane", ccamera->GetNearPlane());
 
-        JSON_Value* frontArrayValue = json_value_init_array();
-        JSON_Array* frontArray = json_value_get_array(frontArrayValue);
+		// Far Plane
 
-        json_array_append_number(frontArray, ccamera->GetFront().x);
-        json_array_append_number(frontArray, ccamera->GetFront().y);
-        json_array_append_number(frontArray, ccamera->GetFront().z);
+		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
 
-        json_object_set_value(componentObject, "Front", frontArrayValue);
+		// Enable/Disable Frustum Culling
 
-        // FOV
+		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
 
-        json_object_set_number(componentObject, "FOV", ccamera->GetVerticalFOV());
+		// Enable/Disable Bounding Boxes
 
-        // Near Plane
+		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-        json_object_set_number(componentObject, "Near Plane", ccamera->GetNearPlane());
+		// Is game camera
 
-        // Far Plane
-
-        json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
-
-        // Enable/Disable Frustum Culling
-
-        json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
-
-        // Enable/Disable Bounding Boxes
-
-        json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
-
-    }
-
+		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
+	}
+		break;
+	default:
+		break;
+	}
 }
 
 // ---------- Load Scene
 
 std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 {
-    std::vector<GameObject*> gameObjects;
+	std::vector<GameObject*> gameObjects;
 
-    JSON_Value* hierarchyValue = json_object_get_value(rootObject, key);
+	JSON_Value* hierarchyValue = json_object_get_value(rootObject, key);
 
-    if (hierarchyValue != nullptr && json_value_get_type(hierarchyValue) == JSONArray) {
+	if (hierarchyValue != nullptr && json_value_get_type(hierarchyValue) == JSONArray) {
 
-        JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
+		JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
-        size_t numGameObjects = json_array_get_count(hierarchyArray);
+		size_t numGameObjects = json_array_get_count(hierarchyArray);
 
-        gameObjects.reserve(numGameObjects);
+		gameObjects.reserve(numGameObjects);
 
-        for (size_t i = 0; i < numGameObjects; ++i) {
+		for (size_t i = 0; i < numGameObjects; ++i) {
 
-            JSON_Value* gameObjectValue = json_array_get_value(hierarchyArray, i);
+			JSON_Value* gameObjectValue = json_array_get_value(hierarchyArray, i);
 
-            if (json_value_get_type(gameObjectValue) == JSONObject) {
+			if (json_value_get_type(gameObjectValue) == JSONObject) {
 
-                JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-                // Create a new GameObject
-                GameObject* gameObject = new GameObject();
+				// Create a new GameObject
+				GameObject* gameObject = new GameObject();
 
-                // Call a function to extract individual GameObject properties
-                GetGameObject(gameObjects, gameObjectObject, *gameObject);
+				// Call a function to extract individual GameObject properties
+				GetGameObject(gameObjects, gameObjectObject, *gameObject);
 
-                // Add the GameObject to the vector
-                gameObjects.push_back(gameObject);
+				// Add the GameObject to the vector
+				gameObjects.push_back(gameObject);
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    return gameObjects;
+	return gameObjects;
 }
 
 void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const
 {
-    // Get Name
+	// Get Name
 
-    const char* name = json_object_get_string(gameObjectObject, "Name");
-    gameObject.name = (name != nullptr) ? name : "";
+	const char* name = json_object_get_string(gameObjectObject, "Name");
+	gameObject.name = (name != nullptr) ? name : "";
 
-    // Get Position, Rotation, Scale (TODO)
+	// Get Position, Rotation, Scale (TODO)
 
-    // Get UID
+	// Get UID
 
-    gameObject.UID = json_object_get_number(gameObjectObject, "UID");
+	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
 
-    // Get Type
+	// Get Type
 
-    gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
+	gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
 
-    // Re import if necessary
+	// Re import if necessary
 
-    if (gameObject.type == "Model") {
+	if (gameObject.type == "Model") {
 
-        if (!PhysfsEncapsule::FileExists("Library/Models/" + std::to_string(gameObject.UID) + ".ymodel")) {
+		if (!PhysfsEncapsule::FileExists("Library/Models/" + std::to_string(gameObject.UID) + ".ymodel")) {
 
-            External->resourceManager->ImportFile("Assets/" + gameObject.name + ".fbx");
+			External->resourceManager->ImportFile("Assets/" + gameObject.name + ".fbx");
 
-        }
+		}
 
-    }
+	}
 
-    // Get Parent UID
+	{
+		// Get Children UID (commented to solve the problem with load hierarchy)
 
-    if (json_object_has_value_of_type(gameObjectObject, "Parent UID", JSONNumber)) {
+	//if (json_object_has_value_of_type(gameObjectObject, "Children UID", JSONArray)) {
 
-        int parentUID = static_cast<int>(json_object_get_number(gameObjectObject, "Parent UID"));
+	//    JSON_Array* childrenArray = json_object_get_array(gameObjectObject, "Children UID");
 
-        // You need to find the corresponding parent GameObject using the UID
-        // and set it to gameObject.mParent.
+	//    size_t numChildren = json_array_get_count(childrenArray);
 
-        GameObject* parent = GameObject::GetGameObjectFromUID(gameObjects, parentUID);
-        gameObject.SetParent(parent);
+	//    gameObject.mChildren.reserve(numChildren);
 
-    }
+	//    for (size_t i = 0; i < numChildren; ++i) {
 
-    // Get Children UID (commented to solve the problem with load hierarchy)
+	//        int childUID = static_cast<int>(json_array_get_number(childrenArray, i));
+	//        // You need to find the corresponding child GameObject using the UID
+	//        // and add it to gameObject.mChildren.
+	//        GameObject* childGO = new GameObject();
+	//        childGO->UID = childUID;
+	//        gameObject.mChildren.push_back(childGO);
 
-    //if (json_object_has_value_of_type(gameObjectObject, "Children UID", JSONArray)) {
+	//    }
 
-    //    JSON_Array* childrenArray = json_object_get_array(gameObjectObject, "Children UID");
+	//}
+	}
 
-    //    size_t numChildren = json_array_get_count(childrenArray);
+	// Get Components Info
 
-    //    gameObject.mChildren.reserve(numChildren);
+	if (json_object_has_value_of_type(gameObjectObject, "Components", JSONArray)) {
 
-    //    for (size_t i = 0; i < numChildren; ++i) {
+		JSON_Array* componentsArray = json_object_get_array(gameObjectObject, "Components");
+		size_t numComponents = json_array_get_count(componentsArray);
 
-    //        int childUID = static_cast<int>(json_array_get_number(childrenArray, i));
-    //        // You need to find the corresponding child GameObject using the UID
-    //        // and add it to gameObject.mChildren.
-    //        GameObject* childGO = new GameObject();
-    //        childGO->UID = childUID;
-    //        gameObject.mChildren.push_back(childGO);
+		for (size_t i = 0; i < numComponents; ++i) {
 
-    //    }
+			JSON_Value* componentValue = json_array_get_value(componentsArray, i);
 
-    //}
+			if (json_value_get_type(componentValue) == JSONObject) {
 
-    // Get Components Info
+				JSON_Object* componentObject = json_value_get_object(componentValue);
 
-    if (json_object_has_value_of_type(gameObjectObject, "Components", JSONArray)) {
+				// Call the existing GetComponent function to extract individual Component properties
+				GetComponent(componentObject, &gameObject);
 
-        JSON_Array* componentsArray = json_object_get_array(gameObjectObject, "Components");
-        size_t numComponents = json_array_get_count(componentsArray);
+			}
 
-        for (size_t i = 0; i < numComponents; ++i) {
+		}
 
-            JSON_Value* componentValue = json_array_get_value(componentsArray, i);
+		// Get Parent UID
 
-            if (json_value_get_type(componentValue) == JSONObject) {
+		if (json_object_has_value_of_type(gameObjectObject, "Parent UID", JSONNumber)) {
 
-                JSON_Object* componentObject = json_value_get_object(componentValue);
+			int parentUID = static_cast<int>(json_object_get_number(gameObjectObject, "Parent UID"));
 
-                // Call the existing GetComponent function to extract individual Component properties
-                GetComponent(componentObject, &gameObject);
+			// You need to find the corresponding parent GameObject using the UID
+			// and set it to gameObject.mParent.
 
-            }
+			GameObject* parent = GameObject::GetGameObjectFromUID(gameObjects, parentUID);
+			gameObject.SetParent(parent);
 
-        }
+		}
 
-    }
+	}
 
 }
 
 void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const {
 
-    // Get common properties
-    std::string type = json_object_get_string(componentObject, "Type");
+	// Get common properties
+	std::string type = json_object_get_string(componentObject, "Type");
 
-    if (type == "Transform") {
+	if (type == "Transform") {
 
-        CTransform* ctransform = new CTransform(gameObject);
+		gameObject->mTransform = new CTransform(gameObject);
 
-        gameObject->AddComponent(ctransform);
+		// Translation
 
-    }
-    else if (type == "Mesh") {
+		JSON_Value* jsonTranslationValue = json_object_get_value(componentObject, "Translation");
 
-        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject->UID) + ".ymesh";
-        ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject->UID);
+		if (jsonTranslationValue == nullptr || json_value_get_type(jsonTranslationValue) != JSONArray) {
 
-        CMesh* cmesh = new CMesh(gameObject);
+			return;
+		}
 
-        cmesh->nVertices = json_object_get_number(componentObject, "Vertex Count");
-        cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
+		JSON_Array* jsonTranslationArray = json_value_get_array(jsonTranslationValue);
 
-        cmesh->rMeshReference = rMesh;
+		float3 translation;
 
-        gameObject->AddComponent(cmesh);
+		translation.x = static_cast<float>(json_array_get_number(jsonTranslationArray, 0));
+		translation.y = static_cast<float>(json_array_get_number(jsonTranslationArray, 1));
+		translation.z = static_cast<float>(json_array_get_number(jsonTranslationArray, 2));
 
-    }
-    else if (type == "Material") {
+		// Rotation
 
-        CMaterial* cmaterial = new CMaterial(gameObject);
+		JSON_Value* jsonRotationValue = json_object_get_value(componentObject, "Rotation");
 
-        uint ID = json_object_get_number(componentObject, "ID");
-        cmaterial->ID = ID;
+		if (jsonRotationValue == nullptr || json_value_get_type(jsonRotationValue) != JSONArray) {
 
-        const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
-        cmaterial->path = diffusePath;
-        
-        uint UID = json_object_get_number(componentObject, "UID");
-        cmaterial->UID = UID;
+			return;
+		}
 
-        ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
-        cmaterial->rTextures.push_back(rTex);
+		JSON_Array* jsonRotationArray = json_value_get_array(jsonRotationValue);
 
-        gameObject->AddComponent(cmaterial);
+		float3 eulerRotation;
 
-    }
-    else if (type == "Camera") {
+		eulerRotation.x = static_cast<float>(json_array_get_number(jsonRotationArray, 0));
+		eulerRotation.y = static_cast<float>(json_array_get_number(jsonRotationArray, 1));
+		eulerRotation.z = static_cast<float>(json_array_get_number(jsonRotationArray, 2));
 
-        CCamera* ccamera = new CCamera(gameObject);
+		//eulerRotation *= RADTODEG;
 
-        gameObject->AddComponent(ccamera);
+		// Scale
 
-    }
+		JSON_Value* jsonScaleValue = json_object_get_value(componentObject, "Scale");
+
+		if (jsonScaleValue == nullptr || json_value_get_type(jsonScaleValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonScaleArray = json_value_get_array(jsonScaleValue);
+
+		float3 scale;
+
+		scale.x = static_cast<float>(json_array_get_number(jsonScaleArray, 0));
+		scale.y = static_cast<float>(json_array_get_number(jsonScaleArray, 1));
+		scale.z = static_cast<float>(json_array_get_number(jsonScaleArray, 2));
+
+		gameObject->mTransform->SetPosition(translation);
+		gameObject->mTransform->SetRotation(eulerRotation);
+		gameObject->mTransform->SetScale(scale);
+
+		// Solves the problem where everything resets when loading
+		gameObject->mTransform->eulerRot = gameObject->mTransform->rotation.ToEulerXYZ();
+		//gameObject->mTransform->eulerRot *= RADTODEG;
+		gameObject->mTransform->mGlobalMatrix = math::float4x4::FromTRS(gameObject->mTransform->translation, gameObject->mTransform->rotation, gameObject->mTransform->scale);
+		gameObject->mTransform->mLocalMatrix = math::float4x4::identity;
+
+		gameObject->AddComponent(gameObject->mTransform);
+
+	}
+	else if (type == "Mesh") {
+
+		std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject->UID) + ".ymesh";
+		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject->UID);
+
+		CMesh* cmesh = new CMesh(gameObject);
+
+		cmesh->nVertices = json_object_get_number(componentObject, "Vertex Count");
+		cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
+
+		cmesh->rMeshReference = rMesh;
+
+		gameObject->AddComponent(cmesh);
+
+	}
+	else if (type == "Material") {
+
+		CMaterial* cmaterial = new CMaterial(gameObject);
+
+		uint ID = json_object_get_number(componentObject, "ID");
+		cmaterial->ID = ID;
+
+		const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
+		cmaterial->path = diffusePath;
+
+		uint UID = json_object_get_number(componentObject, "UID");
+		cmaterial->UID = UID;
+
+		ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+		cmaterial->rTextures.push_back(rTex);
+
+		gameObject->AddComponent(cmaterial);
+
+	}
+	else if (type == "Camera") {
+
+		CCamera* ccamera = new CCamera(gameObject);
+
+		// Is game camera
+
+		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
+
+		if (ccamera->isGameCam)
+		{
+			External->renderer3D->SetGameCamera(ccamera);
+		}
+
+		gameObject->AddComponent(ccamera);
+
+	}
 
 }

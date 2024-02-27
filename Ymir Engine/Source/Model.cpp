@@ -110,7 +110,7 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 	}
 	else
 	{
-		LOG("Error loading scene %s", path.c_str());
+		LOG("[ERROR] could not load assimp scene %s", path.c_str());
 	}
 
 }
