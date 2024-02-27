@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "Application.h"
 #include "ModulePhysics.h"
 
 #include "Log.h"
@@ -48,6 +49,11 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	{
+		world->stepSimulation(dt, 15);
+	}
+
 	return UPDATE_CONTINUE;
 }
 
