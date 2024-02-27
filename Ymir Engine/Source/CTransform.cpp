@@ -172,6 +172,8 @@ void CTransform::UpdateGlobalMatrix()
 	{
 		mGlobalMatrix = mLocalMatrix;
 	}
+
+	UpdateBoundingBoxes();
 }
 
 void CTransform::UpdateLocalMatrix()
@@ -187,6 +189,19 @@ void CTransform::ReparentTransform(float4x4 matrix)
 	eulerRot = rotation.ToEulerXYZ();
 	eulerRot *= RADTODEG;
 	dirty_ = true;
+}
+
+void CTransform::UpdateBoundingBoxes()
+{
+	CMesh* meshComponent = (CMesh*)(*mOwner).GetComponent(ComponentType::MESH);
+
+	if (meshComponent != nullptr)
+	{
+		meshComponent->rMeshReference->obb = meshComponent->rMeshReference->aabb;
+		meshComponent->rMeshReference->obb.Transform(mOwner->mTransform->GetGlobalTransform());
+		meshComponent->rMeshReference->globalAABB.SetNegativeInfinity();
+		meshComponent->rMeshReference->globalAABB.Enclose(meshComponent->rMeshReference->obb);
+	}
 }
 
 void CTransform::UpdateTransformGuizmo(float4x4 matrix)
