@@ -77,7 +77,7 @@
                     "Near Plane": 1,
                     "Far Plane": 1000,
                     "Frustum Culling": 1,
-                    "Draw Bounding Boxes": 1,
+                    "Draw Bounding Boxes": 0,
                     "Game Camera": true
                 }
             ]
