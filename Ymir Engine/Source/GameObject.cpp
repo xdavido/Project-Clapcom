@@ -39,6 +39,11 @@ GameObject::~GameObject()
 	ClearVecPtr(mComponents);
 
 	mTransform = nullptr;
+
+	if (!mChildren.empty())
+	{
+		ClearVecPtr(mChildren);
+	}
 }
 
 void GameObject::Update()
@@ -121,6 +126,18 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	}
 
 	return nullptr;
+}
+
+void GameObject::DeleteChild(GameObject* go)
+{
+	RemoveChild(go);
+	RELEASE(go);
+}
+
+void GameObject::RemoveChild(GameObject* go)
+{
+	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
+	mChildren.shrink_to_fit();
 }
 
 void GameObject::DestroyGameObject()
