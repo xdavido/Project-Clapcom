@@ -174,15 +174,15 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	return tempGameObject;
 }
 
-void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-{
-	if (toDestroy) {
-
-		toDestroy->DestroyGameObject();
-
-	}
-
-}
+//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
+//{
+//	if (toDestroy) {
+//
+//		toDestroy->DestroyGameObject();
+//
+//	}
+//
+//}
 
 void ModuleScene::ClearScene()
 {

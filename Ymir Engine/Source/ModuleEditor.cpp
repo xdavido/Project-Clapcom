@@ -2778,15 +2778,15 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 }
 
-void ModuleEditor::DestroyHierarchyTree(GameObject* node)
-{
-	if (node == nullptr) {
-		return;
-	}
-
-	App->scene->DestroyGameObject(node);
-
-}
+//void ModuleEditor::DestroyHierarchyTree(GameObject* node)
+//{
+//	if (node == nullptr) {
+//		return;
+//	}
+//
+//	App->scene->DestroyGameObject(node);
+//
+//}
 
 void ModuleEditor::DrawInspector()
 {
@@ -2816,6 +2816,8 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
+				if (!(*it)->active) { ImGui::BeginDisabled(); }
+
 				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
@@ -2834,6 +2836,8 @@ void ModuleEditor::DrawInspector()
 				ImGui::SetCursorPosX(xPos);
 
 				ImGui::Button("Add Component");
+
+				if (!(*it)->active) { ImGui::EndDisabled(); }
 
 			}
 
@@ -3109,7 +3113,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					// Display folder icon and name
 
-					if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
+					if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
 						// ---Click event---
 
@@ -3130,7 +3134,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						}
 
-						// TODO: Sara ajustar esto para que el menu no muestre todas las carpetas
+
 						// ---RMB Click event---
 
 						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
@@ -3189,27 +3193,27 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					{
 					case ResourceType::UNKNOWN:
 					{
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
 					}
 					break;
 					case ResourceType::TEXTURE:
 					{
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
 					}
 					break;
 					case ResourceType::MESH:
 					{
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
 					}
 					break;
 					case ResourceType::SCENE:
 
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
 
 						break;
 					case ResourceType::SHADER:
 					{
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
 
 						if (ImGui::IsItemClicked()) {
 
@@ -3222,7 +3226,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						break;
 					case ResourceType::META:
 					{
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
 					}
 					break;
 					case ResourceType::ALL_TYPES:

@@ -594,12 +594,13 @@ void ModuleRenderer3D::DrawGameObjects()
 		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-		if (meshComponent != nullptr)
+		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-			if ((*it)->active && IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
+
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
 
-				if (materialComponent != nullptr) {
+				if (materialComponent != nullptr && materialComponent->active) {
 
 					for (auto& textures : materialComponent->rTextures) {
 
@@ -614,7 +615,7 @@ void ModuleRenderer3D::DrawGameObjects()
 
 				meshComponent->rMeshReference->Render();
 
-				if (materialComponent != nullptr) {
+				if (materialComponent != nullptr && materialComponent->active) {
 
 					materialComponent->shader.UseShader(false);
 
