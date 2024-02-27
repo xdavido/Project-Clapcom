@@ -7,9 +7,18 @@
 #include "CMesh.h"
 #include "TimeManager.h"
 
+#include "External/ImGui/imgui.h"
+#include "External/ImGui/backends/imgui_impl_sdl2.h"
+#include "External/ImGui/backends/imgui_impl_opengl3.h"
+
 CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIMATION)
 {
-
+    //The model should probably be taken from the module renderer model array, need to figure out how
+    //Model ourModel("");
+    //Only one animation, should be changed into an array of animations in the future
+    //Animation ourAnimation("",&ourModel);
+  
+    //ourAnimator(&ourAnimation);
 }
 
 CAnimation::~CAnimation()
@@ -17,43 +26,24 @@ CAnimation::~CAnimation()
 
 }
 
-void CAnimation::Start() {
+void CAnimation::Update() {
+    
+    //ourAnimator.UpdateAnimation(TimeManager::DeltaTime);
 
 }
 
-void CAnimation::Update(float dt) {
+void CAnimation::OnInspector() {
 
-}
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-void CAnimation::SetAnimation(const char* name, float blendTime = 0.0f) {
+    if (ImGui::CollapsingHeader("Animation", flags))
+    {
+        ImGui::Indent();
 
-}
+        ImGui::Spacing();
 
-void CAnimation::SetAnimation(uint index, float blendTime = 0.0f) {
+        ImGui::SeparatorText("Animation");
 
-}
-
-AnimationController* CAnimation::GetAnimation(uint index) {
-
-}
-
-void CAnimation::UpdateChannelsTransform(const AnimationController* settings, const AnimationController* blend, float blendRatio) {
-
-}
-
-float3 CAnimation::GetChannelPosition(const Channel& channel, float currentKey, float3 default) const {
-
-}
-
-Quat CAnimation::GetChannelRotation(const Channel& channel, float currentKey, Quat default) const {
-
-}
-
-float3 CAnimation::GetChannelScale(const Channel& channel, float currentKey, float3 default) const {
-
-}
-
-
-void CAnimation::UpdateMeshAnimation(GameObject* owner) {
-
+        ImGui::Unindent();
+    }
 }

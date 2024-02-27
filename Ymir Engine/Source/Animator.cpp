@@ -11,6 +11,10 @@ Animator::Animator(Animation* animation)
 	}
 }
 
+Animator::~Animator() {
+
+}
+
 void Animator::UpdateAnimation(float dt)
 {
 	deltaTime = dt; 

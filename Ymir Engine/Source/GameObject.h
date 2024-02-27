@@ -11,6 +11,7 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CCamera.h"
+#include "CAnimation.h"
 
 #include "Random.h"
 
