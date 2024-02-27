@@ -36,8 +36,9 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 GameObject::~GameObject()
 {
-	RELEASE(mTransform);
-	//ClearVecPtr(mComponents);
+	ClearVecPtr(mComponents);
+
+	mTransform = nullptr;
 }
 
 void GameObject::Update()
@@ -141,11 +142,11 @@ void GameObject::DestroyGameObject()
 		(*it) = nullptr;
 	}
 
-	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
-	//{
-	//	delete (*it);
-	//	(*it) = nullptr;
-	//}
+	for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+	{
+		delete (*it);
+		(*it) = nullptr;
+	}
 
 }
 

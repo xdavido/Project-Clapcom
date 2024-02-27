@@ -379,6 +379,150 @@ void ModuleEditor::DrawEditor()
 
 			}
 
+			if (ImGui::MenuItem("Camera")) {
+
+				GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
+				empty->UID = Random::Generate();
+
+				empty->AddComponent(new CCamera(empty));
+			}
+
+			/*if (ImGui::BeginMenu("UI")) {
+
+				if (ImGui::MenuItem("Plane")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Plane created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cube")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cube created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Pyramid")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Pyramid created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cylinder")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cylinder created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cone")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cone created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Sphere")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Sphere created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Torus")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Torus created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Capsule")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Capsule created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Disc")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Disc created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Platonic Solid")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Platonic Solid created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Prism")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Prism created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Pipe")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Pipe created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Helix")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Helix created successfully");
+
+				}
+
+				ImGui::EndMenu();
+
+			}*/
+
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Clear Scene")) {
@@ -1275,10 +1419,13 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			// Display the contents of the framebuffer texture
-			ImVec2 size = ImGui::GetContentRegionAvail();
-			App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-			ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				ImVec2 size = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+			}
 
 			ImGui::End();
 		}
@@ -2559,8 +2706,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 					App->resourceManager->UnloadResource(node->UID);
 
-					delete node;
-					node = nullptr;
+					RELEASE(node);
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -2725,7 +2871,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 				}
 
 			}
-			
+
 			ImGuizmo::MODE modeApplied;
 
 			// Hardcoded local mode to prevent Scale from Reseting the Rotation.
@@ -2767,7 +2913,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			{
 				snapValue = 0.0f;
 			}
-			
+
 			float snapValues[3] = { snapValue, snapValue, snapValue };
 
 			// Use ImGuizmo to manipulate the object in the scene.

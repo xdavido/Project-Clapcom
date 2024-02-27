@@ -13,7 +13,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	editorCamera = new CCamera(nullptr);
+	editorCamera = new CCamera(nullptr, false);
 
 	editorCamera->SetPos(-36.0f, 48.00f, 100.0f);
 	editorCamera->LookAt(float3(0.f, 0.f, 0.f));

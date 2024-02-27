@@ -256,24 +256,27 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	}
 
-	// Render Frustum Box
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		// Render Frustum Box
 
-	if (App->scene->gameCameraObject->active) {
+		if (App->scene->gameCameraObject->active) {
 
-		App->scene->gameCameraComponent->DrawFrustumBox();
+			App->scene->gameCameraComponent->DrawFrustumBox();
 
+		}
+
+		// HandleDragAndDrop();
+
+		// DrawModels();
+
+		DrawGameObjects();
+
+		// Render Bounding Boxes
+
+		DrawBoundingBoxes();
 	}
 
-	// HandleDragAndDrop();
-
-	// DrawModels();
-
-	DrawGameObjects();
-
-	// Render Bounding Boxes
-
-	DrawBoundingBoxes();
-	
 	App->camera->editorCamera->framebuffer.Render(false);
 
 	// --------------------------- Game Camera FrameBuffer -----------------------------------
@@ -342,11 +345,18 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::SetGameCamera(CCamera* cam)
 {
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->isGameCam = false;
+	}
+
 	if (cam != nullptr)
 	{
+		cam->isGameCam = true;
 		OnResize(SDL_GetWindowSurface(App->window->window)->w, SDL_GetWindowSurface(App->window->window)->h);
-		App->scene->gameCameraComponent = cam;
 	}
+
+	App->scene->gameCameraComponent = cam;
 }
 
 void ModuleRenderer3D::HandleDragAndDrop()

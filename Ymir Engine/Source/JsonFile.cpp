@@ -333,7 +333,7 @@ void JsonFile::SetFloat3(const char* key, const float3& value)
 
 float3 JsonFile::GetFloat3(const char* key) const
 {
-	JSON_Value* jsonFloat3Value = json_object_get_value(rootObject, key);
+ 	JSON_Value* jsonFloat3Value = json_object_get_value(rootObject, key);
 
 	if (jsonFloat3Value == nullptr || json_value_get_type(jsonFloat3Value) != JSONArray) {
 

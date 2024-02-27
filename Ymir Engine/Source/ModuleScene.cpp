@@ -27,6 +27,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
 
+	gameCameraComponent = nullptr;
+
 	LOG("Creating ModuleScene");
 }
 
@@ -225,7 +227,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 		LOG("Scene '%s' loaded", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
 	}
 
-	JsonFile* sceneToLoad = JsonFile::GetJSON(dir + "/" + App->scene->currentSceneFile + ".yscene");
+	JsonFile* sceneToLoad = JsonFile::GetJSON(dir + "/" + (fileName == "" ? std::to_string(mRootNode->UID) : fileName) + ".yscene");
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));

@@ -7,7 +7,7 @@
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 
-CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
+CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentType::CAMERA)
 {
 	this->mOwner = owner;
 
@@ -25,7 +25,10 @@ CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
-	isGameCam = true;
+	if (isGame)
+	{
+		External->renderer3D->SetGameCamera(this);
+	}
 }
 
 CCamera::~CCamera()
@@ -178,6 +181,16 @@ void CCamera::OnInspector()
 		// Enable/Disable Bounding Boxes
 
 		ImGui::Checkbox("Draw Bounding Boxes", &drawBoundingBoxes);
+
+		ImGui::Spacing();
+
+		// Enable/Disable Game Camera
+
+		if (ImGui::Checkbox("Game Camera", &isGameCam))
+		{
+			SetAsMain(isGameCam);
+			//RestartCulling();
+		}
 
 		ImGui::Spacing();
 
