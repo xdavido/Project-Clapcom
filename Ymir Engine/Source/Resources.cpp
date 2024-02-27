@@ -79,11 +79,6 @@ void Resource::DecreaseReferenceCount()
 	this->referenceCount--;
 }
 
-void Resource::RemoveResource()
-{
-	External->resourceManager->UnloadResource(UID);
-}
-
 bool Resource::IsLoadedInMemory() const
 {
 	return isLoaded;

@@ -16,7 +16,8 @@ CMesh::CMesh(GameObject* owner) : Component(owner, ComponentType::MESH)
 
 CMesh::~CMesh()
 {
-	RELEASE(rMeshReference);
+	External->resourceManager->UnloadResource(rMeshReference->GetUID());
+	rMeshReference = nullptr;
 }
 
 void CMesh::Update()
