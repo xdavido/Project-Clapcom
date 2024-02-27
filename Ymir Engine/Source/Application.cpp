@@ -9,6 +9,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics.h"
 
 #include "Log.h"
 
@@ -28,6 +29,7 @@ Application::Application()
 	scene = new ModuleScene(this);
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
+	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -37,6 +39,9 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+
+	// Physics
+	AddModule(physics);
 
 	// Utility Modules
 	AddModule(fileSystem);

@@ -11,6 +11,7 @@
 
 #include "External/Glew/include/glew.h"
 #include "External/SDL/include/SDL_opengl.h"
+#include "External/Bullet/include/btBulletDynamicsCommon.h"
 #include <gl/GL.h>
 
 #define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
@@ -41,6 +42,8 @@ enum update_status
 #define VSYNC true
 #define TITLE "Ymir Engine"
 
+// Physics
+#define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
 // Deletes a buffer
 #define RELEASE( x )\
