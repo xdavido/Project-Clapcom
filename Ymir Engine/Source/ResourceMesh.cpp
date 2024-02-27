@@ -5,6 +5,8 @@
 
 #include "Log.h"
 
+#include "ModuleRenderer3D.h"
+
 ResourceMesh::ResourceMesh(uint UID) : Resource(UID, ResourceType::MESH)
 {
     VBO = 0;
@@ -12,6 +14,9 @@ ResourceMesh::ResourceMesh(uint UID) : Resource(UID, ResourceType::MESH)
     VAO = 0;
 
     material = ResourceMaterial::defaultMaterial;
+
+    //InitBoundingBoxes();
+
 }
 
 ResourceMesh::~ResourceMesh()
@@ -125,24 +130,49 @@ bool ResourceMesh::Render()
 {
     bool ret = true;
 
-    if (!loadedShader) {
-
-        meshShader.LoadShader("Assets/Shaders/RainbowShader.glsl");
-
-        loadedShader = true;
-    }
-
-    meshShader.UseShader(true);
-
-    meshShader.SetShaderUniforms();
-
     glBindVertexArray(VAO);
 
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
 
-    meshShader.UseShader(false);
-
     return ret;
+}
+
+void ResourceMesh::InitBoundingBoxes()
+{
+    obb.SetNegativeInfinity();
+    globalAABB.SetNegativeInfinity();
+
+    std::vector<float3> floatArray;
+
+    floatArray.reserve(vertices.size());
+
+    for (const auto& vertex : vertices) {
+
+        floatArray.push_back(vertex.position);
+
+    }
+
+    aabb.SetFrom(&floatArray[0], floatArray.size());
+}
+
+void ResourceMesh::UpdateBoundingBoxes()
+{
+    obb = aabb;
+    //obb.Transform(meshShader.model); Rework
+
+    globalAABB.SetNegativeInfinity();
+    globalAABB.Enclose(obb);
+}
+
+void ResourceMesh::RenderBoundingBoxes()
+{
+    float3 verticesOBB[8];
+    obb.GetCornerPoints(verticesOBB);
+    External->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
+
+    float3 verticesAABB[8];
+    globalAABB.GetCornerPoints(verticesAABB);
+    External->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
 }

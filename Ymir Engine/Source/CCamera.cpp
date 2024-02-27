@@ -32,6 +32,17 @@ CCamera::~CCamera()
 
 void CCamera::Update()
 {
+	// Update camera position
+	// TODO: maybe put in function
+	// Update camera when changing transform
+	if (mOwner != nullptr)
+	{
+		CTransform* transformComponent = mOwner->mTransform;
+		frustum.pos = transformComponent->GetGlobalPosition();
+		frustum.front = transformComponent->GetLocalRotation().WorldZ();
+		frustum.up = transformComponent->GetLocalRotation().WorldY();
+	}
+
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((GLfloat*)GetProjectionMatrix().v);
@@ -50,33 +61,33 @@ void CCamera::OnInspector()
 	{
 		ImGui::Indent();
 
-		// Position (Needs to be reworked into Transform)
+		//// Position (Needs to be reworked into Transform)
 
-		ImGui::SeparatorText("POSITION & ROTATION");
+		//ImGui::SeparatorText("POSITION & ROTATION");
 
-		ImGui::Spacing();
+		//ImGui::Spacing();
 
-		float* cameraPosition = frustum.pos.ptr();
+		//float* cameraPosition = frustum.pos.ptr();
 
-		ImGui::DragFloat3("Position", cameraPosition, 0.1f);
+		//ImGui::DragFloat3("Position", cameraPosition, 0.1f);
 
-		ImGui::Spacing();
+		//ImGui::Spacing();
 
-		// Rotation (Needs to be reworked into Transform)
+		//// Rotation (Needs to be reworked into Transform)
 
-		float3 rotation = { 0, 0, 0 };
+		//float3 rotation = { 0, 0, 0 };
 
-		float* cameraRotation = rotation.ptr();
+		//float* cameraRotation = rotation.ptr();
 
-		ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
+		//ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
 
-		Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
+		//Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
 
-		rotationQuaternion.Normalize();
+		//rotationQuaternion.Normalize();
 
-		float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
+		//float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
 
-		frustum.Transform(rotationMatrix);
+		//frustum.Transform(rotationMatrix);
 
 		ImGui::Spacing();
 
@@ -296,8 +307,8 @@ void CCamera::MovementHandling(float3& newPos, float speed)
 	if (External->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= GetRight() * speed;
 	if (External->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += GetRight() * speed;
 
-	//if (External->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos += GetUp() * speed;
-	//if (External->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos -= GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos += GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos -= GetUp() * speed;
 }
 
 void CCamera::RotationHandling(float speed, float dt)

@@ -40,11 +40,15 @@ public:
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
 
-private:
+    void BindTexture(bool bind);
 
-    GLuint ID;
-    
+public:
+
     TextureType type;
+    GLuint ID;
+    uint UID;
+
+private:
 
     uint width; 
     uint height; 

@@ -41,6 +41,8 @@ public:
 	std::string name;
 	uint UID;
 
+	std::string type = "None";
+
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;
 	std::vector<Component*> mComponents;

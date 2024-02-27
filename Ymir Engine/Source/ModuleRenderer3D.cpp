@@ -264,26 +264,47 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	}
 
-	HandleDragAndDrop();
+	// HandleDragAndDrop();
 
-	DrawModels();
+	// DrawModels();
 
-	// Iterate over all resources
-	for (const auto& pair : App->resourceManager->GetResourcesMap()) {
-		Resource* resource = pair.second;
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-		// Check if resource is of type ResourceMesh
-		if (resource->GetType() == ResourceType::MESH) {
-			// Cast resource to ResourceMesh*
-			if (auto* meshResource = dynamic_cast<ResourceMesh*>(resource)) {
-				// Render the resource
-				meshResource->Render();
+		if (materialComponent != nullptr) {
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(true);
+
 			}
-			else {
-				// Handle error if casting fails
-				std::cerr << "Failed to cast resource to ResourceMesh" << std::endl;
-			}
+
+			materialComponent->shader.UseShader(true);
+			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
+
 		}
+
+		if (meshComponent != nullptr) {
+
+			meshComponent->rMeshReference->Render();
+
+		}
+
+		if (materialComponent != nullptr) {
+
+			materialComponent->shader.UseShader(false);
+
+			for (auto& textures : materialComponent->rTextures) {
+
+				textures->BindTexture(false);
+
+			}
+
+		}
+
 	}
 
 	// Render Bounding Boxes
@@ -354,7 +375,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::HandleDragAndDrop()
 {
-	if (App->input->droppedFile) {
+	/*if (App->input->droppedFile) {
 
 		if (IsFileExtension(App->input->droppedFileDirectory, ".fbx") || IsFileExtension(App->input->droppedFileDirectory, ".FBX") || IsFileExtension(App->input->droppedFileDirectory, ".DAE") || IsFileExtension(App->input->droppedFileDirectory, ".dae")) {
 
@@ -392,7 +413,7 @@ void ModuleRenderer3D::HandleDragAndDrop()
 		
 		App->input->droppedFile = false;
 
-	}
+	}*/
 }
 
 bool ModuleRenderer3D::IsFileExtension(const char* directory, const char* extension)
@@ -513,6 +534,20 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 		}
 
 	}
+
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	//{
+	//	CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+
+	//	if (meshComponent != nullptr) {
+
+	//		meshComponent->rMeshReference->UpdateBoundingBoxes();
+	//		meshComponent->rMeshReference->RenderBoundingBoxes();
+
+	//	}
+
+	//}
+
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)

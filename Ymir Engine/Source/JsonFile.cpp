@@ -8,6 +8,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
+#include "ModuleRenderer3D.h"
 
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
@@ -855,15 +856,17 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 
     // Set Type 
 
-    for (Component* component : gameObject.mComponents) {
+    json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
-        if (component->ctype == ComponentType::MESH) {
+    //for (Component* component : gameObject.mComponents) {
 
-            json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
+    //    if (component->ctype == ComponentType::MESH) {
 
-        }
+    //        json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
 
-    }
+    //    }
+
+    //}
 
     // Set Parent UID
     if (gameObject.mParent != nullptr) {
@@ -966,6 +969,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
         json_object_set_number(componentObject, "Active", cmesh->active);
         
+        //json_object_set_string(componentObject, "Model Path", cmesh->originModelPath.c_str());
+
         json_object_set_number(componentObject, "Vertex Count", cmesh->nVertices);
         json_object_set_number(componentObject, "Index Count", cmesh->nIndices);
 
@@ -977,6 +982,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
         CMaterial* cmaterial = (CMaterial*)&component;
 
         json_object_set_number(componentObject, "Active", cmaterial->active);
+
+        // Shader
+     
+        //json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
         // Texture maps
         json_object_set_number(componentObject, "ID", cmaterial->ID);
@@ -1104,11 +1113,19 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
     gameObject.UID = json_object_get_number(gameObjectObject, "UID");
 
-    // Load Mesh from library
-    if (json_object_get_string(gameObjectObject, "Element_Type")) {
+    // Get Type
 
-        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject.UID) + ".ymesh";
-        External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject.UID);
+    gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
+
+    // Re import if necessary
+
+    if (gameObject.type == "Model") {
+
+        if (!PhysfsEncapsule::FileExists("Library/Models/" + std::to_string(gameObject.UID) + ".ymodel")) {
+
+            External->resourceManager->ImportFile("Assets/" + gameObject.name + ".fbx");
+
+        }
 
     }
 
@@ -1189,7 +1206,15 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
     }
     else if (type == "Mesh") {
 
+        std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject->UID) + ".ymesh";
+        ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject->UID);
+
         CMesh* cmesh = new CMesh(gameObject);
+
+        cmesh->nVertices = json_object_get_number(componentObject, "Vertex Count");
+        cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
+
+        cmesh->rMeshReference = rMesh;
 
         gameObject->AddComponent(cmesh);
 
@@ -1207,9 +1232,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
         uint UID = json_object_get_number(componentObject, "UID");
         cmaterial->UID = UID;
 
-        gameObject->AddComponent(cmaterial);
-
         ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+        cmaterial->rTextures.push_back(rTex);
+
+        gameObject->AddComponent(cmaterial);
 
     }
     else if (type == "Camera") {

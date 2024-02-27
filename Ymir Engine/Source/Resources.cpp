@@ -1,4 +1,5 @@
 #include "Resources.h"
+#include "ModuleResourceManager.h"
 
 Resource::Resource()
 {
@@ -76,6 +77,12 @@ void Resource::IncreaseReferenceCount()
 void Resource::DecreaseReferenceCount()
 {
 	this->referenceCount--;
+}
+
+void Resource::RemoveResource()
+{
+	// TODO: Sara 
+	//App->resourceManager->UnloadResource(UID);
 }
 
 bool Resource::IsLoadedInMemory() const
