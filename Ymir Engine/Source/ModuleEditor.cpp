@@ -2611,7 +2611,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (ImGui::IsItemClicked()) {
+		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
 
 			node->selected = true; // Toggle the selected state when clicked
 
@@ -2650,7 +2650,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget();
 		}
 
-		if (ImGui::BeginPopupContextItem()) {
+		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
 
 			// TODO: Sara --> hacer bien esto
 			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
