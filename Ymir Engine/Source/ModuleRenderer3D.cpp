@@ -608,7 +608,7 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
-					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
+					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
 
 				}
 

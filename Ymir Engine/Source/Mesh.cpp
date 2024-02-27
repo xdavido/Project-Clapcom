@@ -163,7 +163,7 @@ void Mesh::DrawMesh()
 
     //meshShader.UseShader(true);
 
-    meshShader.SetShaderUniforms(&meshGO->mTransform->mGlobalMatrix);
+    //meshShader.SetShaderUniforms(&meshGO->mTransform->mGlobalMatrix);
 
     //glBindVertexArray(VAO);
 

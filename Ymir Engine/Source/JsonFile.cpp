@@ -1245,6 +1245,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		rotation.y = static_cast<float>(json_array_get_number(jsonRotationArray, 1));
 		rotation.z = static_cast<float>(json_array_get_number(jsonRotationArray, 2));
 
+		rotation *= RADTODEG;
+
 		// Scale
 
 		JSON_Value* jsonScaleValue = json_object_get_value(componentObject, "Scale");
@@ -1265,6 +1267,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->mTransform->SetPosition(translation);
 		gameObject->mTransform->SetRotation(rotation);
 		gameObject->mTransform->SetScale(scale);
+
+		// Solves the problem where everything resets when loading
+		gameObject->mTransform->eulerRot = gameObject->mTransform->rotation.ToEulerXYZ();
+		gameObject->mTransform->eulerRot *= RADTODEG;
+		gameObject->mTransform->mGlobalMatrix = math::float4x4::FromTRS(gameObject->mTransform->translation, gameObject->mTransform->rotation, gameObject->mTransform->scale);
+		gameObject->mTransform->mLocalMatrix = math::float4x4::identity;
 
 		gameObject->AddComponent(gameObject->mTransform);
 
