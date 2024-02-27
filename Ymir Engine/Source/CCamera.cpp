@@ -37,6 +37,8 @@ CCamera::~CCamera()
 	{
 		External->renderer3D->SetGameCamera();
 	}
+
+	framebuffer.Delete();
 }
 
 void CCamera::Update()

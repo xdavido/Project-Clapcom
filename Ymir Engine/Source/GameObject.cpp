@@ -125,8 +125,6 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 void GameObject::DestroyGameObject()
 {
-	mTransform = nullptr;
-
 	if (this->mParent)
 	{
 		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
@@ -136,18 +134,17 @@ void GameObject::DestroyGameObject()
 		}
 	}
 
-	for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
-	{
-		delete (*it);
-		(*it) = nullptr;
-	}
+	//for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
+	//{
+	//	delete (*it);
+	//	(*it) = nullptr;
+	//}
 
-	for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
-	{
-		delete (*it);
-		(*it) = nullptr;
-	}
-
+	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+	//{
+	//	delete (*it);
+	//	(*it) = nullptr;
+	//}
 }
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
