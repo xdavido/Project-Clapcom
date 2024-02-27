@@ -6,7 +6,7 @@ using YmirEngine;
 
 public class Core : YmirComponent
 {
-	public GameObject reference = InternalCalls.GetGameObjectByName("Test0");;
+    public GameObject reference = null;
 	public GameObject turret = null;
 	public GameObject shootPoint = null;
 		
@@ -16,20 +16,34 @@ public class Core : YmirComponent
 
 	public bool testBool = true;
 	public string testString = "Juan";
+    public bool start = true;
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
 
 	public void Update(/*int x*/)
 	{
+        //Hardcoceado para que sea una especia de "Start()"
+        if ( start )
+        {
+            Debug.Log("[WARNING] testString: " + testString);
+            reference = InternalCalls.GetGameObjectByName("Test1");
+            Debug.Log("[WARNING] Reference str: " + reference.name);
 
- 
-        testString = "Still an Error";
+            start = false;
+            testString = "Start sting";
+            Debug.Log("[WARNING] START");
+        }
+
 
 		if (this.reference == null)
-			return;
+        {
+            Debug.Log("[ERROR] Reference on Core.cs was 'null'");
+            return;
+        }
+			
 
-        testString = "MarcoAulerio";    
+        testString = "Update string";    
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;

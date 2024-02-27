@@ -19,7 +19,7 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 	name = scriptName;
 	//strcpy(name, scriptName);
 
-	//EngineExternal->moduleMono->DebugAllMethods(DE_SCRIPTS_NAMESPACE, "GameObject", methods);
+	External->moduleMono->DebugAllMethods(YMIR_SCRIPTS_NAMESPACE, "GameObject", methods);
 	LoadScriptData(name.c_str());
 
 	for (unsigned int i = 0; i < fields.size(); i++)

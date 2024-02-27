@@ -208,7 +208,7 @@ void ModuleMonoManager::DebugAllMethods(const char* nsName, const char* classNam
 
 MonoObject* ModuleMonoManager::GoToCSGO(GameObject* inGo) const
 {
-	MonoClass* goClass = mono_class_from_name(image, DE_SCRIPTS_NAMESPACE, "GameObject");
+	MonoClass* goClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "GameObject");
 	uintptr_t goPtr = reinterpret_cast<uintptr_t>(inGo);
 
 	void* args[2];
@@ -229,7 +229,7 @@ MonoObject* ModuleMonoManager::GoToCSGO(GameObject* inGo) const
 MonoObject* ModuleMonoManager::Float3ToCS(float3& inVec) const
 {
 
-	MonoClass* vecClass = mono_class_from_name(image, DE_SCRIPTS_NAMESPACE, "Vector3");
+	MonoClass* vecClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 
 	MonoObject* vecObject = mono_object_new(domain, vecClass);
 	const char* name = mono_class_get_name(mono_object_get_class(vecObject));
@@ -281,7 +281,7 @@ void ModuleMonoManager::LoadFieldData(SerializedField& _field, MonoObject* _obje
 MonoObject* ModuleMonoManager::QuatToCS(Quat& inVec) const
 {
 
-	MonoClass* quadClass = mono_class_from_name(image, DE_SCRIPTS_NAMESPACE, "Quaternion");
+	MonoClass* quadClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "Quaternion");
 	MonoObject* quatObject = mono_object_new(domain, quadClass);
 
 	void* args[4];
@@ -302,7 +302,7 @@ MonoObject* ModuleMonoManager::QuatToCS(Quat& inVec) const
 GameObject* ModuleMonoManager::GameObject_From_CSGO(MonoObject* goObj)
 {
 	uintptr_t ptr = 0;
-	MonoClass* goClass = mono_class_from_name(image, DE_SCRIPTS_NAMESPACE, "GameObject");
+	MonoClass* goClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "GameObject");
 
 	mono_field_get_value(goObj, mono_class_get_field_from_name(goClass, "pointer"), &ptr);
 
@@ -445,7 +445,7 @@ void ModuleMonoManager::InitMono()
 		const char* name_space = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
 		_class = mono_class_from_name(image, name_space, name);
 
-		if (strcmp(mono_class_get_namespace(_class), DE_SCRIPTS_NAMESPACE) != 0 && !mono_class_is_enum(_class))
+		if (strcmp(mono_class_get_namespace(_class), YMIR_SCRIPTS_NAMESPACE) != 0 && !mono_class_is_enum(_class))
 		{
 			userScripts.push_back(_class);
 			LOG("%s", mono_class_get_name(_class));
