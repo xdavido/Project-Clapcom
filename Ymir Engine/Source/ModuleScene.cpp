@@ -285,38 +285,35 @@ void ModuleScene::LoadSceneFromAssets(std::string path)
 void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 {
 	// Map to store mesh candidates based on their distance to the ray origin.
-	std::map<float, Mesh*> meshCandidates;
+	std::map<float, CMesh*> meshCandidates;
 
 	// Iterate through all models in the 3D renderer.
-	for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CMesh* meshToTest = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 
-		// Iterate through all meshes in the current model.
-		for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+		// Variables to store the closest and furthest intersection distances.
+		float closest;
+		float furthest;
 
-			Mesh* meshToTest = &(*jt);
-
-			// Variables to store the closest and furthest intersection distances.
-			float closest;
-			float furthest;
-
+		if (meshToTest != nullptr)
+		{
 			// Check for intersection between the ray and the global axis-aligned bounding box (AABB) of the mesh.
-			if (ray.Intersects(meshToTest->globalAABB, closest, furthest)) {
+			if (ray.Intersects(meshToTest->rMeshReference->globalAABB, closest, furthest)) {
 
 				// Test if the mesh is inside another AABB (avoid Skybox selection).
-				if (!IsInsideAABB(ray.a, meshToTest->globalAABB))
+				if (!IsInsideAABB(ray.a, meshToTest->rMeshReference->globalAABB))
 				{
 					// Store the mesh in the map based on the closest intersection distance.
 					meshCandidates[closest] = meshToTest;
 				}
 
 			}
-
 		}
-
 	}
 
 	// Vector to store meshes sorted by their distance to the ray origin.
-	std::vector<Mesh*> meshesSorted;
+	std::vector<CMesh*> meshesSorted;
 
 	// Populate the sorted vector based on the map.
 	for (auto& candidate : meshCandidates) {
@@ -326,18 +323,18 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 	}
 
 	// Set all meshes to unselected initially.
-	for (Mesh* mesh : meshesSorted) {
+	for (CMesh* mesh : meshesSorted) {
 
-		if (mesh != nullptr && mesh->meshGO != nullptr) {
+		if (mesh != nullptr && mesh->mOwner != nullptr) {
 
-			mesh->meshGO->selected = false;
+			mesh->mOwner->selected = false;
 
 		}
 
 	}
 
 	// Iterate through the sorted meshes to find the first intersection with the ray.
-	for (Mesh* mesh : meshesSorted) {
+	for (CMesh* mesh : meshesSorted) {
 
 		if (mesh != nullptr) {
 
@@ -345,17 +342,17 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 			LineSegment localRay = ray;
 
 			// Transform the ray using the mesh's transform.
-			localRay.Transform(mesh->meshGO->mTransform->mGlobalMatrix.Inverted());
+			localRay.Transform(mesh->mOwner->mTransform->mGlobalMatrix.Inverted());
 
 			// Iterate over triangles in the mesh.
-			for (uint j = 0; j < mesh->indices.size(); j += 3) {
+			for (uint j = 0; j < mesh->rMeshReference->indices.size(); j += 3) {
 
-				uint triangle_indices[3] = { mesh->indices[j], mesh->indices[j + 1], mesh->indices[j + 2] };
+				uint triangle_indices[3] = { mesh->rMeshReference->indices[j], mesh->rMeshReference->indices[j + 1], mesh->rMeshReference->indices[j + 2] };
 
 				// Access mesh vertices.
-				float3 point_a(mesh->vertices[triangle_indices[0]].position);
-				float3 point_b(mesh->vertices[triangle_indices[1]].position);
-				float3 point_c(mesh->vertices[triangle_indices[2]].position);
+				float3 point_a(mesh->rMeshReference->vertices[triangle_indices[0]].position);
+				float3 point_b(mesh->rMeshReference->vertices[triangle_indices[1]].position);
+				float3 point_c(mesh->rMeshReference->vertices[triangle_indices[2]].position);
 
 				// Create a triangle from the vertices.
 				Triangle triangle(point_a, point_b, point_c);
@@ -364,15 +361,15 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 				if (localRay.Intersects(triangle, nullptr, nullptr)) {
 
 					// Intersection found, set the selected object.
-					if (mesh->meshGO != nullptr) {
+					if (mesh->mOwner != nullptr) {
 
-						mesh->meshGO->selected = true;
+						mesh->mOwner->selected = true;
 
 						// Iterate through all game objects in the scene.
 						for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
 							// Unselect other game objects.
-							if ((*it) != mesh->meshGO) {
+							if ((*it) != mesh->mOwner) {
 
 								(*it)->selected = false;
 
