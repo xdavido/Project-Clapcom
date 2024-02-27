@@ -290,7 +290,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (meshComponent != nullptr) {
 
 			meshComponent->rMeshReference->Render();
-			meshComponent->rMeshReference->RenderBoundingBoxes(); // TODO: bool to enable rendering BBs
 
 		}
 
@@ -521,7 +520,7 @@ void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 
 void ModuleRenderer3D::DrawBoundingBoxes()
 {
-	for (auto it = models.begin(); it != models.end(); ++it) {
+	/*for (auto it = models.begin(); it != models.end(); ++it) {
 
 		for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
 
@@ -534,20 +533,20 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 		}
 
+	}*/
+
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+
+		if (meshComponent != nullptr) {
+
+			//meshComponent->rMeshReference->UpdateBoundingBoxes();
+			meshComponent->rMeshReference->RenderBoundingBoxes();
+
+		}
+
 	}
-
-	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
-	//{
-	//	CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
-
-	//	if (meshComponent != nullptr) {
-
-	//		meshComponent->rMeshReference->UpdateBoundingBoxes();
-	//		meshComponent->rMeshReference->RenderBoundingBoxes();
-
-	//	}
-
-	//}
 
 }
 
