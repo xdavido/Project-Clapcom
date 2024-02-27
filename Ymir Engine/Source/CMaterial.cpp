@@ -56,11 +56,17 @@ void CMaterial::OnInspector()
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
+    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+    ImGui::SameLine();
+
     if (ImGui::CollapsingHeader("Material", flags))
     {
+
         ImGui::Indent();
 
         ImGui::Spacing();
+
+        if (!active) { ImGui::BeginDisabled(); }
 
         // ------------------------------------ SHADER ------------------------------------
 
@@ -311,6 +317,8 @@ void CMaterial::OnInspector()
             External->renderer3D->ClearActualTexture();
 
         }
+
+        if (!active) { ImGui::EndDisabled(); }
 
         ImGui::Spacing();
 

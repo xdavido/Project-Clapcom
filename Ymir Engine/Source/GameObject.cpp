@@ -140,29 +140,29 @@ void GameObject::RemoveChild(GameObject* go)
 	mChildren.shrink_to_fit();
 }
 
-void GameObject::DestroyGameObject()
-{
-	if (this->mParent)
-	{
-		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
-		if (it != this->mParent->mChildren.end())
-		{
-			this->mParent->mChildren.erase(it);
-		}
-	}
-
-	//for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
-	//{
-	//	delete (*it);
-	//	(*it) = nullptr;
-	//}
-
-	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
-	//{
-	//	delete (*it);
-	//	(*it) = nullptr;
-	//}
-}
+//void GameObject::DestroyGameObject()
+//{
+//	if (this->mParent)
+//	{
+//		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
+//		if (it != this->mParent->mChildren.end())
+//		{
+//			this->mParent->mChildren.erase(it);
+//		}
+//	}
+//
+//	//for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
+//	//{
+//	//	delete (*it);
+//	//	(*it) = nullptr;
+//	//}
+//
+//	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
+//	//{
+//	//	delete (*it);
+//	//	(*it) = nullptr;
+//	//}
+//}
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
 {

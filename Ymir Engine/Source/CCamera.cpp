@@ -68,9 +68,12 @@ void CCamera::OnInspector()
 
 	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
+
 	if (ImGui::CollapsingHeader("Camera", flags))
 	{
 		ImGui::Indent();
+
+		if (!active) { ImGui::BeginDisabled(); }
 
 		//// Position (Needs to be reworked into Transform)
 
@@ -193,6 +196,8 @@ void CCamera::OnInspector()
 			SetAsMain(isGameCam);
 			//RestartCulling();
 		}
+
+		if (!active) { ImGui::EndDisabled(); }
 
 		ImGui::Spacing();
 

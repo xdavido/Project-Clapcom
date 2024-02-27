@@ -34,7 +34,7 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	void DestroyGameObject(GameObject* toDestroy);
+	//void DestroyGameObject(GameObject* toDestroy);
 
 	void ClearScene();
 
