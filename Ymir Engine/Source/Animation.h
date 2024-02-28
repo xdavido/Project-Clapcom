@@ -4,9 +4,13 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "Bone.h"
 #include "Globals.h"
+
+#include "Bone.h"
 #include "Model.h"
+
+class Model;
+struct BoneInfo;
 
 struct AssimpNodeData {
 	float4x4 transformation; 

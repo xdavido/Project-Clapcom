@@ -19,6 +19,7 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     //Animation ourAnimation("",&ourModel);
   
     //ourAnimator(&ourAnimation);
+
 }
 
 CAnimation::~CAnimation()
@@ -28,8 +29,8 @@ CAnimation::~CAnimation()
 
 void CAnimation::Update() {
     
-    //ourAnimator.UpdateAnimation(TimeManager::DeltaTime);
-
+    animator->UpdateAnimation(0.5f);
+    LOG("Updating Animation");
 }
 
 void CAnimation::OnInspector() {

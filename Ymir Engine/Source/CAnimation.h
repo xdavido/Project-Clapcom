@@ -5,14 +5,15 @@
 #include "Application.h"
 
 #include "Globals.h"
-#include "Model.h"
 #include <string>
 #include <vector>
 #include <map>
 
+#include "Animator.h"
+
 class GameObject;
 class CMesh;
-class Animation;
+
 class Animator;
 
 class CAnimation : public Component {
@@ -33,8 +34,10 @@ public:
 
 	bool isPlaying = false;
 
+	Animator* animator;
+
 private:
-	//Doesn't compile
-	//Animator ourAnimator;
+	
+	
 
 };
