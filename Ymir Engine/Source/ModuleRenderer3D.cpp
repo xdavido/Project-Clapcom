@@ -203,6 +203,10 @@ bool ModuleRenderer3D::Init()
 	colorShader->LoadShader("Assets/Shaders/ColorShader.glsl");
 	delete colorShader;
 
+	Shader* waterShader = new Shader;
+	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
+	delete waterShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
