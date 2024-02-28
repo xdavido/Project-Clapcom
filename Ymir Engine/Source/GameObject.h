@@ -11,6 +11,8 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CCamera.h"
+#include "CRigidBody.h"
+#include "CCollider.h"
 
 #include "Random.h"
 

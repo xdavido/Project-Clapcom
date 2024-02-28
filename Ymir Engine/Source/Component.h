@@ -8,8 +8,9 @@ enum ComponentType {
 	TRANSFORM,
 	MESH,
 	MATERIAL,
-	CAMERA
-
+	CAMERA,
+	RIGIDBODY,
+	COLLIDER
 };
 
 class Component {

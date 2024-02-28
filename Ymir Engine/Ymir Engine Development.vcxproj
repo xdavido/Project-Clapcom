@@ -123,6 +123,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\CCamera.h" />
+    <ClInclude Include="Source\CCollider.h" />
+    <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
@@ -356,10 +358,12 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
+    <ClCompile Include="Source\CCollider.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\CRigidBody.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
