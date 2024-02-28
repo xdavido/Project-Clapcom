@@ -25,9 +25,13 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
+	isGameCam = isGame;
+	
 	if (isGame)
 	{
-		External->renderer3D->SetGameCamera(this);
+		//External->renderer3D->SetGameCamera(this);
+
+		SetAsMain();
 	}
 }
 
@@ -35,7 +39,7 @@ CCamera::~CCamera()
 {
 	if (isGameCam)
 	{
-		External->renderer3D->SetGameCamera();
+		SetAsMain(false);
 	}
 
 	framebuffer.Delete();
@@ -69,7 +73,9 @@ void CCamera::OnInspector()
 	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader("Camera", flags))
+	bool exists = true;
+
+	if (ImGui::CollapsingHeader("Camera", &exists, flags))
 	{
 		ImGui::Indent();
 
@@ -203,6 +209,8 @@ void CCamera::OnInspector()
 
 		ImGui::Unindent();
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CCamera::SetPos(float3 xyz)
@@ -319,6 +327,7 @@ void CCamera::SetAsMain(bool mainCam)
 	{
 		if (External->scene->gameCameraComponent != nullptr)
 		{
+			framebuffer = External->scene->gameCameraComponent->framebuffer;
 			External->scene->gameCameraComponent->isGameCam = false;
 		}
 

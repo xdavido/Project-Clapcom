@@ -43,8 +43,6 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	cameras.push_back(App->camera->editorCamera);
-
 	gameCameraComponent = new CCamera(gameCameraObject);
 
 	// TODO: remove and do with proper constructor
@@ -56,7 +54,6 @@ bool ModuleScene::Init()
 	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 
 	gameCameraObject->AddComponent(gameCameraComponent);
-	cameras.push_back(gameCameraComponent);
 
 	// yscene file creation
 

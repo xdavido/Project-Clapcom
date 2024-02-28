@@ -339,28 +339,23 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
+	//for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
 
-		(*it)->SetAspectRatio((float)width / (float)height);
+	//	(*it)->SetAspectRatio((float)width / (float)height);
 
-	}
+	//}
 
+	App->camera->editorCamera->SetAspectRatio((float)width / (float)height);
+	App->scene->gameCameraComponent->SetAspectRatio((float)width / (float)height);
 }
 
 void ModuleRenderer3D::SetGameCamera(CCamera* cam)
 {
-	if (App->scene->gameCameraComponent != nullptr)
-	{
-		App->scene->gameCameraComponent->isGameCam = false;
-	}
-
 	if (cam != nullptr)
 	{
-		cam->isGameCam = true;
+		App->scene->gameCameraComponent = cam;
 		OnResize(SDL_GetWindowSurface(App->window->window)->w, SDL_GetWindowSurface(App->window->window)->h);
 	}
-
-	App->scene->gameCameraComponent = cam;
 }
 
 void ModuleRenderer3D::HandleDragAndDrop()

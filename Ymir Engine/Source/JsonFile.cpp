@@ -1318,11 +1318,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		// Is game camera
 
 		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
-
-		if (ccamera->isGameCam)
-		{
-			External->renderer3D->SetGameCamera(ccamera);
-		}
+		ccamera->SetAsMain(ccamera->isGameCam);
 
 		gameObject->AddComponent(ccamera);
 

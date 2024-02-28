@@ -243,285 +243,11 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			if (ImGui::BeginMenu("3D Primitives")) {
-
-				if (ImGui::MenuItem("Plane")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Plane created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cube")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cube created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pyramid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pyramid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cylinder")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cylinder created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cone")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cone created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Sphere")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Sphere created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Torus")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Torus created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Capsule")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Capsule created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Disc")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Disc created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Platonic Solid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Platonic Solid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Prism")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Prism created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pipe")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pipe created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Helix")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Helix created successfully");
-
-				}
-
-				ImGui::EndMenu();
-
-			}
-
-			if (ImGui::MenuItem("Camera")) {
-
-				GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
-				empty->UID = Random::Generate();
-
-				empty->AddComponent(new CCamera(empty));
-			}
-
-			/*if (ImGui::BeginMenu("UI")) {
-
-				if (ImGui::MenuItem("Plane")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Plane created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cube")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cube created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pyramid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pyramid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cylinder")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cylinder created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cone")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cone created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Sphere")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Sphere created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Torus")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Torus created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Capsule")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Capsule created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Disc")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Disc created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Platonic Solid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Platonic Solid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Prism")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Prism created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pipe")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pipe created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Helix")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Helix created successfully");
-
-				}
-
-				ImGui::EndMenu();
-
-			}*/
+			PrimitivesMenu();
+
+			CreateCameraMenu();
+			// TODO: Uncomment when UI
+			//UIMenu();
 
 			ImGui::Separator();
 
@@ -1524,6 +1250,174 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+}
+
+void ModuleEditor::PrimitivesMenu()
+{
+	if (ImGui::BeginMenu("3D Primitives")) {
+
+		if (ImGui::MenuItem("Plane")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Plane created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cube")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cube created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Pyramid")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Pyramid created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cylinder")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cylinder created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cone")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cone created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Sphere")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Sphere created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Torus")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Torus created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Capsule")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Capsule created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Disc")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Disc created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Platonic Solid")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Platonic Solid created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Prism")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Prism created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Pipe")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Pipe created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Helix")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Helix created successfully");
+
+		}
+
+		ImGui::EndMenu();
+
+	}
+}
+
+void ModuleEditor::CreateCameraMenu()
+{
+	if (ImGui::MenuItem("Camera")) {
+
+		GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
+		empty->UID = Random::Generate();
+
+		empty->AddComponent(ComponentType::CAMERA);
+	}
+}
+
+void ModuleEditor::UIMenu()
+{
+	if (ImGui::BeginMenu("UI"))
+	{
+		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+
+		for (int i = 0; i < ui.size(); i++)
+		{
+			if (ImGui::MenuItem(ui[i].c_str()))
+			{
+				//new G_UI((UI_TYPE)i);
+				break;
+			}
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void ModuleEditor::SaveAs()
@@ -2835,7 +2729,50 @@ void ModuleEditor::DrawInspector()
 				// Set the cursor position to center the button within the menu
 				ImGui::SetCursorPosX(xPos);
 
-				ImGui::Button("Add Component");
+
+				if (ImGui::Button("Add Component", ImVec2(110, 30)))
+				{
+					ImGui::OpenPopup("AddComponents");
+					ImGui::SameLine();				
+				}
+
+				if (ImGui::BeginPopup("AddComponents"))
+				{
+					ImGui::SeparatorText("Components");
+
+					// Skip transform
+					// --- Add component Mesh ---
+
+					/*if (mesh == nullptr)
+					{
+						if (ImGui::BeginMenu("Mesh"))
+						{
+							App->editor->PrimitivesMenu();
+							ImGui::EndMenu();
+						}
+					}*/
+
+					// --- Add component Material ---
+					if (material == nullptr)
+					{
+						if (ImGui::MenuItem("Material"))
+						{
+							(*it)->AddComponent(ComponentType::MATERIAL);
+						}
+					}
+
+					// --- Add component Camera ---
+					if (camera == nullptr)
+					{
+						if (ImGui::MenuItem("Camera"))
+						{
+							(*it)->AddComponent(ComponentType::CAMERA);
+						}
+					}
+
+					ImGui::EndPopup();
+				}
+
 
 				if (!(*it)->active) { ImGui::EndDisabled(); }
 
