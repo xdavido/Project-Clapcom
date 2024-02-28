@@ -60,29 +60,18 @@ void Animation::ReadMissingBones(const aiAnimation* animation, Model& model)
 
 void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 {
+	aiVector3D translation, scaling;
+	aiQuaternion rotation;
+
 	assert(src);
 
 	dest.name = src->mName.data;
 
-	dest.transformation.SetCol(0, float4(src->mTransformation.a1,
-		src->mTransformation.b1,
-		src->mTransformation.c1,
-		src->mTransformation.d1));
+	src->mTransformation.Decompose(scaling, rotation, translation);
 
-	dest.transformation.SetCol(0, float4(src->mTransformation.a2,
-		src->mTransformation.b2,
-		src->mTransformation.c2,
-		src->mTransformation.d2));
-
-	dest.transformation.SetCol(0, float4(src->mTransformation.a3,
-		src->mTransformation.b3,
-		src->mTransformation.c3,
-		src->mTransformation.d3));
-
-	dest.transformation.SetCol(0, float4(src->mTransformation.a4,
-		src->mTransformation.b4,
-		src->mTransformation.c4,
-		src->mTransformation.d4));
+	dest.transformation.SetTranslatePart(translation.x, translation.y, translation.z);
+	dest.transformation.SetRotatePart(Quat(rotation.x, rotation.y, rotation.z, rotation.w));
+	dest.transformation.Scale(scaling.x, scaling.y, scaling.z);
 
 	dest.childrenCount = src->mNumChildren;
 

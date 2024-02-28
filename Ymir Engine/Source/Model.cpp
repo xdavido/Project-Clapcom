@@ -93,6 +93,8 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 	}
 
+	LOG("");
+
 	// Import the model using Assimp
 
 	const aiScene* scene = aiImportFile(path.c_str(), ASSIMP_LOAD_FLAGS);
@@ -437,6 +439,17 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 	}
 
+	// Process Bones
+
+	if (mesh->HasBones())
+	{
+		ExtractBoneWeightForVertices(vertices, mesh, scene);
+		LOG("Model with %i bones", mesh->mNumBones);
+	}
+	else {
+		LOG("Model with no bones");
+	}
+
 	// Create the mesh
 
 	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
@@ -493,23 +506,27 @@ void Model::GenerateYmodelFile(const float3& translation, const float3& rotation
 void Model::SetVertexBoneDataDefault(Vertex& vertex)
 {
 	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
-		vertex.boneIDs[i] = 1;
+		vertex.boneIDs[i] = -1;
 		vertex.weights[i] = 0.0f;
 	}
 }
 
 void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 {
+	// In theory if both boneIds and weights array macht each other, so we only need to check for available space in either or.
 	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
-		if (vertex.boneIDs[i] < 0) {
+		if (vertex.boneIDs[i] == -1) {
 			vertex.boneIDs[i] = boneID;
 			vertex.weights[i] = weight;
+			break;
 		}
 	}
 }
 
 void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
+	boneCounter = 0;
+
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++) {
 		int boneID = -1; 
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
@@ -517,25 +534,15 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			BoneInfo newBoneInfo; 
 			newBoneInfo.id = boneCounter; 
 
-			newBoneInfo.offset.SetCol(0, float4(mesh->mBones[boneIndex]->mOffsetMatrix.a1,
-				mesh->mBones[boneIndex]->mOffsetMatrix.b1,
-				mesh->mBones[boneIndex]->mOffsetMatrix.c1,
-				mesh->mBones[boneIndex]->mOffsetMatrix.d1));
+			// Copy Transform Matrix
+			aiVector3D translation, scaling;
+			aiQuaternion rotation;
 
-			newBoneInfo.offset.SetCol(1, float4(mesh->mBones[boneIndex]->mOffsetMatrix.a2,
-				mesh->mBones[boneIndex]->mOffsetMatrix.b2,
-				mesh->mBones[boneIndex]->mOffsetMatrix.c2,
-				mesh->mBones[boneIndex]->mOffsetMatrix.d2));
+			mesh->mBones[boneIndex]->mOffsetMatrix.Decompose(scaling, rotation, translation);
 
-			newBoneInfo.offset.SetCol(2, float4(mesh->mBones[boneIndex]->mOffsetMatrix.a3,
-				mesh->mBones[boneIndex]->mOffsetMatrix.b3,
-				mesh->mBones[boneIndex]->mOffsetMatrix.c3,
-				mesh->mBones[boneIndex]->mOffsetMatrix.d3));
-
-			newBoneInfo.offset.SetCol(3, float4(mesh->mBones[boneIndex]->mOffsetMatrix.a4,
-				mesh->mBones[boneIndex]->mOffsetMatrix.b4,
-				mesh->mBones[boneIndex]->mOffsetMatrix.c4,
-				mesh->mBones[boneIndex]->mOffsetMatrix.d4));
+			newBoneInfo.offset.SetTranslatePart(translation.x, translation.y, translation.z);
+			newBoneInfo.offset.SetRotatePart(Quat(rotation.x, rotation.y, rotation.z, rotation.w));
+			newBoneInfo.offset.Scale(scaling.x, scaling.y, scaling.z);
 
 			boneInfoMap[boneName] = newBoneInfo;
 			boneID = boneCounter;  
