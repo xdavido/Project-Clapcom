@@ -17,10 +17,7 @@ CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), wwiseListenerHasToUpdate(false), defaultListener(nullptr), masterVolume(50.0f), musicVolume(50.0f), fxVolume(50.0f), uiBankRef(nullptr)
 {
-	//TODO listener code here
-#ifdef STANDALONE		
-	firstFrame = true;
-#endif STANDALONE
+
 }
 
 ModuleAudio::~ModuleAudio()
@@ -37,7 +34,7 @@ bool ModuleAudio::Init()
 
 	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
 	{
-		assert(!"Could not create the memory manager.");
+		LOG("[ERROR] Could not create the memory manager.");
 		return false;
 	}
 
@@ -50,7 +47,7 @@ bool ModuleAudio::Init()
 
 	if (!AK::StreamMgr::Create(stmSettings))
 	{
-		assert(!"Could not create the Streaming Manager.");
+		LOG("[ERROR] Could not create the Streaming Manager.");
 		return false;
 	}
 
@@ -61,7 +58,7 @@ bool ModuleAudio::Init()
 
 	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
 	{
-		assert(!"Could not create the streaming device and Low-Level I/O system.");
+		LOG("[ERROR] Could not create the streaming device and Low-Level I/O system.");
 		return false;
 	}
 
@@ -74,7 +71,7 @@ bool ModuleAudio::Init()
 
 	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
 	{
-		assert(!"Could not initialize the Sound Engine.");
+		LOG("[ERROR] Could not initialize the Sound Engine.");
 		return false;
 	}
 
@@ -85,7 +82,7 @@ bool ModuleAudio::Init()
 
 	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
 	{
-		assert(!"Could not initialize the Music Engine.");
+		LOG("[ERROR] Could not initialize the Music Engine.");
 		return false;
 	}
 
@@ -96,7 +93,7 @@ bool ModuleAudio::Init()
 	if (AK::SpatialAudio::Init(settings) != AK_Success)
 	{
 
-		assert(!"Could not initialize the Spatial Audio.");
+		LOG("[ERROR] Could not initialize the Spatial Audio.");
 
 		return false;
 
