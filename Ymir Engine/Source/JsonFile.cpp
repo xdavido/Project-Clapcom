@@ -987,7 +987,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Shader
 
-		//json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
+		json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
 		// Texture maps
 		json_object_set_number(componentObject, "ID", cmaterial->ID);
@@ -1295,6 +1295,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	else if (type == "Material") {
 
 		CMaterial* cmaterial = new CMaterial(gameObject);
+		
+		//std::string shaderPath = json_object_get_string(componentObject, "Shader");
+		//cmaterial->shaderPath = shaderPath;
+		//cmaterial->shaderDirtyFlag = true;
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
