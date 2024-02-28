@@ -123,6 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\CCamera.h" />
+    <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Source\External\ImGuizmo\include\ImZoomSlider.h" />
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="Source\FrameBuffer.h" />
+    <ClInclude Include="Source\G_UI.h" />
     <ClInclude Include="Source\Icon.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\CMaterial.h" />
@@ -351,6 +353,12 @@
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TimeManager.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\UI_Button.h" />
+    <ClInclude Include="Source\UI_Canvas.h" />
+    <ClInclude Include="Source\UI_CheckBox.h" />
+    <ClInclude Include="Source\UI_Image.h" />
+    <ClInclude Include="Source\UI_InputBox.h" />
+    <ClInclude Include="Source\UI_Text.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
@@ -360,6 +368,7 @@
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
+    <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
@@ -384,6 +393,7 @@
     <ClCompile Include="Source\External\Parson\parson.cpp" />
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\G_UI.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />

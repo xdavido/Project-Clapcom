@@ -438,3 +438,14 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z >= aabb.minPoint.z
 		&& point.z <= aabb.maxPoint.z;
 }
+
+void ModuleScene::SetCanvas(G_UI* newCanvas)
+{
+	canvas = newCanvas;
+}
+
+G_UI* ModuleScene::GetCanvas()
+{
+	return canvas;
+}
+

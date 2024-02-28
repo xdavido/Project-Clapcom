@@ -15,6 +15,9 @@
 #include "JsonFile.h"
 #include "ResourceMesh.h"
 
+#include "G_UI.h"
+#include "UI_Image.h"
+
 class GameObject;
 class CCamera;
 
@@ -48,6 +51,10 @@ public:
 	// Function to test if picking inside an AABB
 	bool IsInsideAABB(const float3& point, const AABB& aabb);
 
+	G_UI* GetCanvas();
+	void SetCanvas(G_UI* newCanvas = nullptr);
+
+
 public:
 
 	GameObject* mRootNode;
@@ -67,4 +74,8 @@ public:
 
 	std::string currentSceneDir;
 	std::string currentSceneFile;
+
+	G_UI* canvas;
+	G_UI* menu;
+	UI_Image* bgImage;
 };
