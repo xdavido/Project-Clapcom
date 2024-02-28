@@ -107,10 +107,10 @@
       <UniqueIdentifier>{5b0e3b31-337f-408b-9e83-4393ca9991e6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Externals\Wwise">
-      <UniqueIdentifier>{e2c13cb2-06e5-4e6a-b0b3-fef086e71121}</UniqueIdentifier>
+      <UniqueIdentifier>{32b0f1d8-dfe9-47cc-b282-e8a05a39d024}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{efb9f3c6-f03f-4f20-a411-558fc660d52e}</UniqueIdentifier>
+    <Filter Include="Externals\Audio">
+      <UniqueIdentifier>{6864c61f-850b-4adc-8320-472c99e615c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -801,6 +801,8 @@
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
       <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ModuleAudio.h" />
+    <ClInclude Include="Source\Wwise.h" />
     <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAllocator.h">
       <Filter>Externals\Wwise</Filter>
     </ClInclude>
@@ -999,20 +1001,14 @@
     <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\stdafx.h">
       <Filter>Externals\Wwise</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ModuleAudio.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Wwise.h">
-      <Filter>Audio</Filter>
+    <ClInclude Include="Source\AudioBank.h">
+      <Filter>Externals\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Source\CAudioListener.h">
-      <Filter>Audio</Filter>
+      <Filter>Externals\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Source\CAudioSource.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AudioBank.h">
-      <Filter>Audio</Filter>
+      <Filter>Externals\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1331,6 +1327,8 @@
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ModuleAudio.cpp" />
+    <ClCompile Include="Source\Wwise.cpp" />
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Externals\Wwise</Filter>
     </ClCompile>
@@ -1355,17 +1353,11 @@
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\stdafx.cpp">
       <Filter>Externals\Wwise</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModuleAudio.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Wwise.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CAudioListener.cpp">
-      <Filter>Audio</Filter>
+      <Filter>Externals\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Source\CAudioSource.cpp">
-      <Filter>Audio</Filter>
+      <Filter>Externals\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
