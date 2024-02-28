@@ -6,42 +6,35 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
-CAudioListener::CAudioListener(GameObject* _gm, bool defaultListener) :Component(_gm), isDefaultListener(false), myTransform(nullptr)
+CAudioListener::CAudioListener(GameObject* owner, bool defaultListener) :Component(owner,ComponentType::AUDIO_LISTENER), isDefaultListener(false), myTransform(nullptr)
 {
-	
-	myTransform = dynamic_cast<Cransform*>(gameObject->GetComponent(Component::TYPE::TRANSFORM));
+	myTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
-	id = static_cast<unsigned int>(EngineExternal->GetRandomInt());
-	EngineExternal->moduleAudio->RegisterNewAudioObject(id);
+	id = static_cast<unsigned int>(Random::Generate());
+	External->audio->RegisterNewAudioObject(id);
 	SetAsDefaultListener(defaultListener);
 }
 
-
 CAudioListener::~CAudioListener()
 {
-	EngineExternal->moduleAudio->UnRegisterAudioObject(id);
+	External->audio->UnRegisterAudioObject(id);
 	SetAsDefaultListener(false);
 	myTransform = nullptr;
 }
 
-#ifndef STANDALONE
-bool CAudioListener::OnEditor()
+
+void CAudioListener::OnInspector()
 {
-	if (Component::OnEditor() == true)
+	if (ImGui::CollapsingHeader("Audio Listener"))
 	{
-		ImGui::Separator();
-
-		bool listenerAux = isDefaultListener;
-		if (ImGui::Checkbox("Default Listener", &listenerAux))
-		{
-			SetAsDefaultListener(listenerAux);
-		}
-
-		return true;
+		ImGui::Text("AudioClip");
+		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
+		bool deflistener = isDefaultListener;
+		ImGui::Checkbox("##AudioClip", &deflistener);
+		ImGui::SameLine();
+		ImGui::Text("Listen");
 	}
-	return false;
 }
-#endif // !STANDALONE
 
 void CAudioListener::Update()
 {
@@ -65,8 +58,6 @@ void CAudioListener::Update()
 //
 //}
 
-
-
 void CAudioListener::SetVolume(float newVol)
 {
 	newVol = MIN(newVol, 99.99f);
@@ -74,38 +65,6 @@ void CAudioListener::SetVolume(float newVol)
 
 	if (isDefaultListener)
 		External->audio->SetBusVolume(newVol);
-}
-//
-//uint C_AudioListener::GetID()
-//{
-//	return id;
-//}
-//
-
-
-CAudioListener::CAudioListener(GameObject* owner, bool defaultListener)
-{
-
-}
-
-CAudioListener::~CAudioListener()
-{
-
-}
-
-void CAudioListener::OnInspector()
-{
-
-}
-
-void CAudioListener::Update()
-{
-
-}
-
-void CAudioListener::SetVolume(float newVol)
-{
-
 }
 
 uint CAudioListener::GetID()
@@ -115,39 +74,38 @@ uint CAudioListener::GetID()
 
 void CAudioListener::SetID(uint id)
 {
-	//	EngineExternal->moduleAudio->UnRegisterAudioObject(this->id);
-//	this->id = id;
-//	EngineExternal->moduleAudio->RegisterNewAudioObject(id);
+	External->audio->UnRegisterAudioObject(this->id);
+	this->id = id;
+	External->audio->RegisterNewAudioObject(id);
 }
 
 void CAudioListener::SetAsDefaultListener(bool setDefault)
 {
-	//	if (setDefault)
-//	{
-//		if (EngineExternal->moduleAudio->defaultListener != nullptr)
-//		{
-//			if (EngineExternal->moduleAudio->defaultListener != this)
-//			{
-//				EngineExternal->moduleAudio->defaultListener->SetAsDefaultListener(false);
-//			}
-//
-//		}
-//		EngineExternal->moduleAudio->defaultListener = this;
-//		EngineExternal->moduleAudio->WwiseListnerHasToUpdate();
-//
-//
-//	}
-//	else if (EngineExternal->moduleAudio->defaultListener != nullptr)
-//	{
-//		if (EngineExternal->moduleAudio->defaultListener == this)
-//		{
-//			EngineExternal->moduleAudio->defaultListener = nullptr;
-//			EngineExternal->moduleAudio->WwiseListnerHasToUpdate();
-//		}
-//	}
-//
-//	isDefaultListener = setDefault;
-//	SetVolume(EngineExternal->moduleAudio->masterVolume);
+	if (setDefault)
+	{
+		if (External->audio->defaultListener != nullptr)
+		{
+			if (External->audio->defaultListener != this)
+			{
+				External->audio->defaultListener->SetAsDefaultListener(false);
+			}
+		}
+		External->audio->defaultListener = this;
+		External->audio->WwiseListnerHasToUpdate();
+
+
+	}
+	else if (External->audio->defaultListener != nullptr)
+	{
+		if (External->audio->defaultListener == this)
+		{
+			External->audio->defaultListener = nullptr;
+			External->audio->WwiseListnerHasToUpdate();
+		}
+	}
+
+	isDefaultListener = setDefault;
+	SetVolume(External->audio->masterVolume);
 }
 
 bool CAudioListener::IsDefaultListener()

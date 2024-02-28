@@ -19,6 +19,9 @@
 #define RADTODEG 57.295779513082320876f
 #define PI 3.14159265358979323846264338327950288
 
+#define MIN(a,b) ((a)<(b)) ? (a) : (b)
+#define MAX(a,b) ((a)>(b)) ? (a) : (b)
+
 typedef unsigned int uint;
 typedef unsigned __int64 uint64;
 
