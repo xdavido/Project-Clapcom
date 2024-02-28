@@ -18,6 +18,8 @@ public:
 	void Draw(bool game) override;
 	update_status Update(float dt);
 
+	void SetNativeSize();
+
 public:
 	CMaterial* mat;
 };

@@ -23,6 +23,15 @@ public:
 	update_status PreUpdate(float dt) override;
 	bool CleanUp() override;
 
+	// --- UI ---
+	void HandleInput(SDL_Event event);
+
+	//	
+	bool GetInputActive();
+	void SetInputActive(std::string& strToStore, bool getInput = true);
+	void SetMaxChars(int limit);
+
+
 	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
@@ -72,8 +81,10 @@ private:
 	int mouse_z;
 	int mouse_x_motion;
 	int mouse_y_motion;
-	bool getInput_B;
 	//int mouse_z_motion;
+
+	int maxChars;
+	bool getInput_B;
 
 public:
 
@@ -82,4 +93,6 @@ public:
 	const char* droppedFileDirectory;
 	bool droppedFile = false;
 
+	std::string* strToChange;
+	std::string strBU;
 };

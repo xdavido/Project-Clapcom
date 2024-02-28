@@ -39,6 +39,7 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void UIMenu();
 	void SaveAs();
 
 	// Manages the docking functionality with the main window
