@@ -9,12 +9,13 @@
 #include <vector>
 #include <map>
 
+#include "Animation.h"
 #include "Animator.h"
 
 class GameObject;
-class CMesh;
 
 class Animator;
+class Animation;
 
 class CAnimation : public Component {
 public:
@@ -24,6 +25,10 @@ public:
 	void Update();
 
 	void OnInspector() override;
+
+	void AddAnimation(Animation newAnimation, std::string animationName);
+
+	void RemoveAnimation(int ID);
 
 private:
 
@@ -40,10 +45,12 @@ public:
 
 private:
 
-	const int animationMaxNum = 3;
+	const int animationMaxNum = 10;
 	std::string* animationNames = new std::string[animationMaxNum];
 	std::vector<Animation> animations;
 	int selectedAnimation = 0;
 	bool isSelected = false;
 
+	//sizeof crashing the engine for some reason
+	int totalAnimations = 0;
 };
