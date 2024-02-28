@@ -1,5 +1,6 @@
 #include "CCollider.h"
 #include "GameObject.h"
+#include "ModulePhysics.h"
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 #include "External/ImGui/imgui.h"
@@ -12,16 +13,18 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::COLLID
 
 	// Default to BOX (y me permito el lujazo)
 	collType = ColliderType::BOX;
+
+	SetBoxCollider();
 }
 
 CCollider::~CCollider()
 {
-	delete shape;
+	//delete shape;
 }
 
 void CCollider::Update()
 {
-
+	
 }
 
 void CCollider::OnInspector()
@@ -41,14 +44,19 @@ void CCollider::OnInspector()
 			switch (collType)
 			{
 			case ColliderType::BOX:
+				SetBoxCollider();
 				break;
 			case ColliderType::SPHERE:
+				SetSphereCollider();
 				break;
 			case ColliderType::CYLINDER:
+				SetCylinderCollider();
 				break;
 			case ColliderType::CONVEX_HULL:
+				SetConvexCollider();
 				break;
 			case ColliderType::MESH_COLLIDER:
+				SetMeshCollider();
 				break;
 			}
 		}
@@ -60,4 +68,40 @@ void CCollider::OnInspector()
 btCollisionShape* CCollider::GetShape()
 {
 	return shape;
+}
+
+// Setters ----------------------------------------------------------------------
+void CCollider::SetBoxCollider()
+{
+	//collType = ColliderType::BOX;
+
+	//shape = new btBoxShape(btVector3(2.0f, 2.0f, 2.0f));
+	//collider = new btCollisionObject();
+	//collider->setCollisionShape(shape);
+
+	//btTransform transform;
+	//transform.setIdentity();
+	//collider->setWorldTransform(transform);
+
+	//External->physics->world->addCollisionObject(collider);
+}
+
+void CCollider::SetSphereCollider()
+{
+
+}
+
+void CCollider::SetCylinderCollider()
+{
+
+}
+
+void CCollider::SetConvexCollider()
+{
+
+}
+
+void CCollider::SetMeshCollider()
+{
+
 }

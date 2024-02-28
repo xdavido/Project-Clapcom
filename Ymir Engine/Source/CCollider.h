@@ -1,9 +1,14 @@
 #pragma once
+#include "Application.h"
+#include "Module.h"
+#include "ModulePhysics.h"
 
 #include "Component.h"
 #include <vector>
 
 class btCollisionShape;
+class btCollisionObject;
+class btRigidBody;
 
 enum ColliderType 
 {
@@ -26,11 +31,17 @@ public:
 	btCollisionShape* GetShape();
 
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
+	void SetBoxCollider();
+	void SetSphereCollider();
+	void SetCylinderCollider();
+	void SetConvexCollider();
+	void SetMeshCollider();
 
 private:
 	ColliderType collType;
 
-	btCollisionShape* shape; // Éste es el collider, sólo que se llama shape
+	btCollisionShape* shape;
+	btCollisionObject* collider;
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 };

@@ -40,12 +40,13 @@ public:
 	std::vector<btRigidBody*> bodiesList;
 	std::vector<btCollisionShape*> collidersList;
 
+	btDynamicsWorld* world; // World se puede dejar en public si se requiere
+
 private:
 
 	bool debug = true; // If true, draws colliders
 	DebugDrawer* debugDraw;
 
-	btDynamicsWorld* world; // World se puede dejar en public si se requiere
 	btDispatcher* dispatcher;
 	btCollisionConfiguration* collisionConfig;
 	btBroadphaseInterface* broadphase;
