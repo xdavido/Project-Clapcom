@@ -210,7 +210,20 @@ bool ModuleRenderer3D::Init()
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
-	App->scene->gameCameraComponent->framebuffer.Load();
+
+	App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
+
+	// TODO: remove and do with proper constructor
+	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+
+	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	
+	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
+	
+	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
 
 	return ret;
 }

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "ModuleScene.h"
+#include "ModuleCamera3D.h"
 
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
@@ -29,8 +30,6 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	
 	if (isGame)
 	{
-		//External->renderer3D->SetGameCamera(this);
-
 		SetAsMain();
 	}
 }
@@ -295,12 +294,18 @@ void CCamera::DrawFrustumBox() const
 
 void CCamera::SetAsMain(bool mainCam)
 {
+
 	if (mainCam)
 	{
 		if (External->scene->gameCameraComponent != nullptr)
 		{
 			framebuffer = External->scene->gameCameraComponent->framebuffer;
-			External->scene->gameCameraComponent->isGameCam = true;
+			External->scene->gameCameraComponent->isGameCam = false;
+		}
+
+		else
+		{
+			framebuffer.Load();
 		}
 
 		External->renderer3D->SetGameCamera(this);
@@ -309,6 +314,7 @@ void CCamera::SetAsMain(bool mainCam)
 	{
 		External->scene->gameCameraComponent = nullptr;
 	}
+
 }
 
 float4x4 CCamera::GetProjectionMatrix() const 
