@@ -2822,11 +2822,13 @@ void ModuleEditor::DrawInspector()
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+				Component* animation = (*it)->GetComponent(ComponentType::ANIMATION);
 
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
 				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
 				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
