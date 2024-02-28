@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics.h"
+#include "ModuleInput.h"
 
 #include "Log.h"
 
@@ -18,10 +19,16 @@
  
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	LOG("Creating ModulePhysics");
+
+	// Physics simulation (world)
 	constraintSolver = new btSequentialImpulseConstraintSolver();
 	broadphase = new btDbvtBroadphase();
 	collisionConfig = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfig);
+
+	// Debug drawer	
+	debugDraw = new DebugDrawer();
 }
 
 ModulePhysics::~ModulePhysics() 
@@ -30,6 +37,8 @@ ModulePhysics::~ModulePhysics()
 	delete collisionConfig;
 	delete broadphase;
 	delete constraintSolver;
+
+	delete debugDraw;
 	
 	for (int i = 0; i < bodiesList.size(); i++)	
 		RemoveBody(bodiesList[i]);
@@ -41,9 +50,11 @@ ModulePhysics::~ModulePhysics()
 // INIT ----------------------------------------------------------------------
 bool ModulePhysics::Init() 
 {
-	LOG("Creating Physics Environment");
+	debugDraw->setDebugMode(1);
+
 	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
 	world->setGravity(GRAVITY);
+	world->setDebugDrawer(debugDraw);
 
 	return true;
 }
@@ -68,6 +79,14 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;
+
+	if (debug == true)
+	{
+		world->debugDrawWorld();
+	}
+		
 	return UPDATE_CONTINUE;
 }
 
@@ -110,4 +129,41 @@ void ModulePhysics::RemoveCollider(btCollisionShape* c)
 
 	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
 	collidersList.shrink_to_fit();
+}
+
+
+// DEBUG DRAWER =============================================
+void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+{
+	line.origin.Set(from.getX(), from.getY(), from.getZ());
+	line.destination.Set(to.getX(), to.getY(), to.getZ());
+	line.color.Set(color.getX(), color.getY(), color.getZ());
+	line.Render();
+}
+
+void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+{
+	point.transform.Translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
+	point.color.Set(color.getX(), color.getY(), color.getZ());
+	point.Render();
+}
+
+void DebugDrawer::reportErrorWarning(const char* warningString)
+{
+	LOG("Bullet warning: %s", warningString);
+}
+
+void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
+{
+	LOG("Bullet draw text: %s", textString);
+}
+
+void DebugDrawer::setDebugMode(int debugMode)
+{
+	mode = (DebugDrawModes)debugMode;
+}
+
+int	 DebugDrawer::getDebugMode() const
+{
+	return mode;
 }
