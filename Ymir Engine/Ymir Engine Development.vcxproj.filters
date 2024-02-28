@@ -798,11 +798,21 @@
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
       <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\AnimationController.h" />
-    <ClInclude Include="Source\Animator.h" />
-    <ClInclude Include="Source\Bone.h" />
-    <ClInclude Include="Source\CAnimation.h" />
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnimationController.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animator.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bone.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAnimation.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1120,11 +1130,21 @@
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Animation.cpp" />
-    <ClCompile Include="Source\AnimationController.cpp" />
-    <ClCompile Include="Source\Animator.cpp" />
-    <ClCompile Include="Source\Bone.cpp" />
-    <ClCompile Include="Source\CAnimation.cpp" />
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnimationController.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animator.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bone.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAnimation.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\MathGeoLib\include\Geometry\KDTree.inl">
