@@ -36,7 +36,7 @@ void FrameBuffer::Load()
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 
-		LOG("Framebuffer is not complete");
+		LOG("[ERROR] Framebuffer is not complete");
 
 	}
 

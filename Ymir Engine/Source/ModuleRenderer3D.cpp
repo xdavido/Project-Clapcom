@@ -209,8 +209,9 @@ bool ModuleRenderer3D::Init()
 
 	// Load Editor and Game FrameBuffers
 
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	App->camera->editorCamera->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 	App->camera->editorCamera->framebuffer.Load();
-	App->scene->gameCameraComponent->framebuffer.Load();
 
 	return ret;
 }
@@ -343,12 +344,6 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	//for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
-
-	//	(*it)->SetAspectRatio((float)width / (float)height);
-
-	//}
-
 	App->camera->editorCamera->SetAspectRatio((float)width / (float)height);
 	App->scene->gameCameraComponent->SetAspectRatio((float)width / (float)height);
 }

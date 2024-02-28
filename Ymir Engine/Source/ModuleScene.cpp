@@ -41,20 +41,6 @@ bool ModuleScene::Init()
 {
 	bool ret = true;
 
-	LOG("Loading scene");
-
-	gameCameraComponent = new CCamera(gameCameraObject);
-
-	// TODO: remove and do with proper constructor
-	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
-
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-
-	gameCameraObject->AddComponent(gameCameraComponent);
-
 	// yscene file creation
 
 	// You shouldn't save from default
@@ -72,10 +58,26 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
+	LOG("Loading scene");
+
+
 	// Hardcoded Scene To test Resource Manager
 	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
-	currentSceneDir = "Assets";
-	return false;
+	currentSceneDir = "Assets"; 
+	
+	gameCameraComponent = new CCamera(gameCameraObject);
+
+	// TODO: remove and do with proper constructor
+	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+
+	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+
+	gameCameraObject->AddComponent(gameCameraComponent);
+
+	return true;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
