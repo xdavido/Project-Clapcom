@@ -1,12 +1,12 @@
 #ifndef __G_UI_H__
 #define __G_UI_H__
 
+#include "Application.h"
+
 #include "Globals.h"
 #include "GameObject.h"
 #include "C_UI.h"
 #include "CTransform.h"
-
-#include "ModuleScene.h"
 
 class UI_Canvas;
 

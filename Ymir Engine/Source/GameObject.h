@@ -36,9 +36,6 @@ public:
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
-	//This function receives a GameObject to set it as a new parent
-	void ReParent(GameObject* newParent);
-
 public:
 
 	std::string name;

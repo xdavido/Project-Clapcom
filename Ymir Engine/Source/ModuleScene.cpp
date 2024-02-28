@@ -14,6 +14,7 @@
 #include "PhysfsEncapsule.h"
 
 #include "External/Optick/include/optick.h"
+#include "G_UI.h"
 
 #include "ImporterMesh.h"
 

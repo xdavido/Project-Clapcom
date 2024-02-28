@@ -156,11 +156,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			ReParent(External->scene->GetCanvas());
+			SetParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			ReParent(parent);
+			SetParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -181,11 +181,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			ReParent(External->scene->GetCanvas());
+			SetParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			ReParent(parent);
+			SetParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -205,7 +205,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux->ReParent(this);
+		aux->SetParent(this);
 		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		UI_Button* comp = new UI_Button(this, x, y);
@@ -220,11 +220,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			ReParent(External->scene->GetCanvas());
+			SetParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			ReParent(parent);
+			SetParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -248,7 +248,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux->ReParent(this);
+		aux->SetParent(this);
 
 		//new G_UI(UI_TYPE::IMAGE, this);
 
@@ -266,11 +266,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			ReParent(External->scene->GetCanvas());
+			SetParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			ReParent(parent);
+			SetParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
@@ -293,11 +293,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			ReParent(External->scene->GetCanvas());
+			SetParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			ReParent(parent);
+			SetParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -306,13 +306,13 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		// Toggle background
 		G_UI* aux = new G_UI(UI_TYPE::IMAGE, this);
 		aux->name = "Background";
-		aux->ReParent(this);
+		aux->SetParent(this);
 		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		// Checkmark
 		G_UI* aux2 = new G_UI(UI_TYPE::IMAGE, this);
 		aux2->name = "Checkmark";
-		aux2->ReParent(aux);
+		aux2->SetParent(aux);
 		aux2->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		float widthCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->width;
@@ -322,7 +322,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux3 = new G_UI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
 		aux3->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux3->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux3->ReParent(this);
+		aux3->SetParent(this);
 		aux3->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		UI_Checkbox* comp = new UI_Checkbox(this, x, y, widthCheck, heightCheck);

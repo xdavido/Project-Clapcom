@@ -15,11 +15,12 @@
 #include "JsonFile.h"
 #include "ResourceMesh.h"
 
-#include "G_UI.h"
 #include "UI_Image.h"
 
 class GameObject;
 class CCamera;
+
+class G_UI;
 
 class ModuleScene : public Module
 {
@@ -51,8 +52,10 @@ public:
 	// Function to test if picking inside an AABB
 	bool IsInsideAABB(const float3& point, const AABB& aabb);
 
-	G_UI* GetCanvas();
+	
 	void SetCanvas(G_UI* newCanvas = nullptr);
+	
+	G_UI* ModuleScene::GetCanvas();
 
 
 public:
