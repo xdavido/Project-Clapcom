@@ -22,4 +22,14 @@ private:
 	btRigidBody* body;
 
 	//TODO: crear variables (massa, usegravity, etc.)
+	enum physicsType {
+		NONE = -1,
+		DYNAMIC,
+		KINEMATIC,
+		STATIC
+	};
+	physicsType physType;
+	float mass;
+	bool gravity;
+
 };
