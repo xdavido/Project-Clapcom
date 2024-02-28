@@ -21,3 +21,8 @@ void CRigidBody::OnInspector()
 {
 
 }
+
+btRigidBody* CRigidBody::GetBody()
+{
+	return body;
+}

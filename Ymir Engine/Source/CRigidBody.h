@@ -14,6 +14,8 @@ public:
 	void Update();
 	void OnInspector();
 
+	btRigidBody* GetBody();
+
 	//TODO: funcions per canviar els valors del Cos Rígid
 
 private:

@@ -40,3 +40,8 @@ void CCollider::OnInspector()
 		ImGui::Unindent();
 	}
 }
+
+btCollisionShape* CCollider::GetShape()
+{
+	return shape;
+}

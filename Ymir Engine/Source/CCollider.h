@@ -23,11 +23,14 @@ public:
 	void Update();
 	void OnInspector();
 
+	btCollisionShape* GetShape();
+
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
 
 private:
-	btCollisionShape* collider;
 	ColliderType collType;
+
+	btCollisionShape* shape; // Éste es el collider, sólo que se llama shape
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 };
