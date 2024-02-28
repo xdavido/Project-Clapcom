@@ -29,6 +29,8 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	
 	if (isGame)
 	{
+		//External->renderer3D->SetGameCamera(this);
+
 		SetAsMain();
 	}
 }
@@ -297,10 +299,10 @@ void CCamera::SetAsMain(bool mainCam)
 	{
 		if (External->scene->gameCameraComponent != nullptr)
 		{
-			External->scene->gameCameraComponent->isGameCam = false;
+			framebuffer = External->scene->gameCameraComponent->framebuffer;
+			External->scene->gameCameraComponent->isGameCam = true;
 		}
 
-		framebuffer.Load();
 		External->renderer3D->SetGameCamera(this);
 	}
 	else

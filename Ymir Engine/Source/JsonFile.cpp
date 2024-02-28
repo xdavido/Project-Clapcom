@@ -1318,9 +1318,13 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Camera") {
 
-		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
+		CCamera* ccamera = new CCamera(gameObject);
 
 		// Is game camera
+
+		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
+		ccamera->SetAsMain(ccamera->isGameCam);
+
 		gameObject->AddComponent(ccamera);
 
 	}
