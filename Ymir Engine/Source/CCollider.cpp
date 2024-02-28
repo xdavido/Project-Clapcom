@@ -16,7 +16,7 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::COLLID
 
 CCollider::~CCollider()
 {
-	delete collider;
+	delete shape;
 }
 
 void CCollider::Update()
@@ -26,16 +26,32 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
+	char* titles[]{ "Box", "Sphere", "Cylinder", "Convex", "Mesh"};
+	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
+	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
-	ImGui::SameLine();
-
-	if (ImGui::CollapsingHeader("Collider", flags))
+	if (ImGui::CollapsingHeader(headerLabel.c_str(), flags))
 	{
 		ImGui::Indent();
 
-		//TODO: Inspector
+		ImGui::Text("Shape: "); ImGui::SameLine();
+		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles))) 
+		{
+			switch (collType)
+			{
+			case ColliderType::BOX:
+				break;
+			case ColliderType::SPHERE:
+				break;
+			case ColliderType::CYLINDER:
+				break;
+			case ColliderType::CONVEX_HULL:
+				break;
+			case ColliderType::MESH_COLLIDER:
+				break;
+			}
+		}
 
 		ImGui::Unindent();
 	}

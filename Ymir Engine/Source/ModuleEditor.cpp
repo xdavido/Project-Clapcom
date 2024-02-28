@@ -11,6 +11,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModulePhysics.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -22,6 +23,9 @@
 #include "External/Optick/include/optick.h"
 
 #include "Texture.h"
+
+#include "CCollider.h"
+#include "CRigidBody.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -2818,15 +2822,21 @@ void ModuleEditor::DrawInspector()
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
-				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
-				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
-				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+				//Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				//Component* mesh = (*it)->GetComponent(ComponentType::MESH);
+				//Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
+				//Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
 
-				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
-				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
-				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				//if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
+				//if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
+				//if (material != nullptr) material->OnInspector(); ImGui::Spacing();
+				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+
+				for (int i = 0; i < (*it)->mComponents.size(); i++)
+				{
+					(*it)->mComponents[i]->OnInspector();
+					ImGui::Spacing();
+				}
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2835,7 +2845,38 @@ void ModuleEditor::DrawInspector()
 				// Set the cursor position to center the button within the menu
 				ImGui::SetCursorPosX(xPos);
 
-				ImGui::Button("Add Component");
+				ImGui::Separator();
+				ImGui::Text("");
+				ImGui::Text("");
+				ImGui::Text("");
+
+				char* listComponents[]{ "Add Component", "RigidBody", "Collider" };
+
+				ImGui::SameLine(ImGui::GetWindowWidth() / 6);
+				if (ImGui::Combo("##Add Component", &newComponent, listComponents, IM_ARRAYSIZE(listComponents)))
+				{
+					switch (newComponent)
+					{
+					case 1: // RigidBody
+						if ((*it)->GetComponent(ComponentType::RIGIDBODY) == nullptr)
+						{
+							CRigidBody* crb = new CRigidBody((*it));
+							(*it)->AddComponent(crb);
+							App->physics->bodiesList.push_back(crb->GetBody());
+						}
+						else
+						{
+							LOG("RigidBody already added");
+						}
+						break;
+					case 2: // Collider
+						CCollider * cll = new CCollider((*it));
+						(*it)->AddComponent(cll);
+						App->physics->collidersList.push_back(cll->GetShape());
+						break;
+					}
+					newComponent = 0;
+				}
 
 				if (!(*it)->active) { ImGui::EndDisabled(); }
 

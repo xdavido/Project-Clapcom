@@ -261,6 +261,8 @@ public:
 	Texture shaderIcon;
 	Texture sceneIcon;
 
+	//New Component
+	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider
 };
 
 #endif // MODULE_EDITOR
