@@ -21,6 +21,13 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	// TODO: LLUC i MARC
+	// Add rigibody 
+	// Add collider
+
+	// TODO: NIXON
+	// RayCast functions
+
 private:
 
 	btDynamicsWorld* world; // World se puede dejar en public si se requiere
@@ -28,4 +35,6 @@ private:
 	btCollisionConfiguration* collisionConfig;
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
+
+	// TODO: create 2 lists, one for rigidbodies and one for colliders
 };
