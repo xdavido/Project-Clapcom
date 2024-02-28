@@ -33,6 +33,7 @@ public:
 
 	// TODO: NIXON
 	// RayCast functions
+	bool RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint);
 
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	

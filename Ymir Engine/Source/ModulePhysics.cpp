@@ -172,3 +172,20 @@ int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
 }
+
+bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
+{
+	// Manejador de rayos (from = start, to = end)
+	btCollisionWorld::ClosestRayResultCallback rayCallback(from, to);
+
+	// Realizar el raycast
+	world->rayTest(from, to, rayCallback);
+
+	// Comprobar si hubo una colisión
+	if (rayCallback.hasHit()) {
+		hitPoint = rayCallback.m_hitPointWorld; // Punto de impacto
+		return true; // Hubo colisión
+	}
+
+	return false; 
+}
