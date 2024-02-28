@@ -101,7 +101,7 @@ bool ModuleAudio::Init()
 
 	}
 
-	g_lowLevelIO.SetBasePath(AKTEXT("Assets/SoundBanks/"));
+	g_lowLevelIO.SetBasePath(AKTEXT("Game/Assets/SoundBanks/"));
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 

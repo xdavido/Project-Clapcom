@@ -1,0 +1,29 @@
+{
+ "ProjectInfo": {
+  "Project": {
+   "Name": "Ymir-Engine",
+   "GUID": "{1E8D6C27-CE1E-4BF0-8C1D-487C47841D21}",
+   "Generator": "2023.1.0.8367"
+  },
+  "CacheRoot": "../../../../../Wwise-Project/Ymir-Engine/.cache",
+  "Platforms": [
+   {
+    "Name": "Windows",
+    "GUID": "{2AC84176-BAA1-48EB-81CE-9D987D96305F}",
+    "BasePlatform": "Windows",
+    "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
+    "Path": "."
+   }
+  ],
+  "Languages": [
+   {
+    "Name": "English(US)",
+    "Id": "684519430",
+    "GUID": "{4ECDEBBD-E40D-4BF9-8941-214C06AA28D4}",
+    "Default": "true",
+    "UseAsStandIn": "true"
+   }
+  ],
+  "FileHash": "{15B5B48E-40E7-47E2-E78C-761153F99B55}"
+ }
+}

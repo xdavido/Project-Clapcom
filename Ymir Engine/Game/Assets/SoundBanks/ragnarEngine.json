@@ -1,0 +1,69 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "150",
+  "SoundBanks": [
+   {
+    "Id": "87917746",
+    "Type": "User",
+    "GUID": "{C744CAFC-FE0C-4D8D-AB70-6B188355A754}",
+    "Language": "SFX",
+    "Hash": "{68939230-5E82-D6C6-3DD4-8B38B669C168}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\ragnarEngine",
+    "ShortName": "ragnarEngine",
+    "Path": "ragnarEngine.bnk",
+    "Media": [
+     {
+      "Id": "105959601",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Checkpoint-Sound-Effect.wav",
+      "CachePath": "SFX/Checkpoint-Sound-Effect_818F3B66.wem"
+     },
+     {
+      "Id": "826379778",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Jovani Elden.wav",
+      "CachePath": "SFX/Jovani Elden_818F3B66.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "799949012",
+      "Name": "ActivateBgMusic",
+      "ObjectPath": "\\Events\\Default Work Unit\\ActivateBgMusic",
+      "GUID": "{FE2AB34C-2440-4FA4-A45D-BE4D851F2872}",
+      "MediaRefs": [
+       {
+        "Id": "105959601"
+       },
+       {
+        "Id": "826379778"
+       }
+      ]
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "1908158473",
+      "Name": "Pitch",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Pitch",
+      "GUID": "{53978009-9610-4FCB-8E16-A04A131DA5FE}"
+     },
+     {
+      "Id": "2415836739",
+      "Name": "Volume",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Volume",
+      "GUID": "{BB98839F-7D79-484B-B9B2-B360F6A052F8}"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{686ACA0D-DC12-DAEE-B3B9-665425C4CBC7}"
+ }
+}
