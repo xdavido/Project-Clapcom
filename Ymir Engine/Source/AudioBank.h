@@ -1,6 +1,7 @@
 #pragma once
-#ifndef __AUDIOBANKK_H__
-#define __AUDIOBANKK_H__
+
+#ifndef __AUDIOBANK_H__
+#define __AUDIOBANK_H__
 
 #include <string>
 #include <map>
@@ -9,11 +10,11 @@
 
 typedef struct
 {
-	std::string						bank_name;
-	bool							loaded_in_heap;
-	std::map<uint64, std::string>	events;         // Sound and fxs
-	std::map<uint64, std::string>	actions;		// Other events
+	std::string	bank_name;
+	bool loaded_in_heap;
+	std::map<uint64, std::string> events;  // Sound and FXs
+	std::map<uint64, std::string> actions; // Other events
 
-}AudioBank;
+} AudioBank;
 
-#endif // !__AUDIOBANKK_H__
+#endif // __AUDIOBANK_H__

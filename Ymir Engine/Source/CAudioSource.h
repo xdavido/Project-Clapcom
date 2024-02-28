@@ -1,26 +1,23 @@
 #pragma once
-#ifndef __CO_AUDIOSOURCE_H__
-#define __CO_AUDIOSOURCE_H__
+
+#ifndef __AUDIOSOURCE_H__
+#define __AUDIOSOURCE_H__
 
 #include "Component.h"
 #include "AudioBank.h"
 
-class C_Transform;
+class CTransform;
 
-class C_AudioSource : public Component
+class CAudioSource : public Component
 {
 public:
-	C_AudioSource(GameObject* _gm);
-	virtual ~C_AudioSource();
 
-#ifndef STANDALONE
-	bool OnEditor() override;
-#endif // !STANDALONE
+	CAudioSource(GameObject* owner);
+	virtual ~CAudioSource();
+
+	void OnInspector() override;
 
 	void Update() override;
-
-	void SaveData(JSON_Object* nObj) override;
-	void LoadData(DEConfig& nObj) override;
 
 	std::string& GetEventName(AudioBank* reference = nullptr);
 	void SetEventName(std::string& newEventName);
@@ -41,7 +38,6 @@ public:
 
 	void StopEvent();
 
-
 	unsigned int GetWwiseID();
 	void SetSwitch(std::string groupSwitch, std::string stateSwitch);
 
@@ -52,17 +48,17 @@ public:
 
 private:
 
-	std::string		evName;
-	std::string		audBankName;
-	AudioBank*		audBankReference;
-	float			volume;
-	float			pitch;
-	bool			playOnAwake;
-	bool			isMuted;
-	unsigned int	id;
-	bool			isMusic;
+	std::string	evName;
+	std::string	audBankName;
+	AudioBank* audBankReference;
+	float volume;
+	float pitch;
+	bool playOnAwake;
+	bool isMuted;
+	unsigned int id;
+	bool isMusic;
 
-	C_Transform*	gameObjectTransform;
+	CTransform*	gameObjectTransform;
 };
 
-#endif // !__CO_AUDIOSOURCE_H__
+#endif // !__AUDIOSOURCE_H__

@@ -1,22 +1,19 @@
 #pragma once	
+
 #include "Component.h"
+#include "Globals.h"
 
-class C_Transform;
+class CTransform;
 
-class C_AudioListener : public Component
-{
+class CAudioListener : public Component {
 public:
-	C_AudioListener(GameObject* _gm,bool defaultListener=false);
-	virtual ~C_AudioListener();
 
-#ifndef STANDALONE
-	bool OnEditor() override;
-#endif // !STANDALONE
+	CAudioListener(GameObject* owner, bool defaultListener = false);
+	virtual ~CAudioListener();
+
+	void OnInspector() override;
 
 	void Update() override;
-
-	void SaveData(JSON_Object* nObj) override;
-	void LoadData(DEConfig& nObj) override;
 
 	void SetVolume(float newVol);
 
@@ -28,7 +25,9 @@ public:
 
 private:
 
-	C_Transform* myTransform;
+	CTransform* myTransform;
+
 	bool isDefaultListener;
 	unsigned int id;
+
 };

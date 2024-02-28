@@ -1,5 +1,7 @@
-#include "Wwise_Includes.h"
+#include "Wwise.h"
 #include <assert.h>
+#include <corecrt_malloc.h>
+#include <wtypes.h>
 
 namespace AK
 {
