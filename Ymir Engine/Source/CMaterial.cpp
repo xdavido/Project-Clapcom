@@ -20,7 +20,8 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
     this->owner = owner;
 
     // Load MyShader.glsl by default
-    shader.LoadShader(SHADER_VS_FS);
+    shaderPath = SHADER_VS_FS;
+    shader.LoadShader(shaderPath);
     shaderDirtyFlag = false;
 
 }
