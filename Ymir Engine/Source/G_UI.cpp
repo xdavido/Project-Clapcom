@@ -151,7 +151,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS));
+			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -176,7 +176,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS));
+			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -198,7 +198,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		int h = 50;
 
 		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y);
+		AddUIComponent(UI_TYPE::IMAGE, x, y, External->scene->mRootNode);
 		GetComponentUI(UI_TYPE::IMAGE)->width = w;
 		GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
@@ -215,7 +215,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS));
+			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -241,7 +241,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		int h = 50;
 
 		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y);
+		AddUIComponent(UI_TYPE::IMAGE, x, y, External->scene->mRootNode);
 		GetComponentUI(UI_TYPE::IMAGE)->width = w;
 		GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
@@ -261,7 +261,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS));
+			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -288,7 +288,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS));
+			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
 		}
 
 		if (parent == External->scene->mRootNode)
