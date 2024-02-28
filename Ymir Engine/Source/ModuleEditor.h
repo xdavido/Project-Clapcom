@@ -261,6 +261,10 @@ public:
 	Texture shaderIcon;
 	Texture sceneIcon;
 
+	// Stuff needed for UI, don't know if it is 100% needed
+	ImVec2 gameViewSize;
+	float2 mouse;
+	ImGuiContext* g;
 };
 
 #endif // MODULE_EDITOR

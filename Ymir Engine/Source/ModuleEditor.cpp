@@ -35,6 +35,8 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
 	memleaksFileContents = ReadFile("memleaks.log");
 	AssimpLogFileContents = ReadFile("AssimpLog.txt");
 
+	g = nullptr;
+
 	LOG("Creating ModuleEditor");
 
 }
@@ -61,7 +63,7 @@ bool ModuleEditor::Init()
 
 	IMGUI_CHECKVERSION();
 
-	ImGui::CreateContext();
+	g = ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -1419,12 +1421,17 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
-				ImVec2 size = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
 
 			ImGui::End();
