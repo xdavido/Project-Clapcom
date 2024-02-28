@@ -27,14 +27,20 @@ public:
 private:
 
 public:
-	GameObject* rootBone = nullptr;
+	//GameObject* rootBone = nullptr;
 
-	std::map<std::string, GameObject*> boneMapping;
+	//std::map<std::string, GameObject*> boneMapping;
 
 	bool isPlaying = false;
+	bool isLoop = false;
+	bool isPingPong = false;
 
 private:
-	//Doesn't compile
-	//Animator ourAnimator;
+
+	const int animationMaxNum = 3;
+	std::string* animationNames = new std::string[animationMaxNum];
+	std::vector<Animation> animations;
+	int selectedAnimation = 0;
+	bool isSelected = false;
 
 };

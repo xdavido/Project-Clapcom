@@ -19,6 +19,10 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     //Animation ourAnimation("",&ourModel);
   
     //ourAnimator(&ourAnimation);
+    animationNames[0] = "Ani1     (testing)";
+    animationNames[1] = "Ani2     (testing)";
+    animationNames[2] = "Ani3     (testing)";
+
 }
 
 CAnimation::~CAnimation()
@@ -40,9 +44,41 @@ void CAnimation::OnInspector() {
     {
         ImGui::Indent();
 
-        ImGui::Spacing();
+        if (ImGui::BeginCombo("Animations", "Select animation")) {
+            for (int i = 0; i < animationMaxNum; i++) {
+                if (selectedAnimation == i) isSelected = true;
+                if (selectedAnimation != i) isSelected = false;
+                ImGui::Checkbox(animationNames[i].c_str(), &isSelected);
 
-        ImGui::SeparatorText("Animation");
+                if (ImGui::IsItemClicked()) {
+                    selectedAnimation = i;
+                }
+
+            }
+
+            ImGui::EndCombo();
+        }
+
+        ImGui::Checkbox("Playing", &isPlaying);
+
+        if (ImGui::IsItemClicked()) {
+            !isPlaying ;
+        }
+
+        ImGui::Checkbox("Loop", &isLoop);
+
+        if (ImGui::IsItemClicked()) {
+            !isLoop;
+        }
+
+        ImGui::Checkbox("PingPong", &isPingPong);
+
+        if (ImGui::IsItemClicked()) {
+            !isPingPong;
+        }
+        //ImGui::Spacing();
+
+        //ImGui::SeparatorText("Animation");
 
         ImGui::Unindent();
     }
