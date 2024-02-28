@@ -17,7 +17,9 @@ CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), wwiseListenerHasToUpdate(false), defaultListener(nullptr), masterVolume(50.0f), musicVolume(50.0f), fxVolume(50.0f), uiBankRef(nullptr)
 {
-
+#ifdef STANDALONE
+	firstFrame = true;
+#endif STANDALONE
 }
 
 ModuleAudio::~ModuleAudio()
@@ -99,15 +101,7 @@ bool ModuleAudio::Init()
 
 	}
 
-	//Load Soundbanks
-	// TODO CRASH: Check BasePath for different versions. What if there are banks in library as resources? Use assets or library
-	//AUDIO TODO: CRASH we are not creating nor adding data to Library/SoundBanks, this will crash the standalone build
-	//MAX PRIORITY 
-#ifndef STANDALONE
 	g_lowLevelIO.SetBasePath(AKTEXT("Assets/SoundBanks/"));
-#else
-	g_lowLevelIO.SetBasePath(AKTEXT("Library/Sounds/"));
-#endif
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
@@ -115,7 +109,7 @@ bool ModuleAudio::Init()
 	AKRESULT ret = AK::SoundEngine::LoadBank("Init.bnk", bankID);
 	if (ret != AK_Success)
 	{
-		assert(!"Could not initialize Init.bnk.");
+		LOG("[ERROR] Could not initialize Init.bnk.");
 		return false;
 	}
 
@@ -126,7 +120,7 @@ bool ModuleAudio::Start()
 {
 	if (!LoadBanksInfo())
 	{
-		LOG("[WARNING] Audio Manager couldn't load data from SoundbanksInfo.json");
+		LOG("[ERROR] Audio Manager couldn't load data from SoundbanksInfo.json");
 	}
 	return true;
 }
@@ -139,7 +133,7 @@ update_status ModuleAudio::Update(float dt)
 		PlayOnAwake();
 		firstFrame = false;
 	}
-#endif // !STANDALONE
+#endif
 	if (wwiseListenerHasToUpdate)
 	{
 		UpdateWwiseListener();
@@ -281,14 +275,12 @@ void ModuleAudio::PlayEvent(unsigned int id, std::string& eventName)
 
 void ModuleAudio::StopEvent(unsigned int id, std::string& eventName) const
 {
-		AK::SoundEngine::ExecuteActionOnEvent(eventName.c_str(), AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop, id);
+	AK::SoundEngine::ExecuteActionOnEvent(eventName.c_str(), AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop, id);
 }
 
 void ModuleAudio::StopEvent(unsigned int id) const
 {
-
-		AK::SoundEngine::StopAll(id);
-	
+	AK::SoundEngine::StopAll(id);
 }
 
 
