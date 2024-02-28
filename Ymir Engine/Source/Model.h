@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 #include "Mesh.h"
+
+#include "CAnimation.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -14,6 +17,9 @@
 
 class GameObject;
 
+class Animation;
+class Animator;
+
 struct NodeTransform {
   
     float3 translation;
@@ -23,8 +29,8 @@ struct NodeTransform {
 };
 
 struct BoneInfo {
-    int id;
 
+    int id;
     float4x4 offset;
 };
 

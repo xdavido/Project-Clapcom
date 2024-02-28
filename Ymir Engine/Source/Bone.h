@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+
 #include "External/Assimp/include/scene.h"
 
 #include "External/MathGeoLib/include/Math/float4.h"

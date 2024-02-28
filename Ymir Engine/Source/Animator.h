@@ -1,6 +1,11 @@
 #pragma once
 #include "Globals.h"
+
 #include "Animation.h"
+
+class Animation;
+
+struct AssimpNodeData;
 
 class Animator {
 public:

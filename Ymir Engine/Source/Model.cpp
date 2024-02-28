@@ -104,6 +104,29 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 		int it = 0;
 		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
 
+		// Load animations
+
+		if (scene->HasAnimations()) {
+
+			// Hardcoded for testing
+			CAnimation* animationComponent = new CAnimation(modelGO);
+			modelGO->AddComponent(animationComponent);
+			//-------------------------
+
+			Animation* anim = new Animation(path, this);
+
+			CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
+			cAnim->animator = new Animator(anim);
+			
+			LOG("Model has animations");
+		}
+		else {
+
+			//animator = nullptr;
+
+			LOG("Model doesn't have animations");
+		}
+
 		GenerateModelMetaFile();
 
 		LOG("Model created: %s", name.c_str());
