@@ -80,7 +80,12 @@ update_status ModulePhysics::PreUpdate(float dt)
 update_status ModulePhysics::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
 		debug = !debug;
+		
+		if (debug) LOG("DebugDrawer On");
+		else LOG("DebugDrawer Off");
+	}
 
 	if (debug == true)
 	{

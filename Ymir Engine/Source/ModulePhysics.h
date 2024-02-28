@@ -49,7 +49,6 @@ private:
 	btCollisionConfiguration* collisionConfig;
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
-
 };
 
 class DebugDrawer : public btIDebugDraw
