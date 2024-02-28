@@ -19,6 +19,9 @@ public:
 
 	void Update() override;
 
+	//void SaveData(JSON_Object* nObj) override;
+	//void LoadData(DEConfig& nObj) override;
+
 	std::string& GetEventName(AudioBank* reference = nullptr);
 	void SetEventName(std::string& newEventName);
 	void SetBankReference(AudioBank* ref);
@@ -59,6 +62,7 @@ private:
 	bool isMusic;
 
 	CTransform*	gameObjectTransform;
+
 };
 
-#endif // !__AUDIOSOURCE_H__
+#endif // __AUDIOSOURCE_H__

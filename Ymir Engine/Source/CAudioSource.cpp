@@ -5,136 +5,131 @@
 #include "CTransform.h"
 #include "External/ImGui/imgui.h"
 
-//C_AudioSource::C_AudioSource(GameObject* _gm) : Component(_gm), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(false), volume(50.0f), audBankName(""), isMusic(false)
-//{
-//	name = "Audio Source";
-//	id = static_cast<unsigned int>(EngineExternal->GetRandomInt());
-//	gameObjectTransform = dynamic_cast<C_Transform*>(gameObject->GetComponent(Component::TYPE::TRANSFORM));
-//	EngineExternal->moduleAudio->RegisterNewAudioObject(id);
-//	EngineExternal->moduleAudio->AddAudioSource(this);
-//}
-//
-//C_AudioSource::~C_AudioSource()
-//{
-//	if (isMusic) {
-//		for (std::vector<C_AudioSource*>::iterator it = EngineExternal->moduleAudio->musicSource.begin(); it != EngineExternal->moduleAudio->musicSource.end(); ++it) {
-//			if ((*it) == this) {
-//				EngineExternal->moduleAudio->musicSource.erase(it);
-//				break;
-//			}
-//		}
-//	}
-//	EngineExternal->moduleAudio->StopComponent(id);
-//	EngineExternal->moduleAudio->RemoveAudioSource(this);
-//	EngineExternal->moduleAudio->UnRegisterAudioObject(id);
-//	gameObjectTransform = nullptr;
-//	audBankReference = nullptr;
-//
-//}
-//
-//#ifndef STANDALONE
-//bool C_AudioSource::OnEditor()
-//{
-//	if (Component::OnEditor() == true)
-//	{
-//		ImGui::Separator();
-//
-//		if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
-//		{
-//			std::vector<AudioBank*>::const_iterator it;
-//			for (it = EngineExternal->moduleAudio->banks.begin(); it != EngineExternal->moduleAudio->banks.end(); ++it)
-//			{
-//				bool isSelected = (audBankName == (*it)->bank_name);
-//				if (ImGui::Selectable((*it)->bank_name.c_str()))
-//				{
-//					audBankReference = (*it);
-//					audBankName = (*it)->bank_name;
-//					if (!(*it)->loaded_in_heap)
-//					{
-//						(*it)->loaded_in_heap = EngineExternal->moduleAudio->LoadBank(audBankReference->bank_name);
-//					}
-//				}
-//				if (isSelected)
-//					ImGui::SetItemDefaultFocus();
-//			}
-//			ImGui::EndCombo();
-//		}
-//
-//		if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
-//		{
-//			std::map<uint64, std::string>::const_iterator ev_it;
-//			for (ev_it = audBankReference->events.begin(); ev_it != audBankReference->events.end(); ++ev_it)
-//			{
-//				bool isSelected = (evName == (*ev_it).second);
-//				if (ImGui::Selectable((*ev_it).second.c_str()))
-//				{
-//					evName = (*ev_it).second;
-//				}
-//				if (isSelected)
-//					ImGui::SetItemDefaultFocus();
-//			}
-//			ImGui::EndCombo();
-//		}
-//
-//		if (ImGui::Button("Play"))
-//		{
-//			PlayEvent();
-//		}
-//		ImGui::SameLine();
-//		if (ImGui::Button("Stop"))
-//		{
-//			StopEvent(evName);
-//		}
-//		ImGui::SameLine();
-//		if (ImGui::Button("Stop All"))
-//		{
-//			StopEvent();
-//		}
-//
-//		ImGui::Checkbox("Play on Awake", &playOnAwake);
-//
-//		if (ImGui::Checkbox("Music", &isMusic)) {
-//			if (isMusic) {
-//				EngineExternal->moduleAudio->musicSource.push_back(this);
-//			}
-//			else {
-//				for (std::vector<C_AudioSource*>::iterator it = EngineExternal->moduleAudio->musicSource.begin(); it != EngineExternal->moduleAudio->musicSource.end(); ++it) {
-//					if ((*it) == this) {
-//						EngineExternal->moduleAudio->musicSource.erase(it);
-//						break;
-//					}
-//				}
-//			}
-//		}
-//
-//		if (ImGui::SliderFloat("Volume", &volume, 0.0f, 99.99f))
-//		{
-//			SetVolume(volume);
-//		}
-//		ImGui::SameLine();
-//		if (ImGui::Checkbox("Mute", &isMuted))
-//		{
-//			SetMuted(isMuted);
-//		}
-//
-//		if (ImGui::SliderFloat("Pitch", &pitch, 0.0f, 100.0f))
-//		{
-//			SetPitch(pitch);
-//		}
-//
-//		return true;
-//	}
-//	return false;
-//}
-//#endif // !STANDALONE
-//
-//void C_AudioSource::Update()
-//{
-//	float3 pos = gameObjectTransform->globalTransform.TranslatePart();
-//	EngineExternal->moduleAudio->SetAudioObjTransform(this->id, pos, gameObjectTransform->GetForward(), gameObjectTransform->GetUp());
-//}
-//
-//void C_AudioSource::SaveData(JSON_Object* nObj)
+CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::AUDIO_SOURCE), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(false), volume(50.0f), audBankName(""), isMusic(false)
+{
+	id = static_cast<unsigned int>(Random::Generate());
+	gameObjectTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
+	External->audio->RegisterNewAudioObject(id);
+	External->audio->AddAudioSource(this);
+}
+
+CAudioSource::~CAudioSource()
+{
+	if (isMusic) {
+		for (std::vector<CAudioSource*>::iterator it = External->audio->musicSource.begin(); it != External->audio->musicSource.end(); ++it) {
+			if ((*it) == this) {
+				External->audio->musicSource.erase(it);
+				break;
+			}
+		}
+	}
+	External->audio->StopComponent(id);
+	External->audio->RemoveAudioSource(this);
+	External->audio->UnRegisterAudioObject(id);
+
+	gameObjectTransform = nullptr;
+	audBankReference = nullptr;
+
+}
+
+#ifndef STANDALONE
+void CAudioSource::OnInspector()
+{
+	ImGui::Separator();
+
+	if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
+	{
+		std::vector<AudioBank*>::const_iterator it;
+		for (it = External->audio->banks.begin(); it != External->audio->banks.end(); ++it)
+		{
+			bool isSelected = (audBankName == (*it)->bank_name);
+			if (ImGui::Selectable((*it)->bank_name.c_str()))
+			{
+				audBankReference = (*it);
+				audBankName = (*it)->bank_name;
+				if (!(*it)->loaded_in_heap)
+				{
+					(*it)->loaded_in_heap = External->audio->LoadBank(audBankReference->bank_name);
+				}
+			}
+			if (isSelected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
+	{
+		std::map<uint64, std::string>::const_iterator ev_it;
+		for (ev_it = audBankReference->events.begin(); ev_it != audBankReference->events.end(); ++ev_it)
+		{
+			bool isSelected = (evName == (*ev_it).second);
+			if (ImGui::Selectable((*ev_it).second.c_str()))
+			{
+				evName = (*ev_it).second;
+			}
+			if (isSelected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	if (ImGui::Button("Play"))
+	{
+		PlayEvent();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop"))
+	{
+		StopEvent(evName);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop All"))
+	{
+		StopEvent();
+	}
+
+	ImGui::Checkbox("Play on Awake", &playOnAwake);
+
+	if (ImGui::Checkbox("Music", &isMusic)) {
+		if (isMusic) {
+			External->audio->musicSource.push_back(this);
+		}
+		else {
+			for (std::vector<CAudioSource*>::iterator it = External->audio->musicSource.begin(); it != External->audio->musicSource.end(); ++it) {
+				if ((*it) == this) {
+					External->audio->musicSource.erase(it);
+					break;
+				}
+			}
+		}
+	}
+
+	if (ImGui::SliderFloat("Volume", &volume, 0.0f, 99.99f))
+	{
+		SetVolume(volume);
+	}
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Mute", &isMuted))
+	{
+		SetMuted(isMuted);
+	}
+
+	if (ImGui::SliderFloat("Pitch", &pitch, 0.0f, 100.0f))
+	{
+		SetPitch(pitch);
+	}
+
+}
+#endif // !STANDALONE
+
+void CAudioSource::Update()
+{
+	float3 pos = gameObjectTransform->mGlobalMatrix.TranslatePart();
+	External->audio->SetAudioObjTransform(this->id, pos, gameObjectTransform->GetForward(), gameObjectTransform->GetUp());
+}
+
+//void CAudioSource::SaveData(JSON_Object* nObj)
 //{
 //	Component::SaveData(nObj);
 //	DEJson::WriteString(nObj, "evName", this->evName.c_str());
@@ -148,7 +143,7 @@
 //	DEJson::WriteBool(nObj, "isMusic", this->isMusic);
 //}
 //
-//void C_AudioSource::LoadData(DEConfig& nObj)
+//void CAudioSource::LoadData(DEConfig& nObj)
 //{
 //	Component::LoadData(nObj);
 //
@@ -180,224 +175,113 @@
 //		}
 //	}
 //	audBankReference = nullptr;
-//	LOG(LogType::L_WARNING, "Audio Bank called %s, has not been found during scene loading...", bankName);
+//	LOG("Audio Bank called %s, has not been found during scene loading...", bankName);
 //}
-//
-//std::string& C_AudioSource::GetEventName(AudioBank* reference)
-//{
-//	reference = nullptr;
-//	if (audBankReference != nullptr)
-//		reference = audBankReference;
-//	return evName;
-//}
-//
-//void C_AudioSource::SetEventName(std::string& newEventName)
-//{
-//	this->evName = newEventName;
-//}
-//
-//void C_AudioSource::SetBankReference(AudioBank* ref)
-//{
-//	this->audBankReference = ref;
-//}
-//
-//float C_AudioSource::GetVolume()
-//{
-//	return this->volume;
-//}
-//
-//void C_AudioSource::SetVolume(float newVol)
-//{
-//	this->volume = MIN(newVol, 99.0f);
-//	this->volume = MAX(newVol, 0.0f);
-//	if (!isMuted && evName != "")
-//		EngineExternal->moduleAudio->ChangeRTPCValue(this->id, std::string("SourceVolume"), this->volume);
-//}
-//
-//float C_AudioSource::GetPitch()
-//{
-//	return this->pitch;
-//}
-//
-//void C_AudioSource::SetPitch(float newPitch)
-//{
-//	this->pitch = MIN(newPitch, 100);
-//	this->pitch = MAX(newPitch, 0);
-//	if (!isMuted)
-//		EngineExternal->moduleAudio->ChangeRTPCValue(this->id, std::string("SourcePitch"), this->pitch);
-//}
-//
-//bool C_AudioSource::GetPlayOnAwake() const
-//{
-//	return this->playOnAwake;
-//}
-//
-//void C_AudioSource::PlayEvent()
-//{
-//	if (this->IsActive())
-//		EngineExternal->moduleAudio->PlayEvent(this->id, this->evName);
-//}
-//
-//void C_AudioSource::PauseEvent()
-//{
-//	EngineExternal->moduleAudio->PauseEvent(this->id, this->evName);
-//}
-//
-//void C_AudioSource::ResumeEvent()
-//{
-//	EngineExternal->moduleAudio->ResumeEvent(this->id, this->evName);
-//}
-//
-//void C_AudioSource::StopEvent(std::string eventName)
-//{
-//	EngineExternal->moduleAudio->StopEvent(this->id, eventName);
-//}
-//
-//void C_AudioSource::StopEvent()
-//{
-//	EngineExternal->moduleAudio->StopEvent(this->id);
-//}
-//
-//
-//unsigned int C_AudioSource::GetWwiseID()
-//{
-//	return id;
-//}
-//
-//void C_AudioSource::SetSwitch(std::string groupSwitch, std::string stateSwitch)
-//{
-//	EngineExternal->moduleAudio->SetSwitch(this->id, groupSwitch, stateSwitch);
-//}
-//
-//bool C_AudioSource::IsMuted()
-//{
-//	return this->isMuted;
-//}
-//
-//void C_AudioSource::SetMuted(bool muted)
-//{
-//	if (muted)
-//		EngineExternal->moduleAudio->ChangeRTPCValue(this->id, std::string("SourceVolume"), 0.0f);
-//	else
-//	{
-//		EngineExternal->moduleAudio->ChangeRTPCValue(this->id, std::string("SourceVolume"), this->volume);
-//		EngineExternal->moduleAudio->ChangeRTPCValue(this->id, std::string("SourcePitch"), this->pitch);
-//	}
-//	isMuted = muted;
-//}
-//
-//bool C_AudioSource::IsMusic()
-//{
-//	return isMusic;
-//}
-
-CAudioSource::CAudioSource(GameObject* owner)
-{
-
-}
-
-CAudioSource::~CAudioSource()
-{
-
-}
-
-void CAudioSource::OnInspector()
-{
-
-}
-
-void CAudioSource::Update()
-{
-
-}
 
 std::string& CAudioSource::GetEventName(AudioBank* reference)
 {
-	// TODO: Insertar una instrucción "return" aquí
-	return std::string();
+	reference = nullptr;
+	if (audBankReference != nullptr)
+		reference = audBankReference;
+	return evName;
 }
 
 void CAudioSource::SetEventName(std::string& newEventName)
 {
-
+	this->evName = newEventName;
 }
 
 void CAudioSource::SetBankReference(AudioBank* ref)
 {
-
+	this->audBankReference = ref;
 }
 
 float CAudioSource::GetVolume()
 {
-	return 0.0f;
+	return this->volume;
 }
 
 void CAudioSource::SetVolume(float newVol)
 {
-
+	this->volume = MIN(newVol, 99.0f);
+	this->volume = MAX(newVol, 0.0f);
+	if (!isMuted && evName != "")
+		External->audio->ChangeRTPCValue(this->id, std::string("SourceVolume"), this->volume);
 }
 
 float CAudioSource::GetPitch()
 {
-	return 0.0f;
+	return this->pitch;
 }
 
 void CAudioSource::SetPitch(float newPitch)
 {
-
+	this->pitch = MIN(newPitch, 100);
+	this->pitch = MAX(newPitch, 0);
+	if (!isMuted)
+		External->audio->ChangeRTPCValue(this->id, std::string("SourcePitch"), this->pitch);
 }
 
 bool CAudioSource::GetPlayOnAwake() const
 {
-	return false;
+	return this->playOnAwake;
 }
 
 void CAudioSource::PlayEvent()
 {
-
+	if (this->active)
+		External->audio->PlayEvent(this->id, this->evName);
 }
 
 void CAudioSource::PauseEvent()
 {
-
+	External->audio->PauseEvent(this->id, this->evName);
 }
 
 void CAudioSource::ResumeEvent()
 {
-
+	External->audio->ResumeEvent(this->id, this->evName);
 }
 
 void CAudioSource::StopEvent(std::string eventName)
 {
-
+	External->audio->StopEvent(this->id, eventName);
 }
 
 void CAudioSource::StopEvent()
 {
-
+	External->audio->StopEvent(this->id);
 }
+
 
 unsigned int CAudioSource::GetWwiseID()
 {
-	return 0;
+	return id;
 }
 
 void CAudioSource::SetSwitch(std::string groupSwitch, std::string stateSwitch)
 {
-
+	External->audio->SetSwitch(this->id, groupSwitch, stateSwitch);
 }
 
 bool CAudioSource::IsMuted()
 {
-	return false;
+	return this->isMuted;
 }
 
 void CAudioSource::SetMuted(bool muted)
 {
-
+	if (muted)
+		External->audio->ChangeRTPCValue(this->id, std::string("SourceVolume"), 0.0f);
+	else
+	{
+		External->audio->ChangeRTPCValue(this->id, std::string("SourceVolume"), this->volume);
+		External->audio->ChangeRTPCValue(this->id, std::string("SourcePitch"), this->pitch);
+	}
+	isMuted = muted;
 }
 
 bool CAudioSource::IsMusic()
 {
-	return false;
+	return isMusic;
 }

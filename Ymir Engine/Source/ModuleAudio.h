@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __MODULEAUDIOMANAGER_H__
-#define __MODULEAUDIOMANAGER_H__
+#ifndef __MODULEAUDIO_H__
+#define __MODULEAUDIO_H__
 
 #include <string>
 #include <vector>
@@ -99,4 +99,4 @@ private:
 
 };
 
-#endif // __MODULEAUDIOMANAGER_H__
+#endif // __MODULEAUDIO_H__

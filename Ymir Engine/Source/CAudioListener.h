@@ -15,6 +15,9 @@ public:
 
 	void Update() override;
 
+	//void SaveData(JSON_Object* nObj) override;
+	//void LoadData(DEConfig& nObj) override;
+
 	void SetVolume(float newVol);
 
 	uint GetID();

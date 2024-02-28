@@ -114,8 +114,6 @@ bool ModuleAudio::Init()
 
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
-
-
 	AkBankID bankID;
 	AKRESULT ret = AK::SoundEngine::LoadBank("Init.bnk", bankID);
 	if (ret != AK_Success)
