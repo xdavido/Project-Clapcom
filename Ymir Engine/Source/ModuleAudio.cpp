@@ -382,7 +382,7 @@ bool ModuleAudio::LoadBank(std::string& name)
 {
 	AkBankID id;
 	AKRESULT eResult;
-
+	//std::string extension = "Game/Assets/SoundBanks" + name;
 	eResult = AK::SoundEngine::LoadBank(name.c_str(), id);
 	if (eResult == AK_Success)
 	{

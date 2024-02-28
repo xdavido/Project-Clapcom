@@ -6,7 +6,7 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
-CAudioListener::CAudioListener(GameObject* owner, bool defaultListener) :Component(owner,ComponentType::AUDIO_LISTENER), isDefaultListener(false), myTransform(nullptr)
+CAudioListener::CAudioListener(GameObject* owner, bool defaultListener) :Component(owner,ComponentType::AUDIO_LISTENER), isDefaultListener(true), myTransform(nullptr)
 {
 	myTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 
@@ -25,23 +25,28 @@ CAudioListener::~CAudioListener()
 
 void CAudioListener::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Audio Listener"))
+	//if (ImGui::CollapsingHeader("Audio Listener"))
+	//{
+	//	ImGui::Text("AudioClip");
+	//	ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
+	//	bool deflistener = isDefaultListener;
+	//	ImGui::Checkbox("##AudioClip", &deflistener);
+	//	ImGui::SameLine();
+	//	ImGui::Text("Listen");
+	//}
+	ImGui::Separator();
+
+	bool listenerAux = isDefaultListener;
+	if (ImGui::Checkbox("Default Listener", &listenerAux))
 	{
-		ImGui::Text("AudioClip");
-		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
-		bool deflistener = isDefaultListener;
-		ImGui::Checkbox("##AudioClip", &deflistener);
-		ImGui::SameLine();
-		ImGui::Text("Listen");
+		SetAsDefaultListener(listenerAux);
 	}
 }
 
 void CAudioListener::Update()
 {
 	float3 pos = myTransform->mGlobalMatrix.TranslatePart();
-	float3 axis = { 1,0,0 };
-	float3 axis2 = { 1,0,0 };
-	External->audio->SetAudioObjTransform(id, pos, axis, axis2);
+	External->audio->SetAudioObjTransform(id, pos, myTransform->GetForward(), myTransform->GetUp());
 }
 //
 //void CAudioListener::SaveData(JSON_Object* nObj)

@@ -6,7 +6,7 @@
 #include "Globals.h"
 #include "External/ImGui/imgui.h"
 
-CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::AUDIO_SOURCE), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(false), volume(50.0f), audBankName(""), isMusic(false)
+CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::AUDIO_SOURCE), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(true), volume(50.0f), audBankName(""), isMusic(false)
 {
 	id = static_cast<unsigned int>(Random::Generate());
 	gameObjectTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));

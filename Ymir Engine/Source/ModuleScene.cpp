@@ -26,6 +26,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
+	audiosource = CreateGameObject("AudioSource", mRootNode);
 
 	gameCameraComponent = nullptr;
 
@@ -46,6 +47,7 @@ bool ModuleScene::Init()
 	cameras.push_back(App->camera->editorCamera);
 
 	gameCameraComponent = new CCamera(gameCameraObject);
+	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
 
 	// TODO: remove and do with proper constructor
 	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
@@ -56,7 +58,11 @@ bool ModuleScene::Init()
 	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 
 	gameCameraObject->AddComponent(gameCameraComponent);
+	gameCameraObject->AddComponent(audioListenerComponent);
 	cameras.push_back(gameCameraComponent);
+
+	CAudioSource* audioSourceComponent = new CAudioSource(audiosource);
+	audiosource->AddComponent(audioSourceComponent);
 
 	// yscene file creation
 
