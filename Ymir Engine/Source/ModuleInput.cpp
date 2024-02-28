@@ -30,13 +30,38 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0)
+	{
+		LOG("SDL_GAMECONTROLLER could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
+	}
+
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("[ERROR] SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
+	num_controllers = SDL_NumJoysticks();
+
+	for (int i = 0; i < num_controllers; i++) {
+
+		if (SDL_IsGameController(i)) {
+
+			sdl_controllers[i] = SDL_GameControllerOpen(i);
+
+			activeControllers.push_back((GameController*)sdl_controllers[i]);
+
+		}
+
+	}
+
 	return ret;
+}
+
+bool ModuleInput::Start()
+{
+	return true;
 }
 
 // Called every draw update
@@ -161,6 +186,47 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	}*/
 
+	// Gamepad Management
+
+	SDL_GameControllerUpdate();
+
+	for (int i = 0; i < num_controllers; ++i) {
+
+		for (int j = 0; j < SDL_CONTROLLER_BUTTON_MAX; ++j) {
+
+			if (SDL_GameControllerGetButton(sdl_controllers[i], (SDL_GameControllerButton)j)) {
+
+				controllers[i].buttons[j] = (controllers[i].buttons[j] == KEY_IDLE) ? KEY_DOWN : KEY_REPEAT;
+
+			}
+			else {
+
+				controllers[i].buttons[j] = (controllers[i].buttons[j] == KEY_REPEAT || controllers[i].buttons[j] == KEY_DOWN) ? KEY_UP : KEY_IDLE;
+
+			}
+				
+		}
+
+		controllers[i].j1_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
+		controllers[i].j1_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTY);
+		controllers[i].j2_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTX);
+		controllers[i].j2_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTY);
+		controllers[i].RT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+		controllers[i].LT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+
+	}
+
+	if (!activeControllers.empty()) {
+
+		gamepadON = true;
+
+	}
+	else {
+
+		gamepadON = false;
+
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -168,6 +234,50 @@ update_status ModuleInput::PreUpdate(float dt)
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
+
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
+	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+
 	return true;
 }
+
+float ModuleInput::ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to) {
+
+	if (controllerON) {
+
+		float sign = v1 / fabs(v1);
+
+		float reduced = v1 - ((fabs(v1) > min) ? sign * min : v1);
+
+		float to_1 = reduced / (float)(SDL_MAX_SINT16);
+
+		float reclamped = to_1 * clamp_to;
+
+		return reclamped;
+
+	}
+	else {
+
+		return 0;
+	}
+
+}
+
+//// Button Management
+//if (App->input->controllers[0].buttons[SDL_CONTROLLER_BUTTON_B] == KEY_DOWN) {}
+//
+//// Idle Management
+//if (App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) == 0 &&
+//	App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) == 0) {}
+//
+//// Movement Up
+//if (App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) < 0) {}
+//
+//// Movement Down
+//if (App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) > 0) {}
+//
+//// Movement Left
+//if (App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) < 0) {}
+//
+//// Movement Right
+//if (App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) > 0) {}
