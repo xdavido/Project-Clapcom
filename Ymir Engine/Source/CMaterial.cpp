@@ -19,6 +19,7 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
 
     this->owner = owner;
 
+    // Load MyShader.glsl by default
     shader.LoadShader(SHADER_VS_FS);
     shaderDirtyFlag = false;
 

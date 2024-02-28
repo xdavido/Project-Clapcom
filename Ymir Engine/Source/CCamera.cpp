@@ -81,34 +81,6 @@ void CCamera::OnInspector()
 
 		if (!active) { ImGui::BeginDisabled(); }
 
-		//// Position (Needs to be reworked into Transform)
-
-		//ImGui::SeparatorText("POSITION & ROTATION");
-
-		//ImGui::Spacing();
-
-		//float* cameraPosition = frustum.pos.ptr();
-
-		//ImGui::DragFloat3("Position", cameraPosition, 0.1f);
-
-		//ImGui::Spacing();
-
-		//// Rotation (Needs to be reworked into Transform)
-
-		//float3 rotation = { 0, 0, 0 };
-
-		//float* cameraRotation = rotation.ptr();
-
-		//ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
-
-		//Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
-
-		//rotationQuaternion.Normalize();
-
-		//float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
-
-		//frustum.Transform(rotationMatrix);
-
 		ImGui::Spacing();
 
 		ImGui::SeparatorText("VECTORS (Read only)");
@@ -328,7 +300,7 @@ void CCamera::SetAsMain(bool mainCam)
 		if (External->scene->gameCameraComponent != nullptr)
 		{
 			framebuffer = External->scene->gameCameraComponent->framebuffer;
-			External->scene->gameCameraComponent->isGameCam = false;
+			External->scene->gameCameraComponent->isGameCam = true;
 		}
 
 		External->renderer3D->SetGameCamera(this);

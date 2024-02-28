@@ -1296,9 +1296,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CMaterial* cmaterial = new CMaterial(gameObject);
 		
-		//std::string shaderPath = json_object_get_string(componentObject, "Shader");
-		//cmaterial->shaderPath = shaderPath;
-		//cmaterial->shaderDirtyFlag = true;
+		// Load shader from .yscene file
+		std::string shaderPath = json_object_get_string(componentObject, "Shader");
+		cmaterial->shaderPath = shaderPath;
+		cmaterial->shader.LoadShader(shaderPath);
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
