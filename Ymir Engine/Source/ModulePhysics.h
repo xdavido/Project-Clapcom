@@ -22,11 +22,19 @@ public:
 	bool CleanUp();
 
 	// TODO: LLUC i MARC
-	// Add rigibody 
-	// Add collider
+	void AddBody(btRigidBody* b);
+	void AddCollider(btCollisionShape* c);
+
+	void RemoveBody(btRigidBody* b);
+	void RemoveCollider(btCollisionShape* c);
 
 	// TODO: NIXON
 	// RayCast functions
+
+public:
+	// TODO: create 2 lists, one for rigidbodies and one for colliders	
+	std::vector<btRigidBody*> bodiesList;
+	std::vector<btCollisionShape*> collidersList;
 
 private:
 
@@ -36,5 +44,4 @@ private:
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
 
-	// TODO: create 2 lists, one for rigidbodies and one for colliders
 };

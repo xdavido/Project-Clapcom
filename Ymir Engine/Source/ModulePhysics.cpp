@@ -4,6 +4,8 @@
 
 #include "Log.h"
 
+#include <vector>
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision_debug.lib")
@@ -28,6 +30,12 @@ ModulePhysics::~ModulePhysics()
 	delete collisionConfig;
 	delete broadphase;
 	delete constraintSolver;
+	
+	for (int i = 0; i < bodiesList.size(); i++)	
+		RemoveBody(bodiesList[i]);
+
+	for (int i = 0; i < collidersList.size(); i++) 
+		RemoveCollider(collidersList[i]);
 }
 
 // INIT ----------------------------------------------------------------------
@@ -70,7 +78,36 @@ update_status ModulePhysics::PostUpdate(float dt)
 }
 
 // CLEANUP -------------------------------------------------------------------
-bool ModulePhysics::CleanUp()
+bool ModulePhysics::CleanUp()												  
+{																			  
+	return true;															  
+}																			  
+																			  
+// Module Functions	----------------------------------------------------------
+void ModulePhysics::AddBody(btRigidBody* b)
 {
-	return true;
+	bodiesList.push_back(b);
+	world->addRigidBody(b);
+}
+
+void ModulePhysics::AddCollider(btCollisionShape* c)
+{
+	collidersList.push_back(c);
+	//world->addCollisionObject(c);
+}
+
+void ModulePhysics::RemoveBody(btRigidBody* b)
+{
+	world->removeRigidBody(b);
+
+	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
+	bodiesList.shrink_to_fit();
+}
+
+void ModulePhysics::RemoveCollider(btCollisionShape* c)
+{
+	//world->removeCollisionObject(c);
+
+	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
+	collidersList.shrink_to_fit();
 }
