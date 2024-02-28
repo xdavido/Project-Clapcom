@@ -1,11 +1,13 @@
 #include "CCamera.h"
 #include "GameObject.h"
 
+#include "ModuleScene.h"
+
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 
-CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
+CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentType::CAMERA)
 {
 	this->mOwner = owner;
 
@@ -23,15 +25,35 @@ CCamera::CCamera(GameObject* owner) : Component(owner, ComponentType::CAMERA)
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
+	if (isGame)
+	{
+		External->renderer3D->SetGameCamera(this);
+	}
 }
 
 CCamera::~CCamera()
 {
+	if (isGameCam)
+	{
+		External->renderer3D->SetGameCamera();
+	}
 
+	framebuffer.Delete();
 }
 
 void CCamera::Update()
 {
+	// Update camera position
+	// TODO: maybe put in function
+	// Update camera when changing transform
+	if (mOwner != nullptr)
+	{
+		CTransform* transformComponent = mOwner->mTransform;
+		frustum.pos = transformComponent->GetGlobalPosition();
+		frustum.front = transformComponent->GetLocalRotation().WorldZ();
+		frustum.up = transformComponent->GetLocalRotation().WorldY();
+	}
+
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((GLfloat*)GetProjectionMatrix().v);
@@ -46,37 +68,40 @@ void CCamera::OnInspector()
 
 	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
+
 	if (ImGui::CollapsingHeader("Camera", flags))
 	{
 		ImGui::Indent();
 
-		// Position (Needs to be reworked into Transform)
+		if (!active) { ImGui::BeginDisabled(); }
 
-		ImGui::SeparatorText("POSITION & ROTATION");
+		//// Position (Needs to be reworked into Transform)
 
-		ImGui::Spacing();
+		//ImGui::SeparatorText("POSITION & ROTATION");
 
-		float* cameraPosition = frustum.pos.ptr();
+		//ImGui::Spacing();
 
-		ImGui::DragFloat3("Position", cameraPosition, 0.1f);
+		//float* cameraPosition = frustum.pos.ptr();
 
-		ImGui::Spacing();
+		//ImGui::DragFloat3("Position", cameraPosition, 0.1f);
 
-		// Rotation (Needs to be reworked into Transform)
+		//ImGui::Spacing();
 
-		float3 rotation = { 0, 0, 0 };
+		//// Rotation (Needs to be reworked into Transform)
 
-		float* cameraRotation = rotation.ptr();
+		//float3 rotation = { 0, 0, 0 };
 
-		ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
+		//float* cameraRotation = rotation.ptr();
 
-		Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
+		//ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
 
-		rotationQuaternion.Normalize();
+		//Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
 
-		float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
+		//rotationQuaternion.Normalize();
 
-		frustum.Transform(rotationMatrix);
+		//float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
+
+		//frustum.Transform(rotationMatrix);
 
 		ImGui::Spacing();
 
@@ -161,6 +186,18 @@ void CCamera::OnInspector()
 		// Enable/Disable Bounding Boxes
 
 		ImGui::Checkbox("Draw Bounding Boxes", &drawBoundingBoxes);
+
+		ImGui::Spacing();
+
+		// Enable/Disable Game Camera
+
+		if (ImGui::Checkbox("Game Camera", &isGameCam))
+		{
+			SetAsMain(isGameCam);
+			//RestartCulling();
+		}
+
+		if (!active) { ImGui::EndDisabled(); }
 
 		ImGui::Spacing();
 
@@ -276,6 +313,23 @@ void CCamera::DrawFrustumBox() const
 	External->renderer3D->DrawBox(vertices, float3(0, 255, 0));
 }
 
+void CCamera::SetAsMain(bool mainCam)
+{
+	if (mainCam)
+	{
+		if (External->scene->gameCameraComponent != nullptr)
+		{
+			External->scene->gameCameraComponent->isGameCam = false;
+		}
+
+		External->renderer3D->SetGameCamera(this);
+	}
+	else
+	{
+		External->scene->gameCameraComponent = nullptr;
+	}
+}
+
 float4x4 CCamera::GetProjectionMatrix() const 
 {
 	return frustum.ProjectionMatrix().Transposed();
@@ -296,8 +350,8 @@ void CCamera::MovementHandling(float3& newPos, float speed)
 	if (External->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= GetRight() * speed;
 	if (External->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += GetRight() * speed;
 
-	//if (External->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos += GetUp() * speed;
-	//if (External->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos -= GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos += GetUp() * speed;
+	if (External->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos -= GetUp() * speed;
 }
 
 void CCamera::RotationHandling(float speed, float dt)

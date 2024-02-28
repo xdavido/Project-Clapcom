@@ -81,3 +81,17 @@ bool ResourceTexture::UnloadFromMemory()
 {
     return false;
 }
+
+void ResourceTexture::BindTexture(bool bind)
+{
+	if (bind) {
+
+		glBindTexture(GL_TEXTURE_2D, ID);
+
+	}
+	else {
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+	}
+}

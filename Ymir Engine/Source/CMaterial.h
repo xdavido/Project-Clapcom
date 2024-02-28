@@ -7,6 +7,8 @@
 #include <filesystem>
 
 #include "Globals.h"
+#include "ResourceTexture.h"
+#include "Shader.h"
 
 class GameObject;
 
@@ -31,12 +33,19 @@ public:
 	// Shaders
 
 	int selectedShader;
+	std::string shaderPath;
+	Shader shader;
+	bool shaderDirtyFlag;
 
 	// Textures
 
 	uint UID;
 	uint ID;
 	std::string path;
+
+	GameObject* owner;
+
+	std::vector<ResourceTexture*> rTextures;
 
 };
 

@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "GameObject.h"
+#include "ModuleScene.h"
 
 ShaderEditor::ShaderEditor()
 {
@@ -71,15 +72,27 @@ bool ShaderEditor::Update()
 		SaveShaderTXT(textEditor.GetText(), shaderFileName);
 
 		// 2. Recompile the shaders
-		for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+		for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
+		{
+			CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-			for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+			if (materialComponent != nullptr) {
 
-				(*jt).loadedShader = false;
+				materialComponent->shader.LoadShader(materialComponent->shaderPath);
 
 			}
-
+	
 		}
+
+		//for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+
+		//	for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+
+		//		(*jt).loadedShader = false;
+
+		//	}
+
+		//}
 
 	}
 

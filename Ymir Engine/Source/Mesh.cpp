@@ -10,6 +10,10 @@
 
 #include "DefaultShader.h"
 
+// -----------------------------------------------------------------------------------------------
+// ---------------------------- DEPRECATED: MOVING TO RESOURCE MESH ------------------------------
+// -----------------------------------------------------------------------------------------------
+
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	VBO = 0;
@@ -37,9 +41,16 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 
     // Load transformation from Assimp
 
-    this->meshShader.translation = transform->translation;
-    this->meshShader.rotation = transform->rotation * RADTODEG;
-    this->meshShader.scale = transform->scale;
+    //this->meshShader.translation = transform->translation;
+    //this->meshShader.rotation = transform->rotation * RADTODEG;
+    //this->meshShader.scale = transform->scale;
+
+    // TODO: While load doesn't work, load transform info here. When load works, add this info in the component transform with the large constructor: CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled)
+    static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(transform->translation, transform->rotation * RADTODEG, transform->scale);
+    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->translation = transform->translation;
+    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->eulerRot = transform->rotation * RADTODEG;
+    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->scale = transform->scale;
+
 
     this->shaderPath = shaderPath;
 }
@@ -67,7 +78,7 @@ void Mesh::DrawMesh()
 {
     // ------------------- Load Mesh Textures --------------------
 
-    if (!loadedTextures) {
+    /*if (!loadedTextures) {
 
         if (applyCheckerTexture) {
 
@@ -130,212 +141,210 @@ void Mesh::DrawMesh()
         loadedTextures = true;
         applyCheckerTexture = false;
 
-    }
+    }*/
 
-    if (!loadedShader) {
+    //if (!loadedShader) {
 
-        meshShader.LoadShader(shaderPath);
+    //    meshShader.LoadShader(shaderPath);
 
-        loadedShader = true;
-    }
+    //    loadedShader = true;
+    //}
 
-    meshShader.selected = this->meshGO->selected;
+    //meshShader.selected = this->meshGO->selected;
 
 	// ------------------- Draw Mesh Geometry and Textures --------------------
     
     // Draw Vertex Positions
 
-    if (External->renderer3D->texturingEnabled) {
+    //if (External->renderer3D->texturingEnabled) {
 
-        for (auto it = textures.begin(); it != textures.end(); ++it) {
+    //    for (auto it = textures.begin(); it != textures.end(); ++it) {
 
-            (*it).BindTexture(true);
+    //        (*it).BindTexture(true);
 
-        }
+    //    }
 
-    }
+    //}
 
-    meshShader.UseShader(true);
+    //meshShader.UseShader(true);
 
-    meshShader.SetShaderUniforms();
+    //glBindVertexArray(VAO);
 
-    glBindVertexArray(VAO);
+    //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    //glBindVertexArray(0);
 
-    glBindVertexArray(0);
+    //meshShader.UseShader(false);
 
-    meshShader.UseShader(false);
+    //if (External->renderer3D->texturingEnabled) {
 
-    if (External->renderer3D->texturingEnabled) {
+    //    for (auto it = textures.begin(); it != textures.end(); ++it) {
 
-        for (auto it = textures.begin(); it != textures.end(); ++it) {
+    //        (*it).BindTexture(false);
 
-            (*it).BindTexture(false);
+    //    }
 
-        }
-
-    }
+    //}
     
     // Draw Vertex Normals (Direct Mode)
 
-    if (enableVertexNormals) {
+    //if (enableVertexNormals) {
 
-        glColor3f(1.0f, 0.0f, 0.0f); // Set the color of the normals (red)
+    //    glColor3f(1.0f, 0.0f, 0.0f); // Set the color of the normals (red)
 
-        for (size_t i = 0; i < vertices.size(); ++i) {
+    //    for (size_t i = 0; i < vertices.size(); ++i) {
 
-            Vertex& vertex = vertices[i];
-            float3& normal = vertex.normal * 0.1;
+    //        Vertex& vertex = vertices[i];
+    //        float3& normal = vertex.normal * 0.1;
 
-            if (!previousModelMatrix.Equals(meshShader.model)) ApplyTransformation(vertex);
+    //        if (!previousModelMatrix.Equals(meshShader.model)) ApplyTransformation(vertex);
 
-            glBegin(GL_LINES);
-            
-            glVertex3f(vertex.position.x, vertex.position.y, vertex.position.z);
-            glVertex3f(vertex.position.x + normal.x, vertex.position.y + normal.y, vertex.position.z + normal.z);
+    //        glBegin(GL_LINES);
+    //        
+    //        glVertex3f(vertex.position.x, vertex.position.y, vertex.position.z);
+    //        glVertex3f(vertex.position.x + normal.x, vertex.position.y + normal.y, vertex.position.z + normal.z);
 
-            glEnd();
+    //        glEnd();
 
 
-        }
+    //    }
 
-        glColor3f(1.0f, 1.0f, 1.0f);
+    //    glColor3f(1.0f, 1.0f, 1.0f);
 
-    }
+    //}
 
     // Draw Face Normals (Direct Mode) 
 
-    if (enableFaceNormals) {
+    //if (enableFaceNormals) {
 
-        glColor3f(0.0f, 0.0f, 1.0f); 
+    //    glColor3f(0.0f, 0.0f, 1.0f); 
 
-        for (size_t i = 0; i < indices.size(); i += 3) {
+    //    for (size_t i = 0; i < indices.size(); i += 3) {
 
-            // Get the indices of the vertices for the current face
-            size_t index1 = indices[i];
-            size_t index2 = indices[i + 1];
-            size_t index3 = indices[i + 2];
+    //        // Get the indices of the vertices for the current face
+    //        size_t index1 = indices[i];
+    //        size_t index2 = indices[i + 1];
+    //        size_t index3 = indices[i + 2];
 
-            // Get the vertices for the current face
-            const Vertex& vertex1 = vertices[index1];
-            const Vertex& vertex2 = vertices[index2];
-            const Vertex& vertex3 = vertices[index3];
+    //        // Get the vertices for the current face
+    //        const Vertex& vertex1 = vertices[index1];
+    //        const Vertex& vertex2 = vertices[index2];
+    //        const Vertex& vertex3 = vertices[index3];
 
-            // Calculate the face normal (cross product of two edges)
-            float3 edge1 = vertex2.position - vertex1.position;
-            float3 edge2 = vertex3.position - vertex1.position;
+    //        // Calculate the face normal (cross product of two edges)
+    //        float3 edge1 = vertex2.position - vertex1.position;
+    //        float3 edge2 = vertex3.position - vertex1.position;
 
-            float3 cross = Cross(edge1, edge2);
+    //        float3 cross = Cross(edge1, edge2);
 
-            // Normalize the result to make the lines shorter
-            float3 faceNormal = cross.Normalized() * 0.1;
+    //        // Normalize the result to make the lines shorter
+    //        float3 faceNormal = cross.Normalized() * 0.1;
 
-            // Calculate the average position of the vertices for drawing the normal line
-            float3 normalLineStart = (vertex1.position + vertex2.position + vertex3.position) / 3.0f;
+    //        // Calculate the average position of the vertices for drawing the normal line
+    //        float3 normalLineStart = (vertex1.position + vertex2.position + vertex3.position) / 3.0f;
 
-            // Draw the Face normal lines
+    //        // Draw the Face normal lines
 
-            glBegin(GL_LINES);
+    //        glBegin(GL_LINES);
 
-            glVertex3f(normalLineStart.x, normalLineStart.y, normalLineStart.z);
-            glVertex3f(normalLineStart.x + faceNormal.x, normalLineStart.y + faceNormal.y, normalLineStart.z + faceNormal.z);
+    //        glVertex3f(normalLineStart.x, normalLineStart.y, normalLineStart.z);
+    //        glVertex3f(normalLineStart.x + faceNormal.x, normalLineStart.y + faceNormal.y, normalLineStart.z + faceNormal.z);
 
-            glEnd();
+    //        glEnd();
 
-        }
+    //    }
 
-        glColor3f(1.0f, 1.0f, 1.0f);
+    //    glColor3f(1.0f, 1.0f, 1.0f);
 
-    }
+    //}
 
-    previousModelMatrix = meshShader.model;
+    //previousModelMatrix = meshShader.model;
 
 }
 
 void Mesh::ApplyTransformation(Vertex& vertex)
 {
-    float4 homogeneousVertex(vertex.position.x, vertex.position.y, vertex.position.z, 1.0f);
+    //float4 homogeneousVertex(vertex.position.x, vertex.position.y, vertex.position.z, 1.0f);
 
-    // Multiply by the transformation matrix
-    homogeneousVertex = meshShader.model.Transform(homogeneousVertex);
+    //// Multiply by the transformation matrix
+    //homogeneousVertex = meshShader.model.Transform(homogeneousVertex);
 
-    // Update the vertex coordinates
-    vertex.position.x = homogeneousVertex.x;
-    vertex.position.y = homogeneousVertex.y;
-    vertex.position.z = homogeneousVertex.z;
+    //// Update the vertex coordinates
+    //vertex.position.x = homogeneousVertex.x;
+    //vertex.position.y = homogeneousVertex.y;
+    //vertex.position.z = homogeneousVertex.z;
 }
 
 void Mesh::InitBoundingBoxes()
 {
-    obb.SetNegativeInfinity();
-    globalAABB.SetNegativeInfinity();
+    //obb.SetNegativeInfinity();
+    //globalAABB.SetNegativeInfinity();
 
-    std::vector<float3> floatArray;
+    //std::vector<float3> floatArray;
 
-    floatArray.reserve(vertices.size());
+    //floatArray.reserve(vertices.size());
 
-    for (const auto& vertex : vertices) {
+    //for (const auto& vertex : vertices) {
 
-        floatArray.push_back(vertex.position);
+    //    floatArray.push_back(vertex.position);
 
-    }
+    //}
 
-    aabb.SetFrom(&floatArray[0], floatArray.size());
+    //aabb.SetFrom(&floatArray[0], floatArray.size());
 }
 
 void Mesh::UpdateBoundingBoxes()
 {
-    obb = aabb;
-    obb.Transform(meshShader.model);
+    //obb = aabb;
+    //obb.Transform(meshShader.model);
 
-    globalAABB.SetNegativeInfinity();
-    globalAABB.Enclose(obb);
+    //globalAABB.SetNegativeInfinity();
+    //globalAABB.Enclose(obb);
 }
 
 void Mesh::RenderBoundingBoxes()
 {
-    float3 verticesOBB[8];
-    obb.GetCornerPoints(verticesOBB);
-    External->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
+    //float3 verticesOBB[8];
+    //obb.GetCornerPoints(verticesOBB);
+    //External->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
 
-    float3 verticesAABB[8];
-    globalAABB.GetCornerPoints(verticesAABB);
-    External->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
+    //float3 verticesAABB[8];
+    //globalAABB.GetCornerPoints(verticesAABB);
+    //External->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
 }
 
 void Mesh::LoadMesh()
 {
-    // 1. Create Buffers
+    //// 1. Create Buffers
 
-    glGenVertexArrays(1, &VAO);
+    //glGenVertexArrays(1, &VAO);
 
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    //glGenBuffers(1, &VBO);
+    //glGenBuffers(1, &EBO);
 
-    // 2. Bind Buffers
+    //// 2. Bind Buffers
 
-    glBindVertexArray(VAO);
+    //glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-    // 3. Set the Vertex Attribute Pointers
+    //// 3. Set the Vertex Attribute Pointers
 
-        // Vertex Positions
+    //    // Vertex Positions
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    //glEnableVertexAttribArray(0);
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
-        // Vertex Normals
+    //    // Vertex Normals
 
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    //glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
-        // Vertex Texture Coordinates
+    //    // Vertex Texture Coordinates
 
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
+    //glEnableVertexAttribArray(2);
+    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
 
         // Vertex id
     glEnableVertexAttribArray(3);
@@ -348,20 +357,20 @@ void Mesh::LoadMesh()
 
     // 4. Load data into Vertex Buffers
 
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
 
-    LOG("Mesh loaded with: %d vertices, %d indices", vertices.size(), indices.size());
+    //LOG("Mesh loaded with: %d vertices, %d indices", vertices.size(), indices.size());
 
-    // 5. Unbind Buffers
+    //// 5. Unbind Buffers
 
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    //glDisableVertexAttribArray(0);
+    //glDisableVertexAttribArray(1);
+    //glDisableVertexAttribArray(2);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }

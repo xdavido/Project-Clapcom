@@ -1,4 +1,5 @@
 #include "Resources.h"
+#include "ModuleResourceManager.h"
 
 Resource::Resource()
 {

@@ -6,6 +6,8 @@
 #include "Module.h"
 #include "Resources.h"
 
+class GameObject;
+
 class ModuleResourceManager : public Module
 {
 public:
@@ -28,7 +30,7 @@ public:
 	/// If first time import to engine --> Create a copy in local space
 	/// If it already exists the file --> Dupe it with another name (nameN.ext) { N == number}
 	void ImportFileToEngine(const char* path);
-	Resource* ImportFile(const std::string& assetsFilePath);
+	void ImportFile(const std::string& assetsFilePath);
 	void SaveResourceToLibrary(Resource* resource);
 
 	uint GenerateNewUID();
@@ -40,7 +42,7 @@ public:
 	bool IsResourceLoaded(const uint& UID);
 
 	Resource* RequestResource(const uint& UID, const char* libraryFilePath = nullptr);
-	void UnloadResource(const uint& UID);
+	bool UnloadResource(const uint& UID);
 
 	Resource* CreateResourceFromAssets(std::string assetsFilePath, ResourceType type, const uint& UID);
 	Resource* CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID);

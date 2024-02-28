@@ -10,6 +10,7 @@
 #include "External/MathGeoLib/include/Math/float4x4.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
 
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -26,6 +27,7 @@
 const std::regex versionRegex("#version\\s+\\d+\\s+core");
 const std::regex vertexShaderRegex("#ifdef VERTEX_SHADER([\\s\\S]+?)#endif");
 const std::regex fragmentShaderRegex("#ifdef FRAGMENT_SHADER([\\s\\S]+?)#endif");
+
 
 enum class UniformType {
 
@@ -108,7 +110,7 @@ public:
     void Scale(float3 scale);
 
     // Function to set shader uniforms that are essential (matrices, time, etc.)
-    void SetShaderUniforms();
+    void SetShaderUniforms(float4x4* matrix, bool isSelected);
 
     // Uniform Management Functions
     void AddUniform(std::string name, void* value, UniformType type, int nElements);

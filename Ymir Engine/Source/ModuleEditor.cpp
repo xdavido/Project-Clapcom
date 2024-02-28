@@ -119,6 +119,7 @@ bool ModuleEditor::Init()
 	imageIcon.LoadEngineIconTexture("Assets/Editor/image.dds");
 	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
+	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
 	return ret;
 }
@@ -160,16 +161,15 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::SeparatorText("Save");
 
-			if (ImGui::MenuItem("Save")) {
 
-
-
+			if (ImGui::MenuItem("Save", "Ctrl+S"))
+			{
+				App->scene->SaveScene(App->scene->currentSceneDir, App->scene->currentSceneFile);
 			}
 
-			if (ImGui::MenuItem("Save As...")) {
-
-
-
+			if (ImGui::MenuItem("Save As..."))
+			{
+				showSaveAs = true;
 			}
 
 			ImGui::SeparatorText("Project");
@@ -379,6 +379,150 @@ void ModuleEditor::DrawEditor()
 
 			}
 
+			if (ImGui::MenuItem("Camera")) {
+
+				GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
+				empty->UID = Random::Generate();
+
+				empty->AddComponent(new CCamera(empty));
+			}
+
+			/*if (ImGui::BeginMenu("UI")) {
+
+				if (ImGui::MenuItem("Plane")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Plane created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cube")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cube created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Pyramid")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Pyramid created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cylinder")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cylinder created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Cone")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Cone created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Sphere")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Sphere created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Torus")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Torus created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Capsule")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Capsule created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Disc")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Disc created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Platonic Solid")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Platonic Solid created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Prism")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Prism created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Pipe")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Pipe created successfully");
+
+				}
+
+				if (ImGui::MenuItem("Helix")) {
+
+					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
+
+					App->renderer3D->ReloadTextures();
+
+					LOG("Helix created successfully");
+
+				}
+
+				ImGui::EndMenu();
+
+			}*/
+
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Clear Scene")) {
@@ -522,6 +666,8 @@ void ModuleEditor::DrawEditor()
 		ImGui::EndMainMenuBar();
 
 	}
+
+	SaveAs();
 
 	if (showAboutPopUp) {
 
@@ -1121,7 +1267,13 @@ void ModuleEditor::DrawEditor()
 				std::size_t found = currentDir.find_last_of("/");
 				currentDir = currentDir.substr(0, found);
 			}
+
+			if (ImGui::Button("Create Folder"))
+			{
+				createFolder = true;
+			}
 			ImGui::Dummy(ImVec2(10, 0));
+
 			static ImGuiTextFilter filter;
 			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
 			ImGui::EndMenuBar();
@@ -1252,9 +1404,9 @@ void ModuleEditor::DrawEditor()
 
 			for (const auto& [UID, Resource] : App->resourceManager->GetResourcesMap())
 			{
-				ImGui::Text("Type: %s | UID: %d | References: %d", 
+				ImGui::Text("Type: %s | UID: %d | References: %d",
 					App->resourceManager->GetStringFromType(Resource->GetType()).c_str(),
-					Resource->GetUID(), 
+					Resource->GetUID(),
 					Resource->GetReferenceCount());
 			}
 
@@ -1267,10 +1419,13 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			// Display the contents of the framebuffer texture
-			ImVec2 size = ImGui::GetContentRegionAvail();
-			App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-			ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				ImVec2 size = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+			}
 
 			ImGui::End();
 		}
@@ -1288,6 +1443,10 @@ void ModuleEditor::DrawEditor()
 
 			(ImGui::IsWindowHovered()) ? App->camera->hoveringEditor = true : App->camera->hoveringEditor = false;
 
+			if (App->camera->hoveringEditor)
+			{
+				App->camera->CameraInput();
+			}
 			// Retrieve Info from ImGui Scene Window
 
 			// Get the Mouse Position using ImGui.
@@ -1365,6 +1524,47 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+}
+
+void ModuleEditor::SaveAs()
+{
+	if (showSaveAs)
+	{
+		ImGui::OpenPopup("Save As");
+	}
+
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+	if (ImGui::BeginPopupModal("Save As", &showSaveAs, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		static std::string sceneName_saveAS = "New Scene";
+		ImGui::Text("Scene will be saved in %s as '%s'", currentDir.c_str(), sceneName_saveAS.c_str());
+		ImGui::Separator();
+
+		ImGui::InputText("File Name", &sceneName_saveAS);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			App->scene->SaveScene(currentDir, sceneName_saveAS);
+			App->scene->currentSceneDir = currentDir;
+			App->scene->currentSceneFile = sceneName_saveAS;
+
+			showSaveAs = false;
+			sceneName_saveAS = "New Scene";
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			showSaveAs = false;
+			sceneName_saveAS = "New Scene";
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
 }
 
 void ModuleEditor::WindowDockSpaceManagement()
@@ -2407,11 +2607,11 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
 
-		bool isNodeOpen = ImGui::TreeNodeEx(node->name.c_str(), flags);
+		bool isNodeOpen = ImGui::TreeNodeEx((node->name + "##" + std::to_string(node->UID)).c_str(), flags);
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (ImGui::IsItemClicked()) {
+		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
 
 			node->selected = true; // Toggle the selected state when clicked
 
@@ -2450,48 +2650,26 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget();
 		}
 
-		if (ImGui::IsItemClicked(1)) {
+		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
 
-			ImGui::OpenPopup("DeleteGameObject");
+			// TODO: Sara --> hacer bien esto
+			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-		}
+				if ((*it) != node) {
 
-		if (ImGui::BeginPopupContextItem()) {
+					(*it)->selected = false;
+
+				}
+
+			}
+
+			node->selected = true;
 
 			if (ImGui::MenuItem("Delete")) {
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					// This should be reworked for the next delivery (A2)
-
-					App->editor->DestroyHierarchyTree(node);
-
-					App->renderer3D->models.erase(
-						std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
-							[](const Model& model) { return model.modelGO->selected; }
-						),
-						App->renderer3D->models.end()
-					);
-
-					for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
-						// Check if the entire model is selected
-						if ((*it).modelGO->selected) {
-
-							it = App->renderer3D->models.erase(it); // Remove the entire model
-
-						}
-						else {
-							// If the model is not selected, check its meshes
-							auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
-
-							meshes.erase(
-								std::remove_if(meshes.begin(), meshes.end(),
-									[](const Mesh& mesh) { return mesh.meshGO->selected; }
-								),
-								meshes.end()
-							);
-						}
-					}
+					node->mParent->DeleteChild(node);
 
 					App->scene->gameObjects.erase(
 						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
@@ -2500,19 +2678,67 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						App->scene->gameObjects.end()
 					);
 
-					for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+					{
+						//RELEASE(node);
+						//App->editor->DestroyHierarchyTree(node);
 
-						(*it)->selected = false;
+						////App->renderer3D->models.erase(
+						////	std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
+						////		[](const Model& model) { return model.modelGO->selected; }
+						////	),
+						////	App->renderer3D->models.end()
+						////);
 
+						////for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
+						////	// Check if the entire model is selected
+						////	if ((*it).modelGO->selected) {
+
+						////		it = App->renderer3D->models.erase(it); // Remove the entire model
+
+						////	}
+						////	else {
+						////		// If the model is not selected, check its meshes
+						////		auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
+
+						////		meshes.erase(
+						////			std::remove_if(meshes.begin(), meshes.end(),
+						////				[](const Mesh& mesh) { return mesh.meshGO->selected; }
+						////			),
+						////			meshes.end()
+						////		);
+						////	}
+						////}
+
+						//App->scene->gameObjects.erase(
+						//	std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
+						//		[](const GameObject* obj) { return obj->selected; }
+						//	),
+						//	App->scene->gameObjects.end()
+						//);
+
+						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+
+						//	(*it)->selected = false;
+
+						//}
+
+						//App->resourceManager->UnloadResource(node->UID);
+
+						//RELEASE(node);
 					}
-
-					delete node;
-					node = nullptr;
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
 
 					App->scene->ClearScene();
+
+					for (const auto& pair : App->resourceManager->GetResourcesMap()) {
+
+						Resource* resource = pair.second;
+
+						App->resourceManager->ReleaseResource(resource);
+
+					}
 
 				}
 
@@ -2552,15 +2778,15 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 }
 
-void ModuleEditor::DestroyHierarchyTree(GameObject* node)
-{
-	if (node == nullptr) {
-		return;
-	}
-
-	App->scene->DestroyGameObject(node);
-
-}
+//void ModuleEditor::DestroyHierarchyTree(GameObject* node)
+//{
+//	if (node == nullptr) {
+//		return;
+//	}
+//
+//	App->scene->DestroyGameObject(node);
+//
+//}
 
 void ModuleEditor::DrawInspector()
 {
@@ -2590,6 +2816,8 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
+				if (!(*it)->active) { ImGui::BeginDisabled(); }
+
 				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
@@ -2608,6 +2836,8 @@ void ModuleEditor::DrawInspector()
 				ImGui::SetCursorPosX(xPos);
 
 				ImGui::Button("Add Component");
+
+				if (!(*it)->active) { ImGui::EndDisabled(); }
 
 			}
 
@@ -2628,32 +2858,40 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 		// Check if the current game object is selected.
 		if ((*it)->selected) {
 
-			// Check for key presses to set the gizmo operation and mode.
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+			ImGuizmo::SetDrawlist();
+			// Set the rectangle for ImGuizmo in the editor window.
+			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
-			}
+			if (App->camera->hoveringEditor)
+			{
+				// Check for key presses to set the gizmo operation and mode.
+				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 
-			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+					gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+				}
 
-				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-			}
+				if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
 
-			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+					gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+				}
 
-				gizmoOperation = ImGuizmo::OPERATION::SCALE;
+				if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
 
-			}
+					gizmoOperation = ImGuizmo::OPERATION::SCALE;
 
-			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+				}
 
-				gizmoMode = ImGuizmo::MODE::WORLD;
+				if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 
-			}
+					gizmoMode = ImGuizmo::MODE::WORLD;
 
-			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+				}
 
-				gizmoMode = ImGuizmo::MODE::LOCAL;
+				if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+					gizmoMode = ImGuizmo::MODE::LOCAL;
+
+				}
 
 			}
 
@@ -2677,38 +2915,38 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			// Get the transform component of the current game object.
 			CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 
-			modelMatrix = ctransform->mGlobalMatrix;
+			modelMatrix = ctransform->mGlobalMatrix.Transposed();
 
-			// Copy the model matrix to a float array for ImGuizmo.
-			float modelPtr[16];
-			memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
+			//// Copy the model matrix to a float array for ImGuizmo.
+			//float modelPtr[16];
+			//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
 
-			// Set the rectangle for ImGuizmo in the editor window.
-			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
+			//Snap
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+			{
+				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
+				{
+					// Snap to 45 degrees for rotation
+					snapValue = 45.0f;
+				}
+			}
+
+			else
+			{
+				snapValue = 0.0f;
+			}
+
+			float snapValues[3] = { snapValue, snapValue, snapValue };
 
 			// Use ImGuizmo to manipulate the object in the scene.
-			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelPtr);
+			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
 
 			// Check if the gizmo is being used.
 			if (ImGuizmo::IsUsing())
 			{
-				// Convert the modified matrix back to float4x4.
-				float4x4 newMatrix;
-				newMatrix.Set(modelPtr);
-				modelMatrix = newMatrix;
-
-				// Safety check to avoid nullptr transformations.
-				if ((ctransform->translationPtr != nullptr) &&
-					(ctransform->rotationPtr != nullptr) &&
-					(ctransform->scalePtr != nullptr)) {
-
-					// Update the transform components based on the modified matrix.
-					*ctransform->translationPtr = modelMatrix.Transposed().TranslatePart();
-					*ctransform->rotationPtr = modelMatrix.Transposed().RotatePart().ToEulerXYZ() * RADTODEG;
-					*ctransform->scalePtr = modelMatrix.Transposed().GetScale();
-
-				}
-
+				float4x4 matrix = modelMatrix.Transposed();
+				(*it)->mTransform->UpdateTransformGuizmo(matrix);
 			}
 
 			// Check if the reset button is pressed, and reset the model matrix.
@@ -2820,8 +3058,42 @@ void ModuleEditor::DrawFileExplorer(const std::string& rootFolder) {
 
 }
 
+void ModuleEditor::CreateNewFolder()
+{
+	if (createFolder)
+	{
+		ImGui::OpenPopup("Create new folder");
+	}
+
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+	if (ImGui::BeginPopupModal("Create new folder", &createFolder, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		static std::string folderName = "NewFolder";
+		ImGui::InputText("File Name", &folderName);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			PhysfsEncapsule::CreateFolder(currentDir, folderName);
+			createFolder = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			createFolder = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
 void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 {
+	CreateNewFolder();
+
 	if (ImGui::BeginTable("DirectoryTable", 8))
 	{
 		int columnCount = 0;
@@ -2840,9 +3112,11 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
 					// Display folder icon and name
-					if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
+
+					if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
 						// ---Click event---
+
 						if (ImGui::IsItemClicked()) {
 
 							selectedDir = entry.path().string();
@@ -2860,22 +3134,17 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						}
 
-						// TODO: Sara ajustar esto para que el menu no muestre todas las carpetas
+
 						// ---RMB Click event---
+
 						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
 						{
 							ImGui::MenuItem(entryName.c_str(), NULL, false, false);
 							ImGui::Separator();
 
-							//App->resource->CheckExtensionType(currentFile.c_str());
-							if (ImGui::MenuItem("Import to Scene"))
+							if (ImGui::MenuItem("Delete Folder"))
 							{
-								//App->resource->pendingToLoadScene = true;
-							}
-
-							if (ImGui::MenuItem("Delete File"))
-							{
-								DeleteFileAndRefs(entryName.c_str());
+								DeleteFileAndRefs(entry.path().string().c_str());
 							}
 
 							ImGui::EndPopup();
@@ -2920,78 +3189,89 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					// Process different file types
 
-					if ((entryName.find(".meta") != std::string::npos) || (entryName.find(".json") != std::string::npos)) {
-
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-
+					switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
+					{
+					case ResourceType::UNKNOWN:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
 					}
-					else if ((entryName.find(".png") != std::string::npos) || (entryName.find(".dds") != std::string::npos)) {
-
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
-
+					break;
+					case ResourceType::TEXTURE:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
 					}
-					else if (entryName.find(".glsl") != std::string::npos) {
+					break;
+					case ResourceType::MESH:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+					}
+					break;
+					case ResourceType::SCENE:
 
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
+
+						break;
+					case ResourceType::SHADER:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
 
 						if (ImGui::IsItemClicked()) {
 
 							shaderEditor.LoadShaderTXT(entry.path().string());
 
 						}
-
 					}
-					else if (entryName.find(".fbx") != std::string::npos) {
-
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
-
+					break;
+					case ResourceType::MATERIAL:
+						break;
+					case ResourceType::META:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
 					}
-					else {
+					break;
+					case ResourceType::ALL_TYPES:
+						break;
+					default:
+						break;
+					}
 
-						ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+					// ---RMB Click event---
 
+					if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+					{
+						selectedFile = entryName;
+						currentFile = selectedFile;
+
+						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+						ImGui::Separator();
+
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE)
+						{
+							if (ImGui::MenuItem("Import to Scene"))
+							{
+								App->resourceManager->ImportFile(entry.path().string());
+							}
+						}
+
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
+						{
+							if (ImGui::MenuItem("Load Scene"))
+							{
+								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
+								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
+								//App->scene->LoadSceneFromAssets(currentDir, entryName);
+							}
+						}
+
+						if (ImGui::MenuItem("Delete File"))
+						{
+							DeleteFileAndRefs(entry.path().string().c_str());
+						}
+
+						ImGui::EndPopup();
 					}
 
 					ImGui::Text(entryName.c_str());
-
-					//// ---RMB Click event---
-					//if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
-					//{
-					//	ImGui::MenuItem(currentFile.c_str(), NULL, false, false);
-					//	ImGui::Separator();
-
-					//	//App->resource->CheckExtensionType(currentFile.c_str());
-					//	if (ImGui::MenuItem("Import to Scene"))
-					//	{
-					//		//App->resource->pendingToLoadScene = true;
-
-					//		if (currentFile == "MainScreen.pnk")
-					//		{
-					//			App->scene->ImportDefaultMainScreen();
-					//		}
-					//		else if (currentFile == "Street.pnk")
-					//		{
-					//			App->scene->ImportDefaultScene();
-					//			App->scene->crossHair = true;
-					//		}
-					//		else
-					//		{
-					//			App->resource->sceneFileName = currentFile;
-					//			App->resource->ImportToSceneV(currentFile, selectedDirFullPath + "/");
-					//		}
-					//	}
-					//	//if (ImGui::MenuItem("Create File (WIP)", NULL, false, false))	// TODO:
-					//	//{
-
-					//	//}
-					//	if (ImGui::MenuItem("Delete File"))
-					//	{
-					//		DeleteFileAndRefs((selectedDirFullPath + "/" + currentFile).c_str());
-					//	}
-
-					//	selectedFile = currentFile;
-					//	ImGui::EndPopup();
-					//}
 
 					ImGui::PopStyleColor();
 
@@ -3011,93 +3291,97 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 
-	// Process Directories First
+	if (PhysfsEncapsule::FolderExists(libraryFolder)) {
 
-	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+		// Process Directories First
 
-		if (entry.is_directory()) {
+		for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-			std::string entryName = entry.path().filename().string();
+			if (entry.is_directory()) {
 
-			if (entryName != "." && entryName != "..") {
+				std::string entryName = entry.path().filename().string();
 
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				if (entryName != "." && entryName != "..") {
 
-				if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 
-					DrawLibraryWindow(entry.path().string());
+					if (ImGui::TreeNodeEx(entryName.c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick)) {
 
-					ImGui::TreePop();
+						DrawLibraryWindow(entry.path().string());
+
+						ImGui::TreePop();
+
+					}
+
+					ImGui::PopStyleColor();
 
 				}
-
-				ImGui::PopStyleColor();
 
 			}
 
 		}
 
-	}
+		// Process Files Afterwards
 
-	// Process Files Afterwards
+		for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
 
-	for (const auto& entry : std::filesystem::directory_iterator(libraryFolder)) {
+			if (!entry.is_directory()) {
 
-		if (!entry.is_directory()) {
+				std::string entryName = entry.path().filename().string();
 
-			std::string entryName = entry.path().filename().string();
+				if (entryName != "." && entryName != "..") {
 
-			if (entryName != "." && entryName != "..") {
+					if ((entryName.find(".yscene") != std::string::npos) ||
+						(entryName.find(".ymodel") != std::string::npos) ||
+						(entryName.find(".json") != std::string::npos)) {
 
-				if ((entryName.find(".yscene") != std::string::npos) ||
-					(entryName.find(".ymodel") != std::string::npos) ||
-					(entryName.find(".json") != std::string::npos)) {
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
 
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.2f, 0.6f, 0.6f, 1.0f));
+						if (ImGui::Selectable(entryName.c_str())) {
 
-					if (ImGui::Selectable(entryName.c_str())) {
+							selectedFilePath = entry.path().string();
+							showModal = true;  // Set the flag to open the modal
 
-						selectedFilePath = entry.path().string();
-						showModal = true;  // Set the flag to open the modal
-
-					}
-
-					ImGui::PopStyleColor();
-
-				}
-				else {
-
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-					ImGui::Selectable(entryName.c_str());
-
-					if ((entryName.find(".dds") != std::string::npos)) {
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
 						}
 
+						ImGui::PopStyleColor();
+
 					}
+					else {
 
-					if ((entryName.find(".ymesh") != std::string::npos)) {
+						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
+						ImGui::Selectable(entryName.c_str());
 
-							ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+						if ((entryName.find(".dds") != std::string::npos)) {
 
-							ImGui::EndDragDropSource();
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("dds", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
 						}
 
-					}
+						if ((entryName.find(".ymesh") != std::string::npos)) {
 
-					ImGui::PopStyleColor();
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
+						ImGui::PopStyleColor();
+
+					}
 
 				}
 

@@ -14,6 +14,8 @@
 
 #include "External/MathGeoLib/include/Math/Quat.h"
 
+#include "ResourceMesh.h"
+
 class GameObject;
 class Component;
 

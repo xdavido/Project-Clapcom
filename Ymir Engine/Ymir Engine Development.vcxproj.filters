@@ -103,6 +103,8 @@
     <Filter Include="Externals\ImGuiTextEditor">
       <UniqueIdentifier>{e58bded8-c50c-4799-a1f8-6f87896d18b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\ImGui\misc">
+      <UniqueIdentifier>{5b0e3b31-337f-408b-9e83-4393ca9991e6}</UniqueIdentifier>
     <Filter Include="Sources\Features\Skeletal Animation">
       <UniqueIdentifier>{86b93d00-ee21-4104-85e5-bf615ebab954}</UniqueIdentifier>
     </Filter>
@@ -806,6 +808,8 @@
     </ClInclude>
     <ClInclude Include="Source\Animator.h">
       <Filter>Sources\Features\Skeletal Animation</Filter>
+    <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
+      <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1135,6 +1139,8 @@
     </ClCompile>
     <ClCompile Include="Source\CAnimation.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

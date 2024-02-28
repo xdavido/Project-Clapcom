@@ -12,6 +12,8 @@
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
+#include "External/ImGui/misc/cpp/imgui_stdlib.h"
+
 #include "External/ImGuizmo/include/ImGuizmo.h"
 
 #include "NodeEditor.h"
@@ -37,6 +39,7 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void SaveAs();
 
 	// Manages the docking functionality with the main window
 	void WindowDockSpaceManagement();
@@ -110,7 +113,7 @@ public:
 	// Function to encapsulate GameObjects hierarchy
 	void DrawHierarchy();
 	void CreateHierarchyTree(GameObject* node);
-	void DestroyHierarchyTree(GameObject* node);
+	//void DestroyHierarchyTree(GameObject* node);
 
 	// Function to encapsulate GameObjects inspector
 	void DrawInspector();
@@ -124,6 +127,7 @@ public:
 	void DrawFileExplorer(const std::string& rootFolder);
 
 	// Function to draw Assets Window
+	void CreateNewFolder();
 	void DrawAssetsWindow(const std::string& assetsFolder);
 
 	// Function to draw Library Window
@@ -154,6 +158,7 @@ public:
 
 	bool showScene = true;
 	bool showGame = true;
+	bool showSaveAs = false;
 	bool showResources = true;
 	bool showFileExplorer = true;
 	bool showAssets = true;
@@ -230,15 +235,17 @@ public:
 	// ImGuizmo handlers
 	ImGuizmo::OPERATION gizmoOperation;
 	ImGuizmo::MODE gizmoMode;
+	float snapValue;// Snap Guizmo
 	float4x4 modelMatrix;
 
 	// Assets folder
 	std::string currentDir;
 	std::string selectedDir;
-	std::vector<std::string> vSelectedDirFiles;
 
+	std::string currentFile;
 	std::string selectedFile;
 	bool rmbMenu = false;
+	bool createFolder = false;
 
 	// Node Editor
 	NodeEditorWindow nodeEditor;
@@ -252,6 +259,7 @@ public:
 	Texture imageIcon;
 	Texture modelIcon;
 	Texture shaderIcon;
+	Texture sceneIcon;
 
 };
 
