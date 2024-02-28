@@ -3,6 +3,7 @@
 #include "ModuleAudio.h"
 #include "GameObject.h"
 #include "CTransform.h"
+#include "Globals.h"
 #include "External/ImGui/imgui.h"
 
 CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::AUDIO_SOURCE), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(false), volume(50.0f), audBankName(""), isMusic(false)
