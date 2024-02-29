@@ -30,17 +30,22 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 1024
+#define SCREEN_WIDTH 1980
+#define SCREEN_HEIGHT 1080
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_MAXIMIZED false
 #define WIN_BORDERLESS false
+
+#ifdef _STANDALONE
+#define WIN_FULLSCREEN_DESKTOP true
+#else
 #define WIN_FULLSCREEN_DESKTOP false
+#endif // _STANDALONE
+
 #define VSYNC true
 #define TITLE "Ymir Engine"
-
 
 // Deletes a buffer
 #define RELEASE( x )\

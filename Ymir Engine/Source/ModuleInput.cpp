@@ -4,6 +4,9 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
 #include "Log.h"
+#include "CCamera.h"
+#include "ModuleScene.h"
+#include "ModuleWindow.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 
 #include "External/Optick/include/optick.h"
@@ -141,29 +144,58 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 		case SDL_QUIT:
 		{
-
 			quit = true;
 			break;
-
 		}
 		case SDL_WINDOWEVENT:
 		{
-			if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+			switch (e.window.event) {
+
+			case SDL_WINDOWEVENT_RESIZED:
+			{
+#ifndef _STANDALONE
 
 				App->renderer3D->OnResize(e.window.data1, e.window.data2);
 
+#else
+
+				App->scene->gameCameraComponent->framebuffer.loaded = false;
+
+				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				App->window->width = e.window.data1;
+				App->window->height = e.window.data2;
+
+				glViewport(0, 0, e.window.data1, e.window.data2);
+				App->scene->gameCameraComponent->SetAspectRatio((float)(External->window->width / (float)External->window->height));
+
+#endif // _STANDALONE
+
+				break;
 			}
 
-			if (e.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			{
+
+#ifndef _STANDALONE
 
 				App->renderer3D->OnResize(e.window.data1, e.window.data2);
 
+#else
+
+				App->scene->gameCameraComponent->framebuffer.loaded = false;
+
+				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				App->scene->gameCameraComponent->SetAspectRatio((float)(External->window->width / (float)External->window->height));
+
+#endif // _STANDALONE	
+
+				break;
 			}
-			
+			}
 			break;
 		}
-		case SDL_DROPFILE: { // In case if dropped file
-
+		case SDL_DROPFILE:
+		{ // In case if dropped file
 			droppedFile = true;
 			droppedFileDirectory = e.drop.file;
 
@@ -171,7 +203,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			// Shows directory of dropped file
 			SDL_free(&droppedFileDirectory); // Free dropped_filedir memory
-			
+
 			break;
 		}
 
@@ -241,6 +273,47 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
+bool ModuleInput::AreGamepadButtonsIdle()
+{
+	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
+
+		if (App->input->controllers[0].buttons[i] != KEY_IDLE) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool ModuleInput::IsGamepadJoystickIdle(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) == 0 &&
+			App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) == 0;
+
+		break;
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) == 0 &&
+			App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) == 0;
+
+		break;
+	}
+
+	}
+}
+
+bool ModuleInput::IsGamepadIdle()
+{
+	return AreGamepadButtonsIdle() &&
+		IsGamepadJoystickIdle(GamepadJoystick::LEFT) &&
+		IsGamepadJoystickIdle(GamepadJoystick::RIGHT);
+}
+
 float ModuleInput::ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to) {
 
 	if (controllerON) {
@@ -262,6 +335,159 @@ float ModuleInput::ReduceJoystickValue(bool controllerON, float v1, float min, f
 	}
 
 }
+
+bool ModuleInput::IsGamepadON()
+{
+	return gamepadON;
+}
+
+bool ModuleInput::IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state)
+{
+	return controllers[0].buttons[button] == state;
+}
+
+bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		switch (axis)
+		{
+		case GamepadJoystickAxis::X:
+		{
+			switch (direction)
+			{
+			case GamepadJoystickDirection::POSITIVE:
+			{
+				// Movement Right
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) > 0;
+				break;
+			}
+			case GamepadJoystickDirection::NEGATIVE:
+			{
+				// Movement Left
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) < 0;
+				break;
+			}
+			}
+			break;
+		}
+		case GamepadJoystickAxis::Y:
+		{
+			switch (direction)
+			{
+			case GamepadJoystickDirection::POSITIVE:
+			{
+				// Movement Down
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) > 0;
+				break;
+			}
+			case GamepadJoystickDirection::NEGATIVE:
+			{
+				// Movement Up
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) < 0;
+				break;
+			}
+			}
+			break;
+		}
+		}
+		break;
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		switch (axis)
+		{
+		case GamepadJoystickAxis::X:
+		{
+			switch (direction)
+			{
+			case GamepadJoystickDirection::POSITIVE:
+			{
+				// Camera Right
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) > 0;
+				break;
+			}
+			case GamepadJoystickDirection::NEGATIVE:
+			{
+				// Camera Left
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) < 0;
+				break;
+			}
+			}
+			break;
+		}
+		case GamepadJoystickAxis::Y:
+		{
+			switch (direction)
+			{
+			case GamepadJoystickDirection::POSITIVE:
+			{
+				// Camera Down
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) > 0;
+				break;
+			}
+			case GamepadJoystickDirection::NEGATIVE:
+			{
+				// Camera Up
+				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) < 0;
+				break;
+			}
+			}
+			break;
+		}
+		}
+		break;
+	}
+
+	}
+
+}
+
+// ---------------- New Gamepad Management ----------------
+
+//// Checking if the gamepad is plugged and ON
+//if (App->input->IsGamepadON()) {
+//
+//}
+//
+//// Checking if the A button is pressed
+//if (App->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN)) {
+//	
+//}
+//
+//// Checking if the left joystick is moved up
+//if (App->input->IsGamepadJoystickDirection(GamepadJoystick::LEFT, GamepadJoystickAxis::Y, GamepadJoystickDirection::NEGATIVE)) {
+//	
+//}
+//
+//// Checking if the left joystick is moved right
+//if (App->input->IsGamepadJoystickDirection(GamepadJoystick::LEFT, GamepadJoystickAxis::X, GamepadJoystickDirection::POSITIVE)) {
+//
+//}
+//
+//// Checking if the right joystick is moved left
+//if (App->input->IsGamepadJoystickDirection(GamepadJoystick::RIGHT, GamepadJoystickAxis::X, GamepadJoystickDirection::NEGATIVE)) {
+//
+//}
+//
+//// Checking if all buttons on the gamepad are idle
+//if (App->input->AreGamepadButtonsIdle()) {
+//	
+//}
+//
+//// Checking if the right joystick is idle
+//if (App->input->IsGamepadJoystickIdle(GamepadJoystick::RIGHT)) {
+//	
+//}
+//
+//// Checking if the entire gamepad is idle
+//if (App->input->IsGamepadIdle()) {
+//	
+//}
+
+// ---------------- Old Gamepad Management ----------------
 
 //// Button Management
 //if (App->input->controllers[0].buttons[SDL_CONTROLLER_BUTTON_B] == KEY_DOWN) {}

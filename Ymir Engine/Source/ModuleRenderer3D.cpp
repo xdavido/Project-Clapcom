@@ -261,6 +261,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
 
+#ifndef _STANDALONE
+
 	App->camera->editorCamera->framebuffer.Render(true);
 
 	App->camera->editorCamera->Update();
@@ -327,6 +329,30 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// --------------------------- Drawing editor and Swaping Window -------------------------
 
 	App->editor->DrawEditor();
+
+#else
+
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->framebuffer.Render(true);
+
+		App->scene->gameCameraComponent->Update();
+
+		if (App->scene->gameCameraObject->active) {
+
+			DrawGameObjects();
+
+		}
+
+		App->scene->gameCameraComponent->framebuffer.Render(false);
+
+		// Adjust FrameBuffer for Standalone
+
+		App->scene->gameCameraComponent->framebuffer.RenderToScreen();
+
+	}
+
+#endif // !_STANDALONE
 
 	SDL_GL_SwapWindow(App->window->window);
 

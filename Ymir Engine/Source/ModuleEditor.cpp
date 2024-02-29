@@ -3207,7 +3207,6 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							{
 								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
 								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
-								//App->scene->LoadSceneFromAssets(currentDir, entryName);
 							}
 						}
 

@@ -40,7 +40,9 @@ public:
 
 	void SaveScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
-	void LoadSceneFromAssets(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+
+	// Start with a loaded scene from start
+	void LoadSceneFromStart(const std::string& path);
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -66,4 +68,5 @@ public:
 	std::string currentSceneFile;
 
 	std::vector<GameObject*> vSelectedGOs;
+
 };

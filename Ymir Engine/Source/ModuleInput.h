@@ -18,12 +18,18 @@ enum KEY_STATE
 	KEY_UP
 };
 
+// Gamepad Management
+
 struct GameController {
 
 	float j1_x, j1_y, j2_x, j2_y, LT, RT;
 	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
 
 };
+
+enum class GamepadJoystick { LEFT, RIGHT };
+enum class GamepadJoystickAxis { X, Y };
+enum class GamepadJoystickDirection { POSITIVE, NEGATIVE };
 
 class ModuleInput : public Module
 {
@@ -72,9 +78,20 @@ public:
 		return mouse_y_motion;
 	}
 
-	// Gamepad Management
+	// ------------ Gamepad Management ------------
 
-	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
+	bool IsGamepadON();
+
+	// Buttons and Joysticks Mapping
+
+	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
+	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
+
+	// Idle Management
+
+	bool AreGamepadButtonsIdle();
+	bool IsGamepadJoystickIdle(GamepadJoystick joystick);
+	bool IsGamepadIdle();
 
 public:
 
@@ -107,5 +124,8 @@ private:
 	int mouse_x_motion;
 	int mouse_y_motion;
 	//int mouse_z_motion;
+
+	// Gamepad Deadzone Management
+	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
 
 };
