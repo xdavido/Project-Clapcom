@@ -68,7 +68,7 @@ public:
 
 	virtual update_status Update(float dt);
 
-	virtual void ShowInInspector() {};
+	virtual void OnInspector() {};
 	virtual void Draw(bool game);
 	virtual void DebugDraw();
 

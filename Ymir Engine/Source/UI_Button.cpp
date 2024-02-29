@@ -25,12 +25,12 @@ UI_Button::~UI_Button()
 	image = nullptr;
 }
 
-void UI_Button::ShowInInspector()
+void UI_Button::OnInspector()
 {
 	bool exists = true;
 	ImGui::Checkbox(("##UI Button Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("##UI Button Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Button##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 

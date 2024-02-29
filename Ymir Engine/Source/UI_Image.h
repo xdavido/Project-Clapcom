@@ -14,7 +14,7 @@ public:
 	UI_Image(GameObject* g, int x = 0, int y = 0, int w = 100, int h = 100);
 	~UI_Image();
 
-	void ShowInInspector();
+	void OnInspector();
 	void Draw(bool game) override;
 	update_status Update(float dt);
 

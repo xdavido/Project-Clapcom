@@ -1409,7 +1409,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				new G_UI((UI_TYPE)i, App->scene->mRootNode);
+				App->scene->gameObjects.push_back(new G_UI((UI_TYPE)i, App->scene->mRootNode));
 				break;
 			}
 		}
@@ -2688,7 +2688,7 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
@@ -2696,7 +2696,13 @@ void ModuleEditor::DrawInspector()
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
 				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
+
+				for (auto i = 0; i < (*it)->mComponents.size(); i++)
+				{
+					(*it)->mComponents[i]->OnInspector();
+					ImGui::Spacing();
+				}
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();

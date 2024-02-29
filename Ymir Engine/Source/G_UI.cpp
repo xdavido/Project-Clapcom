@@ -5,6 +5,7 @@
 #include "UI_Button.h"
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
+
 #include "External/ImGui/imgui.h"
 
 #include "ModuleScene.h"
@@ -13,12 +14,15 @@ G_UI::G_UI(UI_TYPE t, GameObject* pParent, int x, int y) : GameObject("", pParen
 {
 	//RemoveComponent(transform);//TODO: fer amb altre transform
 	canvas = nullptr;
+	
+	mParent->AddChild(this);
+
 	AddUIComponent(t, x, y, pParent);
 
 	//AddComponent(C_TYPE::MESH, nullptr, ai::POLY_PRIMITIVE_TYPE::PLANE);
 
-	CMesh* meshComponent = (CMesh*)(*pParent).GetComponent(ComponentType::MESH);
-	meshComponent->meshReference = nullptr;
+	/*CMesh* meshComponent = (CMesh*)(*pParent).GetComponent(ComponentType::MESH);
+	meshComponent->meshReference = nullptr;*/
 }
 
 G_UI::~G_UI()
@@ -156,11 +160,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			SetParent(External->scene->GetCanvas());
+			ReParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			SetParent(parent);
+			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -181,11 +185,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			SetParent(External->scene->GetCanvas());
+			ReParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			SetParent(parent);
+			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -205,7 +209,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux->SetParent(this);
+		aux->ReParent(this);
 		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		UI_Button* comp = new UI_Button(this, x, y);
@@ -220,11 +224,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			SetParent(External->scene->GetCanvas());
+			ReParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			SetParent(parent);
+			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -248,7 +252,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux->SetParent(this);
+		aux->ReParent(this);
 
 		//new G_UI(UI_TYPE::IMAGE, this);
 
@@ -266,11 +270,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			SetParent(External->scene->GetCanvas());
+			ReParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			SetParent(parent);
+			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
@@ -293,11 +297,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (parent == External->scene->mRootNode)
 		{
-			SetParent(External->scene->GetCanvas());
+			ReParent(External->scene->GetCanvas());
 		}
 		else
 		{
-			SetParent(parent);
+			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -306,13 +310,13 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		// Toggle background
 		G_UI* aux = new G_UI(UI_TYPE::IMAGE, this);
 		aux->name = "Background";
-		aux->SetParent(this);
+		aux->ReParent(this);
 		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		// Checkmark
 		G_UI* aux2 = new G_UI(UI_TYPE::IMAGE, this);
 		aux2->name = "Checkmark";
-		aux2->SetParent(aux);
+		aux2->ReParent(aux);
 		aux2->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		float widthCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->width;
@@ -322,7 +326,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		G_UI* aux3 = new G_UI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
 		aux3->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux3->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux3->SetParent(this);
+		aux3->ReParent(this);
 		aux3->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		UI_Checkbox* comp = new UI_Checkbox(this, x, y, widthCheck, heightCheck);

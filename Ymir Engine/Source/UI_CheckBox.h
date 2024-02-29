@@ -16,7 +16,7 @@ public:
 	UI_Checkbox(GameObject* g, int x = 0, int y = 0, int w = 170, int h = 170);
 	~UI_Checkbox();
 
-	void ShowInInspector();
+	void OnInspector();
 	void Draw(bool game) override {};
 
 	void OnNormal();

@@ -16,7 +16,7 @@ public:
 	UI_Button(GameObject* g, int x = 0, int y = 0, int w = 300, int h = 50);
 	~UI_Button();
 
-	void ShowInInspector();
+	void OnInspector();
 
 	void OnNormal();
 	void OnFocused();

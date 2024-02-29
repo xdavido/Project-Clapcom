@@ -11,7 +11,7 @@ public:
 	UI_Canvas(GameObject* g, int w = 100, int h = 100);
 	~UI_Canvas();
 
-	void ShowInInspector();
+	void OnInspector();
 	void Draw(bool game) override;
 	void UpdateUITransform() override;
 

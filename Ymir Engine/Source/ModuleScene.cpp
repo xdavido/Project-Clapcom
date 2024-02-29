@@ -29,6 +29,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
+	canvas = nullptr;
 
 	LOG("Creating ModuleScene");
 }

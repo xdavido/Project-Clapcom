@@ -32,12 +32,12 @@ UI_Checkbox::~UI_Checkbox()
 	cmImg = nullptr;
 }
 
-void UI_Checkbox::ShowInInspector()
+void UI_Checkbox::OnInspector()
 {
 	bool exists = true;
 	ImGui::Checkbox(("##UI Checkbox Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("##UI Checkbox Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Checkbox##UI Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 

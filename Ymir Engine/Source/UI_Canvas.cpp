@@ -15,12 +15,12 @@ UI_Canvas::~UI_Canvas()
 	}
 }
 
-void UI_Canvas::ShowInInspector()
+void UI_Canvas::OnInspector()
 {
 	bool exists = true;
 	ImGui::Checkbox(("##UI Canvas Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("##UI Canvas Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Canvas##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 

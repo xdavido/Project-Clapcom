@@ -57,12 +57,12 @@ UI_Text::~UI_Text()
 	RELEASE(boundsGame);
 }
 
-void UI_Text::ShowInInspector()
+void UI_Text::OnInspector()
 {
 	bool exists = true;
 	ImGui::Checkbox(("##UI Text Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("##UI Text Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Text##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 

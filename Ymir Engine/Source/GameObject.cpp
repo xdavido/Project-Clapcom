@@ -99,9 +99,40 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 }
 
+void GameObject::ReParent(GameObject* newParent)
+{
+	mParent->RemoveChild(this);
+	mParent = newParent;
+	mParent->mChildren.push_back(this);
+
+	//Update transform values
+	if (mParent->mTransform != nullptr)
+	{
+		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
+	}
+
+	else
+	{
+		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
+	}
+
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	mChildren.push_back(child);
+}
+
+void GameObject::DeleteChild(GameObject* go)
+{
+	RemoveChild(go);
+	RELEASE(go);
+}
+
+void GameObject::RemoveChild(GameObject* go)
+{
+	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
+	mChildren.shrink_to_fit();
 }
 
 void GameObject::AddComponent(Component* component)

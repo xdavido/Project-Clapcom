@@ -47,12 +47,12 @@ update_status UI_InputBox::Update(float dt)
 	return ret;
 }
 
-void UI_InputBox::ShowInInspector()
+void UI_InputBox::OnInspector()
 {
 	bool exists = true;
 	ImGui::Checkbox(("##UI Input Box Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("##UI Input Box Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Input Box##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 

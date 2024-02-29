@@ -56,7 +56,7 @@ public:
 	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50);
 	~UI_Text();
 
-	void ShowInInspector();
+	void OnInspector();
 
 	void Draw(bool game) override;
 

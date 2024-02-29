@@ -17,7 +17,7 @@ public:
 
 	update_status Update(float dt) override;
 
-	void ShowInInspector();
+	void OnInspector();
 
 	void OnNormal();
 	void OnFocused();

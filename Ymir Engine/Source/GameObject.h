@@ -26,8 +26,13 @@ public:
 	void Enable();
 	void Disable();
 
+	//---Parent/Child---
 	void SetParent(GameObject* newParent);
-	void AddChild(GameObject* child);
+	void ReParent(GameObject* newParent);
+	void AddChild(GameObject* go);
+	void DeleteChild(GameObject* go);
+	//Remove from children vector (do not use)
+	void RemoveChild(GameObject* go);
 
 	void AddComponent(Component* component);
 	Component* GetComponent(ComponentType ctype);
