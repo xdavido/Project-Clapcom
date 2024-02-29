@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1735860057	JV			\Default Work Unit\JV	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	42736708	Jovani Elden	C:\Users\Mario\Documents\WwiseProjects\Funciona Porfa\.cache\Windows\SFX\Jovani Elden_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Jovani Elden		10690624
+

@@ -1,19 +1,24 @@
 {
  "PluginInfo": {
+  "Project": "Funciona Porfa",
   "Platform": "Windows",
   "BasePlatform": "Windows",
-  "PluginLibs": [
+  "Plugins": [
    {
-    "LibName": "System",
-    "LibId": "11403271",
-    "Type": "AudioDevice"
+    "Name": "System",
+    "ID": "11403271",
+    "DLL": "DefaultSink"
    },
    {
-    "LibName": "No Output",
-    "LibId": "11862023",
-    "Type": "AudioDevice"
+    "Name": "No Output",
+    "ID": "11862023",
+    "DLL": "DefaultSink"
+   },
+   {
+    "Name": "Wwise Motion",
+    "ID": "33226759",
+    "DLL": "AkMotion"
    }
-  ],
-  "FileHash": "{71F42CD2-2880-BF0B-D154-F41540A353AF}"
+  ]
  }
 }
