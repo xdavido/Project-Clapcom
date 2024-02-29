@@ -67,9 +67,10 @@ private:
 
 	std::vector<AnimationParameters> aniParamaters;
 	std::vector<Animation> animations;
-	int selectedAnimation = 0;
+	int selectedAnimation = -1;
 	bool isSelected = false;
 	bool selectedAnimationPlaying = -1;
+	std::string aniName;
 
 	//sizeof crashing the engine for some reason so using int for now
 	int totalAnimations = 0;

@@ -55,14 +55,10 @@ void CAnimation::RemoveAnimation(int ID) {
         animations.erase(animations.begin() + ID);
         aniParamaters.erase(aniParamaters.begin() + ID);
     }
-    selectedAnimation = 0;
+    selectedAnimation = -1;
+    selectedAnimationPlaying = -1;
 
     totalAnimations--;
-    if (animations.empty()) {
-
-        selectedAnimationPlaying = -1;
-
-    }
 }
 
 void CAnimation::OnInspector() {
@@ -73,7 +69,14 @@ void CAnimation::OnInspector() {
     {
         ImGui::Indent();
 
-        if (ImGui::BeginCombo("Animations", "Select animation")) {
+        if (selectedAnimation == -1) {
+            aniName = "None (Select animation)";
+        }
+        if (selectedAnimation != -1) {
+            aniName = aniParamaters[selectedAnimation].name;
+        }
+
+        if (ImGui::BeginCombo("Animations", aniName.c_str())) {
             for (int i = 0; i < totalAnimations; i++) {
                 if (selectedAnimation == i) isSelected = true;
                 if (selectedAnimation != i) isSelected = false;
@@ -94,10 +97,19 @@ void CAnimation::OnInspector() {
 
             }
 
+            if (selectedAnimation == -1) isSelected = true;
+            if (selectedAnimation != 1) isSelected = false;
+
+            ImGui::Checkbox("None", &isSelected);
+
+            if (ImGui::IsItemClicked()) {
+                selectedAnimation = -1;
+            }
+
             ImGui::EndCombo();
         }
 
-        if (!animations.empty()) {
+        if (!animations.empty() && selectedAnimation != -1) {
             ImGui::Checkbox("Playing", &aniParamaters[selectedAnimation].isPlaying);
 
             if (ImGui::IsItemClicked()) {
