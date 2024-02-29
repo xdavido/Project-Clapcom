@@ -2627,7 +2627,63 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
-				ImGui::Text("UID: %d", (*it)->UID);
+				ImGui::Text("Tag"); ImGui::SameLine();
+
+				ImGuiStyle& style = ImGui::GetStyle();
+				float w = ImGui::CalcItemWidth();
+				float spacing = style.ItemInnerSpacing.x;
+				float button_sz = ImGui::GetFrameHeight();
+				ImGui::PushItemWidth((w - spacing * 2.0f - button_sz * 2.0f) * 0.5f);
+
+				std::vector<std::string> tags = External->scene->tags;
+
+				if (ImGui::BeginCombo("##tags", (*it)->tag))
+				{
+					for (int t = 0; t < tags.size(); t++)
+					{
+						bool is_selected = strcmp((*it)->tag, tags[t].c_str()) == 0;
+						if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
+							strcpy((*it)->tag, tags[t].c_str());
+						}
+
+						if (is_selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					if (ImGui::BeginMenu("Add Tag"))
+					{
+						static char newTag[32];
+						ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
+
+						if (ImGui::Button("Save Tag")) {
+							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+							strcpy(tagToAdd, newTag);
+							External->scene->tags.push_back(tagToAdd);
+							newTag[0] = '\0';
+							delete[] tagToAdd;
+						}
+						ImGui::EndMenu();
+					}
+
+					int tag_to_remove = -1;
+					if (ImGui::BeginMenu("Remove Tag"))
+					{
+						for (int t = 0; t < tags.size(); t++)
+						{
+							if (ImGui::Selectable(tags[t].c_str(), false)) {
+								tag_to_remove = t;
+							}
+						}
+						ImGui::EndMenu();
+					}
+
+					if (tag_to_remove != -1)
+						External->scene->tags.erase(External->scene->tags.begin() + tag_to_remove);
+
+					ImGui::EndCombo();
+				}
+				ImGui::SameLine();
+				ImGui::Text("       UID: %d", (*it)->UID);
+
 
 				ImGui::Spacing();
 

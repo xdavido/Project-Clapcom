@@ -165,3 +165,8 @@ GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gam
 
 	return gameObjectWithUID;
 }
+
+bool GameObject::CompareTag(const char* _tag)
+{
+	return strcmp(tag, _tag) == 0;
+}

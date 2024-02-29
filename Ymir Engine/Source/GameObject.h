@@ -38,6 +38,8 @@ public:
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
+	bool CompareTag(const char* _tag);
+
 public:
 
 	std::string name;
@@ -53,5 +55,7 @@ public:
 
 	bool active;
 	bool selected;
+
+	char tag[32] = "Untagged";
 
 };

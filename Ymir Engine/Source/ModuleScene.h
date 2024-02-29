@@ -59,6 +59,8 @@ public:
 
 	std::vector<GameObject*> gameObjects;
 
+	std::vector<std::string> tags;
+
 	JsonFile ysceneFile;
 
 	Mesh* ourMesh;

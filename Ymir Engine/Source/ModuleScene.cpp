@@ -28,12 +28,14 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
+	tags = { "Untagged" };
 
 	LOG("Creating ModuleScene");
 }
 
 ModuleScene::~ModuleScene()
 {
+	tags.clear();
 	delete mRootNode;
 }
 
