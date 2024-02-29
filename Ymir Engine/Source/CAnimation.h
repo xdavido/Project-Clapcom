@@ -17,6 +17,26 @@ class GameObject;
 class Animator;
 class Animation;
 
+struct AnimationParameters {
+
+	std::string name;
+
+	bool isPlaying = false;
+
+	bool isLoop = false;
+
+	bool isPingPong = false;
+
+
+
+	AnimationParameters(const std::string& animationName)
+
+		: name(animationName) {
+
+	}
+
+};
+
 class CAnimation : public Component {
 public:
 	CAnimation(GameObject* owner);
@@ -45,12 +65,12 @@ public:
 
 private:
 
-	const int animationMaxNum = 10;
-	std::string* animationNames = new std::string[animationMaxNum];
+	std::vector<AnimationParameters> aniParamaters;
 	std::vector<Animation> animations;
 	int selectedAnimation = 0;
 	bool isSelected = false;
+	bool selectedAnimationPlaying = -1;
 
-	//sizeof crashing the engine for some reason
+	//sizeof crashing the engine for some reason so using int for now
 	int totalAnimations = 0;
 };

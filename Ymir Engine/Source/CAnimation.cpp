@@ -42,25 +42,27 @@ void CAnimation::Update() {
 }
 
 void CAnimation::AddAnimation(Animation newAnimation, std::string animationName) {
-    for (int i = 0; i < sizeof(animations); i++) {
-        if (animationNames[i].empty()) {
-            animationNames[i] = animationName;
-            animations.push_back(newAnimation);
-            totalAnimations++;
-            break;
-        }
-    }
+    AnimationParameters temp(animationName);
+    animations.push_back(newAnimation);
+
+    aniParamaters.push_back(temp);
+    totalAnimations++;
+
 }
 
 void CAnimation::RemoveAnimation(int ID) {
     if (ID < animations.size()) {
         animations.erase(animations.begin() + ID);
+        aniParamaters.erase(aniParamaters.begin() + ID);
     }
     selectedAnimation = 0;
-    for (int i = ID; i < (totalAnimations-1); i++) {
-        animationNames[i] = animationNames[i + 1];
-    }
+
     totalAnimations--;
+    if (animations.empty()) {
+
+        selectedAnimationPlaying = -1;
+
+    }
 }
 
 void CAnimation::OnInspector() {
@@ -75,7 +77,7 @@ void CAnimation::OnInspector() {
             for (int i = 0; i < totalAnimations; i++) {
                 if (selectedAnimation == i) isSelected = true;
                 if (selectedAnimation != i) isSelected = false;
-                ImGui::Checkbox(animationNames[i].c_str(), &isSelected);
+                ImGui::Checkbox(aniParamaters[i].name.c_str(), &isSelected);
                 ImGui::SameLine(); 
 
                 if (ImGui::IsItemClicked()) {
@@ -95,26 +97,38 @@ void CAnimation::OnInspector() {
             ImGui::EndCombo();
         }
 
-        ImGui::Checkbox("Playing", &isPlaying);
+        if (!animations.empty()) {
+            ImGui::Checkbox("Playing", &aniParamaters[selectedAnimation].isPlaying);
 
-        if (ImGui::IsItemClicked()) {
-            !isPlaying ;
+            if (ImGui::IsItemClicked()) {
+
+                !aniParamaters[selectedAnimation].isPlaying;
+
+                selectedAnimationPlaying = selectedAnimation;
+
+                for (int i = 0; i < totalAnimations; i++) {
+
+                    if (i != selectedAnimation) {
+
+                        aniParamaters[i].isPlaying = false;
+
+                    }
+
+                }
+            }
+
+            ImGui::Checkbox("Loop", &aniParamaters[selectedAnimation].isLoop);
+
+            if (ImGui::IsItemClicked()) {
+                !aniParamaters[selectedAnimation].isLoop;
+            }
+
+            ImGui::Checkbox("PingPong", &aniParamaters[selectedAnimation].isPingPong);
+
+            if (ImGui::IsItemClicked()) {
+                !aniParamaters[selectedAnimation].isPingPong;
+            }
         }
-
-        ImGui::Checkbox("Loop", &isLoop);
-
-        if (ImGui::IsItemClicked()) {
-            !isLoop;
-        }
-
-        ImGui::Checkbox("PingPong", &isPingPong);
-
-        if (ImGui::IsItemClicked()) {
-            !isPingPong;
-        }
-        //ImGui::Spacing();
-
-        //ImGui::SeparatorText("Animation");
 
         ImGui::Unindent();
     }
