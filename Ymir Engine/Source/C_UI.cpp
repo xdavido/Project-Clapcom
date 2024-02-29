@@ -1,11 +1,10 @@
 #include "C_UI.h"
-#include "GameObject.h"
-#include "G_UI.h"
 
 #include "UI_Canvas.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
 
 C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, int y, int w, int h, Color c) : Component(g, t)
 {
@@ -172,6 +171,7 @@ void C_UI::Draw(bool game)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
 	if (!game)
 	{
 		glPopMatrix();
@@ -214,13 +214,16 @@ void C_UI::StateLogic()
 			case UI_STATE::DISABLED:
 				break;
 			case UI_STATE::NORMAL:
+			{
 				OnNormal();
 				if (MouseCheck(mousePos))
 				{
 					state = UI_STATE::FOCUSED;
 				}
+			}
 				break;
 			case UI_STATE::FOCUSED:	// On hover
+			{
 				OnFocused();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -231,8 +234,10 @@ void C_UI::StateLogic()
 				{
 					state = UI_STATE::NORMAL;
 				}
+			}
 				break;
 			case UI_STATE::PRESSED: // On hold
+			{
 				OnPressed();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -243,12 +248,16 @@ void C_UI::StateLogic()
 				{
 					state = UI_STATE::NORMAL;
 				}
+			}
 				break;
 			case UI_STATE::RELEASE:
+			{
 				OnRelease();
 				state = UI_STATE::SELECTED;
+			}
 				break;
 			case UI_STATE::SELECTED:
+			{
 				OnSelected();
 				if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -259,6 +268,7 @@ void C_UI::StateLogic()
 				{
 					state = UI_STATE::NORMAL;
 				}
+			}
 				break;
 			case UI_STATE::NONE:
 				break;

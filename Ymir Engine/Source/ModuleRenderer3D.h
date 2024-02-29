@@ -18,6 +18,12 @@
 #include "External/MathGeoLib/include/Geometry/AABB.h"
 #include "External/MathGeoLib/include/Geometry/OBB.h"
 
+#include "External/FreeType/include/ft2build.h"
+#include "External/FreeType/include/freetype/freetype.h"
+#include "External/FreeType/include/freetype/ftglyph.h"
+#pragma comment(lib, "Source/External/FreeType/libx86/freetype.lib")
+
+
 #ifdef _DEBUG
 #pragma comment (lib, "Source/External/MathGeoLib/libx86/lib_Debug/MathGeoLib.lib") /* link Microsoft OpenGL lib   */
 #else
@@ -34,6 +40,7 @@
 #include "Model.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "UI_Text.h"
 
 #define MAX_LIGHTS 8
 
@@ -89,5 +96,8 @@ public:
 	std::vector<Model> models;
 
 	bool texturingEnabled = true;
+
+	//font
+	Font* defaultFont;
 
 };

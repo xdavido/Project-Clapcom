@@ -31,6 +31,7 @@ public:
 
 	void AddComponent(Component* component);
 	Component* GetComponent(ComponentType ctype);
+	void RemoveComponent(Component* component);
 
 	void DestroyGameObject();
 
@@ -51,5 +52,6 @@ public:
 
 	bool active;
 	bool selected;
+	bool hidden;
 
 };

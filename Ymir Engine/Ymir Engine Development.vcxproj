@@ -468,6 +468,12 @@
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TimeManager.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\UI_Button.cpp" />
+    <ClCompile Include="Source\UI_Canvas.cpp" />
+    <ClCompile Include="Source\UI_CheckBox.cpp" />
+    <ClCompile Include="Source\UI_Image.cpp" />
+    <ClCompile Include="Source\UI_InputBox.cpp" />
+    <ClCompile Include="Source\UI_Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Assets\Shaders\ColorShader.glsl" />

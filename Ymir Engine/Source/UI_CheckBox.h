@@ -25,7 +25,6 @@ public:
 	void OnSelected();
 	void OnRelease();
 
-	void CheckVSync();
 	void CheckDraggeable();
 
 public:

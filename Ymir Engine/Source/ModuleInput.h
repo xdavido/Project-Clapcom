@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include <string>
 
 #define MAX_MOUSE_BUTTONS 5
 
@@ -27,7 +28,6 @@ public:
 	void HandleInput(SDL_Event event);
 
 	//	
-	bool GetInputActive();
 	void SetInputActive(std::string& strToStore, bool getInput = true);
 	void SetMaxChars(int limit);
 
@@ -67,7 +67,7 @@ public:
 		return mouse_y_motion;
 	}
 
-	bool ModuleInput::GetInputActive()
+	bool ModuleInput::GetInputActive() const
 	{
 		return getInput_B;
 	}

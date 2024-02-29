@@ -13,6 +13,7 @@ GameObject::GameObject()
 
 	active = true;
 	selected = false;
+	hidden = false;
 
 	mTransform = nullptr;
 }
@@ -24,6 +25,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 	active = true;
 	selected = false;
+	hidden = false;
 
 	mTransform = nullptr;
 
@@ -121,6 +123,17 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	}
 
 	return nullptr;
+}
+
+void GameObject::RemoveComponent(Component* component)
+{
+	// TODO: Sara --> test if it needs something else
+	if (!mComponents.empty() && component != nullptr)
+	{
+		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
+		
+		RELEASE(component);
+	}
 }
 
 void GameObject::DestroyGameObject()

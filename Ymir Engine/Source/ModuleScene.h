@@ -78,7 +78,10 @@ public:
 	std::string currentSceneDir;
 	std::string currentSceneFile;
 
+	std::vector<G_UI*> vCanvas;
+
+private:
+
 	G_UI* canvas;
-	G_UI* menu;
-	UI_Image* bgImage;
+	int selectedUI;
 };

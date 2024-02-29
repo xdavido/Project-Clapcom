@@ -5,7 +5,15 @@
 
 #include "Globals.h"
 #include "Component.h"
+
 #include "../Source/External/MathGeoLib/include/MathGeoLib.h"
+
+#include "../Source/External/ImGui/imgui.h"
+#include "../Source/External/ImGui/backends/imgui_impl_sdl2.h"
+#include "../Source/External/ImGui/backends/imgui_impl_opengl3.h"
+#include "../Source/External/ImGui/misc/cpp/imgui_stdlib.h"
+#include "../Source/External/ImGui/imgui_internal.h"
+
 #include "Color.h"
 #include <string>
 

@@ -26,6 +26,6 @@ public:
 public:
 	UI_Canvas* canvas;
 	
-	CTransform rectTransform;
+	//CTransform rectTransform;
 };
 #endif // __G_UI_H__
