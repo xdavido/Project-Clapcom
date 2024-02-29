@@ -55,9 +55,6 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
-	//CCamera* currentCamera;
-	std::vector<CCamera*> cameras;
-
 	std::vector<GameObject*> gameObjects;
 
 	JsonFile ysceneFile;

@@ -43,20 +43,7 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	cameras.push_back(App->camera->editorCamera);
-
-	gameCameraComponent = new CCamera(gameCameraObject);
-
-	// TODO: remove and do with proper constructor
-	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
-
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-
-	gameCameraObject->AddComponent(gameCameraComponent);
-	cameras.push_back(gameCameraComponent);
+	
 
 	// yscene file creation
 
@@ -78,6 +65,7 @@ bool ModuleScene::Start()
 	// Hardcoded Scene To test Resource Manager
 	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
 	currentSceneDir = "Assets";
+
 	return false;
 }
 

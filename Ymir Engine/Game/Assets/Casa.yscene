@@ -141,6 +141,7 @@
                 {
                     "Type": "Material",
                     "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
                     "Diffuse": ".\/Library\/Textures\/524512793.dds",
                     "UID": 524512793
@@ -181,6 +182,7 @@
                 {
                     "Type": "Material",
                     "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
                     "Diffuse": ".\/Library\/Textures\/524512793.dds",
                     "UID": 524512793

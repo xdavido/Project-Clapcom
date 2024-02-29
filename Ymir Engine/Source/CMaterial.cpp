@@ -19,7 +19,9 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
 
     this->owner = owner;
 
-    shader.LoadShader(SHADER_VS_FS);
+    // Load MyShader.glsl by default
+    shaderPath = SHADER_VS_FS;
+    shader.LoadShader(shaderPath);
     shaderDirtyFlag = false;
 
 }
@@ -61,7 +63,9 @@ void CMaterial::OnInspector()
     ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
     ImGui::SameLine();
 
-    if (ImGui::CollapsingHeader("Material", flags))
+    bool exists = true;
+
+    if (ImGui::CollapsingHeader("Material", &exists, flags))
     {
         ImGui::Indent();
 
@@ -457,7 +461,8 @@ void CMaterial::OnInspector()
 
         ImGui::Unindent();
     }
-
+    
+    if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CMaterial::DdsDragDropTarget()

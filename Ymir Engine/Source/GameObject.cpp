@@ -109,8 +109,58 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::AddComponent(Component* component)
 {
-	component->mOwner = this;
 	mComponents.push_back(component);
+}
+
+bool GameObject::AddComponent(ComponentType ctype, void* var)
+{
+	Component* temp;
+	bool ret = true;
+
+	switch (ctype)
+	{
+	case ComponentType::TRANSFORM:
+		if (mTransform == nullptr)
+		{
+			temp = new CTransform(this, float3(0, 0, 0), Quat(0, 0, 0, 0), float3(1, 1, 1));
+			mTransform = (CTransform*)temp;
+			mComponents.push_back(mTransform);
+		}
+		else { ret = false; }
+		break;
+	case ComponentType::MESH:
+		// A gameObject can't have more than one mesh
+		if (GetComponent(ComponentType::MESH) == nullptr)
+		{
+			temp = new CMesh(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
+	case ComponentType::MATERIAL:
+		// A gameObject can't have more than one material
+		// In unity there can be more than one if embeded (?) see snowman for reference 
+		if (GetComponent(ComponentType::MATERIAL) == nullptr)
+		{
+			temp = new CMaterial(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
+	case ComponentType::CAMERA:
+		if (GetComponent(ComponentType::CAMERA) == nullptr)
+		{
+			temp = new CCamera(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
+	default:
+		break;
+	}
+
+	temp = nullptr;
+	return ret;
 }
 
 Component* GameObject::GetComponent(ComponentType ctype)
@@ -126,6 +176,36 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	}
 
 	return nullptr;
+}
+
+void GameObject::RemoveComponent(Component* component)
+{
+	if (!mComponents.empty() && component != nullptr)
+	{
+		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
+		//component->~Component();
+		
+		switch (component->ctype)
+		{
+		case NONE:
+			break;
+		case TRANSFORM:
+		{
+			mTransform = nullptr;
+		}
+		break;
+		case MESH:
+			break;
+		case MATERIAL:
+			break;
+		case CAMERA:
+			break;
+		default:
+			break;
+		}
+
+		RELEASE(component);
+	}
 }
 
 void GameObject::DeleteChild(GameObject* go)

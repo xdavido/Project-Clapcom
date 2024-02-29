@@ -987,7 +987,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Shader
 
-		//json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
+		json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
 		// Texture maps
 		json_object_set_number(componentObject, "ID", cmaterial->ID);
@@ -1295,6 +1295,11 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	else if (type == "Material") {
 
 		CMaterial* cmaterial = new CMaterial(gameObject);
+		
+		// Load shader from .yscene file
+		std::string shaderPath = json_object_get_string(componentObject, "Shader");
+		cmaterial->shaderPath = shaderPath;
+		cmaterial->shader.LoadShader(shaderPath);
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
@@ -1313,16 +1318,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Camera") {
 
-		CCamera* ccamera = new CCamera(gameObject);
-
-		// Is game camera
-
-		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
-
-		if (ccamera->isGameCam)
-		{
-			External->renderer3D->SetGameCamera(ccamera);
-		}
+		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
+		ccamera->framebuffer.Load();
 
 		gameObject->AddComponent(ccamera);
 
