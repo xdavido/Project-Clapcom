@@ -14,6 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID JV = 1735860057U;
+        static const AkUniqueID ONIICHAN = 1133667304U;
     } // namespace EVENTS
 
     namespace GAME_PARAMETERS

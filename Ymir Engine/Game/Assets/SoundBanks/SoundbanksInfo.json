@@ -18,7 +18,7 @@
    {
     "Id": "6333691",
     "Language": "SFX",
-    "Hash": "3198330341",
+    "Hash": "3798224876",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\FuncionaPls",
     "ShortName": "FuncionaPls",
     "Path": "FuncionaPls.bnk",
@@ -36,6 +36,22 @@
         "Language": "SFX",
         "ShortName": "Jovani Elden.wav",
         "Path": "SFX\\Jovani Elden_10C4C929.wem"
+       }
+      ]
+     },
+     {
+      "Id": "1133667304",
+      "Name": "OniiChan",
+      "ObjectPath": "\\Events\\Default Work Unit\\OniiChan",
+      "DurationType": "OneShot",
+      "DurationMin": "1.066667",
+      "DurationMax": "1.066667",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "890177970",
+        "Language": "SFX",
+        "ShortName": "Onichan.wav",
+        "Path": "SFX\\Onichan_10C4C929.wem"
        }
       ]
      }
