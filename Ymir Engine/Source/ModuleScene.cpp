@@ -64,7 +64,7 @@ bool ModuleScene::Start()
 	currentSceneDir = "Assets";
 
 	// Test for Game Extraction
-	LoadSceneFromStart("Assets/Water.yscene"); // Baker House
+	// LoadSceneFromStart("Assets/Water.yscene"); // Baker House
 
 	return false;
 }
