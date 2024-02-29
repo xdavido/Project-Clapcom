@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace YmirEngine
 {
-
     public sealed class GameObject
     {
         public string name;

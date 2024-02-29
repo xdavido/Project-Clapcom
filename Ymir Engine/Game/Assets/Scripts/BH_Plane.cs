@@ -11,6 +11,7 @@ public class BH_Plane : YmirComponent
 
     public void Update()
     {
+       
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT && cSpeed < 0.18f)
             cSpeed += speedIncrement * Time.deltaTime;
 

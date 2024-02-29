@@ -303,4 +303,34 @@ MonoObject* SendGlobalScale(MonoObject* obj) //Allows to send float3 as "objects
 	return Ymir_Box_Vector(obj, "SCALE", true); //Use this method to send class types
 }
 
+MonoString* GetTag(MonoObject* cs_Object)
+{
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(cs_Object);
+
+	return mono_string_new(External->moduleMono->domain, cpp_gameObject->tag);
+}
+
+void SetTag(MonoObject* cs_Object, MonoString* string)
+{
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(cs_Object);
+
+	std::string newTag = mono_string_to_utf8(string);
+	std::vector<std::string> tags = External->scene->tags;
+
+	bool tagAlreadyExists = false;
+	for (int t = 0; t < tags.size(); t++)
+	{
+		if (strcmp(newTag.c_str(), tags[t].c_str()) == 0)
+		{
+			tagAlreadyExists = true;
+			break;
+		}
+	}
+	if (tagAlreadyExists == false)
+	{
+		External->scene->tags.push_back(newTag);
+	}
+	strcpy(cpp_gameObject->tag, newTag.c_str());
+}
+
 #pragma endregion
