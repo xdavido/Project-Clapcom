@@ -48,6 +48,7 @@ bool ModuleScene::Init()
 
 	gameCameraComponent = new CCamera(gameCameraObject);
 	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
+	audioListenerComponent->SetAsDefaultListener();
 
 	// TODO: remove and do with proper constructor
 	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));

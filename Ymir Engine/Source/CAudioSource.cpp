@@ -59,10 +59,11 @@ void CAudioSource::OnInspector()
 		ImGui::EndCombo();
 	}
 
+	
 	if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
 	{
 		std::map<uint64, std::string>::const_iterator ev_it;
-		for (ev_it = audBankReference->events.begin(); ev_it != audBankReference->events.end(); ++ev_it)
+		for (ev_it = audBankReference->actions.begin(); ev_it != audBankReference->actions.end(); ++ev_it)
 		{
 			bool isSelected = (evName == (*ev_it).second);
 			if (ImGui::Selectable((*ev_it).second.c_str()))

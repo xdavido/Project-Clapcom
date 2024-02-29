@@ -27,6 +27,9 @@
       "Id": "1735860057",
       "Name": "JV",
       "ObjectPath": "\\Events\\Default Work Unit\\JV",
+      "DurationType": "OneShot",
+      "DurationMin": "60.60408",
+      "DurationMax": "60.60408",
       "IncludedMemoryFiles": [
        {
         "Id": "42736708",
