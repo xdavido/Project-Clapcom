@@ -4,6 +4,7 @@
 #include "ModuleEditor.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleResourceManager.h"
 
 #include "GameObject.h"
 #include "Log.h"
@@ -62,9 +63,10 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-	// Hardcoded Scene To test Resource Manager
-	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
 	currentSceneDir = "Assets";
+
+	// Test para Game Extraction
+	LoadSceneFromAssets("Assets/", "Casa.yscene"); // Baker House
 
 	return false;
 }
@@ -245,68 +247,69 @@ void ModuleScene::LoadSceneFromAssets(const std::string& dir, const std::string&
 	// 1. Create meta of the scene in assets
 	std::string path = dir + "/" + fileName;
 
-	JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+	//JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-	if (tmpMetaFile == nullptr) {
+	//if (tmpMetaFile == nullptr) {
 
-		JsonFile* sceneToLoad = JsonFile::GetJSON(path);
+	//	JsonFile* sceneToLoad = JsonFile::GetJSON(path);
 
-		JsonFile sceneMetaFile;
+	//	JsonFile sceneMetaFile;
 
-		sceneMetaFile.SetString("Assets Path", path.c_str());
-		sceneMetaFile.SetString("Library Path", (External->fileSystem->libraryScenesPath + std::to_string(sceneToLoad->GetHierarchy("Hierarchy")[0]->UID) + ".yscene").c_str());
-		sceneMetaFile.SetInt("UID", sceneToLoad->GetHierarchy("Hierarchy")[0]->UID);
-		sceneMetaFile.SetString("Type", "Scene");
+	//	sceneMetaFile.SetString("Assets Path", path.c_str());
+	//	sceneMetaFile.SetString("Library Path", (External->fileSystem->libraryScenesPath + std::to_string(sceneToLoad->GetHierarchy("Hierarchy")[0]->UID) + ".yscene").c_str());
+	//	sceneMetaFile.SetInt("UID", sceneToLoad->GetHierarchy("Hierarchy")[0]->UID);
+	//	sceneMetaFile.SetString("Type", "Scene");
 
-		External->fileSystem->CreateMetaFileFromAsset(path, sceneMetaFile);
+	//	External->fileSystem->CreateMetaFileFromAsset(path, sceneMetaFile);
 
-		tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+	//	tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-		delete sceneToLoad;
+	//	delete sceneToLoad;
 
-	}
+	//}
 
 	// 2. Create the scene in Library from the meta file of assets
 
-	if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene")) {
+	//if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene")) {
 
-		std::string filePath;
-		PhysfsEncapsule::DuplicateFile(path.c_str(), External->fileSystem->libraryScenesPath.c_str(), filePath);
+	//	std::string filePath;
+	//	PhysfsEncapsule::DuplicateFile(path.c_str(), External->fileSystem->libraryScenesPath.c_str(), filePath);
 
-		// Input string
-		std::string input_string = path;
+	//	// Input string
+	//	std::string input_string = path;
 
-		// Find the position of the last '/' in the string
-		size_t last_slash_position = input_string.find_last_of('/');
+	//	// Find the position of the last '/' in the string
+	//	size_t last_slash_position = input_string.find_last_of('/');
 
-		// Extract the substring starting from the character after the last '/'
-		std::string filename_with_extension = input_string.substr(last_slash_position + 1);
+	//	// Extract the substring starting from the character after the last '/'
+	//	std::string filename_with_extension = input_string.substr(last_slash_position + 1);
 
-		// Find the position of the '.' in the filename
-		size_t dot_position = filename_with_extension.find('.');
+	//	// Find the position of the '.' in the filename
+	//	size_t dot_position = filename_with_extension.find('.');
 
-		// Extract the substring before the '.'
-		std::string filename = filename_with_extension.substr(0, dot_position);
+	//	// Extract the substring before the '.'
+	//	std::string filename = filename_with_extension.substr(0, dot_position);
 
-		PhysfsEncapsule::RenameFile((External->fileSystem->libraryScenesPath + filename + ".yscene"), (External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene"));
+	//	PhysfsEncapsule::RenameFile((External->fileSystem->libraryScenesPath + filename + ".yscene"), (External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene"));
 
-	}
+	//}
 
 	// 3. Load that scene from Library to the engine
 
-	std::string libraryPath = tmpMetaFile->GetString("Library Path");
-	JsonFile* sceneToLoad = JsonFile::GetJSON(libraryPath);
+	//std::string libraryPath = tmpMetaFile->GetString("Library Path");
+	//JsonFile* sceneToLoad = JsonFile::GetJSON(libraryPath);
+
+	JsonFile* sceneToLoad = JsonFile::GetJSON(path);
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	ClearScene();
+	//ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
-	delete tmpMetaFile;
 	delete sceneToLoad;
 }
 

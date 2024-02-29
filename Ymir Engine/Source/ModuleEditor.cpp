@@ -121,6 +121,12 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
+#ifdef _STANDALONE
+
+	TimeManager::gameTimer.Start();
+
+#endif // _STANDALONE
+
 	return ret;
 }
 
@@ -883,7 +889,12 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::SetCursorPosX(posX);
 
+#ifdef _STANDALONE
+		static bool isPlaying = true;
+#else
 		static bool isPlaying = false;
+#endif // _STANDALONE
+		
 		static bool isPaused = false;
 
 		if (isPlaying) {
