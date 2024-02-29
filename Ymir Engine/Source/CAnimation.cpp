@@ -13,15 +13,7 @@
 
 CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIMATION)
 {
-    //The model should probably be taken from the module renderer model array, need to figure out how
-    //Model ourModel("");
-    //Only one animation, should be changed into an array of animations in the future
-    //Animation ourAnimation("",&ourModel);
-  
-    //ourAnimator(&ourAnimation);
-    //animationNames[0] = "Ani1     (testing)";
-    //animationNames[1] = "Ani2     (testing)";
-    //animationNames[2] = "Ani3     (testing)";
+    //Just for testing, need to remove from GameObject.h and GameObject.cpp when done with testing
     Animation test1, test2, test3;
     AddAnimation(test1, "Ani1     (testing)");
     AddAnimation(test2, "Ani2     (testing)");
@@ -98,7 +90,7 @@ void CAnimation::OnInspector() {
             }
 
             if (selectedAnimation == -1) isSelected = true;
-            if (selectedAnimation != 1) isSelected = false;
+            if (selectedAnimation != -1) isSelected = false;
 
             ImGui::Checkbox("None", &isSelected);
 

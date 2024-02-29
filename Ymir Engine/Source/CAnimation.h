@@ -53,9 +53,6 @@ public:
 private:
 
 public:
-	//GameObject* rootBone = nullptr;
-
-	//std::map<std::string, GameObject*> boneMapping;
 
 	bool isPlaying = false;
 	bool isLoop = false;
