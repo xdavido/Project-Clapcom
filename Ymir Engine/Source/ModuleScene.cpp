@@ -27,6 +27,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
 	audiosource = CreateGameObject("AudioSource", mRootNode);
+	audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
 
