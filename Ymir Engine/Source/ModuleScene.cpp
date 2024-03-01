@@ -64,7 +64,7 @@ bool ModuleScene::Start()
 	currentSceneDir = "Assets";
 
 	// Test for Game Extraction
-	// LoadSceneFromStart("Assets/Water.yscene"); // Baker House
+	// LoadSceneFromStart("Assets", "Water"); // Baker House
 
 	return false;
 }
@@ -240,9 +240,17 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	RELEASE(sceneToLoad);
 }
 
-void ModuleScene::LoadSceneFromStart(const std::string& path)
+void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& fileName)
 {
-	JsonFile* sceneToLoad = JsonFile::GetJSON(path);
+	if (dir != External->fileSystem->libraryScenesPath)
+	{
+		App->scene->currentSceneDir = dir;
+		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
+
+		LOG("Scene '%s' loaded", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
+	}
+
+	JsonFile* sceneToLoad = JsonFile::GetJSON(dir + "/" + (fileName == "" ? std::to_string(mRootNode->UID) : fileName) + ".yscene");
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));

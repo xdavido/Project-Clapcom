@@ -42,7 +42,7 @@ public:
 	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 
 	// Start with a loaded scene from start
-	void LoadSceneFromStart(const std::string& path);
+	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
