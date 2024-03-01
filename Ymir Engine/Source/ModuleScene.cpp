@@ -4,6 +4,7 @@
 #include "ModuleEditor.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleResourceManager.h"
 
 #include "GameObject.h"
 #include "Log.h"
@@ -43,21 +44,6 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	cameras.push_back(App->camera->editorCamera);
-
-	gameCameraComponent = new CCamera(gameCameraObject);
-
-	// TODO: remove and do with proper constructor
-	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
-
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-
-	gameCameraObject->AddComponent(gameCameraComponent);
-	cameras.push_back(gameCameraComponent);
-
 	// yscene file creation
 
 	// You shouldn't save from default
@@ -75,9 +61,11 @@ bool ModuleScene::Init()
 
 bool ModuleScene::Start()
 {
-	// Hardcoded Scene To test Resource Manager
-	// LoadSceneFromAssets("Assets/Scenes/TestScene.yscene"); // Baker House
 	currentSceneDir = "Assets";
+
+	// Test for Game Extraction
+	// LoadSceneFromStart("Assets", "Water"); // Baker House
+
 	return false;
 }
 
@@ -155,6 +143,8 @@ bool ModuleScene::CleanUp()
 	bool ret = true;
 
 	LOG("Deleting scene");
+
+	RELEASE(mRootNode);
 
 	return ret;
 }
@@ -252,73 +242,27 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	RELEASE(sceneToLoad);
 }
 
-void ModuleScene::LoadSceneFromAssets(const std::string& dir, const std::string& fileName)
+void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& fileName)
 {
-	// 1. Create meta of the scene in assets
-	std::string path = dir + "/" + fileName;
+	if (dir != External->fileSystem->libraryScenesPath)
+	{
+		App->scene->currentSceneDir = dir;
+		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
 
-	JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
-
-	if (tmpMetaFile == nullptr) {
-
-		JsonFile* sceneToLoad = JsonFile::GetJSON(path);
-
-		JsonFile sceneMetaFile;
-
-		sceneMetaFile.SetString("Assets Path", path.c_str());
-		sceneMetaFile.SetString("Library Path", (External->fileSystem->libraryScenesPath + std::to_string(sceneToLoad->GetHierarchy("Hierarchy")[0]->UID) + ".yscene").c_str());
-		sceneMetaFile.SetInt("UID", sceneToLoad->GetHierarchy("Hierarchy")[0]->UID);
-		sceneMetaFile.SetString("Type", "Scene");
-
-		External->fileSystem->CreateMetaFileFromAsset(path, sceneMetaFile);
-
-		tmpMetaFile = JsonFile::GetJSON(path + ".meta");
-
-		delete sceneToLoad;
-
+		LOG("Scene '%s' loaded", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
 	}
 
-	// 2. Create the scene in Library from the meta file of assets
-
-	if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene")) {
-
-		std::string filePath;
-		PhysfsEncapsule::DuplicateFile(path.c_str(), External->fileSystem->libraryScenesPath.c_str(), filePath);
-
-		// Input string
-		std::string input_string = path;
-
-		// Find the position of the last '/' in the string
-		size_t last_slash_position = input_string.find_last_of('/');
-
-		// Extract the substring starting from the character after the last '/'
-		std::string filename_with_extension = input_string.substr(last_slash_position + 1);
-
-		// Find the position of the '.' in the filename
-		size_t dot_position = filename_with_extension.find('.');
-
-		// Extract the substring before the '.'
-		std::string filename = filename_with_extension.substr(0, dot_position);
-
-		PhysfsEncapsule::RenameFile((External->fileSystem->libraryScenesPath + filename + ".yscene"), (External->fileSystem->libraryScenesPath + std::to_string(tmpMetaFile->GetInt("UID")) + ".yscene"));
-
-	}
-
-	// 3. Load that scene from Library to the engine
-
-	std::string libraryPath = tmpMetaFile->GetString("Library Path");
-	JsonFile* sceneToLoad = JsonFile::GetJSON(libraryPath);
+	JsonFile* sceneToLoad = JsonFile::GetJSON(dir + "/" + (fileName == "" ? std::to_string(mRootNode->UID) : fileName) + ".yscene");
 
 	App->camera->editorCamera->SetPos(sceneToLoad->GetFloat3("Editor Camera Position"));
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	ClearScene();
+	// ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
-	delete tmpMetaFile;
 	delete sceneToLoad;
 }
 

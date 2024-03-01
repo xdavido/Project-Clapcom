@@ -203,10 +203,27 @@ bool ModuleRenderer3D::Init()
 	colorShader->LoadShader("Assets/Shaders/ColorShader.glsl");
 	delete colorShader;
 
+	Shader* waterShader = new Shader;
+	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
+	delete waterShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
-	App->scene->gameCameraComponent->framebuffer.Load();
+
+	App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
+
+	// TODO: remove and do with proper constructor
+	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+
+	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	
+	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
+	
+	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
 
 	return ret;
 }
@@ -243,6 +260,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Your rendering code here
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
+
+#ifndef _STANDALONE
 
 	App->camera->editorCamera->framebuffer.Render(true);
 
@@ -311,6 +330,30 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	App->editor->DrawEditor();
 
+#else
+
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->framebuffer.Render(true);
+
+		App->scene->gameCameraComponent->Update();
+
+		if (App->scene->gameCameraObject->active) {
+
+			DrawGameObjects();
+
+		}
+
+		App->scene->gameCameraComponent->framebuffer.Render(false);
+
+		// Adjust FrameBuffer for Standalone
+
+		App->scene->gameCameraComponent->framebuffer.RenderToScreen();
+
+	}
+
+#endif // !_STANDALONE
+
 	SDL_GL_SwapWindow(App->window->window);
 
 	return UPDATE_CONTINUE;
@@ -339,28 +382,23 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
+	//for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
 
-		(*it)->SetAspectRatio((float)width / (float)height);
+	//	(*it)->SetAspectRatio((float)width / (float)height);
 
-	}
+	//}
 
+	App->camera->editorCamera->SetAspectRatio((float)width / (float)height);
+	App->scene->gameCameraComponent->SetAspectRatio((float)width / (float)height);
 }
 
 void ModuleRenderer3D::SetGameCamera(CCamera* cam)
 {
-	if (App->scene->gameCameraComponent != nullptr)
-	{
-		App->scene->gameCameraComponent->isGameCam = false;
-	}
-
 	if (cam != nullptr)
 	{
-		cam->isGameCam = true;
+		App->scene->gameCameraComponent = cam;
 		OnResize(SDL_GetWindowSurface(App->window->window)->w, SDL_GetWindowSurface(App->window->window)->h);
 	}
-
-	App->scene->gameCameraComponent = cam;
 }
 
 void ModuleRenderer3D::HandleDragAndDrop()

@@ -40,7 +40,9 @@ public:
 
 	void SaveScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
-	void LoadSceneFromAssets(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+
+	// Start with a loaded scene from start
+	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -55,9 +57,6 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
-	//CCamera* currentCamera;
-	std::vector<CCamera*> cameras;
-
 	std::vector<GameObject*> gameObjects;
 
 	JsonFile ysceneFile;
@@ -69,4 +68,5 @@ public:
 	std::string currentSceneFile;
 
 	std::vector<GameObject*> vSelectedGOs;
+
 };

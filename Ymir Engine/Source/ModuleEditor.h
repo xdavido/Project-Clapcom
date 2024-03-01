@@ -39,6 +39,9 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void PrimitivesMenu();
+	void CreateCameraMenu();
+	void UIMenu();
 	void SaveAs();
 
 	// Manages the docking functionality with the main window
@@ -165,7 +168,7 @@ public:
 	bool showLibrary = true;
 
 	bool showNodeEditor = false;
-	bool showShaderEditor = true;
+	bool showShaderEditor = false;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;

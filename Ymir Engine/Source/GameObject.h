@@ -32,7 +32,9 @@ public:
 	void AddChild(GameObject* child);
 
 	void AddComponent(Component* component);
+	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
+	void RemoveComponent(Component* component);
 
 	void DeleteChild(GameObject* go);
 	//Remove from children vector (do not use)

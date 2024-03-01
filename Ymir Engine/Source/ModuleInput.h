@@ -1,8 +1,14 @@
 #pragma once
+
 #include "Module.h"
 #include "Globals.h"
 
+#include "External/SDL/include/SDL_gamecontroller.h"
+
 #define MAX_MOUSE_BUTTONS 5
+
+#define SDL_MAX_SINT16 32767
+#define MAX_CONTROLLERS 2
 
 enum KEY_STATE
 {
@@ -12,6 +18,19 @@ enum KEY_STATE
 	KEY_UP
 };
 
+// Gamepad Management
+
+struct GameController {
+
+	float j1_x, j1_y, j2_x, j2_y, LT, RT;
+	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
+
+};
+
+enum class GamepadJoystick { LEFT, RIGHT };
+enum class GamepadJoystickAxis { X, Y };
+enum class GamepadJoystickDirection { POSITIVE, NEGATIVE };
+
 class ModuleInput : public Module
 {
 public:
@@ -20,6 +39,7 @@ public:
 	virtual ~ModuleInput();
 
 	bool Init() override;
+	bool Start() override;
 	update_status PreUpdate(float dt) override;
 	bool CleanUp() override;
 
@@ -58,7 +78,40 @@ public:
 		return mouse_y_motion;
 	}
 
+	// ------------ Gamepad Management ------------
+
+	bool IsGamepadON();
+
+	// Buttons and Joysticks Mapping
+
+	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
+	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
+
+	// Idle Management
+
+	bool AreGamepadButtonsIdle();
+	bool IsGamepadJoystickIdle(GamepadJoystick joystick);
+	bool IsGamepadIdle();
+
+public:
+
+	// Drag & Drop
+
+	const char* droppedFileDirectory;
+	bool droppedFile = false;
+
+	// Gamepad Management
+
+	SDL_GameController* sdl_controllers[MAX_CONTROLLERS];
+	GameController controllers[MAX_CONTROLLERS];
+
+	std::vector<GameController*> activeControllers;
+	int num_controllers;
+
+	bool gamepadON = false;
+
 private:
+
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
@@ -68,11 +121,7 @@ private:
 	int mouse_y_motion;
 	//int mouse_z_motion;
 
-public:
-
-	bool quit = false;
-
-	const char* droppedFileDirectory;
-	bool droppedFile = false;
+	// Gamepad Deadzone Management
+	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
 
 };

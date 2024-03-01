@@ -11,7 +11,6 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
-#include "ModulePhysics.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -23,9 +22,6 @@
 #include "External/Optick/include/optick.h"
 
 #include "Texture.h"
-
-#include "CCollider.h"
-#include "CRigidBody.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -125,6 +121,12 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
+#ifdef _STANDALONE
+
+	TimeManager::gameTimer.Start();
+
+#endif // _STANDALONE
+
 	return ret;
 }
 
@@ -190,13 +192,12 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			ImGui::SeparatorText("Exit");
+			/*ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
-				App->input->quit = true;
 
-			}
+			}*/
 
 			ImGui::EndMenu();
 
@@ -247,285 +248,11 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			if (ImGui::BeginMenu("3D Primitives")) {
-
-				if (ImGui::MenuItem("Plane")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Plane created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cube")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cube created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pyramid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pyramid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cylinder")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cylinder created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cone")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cone created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Sphere")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Sphere created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Torus")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Torus created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Capsule")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Capsule created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Disc")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Disc created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Platonic Solid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Platonic Solid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Prism")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Prism created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pipe")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pipe created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Helix")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Helix created successfully");
-
-				}
-
-				ImGui::EndMenu();
-
-			}
-
-			if (ImGui::MenuItem("Camera")) {
-
-				GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
-				empty->UID = Random::Generate();
-
-				empty->AddComponent(new CCamera(empty));
-			}
-
-			/*if (ImGui::BeginMenu("UI")) {
-
-				if (ImGui::MenuItem("Plane")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Plane created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cube")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cube created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pyramid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pyramid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cylinder")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cylinder created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Cone")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Cone created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Sphere")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Sphere created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Torus")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Torus created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Capsule")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Capsule created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Disc")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Disc created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Platonic Solid")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Platonic Solid created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Prism")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Prism created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Pipe")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Pipe created successfully");
-
-				}
-
-				if (ImGui::MenuItem("Helix")) {
-
-					App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-					App->renderer3D->ReloadTextures();
-
-					LOG("Helix created successfully");
-
-				}
-
-				ImGui::EndMenu();
-
-			}*/
+			PrimitivesMenu();
+
+			CreateCameraMenu();
+			// TODO: Uncomment when UI
+			//UIMenu();
 
 			ImGui::Separator();
 
@@ -1161,7 +888,12 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::SetCursorPosX(posX);
 
+#ifdef _STANDALONE
+		static bool isPlaying = true;
+#else
 		static bool isPlaying = false;
+#endif // _STANDALONE
+		
 		static bool isPaused = false;
 
 		if (isPlaying) {
@@ -1528,6 +1260,174 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+}
+
+void ModuleEditor::PrimitivesMenu()
+{
+	if (ImGui::BeginMenu("3D Primitives")) {
+
+		if (ImGui::MenuItem("Plane")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Plane created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cube")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cube created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Pyramid")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Pyramid created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cylinder")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cylinder created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Cone")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Cone created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Sphere")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Sphere created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Torus")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Torus created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Capsule")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Capsule created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Disc")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Disc created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Platonic Solid")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Platonic Solid created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Prism")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Prism created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Pipe")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Pipe created successfully");
+
+		}
+
+		if (ImGui::MenuItem("Helix")) {
+
+			App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
+
+			App->renderer3D->ReloadTextures();
+
+			LOG("Helix created successfully");
+
+		}
+
+		ImGui::EndMenu();
+
+	}
+}
+
+void ModuleEditor::CreateCameraMenu()
+{
+	if (ImGui::MenuItem("Camera")) {
+
+		GameObject* empty = App->scene->CreateGameObject("Camera", App->scene->mRootNode);
+		empty->UID = Random::Generate();
+
+		empty->AddComponent(ComponentType::CAMERA);
+	}
+}
+
+void ModuleEditor::UIMenu()
+{
+	if (ImGui::BeginMenu("UI"))
+	{
+		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+
+		for (int i = 0; i < ui.size(); i++)
+		{
+			if (ImGui::MenuItem(ui[i].c_str()))
+			{
+				//new G_UI((UI_TYPE)i);
+				break;
+			}
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void ModuleEditor::SaveAs()
@@ -2822,21 +2722,15 @@ void ModuleEditor::DrawInspector()
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				//Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
-				//Component* mesh = (*it)->GetComponent(ComponentType::MESH);
-				//Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
-				//Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
+				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
+				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
 
-				//if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
-				//if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
-				//if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
-
-				for (int i = 0; i < (*it)->mComponents.size(); i++)
-				{
-					(*it)->mComponents[i]->OnInspector();
-					ImGui::Spacing();
-				}
+				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
+				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
+				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2845,38 +2739,50 @@ void ModuleEditor::DrawInspector()
 				// Set the cursor position to center the button within the menu
 				ImGui::SetCursorPosX(xPos);
 
-				ImGui::Separator();
-				ImGui::Text("");
-				ImGui::Text("");
-				ImGui::Text("");
 
-				char* listComponents[]{ "Add Component", "RigidBody", "Collider" };
-
-				ImGui::SameLine(ImGui::GetWindowWidth() / 6);
-				if (ImGui::Combo("##Add Component", &newComponent, listComponents, IM_ARRAYSIZE(listComponents)))
+				if (ImGui::Button("Add Component", ImVec2(110, 30)))
 				{
-					switch (newComponent)
-					{
-					case 1: // RigidBody
-						//if ((*it)->GetComponent(ComponentType::RIGIDBODY) == nullptr)
-						//{
-						//	CRigidBody* crb = new CRigidBody((*it));
-						//	(*it)->AddComponent(crb);
-						//	App->physics->bodiesList.push_back(crb->GetBody());
-						//}
-						//else
-						//{
-						//	LOG("RigidBody already added");
-						//}
-						break;
-					case 2: // Collider
-						CCollider * cll = new CCollider((*it));
-						(*it)->AddComponent(cll);
-						App->physics->collidersList.push_back(cll->GetShape());
-						break;
-					}
-					newComponent = 0;
+					ImGui::OpenPopup("AddComponents");
+					ImGui::SameLine();				
 				}
+
+				if (ImGui::BeginPopup("AddComponents"))
+				{
+					ImGui::SeparatorText("Components");
+
+					// Skip transform
+					// --- Add component Mesh ---
+
+					/*if (mesh == nullptr)
+					{
+						if (ImGui::BeginMenu("Mesh"))
+						{
+							App->editor->PrimitivesMenu();
+							ImGui::EndMenu();
+						}
+					}*/
+
+					// --- Add component Material ---
+					if (material == nullptr)
+					{
+						if (ImGui::MenuItem("Material"))
+						{
+							(*it)->AddComponent(ComponentType::MATERIAL);
+						}
+					}
+
+					// --- Add component Camera ---
+					if (camera == nullptr)
+					{
+						if (ImGui::MenuItem("Camera"))
+						{
+							(*it)->AddComponent(ComponentType::CAMERA);
+						}
+					}
+
+					ImGui::EndPopup();
+				}
+
 
 				if (!(*it)->active) { ImGui::EndDisabled(); }
 
@@ -3300,7 +3206,6 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							{
 								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
 								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
-								//App->scene->LoadSceneFromAssets(currentDir, entryName);
 							}
 						}
 

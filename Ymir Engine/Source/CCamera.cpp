@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "ModuleScene.h"
+#include "ModuleCamera3D.h"
 
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
@@ -25,9 +26,11 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	drawBoundingBoxes = false;
 	enableFrustumCulling = true;
 
+	isGameCam = isGame;
+	
 	if (isGame)
 	{
-		External->renderer3D->SetGameCamera(this);
+		SetAsMain();
 	}
 }
 
@@ -35,7 +38,7 @@ CCamera::~CCamera()
 {
 	if (isGameCam)
 	{
-		External->renderer3D->SetGameCamera();
+		SetAsMain(false);
 	}
 
 	framebuffer.Delete();
@@ -69,39 +72,13 @@ void CCamera::OnInspector()
 	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader("Camera", flags))
+	bool exists = true;
+
+	if (ImGui::CollapsingHeader("Camera", &exists, flags))
 	{
 		ImGui::Indent();
 
 		if (!active) { ImGui::BeginDisabled(); }
-
-		//// Position (Needs to be reworked into Transform)
-
-		//ImGui::SeparatorText("POSITION & ROTATION");
-
-		//ImGui::Spacing();
-
-		//float* cameraPosition = frustum.pos.ptr();
-
-		//ImGui::DragFloat3("Position", cameraPosition, 0.1f);
-
-		//ImGui::Spacing();
-
-		//// Rotation (Needs to be reworked into Transform)
-
-		//float3 rotation = { 0, 0, 0 };
-
-		//float* cameraRotation = rotation.ptr();
-
-		//ImGui::DragFloat3("Rotation", cameraRotation, 0.1f);
-
-		//Quat rotationQuaternion = Quat::FromEulerXYZ(DEGTORAD * rotation.x, DEGTORAD * rotation.y, DEGTORAD * rotation.z);
-
-		//rotationQuaternion.Normalize();
-
-		//float4x4 rotationMatrix = rotationQuaternion.ToFloat4x4();
-
-		//frustum.Transform(rotationMatrix);
 
 		ImGui::Spacing();
 
@@ -203,6 +180,8 @@ void CCamera::OnInspector()
 
 		ImGui::Unindent();
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CCamera::SetPos(float3 xyz)
@@ -315,11 +294,18 @@ void CCamera::DrawFrustumBox() const
 
 void CCamera::SetAsMain(bool mainCam)
 {
+
 	if (mainCam)
 	{
 		if (External->scene->gameCameraComponent != nullptr)
 		{
+			framebuffer = External->scene->gameCameraComponent->framebuffer;
 			External->scene->gameCameraComponent->isGameCam = false;
+		}
+
+		else
+		{
+			framebuffer.Load();
 		}
 
 		External->renderer3D->SetGameCamera(this);
@@ -328,6 +314,7 @@ void CCamera::SetAsMain(bool mainCam)
 	{
 		External->scene->gameCameraComponent = nullptr;
 	}
+
 }
 
 float4x4 CCamera::GetProjectionMatrix() const 

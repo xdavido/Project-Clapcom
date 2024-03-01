@@ -11,7 +11,6 @@
 
 #include "External/Glew/include/glew.h"
 #include "External/SDL/include/SDL_opengl.h"
-#include "External/Bullet/include/btBulletDynamicsCommon.h"
 #include <gl/GL.h>
 
 #define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
@@ -31,19 +30,29 @@ enum update_status
 };
 
 // Configuration -----------
+
+#ifdef _STANDALONE
+#define SCREEN_WIDTH 2560
+#define SCREEN_HEIGHT 1440
+#else
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 1024
+#endif // _STANDALONE
+
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_MAXIMIZED false
 #define WIN_BORDERLESS false
+
+#ifdef _STANDALONE
+#define WIN_FULLSCREEN_DESKTOP true
+#else
 #define WIN_FULLSCREEN_DESKTOP false
+#endif // _STANDALONE
+
 #define VSYNC true
 #define TITLE "Ymir Engine"
-
-// Physics
-#define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
 // Deletes a buffer
 #define RELEASE( x )\
