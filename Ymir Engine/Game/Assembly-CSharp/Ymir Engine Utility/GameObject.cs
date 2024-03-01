@@ -76,6 +76,15 @@ namespace YmirEngine
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
             get;
         }
+        public extern string Tag
+        {
+            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            get;
+
+            [MethodImplAttribute(MethodImplOptions.InternalCall)]
+            set;
+        }
+
 
 
         int GetHash()

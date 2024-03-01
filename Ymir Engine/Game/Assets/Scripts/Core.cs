@@ -20,7 +20,6 @@ public class Core : YmirComponent
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
-
 	public void Update(/*int x*/)
 	{
         //Hardcoceado para que sea una especia de "Start()"
@@ -30,10 +29,16 @@ public class Core : YmirComponent
             reference = InternalCalls.GetGameObjectByName("Test1");
             reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
             Debug.Log("[WARNING] Reference str: " + reference.name);
+            Debug.Log("juan " + testString);
+           
 
             start = false;
-            testString = "Start sting";
+         
             Debug.Log("[WARNING] START");
+
+            testString = reference.Tag;
+            testString = "Update string";
+
         }
 
 
@@ -42,9 +47,8 @@ public class Core : YmirComponent
             Debug.Log("[ERROR] Reference on Core.cs was 'null'");
             return;
         }
-			
-
-        testString = "Update string";    
+       
+      
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
