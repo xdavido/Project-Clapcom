@@ -233,10 +233,11 @@ update_status ModuleInput::PreUpdate(float dt)
 
 		controllers[i].j1_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
 		controllers[i].j1_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTY);
+		controllers[i].LT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+
 		controllers[i].j2_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTX);
 		controllers[i].j2_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTY);
 		controllers[i].RT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-		controllers[i].LT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
 
 	}
 
@@ -324,6 +325,26 @@ float ModuleInput::ReduceJoystickValue(bool controllerON, float v1, float min, f
 	else {
 
 		return 0;
+	}
+
+}
+
+float ModuleInput::ReduceTriggerValue(bool controllerON, float triggerValue)
+{
+	if (controllerON) {
+
+		// Scale triggerValue to the range [0, 100] based on 32767
+		triggerValue = (triggerValue / 32767.0f) * 100.0f;
+
+		// Clamp triggerValue to the range [0, 100]
+		triggerValue = MAX(0.0f, MIN(100.0f, triggerValue));
+
+		return triggerValue;
+	}
+	else {
+
+		return 0;
+
 	}
 
 }
@@ -435,6 +456,16 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 
 	}
 
+}
+
+float ModuleInput::GetGamepadLeftTriggerValue()
+{
+	return ReduceTriggerValue(SDL_IsGameController(0), controllers[0].LT);
+}
+
+float ModuleInput::GetGamepadRightTriggerValue()
+{
+	return ReduceTriggerValue(SDL_IsGameController(0), controllers[0].RT);
 }
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueX()
