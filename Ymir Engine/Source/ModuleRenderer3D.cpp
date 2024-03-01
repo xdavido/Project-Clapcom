@@ -274,16 +274,16 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
-		// Get UI elements to draw
-		GetUIGOs(App->scene->mRootNode, listUI);
+		//// Get UI elements to draw
+		//GetUIGOs(App->scene->mRootNode, listUI);
 
-		for (auto i = 0; i < listUI.size(); i++)
-		{
-			if (listUI[i]->mOwner->active && listUI[i]->active)
-			{
-				listUI[i]->Draw(false);
-			}
-		}
+		//for (auto i = 0; i < listUI.size(); i++)
+		//{
+		//	if (listUI[i]->mOwner->active && listUI[i]->active)
+		//	{
+		//		listUI[i]->Draw(false);
+		//	}
+		//}
 
 		// Render Bounding Boxes
 
@@ -310,19 +310,19 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			}
 
-			// TODO: preguntar porque el out of range este raro
-			if (!listUI.empty())
-			{
-				for (auto i = listUI.size() - 1; i >= 0; i--)
-				{
-					if (listUI[i]->mOwner->active && listUI[i]->active)
-					{
-						listUI[i]->Draw(true);
-					}
+			//// TODO: preguntar porque el out of range este raro
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
 
-					if (i == 0) { break; }
-				}
-			}
+			//		if (i == 0) { break; }
+			//	}
+			//}
 
 		}
 

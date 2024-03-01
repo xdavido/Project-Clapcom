@@ -1409,7 +1409,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				App->scene->gameObjects.push_back(new G_UI((UI_TYPE)i, App->scene->mRootNode));
+				App->scene->CreateGUI((UI_TYPE)i);
 				break;
 			}
 		}
@@ -2799,6 +2799,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			{
 				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
 				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 				{
 					// Snap to 45 degrees for rotation

@@ -54,10 +54,10 @@ void UI_Checkbox::OnInspector()
 
 		ImGui::Checkbox("Draggeable", &isDraggable);
 
-		/*if (ImGuiCustom::ToggleButton("Checked##", &isChecked))
+		if (ImGui::Checkbox("Checked##", &isChecked))
 		{
-			cmImg->isActive = isChecked;
-		}*/
+			cmImg->active = isChecked;
+		}
 
 		ImGui::Dummy(ImVec2(0, 10));
 		ImGui::Text("Text: %s", displayText->text.c_str());

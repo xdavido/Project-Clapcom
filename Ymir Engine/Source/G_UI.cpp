@@ -155,7 +155,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -180,7 +180,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -202,11 +202,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		int h = 50;
 
 		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y, External->scene->mRootNode);
+		AddUIComponent(UI_TYPE::IMAGE, x, y);
 		GetComponentUI(UI_TYPE::IMAGE)->width = w;
 		GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
-		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
+		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
 		aux->ReParent(this);
@@ -219,7 +219,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -245,11 +245,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		int h = 50;
 
 		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y, External->scene->mRootNode);
+		AddUIComponent(UI_TYPE::IMAGE, x, y);
 		GetComponentUI(UI_TYPE::IMAGE)->width = w;
 		GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
-		G_UI* aux = new G_UI(UI_TYPE::TEXT, this, 20, h / 3);
+		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
 		aux->ReParent(this);
@@ -265,7 +265,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -276,6 +276,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		{
 			ReParent(parent);
 		}
+
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
@@ -292,7 +293,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
-			External->scene->SetCanvas(new G_UI(UI_TYPE::CANVAS, External->scene->mRootNode));
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
 		}
 
 		if (parent == External->scene->mRootNode)
@@ -308,13 +309,13 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		// TODO: Maybe put all this references to the other components in the constructor
 		// Unity-like
 		// Toggle background
-		G_UI* aux = new G_UI(UI_TYPE::IMAGE, this);
+		G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
 		aux->name = "Background";
 		aux->ReParent(this);
 		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
 
 		// Checkmark
-		G_UI* aux2 = new G_UI(UI_TYPE::IMAGE, this);
+		G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
 		aux2->name = "Checkmark";
 		aux2->ReParent(aux);
 		aux2->canvas = static_cast<G_UI*>(mParent)->canvas;
@@ -323,7 +324,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		float heightCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->height;
 
 		// Label
-		G_UI* aux3 = new G_UI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
+		G_UI* aux3 = External->scene->CreateGUI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
 		aux3->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux3->GetComponentUI(UI_TYPE::TEXT)->height = h;
 		aux3->ReParent(this);

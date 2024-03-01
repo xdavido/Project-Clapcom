@@ -167,6 +167,14 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	return tempGameObject;
 }
 
+G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
+{
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent);
+	gameObjects.push_back(tempGameObject);
+
+	return tempGameObject;
+}
+
 void ModuleScene::DestroyGameObject(GameObject* toDestroy)
 {
 	if (toDestroy) {
