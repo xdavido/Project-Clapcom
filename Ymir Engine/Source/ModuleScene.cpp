@@ -163,6 +163,8 @@ bool ModuleScene::CleanUp()
 
 	LOG("Deleting scene");
 
+	RELEASE(mRootNode);
+
 	return ret;
 }
 
