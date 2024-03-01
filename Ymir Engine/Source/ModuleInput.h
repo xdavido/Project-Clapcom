@@ -87,6 +87,16 @@ public:
 	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
 	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
 
+	float GetGamepadLeftJoystickPositionValueX();
+	float GetGamepadLeftJoystickPositionValueY();
+
+	float GetGamepadRightJoystickPositionValueX();
+	float GetGamepadRightJoystickPositionValueY();
+
+	float GetGamepadJoystickPositionValueX(GamepadJoystick joystick);
+	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
+	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
+
 	// Idle Management
 
 	bool AreGamepadButtonsIdle();

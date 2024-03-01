@@ -353,13 +353,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Movement Right
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Movement Left
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -372,13 +372,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Movement Down
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Movement Up
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -398,13 +398,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Camera Right
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Camera Left
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -417,13 +417,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Camera Down
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Camera Up
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -433,6 +433,87 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 		break;
 	}
 
+	}
+
+}
+
+float ModuleInput::GetGamepadLeftJoystickPositionValueX()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+}
+
+float ModuleInput::GetGamepadLeftJoystickPositionValueY()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
+}
+
+float ModuleInput::GetGamepadRightJoystickPositionValueX()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2);
+}
+
+float ModuleInput::GetGamepadRightJoystickPositionValueY()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2);
+}
+
+float ModuleInput::GetGamepadJoystickPositionValueX(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+
+		break;
+
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2);
+		break;
+	}
+	}
+
+}
+
+float ModuleInput::GetGamepadJoystickPositionValueY(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
+
+		break;
+
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2);
+		break;
+	}
+	}
+
+}
+
+float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2));
+
+		break;
+	
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2));
+
+		break;
+	}
 	}
 
 }
