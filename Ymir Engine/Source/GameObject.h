@@ -21,7 +21,7 @@ public:
 	GameObject(std::string name, GameObject* parent);
 	virtual ~GameObject();
 
-	void Update();
+	virtual update_status Update(float dt);
 
 	void Enable();
 	void Disable();

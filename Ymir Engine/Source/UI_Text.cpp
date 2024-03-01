@@ -75,37 +75,42 @@ void UI_Text::OnInspector()
 		if (ImGui::Button("change font1"))
 		{
 			//RELEASE(font);
-			font = new Font("Arial.ttf", "PinkyAssets\\Fonts");
+			font = new Font("Arial.ttf",  "Assets\\Fonts");
 		}
-		if (ImGui::Button("change eglantineVar2"))
-		{
-			//RELEASE(font);
-			font = new Font("eglantineVar2.ttf", "PinkyAssets\\Fonts");
-		}
+		//if (ImGui::Button("change eglantineVar2"))
+		//{
+		//	//RELEASE(font);
+		//	font = new Font("eglantineVar2.ttf",  "Assets\\Fonts");
+		//}
 		if (ImGui::Button("change comic"))
 		{
 			//RELEASE(font);
-			font = new Font("comic.ttf", "PinkyAssets\\Fonts");
+			font = new Font("comic.ttf",  "Assets\\Fonts");
 		}
 		if (ImGui::Button("change times"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf", "PinkyAssets\\Fonts");
+			font = new Font("times.ttf",  "Assets\\Fonts");
 		}
 		if (ImGui::Button("change consola"))
 		{
 			//RELEASE(font);
-			font = new Font("consola.ttf", "PinkyAssets\\Fonts");
+			font = new Font("default_consola.ttf",  "Assets\\Fonts");
 		}
 		if (ImGui::Button("change Drawing with markers"))
 		{
 			//RELEASE(font);
-			font = new Font("Drawing with markers.ttf", "PinkyAssets\\Fonts");
+			font = new Font("Drawing with markers.ttf",  "Assets\\Fonts");
 		}
-		if (ImGui::Button("change Cat Paw"))
+		//if (ImGui::Button("change Cat Paw"))
+		//{
+		//	//RELEASE(font);
+		//	font = new Font("Cat Paw.otf",  "Assets\\Fonts");
+		//}
+		if (ImGui::Button("change times"))
 		{
 			//RELEASE(font);
-			font = new Font("Cat Paw.otf", "PinkyAssets\\Fonts");
+			font = new Font("times.ttf", "Assets\\Fonts");
 		}
 
 		ImGui::Text("Font Size");

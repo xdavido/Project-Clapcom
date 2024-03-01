@@ -96,7 +96,7 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		(*it)->Update();
+		(*it)->Update(dt);
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 

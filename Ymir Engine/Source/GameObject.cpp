@@ -43,7 +43,7 @@ GameObject::~GameObject()
 	mTransform = nullptr;
 }
 
-void GameObject::Update()
+update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
 
@@ -57,6 +57,7 @@ void GameObject::Update()
 
 	}
 
+	return update_status::UPDATE_CONTINUE;
 }
 
 void GameObject::Enable()

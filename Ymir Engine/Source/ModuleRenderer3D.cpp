@@ -208,6 +208,8 @@ bool ModuleRenderer3D::Init()
 	App->camera->editorCamera->framebuffer.Load();
 	App->scene->gameCameraComponent->framebuffer.Load();
 
+	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
+
 	return ret;
 }
 
@@ -272,6 +274,17 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
+		// Get UI elements to draw
+		GetUIGOs(App->scene->mRootNode, listUI);
+
+		for (auto i = 0; i < listUI.size(); i++)
+		{
+			if (listUI[i]->mOwner->active && listUI[i]->active)
+			{
+				listUI[i]->Draw(false);
+			}
+		}
+
 		// Render Bounding Boxes
 
 		DrawBoundingBoxes();
@@ -297,6 +310,20 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			}
 
+			// TODO: preguntar porque el out of range este raro
+			if (!listUI.empty())
+			{
+				for (auto i = listUI.size() - 1; i >= 0; i--)
+				{
+					if (listUI[i]->mOwner->active && listUI[i]->active)
+					{
+						listUI[i]->Draw(true);
+					}
+
+					if (i == 0) { break; }
+				}
+			}
+
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -316,6 +343,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+
 
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
@@ -578,6 +606,23 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 	
 	// If frustum culling is not enabled or the AABB is inside the frustum, return true.
 	return true;
+}
+
+void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
+{
+	if (go->GetComponent(ComponentType::UI) != nullptr)
+	{
+		C_UI* ui = static_cast<C_UI*>(go->GetComponent(ComponentType::UI));
+		listgo.push_back(ui);
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUIGOs(go->mChildren[i], listgo);
+		}
+	}
 }
 
 void ModuleRenderer3D::DrawGameObjects()

@@ -84,6 +84,9 @@ public:
 	// Handle Frustum Culling
 	bool IsInsideFrustum(const CCamera* camera, const AABB& aabb);
 
+	// Draw UI
+	void GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo);
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -94,6 +97,9 @@ public:
 
 	// 3D Models
 	std::vector<Model> models;
+
+	// UI Models
+	std::vector<C_UI*> listUI; // clean up 
 
 	bool texturingEnabled = true;
 
