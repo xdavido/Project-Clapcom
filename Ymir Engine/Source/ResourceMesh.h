@@ -42,17 +42,14 @@ public:
 	std::vector<GLuint> indices;
 	ResourceMaterial* material;
 
+	// Bounding Boxes Handling
+	AABB globalAABB;
+	AABB aabb;
+	OBB obb;
+
 private:
 
 	GLuint VBO;
 	GLuint EBO;
 	GLuint VAO;
-
-	// Bounding Boxes Handling
-
-	AABB globalAABB;
-
-	AABB aabb;
-	OBB obb;
-
 };

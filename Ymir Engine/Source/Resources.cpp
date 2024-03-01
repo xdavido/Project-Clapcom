@@ -79,12 +79,6 @@ void Resource::DecreaseReferenceCount()
 	this->referenceCount--;
 }
 
-void Resource::RemoveResource()
-{
-	// TODO: Sara 
-	//App->resourceManager->UnloadResource(UID);
-}
-
 bool Resource::IsLoadedInMemory() const
 {
 	return isLoaded;

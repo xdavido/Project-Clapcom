@@ -40,6 +40,10 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void PrimitivesMenu();
+	void CreateCameraMenu();
+	void UIMenu();
+	void SaveAs();
 
 	// Manages the docking functionality with the main window
 	void WindowDockSpaceManagement();
@@ -113,7 +117,7 @@ public:
 	// Function to encapsulate GameObjects hierarchy
 	void DrawHierarchy();
 	void CreateHierarchyTree(GameObject* node);
-	void DestroyHierarchyTree(GameObject* node);
+	//void DestroyHierarchyTree(GameObject* node);
 
 	// Function to encapsulate GameObjects inspector
 	void DrawInspector();
@@ -158,14 +162,16 @@ public:
 
 	bool showScene = true;
 	bool showGame = true;
+	bool showSaveAs = false;
 	bool showResources = true;
 	bool showFileExplorer = true;
 	bool showAssets = true;
 	bool showLibrary = true;
 
 	bool showNodeEditor = false;
-	bool showShaderEditor = true;
+
 	bool showScriptingEditor = true;
+	bool showShaderEditor = false;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;

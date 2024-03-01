@@ -39,7 +39,6 @@ public:
 	uint GetReferenceCount() const;
 	void IncreaseReferenceCount();
 	void DecreaseReferenceCount();
-	void RemoveResource();
 
 	bool IsLoadedInMemory() const;
 

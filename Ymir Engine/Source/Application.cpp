@@ -10,6 +10,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMonoManager.h"
+#include "ModuleAudio.h"
 
 #include "Log.h"
 
@@ -30,6 +31,7 @@ Application::Application()
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
 	moduleMono = new ModuleMonoManager(this);
+	audio = new ModuleAudio(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -39,6 +41,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+	AddModule(audio);
 
 	// Utility Modules
 	AddModule(fileSystem);
@@ -112,17 +115,17 @@ update_status Application::Update()
 	
 	for (std::vector<Module*>::const_iterator it = list_modules.cbegin(); it != list_modules.cend() && ret == UPDATE_CONTINUE; ++it)
 	{
-		(*it)->PreUpdate(dt);
+		ret = (*it)->PreUpdate(dt);
 	}
 
 	for (std::vector<Module*>::const_iterator it = list_modules.cbegin(); it != list_modules.cend() && ret == UPDATE_CONTINUE; ++it)
 	{
-		(*it)->Update(dt);
+		ret = (*it)->Update(dt);
 	}
 
 	for (std::vector<Module*>::const_iterator it = list_modules.cbegin(); it != list_modules.cend() && ret == UPDATE_CONTINUE; ++it)
 	{
-		(*it)->PostUpdate(dt);
+		ret = (*it)->PostUpdate(dt);
 	}
 
 	FinishUpdate();

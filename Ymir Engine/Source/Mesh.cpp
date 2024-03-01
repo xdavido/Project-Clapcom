@@ -9,6 +9,10 @@
 
 #include "DefaultShader.h"
 
+// -----------------------------------------------------------------------------------------------
+// ---------------------------- DEPRECATED: MOVING TO RESOURCE MESH ------------------------------
+// -----------------------------------------------------------------------------------------------
+
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	VBO = 0;
@@ -162,8 +166,6 @@ void Mesh::DrawMesh()
     //}
 
     //meshShader.UseShader(true);
-
-    meshShader.SetShaderUniforms(&meshGO->mTransform->mGlobalMatrix);
 
     //glBindVertexArray(VAO);
 

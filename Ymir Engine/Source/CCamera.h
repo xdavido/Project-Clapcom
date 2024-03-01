@@ -18,7 +18,7 @@ class GameObject;
 class CCamera : public Component {
 public:
 
-	CCamera(GameObject* owner);
+	CCamera(GameObject* owner, bool isGame = true);
 	virtual ~CCamera();
 
 	void Update() override;
@@ -68,6 +68,8 @@ public:
 
 	void DrawFrustumBox() const;
 
+	void SetAsMain(bool mainCam = true);
+
 public:
 
 	Frustum frustum;
@@ -75,5 +77,7 @@ public:
 
 	bool drawBoundingBoxes;
 	bool enableFrustumCulling;
+
+	bool isGameCam;
 
 };

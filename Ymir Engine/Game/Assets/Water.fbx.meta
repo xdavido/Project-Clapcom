@@ -1,0 +1,11 @@
+{
+    "Name": "Water",
+    "Assets Path": "Assets\/Water.fbx",
+    "Library Path": ".\/Library\/Models\/1624882381.ymodel",
+    "UID": 1624882381,
+    "Type": "Model",
+    "Meshes num": 1,
+    "Meshes Embedded UID": [
+        1030243416
+    ]
+}

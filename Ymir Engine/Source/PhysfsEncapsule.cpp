@@ -113,7 +113,7 @@ uint PhysfsEncapsule::SaveFile(const char* file, const void* buffer, uint size, 
 
 		if (written != size)
 		{
-			LOG("[ERROR] File System: Could not write to file %s: %s", file, PHYSFS_getLastError());
+			LOG("[ERROR] [File System] Could not write to file %s: %s", file, PHYSFS_getLastError());
 		}
 		else
 		{

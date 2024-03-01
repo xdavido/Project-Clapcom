@@ -35,12 +35,15 @@ public:
 	int selectedShader;
 	std::string shaderPath;
 	Shader shader;
+	bool shaderDirtyFlag;
 
 	// Textures
 
 	uint UID;
 	uint ID;
 	std::string path;
+
+	GameObject* owner;
 
 	std::vector<ResourceTexture*> rTextures;
 

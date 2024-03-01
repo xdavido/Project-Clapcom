@@ -43,15 +43,15 @@ bool ModuleRenderer3D::Init()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	
+
 	// Create context
 	context = SDL_GL_CreateContext(App->window->window);
-	if(context == NULL)
+	if (context == NULL)
 	{
 		LOG("[ERROR] OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	else 
+	else
 	{
 		LOG("OpenGL context created sucessfully!");
 	}
@@ -74,11 +74,11 @@ bool ModuleRenderer3D::Init()
 	else {
 		LOG("Successfully using DevIL %d", iluGetInteger(IL_VERSION_NUM));
 	}
-	
-	if(ret == true)
+
+	if (ret == true)
 	{
 		// Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("[WARNING] Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		// Initialize Projection Matrix
@@ -87,7 +87,7 @@ bool ModuleRenderer3D::Init()
 
 		// Check for errors
 		GLenum error = glGetError();
-		if(error != GL_NO_ERROR)
+		if (error != GL_NO_ERROR)
 		{
 			LOG("[ERROR] Could not initialize OpenGL! %s\n", gluErrorString(error));
 			ret = false;
@@ -96,18 +96,18 @@ bool ModuleRenderer3D::Init()
 		// Initialize Modelview Matrix
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		
+
 		// Check for errors
 		error = glGetError();
-		if(error != GL_NO_ERROR)
+		if (error != GL_NO_ERROR)
 		{
 			LOG("[ERROR] Could not initialize OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
-		
+
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-		
+
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
@@ -115,27 +115,27 @@ bool ModuleRenderer3D::Init()
 
 		//Check for error
 		error = glGetError();
-		if(error != GL_NO_ERROR)
+		if (error != GL_NO_ERROR)
 		{
 			LOG("[ERROR] Could not initialize OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
-		
-		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+
+		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-		
+
 		lights[0].ref = GL_LIGHT0;
 		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
 		lights[0].Init();
-		
-		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
+
+		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
 
-		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
-		
+
 		// Enable OpenGL initial configurations
 
 		glEnable(GL_DEPTH_TEST);
@@ -203,10 +203,27 @@ bool ModuleRenderer3D::Init()
 	colorShader->LoadShader("Assets/Shaders/ColorShader.glsl");
 	delete colorShader;
 
+	Shader* waterShader = new Shader;
+	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
+	delete waterShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
-	App->scene->gameCameraComponent->framebuffer.Load();
+
+	App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
+
+	// TODO: remove and do with proper constructor
+	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+
+	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	
+	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
+	
+	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
 
 	return ret;
 }
@@ -225,13 +242,13 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
 
-	for(uint i = 0; i < MAX_LIGHTS; ++i)
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
 	App->editor->AddFPS(App->GetFPS());
 	App->editor->AddDT(App->GetDT());
 	App->editor->AddMS(App->GetMS());
-	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -244,101 +261,101 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
 
+#ifndef _STANDALONE
+
 	App->camera->editorCamera->framebuffer.Render(true);
 
 	App->camera->editorCamera->Update();
 
 	// Render Grid
-	
+
 	if (showGrid) {
 
 		Grid.Render();
 
 	}
 
-	// Render Frustum Box
-
-	if (App->scene->gameCameraObject->active) {
-
-		App->scene->gameCameraComponent->DrawFrustumBox();
-
-	}
-
-	// HandleDragAndDrop();
-
-	// DrawModels();
-
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	if (App->scene->gameCameraComponent != nullptr)
 	{
-		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
-		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
-		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
+		// Render Frustum Box
 
-		if (materialComponent != nullptr) {
+		if (App->scene->gameCameraObject->active) {
 
-			for (auto& textures : materialComponent->rTextures) {
-
-				textures->BindTexture(true);
-
-			}
-
-			materialComponent->shader.UseShader(true);
-			materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix);
+			App->scene->gameCameraComponent->DrawFrustumBox();
 
 		}
 
-		if (meshComponent != nullptr) {
+		// HandleDragAndDrop();
 
-			meshComponent->rMeshReference->Render();
+		// DrawModels();
 
-		}
+		DrawGameObjects();
 
-		if (materialComponent != nullptr) {
-
-			materialComponent->shader.UseShader(false);
-
-			for (auto& textures : materialComponent->rTextures) {
-
-				textures->BindTexture(false);
-
-			}
-
-		}
-
-	}
-
-	// Render Bounding Boxes
-
-	DrawBoundingBoxes();
-	
-	App->camera->editorCamera->framebuffer.Render(false);
-
-	// --------------------------- Game Camera FrameBuffer -----------------------------------
-
-	App->scene->gameCameraComponent->framebuffer.Render(true);
-
-	App->scene->gameCameraComponent->Update();
-
-	if (App->scene->gameCameraObject->active) {
-
-		DrawModels();
+		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes) {
 
 			DrawBoundingBoxes();
 
 		}
-
 	}
 
-	App->scene->gameCameraComponent->framebuffer.Render(false);
+	App->camera->editorCamera->framebuffer.Render(false);
+
+	// --------------------------- Game Camera FrameBuffer -----------------------------------
+
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->framebuffer.Render(true);
+
+		App->scene->gameCameraComponent->Update();
+
+		if (App->scene->gameCameraObject->active) {
+
+			DrawGameObjects();
+
+			//if (External->scene->gameCameraComponent->drawBoundingBoxes) {
+
+			//	DrawBoundingBoxes();
+
+			//}
+
+		}
+
+		App->scene->gameCameraComponent->framebuffer.Render(false);
+
+	}
 
 	// --------------------------- Drawing editor and Swaping Window -------------------------
 
 	App->editor->DrawEditor();
 
+#else
+
+	if (App->scene->gameCameraComponent != nullptr)
+	{
+		App->scene->gameCameraComponent->framebuffer.Render(true);
+
+		App->scene->gameCameraComponent->Update();
+
+		if (App->scene->gameCameraObject->active) {
+
+			DrawGameObjects();
+
+		}
+
+		App->scene->gameCameraComponent->framebuffer.Render(false);
+
+		// Adjust FrameBuffer for Standalone
+
+		App->scene->gameCameraComponent->framebuffer.RenderToScreen();
+
+	}
+
+#endif // !_STANDALONE
+
 	SDL_GL_SwapWindow(App->window->window);
-	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -356,7 +373,7 @@ bool ModuleRenderer3D::CleanUp()
 
 	// Shutdown DevIL
 	ilShutDown();
-	
+
 	// Delete OpenGL context
 	SDL_GL_DeleteContext(context);
 
@@ -365,12 +382,23 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
+	//for (auto& it = App->scene->cameras.begin(); it != App->scene->cameras.end(); ++it) {
 
-		(*it)->SetAspectRatio((float)width / (float)height);
+	//	(*it)->SetAspectRatio((float)width / (float)height);
 
+	//}
+
+	App->camera->editorCamera->SetAspectRatio((float)width / (float)height);
+	App->scene->gameCameraComponent->SetAspectRatio((float)width / (float)height);
+}
+
+void ModuleRenderer3D::SetGameCamera(CCamera* cam)
+{
+	if (cam != nullptr)
+	{
+		App->scene->gameCameraComponent = cam;
+		OnResize(SDL_GetWindowSurface(App->window->window)->w, SDL_GetWindowSurface(App->window->window)->h);
 	}
-
 }
 
 void ModuleRenderer3D::HandleDragAndDrop()
@@ -410,7 +438,7 @@ void ModuleRenderer3D::HandleDragAndDrop()
 			}
 
 		}
-		
+
 		App->input->droppedFile = false;
 
 	}*/
@@ -467,7 +495,7 @@ void ModuleRenderer3D::ClearActualTexture()
 				(*jt).textures.clear();
 
 			}
-			
+
 		}
 
 	}
@@ -490,7 +518,7 @@ void ModuleRenderer3D::ReloadTextures()
 
 void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 {
-	uint indices[24] = { 
+	uint indices[24] = {
 
 		0,2,2,
 		6,6,4,
@@ -499,7 +527,7 @@ void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 		3,2,4,
 		5,6,7,
 		5,7,3,
-		7,1,5 
+		7,1,5
 
 	};
 
@@ -520,7 +548,7 @@ void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 
 void ModuleRenderer3D::DrawBoundingBoxes()
 {
-	for (auto it = models.begin(); it != models.end(); ++it) {
+	/*for (auto it = models.begin(); it != models.end(); ++it) {
 
 		for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
 
@@ -533,20 +561,22 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 		}
 
+	}*/
+
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+
+		if (meshComponent != nullptr) {
+
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
+			{
+				//meshComponent->rMeshReference->UpdateBoundingBoxes();
+				meshComponent->rMeshReference->RenderBoundingBoxes();
+			}
+		}
+
 	}
-
-	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
-	//{
-	//	CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
-
-	//	if (meshComponent != nullptr) {
-
-	//		meshComponent->rMeshReference->UpdateBoundingBoxes();
-	//		meshComponent->rMeshReference->RenderBoundingBoxes();
-
-	//	}
-
-	//}
 
 }
 
@@ -562,7 +592,7 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 		// Get the corner points of the AABB.
 		float3 cornerPoints[8];
 		aabb.GetCornerPoints(cornerPoints);
-		
+
 		// Loop through each plane of the frustum.
 		for (int i = 0; i < 6; ++i) {
 
@@ -589,16 +619,54 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 		}
 
 	}
-	
+
 	// If frustum culling is not enabled or the AABB is inside the frustum, return true.
 	return true;
 }
 
-void ModuleRenderer3D::DrawModels()
+void ModuleRenderer3D::DrawGameObjects()
 {
-	for (auto it = models.begin(); it != models.end(); ++it) {
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
+		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
+		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 
-		(*it).DrawModel();
+		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
+		{
+
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
+			{
+
+				if (materialComponent != nullptr && materialComponent->active) {
+
+					for (auto& textures : materialComponent->rTextures) {
+
+						textures->BindTexture(true);
+
+					}
+
+					materialComponent->shader.UseShader(true);
+					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
+
+				}
+
+				meshComponent->rMeshReference->Render();
+
+				if (materialComponent != nullptr && materialComponent->active) {
+
+					materialComponent->shader.UseShader(false);
+
+					for (auto& textures : materialComponent->rTextures) {
+
+						textures->BindTexture(false);
+
+					}
+
+				}
+
+			}
+		}
 
 	}
 }

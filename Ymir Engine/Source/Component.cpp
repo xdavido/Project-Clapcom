@@ -19,7 +19,7 @@ Component::Component(GameObject* owner, ComponentType type)
 
 Component::~Component()
 {
-
+	mOwner = nullptr;
 }
 
 void Component::Enable()

@@ -4,12 +4,16 @@
 #include <map>
 
 #include "Module.h"
+#include "ModuleFileSystem.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
 #include "External/Assimp/include/postprocess.h"
 
 #include "External/MathGeoLib/include/Geometry/LineSegment.h"
+
+#include "CAudioListener.h"
+#include "CAudioSource.h"
 
 #include "JsonFile.h"
 #include "ResourceMesh.h"
@@ -33,13 +37,15 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	void DestroyGameObject(GameObject* toDestroy);
+	//void DestroyGameObject(GameObject* toDestroy);
 
 	void ClearScene();
 
-	void QuickSaveScene();
-	void QuickLoadScene();
-	void LoadSceneFromAssets(std::string path);
+	void SaveScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
+
+	// Start with a loaded scene from start
+	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -54,9 +60,6 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
-	//CCamera* currentCamera;
-	std::vector<CCamera*> cameras;
-
 	std::vector<GameObject*> gameObjects;
 
 	std::vector<std::string> tags;
@@ -66,4 +69,10 @@ public:
 	Mesh* ourMesh;
 	ResourceMesh mymesh{ 0 };
 
+	std::string currentSceneDir;
+	std::string currentSceneFile;
+
+	std::vector<GameObject*> vSelectedGOs;
+
+	GameObject* audiosource;
 };
