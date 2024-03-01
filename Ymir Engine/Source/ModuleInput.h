@@ -4,6 +4,7 @@
 #include "Globals.h"
 
 #include "External/SDL/include/SDL_gamecontroller.h"
+#include "External/MathGeoLib/include/Math/float2.h"
 
 #define MAX_MOUSE_BUTTONS 5
 
