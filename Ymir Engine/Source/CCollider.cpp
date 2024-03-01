@@ -88,7 +88,9 @@ void CCollider::OnInspector()
 		if (physType != physicsType::STATIC)
 		{
 			ImGui::Text("Mass: "); ImGui::SameLine();
-			ImGui::DragFloat("##Mass", &mass);
+			if (ImGui::DragFloat("##Mass", &mass))
+				//External->physics->SetBodyMass(collider, mass);
+			
 		}
 		if (physType == physicsType::DYNAMIC)
 			ImGui::Checkbox("Use gravity\t", &gravity);

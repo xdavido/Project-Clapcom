@@ -9,6 +9,7 @@
 #include <vector>
 
 class DebugDrawer;
+struct PhysBody;
 
 class ModulePhysics : public Module 
 {
@@ -30,6 +31,8 @@ public:
 
 	void RemoveBody(btRigidBody* b);
 	void RemoveCollider(btCollisionShape* c);
+
+	void SetBodyMass(PhysBody* pbody, float mass);
 
 	// TODO: NIXON
 	// RayCast functions

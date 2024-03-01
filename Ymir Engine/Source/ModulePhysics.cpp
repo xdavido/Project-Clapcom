@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
+#include "PhysBody.h"
 
 #include "Log.h"
 
@@ -136,6 +137,19 @@ void ModulePhysics::RemoveCollider(btCollisionShape* c)
 	collidersList.shrink_to_fit();
 }
 
+void ModulePhysics::SetBodyMass(PhysBody* pbody, float mass)
+{
+	if (pbody && pbody->body)
+	{
+		btCollisionShape* colShape = pbody->body->getCollisionShape();
+		btVector3 localInertia(0, 0, 0);
+
+		if (mass != 0.f)
+			colShape->calculateLocalInertia(mass, localInertia);
+
+		pbody->body->setMassProps(mass, localInertia);
+	}
+}
 
 // DEBUG DRAWER =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
