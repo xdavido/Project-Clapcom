@@ -37,8 +37,9 @@ public:
 	void RemoveComponent(Component* component);
 
 	void DeleteChild(GameObject* go);
-	//Remove from children vector (do not use)
+	//Remove from children vector (do not use)	
 	void RemoveChild(GameObject* go);
+	void DestroyGameObject();
 	//void DestroyGameObject();
 
 	void CollectChilds(std::vector<GameObject*>& vector);

@@ -440,6 +440,7 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 float ModuleInput::GetGamepadLeftJoystickPositionValueX()
 {
 	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+
 }
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueY()

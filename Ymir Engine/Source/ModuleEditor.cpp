@@ -1242,6 +1242,7 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
+	}
     if (showScriptingEditor) {
 
         if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
@@ -1252,7 +1253,7 @@ void ModuleEditor::DrawEditor()
 
         }
 
-    }
+    
 
     // --------------------------------- Here finishes the code for the editor ----------------------------------------
     

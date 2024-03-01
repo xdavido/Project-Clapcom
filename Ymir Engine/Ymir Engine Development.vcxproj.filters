@@ -112,6 +112,9 @@
     <Filter Include="Externals\Wwise">
       <UniqueIdentifier>{32b0f1d8-dfe9-47cc-b282-e8a05a39d024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Utils\Bindings">
+      <UniqueIdentifier>{10ca609f-e2f7-4020-9e19-4b325c79a1af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -804,9 +807,6 @@
     <ClInclude Include="Source\ModuleMonoManager.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CS_Bindings.h">
-      <Filter>Sources\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\External\PugiXML\pugiconfig.hpp">
       <Filter>Externals\PugiXML</Filter>
     </ClInclude>
@@ -816,7 +816,7 @@
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
       <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ScriptEditor.h" />
+    <ClInclude Include="Source\ScriptEditor.h">
     </ClInclude>
     <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAllocator.h">
       <Filter>Externals\Wwise</Filter>
@@ -1030,6 +1030,12 @@
     </ClInclude>
     <ClInclude Include="Source\AudioBank.h">
       <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CS_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CS_Input_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1357,7 +1363,7 @@
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ScriptEditor.cpp" />
+    <ClCompile Include="Source\ScriptEditor.cpp">
     </ClCompile>
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Externals\Wwise</Filter>
