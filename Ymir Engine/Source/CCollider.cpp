@@ -41,6 +41,10 @@ void CCollider::OnInspector()
 	{
 		ImGui::Indent();
 
+		ImGui::Spacing();
+		ImGui::SeparatorText("COLLIDER");
+		ImGui::Spacing();
+
 		ImGui::Text("Shape: "); ImGui::SameLine();
 		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles))) 
 		{
@@ -63,16 +67,29 @@ void CCollider::OnInspector()
 				break;
 			}
 		}
+
+
+		// -----------------------------------------------------------------------------------------------------
+
+
+		ImGui::Spacing();
+		ImGui::SeparatorText("RIGIDBODY");
+		ImGui::Spacing();
+
+		ImGui::PushItemWidth(120.0f);
+
 		const char* items[] = { "Dynamic", "Kinematic", "Static" };
 		int currentItem = static_cast<int>(physType);
 
 		ImGui::Text("Physics Type: "); ImGui::SameLine();
-
 		ImGui::Combo("##Physics Type", &currentItem, items, IM_ARRAYSIZE(items));
 		physType = static_cast<physicsType>(currentItem);
 
 		if (physType != physicsType::STATIC)
-			ImGui::DragFloat("Mass\t", &mass);
+		{
+			ImGui::Text("Mass: "); ImGui::SameLine();
+			ImGui::DragFloat("##Mass", &mass);
+		}
 		if (physType == physicsType::DYNAMIC)
 			ImGui::Checkbox("Use gravity\t", &gravity);
 
