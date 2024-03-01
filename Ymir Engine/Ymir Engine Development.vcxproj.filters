@@ -804,6 +804,9 @@
     <ClInclude Include="Source\CRigidBody.h">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClInclude>
+    <ClInclude Include="PhysBody.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1129,6 +1132,9 @@
     </ClCompile>
     <ClCompile Include="Source\CRigidBody.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysBody.cpp">
+      <Filter>Sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

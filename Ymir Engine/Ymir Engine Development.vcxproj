@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PhysBody.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CRigidBody.h" />
@@ -356,6 +357,7 @@
     <ClInclude Include="Source\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PhysBody.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CCollider.cpp" />
