@@ -95,10 +95,6 @@ public:
 
 public:
 
-	// Quit
-
-	bool quit = false;
-
 	// Drag & Drop
 
 	const char* droppedFileDirectory;

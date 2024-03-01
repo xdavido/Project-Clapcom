@@ -192,13 +192,12 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			ImGui::SeparatorText("Exit");
+			/*ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
-				App->input->quit = true;
 
-			}
+			}*/
 
 			ImGui::EndMenu();
 
