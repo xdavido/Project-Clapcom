@@ -83,9 +83,12 @@ public:
 
 	bool IsGamepadON();
 
-	// Buttons and Joysticks Mapping
+	// Buttons Mapping
 
 	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
+
+	// Joystick Mapping
+
 	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
 
 	float GetGamepadLeftJoystickPositionValueX();
@@ -98,11 +101,24 @@ public:
 	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
 	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
 
+	// Trigger Mapping
+
+	float GetGamepadLeftTriggerValue();
+	float GetGamepadRightTriggerValue();
+
 	// Idle Management
 
 	bool AreGamepadButtonsIdle();
 	bool IsGamepadJoystickIdle(GamepadJoystick joystick);
 	bool IsGamepadIdle();
+
+private:
+
+	// Gamepad Deadzone Management
+	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
+
+	// Gamepad Triggers Management
+	float ReduceTriggerValue(bool controllerON, float triggerValue);
 
 public:
 
