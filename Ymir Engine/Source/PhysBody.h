@@ -5,7 +5,6 @@
 class btRigidBody;
 class Module;
 
-
 struct PhysBody
 {
 	friend class ModulePhysics;

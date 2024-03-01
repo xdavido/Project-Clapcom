@@ -7,7 +7,7 @@
 
 #include <string>
 
-CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::COLLIDER)
+CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSICS)
 {
 	this->mOwner = owner;
 

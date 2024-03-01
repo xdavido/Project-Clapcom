@@ -10,7 +10,7 @@ enum ComponentType {
 	MATERIAL,
 	CAMERA,
 	RIGIDBODY,
-	COLLIDER
+	PHYSICS
 };
 
 class Component {

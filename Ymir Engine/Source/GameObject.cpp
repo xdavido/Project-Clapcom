@@ -155,6 +155,14 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+	case ComponentType::PHYSICS:
+		if (GetComponent(ComponentType::PHYSICS) == nullptr)
+		{
+			temp = new CCollider(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
 	default:
 		break;
 	}

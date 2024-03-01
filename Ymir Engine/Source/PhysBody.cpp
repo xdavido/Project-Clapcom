@@ -1,5 +1,5 @@
 #include "PhysBody.h"
-#include "Source/External/Bullet/include/btBulletDynamicsCommon.h"
+#include "External/Bullet/include/btBulletDynamicsCommon.h"
 
 // =================================================
 PhysBody::PhysBody(btRigidBody* body) : body(body)
