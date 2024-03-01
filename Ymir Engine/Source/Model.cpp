@@ -104,29 +104,6 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 		int it = 0;
 		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
 
-		// Load animations
-
-		if (scene->HasAnimations()) {
-
-			// Hardcoded for testing
-			CAnimation* animationComponent = new CAnimation(modelGO);
-			modelGO->AddComponent(animationComponent);
-			//-------------------------
-
-			Animation* anim = new Animation(path, this);
-
-			CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
-			cAnim->animator = new Animator(anim);
-			
-			LOG("Model has animations");
-		}
-		else {
-
-			//animator = nullptr;
-
-			LOG("Model doesn't have animations");
-		}
-
 		GenerateModelMetaFile();
 
 		LOG("Model created: %s", name.c_str());
@@ -473,6 +450,29 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 		LOG("Model with no bones");
 	}
 
+	// Load animations
+
+	if (scene->HasAnimations()) {
+
+		// Hardcoded for testing
+		CAnimation* animationComponent = new CAnimation(linkGO);
+		linkGO->AddComponent(animationComponent);
+		//-------------------------
+
+		Animation* anim = new Animation(path, this);
+
+		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+		cAnim->animator = new Animator(anim);
+
+		LOG("Model has animations");
+	}
+	else {
+
+		//animator = nullptr;
+
+		LOG("Model doesn't have animations");
+	}
+
 	// Create the mesh
 
 	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
@@ -541,6 +541,7 @@ void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 		if (vertex.boneIDs[i] == -1) {
 			vertex.boneIDs[i] = boneID;
 			vertex.weights[i] = weight;
+			LOG("BoneID %i with weight %f", vertex.boneIDs[i], vertex.weights[i]);
 			break;
 		}
 	}
@@ -583,7 +584,9 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			int vertexID = weights->mVertexId;
 			float weight = weights->mWeight; 
 			assert(vertexID <= vertices.size());
+			LOG("------Vertex with id %i------", vertexID);
 			SetVertexBoneData(vertices[vertexID], boneID, weight);
+			LOG("-----------------------------");
 		}
 	}
 }

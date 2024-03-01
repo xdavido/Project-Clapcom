@@ -19,7 +19,7 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     AddAnimation(test2, "Ani2     (testing)");
     AddAnimation(test3, "Ani3     (testing)");
 
-    //active = false;
+    active = true;
 
 }
 

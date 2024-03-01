@@ -203,6 +203,10 @@ bool ModuleRenderer3D::Init()
 	colorShader->LoadShader("Assets/Shaders/ColorShader.glsl");
 	delete colorShader;
 
+	Shader* animationShader = new Shader; 
+	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
+	delete animationShader; 
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
@@ -593,6 +597,7 @@ void ModuleRenderer3D::DrawGameObjects()
 		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
+		CAnimation* animationComponent = (CAnimation*)(*it)->GetComponent(ComponentType::ANIMATION);
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{

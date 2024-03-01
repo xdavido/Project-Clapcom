@@ -26,9 +26,9 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	selected = false;
 
 	mTransform = nullptr;
-	cAnimation = nullptr;
-	cAnimation = new CAnimation(this);
-	AddComponent(cAnimation);
+	//cAnimation = nullptr;
+	//cAnimation = new CAnimation(this);
+	//AddComponent(cAnimation);
 
 	if (mParent != nullptr)
 	{
