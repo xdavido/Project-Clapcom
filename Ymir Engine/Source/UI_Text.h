@@ -38,6 +38,7 @@ public:
 
 	GLuint VBO; //vertex buffer object
 	GLuint EBO; //element buffer object
+	GLuint VAO; 
 	GLuint id_tex_uvs; //texture UVs
 
 	GLuint textureID;

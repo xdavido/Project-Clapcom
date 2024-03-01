@@ -19,17 +19,18 @@
 
 struct UIBounds
 {
-	float3 vertex[4];
-	float2 uvs[4];
-
 	uint* index;
 
 	GLuint VBO; //vertex buffer object
 	GLuint EBO; //element buffer object
+	GLuint VAO;
 	GLuint id_tex_uvs; //texture UVs
 
 	GLuint textureID;
 	AABB local_aabb;//local AABB
+
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
 
 	bool InitBuffers();
 	void RegenerateVBO();

@@ -61,32 +61,52 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 	boundsGame->index[4] = 1;
 	boundsGame->index[5] = 3;
 
-	boundsEditor->vertex[0] = float3(position.x, position.y + (height * scaleBounds.y), 0);
-	boundsEditor->vertex[1] = float3(position.x + (width * scaleBounds.x), position.y + ((height * scaleBounds.y) * scaleBounds.y), 0);
-	boundsEditor->vertex[2] = float3(position.x, position.y, 0);
-	boundsEditor->vertex[3] = float3(position.x + (width * scaleBounds.x), position.y, 0);
+	Vertex vert1;
+	vert1.position = float3(position.x, position.y + (height * scaleBounds.y), 0);
+	vert1.textureCoordinates = float2(0, 1);
+	boundsEditor->vertices.push_back(vert1);
 
-	boundsGame->vertex[0] = float3(posX, posY + (height * scaleBounds.y), 0);
-	boundsGame->vertex[1] = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
-	boundsGame->vertex[2] = float3(posX, posY, 0);
-	boundsGame->vertex[3] = float3(posX + (width * scaleBounds.x), posY, 0);
+	Vertex vert2;
+	vert2.position = float3(position.x + (width * scaleBounds.x), position.y + ((height * scaleBounds.y) * scaleBounds.y), 0);
+	vert2.textureCoordinates = float2(1, 1);
+	boundsEditor->vertices.push_back(vert1);
 
-	boundsGame->uvs[0] = float2(0, 1);
-	boundsGame->uvs[1] = float2(1, 1);
-	boundsGame->uvs[2] = float2(0, 0);
-	boundsGame->uvs[3] = float2(1, 0);
+	Vertex vert3;
+	vert3.position = float3(position.x, position.y, 0);
+	vert3.textureCoordinates = float2(0, 0);
+	boundsEditor->vertices.push_back(vert1);
 
-	boundsEditor->uvs[0] = float2(0, 1);
-	boundsEditor->uvs[1] = float2(1, 1);
-	boundsEditor->uvs[2] = float2(0, 0);
-	boundsEditor->uvs[3] = float2(1, 0);
+	Vertex vert4;
+	vert4.position = float3(position.x + (width * scaleBounds.x), position.y, 0);
+	vert4.textureCoordinates = float2(1, 0);
+	boundsEditor->vertices.push_back(vert1);
+
+	Vertex vert1;
+	vert1.position = float3(posX, posY + (height * scaleBounds.y), 0);
+	vert1.textureCoordinates = float2(0, 1);
+	boundsGame->vertices.push_back(vert1);
+
+	Vertex vert2;
+	vert2.position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
+	vert2.textureCoordinates = float2(1, 1);
+	boundsGame->vertices.push_back(vert2);
+
+	Vertex vert3;
+	vert3.position = float3(posX, posY, 0);
+	vert3.textureCoordinates = float2(0, 0);
+	boundsGame->vertices.push_back(vert3);
+
+	Vertex vert4;
+	vert4.position = float3(posX + (width * scaleBounds.x), posY, 0);
+	vert4.textureCoordinates = float2(1, 0);
+	boundsGame->vertices.push_back(vert4);
 
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
 	//Mouse pick
 	local_aabb.SetNegativeInfinity();
-	local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
+	//local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
 	obb = local_aabb;
 	obb.Transform(mOwner->mTransform->GetGlobalTransform());
 	global_aabb.SetNegativeInfinity();
@@ -143,6 +163,7 @@ void C_UI::Draw(bool game)
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	// Mesh buffers
+	
 	glBindBuffer(GL_ARRAY_BUFFER, boundsDrawn->VBO);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindVertexArray(0);
@@ -472,24 +493,74 @@ bool UIBounds::InitBuffers()
 	EBO = 0;
 	id_tex_uvs = 0;
 
+	// 1. Create Buffers
+
+	glGenVertexArrays(1, &VAO);
+
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
-	glGenBuffers(1, &id_tex_uvs);
+	//glGenBuffers(1, &id_tex_uvs);
 
-	if (VBO == 0 || EBO == 0 || id_tex_uvs == 0)
+
+	if (VBO == 0 || EBO == 0 || id_tex_uvs == 0 || VAO == 0)
 	{
 		LOG("[ERROR] buffer not created");
 		return false;
 	}
 
+	// 2. Bind Buffers
+	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * 4, vertex, GL_STATIC_DRAW);
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, index, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, id_tex_uvs);
 
-	glBindBuffer(GL_ARRAY_BUFFER, id_tex_uvs);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * 4, uvs, GL_STATIC_DRAW);
+	// 3. Set the Vertex Attribute Pointers
+
+	 // Vertex Positions
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+	// Vertex Normals
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+
+	// Vertex Texture Coordinates
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
+
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * 4, uvs, GL_STATIC_DRAW);
+
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, index, GL_STATIC_DRAW);
+
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * 4, vertex, GL_STATIC_DRAW);
+
+
+	// 4. Load data into Vertex Buffers
+
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+
+	LOG("Mesh loaded with: %d vertices, %d indices", vertices.size(), indices.size());
+
+	//glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+
+
+	// 5. Unbind Buffers
+
+	glBindVertexArray(0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 	return true;
 }
