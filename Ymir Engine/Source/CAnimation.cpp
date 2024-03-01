@@ -19,19 +19,22 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     AddAnimation(test2, "Ani2     (testing)");
     AddAnimation(test3, "Ani3     (testing)");
 
-    active = false;
+    //active = false;
 
 }
 
 CAnimation::~CAnimation()
 {
-
+    animations.~vector();
+    aniParamaters.~vector();
 }
 
 void CAnimation::Update() {
     
-    //animator->UpdateAnimation(0.5f);
-    LOG("Updating Animation");
+    if (selectedAnimationPlaying != -1) {
+        //animator->UpdateAnimation(0.5f);
+        LOG("Updating Animation %s", &aniParamaters[selectedAnimationPlaying].name);
+    }
 
 }
 
@@ -121,18 +124,23 @@ void CAnimation::OnInspector() {
                     }
 
                 }
+
+                //When click on play, update the animation to the current selected one
+                //animator->PlayAnimation(&animations[selectedAnimationPlaying]);
             }
 
             ImGui::Checkbox("Loop", &aniParamaters[selectedAnimation].isLoop);
 
             if (ImGui::IsItemClicked()) {
                 !aniParamaters[selectedAnimation].isLoop;
+                //Do loop on current animation
             }
 
             ImGui::Checkbox("PingPong", &aniParamaters[selectedAnimation].isPingPong);
 
             if (ImGui::IsItemClicked()) {
                 !aniParamaters[selectedAnimation].isPingPong;
+                //Do PingPong on current animation
             }
         }
 

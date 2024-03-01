@@ -27,8 +27,6 @@ struct AnimationParameters {
 
 	bool isPingPong = false;
 
-
-
 	AnimationParameters(const std::string& animationName)
 
 		: name(animationName) {
@@ -66,7 +64,7 @@ private:
 	std::vector<Animation> animations;
 	int selectedAnimation = -1;
 	bool isSelected = false;
-	bool selectedAnimationPlaying = -1;
+	int selectedAnimationPlaying = -1;
 	std::string aniName;
 
 	//sizeof crashing the engine for some reason so using int for now
