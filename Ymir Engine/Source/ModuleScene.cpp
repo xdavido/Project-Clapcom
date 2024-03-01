@@ -46,23 +46,9 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	cameras.push_back(App->camera->editorCamera);
-
-	gameCameraComponent = new CCamera(gameCameraObject);
 	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
 	audioListenerComponent->SetAsDefaultListener();
-
-	// TODO: remove and do with proper constructor
-	gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
-
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-
-	gameCameraObject->AddComponent(gameCameraComponent);
 	gameCameraObject->AddComponent(audioListenerComponent);
-	cameras.push_back(gameCameraComponent);
 
 	CAudioSource* audioSourceComponent = new CAudioSource(audiosource);
 	audiosource->AddComponent(audioSourceComponent);
