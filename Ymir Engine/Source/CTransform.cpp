@@ -226,4 +226,22 @@ void CTransform::UpdateTransformGuizmo(float4x4 matrix)
 	dirty_ = true;
 }
 
+float3 CTransform::GetForward()
+{
+	return GetNormalizeAxis(2);
+}
 
+float3 CTransform::GetUp()
+{
+	return GetNormalizeAxis(1);
+}
+
+float3 CTransform::GetRight()
+{
+	return GetNormalizeAxis(0);
+}
+
+float3 CTransform::GetNormalizeAxis(int i)
+{
+	return mGlobalMatrix.RotatePart().Col(i).Normalized();
+}

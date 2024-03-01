@@ -12,6 +12,9 @@
 
 #include "External/MathGeoLib/include/Geometry/LineSegment.h"
 
+#include "CAudioListener.h"
+#include "CAudioSource.h"
+
 #include "JsonFile.h"
 #include "ResourceMesh.h"
 
@@ -69,4 +72,5 @@ public:
 
 	std::vector<GameObject*> vSelectedGOs;
 
+	GameObject* audiosource;
 };

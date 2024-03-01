@@ -23,7 +23,6 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
     shaderPath = SHADER_VS_FS;
     shader.LoadShader(shaderPath);
     shaderDirtyFlag = false;
-
 }
 
 CMaterial::~CMaterial()
