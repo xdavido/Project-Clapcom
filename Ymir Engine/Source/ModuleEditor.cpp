@@ -2858,16 +2858,16 @@ void ModuleEditor::DrawInspector()
 					switch (newComponent)
 					{
 					case 1: // RigidBody
-						if ((*it)->GetComponent(ComponentType::RIGIDBODY) == nullptr)
-						{
-							CRigidBody* crb = new CRigidBody((*it));
-							(*it)->AddComponent(crb);
-							App->physics->bodiesList.push_back(crb->GetBody());
-						}
-						else
-						{
-							LOG("RigidBody already added");
-						}
+						//if ((*it)->GetComponent(ComponentType::RIGIDBODY) == nullptr)
+						//{
+						//	CRigidBody* crb = new CRigidBody((*it));
+						//	(*it)->AddComponent(crb);
+						//	App->physics->bodiesList.push_back(crb->GetBody());
+						//}
+						//else
+						//{
+						//	LOG("RigidBody already added");
+						//}
 						break;
 					case 2: // Collider
 						CCollider * cll = new CCollider((*it));

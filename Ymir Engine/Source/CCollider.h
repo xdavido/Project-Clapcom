@@ -19,6 +19,12 @@ enum ColliderType
 	MESH_COLLIDER
 };
 
+enum physicsType {
+	DYNAMIC,
+	KINEMATIC,
+	STATIC
+};
+
 class CCollider : public Component
 {
 public:
@@ -44,4 +50,8 @@ private:
 	btCollisionObject* collider;
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
+
+	physicsType physType;
+	float mass;
+	bool gravity;
 };

@@ -15,6 +15,9 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::COLLID
 	collType = ColliderType::BOX;
 
 	SetBoxCollider();
+
+	physType = physicsType::DYNAMIC;
+	mass = 1;
 }
 
 CCollider::~CCollider()
@@ -60,6 +63,18 @@ void CCollider::OnInspector()
 				break;
 			}
 		}
+		const char* items[] = { "Dynamic", "Kinematic", "Static" };
+		int currentItem = static_cast<int>(physType);
+
+		ImGui::Text("Physics Type: "); ImGui::SameLine();
+
+		ImGui::Combo("##Physics Type", &currentItem, items, IM_ARRAYSIZE(items));
+		physType = static_cast<physicsType>(currentItem);
+
+		if (physType != physicsType::STATIC)
+			ImGui::DragFloat("Mass\t", &mass);
+		if (physType == physicsType::DYNAMIC)
+			ImGui::Checkbox("Use gravity\t", &gravity);
 
 		ImGui::Unindent();
 	}
