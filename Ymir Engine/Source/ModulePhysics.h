@@ -26,11 +26,13 @@ public:
 	bool CleanUp();
 
 	// TODO: LLUC i MARC
-	void AddBody(btRigidBody* b);
-	void AddCollider(btCollisionShape* c);
+	//void AddBody(btRigidBody* b);
+	//void AddCollider(btCollisionShape* c);
 
-	void RemoveBody(btRigidBody* b);
-	void RemoveCollider(btCollisionShape* c);
+	//void RemoveBody(btRigidBody* b);
+	//void RemoveCollider(btCollisionShape* c);
+
+	PhysBody* AddBody(CCube cube, float mass);
 
 	void SetBodyMass(PhysBody* pbody, float mass);
 
@@ -38,10 +40,13 @@ public:
 	// RayCast functions
 	bool RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint);
 
+	btScalar* getOpenGLMatrix(float4x4 matrix);
+
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	
-	std::vector<btRigidBody*> bodiesList;
 	std::vector<btCollisionShape*> collidersList;
+	std::vector<PhysBody*> bodiesList;
+	std::vector <btDefaultMotionState*> motions;
 
 	btDynamicsWorld* world; // World se puede dejar en public si se requiere
 

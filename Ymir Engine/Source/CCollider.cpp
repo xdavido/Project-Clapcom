@@ -89,7 +89,7 @@ void CCollider::OnInspector()
 		{
 			ImGui::Text("Mass: "); ImGui::SameLine();
 			if (ImGui::DragFloat("##Mass", &mass))
-				//External->physics->SetBodyMass(collider, mass);
+				External->physics->SetBodyMass(physBody, mass);
 			
 		}
 		if (physType == physicsType::DYNAMIC)
@@ -107,7 +107,21 @@ btCollisionShape* CCollider::GetShape()
 // Setters ----------------------------------------------------------------------
 void CCollider::SetBoxCollider()
 {
-	//collType = ColliderType::BOX;
+	LOG("Set Box Collider");
+	collType = ColliderType::BOX;
+
+	CCube cube;
+	cube.size.x = 20;
+	cube.size.y = 20;
+	cube.size.z = 20;
+	
+	transform = mOwner->mTransform;
+	if (transform) {
+		float3 pos = transform->GetGlobalPosition();
+		cube.SetPos(pos.x / 2, pos.y / 2 / 4, pos.z / 2);
+	}
+	physBody = External->physics->AddBody(cube, 1);
+	mass = 1;
 
 	//shape = new btBoxShape(btVector3(2.0f, 2.0f, 2.0f));
 	//collider = new btCollisionObject();

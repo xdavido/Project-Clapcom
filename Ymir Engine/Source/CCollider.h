@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Module.h"
 #include "ModulePhysics.h"
+#include "Primitive.h"
+#include "CTransform.h"
 
 #include "Component.h"
 #include <vector>
@@ -49,6 +51,9 @@ private:
 	btCollisionShape* shape;
 	btCollisionObject* collider;
 
+	PhysBody* physBody;
+
+	CTransform* transform;
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
 	physicsType physType;

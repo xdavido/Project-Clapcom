@@ -30,6 +30,8 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 
 	// Debug drawer	
 	debugDraw = new DebugDrawer();
+
+	debug = true;
 }
 
 ModulePhysics::~ModulePhysics() 
@@ -41,11 +43,11 @@ ModulePhysics::~ModulePhysics()
 
 	delete debugDraw;
 	
-	for (int i = 0; i < bodiesList.size(); i++)	
-		RemoveBody(bodiesList[i]);
+	//for (int i = 0; i < bodiesList.size(); i++)	
+	//	RemoveBody(bodiesList[i]);
 
-	for (int i = 0; i < collidersList.size(); i++) 
-		RemoveCollider(collidersList[i]);
+	//for (int i = 0; i < collidersList.size(); i++) 
+	//	RemoveCollider(collidersList[i]);
 }
 
 // INIT ----------------------------------------------------------------------
@@ -109,32 +111,58 @@ bool ModulePhysics::CleanUp()
 }																			  
 																			  
 // Module Functions	----------------------------------------------------------
-void ModulePhysics::AddBody(btRigidBody* b)
+//void ModulePhysics::AddBody(btRigidBody* b)
+//{
+//	bodiesList.push_back(b);
+//	world->addRigidBody(b);
+//}
+//
+//void ModulePhysics::AddCollider(btCollisionShape* c)
+//{
+//	collidersList.push_back(c);
+//	//world->addCollisionObject(c);
+//}
+//
+//void ModulePhysics::RemoveBody(btRigidBody* b)
+//{
+//	world->removeRigidBody(b);
+//
+//	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
+//	bodiesList.shrink_to_fit();
+//}
+//
+//void ModulePhysics::RemoveCollider(btCollisionShape* c)
+//{
+//	//world->removeCollisionObject(c);
+//
+//	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
+//	collidersList.shrink_to_fit();
+//}
+
+PhysBody* ModulePhysics::AddBody(CCube cube, float mass)
 {
-	bodiesList.push_back(b);
-	world->addRigidBody(b);
-}
+	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
+	collidersList.push_back(colShape);
 
-void ModulePhysics::AddCollider(btCollisionShape* c)
-{
-	collidersList.push_back(c);
-	//world->addCollisionObject(c);
-}
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
 
-void ModulePhysics::RemoveBody(btRigidBody* b)
-{
-	world->removeRigidBody(b);
+	btVector3 localInertia(0, 0, 0);
+	if (mass != 0.f)
+		colShape->calculateLocalInertia(mass, localInertia);
 
-	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
-	bodiesList.shrink_to_fit();
-}
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
-void ModulePhysics::RemoveCollider(btCollisionShape* c)
-{
-	//world->removeCollisionObject(c);
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
 
-	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
-	collidersList.shrink_to_fit();
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
 }
 
 void ModulePhysics::SetBodyMass(PhysBody* pbody, float mass)
@@ -202,4 +230,16 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 	}
 
 	return false; 
+}
+
+btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
+{
+	btScalar openGLMatrix[16];
+
+	for (int row = 0; row < 4; row++) {
+		for (int col = 0; col < 4; col++) {
+			openGLMatrix[row * 4 + col] = btScalar(matrix[col][row]);
+		}
+	}
+	return openGLMatrix;
 }
