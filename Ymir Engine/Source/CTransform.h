@@ -21,6 +21,8 @@ public:
 
 	void SetTransform(float3 pos = float3(0, 0, 0), float3 rot = float3(0, 0, 0), float3 scale = float3(0, 0, 0));
 	void SetTransform(CTransform& t);
+	void SetTransformFromMatrix(const float* matrix);
+	void CalculateMatrix();
 	void SetPosition(float3 vec = float3(0, 0, 0));
 	void SetRotation(float3 vec = float3(0, 0, 0));
 	void SetScale(float3 vec = float3(0, 0, 0));
