@@ -151,6 +151,62 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 	return pbody;
 }
 
+// Sphere ---------------------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+{
+	shape = new btSphereShape(sphere.radius);
+	collidersList.push_back(shape);
+
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(sphere.transform));
+
+	btVector3 localInertia(0, 0, 0);
+
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
+// Capsule --------------------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CCylinder cylinder, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+{
+	shape = new btCapsuleShape(cylinder.height, cylinder.radius);
+	collidersList.push_back(shape);
+
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cylinder.transform));
+
+	btVector3 localInertia(0, 0, 0);
+
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
 // Convex Collider ----------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
 {
@@ -254,10 +310,10 @@ btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex
 	btConvexHullShape* convexShape = new btConvexHullShape();
 
 	// Add vertices to shape
-	for (const auto& vertex : vertices) {
-		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-		convexShape->addPoint(btVertex);
-	}
+	//for (const auto& vertex : vertices) {
+	//	btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+	//	convexShape->addPoint(btVertex);
+	//}
 
 	// Optionally, you can also add indices to maintain convexity
 	for (size_t i = 0; i < indices.size(); i += 3) {

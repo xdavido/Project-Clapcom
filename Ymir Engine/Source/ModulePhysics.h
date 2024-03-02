@@ -41,8 +41,10 @@ public:
 
 	// TODO: LLUC i MARC
 	// PhysBody related
-	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Box
-	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape); // Convex
+	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
+	PhysBody* AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
+	PhysBody* AddBody(CCylinder cylinder, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
+	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape);				 // Convex
 	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);

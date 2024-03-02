@@ -13,12 +13,12 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 {
 	this->mOwner = owner;
 
-	// Default to BOX (y me permito el lujazo)
-	collType = ColliderType::BOX;
+	physType = physicsType::DYNAMIC;
+	collType = ColliderType::BOX;	// Default to BOX (y me permito el lujazo)
+
 	mass = 1;
 	size = { 1,1,1 };
-
-	physType = physicsType::DYNAMIC;
+	radius = 1;
 
 	SetBoxCollider();
 
@@ -84,7 +84,7 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Cylinder", "Convex (UNSTABLE)", "Mesh"};
+	char* titles[]{ "Box", "Sphere", "Capsule", "Convex (needs a component mesh) (UNSTABLE)", "Mesh (not implemented)"};
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -118,7 +118,7 @@ void CCollider::OnInspector()
 				RemovePhysbody();
 				SetSphereCollider();
 				break;
-			case ColliderType::CYLINDER:
+			case ColliderType::CAPSULE:
 				RemovePhysbody();
 				SetCylinderCollider();
 				break;
@@ -135,14 +135,35 @@ void CCollider::OnInspector()
 
 		if (shape != nullptr) {
 
-			ImGui::Text("Scale: "); ImGui::SameLine();
+			switch (collType)
+			{
+			case ColliderType::BOX:
+				ImGui::Text("Scale: "); ImGui::SameLine();
 
-			if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
+				if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
 
-				shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+					shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+				}
+				break;
+			case ColliderType::SPHERE:
+				ImGui::Text("Radius: "); ImGui::SameLine();
 
+				if (ImGui::DragFloat("##Radius", &radius, 1.0f, 1.0f))
+				{
+					if (radius < 1) radius = 1;
+
+					btVector3 scaling = shape->getLocalScaling();
+
+					float currentRadius = dynamic_cast<btSphereShape*>(shape)->getRadius();
+					float scale = radius / currentRadius;
+
+					scaling *= scale;
+
+					shape->setLocalScaling(scaling);
+				}
+
+				break;
 			}
-
 		}
 
 		// -----------------------------------------------------------------------------------------------------
@@ -228,20 +249,41 @@ void CCollider::SetBoxCollider()
 
 void CCollider::SetSphereCollider()
 {
+	LOG("Set Sphere Collider");
 
+	radius = size.Length() / 2;
+
+	CSphere sphere;
+	sphere.radius = radius;
+
+	transform = mOwner->mTransform;
+
+	if (transform) {
+
+		float3 pos = transform->GetGlobalPosition();
+		sphere.SetPos(pos.x, pos.y, pos.z);
+	}
+
+	physBody = External->physics->AddBody(sphere, physicsType::DYNAMIC, mass, true, shape);
 }
 
 void CCollider::SetCylinderCollider()
 {
-
+	
 }
 
 void CCollider::SetConvexCollider()
 {
+	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+	if (auxMesh == nullptr)
+	{
+		LOG("Convex hull needs a ComponentMesh!");
+		SetBoxCollider();
+		return;
+	}
+
 	LOG("Set Convex Collider");
 	collType = ColliderType::CONVEX_HULL;
-
-	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
 	physBody = External->physics->AddBody(auxMesh, physicsType::DYNAMIC, mass, true, convexShape);
 }
