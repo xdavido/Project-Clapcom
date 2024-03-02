@@ -154,12 +154,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 // Convex Collider ----------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
 {
-	shape = new btConvexHullShape();
-
-	for (const auto& vertex : mesh->rMeshReference->vertices)
-	{
-		shape->addPoint(btVector3(vertex.position.x, vertex.position.y, vertex.position.z));
-	}
+	shape = CreateConvexHullShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
 	collidersList.push_back(shape);
 
@@ -252,6 +247,32 @@ void ModulePhysics::ResetGravity()
 	LOG("Reseted Gravity");
 	world->setGravity(GRAVITY);
 }
+
+// CONVEX HULL SHAPE ===============================================================
+btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
+{
+	btConvexHullShape* convexShape = new btConvexHullShape();
+
+	// Add vertices to shape
+	for (const auto& vertex : vertices) {
+		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+		convexShape->addPoint(btVertex);
+	}
+
+	// Optionally, you can also add indices to maintain convexity
+	for (size_t i = 0; i < indices.size(); i += 3) {
+		btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
+		btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
+		btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
+
+		convexShape->addPoint(vertex0);
+		convexShape->addPoint(vertex1);
+		convexShape->addPoint(vertex2);
+	}
+
+	return convexShape;
+}
+
 
 // RayCasts ========================================================================
 bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)

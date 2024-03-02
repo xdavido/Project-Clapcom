@@ -40,15 +40,15 @@ public:
 	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
 	// TODO: LLUC i MARC
-	//void AddBody(btRigidBody* b);
-	//void AddCollider(btCollisionShape* c);
-	//void RemoveCollider(btCollisionShape* c);
-
+	// PhysBody related
 	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Box
 	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape); // Convex
 	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
+
+	// Collision Shape
+	btConvexHullShape* CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
 	// TODO: NIXON
 	// RayCast functions
