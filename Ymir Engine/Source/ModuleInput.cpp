@@ -476,7 +476,7 @@ float ModuleInput::GetGamepadLeftJoystickPositionValueX()
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueY()
 {
-	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);	
 }
 
 float ModuleInput::GetGamepadRightJoystickPositionValueX()

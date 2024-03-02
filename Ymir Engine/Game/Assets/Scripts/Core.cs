@@ -63,6 +63,7 @@ public class Core : YmirComponent
         //Hardcoceado para que sea una especia de "Start()"
         if ( start )
         {
+            currentState = STATE.IDLE;
             Debug.Log("[WARNING] testString: " + testString);
             reference = InternalCalls.GetGameObjectByName("Test1");
             reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
@@ -80,16 +81,7 @@ public class Core : YmirComponent
 
         }
 
-        float z = gameObject.transform.localPosition.x;
-        Debug.Log("[WARNING] Position Z: " + z.ToString());
 
-        if (this.reference == null)
-        {
-            Debug.Log("[ERROR] Reference on Core.cs was 'null'");
-            return;
-        }
-        float x = reference.transform.localPosition.x;
-        Debug.Log("[WARNING] Position: " + x.ToString());
 
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
@@ -123,8 +115,8 @@ public class Core : YmirComponent
         //    InternalCalls.CreateBullet(shootPoint.globalPosition, shootPoint.globalRotation, shootPoint.globalScale);
         //}
 
-        //GameMovement();
-        //UpdateState();
+            GameMovement();
+            //UpdateState();
 
         return;
 	}
@@ -135,6 +127,12 @@ public class Core : YmirComponent
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
+        Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
+
+        reference.transform.localPosition.x += 20f * x * Time.deltaTime; ;
+        reference.transform.localPosition.y += 20f * y * Time.deltaTime; ;
+
+            
         gamepadInput = new Vector3(x, y, 0f);
 
         if (IsMoving())
@@ -142,7 +140,7 @@ public class Core : YmirComponent
         else if (currentState == STATE.MOVE && !IsMoving())
             inputList.Add(INPUT.IN_IDLE);
 
-        if (Input.GetRightTrigger() > 0)
+        if (Input.GetGamepadRightTrigger() > 0)
             inputList.Add(INPUT.IN_SHOOT);
 
         while (inputList.Count > 0)
@@ -151,7 +149,7 @@ public class Core : YmirComponent
             switch (currentState)
             {
                 case STATE.NONE:
-                    Debug.Log("CORE ERROR STATE");
+                    
                     break;
 
                 case STATE.IDLE:
@@ -159,6 +157,7 @@ public class Core : YmirComponent
                     {
                         case INPUT.IN_MOVE:
                             currentState = STATE.MOVE;
+                            
                             Move();
                             break;
 
@@ -178,7 +177,7 @@ public class Core : YmirComponent
                     switch (input)
                     {
                         case INPUT.IN_IDLE:
-                            currentState = STATE.IDLE;              
+                            currentState = STATE.IDLE;
                             break;
 
                         case INPUT.IN_DASH:
@@ -217,6 +216,7 @@ public class Core : YmirComponent
                     }
                     break;
             }
+            inputList.RemoveAt(0);
 
         }
     }
@@ -232,6 +232,7 @@ public class Core : YmirComponent
             case STATE.MOVE:
                 RotatePlayer();
                 reference.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+                Debug.Log("[ERROR]Mover");
                 break;
             case STATE.DASH:
                 
