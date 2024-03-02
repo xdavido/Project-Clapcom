@@ -130,7 +130,7 @@ bool ModulePhysics::CleanUp()
 //	collidersList.shrink_to_fit();
 //}
 
-PhysBody* ModulePhysics::AddBody(CCube cube, float mass, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
 	collidersList.push_back(shape);
@@ -139,6 +139,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, float mass, btCollisionShape*& shap
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
 
 	btVector3 localInertia(0, 0, 0);
+	
 	if (mass != 0.f)
 		shape->calculateLocalInertia(mass, localInertia);
 
@@ -156,12 +157,17 @@ PhysBody* ModulePhysics::AddBody(CCube cube, float mass, btCollisionShape*& shap
 	return pbody;
 }
 
-void ModulePhysics::SetBodyMass(PhysBody* pbody, float mass)
+void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool gravity)
 {
 	if (pbody && pbody->body)
 	{
 		btCollisionShape* colShape = pbody->body->getCollisionShape();
 		btVector3 localInertia(0, 0, 0);
+
+		if (!gravity)
+			pbody->body->setGravity(btVector3(0, 0, 0));
+		else
+			pbody->body->setGravity(GRAVITY);
 
 		if (mass != 0.f)
 			colShape->calculateLocalInertia(mass, localInertia);

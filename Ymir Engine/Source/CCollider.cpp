@@ -149,18 +149,36 @@ void CCollider::OnInspector()
 		int currentItem = static_cast<int>(physType);
 
 		ImGui::Text("Physics Type: "); ImGui::SameLine();
-		ImGui::Combo("##Physics Type", &currentItem, items, IM_ARRAYSIZE(items));
-		physType = static_cast<physicsType>(currentItem);
-
-		if (physType != physicsType::STATIC)
+		if (ImGui::Combo("##Physics Type", &currentItem, items, IM_ARRAYSIZE(items)))
 		{
-			ImGui::Text("Mass: "); ImGui::SameLine();
-			if (ImGui::DragFloat("##Mass", &mass))
-				External->physics->SetBodyMass(physBody, mass);
-			
+			physType = static_cast<physicsType>(currentItem);
+			SetDefaultValues(physType);
+			External->physics->RecalculateInertia(physBody, mass, gravity);
 		}
-		if (physType == physicsType::DYNAMIC)
-			ImGui::Checkbox("Use gravity\t", &gravity);
+
+		switch (physType) 
+		{
+		case physicsType::DYNAMIC:
+			ImGui::Text("Mass: "); ImGui::SameLine();
+			if (ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 1000.0f))
+				External->physics->RecalculateInertia(physBody, mass, gravity);
+			if (ImGui::Checkbox("Use gravity\t", &gravity))
+				External->physics->RecalculateInertia(physBody, mass, gravity);
+
+            break;
+
+        case physicsType::KINEMATIC:
+			ImGui::Text("Mass: "); ImGui::SameLine();
+			if (ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 1000.0f))
+				External->physics->RecalculateInertia(physBody, mass, false);
+            break;
+
+        case physicsType::STATIC:			
+            break;
+
+        default:
+            break;
+		}
 
 		if (!active) { ImGui::EndDisabled(); }
 
@@ -193,10 +211,10 @@ void CCollider::SetBoxCollider()
 	if (transform) {
 
 		float3 pos = transform->GetGlobalPosition();
-		cube.SetPos(pos.x / 2, pos.y / 2 / 4, pos.z / 2);
+		cube.SetPos(pos.x /*/ 2*/, pos.y /*/ 2 / 4*/, pos.z /*/ 2*/);
 	}
 
-	physBody = External->physics->AddBody(cube, mass, shape);
+	physBody = External->physics->AddBody(cube, physicsType::DYNAMIC, mass, true, shape);
 
 	//shape = new btBoxShape(btVector3(2.0f, 2.0f, 2.0f));
 	//collider = new btCollisionObject();
@@ -227,4 +245,27 @@ void CCollider::SetConvexCollider()
 void CCollider::SetMeshCollider()
 {
 
+}
+
+void CCollider::SetDefaultValues(physicsType type)
+{
+	switch (physType)
+	{
+	case physicsType::DYNAMIC:
+		mass = 1;
+		gravity = true;
+		break;
+	case physicsType::KINEMATIC:
+		mass = 1;
+		gravity = false;
+		break;
+	case physicsType::STATIC:
+		mass = 0;
+		gravity = false;
+		break;
+	default:
+		mass = 0;
+		gravity = false;
+		break;
+	}
 }

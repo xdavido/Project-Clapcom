@@ -46,6 +46,7 @@ public:
 	void SetConvexCollider();
 	void SetMeshCollider();
 
+	void SetDefaultValues(physicsType type);
 public:
 
 	// Public para el Save/Load

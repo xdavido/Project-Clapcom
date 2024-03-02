@@ -11,7 +11,7 @@
 
 class DebugDrawer;
 struct PhysBody;
-
+enum physicsType;
 class ModulePhysics : public Module 
 {
 public:
@@ -45,9 +45,9 @@ public:
 	//void RemoveBody(btRigidBody* b);
 	//void RemoveCollider(btCollisionShape* c);
 
-	PhysBody* AddBody(CCube cube, float mass, btCollisionShape*& shape);
+	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);
 
-	void SetBodyMass(PhysBody* pbody, float mass);
+	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
 
 	// TODO: NIXON
 	// RayCast functions
