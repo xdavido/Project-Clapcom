@@ -17,7 +17,7 @@ enum ColliderType
 {
 	BOX,
 	SPHERE,
-	CYLINDER,
+	CAPSULE,
 	CONVEX_HULL,
 	MESH_COLLIDER
 };
@@ -67,6 +67,7 @@ public:
 	btVector3 btSize;
 
 	float mass;
+	float radius;
 	btCollisionShape* shape;
 	btConvexHullShape* convexShape;
 
