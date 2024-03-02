@@ -298,6 +298,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawBoundingBoxes();
 
 		}
+
+		if (App->physics->debug == true)
+		{
+			App->physics->world->debugDrawWorld();
+		}
+
 	}
 
 	App->camera->editorCamera->framebuffer.Render(false);

@@ -50,9 +50,10 @@ public:
 
 	btDynamicsWorld* world; // World se puede dejar en public si se requiere
 
+	bool debug = true; // If true, draws colliders
+
 private:
 
-	bool debug = true; // If true, draws colliders
 	DebugDrawer* debugDraw;
 
 	btDispatcher* dispatcher;
