@@ -47,6 +47,8 @@ public:
 	// Start with a loaded scene from start
 	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
 
+	void Destroy(GameObject* gm);
+
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
 
@@ -60,6 +62,7 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
+	std::vector<GameObject*> destroyList;
 	std::vector<GameObject*> gameObjects;
 
 	std::vector<std::string> tags;

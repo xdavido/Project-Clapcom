@@ -13,6 +13,7 @@ GameObject::GameObject()
 
 	active = true;
 	selected = false;
+	pendingToDelet = false;
 
 	mTransform = nullptr;
 }
@@ -24,6 +25,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 	active = true;
 	selected = false;
+	pendingToDelet = false;
 
 	mTransform = nullptr;
 
@@ -44,6 +46,7 @@ GameObject::~GameObject()
 	{
 		ClearVecPtr(mChildren);
 	}
+	
 }
 
 void GameObject::Update()
@@ -230,22 +233,7 @@ void GameObject::RemoveChild(GameObject* go)
 void GameObject::DestroyGameObject()
 {
 
-	ClearVecPtr(mComponents);
-
-	mTransform = nullptr;
-
-	if (!mChildren.empty())
-	{
-		ClearVecPtr(mChildren);
-	}
-	if (this->mParent)
-	{
-		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
-		if (it != this->mParent->mChildren.end())
-		{
-			this->mParent->mChildren.erase(it);
-		}
-	}
+	pendingToDelet = true;
 
 }
 

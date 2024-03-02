@@ -60,7 +60,7 @@ public:
 	std::vector<Component*> mComponents;
 
 	CTransform* mTransform; 
-
+	bool pendingToDelet;
 	bool active;
 	bool selected;
 

@@ -112,6 +112,16 @@ update_status ModuleScene::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	/*Destroy gameobjects inside the destroy queue*/
+	if (destroyList.size() > 0)
+	{
+		for (size_t i = 0; i < destroyList.size(); ++i)
+		{
+			Destroy(destroyList[i]);
+		}
+		destroyList.clear();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -121,6 +131,11 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
+		if ((*it)->pendingToDelet) {
+			destroyList.push_back((*it));
+			continue;
+		}
+
 		(*it)->Update();
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
@@ -203,15 +218,7 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	return tempGameObject;
 }
 
-//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-//{
-//	if (toDestroy) {
-//
-//		toDestroy->DestroyGameObject();
-//
-//	}
-//
-//}
+
 
 void ModuleScene::ClearScene()
 {
@@ -226,7 +233,7 @@ void ModuleScene::ClearScene()
 	RELEASE(mRootNode);
 
 	gameObjects.clear();
-
+	destroyList.clear();
 	App->renderer3D->models.clear();
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
@@ -303,6 +310,27 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	mRootNode = gameObjects[0];
 
 	delete sceneToLoad;
+}
+
+void ModuleScene::Destroy(GameObject* gm)
+{
+	for (std::vector<GameObject*>::iterator i = gm->mParent->mChildren.begin(); i != gm->mParent->mChildren.end(); ++i)
+	{
+		if (*i._Ptr == gm)
+		{
+			gm->mParent->mChildren.erase(i);
+			break;
+		}
+	}
+	gm->mParent->mChildren.shrink_to_fit();
+
+	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
+	if (it != gameObjects.end()) {
+		delete* it; 
+		gameObjects.erase(it); 
+	}
+
+	gm = nullptr;
 }
 
 // Function to handle GameObject selection by Mouse Picking

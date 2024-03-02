@@ -65,16 +65,15 @@ public class Core : YmirComponent
         {
             currentState = STATE.IDLE;
             Debug.Log("[WARNING] testString: " + testString);
-            reference = InternalCalls.GetGameObjectByName("Test1");
-            reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
 
-            Debug.Log("[WARNING] Reference str: "  + reference.name);
+
+            Debug.Log("[WARNING] Reference str: ");
             Debug.Log("juan " + testString);
            
 
             start = false;
          
-            Debug.Log("[WARNING] START");
+            Debug.Log("[WARNING] Name" + gameObject.Name);
 
             //testString = reference.Tag;
             testString = "Update string";
@@ -85,9 +84,9 @@ public class Core : YmirComponent
 
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            reference.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-            reference.transform.localPosition += reference.GetForward() * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
         //    reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, rotationSpeed * Time.deltaTime);
         //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
@@ -95,7 +94,7 @@ public class Core : YmirComponent
 
         //Destroy current GameObject - It works
         if (Input.GetKey(YmirKeyCode.X) == KeyState.KEY_REPEAT)
-            InternalCalls.Destroy(reference);
+            InternalCalls.Destroy(gameObject);
 
         //Create a GameObject - Not working
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
@@ -129,8 +128,8 @@ public class Core : YmirComponent
 
         Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
-        reference.transform.localPosition.x += 20f * x * Time.deltaTime; ;
-        reference.transform.localPosition.y += 20f * y * Time.deltaTime; ;
+        gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
+        gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
 
             
         gamepadInput = new Vector3(x, y, 0f);
@@ -231,7 +230,7 @@ public class Core : YmirComponent
                 break;
             case STATE.MOVE:
                 RotatePlayer();
-                reference.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+                gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
                 Debug.Log("[ERROR]Mover");
                 break;
             case STATE.DASH:
@@ -265,7 +264,7 @@ public class Core : YmirComponent
         //Convert angle from world view to orthogonal view
         angle += 0.785398f; //Rotate 45 degrees to the right
 
-        reference.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
+        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
     }
 
     private void Move()
