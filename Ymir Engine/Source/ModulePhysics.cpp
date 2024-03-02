@@ -71,7 +71,7 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	world->stepSimulation(dt, 15);
+	//world->stepSimulation(dt, 15);
 
 	return UPDATE_CONTINUE;
 }
@@ -79,14 +79,6 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		debug = !debug;
-		
-		if (debug) LOG("DebugDrawer On");
-		else LOG("DebugDrawer Off");
-	}
-
 	if (debug == true)
 	{
 		world->debugDrawWorld();
@@ -96,7 +88,7 @@ update_status ModulePhysics::Update(float dt)
 	{
 		world->stepSimulation(dt, 15);
 	}
-		
+
 	return UPDATE_CONTINUE;
 }
 
@@ -181,6 +173,54 @@ void ModulePhysics::SetBodyMass(PhysBody* pbody, float mass)
 	}
 }
 
+// GETTERS ---------------------------------------------------------------
+btVector3 ModulePhysics::GetWorldGravity()
+{
+	return world->getGravity();
+}
+
+bool ModulePhysics::GetDebugDraw()
+{
+	return debug;
+}
+
+// SETTERS ---------------------------------------------------------------
+void ModulePhysics::SetWorldGravity(btVector3 g)
+{
+	world->setGravity(g);
+}
+
+void ModulePhysics::SetdebugDraw(bool d)
+{
+	debug = d;
+
+	if (debug) LOG("DebugDrawer On");
+	else LOG("DebugDrawer Off");
+}
+
+void ModulePhysics::ResetGravity()
+{
+	LOG("Reseted Gravity");
+	world->setGravity(GRAVITY);
+}
+
+// RayCasts ========================================================================
+bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
+{
+	btCollisionWorld::ClosestRayResultCallback rayCallback(from, to);
+
+	// Realizar el raycast
+	world->rayTest(from, to, rayCallback);
+
+	// Comprobar si hubo una colisión
+	if (rayCallback.hasHit()) {
+		hitPoint = rayCallback.m_hitPointWorld; // Punto de impacto
+		return true;
+	}
+
+	return false;
+}
+
 // DEBUG DRAWER =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
@@ -215,23 +255,6 @@ void DebugDrawer::setDebugMode(int debugMode)
 int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
-}
-
-bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
-{
-
-	btCollisionWorld::ClosestRayResultCallback rayCallback(from, to);
-
-	// Realizar el raycast
-	world->rayTest(from, to, rayCallback);
-
-	// Comprobar si hubo una colisión
-	if (rayCallback.hasHit()) {
-		hitPoint = rayCallback.m_hitPointWorld; // Punto de impacto
-		return true; 
-	}
-
-	return false; 
 }
 
 btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)

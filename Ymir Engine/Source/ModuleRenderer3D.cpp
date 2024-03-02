@@ -299,7 +299,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		if (App->physics->debug == true)
+		if (App->physics->GetDebugDraw() == true)
 		{
 			App->physics->world->debugDrawWorld();
 		}

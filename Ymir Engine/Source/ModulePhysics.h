@@ -25,6 +25,16 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	//Getters
+	btVector3 GetWorldGravity();
+	bool GetDebugDraw();
+
+	//Setters
+	void SetWorldGravity(btVector3 g);
+	void SetdebugDraw(bool d);
+
+	void ResetGravity(); // Sets the world gravity to GRAVITY
+
 	// TODO: LLUC i MARC
 	//void AddBody(btRigidBody* b);
 	//void AddCollider(btCollisionShape* c);
@@ -50,9 +60,9 @@ public:
 
 	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
 
-	bool debug = true; // If true, draws colliders
 
 private:
+	bool debug = true; // If true, draws colliders
 
 	DebugDrawer* debugDraw;
 

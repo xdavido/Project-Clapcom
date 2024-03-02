@@ -11,6 +11,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModulePhysics.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -790,6 +791,37 @@ void ModuleEditor::DrawEditor()
 
 				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
+			}
+
+			if (ImGui::CollapsingHeader("Physics")) 
+			{
+				btVector3 auxGravity = App->physics->GetWorldGravity();
+				bool auxDebugDraw = App->physics->GetDebugDraw();
+
+				ImGui::SeparatorText("Gravity");
+
+				ImGui::Indent();
+
+				if (ImGui::DragFloat3("##Gravity", auxGravity))
+				{
+					App->physics->SetWorldGravity(auxGravity);
+				}
+				if (ImGui::Button("Reset Gravity"))
+				{
+					App->physics->ResetGravity();
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Colliders");
+				ImGui::Indent();
+
+				ImGui::Text("Draw Colliders"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+				{
+					App->physics->SetdebugDraw(auxDebugDraw);
+				}
+
+				ImGui::Unindent();
 			}
 
 			ImGui::End();
