@@ -55,6 +55,12 @@ bool ModulePhysics::Init()
 {
 	debugDraw->setDebugMode(1);
 
+	return true;
+}
+
+// START ---------------------------------------------------------------------
+bool ModulePhysics::Start()
+{
 	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
 	world->setGravity(GRAVITY);
 	world->setDebugDrawer(debugDraw);
@@ -62,19 +68,10 @@ bool ModulePhysics::Init()
 	return true;
 }
 
-// START ---------------------------------------------------------------------
-bool ModulePhysics::Start()
-{
-	return true;
-}
-
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
-	{
-		world->stepSimulation(dt, 15);
-	}
+	world->stepSimulation(dt, 15);
 
 	return UPDATE_CONTINUE;
 }
@@ -93,6 +90,11 @@ update_status ModulePhysics::Update(float dt)
 	if (debug == true)
 	{
 		world->debugDrawWorld();
+	}
+
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	{
+		world->stepSimulation(dt, 15);
 	}
 		
 	return UPDATE_CONTINUE;

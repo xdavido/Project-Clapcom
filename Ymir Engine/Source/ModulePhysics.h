@@ -4,7 +4,7 @@
 #include "Primitive.h"
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
-#include "External/glmath.h"
+//#include "External/glmath.h"
 
 #include <vector>
 
@@ -48,7 +48,7 @@ public:
 	std::vector<PhysBody*> bodiesList;
 	std::vector <btDefaultMotionState*> motions;
 
-	btDynamicsWorld* world; // World se puede dejar en public si se requiere
+	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
 
 private:
 
