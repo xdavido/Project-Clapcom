@@ -49,10 +49,23 @@ public:
 	void RemovePhysbody();
 
 	void SetDefaultValues(physicsType type);
+
+	// Conversion function from btVector3 to float3
+	float3 btVector3_to_float3(const btVector3& v) {
+		return { v.x(), v.y(), v.z() };
+	}
+
+	// Conversion function from float3 to btVector3
+	btVector3 float3_to_btVector3(const float3& v) {
+		return btVector3(v.x, v.y, v.z);
+	}
+
 public:
 
 	// Public para el Save/Load
 	float3 size;
+	btVector3 btSize;
+
 	float mass;
 	btCollisionShape* shape;
 	btConvexHullShape* convexShape;

@@ -1394,8 +1394,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 
-		ccollider->SetBoxCollider();
-
 		gameObject->AddComponent(ccollider);
 
 	}

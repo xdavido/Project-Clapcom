@@ -38,20 +38,25 @@ void PhysBody::SetTransform(const float* matrix) const
 }
 
 // ---------------------------------------------------------
-void PhysBody::SetPos(float x, float y, float z)
+void PhysBody::SetPosition(float3 pos)
 {
 	btTransform t = body->getWorldTransform();
-	t.setOrigin(btVector3(x, y, z));
+	t.setOrigin(btVector3(pos.x, pos.y, pos.z));
+	
 	body->setWorldTransform(t);
 }
 
 // Ángulos en radianes!!!
-void PhysBody::SetRot(float x, float y, float z)
+void PhysBody::SetRotation(Quat q)
 {
 	btTransform t = body->getWorldTransform();
+
 	btQuaternion rotationQuat;
-	rotationQuat.setEulerZYX(z, y, x); // Asumiendo que tus ángulos son en radianes
-	
+	rotationQuat.setW(q.w);
+	rotationQuat.setX(q.x);
+	rotationQuat.setY(q.y);
+	rotationQuat.setZ(q.z);
+
 	t.setRotation(rotationQuat);
 	body->setWorldTransform(t);
 }

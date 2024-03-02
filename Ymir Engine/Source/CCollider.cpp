@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include "External/ImGuizmo/include/ImGuizmo.h"
 
 CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSICS)
 {
@@ -16,7 +17,8 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 	// Default to BOX (y me permito el lujazo)
 	collType = ColliderType::BOX;
 	mass = 1;
-	size = { 1,1,1 };
+	size = float3{ 1,1,1 };
+	btSize = float3_to_btVector3(size);
 
 	physType = physicsType::DYNAMIC;
 
@@ -37,7 +39,7 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 
 	}
 
-	shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+	shape->setLocalScaling(btSize);
 
 	convexShape = nullptr;
 	
@@ -57,29 +59,59 @@ void CCollider::Update()
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		if (physBody != nullptr) {
-			float matrix[16];
 
+			float matrix[16];
 			physBody->GetTransform(matrix);
-			mOwner->mTransform->SetTransformFromMatrix(matrix);
+
+			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+			CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
+
+			float offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
+			float offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
+			float offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+
+			float4x4 newMat;
+
+			newMat.SetCol(0, float4(matrix[0], matrix[1], matrix[2], matrix[3]));
+			newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
+			newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
+			newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+
+			mOwner->mTransform->SetPosition(newMat.TranslatePart());
+			//mOwner->mTransform->SetRotation(newMat.RotatePart().ToEulerXYZ());
+			//mOwner->mTransform->SetScale(newMat.GetScale());
+
 			mOwner->mTransform->UpdateTransformsChilds();
+
 		}
+		
 	}
 
 	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active) {
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr && physBody != nullptr) {
 
 			float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
-			physBody->SetPos(pos.x, pos.y, pos.z);
+			physBody->SetPosition(pos);
+
+			physBody->SetRotation(componentTransform->GetLocalRotation());
+
+			if (ImGuizmo::IsUsing()) {
+
+				size = componentMesh->rMeshReference->obb.Size();
+
+			}
 
 		}
 
 	}	
-	
-	/*CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
-	physBody->SetTransform(componentTransform->GetGlobalTransform().ptr());*/
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
+
 }
 
 void CCollider::OnInspector()
@@ -137,9 +169,17 @@ void CCollider::OnInspector()
 
 			ImGui::Text("Scale: "); ImGui::SameLine();
 
-			if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
+			ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
 
-				shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+		}
+
+		if (ImGui::Button("Reset Collider Size")) {
+
+			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+			if (componentMesh != nullptr) {
+
+				size = componentMesh->rMeshReference->obb.Size();
 
 			}
 
@@ -224,6 +264,7 @@ void CCollider::SetBoxCollider()
 	}
 
 	physBody = External->physics->AddBody(cube, physicsType::DYNAMIC, mass, true, shape);
+
 }
 
 void CCollider::SetSphereCollider()
@@ -241,9 +282,15 @@ void CCollider::SetConvexCollider()
 	LOG("Set Convex Collider");
 	collType = ColliderType::CONVEX_HULL;
 
-	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+	CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
+	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-	physBody = External->physics->AddBody(auxMesh, physicsType::DYNAMIC, mass, true, convexShape);
+	physBody = External->physics->AddBody(componentMesh, physicsType::DYNAMIC, mass, true, convexShape);
+
+	physBody->SetPosition(componentTransform->GetGlobalPosition());
+	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
+	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));
+	//convexShape->setImplicitShapeDimensions(btVector3(size.x, size.y, size.z));
 }
 
 void CCollider::SetMeshCollider()

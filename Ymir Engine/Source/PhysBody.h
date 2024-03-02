@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "External/MathGeoLib/include/Math/float3.h"
+#include "External/MathGeoLib/include/Math/Quat.h"
 
 class btRigidBody;
 class Module;
@@ -17,8 +18,8 @@ public:
 	void Push(float x, float y, float z);
 	void GetTransform(float* matrix) const;
 	void SetTransform(const float* matrix) const;
-	void SetPos(float x, float y, float z);
-	void SetRot(float x, float y, float z);
+	void SetPosition(float3 pos);
+	void SetRotation(Quat q);
 
 	void SetAsSensor(bool is_sensor);
 	btRigidBody* body = nullptr;
