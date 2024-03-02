@@ -51,12 +51,13 @@ public:
 	// Public para el Save/Load
 	float3 size;
 	float mass;
+	btCollisionShape* shape;
 
 private:
 
 	ColliderType collType;
 
-	btCollisionShape* shape;
+
 	btCollisionObject* collider;
 
 	PhysBody* physBody;

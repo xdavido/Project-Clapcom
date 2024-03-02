@@ -15,22 +15,36 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 	// Default to BOX (y me permito el lujazo)
 	collType = ColliderType::BOX;
 	mass = 1;
-
-	SetBoxCollider();
+	size = { 1,1,1 };
 
 	physType = physicsType::DYNAMIC;
+
+	SetBoxCollider();
 
 	// Get info from obb
 
 	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-	size = componentMesh->rMeshReference->obb.Size();
+	if (componentMesh != nullptr) {
+
+		size = componentMesh->rMeshReference->obb.Size();
+
+	}
+	else {
+
+		size = float3(10, 10, 10);
+
+	}
+
 	shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 	
 }
 
 CCollider::~CCollider()
 {
+	External->physics->world->removeRigidBody(physBody->body);
+
+	delete physBody;
 	delete shape;
 }
 
@@ -40,20 +54,26 @@ void CCollider::Update()
 	{
 		if (collider != nullptr) {
 			float matrix[16];
-		
+
 			physBody->GetTransform(matrix);
 			mOwner->mTransform->SetTransformFromMatrix(matrix);
 			mOwner->mTransform->UpdateTransformsChilds();
 		}
 	}
-	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
+
+	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active) {
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-		float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
-		physBody->SetPos(pos.x, pos.y, pos.z);
 
-	}
+		if (componentMesh != nullptr) {
 
+			float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
+			physBody->SetPos(pos.x, pos.y, pos.z);
+
+		}
+
+	}	
+	
 	/*CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 	physBody->SetTransform(componentTransform->GetGlobalTransform().ptr());*/
 }
@@ -65,11 +85,19 @@ void CCollider::OnInspector()
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader(headerLabel.c_str(), flags))
+	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+	ImGui::SameLine();
+
+	bool exists = true;
+
+	if (ImGui::CollapsingHeader(headerLabel.c_str(), &exists, flags))
 	{
 		ImGui::Indent();
 
 		ImGui::Spacing();
+
+		if (!active) { ImGui::BeginDisabled(); }
+
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
@@ -100,7 +128,7 @@ void CCollider::OnInspector()
 
 			ImGui::Text("Scale: "); ImGui::SameLine();
 
-			if (ImGui::DragFloat3("##Scale", size.ptr())) {
+			if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
 
 				shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 
@@ -134,9 +162,14 @@ void CCollider::OnInspector()
 		if (physType == physicsType::DYNAMIC)
 			ImGui::Checkbox("Use gravity\t", &gravity);
 
+		if (!active) { ImGui::EndDisabled(); }
+
 		ImGui::Unindent();
 
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
+
 }
 
 btCollisionShape* CCollider::GetShape()
@@ -151,9 +184,9 @@ void CCollider::SetBoxCollider()
 	collType = ColliderType::BOX;
 
 	CCube cube;
-	cube.size.x = 1;
-	cube.size.y = 1;
-	cube.size.z = 1;
+	cube.size.x = size.x;
+	cube.size.y = size.y;
+	cube.size.z = size.z;
 	
 	transform = mOwner->mTransform;
 

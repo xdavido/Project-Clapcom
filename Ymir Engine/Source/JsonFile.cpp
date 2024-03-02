@@ -1388,10 +1388,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->size = size;
 
+		ccollider->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+
 		// Mass
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
-		 
+
 		ccollider->SetBoxCollider();
 
 		gameObject->AddComponent(ccollider);
