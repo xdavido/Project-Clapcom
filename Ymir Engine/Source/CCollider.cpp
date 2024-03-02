@@ -56,6 +56,12 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
+	if (physBody != nullptr) {
+
+		physBody->body->setMassProps(mass, btVector3(0, 0, 0));
+
+	}
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		if (physBody != nullptr) {

@@ -63,8 +63,11 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
+	// Test for Physics
+	// LoadSceneFromStart("Assets", "PhysicsTest"); 
+
 	// Test for Game Extraction
-	// LoadSceneFromStart("Assets", "Water"); // Baker House
+	// LoadSceneFromStart("Assets", "Water");
 
 	return false;
 }

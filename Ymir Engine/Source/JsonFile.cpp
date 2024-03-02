@@ -1351,22 +1351,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Physics") {
 
-		// Physics simulation (world)
-		External->physics->constraintSolver = new btSequentialImpulseConstraintSolver();
-		External->physics->broadphase = new btDbvtBroadphase();
-		External->physics->collisionConfig = new btDefaultCollisionConfiguration();
-		External->physics->dispatcher = new btCollisionDispatcher(External->physics->collisionConfig);
-
-		// Debug drawer	
-		External->physics->debugDraw = new DebugDrawer();
-		External->physics->debugDraw->setDebugMode(1);
-
-		External->physics->world = new btDiscreteDynamicsWorld(External->physics->dispatcher, External->physics->broadphase, External->physics->constraintSolver, External->physics->collisionConfig);
-		External->physics->world->setGravity(GRAVITY);
-		External->physics->world->setDebugDrawer(External->physics->debugDraw);
-
-		External->physics->SetdebugDraw(true);
-
 		CCollider* ccollider = new CCollider(gameObject);
 
 		// Size
