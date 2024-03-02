@@ -107,21 +107,13 @@ bool ModulePhysics::CleanUp()
 //	bodiesList.push_back(b);
 //	world->addRigidBody(b);
 //}
-//
+
 //void ModulePhysics::AddCollider(btCollisionShape* c)
 //{
 //	collidersList.push_back(c);
 //	//world->addCollisionObject(c);
 //}
-//
-//void ModulePhysics::RemoveBody(btRigidBody* b)
-//{
-//	world->removeRigidBody(b);
-//
-//	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
-//	bodiesList.shrink_to_fit();
-//}
-//
+
 //void ModulePhysics::RemoveCollider(btCollisionShape* c)
 //{
 //	//world->removeCollisionObject(c);
@@ -155,6 +147,14 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 	bodiesList.push_back(pbody);
 
 	return pbody;
+}
+
+void ModulePhysics::RemoveBody(PhysBody* b)
+{
+	world->removeRigidBody(b->body);
+
+	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
+	bodiesList.shrink_to_fit();
 }
 
 void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool gravity)

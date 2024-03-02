@@ -52,7 +52,7 @@ void CCollider::Update()
 {
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
-		if (collider != nullptr) {
+		if (physBody != nullptr) {
 			float matrix[16];
 
 			physBody->GetTransform(matrix);
@@ -65,7 +65,7 @@ void CCollider::Update()
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-		if (componentMesh != nullptr) {
+		if (componentMesh != nullptr && physBody != nullptr) {
 
 			float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
 			physBody->SetPos(pos.x, pos.y, pos.z);
@@ -107,18 +107,23 @@ void CCollider::OnInspector()
 			switch (collType)
 			{
 			case ColliderType::BOX:
+				RemovePhysbody();
 				SetBoxCollider();
 				break;
 			case ColliderType::SPHERE:
+				RemovePhysbody();
 				SetSphereCollider();
 				break;
 			case ColliderType::CYLINDER:
+				RemovePhysbody();
 				SetCylinderCollider();
 				break;
 			case ColliderType::CONVEX_HULL:
+				RemovePhysbody();
 				SetConvexCollider();
 				break;
 			case ColliderType::MESH_COLLIDER:
+				RemovePhysbody();
 				SetMeshCollider();
 				break;
 			}
@@ -267,5 +272,13 @@ void CCollider::SetDefaultValues(physicsType type)
 		mass = 0;
 		gravity = false;
 		break;
+	}
+}
+
+void CCollider::RemovePhysbody()
+{
+	if (physBody != nullptr) {
+		External->physics->RemoveBody(physBody);
+		physBody = nullptr;
 	}
 }

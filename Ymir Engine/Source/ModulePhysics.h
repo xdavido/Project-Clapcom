@@ -41,11 +41,10 @@ public:
 	// TODO: LLUC i MARC
 	//void AddBody(btRigidBody* b);
 	//void AddCollider(btCollisionShape* c);
-
-	//void RemoveBody(btRigidBody* b);
 	//void RemoveCollider(btCollisionShape* c);
 
 	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);
+	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
 

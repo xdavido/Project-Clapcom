@@ -46,6 +46,8 @@ public:
 	void SetConvexCollider();
 	void SetMeshCollider();
 
+	void RemovePhysbody();
+
 	void SetDefaultValues(physicsType type);
 public:
 
@@ -57,13 +59,12 @@ public:
 private:
 
 	ColliderType collType;
-
-
-	btCollisionObject* collider;
-
 	PhysBody* physBody;
 
 	CTransform* transform;
+
+	//btCollisionObject* collider;
+
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
 	physicsType physType;
