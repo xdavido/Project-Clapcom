@@ -133,21 +133,21 @@ bool ModulePhysics::CleanUp()
 //	collidersList.shrink_to_fit();
 //}
 
-PhysBody* ModulePhysics::AddBody(CCube cube, float mass)
+PhysBody* ModulePhysics::AddBody(CCube cube, float mass, btCollisionShape*& shape)
 {
-	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
-	collidersList.push_back(colShape);
+	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
+	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
 
 	btVector3 localInertia(0, 0, 0);
 	if (mass != 0.f)
-		colShape->calculateLocalInertia(mass, localInertia);
+		shape->calculateLocalInertia(mass, localInertia);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	motions.push_back(myMotionState);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody* pbody = new PhysBody(body);

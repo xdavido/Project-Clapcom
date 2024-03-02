@@ -4,6 +4,7 @@
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 #include "External/ImGui/imgui.h"
+#include "TimeManager.h"
 
 #include <string>
 
@@ -18,11 +19,21 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 
 	physType = physicsType::DYNAMIC;
 	mass = 1;
+
+	// Get info from obb
+
+	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+
+
+	size = componentMesh->rMeshReference->obb.Size();
+	shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+	
 }
 
 CCollider::~CCollider()
 {
-	//delete shape;
+	delete shape;
 }
 
 void CCollider::Update()
@@ -37,6 +48,16 @@ void CCollider::Update()
 			mOwner->mTransform->UpdateTransformsChilds();
 		}
 	}
+	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED) {
+
+		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+		float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
+		physBody->SetPos(pos.x, pos.y, pos.z);
+
+	}
+
+	/*CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
+	physBody->SetTransform(componentTransform->GetGlobalTransform().ptr());*/
 }
 
 void CCollider::OnInspector()
@@ -77,6 +98,17 @@ void CCollider::OnInspector()
 			}
 		}
 
+		if (shape != nullptr) {
+
+			ImGui::Text("Scale: "); ImGui::SameLine();
+
+			if (ImGui::DragFloat3("##Scale", size.ptr())) {
+
+				shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+
+			}
+
+		}
 
 		// -----------------------------------------------------------------------------------------------------
 
@@ -105,6 +137,7 @@ void CCollider::OnInspector()
 			ImGui::Checkbox("Use gravity\t", &gravity);
 
 		ImGui::Unindent();
+
 	}
 }
 
@@ -120,17 +153,20 @@ void CCollider::SetBoxCollider()
 	collType = ColliderType::BOX;
 
 	CCube cube;
-	cube.size.x = 3;
-	cube.size.y = 3;
-	cube.size.z = 3;
+	cube.size.x = 1;
+	cube.size.y = 1;
+	cube.size.z = 1;
 	
 	transform = mOwner->mTransform;
+	mass = 1;
+
 	if (transform) {
+
 		float3 pos = transform->GetGlobalPosition();
 		cube.SetPos(pos.x / 2, pos.y / 2 / 4, pos.z / 2);
 	}
-	physBody = External->physics->AddBody(cube, 1);
-	mass = 1;
+
+	physBody = External->physics->AddBody(cube, mass, shape);
 
 	//shape = new btBoxShape(btVector3(2.0f, 2.0f, 2.0f));
 	//collider = new btCollisionObject();

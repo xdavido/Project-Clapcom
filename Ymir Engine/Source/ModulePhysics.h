@@ -42,7 +42,7 @@ public:
 	//void RemoveBody(btRigidBody* b);
 	//void RemoveCollider(btCollisionShape* c);
 
-	PhysBody* AddBody(CCube cube, float mass);
+	PhysBody* AddBody(CCube cube, float mass, btCollisionShape*& shape);
 
 	void SetBodyMass(PhysBody* pbody, float mass);
 

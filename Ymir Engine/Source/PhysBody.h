@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "External/MathGeoLib/include/Math/float3.h"
+
 class btRigidBody;
 class Module;
 

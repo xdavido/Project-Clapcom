@@ -57,6 +57,8 @@ private:
 	CTransform* transform;
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
+	float3 size;
+
 	physicsType physType;
 	float mass;
 	bool gravity;

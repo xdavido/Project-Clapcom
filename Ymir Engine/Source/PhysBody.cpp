@@ -51,7 +51,7 @@ void PhysBody::SetRot(float x, float y, float z)
 	btTransform t = body->getWorldTransform();
 	btQuaternion rotationQuat;
 	rotationQuat.setEulerZYX(z, y, x); // Asumiendo que tus ángulos son en radianes
-
+	
 	t.setRotation(rotationQuat);
 	body->setWorldTransform(t);
 }
