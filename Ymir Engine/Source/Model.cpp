@@ -594,8 +594,9 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			assert(vertexID <= vertices.size());
 			SetVertexBoneData(vertices[vertexID], boneID, weight);
 
-			LOG("-Vertex ID %i, %%f influence", vertexID, weight * 100);
+			LOG("-Vertex ID %i, %f influence", vertexID, weight);
 			
 		}
+		LOG("=======================\n");
 	}
 }
