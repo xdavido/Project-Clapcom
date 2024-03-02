@@ -14,17 +14,15 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 
 	// Default to BOX (y me permito el lujazo)
 	collType = ColliderType::BOX;
+	mass = 1;
 
 	SetBoxCollider();
 
 	physType = physicsType::DYNAMIC;
-	mass = 1;
 
 	// Get info from obb
 
 	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-
-
 
 	size = componentMesh->rMeshReference->obb.Size();
 	shape->setLocalScaling(btVector3(size.x, size.y, size.z));
@@ -158,7 +156,6 @@ void CCollider::SetBoxCollider()
 	cube.size.z = 1;
 	
 	transform = mOwner->mTransform;
-	mass = 1;
 
 	if (transform) {
 

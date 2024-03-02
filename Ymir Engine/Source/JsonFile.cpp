@@ -1080,6 +1080,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_value(componentObject, "Size", sizeArrayValue);
 
+		// Mass
+
+		json_object_set_number(componentObject, "Mass", ccollider->mass);
+
 		break;
 	}
 	default:
@@ -1365,7 +1369,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CCollider* ccollider = new CCollider(gameObject);
 
-		ccollider->SetBoxCollider();
+		// Size
 
 		JSON_Value* jsonSizeValue = json_object_get_value(componentObject, "Size");
 
@@ -1383,7 +1387,13 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		size.z = static_cast<float>(json_array_get_number(jsonSizeArray, 2));
 
 		ccollider->size = size;
+
+		// Mass
+
+		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 		 
+		ccollider->SetBoxCollider();
+
 		gameObject->AddComponent(ccollider);
 
 	}

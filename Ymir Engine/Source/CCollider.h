@@ -50,6 +50,7 @@ public:
 
 	// Public para el Save/Load
 	float3 size;
+	float mass;
 
 private:
 
@@ -64,6 +65,5 @@ private:
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
 	physicsType physType;
-	float mass;
 	bool gravity;
 };
