@@ -19,57 +19,57 @@
 
 
 
-int GetGamepadButton(MonoObject* x)
-{
-	if (External != nullptr)
-		return External->input->GetGamePadKey(*(int*)mono_object_unbox(x));
+//int GetGamepadButton(MonoObject* x)
+//{ 
+//	if (External != nullptr)
+//		return External->input->GetGamePadKey(*(int*)mono_object_unbox(x));
+//
+//	return 0;
+//}
 
-	return 0;
-}
-
-int GetLeftAxisY()
+float GetLeftAxisY()
 {
 	return External->input->GetGamepadLeftJoystickPositionValueY();
 }
-int GetLeftAxisX()
+float GetLeftAxisX()
 {
 	return External->input->GetGamepadLeftJoystickPositionValueX();
 }
-int GetRightAxisY()
+float GetRightAxisY()
 {
 	return External->input->GetGamepadRightJoystickPositionValueY();
 }
-int GetRightAxisX()
+float GetRightAxisX()
 {
 	return External->input->GetGamepadRightJoystickPositionValueX();
 }
 
-int GetGamepadLeftTrigger()
+float GetGamepadLeftTrigger()
 {
 	if (External != nullptr)
-		return External->input->GetLeftTrigger();
+		return External->input->GetGamepadLeftTriggerValue();
 
 	return 0;
 }
 
-int GetGamepadRightTrigger()
+float GetGamepadRightTrigger()
 {
 	if (External != nullptr)
-		return External->input->GetRightTrigger();
+		return External->input->GetGamepadRightTriggerValue();
 
 	return 0;
 }
 
-void PlayHaptic(float strength, int length) {
-	if (External != nullptr) {
-		External->input->PlayHaptic(strength, length);
-	}
-}
-
-int CS_GetControllerType()
-{
-	if (External != nullptr)
-		return External->input->GetControllerType();
-
-	return 0;
-}
+//void PlayHaptic(float strength, int length) {
+//	if (External != nullptr) {
+//		External->input->PlayHaptic(strength, length);
+//	}
+//}
+//
+//int CS_GetControllerType()
+//{
+//	if (External != nullptr)
+//		return External->input->GetControllerType();
+//
+//	return 0;
+//}

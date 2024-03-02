@@ -25,6 +25,7 @@ namespace YmirEngine
     }
     public class Input
     {
+        //Keyboard and mouse
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern KeyState GetKey(object keyPressed);
 
@@ -36,6 +37,30 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern int GetMouseY();
+
+        //Gamepad
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetLeftAxisX();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetLeftAxisY();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetRightAxisX();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetRightAxisY();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetLeftTrigger();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern int GetRightTrigger();
+
+
+
     }
 
     public partial class Debug

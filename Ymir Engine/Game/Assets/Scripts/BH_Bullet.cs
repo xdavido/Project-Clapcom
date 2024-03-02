@@ -17,10 +17,10 @@ public class BH_Bullet : YmirComponent
     {
         currentLifeTime += Time.deltaTime;
 
-        thisReference.localPosition += thisReference.GetForward() * (speed * Time.deltaTime);
+        thisReference.transform.localPosition += thisReference.GetForward() * (speed * Time.deltaTime);
 
         yVel -= Time.deltaTime / 15.0f;
-        thisReference.localPosition += (Vector3.up * yVel);
+        thisReference.transform.localPosition += (Vector3.up * yVel);
 
         if (currentLifeTime >= maxLifeTime)
         {

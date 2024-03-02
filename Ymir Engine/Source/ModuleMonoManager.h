@@ -50,11 +50,12 @@ public:
 	bool CleanUp() override;
 
 	static Quat UnboxQuat(MonoObject* _obj);
+	void DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script, const char* namespace_name);
 	static float3 UnboxVector(MonoObject* _obj);
 
 	static void LoadFieldData(SerializedField& _field, MonoObject* _object);
 	static void DebugAllMethods(const char* nsName, const char* className, std::vector<std::string>& _data);
-	static void DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script);
+	
 
 	void CreateAssetsScript(const char* localPath);
 	void AddScriptToSLN(const char* scriptLocalPath);

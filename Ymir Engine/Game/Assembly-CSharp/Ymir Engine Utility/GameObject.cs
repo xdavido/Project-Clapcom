@@ -8,18 +8,22 @@ namespace YmirEngine
     {
         public string name;
         public UIntPtr pointer;
+        public Transform transform;
         
         public GameObject()
         {
             name = "Empty";
             pointer = UIntPtr.Zero;
         }
-        public GameObject(string _name, UIntPtr ptr)
+        public GameObject(string _name, UIntPtr ptr, UIntPtr transPTR)
         {
             name = _name;
             pointer = ptr;
-            //Debug.Log(ptr.ToString());
-            //Debug.Log("Created: " + UID.ToString());
+            transform = new Transform();
+            transform.pointer = transPTR;
+            Debug.Log(ptr.ToString());
+            Debug.Log(transform.type.ToString());
+
         }
 
         public extern string Name
@@ -32,50 +36,7 @@ namespace YmirEngine
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
             get;
         } 
-        public extern Vector3 localPosition
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            set;
-        }
-
-        public extern Vector3 globalPosition
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-        }
-
-        public extern Quaternion localRotation
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            set;
-        }
-
-        public extern Quaternion globalRotation
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-        }
-
-        public extern Vector3 localScale
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            set;
-        }
-
-        public extern Vector3 globalScale
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-        }
+      
         public extern string Tag
         {
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -84,6 +45,8 @@ namespace YmirEngine
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
             set;
         }
+
+
 
 
 
@@ -98,6 +61,9 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern Vector3 GetRight();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetVelocity(Vector3 velocity);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void AddComponent(int componentType);

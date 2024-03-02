@@ -74,6 +74,10 @@ namespace YmirEngine
         public static Vector3 positiveInfinity { get { return positiveInfinityVector; } }
         public static Vector3 negativeInfinity { get { return negativeInfinityVector; } }
 
+        public static float Dot(Vector3 a, Vector3 b)
+        {
+            return (a.x * b.x + a.y + b.y + a.z + b.z);
+        }
 
         public static float Magnitude(Vector3 vector) { return (float)Math.Sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z); }
         public float magnitude { get { return (float)Math.Sqrt(x * x + y * y + z * z); } }

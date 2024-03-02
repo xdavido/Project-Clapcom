@@ -15,6 +15,7 @@
 #include "GameObject.h"
 #include "CScript.h"
 #include "CS_Bindings.h"
+#include "CS_Input_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -45,35 +46,54 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	jitDomain = mono_jit_init("myapp");
 
 	mono_add_internal_call("YmirEngine.Debug::Log", CSLog);
-	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
-	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
+	mono_add_internal_call("YmirEngine.YmirComponent::get_gameObject", CS_Component_Get_GO);
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
-	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
-	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
+
 
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 	//mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
 
-	mono_add_internal_call("YmirEngine.GameObject::get_localPosition", SendPosition);
-	mono_add_internal_call("YmirEngine.GameObject::get_globalPosition", SendGlobalPosition);
-	mono_add_internal_call("YmirEngine.GameObject::set_localPosition", RecievePosition);
 
-	//mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
-	//mono_add_internal_call("YmirEngine.GameObject::GetRight", GetRight);
 
-	mono_add_internal_call("YmirEngine.GameObject::get_localRotation", SendRotation);
-	mono_add_internal_call("YmirEngine.GameObject::get_globalRotation", SendGlobalRotation);
-	mono_add_internal_call("YmirEngine.GameObject::set_localRotation", RecieveRotation);
 
-	mono_add_internal_call("YmirEngine.GameObject::get_localScale", SendScale);
-	mono_add_internal_call("YmirEngine.GameObject::get_globalScale", SendGlobalScale);
-	mono_add_internal_call("YmirEngine.GameObject::set_localScale", RecieveScale);
+#pragma region Transform
+	mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
+	mono_add_internal_call("YmirEngine.GameObject::GetRight", GetRight);
+
+	mono_add_internal_call("YmirEngine.Transform::get_localPosition", SendPosition);
+	mono_add_internal_call("YmirEngine.Transform::get_globalPosition", SendGlobalPosition);
+	mono_add_internal_call("YmirEngine.Transform::set_localPosition", RecievePosition);
+	mono_add_internal_call("YmirEngine.Transform::get_localRotation", SendRotation);
+	mono_add_internal_call("YmirEngine.Transform::get_globalRotation", SendGlobalRotation);
+	mono_add_internal_call("YmirEngine.Transform::set_localRotation", RecieveRotation);
+
+	mono_add_internal_call("YmirEngine.Transform::get_localScale", SendScale);
+	mono_add_internal_call("YmirEngine.Transform::get_globalScale", SendGlobalScale);
+	mono_add_internal_call("YmirEngine.Transform::set_localScale", RecieveScale);
+#pragma endregion
 
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
 
+	
+
+
+#pragma region GamePad
+
+	mono_add_internal_call("YmirEngine.Input::GetLeftAxisY", GetLeftAxisY);
+	mono_add_internal_call("YmirEngine.Input::GetLeftAxisX", GetLeftAxisX);
+	mono_add_internal_call("YmirEngine.Input::GetRightAxisY", GetRightAxisY);
+	mono_add_internal_call("YmirEngine.Input::GetRightAxisX", GetRightAxisX);
+	mono_add_internal_call("YmirEngine.Input::GetGamepadLeftTrigger", GetGamepadLeftTrigger);
+	mono_add_internal_call("YmirEngine.Input::GetGamepadRightTrigger", GetGamepadRightTrigger);
+	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
+	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
+	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
+	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
+
+#pragma endregion
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
 
@@ -181,19 +201,22 @@ Quat ModuleMonoManager::UnboxQuat(MonoObject* _obj)
 	return ret;
 }
 
-void ModuleMonoManager::DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script)
+void ModuleMonoManager::DebugAllFields(const char* className, std::vector<SerializedField>& _data, MonoObject* obj, CScript* script, const char* namespace_name)
 {
 	void* iter = NULL;
 	MonoClassField* field;
-	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(External->moduleMono->assembly), USER_SCRIPTS_NAMESPACE, className);
-	while (field = mono_class_get_fields(klass, &iter))
-	{
-		SerializedField pushField = SerializedField(field, obj, script);
+	MonoClass* klass = mono_class_from_name(mono_assembly_get_image(External->moduleMono->assembly), namespace_name, className);
+	while (field = mono_class_get_fields(klass, &iter)){
 
+		if (mono_field_get_flags(field) != 1) // Private = 1, public = 6, static = 22
+		{
+			SerializedField pushField = SerializedField(field, obj, script);
 
-
-		_data.push_back(pushField);
-		//LOG(LogType::L_NORMAL, mono_field_full_name(method2));
+			if ( pushField.displayName != "##type" && pushField.displayName != "##componentTable")
+				_data.push_back(pushField);
+			//LOG(LogType::L_NORMAL, mono_field_full_name(method2));
+		}
+	
 	}
 }
 
@@ -211,15 +234,22 @@ void ModuleMonoManager::DebugAllMethods(const char* nsName, const char* classNam
 
 MonoObject* ModuleMonoManager::GoToCSGO(GameObject* inGo) const
 {
+
+	if (inGo == nullptr) {
+		LOG("[WARNING] GoTOCSGO inGo doesn't exist");
+		return nullptr;
+	}
 	MonoClass* goClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "GameObject");
 	uintptr_t goPtr = reinterpret_cast<uintptr_t>(inGo);
 
-	void* args[2];
+	void* args[3];
 	args[0] = &inGo->name;
 	args[1] = &goPtr;
 
+	uintptr_t transPTR = reinterpret_cast<uintptr_t>(inGo->mTransform);
+	args[2] = &transPTR;
 
-	MonoMethodDesc* constructorDesc = mono_method_desc_new("YmirEngine.GameObject:.ctor(string,uintptr)", true);
+	MonoMethodDesc* constructorDesc = mono_method_desc_new("YmirEngine.GameObject:.ctor(string,uintptr,uintptr)", true);
 	MonoMethod* method = mono_method_desc_search_in_class(constructorDesc, goClass);
 	MonoObject* goObj = mono_object_new(domain, goClass);
 	mono_runtime_invoke(method, goObj, args, NULL);
@@ -304,6 +334,8 @@ MonoObject* ModuleMonoManager::QuatToCS(Quat& inVec) const
 
 GameObject* ModuleMonoManager::GameObject_From_CSGO(MonoObject* goObj)
 {
+	if (goObj == nullptr)
+		return nullptr;
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_class_from_name(image, YMIR_SCRIPTS_NAMESPACE, "GameObject");
 
@@ -445,13 +477,16 @@ void ModuleMonoManager::InitMono()
 		uint32_t cols[MONO_TYPEDEF_SIZE];
 		mono_metadata_decode_row(table_info, i, cols, MONO_TYPEDEF_SIZE);
 		const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-		const char* name_space = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-		_class = mono_class_from_name(image, name_space, name);
-
-		if (strcmp(mono_class_get_namespace(_class), YMIR_SCRIPTS_NAMESPACE) != 0 && !mono_class_is_enum(_class))
+		if (name[0] != '<')
 		{
-			userScripts.push_back(_class);
-			LOG("%s", mono_class_get_name(_class));
+			const char* name_space = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
+			_class = mono_class_from_name(image, name_space, name);
+
+			if (_class != nullptr && strcmp(mono_class_get_namespace(_class), YMIR_SCRIPTS_NAMESPACE) != 0 && !mono_class_is_enum(_class))
+			{
+				userScripts.push_back(_class);
+				LOG("%s", mono_class_get_name(_class));
+			}
 		}
 	}
 }
