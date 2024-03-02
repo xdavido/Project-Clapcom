@@ -4,6 +4,7 @@
 #include "ModulePhysics.h"
 #include "Primitive.h"
 #include "CTransform.h"
+#include "PhysBody.h"
 
 #include "Component.h"
 #include <vector>

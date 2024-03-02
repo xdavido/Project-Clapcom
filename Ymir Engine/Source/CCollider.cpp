@@ -27,7 +27,16 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-	
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	{
+		if (collider != nullptr) {
+			float matrix[16];
+		
+			physBody->GetTransform(matrix);
+			mOwner->mTransform->SetTransformFromMatrix(matrix);
+			mOwner->mTransform->UpdateTransformsChilds();
+		}
+	}
 }
 
 void CCollider::OnInspector()
@@ -111,9 +120,9 @@ void CCollider::SetBoxCollider()
 	collType = ColliderType::BOX;
 
 	CCube cube;
-	cube.size.x = 20;
-	cube.size.y = 20;
-	cube.size.z = 20;
+	cube.size.x = 3;
+	cube.size.y = 3;
+	cube.size.z = 3;
 	
 	transform = mOwner->mTransform;
 	if (transform) {
