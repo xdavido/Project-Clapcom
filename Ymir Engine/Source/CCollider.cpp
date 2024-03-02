@@ -169,26 +169,16 @@ void CCollider::OnInspector()
 
 			switch (collType)
 			{
-			case ColliderType::BOX:
+			case ColliderType::BOX: 
+
 				ImGui::Text("Scale: "); ImGui::SameLine();
 
-			ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
+				ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
 
-		}
-
-		if (ImGui::Button("Reset Collider Size")) {
-
-			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-
-			if (componentMesh != nullptr) {
-
-				size = componentMesh->rMeshReference->obb.Size();
-				if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
-
-					shape->setLocalScaling(btVector3(size.x, size.y, size.z));
-				}
 				break;
+
 			case ColliderType::SPHERE:
+
 				ImGui::Text("Radius: "); ImGui::SameLine();
 
 				if (ImGui::DragFloat("##Radius", &radius, 1.0f, 1.0f))
@@ -206,7 +196,27 @@ void CCollider::OnInspector()
 				}
 
 				break;
+
 			}
+
+			if (ImGui::Button("Reset Collider Size")) {
+
+				CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+				if (componentMesh != nullptr) {
+
+					size = componentMesh->rMeshReference->obb.Size();
+
+					if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
+
+						shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+
+					}
+
+				}
+
+			}
+
 		}
 
 		// -----------------------------------------------------------------------------------------------------
