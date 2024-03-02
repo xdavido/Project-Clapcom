@@ -122,6 +122,8 @@ bool ModulePhysics::CleanUp()
 //	collidersList.shrink_to_fit();
 //}
 
+// ADDBODY ============================================================================================================
+// Box Collider -------------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
@@ -132,6 +134,40 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 
 	btVector3 localInertia(0, 0, 0);
 	
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
+// Convex Collider ----------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
+{
+	shape = new btConvexHullShape();
+
+	for (const auto& vertex : mesh->rMeshReference->vertices)
+	{
+		shape->addPoint(btVector3(vertex.position.x, vertex.position.y, vertex.position.z));
+	}
+
+	collidersList.push_back(shape);
+
+	btTransform startTransform;
+	startTransform.setIdentity();
+
+	btVector3 localInertia(0, 0, 0);
+
 	if (mass != 0.f)
 		shape->calculateLocalInertia(mass, localInertia);
 

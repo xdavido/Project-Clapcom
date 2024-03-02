@@ -55,6 +55,7 @@ public:
 	float3 size;
 	float mass;
 	btCollisionShape* shape;
+	btConvexHullShape* convexShape;
 
 private:
 

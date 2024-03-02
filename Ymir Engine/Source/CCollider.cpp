@@ -7,6 +7,7 @@
 #include "TimeManager.h"
 
 #include <string>
+#include <vector>
 
 CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSICS)
 {
@@ -37,6 +38,8 @@ CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSIC
 	}
 
 	shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+
+	convexShape = nullptr;
 	
 }
 
@@ -46,6 +49,7 @@ CCollider::~CCollider()
 
 	delete physBody;
 	delete shape;
+	delete convexShape;
 }
 
 void CCollider::Update()
@@ -80,7 +84,7 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Cylinder", "Convex", "Mesh"};
+	char* titles[]{ "Box", "Sphere", "Cylinder", "Convex (UNSTABLE)", "Mesh"};
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -220,16 +224,6 @@ void CCollider::SetBoxCollider()
 	}
 
 	physBody = External->physics->AddBody(cube, physicsType::DYNAMIC, mass, true, shape);
-
-	//shape = new btBoxShape(btVector3(2.0f, 2.0f, 2.0f));
-	//collider = new btCollisionObject();
-	//collider->setCollisionShape(shape);
-
-	//btTransform transform;
-	//transform.setIdentity();
-	//collider->setWorldTransform(transform);
-
-	//External->physics->world->addCollisionObject(collider);
 }
 
 void CCollider::SetSphereCollider()
@@ -244,7 +238,12 @@ void CCollider::SetCylinderCollider()
 
 void CCollider::SetConvexCollider()
 {
+	LOG("Set Convex Collider");
+	collType = ColliderType::CONVEX_HULL;
 
+	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+	physBody = External->physics->AddBody(auxMesh, physicsType::DYNAMIC, mass, true, convexShape);
 }
 
 void CCollider::SetMeshCollider()

@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "Color.h"
+#include "CMesh.h"
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 //#include "External/glmath.h"
@@ -43,7 +44,8 @@ public:
 	//void AddCollider(btCollisionShape* c);
 	//void RemoveCollider(btCollisionShape* c);
 
-	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);
+	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Box
+	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape); // Convex
 	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
