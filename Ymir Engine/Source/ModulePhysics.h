@@ -60,8 +60,8 @@ public:
 
 	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
 
+	// Tiene que ser public para el Save/Load
 
-private:
 	bool debug = true; // If true, draws colliders
 
 	DebugDrawer* debugDraw;

@@ -46,7 +46,13 @@ public:
 	void SetConvexCollider();
 	void SetMeshCollider();
 
+public:
+
+	// Public para el Save/Load
+	float3 size;
+
 private:
+
 	ColliderType collType;
 
 	btCollisionShape* shape;
@@ -56,8 +62,6 @@ private:
 
 	CTransform* transform;
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
-
-	float3 size;
 
 	physicsType physType;
 	float mass;

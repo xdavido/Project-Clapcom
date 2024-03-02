@@ -1059,8 +1059,29 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		// Is game camera
 
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
-	}
 		break;
+	}
+	case PHYSICS:
+	{
+		json_object_set_string(componentObject, "Type", "Physics");
+
+		CCollider* ccollider = (CCollider*)&component;
+
+		json_object_set_number(componentObject, "Active", ccollider->active);
+
+		// Size
+
+		JSON_Value* sizeArrayValue = json_value_init_array();
+		JSON_Array* sizeArray = json_value_get_array(sizeArrayValue);
+
+		json_array_append_number(sizeArray, ccollider->size.x);
+		json_array_append_number(sizeArray, ccollider->size.y);
+		json_array_append_number(sizeArray, ccollider->size.z);
+
+		json_object_set_value(componentObject, "Size", sizeArrayValue);
+
+		break;
+	}
 	default:
 		break;
 	}
@@ -1322,6 +1343,48 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		ccamera->framebuffer.Load();
 
 		gameObject->AddComponent(ccamera);
+
+	}
+	else if (type == "Physics") {
+
+		// Physics simulation (world)
+		External->physics->constraintSolver = new btSequentialImpulseConstraintSolver();
+		External->physics->broadphase = new btDbvtBroadphase();
+		External->physics->collisionConfig = new btDefaultCollisionConfiguration();
+		External->physics->dispatcher = new btCollisionDispatcher(External->physics->collisionConfig);
+
+		// Debug drawer	
+		External->physics->debugDraw = new DebugDrawer();
+		External->physics->debugDraw->setDebugMode(1);
+
+		External->physics->world = new btDiscreteDynamicsWorld(External->physics->dispatcher, External->physics->broadphase, External->physics->constraintSolver, External->physics->collisionConfig);
+		External->physics->world->setGravity(GRAVITY);
+		External->physics->world->setDebugDrawer(External->physics->debugDraw);
+
+		External->physics->SetdebugDraw(true);
+
+		CCollider* ccollider = new CCollider(gameObject);
+
+		ccollider->SetBoxCollider();
+
+		JSON_Value* jsonSizeValue = json_object_get_value(componentObject, "Size");
+
+		if (jsonSizeValue == nullptr || json_value_get_type(jsonSizeValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonSizeArray = json_value_get_array(jsonSizeValue);
+
+		float3 size;
+
+		size.x = static_cast<float>(json_array_get_number(jsonSizeArray, 0));
+		size.y = static_cast<float>(json_array_get_number(jsonSizeArray, 1));
+		size.z = static_cast<float>(json_array_get_number(jsonSizeArray, 2));
+
+		ccollider->size = size;
+		 
+		gameObject->AddComponent(ccollider);
 
 	}
 

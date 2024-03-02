@@ -79,11 +79,6 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
-	if (debug == true)
-	{
-		world->debugDrawWorld();
-	}
-
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		world->stepSimulation(dt, 15);
