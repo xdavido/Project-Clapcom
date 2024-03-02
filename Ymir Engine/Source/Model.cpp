@@ -541,7 +541,6 @@ void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 		if (vertex.boneIDs[i] == -1) {
 			vertex.boneIDs[i] = boneID;
 			vertex.weights[i] = weight;
-			LOG("BoneID %i with weight %f", vertex.boneIDs[i], vertex.weights[i]);
 			break;
 		}
 	}
@@ -555,6 +554,8 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 		int boneID = -1; 
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
 		if (boneInfoMap.find(boneName) == boneInfoMap.end()) {
+			LOG("===== Bone with ID %i =====", boneCounter + 1);
+			LOG("Name: %s", boneName.c_str());
 			BoneInfo newBoneInfo; 
 			newBoneInfo.id = boneCounter; 
 
@@ -568,8 +569,14 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			newBoneInfo.offset.SetRotatePart(Quat(rotation.x, rotation.y, rotation.z, rotation.w));
 			newBoneInfo.offset.Scale(scaling.x, scaling.y, scaling.z);
 
+			LOG("Offset matrix:");
+			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.a1, mesh->mBones[boneIndex]->mOffsetMatrix.a2, mesh->mBones[boneIndex]->mOffsetMatrix.a3, mesh->mBones[boneIndex]->mOffsetMatrix.a4);
+			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.b1, mesh->mBones[boneIndex]->mOffsetMatrix.b2, mesh->mBones[boneIndex]->mOffsetMatrix.b3, mesh->mBones[boneIndex]->mOffsetMatrix.b4);
+			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.c1, mesh->mBones[boneIndex]->mOffsetMatrix.c2, mesh->mBones[boneIndex]->mOffsetMatrix.c3, mesh->mBones[boneIndex]->mOffsetMatrix.c4);
+			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.d1, mesh->mBones[boneIndex]->mOffsetMatrix.d2, mesh->mBones[boneIndex]->mOffsetMatrix.d3, mesh->mBones[boneIndex]->mOffsetMatrix.d4);
+
 			boneInfoMap[boneName] = newBoneInfo;
-			boneID = boneCounter;  
+			boneID = boneCounter;
 			boneCounter++;
 		}
 		else {
@@ -577,16 +584,18 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 		}
 		assert(boneID != -1);
 
-		aiVertexWeight* weights = mesh->mBones[boneIndex]->mWeights;
 		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
 		
+		LOG("Vertices that influences:");
+
 		for (int weightIndex = 0; weightIndex < numWeights; weightIndex++) {
-			int vertexID = weights->mVertexId;
-			float weight = weights->mWeight; 
+			int vertexID = mesh->mBones[boneIndex]->mWeights[weightIndex].mVertexId;
+			float weight = mesh->mBones[boneIndex]->mWeights[weightIndex].mWeight;
 			assert(vertexID <= vertices.size());
-			LOG("------Vertex with id %i------", vertexID);
 			SetVertexBoneData(vertices[vertexID], boneID, weight);
-			LOG("-----------------------------");
+
+			LOG("-Vertex ID %i, %%f influence", vertexID, weight * 100);
+			
 		}
 	}
 }
