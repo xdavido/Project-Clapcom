@@ -24,7 +24,7 @@ public:
 
 	Primitive();
 
-	virtual void	Render() const;
+	virtual void	Render(Color col = White) const;
 	virtual void	InnerRender() const;
 	void			SetPos(float x, float y, float z);
 	void			SetRotation(float angle, const float3& u);

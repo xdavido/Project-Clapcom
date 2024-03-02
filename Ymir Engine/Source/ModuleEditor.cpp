@@ -797,6 +797,8 @@ void ModuleEditor::DrawEditor()
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
 				bool auxDebugDraw = App->physics->GetDebugDraw();
+				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g, 
+										 App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -819,6 +821,21 @@ void ModuleEditor::DrawEditor()
 				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
 				{
 					App->physics->SetdebugDraw(auxDebugDraw);
+				}
+
+				ImGui::Text("Collider Color"); ImGui::SameLine();
+
+				// Mostrar el botón de color personalizado
+				if (ImGui::ColorButton("##ColorButton", auxColor))
+				{
+					ImGui::OpenPopup("ColorPickerPopup");
+				}
+
+				if (ImGui::BeginPopup("ColorPickerPopup"))
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxColor);
+					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::EndPopup();
 				}
 
 				ImGui::Unindent();

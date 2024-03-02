@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Color.h"
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 //#include "External/glmath.h"
@@ -28,12 +29,14 @@ public:
 	//Getters
 	btVector3 GetWorldGravity();
 	bool GetDebugDraw();
+	Color GetColliderColor();
 
 	//Setters
 	void SetWorldGravity(btVector3 g);
 	void SetdebugDraw(bool d);
+	void SetColliderColor(Color col);
 
-	void ResetGravity(); // Sets the world gravity to GRAVITY
+	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
 	// TODO: LLUC i MARC
 	//void AddBody(btRigidBody* b);
@@ -60,8 +63,6 @@ public:
 
 	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
 
-	// Tiene que ser public para el Save/Load
-
 	bool debug = true; // If true, draws colliders
 
 	DebugDrawer* debugDraw;
@@ -70,6 +71,9 @@ public:
 	btCollisionConfiguration* collisionConfig;
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
+
+private:
+	Color colliderColor;
 };
 
 class DebugDrawer : public btIDebugDraw

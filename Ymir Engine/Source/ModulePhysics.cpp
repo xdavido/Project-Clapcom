@@ -30,8 +30,10 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 
 	// Debug drawer	
 	debugDraw = new DebugDrawer();
-
 	debug = true;
+
+	//Colors
+	colliderColor = White;
 }
 
 ModulePhysics::~ModulePhysics() 
@@ -179,6 +181,11 @@ bool ModulePhysics::GetDebugDraw()
 	return debug;
 }
 
+Color ModulePhysics::GetColliderColor()
+{
+	return colliderColor;
+}
+
 // SETTERS ---------------------------------------------------------------
 void ModulePhysics::SetWorldGravity(btVector3 g)
 {
@@ -191,6 +198,11 @@ void ModulePhysics::SetdebugDraw(bool d)
 
 	if (debug) LOG("DebugDrawer On");
 	else LOG("DebugDrawer Off");
+}
+
+void ModulePhysics::SetColliderColor(Color col) 
+{
+	colliderColor = col;
 }
 
 void ModulePhysics::ResetGravity()
@@ -222,7 +234,8 @@ void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btV
 	line.origin.Set(from.getX(), from.getY(), from.getZ());
 	line.destination.Set(to.getX(), to.getY(), to.getZ());
 	line.color.Set(color.getX(), color.getY(), color.getZ());
-	line.Render();
+
+	line.Render(External->physics->GetColliderColor()); // Custom color yey
 }
 
 void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
