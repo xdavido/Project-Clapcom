@@ -148,7 +148,4 @@ private:
 	int mouse_y_motion;
 	//int mouse_z_motion;
 
-	// Gamepad Deadzone Management
-	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
-
 };
