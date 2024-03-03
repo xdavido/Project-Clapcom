@@ -33,7 +33,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	debug = true;
 
 	//Colors
-	colliderColor = White;
+	colliderColor = Green;
 }
 
 ModulePhysics::~ModulePhysics() 
