@@ -227,11 +227,34 @@ void UI_Text::Draw(bool game)
 				glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 			}
 
+			// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+
+			
+			//for (auto& textures : mat->rTextures) {
+
+			//	textures->BindTexture(true);
+
+			//}
+
+			//mat->shader.UseShader(true);
+			//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix);
+
+			// Render
+
 			glBindVertexArray(boundsDrawn->VAO);
 
 			glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);
+
+			/*mat->shader.UseShader(false);
+
+			for (auto& textures : mat->rTextures) {
+
+				textures->BindTexture(false);
+
+			}*/
+
 			if (!game)
 			{
 				glPopMatrix();

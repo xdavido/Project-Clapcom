@@ -8,7 +8,7 @@
 
 UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
-	//mat = new CMaterial();
+	mat = new CMaterial(g);
 }
 
 UI_Image::~UI_Image()
@@ -113,14 +113,39 @@ void UI_Image::Draw(bool game)
 			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 		}
 
+
 		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
 		//	: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
 
+		// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+
+		for (auto& textures : mat->rTextures) {
+
+			textures->BindTexture(true);
+
+		}
+
+		mat->shader.UseShader(true);
+		mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix);
+
+
+		// Render
 		glBindVertexArray(boundsDrawn->VAO);
 
 		glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
+
+
+
+		mat->shader.UseShader(false);
+
+		for (auto& textures : mat->rTextures) {
+
+			textures->BindTexture(false);
+
+		}
+
 
 
 		if (!game)
