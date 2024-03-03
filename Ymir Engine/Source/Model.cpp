@@ -560,20 +560,20 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			newBoneInfo.id = boneCounter; 
 
 			// Copy Transform Matrix
-			aiVector3D translation, scaling;
-			aiQuaternion rotation;
+			float4x4 m;
 
-			mesh->mBones[boneIndex]->mOffsetMatrix.Decompose(scaling, rotation, translation);
+			m.At(0, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.a1;	m.At(0, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.a2;	m.At(0, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.a3;	m.At(0, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.a4;
+			m.At(1, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.b1;	m.At(1, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.b2;	m.At(1, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.b3;	m.At(1, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.b4;
+			m.At(2, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.c1;	m.At(2, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.c2;	m.At(2, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.c3;	m.At(2, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.c4;
+			m.At(3, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.d1;	m.At(3, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.d2;	m.At(3, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.d3;	m.At(3, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.d4;
 
-			newBoneInfo.offset.SetTranslatePart(translation.x, translation.y, translation.z);
-			newBoneInfo.offset.SetRotatePart(Quat(rotation.x, rotation.y, rotation.z, rotation.w));
-			newBoneInfo.offset.Scale(scaling.x, scaling.y, scaling.z);
+			newBoneInfo.offset = m;
 
 			LOG("Offset matrix:");
-			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.a1, mesh->mBones[boneIndex]->mOffsetMatrix.a2, mesh->mBones[boneIndex]->mOffsetMatrix.a3, mesh->mBones[boneIndex]->mOffsetMatrix.a4);
-			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.b1, mesh->mBones[boneIndex]->mOffsetMatrix.b2, mesh->mBones[boneIndex]->mOffsetMatrix.b3, mesh->mBones[boneIndex]->mOffsetMatrix.b4);
-			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.c1, mesh->mBones[boneIndex]->mOffsetMatrix.c2, mesh->mBones[boneIndex]->mOffsetMatrix.c3, mesh->mBones[boneIndex]->mOffsetMatrix.c4);
-			LOG("%f %f %f %f", mesh->mBones[boneIndex]->mOffsetMatrix.d1, mesh->mBones[boneIndex]->mOffsetMatrix.d2, mesh->mBones[boneIndex]->mOffsetMatrix.d3, mesh->mBones[boneIndex]->mOffsetMatrix.d4);
+			LOG("%f %f %f %f", newBoneInfo.offset.At(0, 0), newBoneInfo.offset.At(0, 1), newBoneInfo.offset.At(0, 2), newBoneInfo.offset.At(0, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(1, 0), newBoneInfo.offset.At(1, 1), newBoneInfo.offset.At(1, 2), newBoneInfo.offset.At(1, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(2, 0), newBoneInfo.offset.At(2, 1), newBoneInfo.offset.At(2, 2), newBoneInfo.offset.At(2, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(3, 0), newBoneInfo.offset.At(3, 1), newBoneInfo.offset.At(3, 2), newBoneInfo.offset.At(3, 3));
 
 			boneInfoMap[boneName] = newBoneInfo;
 			boneID = boneCounter;

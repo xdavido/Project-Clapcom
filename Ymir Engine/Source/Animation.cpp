@@ -9,14 +9,7 @@ Animation::Animation() {
 
 Animation::Animation(const std::string& animationPath, Model* model)
 {
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
-	assert(scene && scene->mRootNode);
-	aiAnimation* animation = scene->mAnimations[0];
-	duration = animation->mDuration; 
-	ticksPerSecond = animation->mTicksPerSecond;
-	ReadHierarchyData(rootNode, scene->mRootNode);
-	ReadMissingBones(animation, *model);
+	ParseAnimationData(animationPath, model);
 }
 
 Animation::~Animation() {
@@ -81,3 +74,18 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 		dest.children.push_back(newData);
 	}	
 }
+
+Animation* Animation::ParseAnimationData(const std::string& animationPath, Model* model)
+{
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
+	assert(scene && scene->mRootNode);
+	aiAnimation* animation = scene->mAnimations[0];
+	duration = animation->mDuration;
+	ticksPerSecond = animation->mTicksPerSecond;
+	ReadHierarchyData(rootNode, scene->mRootNode);
+	ReadMissingBones(animation, *model);
+
+	return this;
+}
+
