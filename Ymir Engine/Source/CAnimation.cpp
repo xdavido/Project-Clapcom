@@ -32,7 +32,7 @@ CAnimation::~CAnimation()
 void CAnimation::Update() {
     
     if (selectedAnimationPlaying != -1) {
-        animator->UpdateAnimation(0.1f);
+        animator->UpdateAnimation(External->GetDT());
         //LOG("Updating Animation %s", &aniParamaters[selectedAnimationPlaying].name);
     }
 

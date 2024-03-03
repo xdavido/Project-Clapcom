@@ -50,10 +50,11 @@
 
 	void main()
 	{
-		FragColor = vec4(1,0,1,1);
+		FragColor = texture(texture_diffuse1, TexCoords);
 	}
 
 #endif
+
 
 
 
