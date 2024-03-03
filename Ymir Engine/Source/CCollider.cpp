@@ -187,22 +187,27 @@ void CCollider::OnInspector()
 
 				ImGui::Text("Radius: "); ImGui::SameLine();
 
-				if (ImGui::DragFloat("##Radius", &radius, 1.0f, 1.0f))
+				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
 				{
-					if (radius < 1) radius = 1;
-
-					btVector3 scaling = shape->getLocalScaling();
-
-					float currentRadius = dynamic_cast<btSphereShape*>(shape)->getRadius();
-					float scale = radius / currentRadius;
-
-					scaling *= scale;
-
-					shape->setLocalScaling(scaling);
+					size.x = radius * 2 * PI;
+					size.y = radius * 2 * PI;
+					size.z = radius * 2 * PI;
 				}
 
 				break;
+			case ColliderType::CAPSULE:
+				ImGui::Text("Radius: "); ImGui::SameLine();
+				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
+				{
+					size.x = radius * 2 * PI;
+					size.z = radius * 2 * PI;
+				}
 
+				ImGui::Text("Height: "); ImGui::SameLine();
+				if (ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f))
+				{
+				}
+				break;
 			}
 
 			if (ImGui::Button("Reset Collider Size")) {
@@ -212,13 +217,7 @@ void CCollider::OnInspector()
 				if (componentMesh != nullptr) {
 
 					size = componentMesh->rMeshReference->obb.Size();
-
-					if (ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f)) {
-
-						shape->setLocalScaling(btVector3(size.x, size.y, size.z));
-
-					}
-
+					radius = size.Length() / 2 / PI;
 				}
 
 			}
