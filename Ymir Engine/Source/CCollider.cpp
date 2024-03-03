@@ -81,7 +81,10 @@ void CCollider::Update()
 			newMat.SetCol(0, float4(matrix[0], matrix[1], matrix[2], matrix[3]));
 			newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 			newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
-			newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+			if (collType != ColliderType::CONVEX_HULL)
+				newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+			else
+				newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
 
 			mOwner->mTransform->SetPosition(newMat.TranslatePart());
 			//mOwner->mTransform->SetRotation(newMat.RotatePart().ToEulerXYZ());
@@ -99,10 +102,11 @@ void CCollider::Update()
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr && physBody != nullptr) {
-
-			float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
-			physBody->SetPosition(pos);
-
+			if (collType != ColliderType::CONVEX_HULL)
+			{
+				float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
+				physBody->SetPosition(pos);
+			}
 			physBody->SetRotation(componentTransform->GetLocalRotation());
 
 			if (ImGuizmo::IsUsing()) {
@@ -336,10 +340,6 @@ void CCollider::SetCapsuleCollider()
 	capsule.radius = size.x / 2 / PI;
 	capsule.height = size.y / 2 / PI;
 
-	LOG("radius: %f", capsule.radius);
-	LOG("height: %f", capsule.height);
-	LOG("numSegments: %f", capsule.numSegments);
-
 	transform = mOwner->mTransform;
 
 	if (transform) {
@@ -364,12 +364,9 @@ void CCollider::SetConvexCollider()
 	LOG("Set Convex Collider");
 	collType = ColliderType::CONVEX_HULL;
 
-	CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
-	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-	physBody = External->physics->AddBody(componentMesh, physicsType::DYNAMIC, mass, true, convexShape);
+	physBody = External->physics->AddBody(auxMesh, physicsType::DYNAMIC, mass, true, convexShape);
 
-	physBody->SetPosition(componentTransform->GetGlobalPosition());
 	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
 	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));
 	//convexShape->setImplicitShapeDimensions(btVector3(size.x, size.y, size.z));
