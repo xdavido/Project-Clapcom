@@ -203,6 +203,8 @@ void CCollider::OnInspector()
 				ImGui::Text("Radius: "); ImGui::SameLine();
 				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
 				{
+					if (radius == 0) radius = 0.1f;
+
 					size.x = radius * 2 * PI;
 					size.z = radius * 2 * PI;
 				}
@@ -210,6 +212,7 @@ void CCollider::OnInspector()
 				ImGui::Text("Height: "); ImGui::SameLine();
 				if (ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f))
 				{
+					if (size.y == 0) size.y = 0.1f;
 				}
 				break;
 			}
