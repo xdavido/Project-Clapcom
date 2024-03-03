@@ -180,13 +180,13 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mas
 }
 
 // Capsule --------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCylinder cylinder, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
-	shape = new btCapsuleShape(cylinder.height, cylinder.radius);
+	shape = new btCapsuleShape(capsule.height, capsule.radius);
 	collidersList.push_back(shape);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cylinder.transform));
+	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(capsule.transform));
 
 	btVector3 localInertia(0, 0, 0);
 

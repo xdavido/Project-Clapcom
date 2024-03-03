@@ -591,3 +591,70 @@ void CTorus::InnerRender() const
 	glEnd();
 
 }
+
+// CAPSULE ============================================
+CCapsule::CCapsule() : Primitive(), radius(1.0f), height(1.0f), numSegments(10)
+{
+	type = PrimitiveTypes::Primitive_Capusule;
+}
+
+CCapsule::CCapsule(float radius, float height, int numSegments) : Primitive(), radius(radius), height(height), numSegments(numSegments)
+{
+	type = PrimitiveTypes::Primitive_Capusule;
+}
+
+void CCapsule::InnerRender() const
+{
+	glBegin(GL_TRIANGLES);
+
+	// Renderizar la mitad superior de la cápsula (semiesfera)
+	for (int i = 0; i <= numSegments; ++i) {
+		float phi = PI / 2 - i * PI / numSegments;
+		for (int j = 0; j <= numSegments; ++j) {
+			float theta = j * 2 * PI / numSegments;
+			float x = radius * sin(phi) * cos(theta);
+			float y = radius * cos(phi);
+			float z = radius * sin(phi) * sin(theta);
+			glVertex3f(x, y + height * 0.5f, z);
+		}
+	}
+
+	glEnd();
+
+	glBegin(GL_TRIANGLES);
+
+	// Renderizar la mitad inferior de la cápsula (semiesfera)
+	for (int i = 0; i <= numSegments; ++i) {
+		float phi = -PI / 2 + i * PI / numSegments;
+		for (int j = 0; j <= numSegments; ++j) {
+			float theta = j * 2 * PI / numSegments;
+			float x = radius * sin(phi) * cos(theta);
+			float y = radius * cos(phi);
+			float z = radius * sin(phi) * sin(theta);
+			glVertex3f(x, y - height * 0.5f, z);
+		}
+	}
+
+	glEnd();
+
+	glBegin(GL_QUAD_STRIP);
+
+	// Renderizar el cilindro que conecta las dos semiesferas
+	for (int i = 0; i <= numSegments; ++i) {
+		float phi = PI / 2 - i * PI / numSegments;
+		for (int j = 0; j <= numSegments; ++j) {
+			float theta = j * 2 * PI / numSegments;
+			float x = radius * sin(phi) * cos(theta);
+			float y = radius * cos(phi);
+			float z = radius * sin(phi) * sin(theta);
+			glVertex3f(x, y + height * 0.5f, z);
+
+			x = radius * sin(phi + PI / numSegments) * cos(theta);
+			y = radius * cos(phi + PI / numSegments);
+			z = radius * sin(phi + PI / numSegments) * sin(theta);
+			glVertex3f(x, y + height * 0.5f, z);
+		}
+	}
+
+	glEnd();
+}

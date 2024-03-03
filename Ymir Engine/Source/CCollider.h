@@ -42,7 +42,7 @@ public:
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
 	void SetBoxCollider();
 	void SetSphereCollider();
-	void SetCylinderCollider();
+	void SetCapsuleCollider();
 	void SetConvexCollider();
 	void SetMeshCollider();
 

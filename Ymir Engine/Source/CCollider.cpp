@@ -158,7 +158,7 @@ void CCollider::OnInspector()
 				break;
 			case ColliderType::CAPSULE:
 				RemovePhysbody();
-				SetCylinderCollider();
+				SetCapsuleCollider();
 				break;
 			case ColliderType::CONVEX_HULL:
 				RemovePhysbody();
@@ -300,7 +300,7 @@ void CCollider::SetBoxCollider()
 	if (transform) {
 
 		float3 pos = transform->GetGlobalPosition();
-		cube.SetPos(pos.x /*/ 2*/, pos.y /*/ 2 / 4*/, pos.z /*/ 2*/);
+		cube.SetPos(pos.x, pos.y, pos.z);
 	}
 
 	physBody = External->physics->AddBody(cube, physicsType::DYNAMIC, mass, true, shape);
@@ -310,8 +310,9 @@ void CCollider::SetBoxCollider()
 void CCollider::SetSphereCollider()
 {
 	LOG("Set Sphere Collider");
+	collType = ColliderType::SPHERE;
 
-	radius = size.Length() / 2;
+	radius = size.Length() / 2 / PI;
 
 	CSphere sphere;
 	sphere.radius = radius;
@@ -327,9 +328,28 @@ void CCollider::SetSphereCollider()
 	physBody = External->physics->AddBody(sphere, physicsType::DYNAMIC, mass, true, shape);
 }
 
-void CCollider::SetCylinderCollider()
+void CCollider::SetCapsuleCollider()
 {
+	LOG("Set Capsule Collider");
+	collType = ColliderType::CAPSULE;
 	
+	CCapsule capsule;
+	capsule.radius = size.x / 2 / PI;
+	capsule.height = size.y / 2 / PI;
+
+	LOG("radius: %f", capsule.radius);
+	LOG("height: %f", capsule.height);
+	LOG("numSegments: %f", capsule.numSegments);
+
+	transform = mOwner->mTransform;
+
+	if (transform) {
+
+		float3 pos = transform->GetGlobalPosition();
+		capsule.SetPos(pos.x, pos.y, pos.z);
+	}
+
+	physBody = External->physics->AddBody(capsule, physicsType::DYNAMIC, mass, true, shape);
 }
 
 void CCollider::SetConvexCollider()
