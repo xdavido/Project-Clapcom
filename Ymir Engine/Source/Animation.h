@@ -37,6 +37,8 @@ private:
 
 	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src);
 
+	Animation* ParseAnimationData(const std::string& animationPath, Model* model);
+
 public:
 
 
