@@ -1,6 +1,9 @@
 #include "UI_Image.h"
 #include "GameObject.h"
 
+#include "Application.h"
+#include "ModuleEditor.h"
+
 //#include "External/ImGui/imgui_custom.h"
 
 UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
@@ -86,77 +89,46 @@ void UI_Image::OnInspector()
 
 void UI_Image::Draw(bool game)
 {
-	//if (mat != nullptr && mat->tex != nullptr)
-	//{
-	//	UIBounds* boundsDrawn = nullptr;
+//	if (mat != nullptr && mat->tex != nullptr)
+//	{
+		UIBounds* boundsDrawn = nullptr;
 
-	//	if (game)
-	//	{
-	//		boundsDrawn = boundsGame;
+		if (game)
+		{
+			boundsDrawn = boundsGame;
 
-	//		glMatrixMode(GL_PROJECTION);
-	//		glLoadIdentity();
-	//		glOrtho(0.0, App->editor->gameViewSize.x, 0.0, App->editor->gameViewSize.y, 1.0, -1.0);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-	//		glMatrixMode(GL_MODELVIEW);
-	//		glLoadIdentity();
-	//	}
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+		}
 
-	//	else
-	//	{
-	//		boundsDrawn = boundsEditor;
+		else
+		{
+			boundsDrawn = boundsEditor;
 
-	//		glPushMatrix();
-	//		glMultMatrixf(gameObject->transform->GetGLTransform());
-	//	}
+			glPushMatrix();
+			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+		}
 
-	//	glEnableClientState(GL_VERTEX_ARRAY);
+		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
+		//	: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
 
-	//	//normals
-	//	glEnableClientState(GL_NORMAL_ARRAY);
+		glBindVertexArray(boundsDrawn->VAO);
 
-	//	//texture
-	//	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
-	//	// Mesh buffers
-	//	glBindBuffer(GL_ARRAY_BUFFER, boundsDrawn->VBO);
-	//	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	//	glBindVertexArray(0);
+		glBindVertexArray(0);
 
-	//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, boundsDrawn->EBO);
 
-	//	//alpha material
-	//	glEnable(GL_BLEND);
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//	glEnable(GL_ALPHA_TEST);
-	//	glAlphaFunc(GL_GREATER, 0.0f);
+		if (!game)
+		{
+			glPopMatrix();
+		}
 
-	//	glColor4f(color.r, color.g, color.b, color.a);
-
-	//	// Textures
-	//	glBindBuffer(GL_ARRAY_BUFFER, boundsDrawn->id_tex_uvs);
-	//	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-	//	glActiveTexture(GL_TEXTURE0);
-
-	//	(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
-	//		: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
-
-	//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
-
-	//	// Clean textures
-	//	glBindTexture(GL_TEXTURE_2D, 0); // Cleanning bind buffer;
-	//	glDisableClientState(GL_VERTEX_ARRAY);
-	//	glDisableClientState(GL_NORMAL_ARRAY);
-	//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	//	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//	if (!game)
-	//	{
-	//		glPopMatrix();
-	//	}
-
-	//	boundsDrawn = nullptr;
+		boundsDrawn = nullptr;
 	//}
 }
 

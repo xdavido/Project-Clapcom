@@ -61,15 +61,15 @@ void UI_Canvas::UpdateUITransform()
 	width = External->editor->gameViewSize.x;
 	height = External->editor->gameViewSize.y;
 
-	boundsEditor->vertex[0] = float3(posX, posY, 0);
-	boundsEditor->vertex[1] = float3(posX + width, posY, 0);
-	boundsEditor->vertex[2] = float3(posX, posY + height, 0);
-	boundsEditor->vertex[3] = float3(posX + width, posY + height, 0);
+	boundsEditor->vertices[0].position = float3(posX, posY, 0);
+	boundsEditor->vertices[1].position = float3(posX + width, posY, 0);
+	boundsEditor->vertices[2].position = float3(posX, posY + height, 0);
+	boundsEditor->vertices[3].position = float3(posX + width, posY + height, 0);
 
-	boundsEditor->uvs[2] = float2(0, 1);
-	boundsEditor->uvs[3] = float2(1, 1);
-	boundsEditor->uvs[1] = float2(1, 0);
-	boundsEditor->uvs[0] = float2(0, 0);
+	boundsEditor->vertices[2].textureCoordinates = float2(0, 1);
+	boundsEditor->vertices[3].textureCoordinates = float2(1, 1);
+	boundsEditor->vertices[1].textureCoordinates = float2(1, 0);
+	boundsEditor->vertices[0].textureCoordinates = float2(0, 0);
 
 	boundsEditor->RegenerateVBO();
 }

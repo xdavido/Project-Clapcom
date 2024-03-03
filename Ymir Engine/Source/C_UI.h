@@ -14,13 +14,14 @@
 #include "../Source/External/ImGui/misc/cpp/imgui_stdlib.h"
 #include "../Source/External/ImGui/imgui_internal.h"
 
+#include "Mesh.h"
+
 #include "Color.h"
 #include <string>
+#include <vector>
 
 struct UIBounds
 {
-	uint* index;
-
 	GLuint VBO; //vertex buffer object
 	GLuint EBO; //element buffer object
 	GLuint VAO;

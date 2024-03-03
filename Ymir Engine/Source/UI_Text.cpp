@@ -13,31 +13,73 @@ UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::TEXT
 	boundsEditor = new UIBounds;
 	boundsGame = new UIBounds;
 
-	boundsEditor->index = new uint[6];
-	boundsEditor->index[0] = 0;
-	boundsEditor->index[1] = 1;
-	boundsEditor->index[2] = 2;
-	boundsEditor->index[3] = 2;
-	boundsEditor->index[4] = 1;
-	boundsEditor->index[5] = 3;
+	GLuint indexE0 = 0;
+	GLuint indexE1 = 1;
+	GLuint indexE2 = 2;
+	GLuint indexE3 = 2;
+	GLuint indexE4 = 1;
+	GLuint indexE5 = 3;
 
-	boundsGame->index = new uint[6];
-	boundsGame->index[0] = 0;
-	boundsGame->index[1] = 1;
-	boundsGame->index[2] = 2;
-	boundsGame->index[3] = 2;
-	boundsGame->index[4] = 1;
-	boundsGame->index[5] = 3;
+	boundsEditor->indices.push_back(indexE0);
+	boundsEditor->indices.push_back(indexE1);
+	boundsEditor->indices.push_back(indexE2);
+	boundsEditor->indices.push_back(indexE3);
+	boundsEditor->indices.push_back(indexE4);
+	boundsEditor->indices.push_back(indexE5);
 
-	boundsEditor->uvs[3] = float2(1, 1);
-	boundsEditor->uvs[2] = float2(0, 1);
-	boundsEditor->uvs[1] = float2(1, 0);
-	boundsEditor->uvs[0] = float2(0, 0);
+	GLuint indexG0 = 0;
+	GLuint indexG1 = 1;
+	GLuint indexG2 = 2;
+	GLuint indexG3 = 2;
+	GLuint indexG4 = 1;
+	GLuint indexG5 = 3;
 
-	boundsGame->uvs[3] = float2(1, 1);
-	boundsGame->uvs[2] = float2(0, 1);
-	boundsGame->uvs[1] = float2(1, 0);
-	boundsGame->uvs[0] = float2(0, 0);
+	boundsGame->indices.push_back(indexG0);
+	boundsGame->indices.push_back(indexG1);
+	boundsGame->indices.push_back(indexG2);
+	boundsGame->indices.push_back(indexG3);
+	boundsGame->indices.push_back(indexG4);
+	boundsGame->indices.push_back(indexG5);
+
+	Vertex editorVertex1;
+	editorVertex1.position = float3::zero;
+	editorVertex1.textureCoordinates = float2(0, 0);
+	boundsEditor->vertices.push_back(editorVertex1);
+
+	Vertex editorVertex2;
+	editorVertex2.position = float3::zero;
+	editorVertex2.textureCoordinates = float2(1, 0);
+	boundsEditor->vertices.push_back(editorVertex2);
+
+	Vertex editorVertex3;
+	editorVertex3.position = float3::zero;
+	editorVertex3.textureCoordinates = float2(0, 1);
+	boundsEditor->vertices.push_back(editorVertex3);
+
+	Vertex editorVertex4;
+	editorVertex4.position = float3::zero;
+	editorVertex4.textureCoordinates = float2(1, 1);
+	boundsEditor->vertices.push_back(editorVertex4);
+
+	Vertex gameVertex1;
+	gameVertex1.position = float3::zero;
+	gameVertex1.textureCoordinates = float2(0, 0);
+	boundsGame->vertices.push_back(gameVertex1);
+
+	Vertex gameVertex2;
+	gameVertex2.position = float3::zero;
+	gameVertex2.textureCoordinates = float2(1, 0);
+	boundsGame->vertices.push_back(gameVertex2);
+
+	Vertex gameVertex3;
+	gameVertex3.position = float3::zero;
+	gameVertex3.textureCoordinates = float2(0, 1);
+	boundsGame->vertices.push_back(gameVertex3);
+
+	Vertex gameVertex4;
+	gameVertex4.position = float3::zero;
+	gameVertex4.textureCoordinates = float2(1, 1);
+	boundsGame->vertices.push_back(gameVertex4);
 
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
@@ -51,8 +93,8 @@ UI_Text::~UI_Text()
 	font = nullptr;
 	boundsEditor->DeleteBuffers();
 	boundsGame->DeleteBuffers();
-	RELEASE_ARRAY(boundsEditor->index);
-	RELEASE_ARRAY(boundsGame->index);
+	//RELEASE_ARRAY(boundsEditor->index);
+	//RELEASE_ARRAY(boundsGame->index);
 	RELEASE(boundsEditor);
 	RELEASE(boundsGame);
 }
@@ -152,15 +194,15 @@ void UI_Text::Draw(bool game)
 				space += fontSize;
 			}
 
-			boundsEditor->vertex[0] = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertex[1] = float3(position.x + space + (sizeX * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertex[2] = float3(position.x + space, position.y, 0);
-			boundsEditor->vertex[3] = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
+			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
+			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
+			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
+			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertex[0] = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertex[1] = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertex[2] = float3(posX + space, posY, 0);
-			boundsGame->vertex[3] = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
+			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
+			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
@@ -185,46 +227,11 @@ void UI_Text::Draw(bool game)
 				glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 			}
 
-			glEnableClientState(GL_VERTEX_ARRAY);
+			glBindVertexArray(boundsDrawn->VAO);
 
-			//normals
-			glEnableClientState(GL_NORMAL_ARRAY);
+			glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
-			//texture
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			// Mesh buffers
-			glBindBuffer(GL_ARRAY_BUFFER, boundsDrawn->VBO);
-			glVertexPointer(3, GL_FLOAT, 0, NULL);
 			glBindVertexArray(0);
-
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, boundsDrawn->EBO);
-
-			//alpha material
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glEnable(GL_ALPHA_TEST);
-			glAlphaFunc(GL_GREATER, 0.0f);
-
-			glColor4f(color.r, color.g, color.b, color.a);
-
-			// Textures
-			glBindBuffer(GL_ARRAY_BUFFER, boundsDrawn->id_tex_uvs);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-			glActiveTexture(GL_TEXTURE0);
-
-			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
-
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
-
-			// Clean textures
-			glBindTexture(GL_TEXTURE_2D, 0); // Cleanning bind buffer;
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_NORMAL_ARRAY);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
 			if (!game)
 			{
 				glPopMatrix();
@@ -259,15 +266,15 @@ void UI_Text::ChangeFontSize()
 				space += fontSize;
 			}
 
-			boundsEditor->vertex[0] = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertex[1] = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertex[2] = float3(position.x + space, position.y, 0);
-			boundsEditor->vertex[3] = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y, 0);
+			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
+			boundsEditor->vertices[1].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
+			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
+			boundsEditor->vertices[3].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertex[0] = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertex[1] = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertex[2] = float3(posX + space, posY, 0);
-			boundsGame->vertex[3] = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY, 0);
+			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[1].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
+			boundsGame->vertices[3].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
