@@ -310,21 +310,25 @@ btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex
 	btConvexHullShape* convexShape = new btConvexHullShape();
 
 	// Add vertices to shape
-	//for (const auto& vertex : vertices) {
-	//	btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-	//	convexShape->addPoint(btVertex);
-	//}
+	for (const auto& vertex : vertices) {
+		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+		convexShape->addPoint(btVertex);
+
+		//LOG("Vertex: (%f, %f, %f)", vertex.position.x, vertex.position.y, vertex.position.z);
+	}
 
 	// Optionally, you can also add indices to maintain convexity
-	for (size_t i = 0; i < indices.size(); i += 3) {
-		btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
-		btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
-		btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
+	//for (size_t i = 0; i < indices.size(); i += 3) {
+	//	btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
+	//	btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
+	//	btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
 
-		convexShape->addPoint(vertex0);
-		convexShape->addPoint(vertex1);
-		convexShape->addPoint(vertex2);
-	}
+	//	LOG("Vertex: (% .0f, % .0f, % .0f) - Index: (%d, %d, %d)", i, vertex0, vertex1, vertex2, i, indices[i], indices[i + 1], indices[i + 2]);
+
+	//	convexShape->addPoint(vertex0);
+	//	convexShape->addPoint(vertex1);
+	//	convexShape->addPoint(vertex2);
+	//}
 
 	return convexShape;
 }
