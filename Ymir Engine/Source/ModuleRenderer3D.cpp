@@ -614,13 +614,14 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
-					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
+					
 					if (animationComponent != nullptr && animationComponent->active) {
 						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
 						for (int i = 0; i < transforms.size(); i++) {
-							materialComponent->shader.SetShaderUniforms(&transforms[i], (*it)->selected);
+							materialComponent->shader.SetMatrix4x4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
 						}
 					}
+					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
 				}
 
 				meshComponent->rMeshReference->Render();

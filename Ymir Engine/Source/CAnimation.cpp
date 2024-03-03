@@ -32,8 +32,8 @@ CAnimation::~CAnimation()
 void CAnimation::Update() {
     
     if (selectedAnimationPlaying != -1) {
-        animator->UpdateAnimation(0.5f);
-        LOG("Updating Animation %s", &aniParamaters[selectedAnimationPlaying].name);
+        animator->UpdateAnimation(0.1f);
+        //LOG("Updating Animation %s", &aniParamaters[selectedAnimationPlaying].name);
     }
 
 }

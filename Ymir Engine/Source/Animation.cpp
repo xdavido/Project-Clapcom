@@ -2,6 +2,7 @@
 #include "External/Assimp/include/scene.h"
 #include "External/Assimp/include/Importer.hpp"
 #include <functional>
+#include "log.h"
 
 Animation::Animation() {
 
@@ -53,19 +54,31 @@ void Animation::ReadMissingBones(const aiAnimation* animation, Model& model)
 
 void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 {
-	aiVector3D translation, scaling;
-	aiQuaternion rotation;
-
 	assert(src);
 
 	dest.name = src->mName.data;
 
-	src->mTransformation.Decompose(scaling, rotation, translation);
+	/*LOG("Source matrix:");
+	LOG("%f %f %f %f", src->mTransformation.a1, src->mTransformation.a2, src->mTransformation.a3, src->mTransformation.a4);
+	LOG("%f %f %f %f", src->mTransformation.b1, src->mTransformation.b2, src->mTransformation.b3, src->mTransformation.b4);
+	LOG("%f %f %f %f", src->mTransformation.c1, src->mTransformation.c2, src->mTransformation.c3, src->mTransformation.c4);
+	LOG("%f %f %f %f", src->mTransformation.d1, src->mTransformation.d2, src->mTransformation.d3, src->mTransformation.d4);*/
 
-	dest.transformation.SetTranslatePart(translation.x, translation.y, translation.z);
-	dest.transformation.SetRotatePart(Quat(rotation.x, rotation.y, rotation.z, rotation.w));
-	dest.transformation.Scale(scaling.x, scaling.y, scaling.z);
+	float4x4 m; 
 
+	m.At(0, 0) = src->mTransformation.a1; m.At(0, 1) = src->mTransformation.a2; m.At(0, 2) = src->mTransformation.a3; m.At(0, 3) = src->mTransformation.a4;
+	m.At(1, 0) = src->mTransformation.b1; m.At(1, 1) = src->mTransformation.b2; m.At(1, 2) = src->mTransformation.b3; m.At(1, 3) = src->mTransformation.b4;
+	m.At(2, 0) = src->mTransformation.c1; m.At(2, 1) = src->mTransformation.c2; m.At(2, 2) = src->mTransformation.c3; m.At(2, 3) = src->mTransformation.c4;
+	m.At(3, 0) = src->mTransformation.d1; m.At(3, 1) = src->mTransformation.d2; m.At(3, 2) = src->mTransformation.d3; m.At(3, 3) = src->mTransformation.d4;
+
+	dest.transformation = m; 
+
+	/*LOG("Destination matrix:");
+	LOG("%f %f %f %f", dest.transformation.At(0, 0), dest.transformation.At(0, 1), dest.transformation.At(0, 2), dest.transformation.At(0, 3));
+	LOG("%f %f %f %f", dest.transformation.At(1, 0), dest.transformation.At(1, 1), dest.transformation.At(1, 2), dest.transformation.At(1, 3));
+	LOG("%f %f %f %f", dest.transformation.At(2, 0), dest.transformation.At(2, 1), dest.transformation.At(2, 2), dest.transformation.At(2, 3));
+	LOG("%f %f %f %f", dest.transformation.At(3, 0), dest.transformation.At(3, 1), dest.transformation.At(3, 2), dest.transformation.At(3, 3));*/
+	
 	dest.childrenCount = src->mNumChildren;
 
 	for (int i = 0; i < src->mNumChildren; i++) {

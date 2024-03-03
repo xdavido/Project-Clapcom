@@ -722,6 +722,9 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 					this->AddUniform(name, new int[4] {0, 0, 0, 0}, UniformType::i4, 4);
 
 				}
+				else if (type == "mat4") {
+					this->AddUniform(name, new float[4][4]{ {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0} }, UniformType::f4mat, 16);
+				}
 
 			}
 

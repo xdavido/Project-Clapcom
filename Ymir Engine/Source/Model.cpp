@@ -555,8 +555,8 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 		int boneID = -1; 
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
 		if (boneInfoMap.find(boneName) == boneInfoMap.end()) {
-			LOG("===== Bone with ID %i =====", boneCounter + 1);
-			LOG("Name: %s", boneName.c_str());
+			/*LOG("===== Bone with ID %i =====", boneCounter + 1);
+			LOG("Name: %s", boneName.c_str());*/
 			BoneInfo newBoneInfo; 
 			newBoneInfo.id = boneCounter; 
 
@@ -570,11 +570,11 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 
 			newBoneInfo.offset = m;
 
-			LOG("Offset matrix:");
+			/*LOG("Offset matrix:");
 			LOG("%f %f %f %f", newBoneInfo.offset.At(0, 0), newBoneInfo.offset.At(0, 1), newBoneInfo.offset.At(0, 2), newBoneInfo.offset.At(0, 3));
 			LOG("%f %f %f %f", newBoneInfo.offset.At(1, 0), newBoneInfo.offset.At(1, 1), newBoneInfo.offset.At(1, 2), newBoneInfo.offset.At(1, 3));
 			LOG("%f %f %f %f", newBoneInfo.offset.At(2, 0), newBoneInfo.offset.At(2, 1), newBoneInfo.offset.At(2, 2), newBoneInfo.offset.At(2, 3));
-			LOG("%f %f %f %f", newBoneInfo.offset.At(3, 0), newBoneInfo.offset.At(3, 1), newBoneInfo.offset.At(3, 2), newBoneInfo.offset.At(3, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(3, 0), newBoneInfo.offset.At(3, 1), newBoneInfo.offset.At(3, 2), newBoneInfo.offset.At(3, 3));*/
 
 			boneInfoMap[boneName] = newBoneInfo;
 			boneID = boneCounter;
@@ -587,7 +587,7 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 
 		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
 		
-		LOG("Vertices that influences:");
+		/*LOG("Vertices that influences:");*/
 
 		for (int weightIndex = 0; weightIndex < numWeights; weightIndex++) {
 			int vertexID = mesh->mBones[boneIndex]->mWeights[weightIndex].mVertexId;
@@ -595,9 +595,9 @@ void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* 
 			assert(vertexID <= vertices.size());
 			SetVertexBoneData(vertices[vertexID], boneID, weight);
 
-			LOG("-Vertex ID %i, %f influence", vertexID, weight);
+			/*LOG("-Vertex ID %i, %f influence", vertexID, weight);*/
 			
 		}
-		LOG("=======================\n");
+		///*LOG("=======================\n");*/
 	}
 }
