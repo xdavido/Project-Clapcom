@@ -12,6 +12,14 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	gameObjectTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));
 	External->audio->RegisterNewAudioObject(id);
 	External->audio->AddAudioSource(this);
+
+	External->audio->LoadBank(std::string("FuncionaPls"));
+
+#ifdef _STANDALONE
+
+	External->audio->PlayEvent(this->id, std::string("JV"));
+
+#endif // STANDALONE
 }
 
 CAudioSource::~CAudioSource()
@@ -129,6 +137,15 @@ void CAudioSource::Update()
 {
 	float3 pos = gameObjectTransform->mGlobalMatrix.TranslatePart();
 	External->audio->SetAudioObjTransform(this->id, pos, gameObjectTransform->GetForward(), gameObjectTransform->GetUp());
+
+	if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		External->audio->PlayEvent(this->id, std::string("JV"));
+	}
+	if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		External->audio->StopEvent(this->id, std::string("JV"));
+	}
 }
 
 //void CAudioSource::SaveData(JSON_Object* nObj)
