@@ -3,12 +3,24 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ImporterTexture.h"
 
 //#include "External/ImGui/imgui_custom.h"
 
 UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
-	mat = new CMaterial(g);
+    mat = new CMaterial(g);
+    mat->shaderPath = "Assets/Shaders/UI Shader.glsl";
+    mat->shader.LoadShader(mat->shaderPath);
+
+    //std::string path = "Assets/Baker_house.png";
+    //ResourceTexture* rTexTemp = new ResourceTexture(0);
+    //ImporterTexture::Import(path, rTexTemp);
+    //rTexTemp->type = TextureType::DIFFUSE;
+    //rTexTemp->UID = Random::Generate();
+    //mat->rTextures.push_back(rTexTemp);
+
+
 }
 
 UI_Image::~UI_Image()
@@ -291,20 +303,20 @@ void UI_Image::Draw(bool game)
 		{
 			boundsDrawn = boundsGame;
 
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+			//glMatrixMode(GL_PROJECTION);
+			//glLoadIdentity();
+			//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
+			//glMatrixMode(GL_MODELVIEW);
+			//glLoadIdentity();
 		}
 
 		else
 		{
 			boundsDrawn = boundsEditor;
 
-			glPushMatrix();
-			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+			//glPushMatrix();
+			//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 		}
 
 
@@ -313,14 +325,14 @@ void UI_Image::Draw(bool game)
 
 		// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
-		for (auto& textures : mat->rTextures) {
+		//for (auto& textures : mat->rTextures) {
 
-			textures->BindTexture(true);
+		//	textures->BindTexture(true);
 
-		}
+		//}
 
-		mat->shader.UseShader(true);
-		mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
+		//mat->shader.UseShader(true);
+		//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
 
 
 		// Render
@@ -332,22 +344,23 @@ void UI_Image::Draw(bool game)
 
 
 
-		mat->shader.UseShader(false);
+		//mat->shader.UseShader(false);
 
-		for (auto& textures : mat->rTextures) {
+		//for (auto& textures : mat->rTextures) {
 
-			textures->BindTexture(false);
+		//	textures->BindTexture(false);
 
-		}
+		//}
 
 
 
-		if (!game)
-		{
-			glPopMatrix();
-		}
+		//if (!game)
+		//{
+		//	glPopMatrix();
+		//}
 
 		boundsDrawn = nullptr;
+
 	//}
 }
 

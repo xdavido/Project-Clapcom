@@ -75,41 +75,49 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 
 	Vertex editorVertex1;
 	editorVertex1.position = float3(position.x, position.y + (height * scaleBounds.y), 0);
+	editorVertex1.normal = float3(0,0,0);
 	editorVertex1.textureCoordinates = float2(0, 1);
 	boundsEditor->vertices.push_back(editorVertex1);
 
 	Vertex editorVertex2;
 	editorVertex2.position = float3(position.x + (width * scaleBounds.x), position.y + ((height * scaleBounds.y) * scaleBounds.y), 0);
+	editorVertex2.normal = float3(0, 0, 0);
 	editorVertex2.textureCoordinates = float2(1, 1);
 	boundsEditor->vertices.push_back(editorVertex2);
 
 	Vertex editorVertex3;
 	editorVertex3.position = float3(position.x, position.y, 0);
+	editorVertex3.normal = float3(0, 0, 0);
 	editorVertex3.textureCoordinates = float2(0, 0);
 	boundsEditor->vertices.push_back(editorVertex3);
 
 	Vertex editorVertex4;
 	editorVertex4.position = float3(position.x + (width * scaleBounds.x), position.y, 0);
+	editorVertex4.normal = float3(0, 0, 0);
 	editorVertex4.textureCoordinates = float2(1, 0);
 	boundsEditor->vertices.push_back(editorVertex4);
 
 	Vertex gameVertex1;
 	gameVertex1.position = float3(posX, posY + (height * scaleBounds.y), 0);
+	gameVertex1.normal = float3(0, 0, 0);
 	gameVertex1.textureCoordinates = float2(0, 1);
 	boundsGame->vertices.push_back(gameVertex1);
 
 	Vertex gameVertex2;
 	gameVertex2.position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
+	gameVertex2.normal = float3(0, 0, 0);
 	gameVertex2.textureCoordinates = float2(1, 1);
 	boundsGame->vertices.push_back(gameVertex2);
 
 	Vertex gameVertex3;
 	gameVertex3.position = float3(posX, posY, 0);
+	gameVertex3.normal = float3(0, 0, 0);
 	gameVertex3.textureCoordinates = float2(0, 0);
 	boundsGame->vertices.push_back(gameVertex3);
 
 	Vertex gameVertex4;
 	gameVertex4.position = float3(posX + (width * scaleBounds.x), posY, 0);
+	gameVertex4.normal = float3(0, 0, 0);
 	gameVertex4.textureCoordinates = float2(1, 0);
 	boundsGame->vertices.push_back(gameVertex4);
 

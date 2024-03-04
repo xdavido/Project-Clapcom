@@ -293,17 +293,19 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
-		listUI.clear(); // Cutre, I know
+		//listUI.clear(); // Cutre, I know
 		// Get UI elements to draw
-		GetUIGOs(App->scene->mRootNode, listUI);
+		//GetUIGOs(App->scene->mRootNode, listUI);
 
-		for (auto i = 0; i < listUI.size(); i++)
-		{
-			if (listUI[i]->mOwner->active && listUI[i]->active)
-			{
-				listUI[i]->Draw(false);
-			}
-		}
+		//for (auto i = 0; i < listUI.size(); i++)
+		//{
+		//	if (listUI[i]->mOwner->active && listUI[i]->active)
+		//	{
+		//		listUI[i]->Draw(false);
+		//	}
+		//}
+
+		DrawUIElements(false);
 
 		// Render Bounding Boxes
 
@@ -335,18 +337,18 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			//}
 
 			// TODO: preguntar porque el out of range este raro
-			if (!listUI.empty())
-			{
-				for (auto i = listUI.size() - 1; i >= 0; i--)
-				{
-					if (listUI[i]->mOwner->active && listUI[i]->active)
-					{
-						listUI[i]->Draw(true);
-					}
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
 
-					if (i == 0) { break; }
-				}
-			}
+			//		if (i == 0) { break; }
+			//	}
+			//}
 
 		}
 
@@ -668,6 +670,85 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 			GetUIGOs(go->mChildren[i], listgo);
 		}
 	}
+}
+
+void ModuleRenderer3D::DrawUIElements(bool isGame)
+{
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+
+		if ((*it)->active && uiComponent != nullptr)
+		{
+			switch (uiComponent->UI_type)
+			{
+			case UI_TYPE::CANVAS:
+
+
+
+				break;
+
+			case UI_TYPE::IMAGE: {
+
+				UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(true);
+
+				}
+
+				uiImage->mat->shader.UseShader(true);
+				uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+
+				uiImage->Draw(isGame);
+
+				uiImage->mat->shader.UseShader(false);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(false);
+
+				}
+
+				break;
+			}
+			case UI_TYPE::TEXT:
+
+
+
+				break;
+
+			case UI_TYPE::BUTTON:
+
+
+
+				break;
+
+			case UI_TYPE::INPUTBOX:
+
+
+
+				break;
+
+			case UI_TYPE::CHECKBOX:
+
+
+
+				break;
+
+			case UI_TYPE::NONE:
+
+
+
+				break;
+
+			}
+
+		}
+
+	}
+
 }
 
 void ModuleRenderer3D::DrawGameObjects()
