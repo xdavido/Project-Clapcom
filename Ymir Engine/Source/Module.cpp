@@ -1,5 +1,7 @@
 #include "Module.h"
 
+#include "External/mmgr/mmgr.h"
+
 Module::Module(Application* parent, bool start_enabled) : App(parent)
 {
 

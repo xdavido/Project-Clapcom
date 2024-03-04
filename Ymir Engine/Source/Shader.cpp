@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 // Static map to keep track of the already loaded shaders in the engine
 std::map<std::string, Shader*> Shader::loadedShaders;
 
@@ -679,47 +681,56 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				// 7. Extract type and name information and add uniform to the shader:
 				if (type == "int") {
 
-					this->AddUniform(name, new int(0.5), UniformType::i1, 1);
+					int* value = new int(0.5);
+					this->AddUniform(name, value, UniformType::i1, 1);
 
 				}
 				else if (type == "float") {
 
-					this->AddUniform(name, new float(0.5), UniformType::f1, 1);
+					float* value = new float(0.5);
+					this->AddUniform(name, value, UniformType::f1, 1);
 
 				}
 				else if (type == "bool") {
 
-					this->AddUniform(name, new bool(false), UniformType::boolean, 1);
+					bool* value = new bool(false);
+					this->AddUniform(name, value, UniformType::boolean, 1);
 
 				}
 				else if (type == "vec2") {
 
-					this->AddUniform(name, new float[2] {0.0, 0.0}, UniformType::f2, 2);
+					float* value = new float[2] {0.0f, 0.0f};
+					this->AddUniform(name, value, UniformType::f2, 2);
 
 				}
 				else if (type == "vec3") {
 
-					this->AddUniform(name, new float[3] {0.0, 0.0, 0.0}, UniformType::f3, 3);
+					float* value = new float[3] {0.0f, 0.0f, 0.0f};
+					this->AddUniform(name, value, UniformType::f3, 3);
 
 				}
 				else if (type == "vec4") {
 
-					this->AddUniform(name, new float[4] {0.0, 0.0, 0.0, 0.0}, UniformType::f4, 4);
+					float* value = new float[4] {0.0f, 0.0f, 0.0f, 0.0f};
+					this->AddUniform(name, value, UniformType::f4, 4);
 
 				}
 				else if (type == "ivec2") {
 
-					this->AddUniform(name, new int[2] {0, 0}, UniformType::i2, 2);
+					int* value = new int[2] {0, 0};
+					this->AddUniform(name, value, UniformType::i2, 2);
 
 				}
 				else if (type == "ivec3") {
 
-					this->AddUniform(name, new int[3] {0, 0, 0}, UniformType::i3, 3);
+					int* value = new int[3] {0, 0, 0};
+					this->AddUniform(name, value, UniformType::i3, 3);
 
 				}
 				else if (type == "ivec4") {
 
-					this->AddUniform(name, new int[4] {0, 0, 0, 0}, UniformType::i4, 4);
+					int* value = new int[4] {0, 0, 0, 0};
+					this->AddUniform(name, value, UniformType::i4, 4);
 
 				}
 

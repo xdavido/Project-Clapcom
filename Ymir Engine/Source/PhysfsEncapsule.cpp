@@ -2,6 +2,8 @@
 #include "Log.h"
 #include "Globals.h"
 
+#include "External/mmgr/mmgr.h"
+
 void PhysfsEncapsule::InitializePhysFS()
 {
 	if (PHYSFS_init(NULL) == 0) {

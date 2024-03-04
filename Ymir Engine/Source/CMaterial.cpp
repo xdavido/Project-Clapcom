@@ -11,6 +11,8 @@
 
 #include "ShaderEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERIAL)
 {
     ID = 0;

@@ -1,6 +1,8 @@
 #include "ResourceTexture.h"
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE)
 {
     ID = 0;

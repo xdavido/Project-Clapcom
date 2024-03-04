@@ -14,6 +14,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "External/stb_image/stb_image.h"
 
+#include "External/mmgr/mmgr.h"
+
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcessPreset_TargetRealtime_MaxQuality)
 
 Model::Model()

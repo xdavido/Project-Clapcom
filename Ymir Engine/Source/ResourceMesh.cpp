@@ -7,6 +7,8 @@
 
 #include "ModuleRenderer3D.h"
 
+#include "External/mmgr/mmgr.h"
+
 ResourceMesh::ResourceMesh(uint UID) : Resource(UID, ResourceType::MESH)
 {
     VBO = 0;

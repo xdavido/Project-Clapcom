@@ -6,6 +6,8 @@
 #include "GameObject.h"
 #include "ModuleScene.h"
 
+#include "External/mmgr/mmgr.h"
+
 ShaderEditor::ShaderEditor()
 {
 	// Set Text Editor Language for editing the shaders, in this case, we are using GLSL.

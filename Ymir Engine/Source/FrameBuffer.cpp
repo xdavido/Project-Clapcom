@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 
+#include "External/mmgr/mmgr.h"
+
 FrameBuffer::FrameBuffer()
 {
 	FBO = 0; // Frame Buffer Object

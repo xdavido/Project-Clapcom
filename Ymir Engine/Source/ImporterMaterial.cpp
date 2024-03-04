@@ -1,5 +1,7 @@
 #include "ImporterMaterial.h"
 
+#include "External/mmgr/mmgr.h"
+
 void ImporterMaterial::Import(const aiMaterial* material, Material* ourMaterial)
 {
 

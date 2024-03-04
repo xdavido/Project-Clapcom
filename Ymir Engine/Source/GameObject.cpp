@@ -6,6 +6,8 @@
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
 
+#include "External/mmgr/mmgr.h"
+
 GameObject::GameObject()
 {
 	this->name = "";
