@@ -213,7 +213,9 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	}
 
-	gameObjects.push_back(tempGameObject);
+	
+		gameObjects.push_back(tempGameObject);
+	
 
 	return tempGameObject;
 }

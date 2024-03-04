@@ -78,4 +78,6 @@ public:
 	std::vector<GameObject*> vSelectedGOs;
 
 	GameObject* audiosource;
+
+	bool a = false;
 };

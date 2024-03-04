@@ -5,6 +5,7 @@
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "Random.h"
 
 GameObject::GameObject()
 {
@@ -16,6 +17,8 @@ GameObject::GameObject()
 	pendingToDelet = false;
 
 	mTransform = nullptr;
+
+	UID =Random::Generate();
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
@@ -28,6 +31,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	pendingToDelet = false;
 
 	mTransform = nullptr;
+	UID = Random::Generate();
 
 	if (mParent != nullptr)
 	{

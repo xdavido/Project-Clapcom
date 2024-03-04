@@ -128,7 +128,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 
-	go->mTransform->translation = posVector;
+	go->mTransform->SetPosition( posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
 }
 GameObject* DECS_Comp_To_GameObject(MonoObject* component)
@@ -195,7 +195,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	CTransform* workTrans = DECS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 	if (workTrans)
 	{
-		workTrans->translation = omgItWorks;
+		workTrans->SetPosition(omgItWorks);
 	
 	}
 }

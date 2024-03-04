@@ -21,8 +21,6 @@ namespace YmirEngine
             pointer = ptr;
             transform = new Transform();
             transform.pointer = transPTR;
-            Debug.Log(ptr.ToString());
-            Debug.Log(transform.type.ToString());
 
         }
 
