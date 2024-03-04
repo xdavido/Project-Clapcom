@@ -26,7 +26,6 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
 CAnimation::~CAnimation()
 {
     animations.~vector();
-    aniParamaters.~vector();
 }
 
 void CAnimation::Update() {
@@ -39,18 +38,15 @@ void CAnimation::Update() {
 }
 
 void CAnimation::AddAnimation(Animation newAnimation, std::string animationName) {
-    AnimationParameters temp(animationName);
     animations.push_back(newAnimation);
-
-    aniParamaters.push_back(temp);
     totalAnimations++;
+    animations[totalAnimations].name = animationName;
 
 }
 
 void CAnimation::RemoveAnimation(int ID) {
     if (ID < animations.size()) {
         animations.erase(animations.begin() + ID);
-        aniParamaters.erase(aniParamaters.begin() + ID);
     }
     selectedAnimation = -1;
     selectedAnimationPlaying = -1;
@@ -70,14 +66,14 @@ void CAnimation::OnInspector() {
             aniName = "None (Select animation)";
         }
         if (selectedAnimation != -1) {
-            aniName = aniParamaters[selectedAnimation].name;
+            aniName = animations[selectedAnimation].name;
         }
 
         if (ImGui::BeginCombo("Animations", aniName.c_str())) {
-            for (int i = 0; i < totalAnimations; i++) {
+            for (int i = 0; i < totalAnimations+1; i++) {
                 if (selectedAnimation == i) isSelected = true;
                 if (selectedAnimation != i) isSelected = false;
-                ImGui::Checkbox(aniParamaters[i].name.c_str(), &isSelected);
+                ImGui::Checkbox(animations[i].name.c_str(), &isSelected);
                 ImGui::SameLine(); 
 
                 if (ImGui::IsItemClicked()) {
@@ -107,11 +103,11 @@ void CAnimation::OnInspector() {
         }
 
         if (!animations.empty() && selectedAnimation != -1) {
-            ImGui::Checkbox("Playing", &aniParamaters[selectedAnimation].isPlaying);
+            ImGui::Checkbox("Playing", &animations[selectedAnimation].isPlaying);
 
             if (ImGui::IsItemClicked()) {
 
-                !aniParamaters[selectedAnimation].isPlaying;
+                !animations[selectedAnimation].isPlaying;
 
                 selectedAnimationPlaying = selectedAnimation;
 
@@ -119,7 +115,7 @@ void CAnimation::OnInspector() {
 
                     if (i != selectedAnimation) {
 
-                        aniParamaters[i].isPlaying = false;
+                        animations[i].isPlaying = false;
 
                     }
 
@@ -129,17 +125,17 @@ void CAnimation::OnInspector() {
                 //animator->PlayAnimation(&animations[selectedAnimationPlaying]);
             }
 
-            ImGui::Checkbox("Loop", &aniParamaters[selectedAnimation].isLoop);
+            ImGui::Checkbox("Loop", &animations[selectedAnimation].isLoop);
 
             if (ImGui::IsItemClicked()) {
-                !aniParamaters[selectedAnimation].isLoop;
+                !animations[selectedAnimation].isLoop;
                 //Do loop on current animation
             }
 
-            ImGui::Checkbox("PingPong", &aniParamaters[selectedAnimation].isPingPong);
+            ImGui::Checkbox("PingPong", &animations[selectedAnimation].isPingPong);
 
             if (ImGui::IsItemClicked()) {
-                !aniParamaters[selectedAnimation].isPingPong;
+                !animations[selectedAnimation].isPingPong;
                 //Do PingPong on current animation
             }
         }

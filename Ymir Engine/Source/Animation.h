@@ -41,6 +41,13 @@ private:
 
 public:
 
+	std::string name;
+
+	bool isPlaying = false;
+
+	bool isLoop = false;
+
+	bool isPingPong = false;
 
 private:
 

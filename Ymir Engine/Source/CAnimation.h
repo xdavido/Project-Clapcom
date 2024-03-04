@@ -17,24 +17,6 @@ class GameObject;
 class Animator;
 class Animation;
 
-struct AnimationParameters {
-
-	std::string name;
-
-	bool isPlaying = false;
-
-	bool isLoop = false;
-
-	bool isPingPong = false;
-
-	AnimationParameters(const std::string& animationName)
-
-		: name(animationName) {
-
-	}
-
-};
-
 class CAnimation : public Component {
 public:
 	CAnimation(GameObject* owner);
@@ -60,7 +42,6 @@ public:
 
 private:
 
-	std::vector<AnimationParameters> aniParamaters;
 	std::vector<Animation> animations;
 	int selectedAnimation = -1;
 	bool isSelected = false;
@@ -68,5 +49,5 @@ private:
 	std::string aniName;
 
 	//sizeof crashing the engine for some reason so using int for now
-	int totalAnimations = 0;
+	int totalAnimations = -1;
 };
