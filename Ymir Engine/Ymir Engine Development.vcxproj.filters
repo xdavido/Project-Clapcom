@@ -109,6 +109,9 @@
     <Filter Include="Externals\ImGui\misc">
       <UniqueIdentifier>{5b0e3b31-337f-408b-9e83-4393ca9991e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\Scripting">
+      <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -813,7 +816,9 @@
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
       <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ScriptEditor.h" />
+    <ClInclude Include="Source\ScriptEditor.h">
+      <Filter>Sources\Features\Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1140,7 +1145,9 @@
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ScriptEditor.cpp" />
+    <ClCompile Include="Source\ScriptEditor.cpp">
+      <Filter>Sources\Features\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\MathGeoLib\include\Geometry\KDTree.inl">
