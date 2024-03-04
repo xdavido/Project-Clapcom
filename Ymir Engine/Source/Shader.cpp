@@ -681,7 +681,7 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				// 7. Extract type and name information and add uniform to the shader:
 				if (type == "int") {
 
-					std::unique_ptr<int> value = std::make_unique<int>(0.5);
+					std::unique_ptr<int> value = std::make_unique<int>(1);
 					this->AddUniform(name, std::move(value), UniformType::i1, 1);
 
 				}
