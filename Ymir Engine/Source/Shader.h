@@ -18,6 +18,7 @@
 #include <fstream>
 #include <sstream>
 #include <regex>
+#include <memory>
 
 // Definitions to access the paths quickly
 #define SHADER_VS_FS "Assets/Shaders/MyShader.glsl"
@@ -27,7 +28,6 @@
 const std::regex versionRegex("#version\\s+\\d+\\s+core");
 const std::regex vertexShaderRegex("#ifdef VERTEX_SHADER([\\s\\S]+?)#endif");
 const std::regex fragmentShaderRegex("#ifdef FRAGMENT_SHADER([\\s\\S]+?)#endif");
-
 
 enum class UniformType {
 
@@ -61,11 +61,11 @@ enum class UniformType {
 struct Uniform {
 
     Uniform() : value(nullptr), name(""), type(UniformType::NONE), nElements(0) {}
-    Uniform(std::string name, void* value, UniformType type, int nElements)
+    Uniform(std::string name, std::shared_ptr<void> value, UniformType type, int nElements)
         : value(value), name(name), type(type), nElements(nElements) {}
 
     std::string name;
-    void* value;
+    std::shared_ptr<void> value;
     UniformType type;
     int nElements;
 
@@ -113,7 +113,7 @@ public:
     void SetShaderUniforms(float4x4* matrix, bool isSelected);
 
     // Uniform Management Functions
-    void AddUniform(std::string name, void* value, UniformType type, int nElements);
+    void AddUniform(std::string name, std::shared_ptr<void> value, UniformType type, int nElements);
     void DeleteUniform(std::string name);
     void SetUniformValue(const std::string& name, const void* newValue);
     static size_t GetUniformSize(UniformType type);
