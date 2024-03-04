@@ -254,6 +254,7 @@ void ModuleEditor::DrawEditor()
 			PrimitivesMenu();
 
 			CreateCameraMenu();
+
 			UIMenu();
 
 			ImGui::Separator();
@@ -1429,7 +1430,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				//new G_UI((UI_TYPE)i);
+				App->scene->CreateGUI((UI_TYPE)i);
 				break;
 			}
 		}
