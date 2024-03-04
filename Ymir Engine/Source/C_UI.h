@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-struct UIBounds
+struct UI_Bounds
 {
 	GLuint VBO; //vertex buffer object
 	GLuint EBO; //element buffer object
@@ -111,8 +111,8 @@ public:
 	bool isDraggable;
 	bool fade;
 
-	UIBounds* boundsEditor;
-	UIBounds* boundsGame;
+	UI_Bounds* boundsEditor;
+	UI_Bounds* boundsGame;
 
 	float3 scaleBounds;
 };

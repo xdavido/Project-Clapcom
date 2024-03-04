@@ -42,8 +42,8 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 
 	scaleBounds = scale;
 
-	boundsEditor = new UIBounds;
-	boundsGame = new UIBounds;
+	boundsEditor = new UI_Bounds;
+	boundsGame = new UI_Bounds;
 
 	GLuint indexE0 = 0;
 	GLuint indexE1 = 1;
@@ -152,7 +152,7 @@ update_status C_UI::Update(float dt)
 
 void C_UI::Draw(bool game)
 {
-	UIBounds* boundsDrawn = nullptr;
+	UI_Bounds* boundsDrawn = nullptr;
 
 	if (game)
 	{
@@ -475,7 +475,7 @@ void C_UI::FadeUI(float dt)
 	}
 }
 
-bool UIBounds::InitBuffers()
+bool UI_Bounds::InitBuffers()
 {
 	VBO = 0;
 	EBO = 0;
@@ -554,13 +554,13 @@ bool UIBounds::InitBuffers()
 	return true;
 }
 
-void UIBounds::RegenerateVBO()
+void UI_Bounds::RegenerateVBO()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 }
 
-void UIBounds::DeleteBuffers()
+void UI_Bounds::DeleteBuffers()
 {
 
 	if (VBO != 0) {

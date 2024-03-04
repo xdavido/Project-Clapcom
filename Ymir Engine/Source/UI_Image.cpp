@@ -296,7 +296,7 @@ void UI_Image::Draw(bool game)
 {
 //	if (mat != nullptr && mat->tex != nullptr)
 //	{
-		UIBounds* boundsDrawn = nullptr;
+		UI_Bounds* boundsDrawn = nullptr;
 
 		if (game)
 		{

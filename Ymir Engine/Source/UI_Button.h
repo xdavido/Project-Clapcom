@@ -33,7 +33,6 @@ public:
 	// TODO: fix this
 	bool defaultFunction;
 
-private:
 	//color
 	Color focusedColor;
 	Color pressedColor;

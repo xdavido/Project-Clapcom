@@ -33,13 +33,13 @@ public:
 	int maxChars;
 	UI_Text* displayText;
 
-private:
 	//color
 	Color focusedColor;
 	Color pressedColor;
 	Color selectedColor;
 	Color disabledColor;
 
+private:
 	bool isWriting;
 };
 #endif // __UI_INPUTBOX_H__

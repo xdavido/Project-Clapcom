@@ -69,8 +69,8 @@ public:
 
 	float fontSize;
 
-	UIBounds* boundsEditor;
-	UIBounds* boundsGame;
+	UI_Bounds* boundsEditor;
+	UI_Bounds* boundsGame;
 
 private:
 	float space;

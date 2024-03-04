@@ -10,8 +10,8 @@ UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::TEXT
 	text = "Hello World";
 	font = External->renderer3D->defaultFont;
 
-	boundsEditor = new UIBounds;
-	boundsGame = new UIBounds;
+	boundsEditor = new UI_Bounds;
+	boundsGame = new UI_Bounds;
 
 	GLuint indexE0 = 0;
 	GLuint indexE1 = 1;
@@ -170,7 +170,7 @@ void UI_Text::OnInspector()
 
 void UI_Text::Draw(bool game)
 {
-	UIBounds* boundsDrawn = nullptr;
+	UI_Bounds* boundsDrawn = nullptr;
 	space = 0;
 
 	for (size_t i = 0; i < text.length(); i++)
@@ -267,7 +267,7 @@ void UI_Text::Draw(bool game)
 
 void UI_Text::ChangeFontSize()
 {
-	UIBounds* boundsDrawn = nullptr;
+	UI_Bounds* boundsDrawn = nullptr;
 	space = 0;
 
 	for (size_t i = 0; i < text.length(); i++)
