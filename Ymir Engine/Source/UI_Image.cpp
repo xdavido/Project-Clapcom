@@ -18,73 +18,267 @@ UI_Image::~UI_Image()
 
 void UI_Image::OnInspector()
 {
-	bool exists = true;
-	ImGui::Checkbox(("##UI Image Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
+    // Vectors of shader paths and names
+    std::vector<const char*> listShaderPaths;
+    std::vector<const char*> listShaderNames;
 
-	if (ImGui::CollapsingHeader(("Image##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		if (!active) { ImGui::BeginDisabled(); }
+    // Manage loaded shaders
+    for (auto& it = Shader::loadedShaders.begin(); it != Shader::loadedShaders.end(); ++it) {
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
-		//if (mat->tex != nullptr)
-		//{
-		//	// Change Texture
-		//	if (ImGui::BeginCombo("##Texture", mat->tex->name.c_str()))
-		//	{
-		//		for (int i = 0; i < App->resource->vTexturesResources.size(); i++)
-		//		{
-		//			const bool is_selected = (App->resource->vTexturesResources[i] == mat->tex);
-		//			if (ImGui::Selectable(App->resource->vTexturesResources[i]->name.c_str(), is_selected))
-		//			{
-		//				gameObject->ChangeComponentResource(mat->tex, App->resource->vTexturesResources[i], *mat);
-		//			}
+        listShaderPaths.push_back(it->first.c_str());
 
-		//			// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-		//			if (is_selected)
-		//			{
-		//				ImGui::SetItemDefaultFocus();
-		//			}
-		//		}
-		//		ImGui::EndCombo();
-		//	}
-		//	ImGui::SameLine();
-		//	//ImGuiCustom::HelpMarker("If the current texture has only one instance you will not be able to change it back unless a that texture is imported to scene");
-		//}
+        std::string shaderFileName = std::filesystem::path(it->first).stem().string();
+        listShaderNames.push_back(strdup(shaderFileName.c_str())); // strdup to allocate new memory
 
-		//if (ImGuiCustom::ToggleButton("Checkered##", &mat->checkered))
-		//{
+    }
 
-		//}
-		//ImGui::SetItemTooltip("Use checkered texture");
+    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-		//if (mat->tex != nullptr)
-		//{
-		//	if (mat->tex->assetsFile != "")
-		//	{
-		//		ImGui::Text("Texture Width: %d", mat->tex->tex_width);
-		//		ImGui::Text("Texture Height: %d", mat->tex->tex_height);
-		//		ImGui::TextWrapped("Texture Path: %s", mat->tex->assetsFile);
-		//		ImGui::Dummy(ImVec2(0, 10));
-		//	}
-		//	else
-		//	{
-		//		ImGui::Text("Material: NoLambert");
-		//	}
+    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+    ImGui::SameLine();
 
-		//	ImGui::Image((void*)(intptr_t)mat->tex->tex_id, ImVec2(100, 100));
-		//}
+    bool exists = true;
 
-		ImGui::ColorEdit4("Color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+    if (ImGui::CollapsingHeader("Material", &exists, flags))
+    {
+        ImGui::Indent();
 
-		if (!active) { ImGui::EndDisabled(); }
-	}
-	ImGui::SameLine();
+        ImGui::Spacing();
 
-	// TODO: to test
-	if (!exists) 
-	{
-		//mOwner->ChangeComponentResource(mat->tex, nullptr, *this);
-	}
+        if (!active) { ImGui::BeginDisabled(); }
+
+        // ------------------------------------ SHADER ------------------------------------
+
+        ImGui::SeparatorText("SHADER");
+
+        ImGui::Spacing();
+
+        ImGui::Text("Shader: ");
+        ImGui::SameLine();
+
+        if (mOwner->selected) {
+
+            // Find the index of the current shader path in listShaderPaths
+            auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), mat->shaderPath);
+
+            if (it != listShaderPaths.end()) {
+
+                mat->selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
+
+            }
+
+        }
+
+        // Choose between the list of shaders
+        if (ImGui::Combo("##ChooseShader", &mat->selectedShader, listShaderNames.data(), listShaderNames.size())) {
+
+            mat->shaderDirtyFlag = true;
+
+        }
+
+        if (mat->shaderDirtyFlag) {
+
+            // When shader changes, update the shader path and recompile
+            mat->shaderPath = listShaderPaths[mat->selectedShader];
+            mat->shader.LoadShader(mat->shaderPath);
+
+            // Reset the dirty flag after handling the change
+            mat->shaderDirtyFlag = false;
+
+        }
+
+        ImGui::Spacing();
+
+        // Shader Uniforms Management
+
+        if (mOwner->selected) {
+
+            if (mat->shader.uniforms.size() == 0) {
+
+                ImGui::Text("No editable uniforms.");
+
+            }
+            else {
+
+                ImGui::Text("Uniforms:");
+
+            }
+
+            ImGui::Spacing();
+
+            ImGui::Indent();
+
+            // In case the shader has editable uniforms:
+            for (auto kt = mat->shader.uniforms.begin(); kt != mat->shader.uniforms.end(); ++kt) {
+
+                std::string label = "##" + kt->name;
+
+                ImGui::Text("%s", kt->name.c_str());
+                ImGui::SameLine();
+
+                // Change display according to uniform type
+                switch (kt->type)
+                {
+                case UniformType::boolean:
+
+                    ImGui::Checkbox(label.c_str(), (bool*)kt->value);
+
+                    mat->shader.SetUniformValue(kt->name, (bool*)kt->value);
+
+                    break;
+
+                case UniformType::i1:
+
+                    ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+
+                    break;
+
+                case UniformType::i2:
+
+                    ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+
+                    break;
+
+                case UniformType::i3:
+
+                    ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+
+                    break;
+
+                case UniformType::i4:
+
+                    ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+
+                    break;
+
+                case UniformType::f1:
+
+                    ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+
+                    break;
+
+                case UniformType::f2:
+
+                    ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+
+                    break;
+
+                case UniformType::f3:
+
+                    ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+
+                    break;
+
+                case UniformType::f4:
+
+                    ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
+
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+
+                    break;
+
+                }
+
+            }
+
+            ImGui::Unindent();
+
+        }
+
+        ImGui::Spacing();
+
+        // ------------------------------------ TEXTURES ------------------------------------
+
+        ImGui::SeparatorText("TEXTURES");
+
+        ImGui::Spacing();
+
+        // Display texture maps of the gameobject material
+
+        ImVec2 textureMapSize(20, 20);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Diffuse");
+        ImGui::SameLine();
+        ImGui::Text("(%s)", mat->path.c_str());
+
+        ImGui::Spacing();
+
+        ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Specular");
+
+        ImGui::Spacing();
+
+        ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Normal");
+
+        ImGui::Spacing();
+
+        ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Height");
+
+        ImGui::Spacing();
+
+        ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Ambient");
+
+        ImGui::Spacing();
+
+        ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        mat->DdsDragDropTarget();
+        ImGui::SameLine();
+        ImGui::Text("Emissive");
+
+        ImGui::Spacing();
+
+        // Utility buttons
+
+        if (ImGui::Button("Apply Checker Texture")) {
+
+            External->renderer3D->ApplyCheckerTexture();
+
+        }
+
+        ImGui::Spacing();
+
+        if (ImGui::Button("Clear Actual Texture")) {
+
+            External->renderer3D->ClearActualTexture();
+
+        }
+
+        if (!active) { ImGui::EndDisabled(); }
+
+        ImGui::Spacing();
+
+        ImGui::Unindent();
+    }
+
+    if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void UI_Image::Draw(bool game)
