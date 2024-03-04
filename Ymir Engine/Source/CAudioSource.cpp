@@ -144,7 +144,6 @@ void CAudioSource::Update()
 
 	if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
-		LOG("[WARNING] asasdasdsad");
 		External->audio->PlayEvent(this->id, std::string("JV"));
 	}
 	if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
