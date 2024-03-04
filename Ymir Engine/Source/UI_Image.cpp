@@ -13,13 +13,12 @@ UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::IM
     mat->shaderPath = "Assets/Shaders/UI Shader.glsl";
     mat->shader.LoadShader(mat->shaderPath);
 
-    //std::string path = "Assets/Baker_house.png";
-    //ResourceTexture* rTexTemp = new ResourceTexture(0);
-    //ImporterTexture::Import(path, rTexTemp);
-    //rTexTemp->type = TextureType::DIFFUSE;
-    //rTexTemp->UID = Random::Generate();
-    //mat->rTextures.push_back(rTexTemp);
-
+    std::string path = "Assets/Baker_house.png";
+    ResourceTexture* rTexTemp = new ResourceTexture(0);
+    ImporterTexture::Import(path, rTexTemp);
+    rTexTemp->type = TextureType::DIFFUSE;
+    rTexTemp->UID = Random::Generate();
+    mat->rTextures.push_back(rTexTemp);
 
 }
 
