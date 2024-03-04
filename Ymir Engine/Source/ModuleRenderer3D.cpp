@@ -287,19 +287,22 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		// HandleDragAndDrop();
-
-		// DrawModels();
-
 		DrawGameObjects();
 
 		// Render Bounding Boxes
 
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) {
-
+		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
+		{
 			DrawBoundingBoxes();
-
 		}
+
+		// Render Physics Colliders
+
+		if (App->physics->GetDebugDraw())
+		{
+			DrawPhysicsColliders();
+		}
+
 	}
 
 	App->camera->editorCamera->framebuffer.Render(false);
@@ -580,6 +583,21 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 	}
 
+}
+
+void ModuleRenderer3D::DrawPhysicsColliders()
+{
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
+
+		if (colliderComponent != nullptr) {
+
+			App->physics->world->debugDrawWorld();
+			
+		}
+
+	}
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)

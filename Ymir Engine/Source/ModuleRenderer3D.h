@@ -77,6 +77,9 @@ public:
 	// Handle Frustum Culling
 	bool IsInsideFrustum(const CCamera* camera, const AABB& aabb);
 
+	// Draw Physics Colliders
+	void DrawPhysicsColliders();
+
 public:
 
 	Light lights[MAX_LIGHTS];

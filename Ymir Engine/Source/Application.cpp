@@ -10,6 +10,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
 #include "ModuleAudio.h"
+#include "ModulePhysics.h"
 
 #include "Log.h"
 
@@ -32,6 +33,7 @@ Application::Application()
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
 	audio = new ModuleAudio(this);
+	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -42,6 +44,9 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
+
+	// Physics
+	AddModule(physics);
 
 	// Utility Modules
 	AddModule(fileSystem);

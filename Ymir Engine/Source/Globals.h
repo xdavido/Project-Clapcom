@@ -60,6 +60,9 @@ enum update_status
 #define VSYNC true
 #define TITLE "Ymir Engine"
 
+// Physics
+#define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
+
 // Deletes a buffer
 #define RELEASE( x )\
     {\

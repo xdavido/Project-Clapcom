@@ -16,6 +16,7 @@ enum PrimitiveTypes
 	Primitive_Cylinder,
 	Primitive_Cone,
 	Primitive_Torus,
+	Primitive_Capusule,
 };
 
 class Primitive
@@ -24,7 +25,7 @@ public:
 
 	Primitive();
 
-	virtual void	Render() const;
+	virtual void	Render(Color col = White) const;
 	virtual void	InnerRender() const;
 	void			SetPos(float x, float y, float z);
 	void			SetRotation(float angle, const float3& u);
@@ -147,4 +148,17 @@ public:
 	float innerRadius;
 	int numFacesOuter;
 	int numFacesInner;
+};
+
+// ============================================
+class CCapsule : public Primitive
+{
+public:
+	CCapsule();
+	CCapsule(float radius, float height, int numSegments);
+	void InnerRender() const override;
+public:
+	float radius;
+	float height;
+	int numSegments;
 };

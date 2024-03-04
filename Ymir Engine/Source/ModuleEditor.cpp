@@ -11,6 +11,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModulePhysics.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -792,6 +793,54 @@ void ModuleEditor::DrawEditor()
 
 				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
+			}
+
+			if (ImGui::CollapsingHeader("Physics")) 
+			{
+				btVector3 auxGravity = App->physics->GetWorldGravity();
+				bool auxDebugDraw = App->physics->GetDebugDraw();
+				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g, 
+										 App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+
+				ImGui::SeparatorText("Gravity");
+
+				ImGui::Indent();
+
+				if (ImGui::DragFloat3("##Gravity", auxGravity))
+				{
+					App->physics->SetWorldGravity(auxGravity);
+				}
+				if (ImGui::Button("Reset Gravity"))
+				{
+					App->physics->ResetGravity();
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Colliders");
+				ImGui::Indent();
+
+				ImGui::Text("Draw Colliders"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+				{
+					App->physics->SetdebugDraw(auxDebugDraw);
+				}
+
+				ImGui::Text("Collider Color"); ImGui::SameLine();
+
+				// Mostrar el bot�n de color personalizado
+				if (ImGui::ColorButton("##ColorButton", auxColor))
+				{
+					ImGui::OpenPopup("ColorPickerPopup");
+				}
+
+				if (ImGui::BeginPopup("ColorPickerPopup"))
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxColor);
+					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::EndPopup();
+				}
+
+				ImGui::Unindent();
 			}
 
 			ImGui::End();
@@ -2730,6 +2779,7 @@ void ModuleEditor::DrawInspector()
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
 				Component* audioListener = (*it)->GetComponent(ComponentType::AUDIO_LISTENER);
 				Component* audioSource = (*it)->GetComponent(ComponentType::AUDIO_SOURCE);
+				Component* physics = (*it)->GetComponent(ComponentType::PHYSICS);
 
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
@@ -2737,7 +2787,7 @@ void ModuleEditor::DrawInspector()
 				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
 				if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
 				if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
-
+				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2784,6 +2834,14 @@ void ModuleEditor::DrawInspector()
 						if (ImGui::MenuItem("Camera"))
 						{
 							(*it)->AddComponent(ComponentType::CAMERA);
+						}
+					}
+
+					if (physics == nullptr)
+					{
+						if (ImGui::MenuItem("Physics"))
+						{
+							(*it)->AddComponent(ComponentType::PHYSICS);
 						}
 					}
 

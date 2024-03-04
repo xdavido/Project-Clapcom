@@ -5,6 +5,7 @@
 
 #include "Timer.h"
 #include "Application.h"
+#include "ModulePhysics.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -89,7 +90,7 @@ void Timer::StepFrame(float dt)
 	if (currentState == TimerState::PAUSED) {
 
 		stopped_at += (1 / dt);
-
+		External->physics->world->stepSimulation(dt, 15);
 	}
 
 }

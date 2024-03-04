@@ -16,6 +16,7 @@ class ModuleScene;
 class ModuleResourceManager;
 class ModuleFileSystem;
 class ModuleAudio;
+class ModulePhysics;
 
 class Application
 {
@@ -30,6 +31,7 @@ public:
 	ModuleResourceManager* resourceManager;
 	ModuleFileSystem* fileSystem;
 	ModuleAudio* audio;
+	ModulePhysics* physics;
 
 private:
 

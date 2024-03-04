@@ -109,6 +109,9 @@
     <Filter Include="Externals\Wwise">
       <UniqueIdentifier>{32b0f1d8-dfe9-47cc-b282-e8a05a39d024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Utils\Physics">
+      <UniqueIdentifier>{3640947e-330d-4980-8ee6-bd5e1d4aeabc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -1011,6 +1014,18 @@
     <ClInclude Include="Source\AudioBank.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ModulePhysics.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CCollider.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CRigidBody.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysBody.h">
+      <Filter>Sources\Utils\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1363,6 +1378,18 @@
     </ClCompile>
     <ClCompile Include="Source\CAudioSource.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModulePhysics.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CCollider.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CRigidBody.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysBody.cpp">
+      <Filter>Sources\Utils\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

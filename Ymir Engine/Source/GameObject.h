@@ -13,6 +13,8 @@
 #include "CCamera.h"
 #include "CAudioListener.h"
 #include "CAudioSource.h"
+#include "CRigidBody.h"
+#include "CCollider.h"
 
 #include "Random.h"
 
