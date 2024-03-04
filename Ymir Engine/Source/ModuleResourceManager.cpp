@@ -516,6 +516,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 
 Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
 {
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
 
 	switch (type) {

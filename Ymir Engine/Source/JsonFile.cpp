@@ -94,6 +94,7 @@ void JsonFile::DeleteJSON(const std::string& route)
 
 JsonFile* JsonFile::GetJSON(const std::string& route) {
 
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak std::unique_ptr<JsonFile> jsonFile;
 	JsonFile* jsonFile = new JsonFile();
 
 	// Load the existing JSON file
@@ -198,6 +199,7 @@ int* JsonFile::GetIntArray(const char* key) const {
 	JSON_Array* jsonArrayObject = json_value_get_array(jsonArrayValue);
 	size_t size = json_array_get_count(jsonArrayObject);
 
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak
 	int* resultArray = new int[size + 1];
 
 	for (size_t i = 0; i < size; i++)
@@ -1117,7 +1119,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	const char* name = json_object_get_string(gameObjectObject, "Name");
 	gameObject.name = (name != nullptr) ? name : "";
 
-	// Get Position, Rotation, Scale (TODO)
+	// Get Position, Rotation, Scale
 
 	// Get UID
 
