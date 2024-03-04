@@ -1,9 +1,16 @@
 #pragma once
+
 #include "Module.h"
 #include "Globals.h"
 #include <string>
 
+#include "External/SDL/include/SDL_gamecontroller.h"
+#include "External/MathGeoLib/include/Math/float2.h"
+
 #define MAX_MOUSE_BUTTONS 5
+
+#define SDL_MAX_SINT16 32767
+#define MAX_CONTROLLERS 2
 
 enum KEY_STATE
 {
@@ -13,6 +20,19 @@ enum KEY_STATE
 	KEY_UP
 };
 
+// Gamepad Management
+
+struct GameController {
+
+	float j1_x, j1_y, j2_x, j2_y, LT, RT;
+	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
+
+};
+
+enum class GamepadJoystick { LEFT, RIGHT };
+enum class GamepadJoystickAxis { X, Y };
+enum class GamepadJoystickDirection { POSITIVE, NEGATIVE };
+
 class ModuleInput : public Module
 {
 public:
@@ -21,6 +41,7 @@ public:
 	virtual ~ModuleInput();
 
 	bool Init() override;
+	bool Start() override;
 	update_status PreUpdate(float dt) override;
 	bool CleanUp() override;
 
@@ -72,8 +93,72 @@ public:
 		return getInput_B;
 	}
 
+	// ------------ Gamepad Management ------------
+
+	bool IsGamepadON();
+
+	// Buttons Mapping
+
+	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
+
+	// Joystick Mapping
+
+	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
+
+	float GetGamepadLeftJoystickPositionValueX();
+	float GetGamepadLeftJoystickPositionValueY();
+
+	float GetGamepadRightJoystickPositionValueX();
+	float GetGamepadRightJoystickPositionValueY();
+
+	float GetGamepadJoystickPositionValueX(GamepadJoystick joystick);
+	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
+	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
+
+	// Trigger Mapping
+
+	float GetGamepadLeftTriggerValue();
+	float GetGamepadRightTriggerValue();
+
+	// Idle Management
+
+	bool AreGamepadButtonsIdle();
+	bool IsGamepadJoystickIdle(GamepadJoystick joystick);
+	bool IsGamepadIdle();
 
 private:
+
+	// Gamepad Deadzone Management
+	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
+
+	// Gamepad Triggers Management
+	float ReduceTriggerValue(bool controllerON, float triggerValue);
+
+public:
+
+	bool quit = false;
+
+	// Drag & Drop
+
+	const char* droppedFileDirectory;
+	bool droppedFile = false;
+
+	// 
+	std::string* strToChange;
+	std::string strBU;
+
+	// Gamepad Management
+
+	SDL_GameController* sdl_controllers[MAX_CONTROLLERS];
+	GameController controllers[MAX_CONTROLLERS];
+
+	std::vector<GameController*> activeControllers;
+	int num_controllers;
+
+	bool gamepadON = false;
+
+private:
+
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
@@ -85,14 +170,4 @@ private:
 
 	int maxChars;
 	bool getInput_B;
-
-public:
-
-	bool quit = false;
-
-	const char* droppedFileDirectory;
-	bool droppedFile = false;
-
-	std::string* strToChange;
-	std::string strBU;
 };

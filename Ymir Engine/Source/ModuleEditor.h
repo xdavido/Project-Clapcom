@@ -40,6 +40,8 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	void PrimitivesMenu();
+	void CreateCameraMenu();
 	void UIMenu();
 	void SaveAs();
 
@@ -115,7 +117,7 @@ public:
 	// Function to encapsulate GameObjects hierarchy
 	void DrawHierarchy();
 	void CreateHierarchyTree(GameObject* node);
-	void DestroyHierarchyTree(GameObject* node);
+	//void DestroyHierarchyTree(GameObject* node);
 
 	// Function to encapsulate GameObjects inspector
 	void DrawInspector();
@@ -167,7 +169,7 @@ public:
 	bool showLibrary = true;
 
 	bool showNodeEditor = false;
-	bool showShaderEditor = true;
+	bool showShaderEditor = false;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;

@@ -12,6 +12,7 @@
 CMesh::CMesh(GameObject* owner) : Component(owner, ComponentType::MESH)
 {
 	meshReference = nullptr;
+	rMeshReference = nullptr;
 }
 
 CMesh::~CMesh()
@@ -37,6 +38,8 @@ void CMesh::OnInspector()
 		ImGui::Indent();
 
 		ImGui::Spacing();
+
+		if (!active) { ImGui::BeginDisabled(); }
 
 		ImGui::Button("Drop .ymesh to change mesh", ImVec2(200, 50));
 		YmeshDragDropTarget();
@@ -68,6 +71,8 @@ void CMesh::OnInspector()
 			}
 
 		}
+
+		if (!active) { ImGui::EndDisabled(); }
 
 		ImGui::Unindent();
 	}

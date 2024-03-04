@@ -5,11 +5,16 @@ class GameObject;
 enum ComponentType {
 
 	NONE = -1,
+
 	TRANSFORM,
 	MESH,
 	MATERIAL,
 	CAMERA,
 	UI
+	AUDIO_SOURCE,
+	AUDIO_LISTENER,
+
+	ALL_TYPES
 
 };
 

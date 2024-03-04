@@ -945,9 +945,9 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		JSON_Value* rotationArrayValue = json_value_init_array();
 		JSON_Array* rotationArray = json_value_get_array(rotationArrayValue);
 
-		json_array_append_number(rotationArray, ctransform->rotation.x);
-		json_array_append_number(rotationArray, ctransform->rotation.y);
-		json_array_append_number(rotationArray, ctransform->rotation.z);
+		json_array_append_number(rotationArray, ctransform->eulerRot.x);
+		json_array_append_number(rotationArray, ctransform->eulerRot.y);
+		json_array_append_number(rotationArray, ctransform->eulerRot.z);
 
 		json_object_set_value(componentObject, "Rotation", rotationArrayValue);
 
@@ -987,7 +987,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Shader
 
-		//json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
+		json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
 		// Texture maps
 		json_object_set_number(componentObject, "ID", cmaterial->ID);
@@ -1239,11 +1239,13 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		JSON_Array* jsonRotationArray = json_value_get_array(jsonRotationValue);
 
-		float3 rotation;
+		float3 eulerRotation;
 
-		rotation.x = static_cast<float>(json_array_get_number(jsonRotationArray, 0));
-		rotation.y = static_cast<float>(json_array_get_number(jsonRotationArray, 1));
-		rotation.z = static_cast<float>(json_array_get_number(jsonRotationArray, 2));
+		eulerRotation.x = static_cast<float>(json_array_get_number(jsonRotationArray, 0));
+		eulerRotation.y = static_cast<float>(json_array_get_number(jsonRotationArray, 1));
+		eulerRotation.z = static_cast<float>(json_array_get_number(jsonRotationArray, 2));
+
+		//eulerRotation *= RADTODEG;
 
 		// Scale
 
@@ -1263,8 +1265,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		scale.z = static_cast<float>(json_array_get_number(jsonScaleArray, 2));
 
 		gameObject->mTransform->SetPosition(translation);
-		gameObject->mTransform->SetRotation(rotation);
+		gameObject->mTransform->SetRotation(eulerRotation);
 		gameObject->mTransform->SetScale(scale);
+
+		// Solves the problem where everything resets when loading
+		gameObject->mTransform->eulerRot = gameObject->mTransform->rotation.ToEulerXYZ();
+		//gameObject->mTransform->eulerRot *= RADTODEG;
+		gameObject->mTransform->mGlobalMatrix = math::float4x4::FromTRS(gameObject->mTransform->translation, gameObject->mTransform->rotation, gameObject->mTransform->scale);
+		gameObject->mTransform->mLocalMatrix = math::float4x4::identity;
 
 		gameObject->AddComponent(gameObject->mTransform);
 
@@ -1287,6 +1295,11 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	else if (type == "Material") {
 
 		CMaterial* cmaterial = new CMaterial(gameObject);
+		
+		// Load shader from .yscene file
+		std::string shaderPath = json_object_get_string(componentObject, "Shader");
+		cmaterial->shaderPath = shaderPath;
+		cmaterial->shader.LoadShader(shaderPath);
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
@@ -1305,16 +1318,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Camera") {
 
-		CCamera* ccamera = new CCamera(gameObject);
-
-		// Is game camera
-
-		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
-
-		if (ccamera->isGameCam)
-		{
-			External->renderer3D->SetGameCamera(ccamera);
-		}
+		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
+		ccamera->framebuffer.Load();
 
 		gameObject->AddComponent(ccamera);
 

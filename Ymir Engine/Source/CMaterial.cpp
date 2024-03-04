@@ -6,6 +6,7 @@
 
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 #include "GameObject.h"
 
 #include "ShaderEditor.h"
@@ -16,13 +17,23 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
     UID = 0;
     selectedShader = 0;
 
-    shader.LoadShader(SHADER_VS_FS);
+    this->owner = owner;
 
+    // Load MyShader.glsl by default
+    shaderPath = SHADER_VS_FS;
+    shader.LoadShader(shaderPath);
+    shaderDirtyFlag = false;
 }
 
 CMaterial::~CMaterial()
 {
+    shader.ClearShader();
 
+    for (auto it = rTextures.rbegin(); it != rTextures.rend(); ++it)
+    {
+        External->resourceManager->UnloadResource((*it)->GetUID());
+        (*it) = nullptr;
+    }
 }
 
 void CMaterial::Update()
@@ -35,7 +46,6 @@ void CMaterial::OnInspector()
     // Vectors of shader paths and names
     std::vector<const char*> listShaderPaths;
     std::vector<const char*> listShaderNames;
-    bool shaderDirtyFlag = false; 
 
     // Manage loaded shaders
     for (auto& it = Shader::loadedShaders.begin(); it != Shader::loadedShaders.end(); ++it) {
@@ -49,11 +59,18 @@ void CMaterial::OnInspector()
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-    if (ImGui::CollapsingHeader("Material", flags))
+    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+    ImGui::SameLine();
+
+    bool exists = true;
+
+    if (ImGui::CollapsingHeader("Material", &exists, flags))
     {
         ImGui::Indent();
 
         ImGui::Spacing();
+
+        if (!active) { ImGui::BeginDisabled(); }
 
         // ------------------------------------ SHADER ------------------------------------
 
@@ -64,22 +81,14 @@ void CMaterial::OnInspector()
         ImGui::Text("Shader: ");
         ImGui::SameLine();
 
-        for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+        if (owner->selected) {
 
-            for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+            // Find the index of the current shader path in listShaderPaths
+            auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), shaderPath);
 
-                if ((*jt).meshGO->selected) {
+            if (it != listShaderPaths.end()) {
 
-                    // Find the index of the current shader path in listShaderPaths
-                    auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), (*jt).shaderPath);
-
-                    if (it != listShaderPaths.end()) {
-
-                        selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
-
-                    }
-
-                }
+                selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
 
             }
 
@@ -94,19 +103,9 @@ void CMaterial::OnInspector()
 
         if (shaderDirtyFlag) {
 
-            // When selected shader changes, update the shader path and recompile
-            for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
-
-                for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-                    if ((*jt).meshGO->selected) {
-
-                        (*jt).shaderPath = listShaderPaths[selectedShader];
-                        (*jt).loadedShader = false;
-
-                    }
-                }
-            }
+            // When shader changes, update the shader path and recompile
+            shaderPath = listShaderPaths[selectedShader];
+            shader.LoadShader(shaderPath);
 
             // Reset the dirty flag after handling the change
             shaderDirtyFlag = false;
@@ -117,119 +116,111 @@ void CMaterial::OnInspector()
 
         // Shader Uniforms Management
 
-        for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+        if (owner->selected) {
 
-            for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+            if (shader.uniforms.size() == 0) {
 
-                if ((*jt).meshGO->selected) {
+                ImGui::Text("No editable uniforms.");
 
-                    if ((*jt).meshShader.uniforms.size() == 0) {
+            }
+            else {
 
-                        ImGui::Text("No editable uniforms.");
+                ImGui::Text("Uniforms:");
 
-                    }
-                    else {
+            }
 
-                        ImGui::Text("Uniforms:");
+            ImGui::Spacing();
 
-                    }
+            ImGui::Indent();
 
-                    ImGui::Spacing();
+            // In case the shader has editable uniforms:
+            for (auto kt = shader.uniforms.begin(); kt != shader.uniforms.end(); ++kt) {
 
-                    ImGui::Indent();
-                    
-                    // In case the shader has editable uniforms:
-                    for (auto kt = jt->meshShader.uniforms.begin(); kt != jt->meshShader.uniforms.end(); ++kt) {
+                std::string label = "##" + kt->name;
 
-                        std::string label = "##" + kt->name;
+                ImGui::Text("%s", kt->name.c_str());
+                ImGui::SameLine();
 
-                        ImGui::Text("%s", kt->name.c_str());
-                        ImGui::SameLine();
+                // Change display according to uniform type
+                switch (kt->type)
+                {
+                case UniformType::boolean:
 
-                        // Change display according to uniform type
-                        switch (kt->type)
-                        {
-                        case UniformType::boolean:
+                    ImGui::Checkbox(label.c_str(), (bool*)kt->value);
 
-                            ImGui::Checkbox(label.c_str(), (bool*)kt->value);
+                    shader.SetUniformValue(kt->name, (bool*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (bool*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::i1:
 
-                        case UniformType::i1:
+                    ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
 
-                            ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (int*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::i2:
 
-                        case UniformType::i2:
+                    ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
 
-                            ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (int*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::i3:
 
-                        case UniformType::i3:
+                    ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
 
-                            ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (int*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::i4:
 
-                        case UniformType::i4:
+                    ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
 
-                            ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (int*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::f1:
 
-                        case UniformType::f1:
+                    ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
 
-                            ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (float*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::f2:
 
-                        case UniformType::f2:
+                    ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
 
-                            ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (float*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::f3:
 
-                        case UniformType::f3:
+                    ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
 
-                            ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (float*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
+                    break;
 
-                            break;
+                case UniformType::f4:
 
-                        case UniformType::f4:
+                    ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
 
-                            ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
+                    shader.SetUniformValue(kt->name, (float*)kt->value);
 
-                            jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
-
-                            break;
-
-                        }
-
-                    }
-
-                    ImGui::Unindent();
+                    break;
 
                 }
 
             }
+
+            ImGui::Unindent();
 
         }
 
@@ -305,11 +296,14 @@ void CMaterial::OnInspector()
 
         }
 
+        if (!active) { ImGui::EndDisabled(); }
+
         ImGui::Spacing();
 
         ImGui::Unindent();
     }
-
+    
+    if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CMaterial::DdsDragDropTarget()

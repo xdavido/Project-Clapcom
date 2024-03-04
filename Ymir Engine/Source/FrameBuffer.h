@@ -20,6 +20,8 @@ public:
 
 	void Render(bool toggle);
 
+	void RenderToScreen();
+
 	void Delete();
 
 public:
@@ -27,5 +29,7 @@ public:
 	GLuint FBO; // Frame Buffer Object
 	GLuint TCB; // Texture Color Buffer
 	GLuint RBO; // Render Buffer Object
+
+	bool loaded;
 
 };

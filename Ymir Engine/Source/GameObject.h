@@ -11,6 +11,8 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CCamera.h"
+#include "CAudioListener.h"
+#include "CAudioSource.h"
 
 #include "Random.h"
 
@@ -35,10 +37,14 @@ public:
 	void RemoveChild(GameObject* go);
 
 	void AddComponent(Component* component);
+	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
 	void RemoveComponent(Component* component);
 
-	void DestroyGameObject();
+	void DeleteChild(GameObject* go);
+	//Remove from children vector (do not use)
+	void RemoveChild(GameObject* go);
+	//void DestroyGameObject();
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 

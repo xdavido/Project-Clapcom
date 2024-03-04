@@ -43,6 +43,12 @@ public:
 
 	void UpdateTransformGuizmo(float4x4 matrix);
 
+	float3 GetForward();
+	float3 GetUp();
+	float3 GetRight();
+
+	float3 GetNormalizeAxis(int i);
+
 public:
 
 	// local

@@ -1,11 +1,15 @@
 #include "FrameBuffer.h"
 
+#include "Application.h"
+#include "ModuleWindow.h"
+
 FrameBuffer::FrameBuffer()
 {
 	FBO = 0; // Frame Buffer Object
 	TCB = 0; // Texture Color Buffer
 	RBO = 0; // Render Buffer Object
 
+	loaded = false;
 }
 
 void FrameBuffer::Load()
@@ -19,7 +23,7 @@ void FrameBuffer::Load()
 
 	glGenTextures(1, &TCB);
 	glBindTexture(GL_TEXTURE_2D, TCB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, External->window->width, External->window->height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TCB, 0);
@@ -43,6 +47,9 @@ void FrameBuffer::Load()
 	// Bind the Default Framebuffer
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	loaded = true;
+
 }
 
 void FrameBuffer::Render(bool toggle)
@@ -62,6 +69,24 @@ void FrameBuffer::Render(bool toggle)
 
 	}
 	
+}
+
+void FrameBuffer::RenderToScreen()
+{
+	if (!loaded) {
+
+		Load();
+
+	}
+		
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
+	glBlitFramebuffer(0, 0, External->window->width, External->window->height, 0, 0, External->window->width, External->window->height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+	glViewport(0, 0, External->window->width, External->window->height);
+
 }
 
 void FrameBuffer::Delete()

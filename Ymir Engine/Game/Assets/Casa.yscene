@@ -42,12 +42,12 @@
                     "Translation": [
                         0,
                         0,
-                        0
+                        -12.392416000366211
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
                         1,
@@ -96,14 +96,14 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -3.9679045677185059,
+                        0,
                         0,
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
                         1,
@@ -128,9 +128,9 @@
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
                         1,
@@ -141,6 +141,7 @@
                 {
                     "Type": "Material",
                     "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
                     "Diffuse": ".\/Library\/Textures\/524512793.dds",
                     "UID": 524512793
@@ -168,9 +169,9 @@
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
                         1,
@@ -181,6 +182,7 @@
                 {
                     "Type": "Material",
                     "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
                     "Diffuse": ".\/Library\/Textures\/524512793.dds",
                     "UID": 524512793

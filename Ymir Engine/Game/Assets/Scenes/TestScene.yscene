@@ -1,32 +1,40 @@
 {
     "Editor Camera Position": [
-        2.2884836196899414,
-        3.3341774940490723,
-        5.4993891716003418
+        2.3667960166931152,
+        4.2993316650390625,
+        6.1244397163391113
     ],
     "Editor Camera Right (X)": [
-        0.92618691921234131,
-        -2.0116567611694336e-07,
-        -0.37708574533462524
+        0.93588137626647949,
+        4.4703483581542969e-08,
+        -0.35231578350067139
     ],
     "Editor Camera Up (Y)": [
-        -0.10421056300401688,
-        0.96105808019638062,
-        -0.25595942139625549
+        -0.16023561358451843,
+        0.89059025049209595,
+        -0.42564511299133301
     ],
     "Editor Camera Front (Z)": [
-        -0.36239853501319885,
-        -0.2763608992099762,
-        -0.89011240005493164
+        -0.3137688934803009,
+        -0.45480692386627197,
+        -0.83348655700683594
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1250520319,
+            "UID": 1665209465,
             "Element_Type": "None",
             "Children UID": [
-                1004644429
+                1157622811,
+                917673120
             ],
+            "Components": []
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1157622811,
+            "Element_Type": "None",
+            "Parent UID": 1665209465,
             "Components": [
                 {
                     "Type": "Transform",
@@ -34,29 +42,54 @@
                     "Translation": [
                         0,
                         0,
-                        0
+                        -12.392416000366211
                     ],
                     "Rotation": [
+                        -0,
                         0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        -1,
                         0,
                         0
                     ],
-                    "Scale": [
+                    "Up": [
                         0,
-                        0,
+                        1,
                         0
-                    ]
+                    ],
+                    "Front": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
                 }
             ]
         },
         {
             "Name": "BakerHouse",
-            "UID": 1004644429,
+            "UID": 917673120,
             "Element_Type": "Model",
-            "Parent UID": 1250520319,
+            "Parent UID": 1665209465,
             "Children UID": [
-                526634802,
-                862718486
+                1388085129,
+                80893934
             ],
             "Components": [
                 {
@@ -68,23 +101,23 @@
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
-                        0,
-                        0,
-                        0
+                        1,
+                        1,
+                        1
                     ]
                 }
             ]
         },
         {
             "Name": "Chimney",
-            "UID": 526634802,
+            "UID": 1388085129,
             "Element_Type": "None",
-            "Parent UID": 1004644429,
+            "Parent UID": 917673120,
             "Components": [
                 {
                     "Type": "Transform",
@@ -95,22 +128,22 @@
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
-                        0,
-                        0,
-                        0
+                        1,
+                        1,
+                        1
                     ]
                 },
                 {
                     "Type": "Material",
                     "Active": 1,
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
-                    "UID": 1079353372
+                    "Diffuse": ".\/Library\/Textures\/524512793.dds",
+                    "UID": 524512793
                 },
                 {
                     "Type": "Mesh",
@@ -122,9 +155,9 @@
         },
         {
             "Name": "Baker_house",
-            "UID": 862718486,
+            "UID": 80893934,
             "Element_Type": "None",
-            "Parent UID": 1004644429,
+            "Parent UID": 917673120,
             "Components": [
                 {
                     "Type": "Transform",
@@ -135,22 +168,22 @@
                         0
                     ],
                     "Rotation": [
+                        -0,
                         0,
-                        0,
-                        0
+                        -0
                     ],
                     "Scale": [
-                        0,
-                        0,
-                        0
+                        1,
+                        1,
+                        1
                     ]
                 },
                 {
                     "Type": "Material",
                     "Active": 1,
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/1079353372.dds",
-                    "UID": 1079353372
+                    "Diffuse": ".\/Library\/Textures\/524512793.dds",
+                    "UID": 524512793
                 },
                 {
                     "Type": "Mesh",
