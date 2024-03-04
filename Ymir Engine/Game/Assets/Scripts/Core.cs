@@ -18,11 +18,13 @@ public class Core : YmirComponent
 	public string testString = "Juan";
     public bool start = true;
 
+    private Vector3 zero = Vector3.up;
+
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
 	public void Update(/*int x*/)
 	{
-        //Hardcoceado para que sea una especia de "Start()"
+        //Hardcoceado para que sea una especie de "Start()"
         if ( start )
         {
             Debug.Log("[WARNING] testString: " + testString);
@@ -30,9 +32,9 @@ public class Core : YmirComponent
             reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
             Debug.Log("[WARNING] Reference str: " + reference.name);
             Debug.Log("juan " + testString);
-           
 
-            start = false;
+
+           start = false;
          
             Debug.Log("[WARNING] START");
 
@@ -65,7 +67,7 @@ public class Core : YmirComponent
 
         //Create a GameObject - Not working
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
-            InternalCalls.CreateGameObject("Cube", reference);
+            InternalCalls.CreateGameObject("Cube", zero);
 
         //if (Input.GetMouseX() != 0 && turret != null)
         //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;

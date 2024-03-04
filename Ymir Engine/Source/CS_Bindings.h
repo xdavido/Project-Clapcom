@@ -115,7 +115,8 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 
-	go->mTransform->translation = posVector;
+	//go->mTransform->translation = posVector;
+	go->mTransform->SetPosition(posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
 }
 MonoString* Get_GO_Name(MonoObject* go)
