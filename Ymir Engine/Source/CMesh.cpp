@@ -9,6 +9,8 @@
 #include "GameObject.h"
 #include "ModuleResourceManager.h"
 
+#include "External/mmgr/mmgr.h"
+
 CMesh::CMesh(GameObject* owner) : Component(owner, ComponentType::MESH)
 {
 	meshReference = nullptr;

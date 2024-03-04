@@ -1,6 +1,8 @@
 #include "Component.h"
 #include "GameObject.h"
 
+#include "External/mmgr/mmgr.h"
+
 Component::Component()
 {
 	mOwner = nullptr;

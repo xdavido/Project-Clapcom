@@ -1,6 +1,8 @@
 #include "Resources.h"
 #include "ModuleResourceManager.h"
 
+#include "External/mmgr/mmgr.h"
+
 Resource::Resource()
 {
 	this->type = ResourceType::UNKNOWN;

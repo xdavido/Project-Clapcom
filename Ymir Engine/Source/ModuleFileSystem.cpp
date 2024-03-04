@@ -7,6 +7,8 @@
 #include "ImporterMesh.h"
 #include "ImporterTexture.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	workingDirectory = "./";

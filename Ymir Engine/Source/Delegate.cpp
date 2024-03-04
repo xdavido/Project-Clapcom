@@ -2,6 +2,8 @@
 
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 void Delegate::SetCallback(FunctionPtr function) {
 
     callback = function;

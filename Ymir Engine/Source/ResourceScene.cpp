@@ -1,5 +1,7 @@
 #include "ResourceScene.h"
 
+#include "External/mmgr/mmgr.h"
+
 ResourceScene::ResourceScene(uint UID) : Resource(UID, ResourceType::SCENE)
 {
 

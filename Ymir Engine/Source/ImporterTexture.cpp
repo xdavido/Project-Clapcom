@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 
+#include "External/mmgr/mmgr.h"
+
 void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 {
 	// 0. Handle UID

@@ -11,6 +11,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	editorCamera = new CCamera(nullptr, false);
@@ -24,7 +26,9 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 }
 
 ModuleCamera3D::~ModuleCamera3D()
-{}
+{
+	delete editorCamera;
+}
 
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()

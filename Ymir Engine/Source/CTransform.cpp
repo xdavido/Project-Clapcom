@@ -8,6 +8,8 @@
 #include "ModuleRenderer3D.h"
 #include "GameObject.h"
 
+#include "External/mmgr/mmgr.h"
+
 CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRANSFORM)
 {
 	translation = float3::zero;

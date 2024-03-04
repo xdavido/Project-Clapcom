@@ -1,5 +1,7 @@
 #include "NodeEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 NodeEditorWindow::NodeEditorWindow()
 {
     mContext = nullptr;

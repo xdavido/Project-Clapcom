@@ -15,6 +15,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "External/mmgr/mmgr.h"
+
 extern Application* External = nullptr;
 
 Application::Application()

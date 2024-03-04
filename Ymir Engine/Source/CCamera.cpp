@@ -8,6 +8,8 @@
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 
+#include "External/mmgr/mmgr.h"
+
 CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentType::CAMERA)
 {
 	this->mOwner = owner;

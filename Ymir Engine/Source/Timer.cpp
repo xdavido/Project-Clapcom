@@ -6,6 +6,8 @@
 #include "Timer.h"
 #include "Application.h"
 
+#include "External/mmgr/mmgr.h"
+
 // ---------------------------------------------
 Timer::Timer()
 {

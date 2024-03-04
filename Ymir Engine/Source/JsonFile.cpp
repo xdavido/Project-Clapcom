@@ -13,6 +13,8 @@
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
 
+#include "External/mmgr/mmgr.h"
+
 JsonFile::JsonFile()
 {
 	InitializeJSON();

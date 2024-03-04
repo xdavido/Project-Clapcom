@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 // Static map to keep track of the already loaded shaders in the engine
 std::map<std::string, Shader*> Shader::loadedShaders;
 
@@ -491,7 +493,7 @@ float4x4 Shader::CreateScaleMatrix(float3 scale)
 // --------------------------------------- Uniform Management ---------------------------------------
 
 // Add Uniform to the vector of uniforms of the shader
-void Shader::AddUniform(std::string name, void* value, UniformType type, int nElements)
+void Shader::AddUniform(std::string name, std::shared_ptr<void> value, UniformType type, int nElements)
 {
 	// First check if a uniform with the same name already exists:
 	for (Uniform& existingUniform : uniforms) {
@@ -510,7 +512,7 @@ void Shader::AddUniform(std::string name, void* value, UniformType type, int nEl
 
 	// If no existing uniform with the same name is found, add a new one:
 
-	uniforms.push_back(Uniform(name, value, type, nElements));
+	uniforms.push_back(Uniform(name, std::move(value), type, nElements));
 
 }
 
@@ -540,102 +542,102 @@ void Shader::BindUniform(Uniform* uniform)
 
 		case UniformType::boolean:
 
-			glUniform1i(uniformLocation, *(bool*)uniform->value);
+			glUniform1i(uniformLocation, *(bool*)uniform->value.get());
 			break;
 
 		case UniformType::f1:
 
-			glUniform1f(uniformLocation, *(GLfloat*)uniform->value);
+			glUniform1f(uniformLocation, *(GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::f1v:
 
-			glUniform1fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value);
+			glUniform1fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::i1:
 
-			glUniform1i(uniformLocation, *(GLint*)uniform->value);
+			glUniform1i(uniformLocation, *(GLint*)uniform->value.get());
 			break;
 
 		case UniformType::i1v:
 
-			glUniform1iv(uniformLocation, uniform->nElements, (GLint*)uniform->value);
+			glUniform1iv(uniformLocation, uniform->nElements, (GLint*)uniform->value.get());
 			break;
 
 		case UniformType::f2:
 
-			glUniform2f(uniformLocation, *(GLfloat*)uniform->value, *((GLfloat*)uniform->value + 1));
+			glUniform2f(uniformLocation, *(GLfloat*)uniform->value.get(), *((GLfloat*)uniform->value.get() + 1));
 			break;
 
 		case UniformType::f2v:
 
-			glUniform2fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value);
+			glUniform2fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::i2:
 
-			glUniform2i(uniformLocation, *(GLint*)uniform->value, *((GLint*)uniform->value + 1));
+			glUniform2i(uniformLocation, *(GLint*)uniform->value.get(), *((GLint*)uniform->value.get() + 1));
 			break;
 
 		case UniformType::i2v:
 
-			glUniform2iv(uniformLocation, uniform->nElements, (GLint*)uniform->value);
+			glUniform2iv(uniformLocation, uniform->nElements, (GLint*)uniform->value.get());
 			break;
 
 		case UniformType::f3:
 
-			glUniform3f(uniformLocation, *(GLfloat*)uniform->value, *((GLfloat*)uniform->value + 1), *((GLfloat*)uniform->value + 2));
+			glUniform3f(uniformLocation, *(GLfloat*)uniform->value.get(), *((GLfloat*)uniform->value.get() + 1), *((GLfloat*)uniform->value.get() + 2));
 			break;
 
 		case UniformType::f3v:
 
-			glUniform3fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value);
+			glUniform3fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::i3:
 
-			glUniform3i(uniformLocation, *(GLint*)uniform->value, *((GLint*)uniform->value + 1), *((GLint*)uniform->value + 2));
+			glUniform3i(uniformLocation, *(GLint*)uniform->value.get(), *((GLint*)uniform->value.get() + 1), *((GLint*)uniform->value.get() + 2));
 			break;
 
 		case UniformType::i3v:
 
-			glUniform3iv(uniformLocation, uniform->nElements, (GLint*)uniform->value);
+			glUniform3iv(uniformLocation, uniform->nElements, (GLint*)uniform->value.get());
 			break;
 
 		case UniformType::f4:
 
-			glUniform4f(uniformLocation, *(GLfloat*)uniform->value, *((GLfloat*)uniform->value + 1), *((GLfloat*)uniform->value + 2), *((GLfloat*)uniform->value + 3));
+			glUniform4f(uniformLocation, *(GLfloat*)uniform->value.get(), *((GLfloat*)uniform->value.get() + 1), *((GLfloat*)uniform->value.get() + 2), *((GLfloat*)uniform->value.get() + 3));
 			break;
 
 		case UniformType::f4v:
 
-			glUniform4fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value);
+			glUniform4fv(uniformLocation, uniform->nElements, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::i4:
 
-			glUniform4i(uniformLocation, *(GLint*)uniform->value, *((GLint*)uniform->value + 1), *((GLint*)uniform->value + 2), *((GLint*)uniform->value + 3));
+			glUniform4i(uniformLocation, *(GLint*)uniform->value.get(), *((GLint*)uniform->value.get() + 1), *((GLint*)uniform->value.get() + 2), *((GLint*)uniform->value.get() + 3));
 			break;
 
 		case UniformType::i4v:
 
-			glUniform4iv(uniformLocation, uniform->nElements, (GLint*)uniform->value);
+			glUniform4iv(uniformLocation, uniform->nElements, (GLint*)uniform->value.get());
 			break;
 
 		case UniformType::f2mat:
 
-			glUniformMatrix2fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value);
+			glUniformMatrix2fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::f3mat:
 
-			glUniformMatrix3fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value);
+			glUniformMatrix3fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value.get());
 			break;
 
 		case UniformType::f4mat:
 
-			glUniformMatrix4fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value);
+			glUniformMatrix4fv(uniformLocation, uniform->nElements, false, (GLfloat*)uniform->value.get());
 			break;
 
 	}
@@ -679,47 +681,86 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				// 7. Extract type and name information and add uniform to the shader:
 				if (type == "int") {
 
-					this->AddUniform(name, new int(0.5), UniformType::i1, 1);
+					std::unique_ptr<int> value = std::make_unique<int>(0.5);
+					this->AddUniform(name, std::move(value), UniformType::i1, 1);
 
 				}
 				else if (type == "float") {
 
-					this->AddUniform(name, new float(0.5), UniformType::f1, 1);
+					std::unique_ptr<float> value = std::make_unique<float>(0.5);
+					this->AddUniform(name, std::move(value), UniformType::f1, 1);
 
 				}
 				else if (type == "bool") {
 
-					this->AddUniform(name, new bool(false), UniformType::boolean, 1);
-
+					std::unique_ptr<bool> value = std::make_unique<bool>(false);
+					this->AddUniform(name, std::move(value), UniformType::boolean, 1);
+					
 				}
 				else if (type == "vec2") {
 
-					this->AddUniform(name, new float[2] {0.0, 0.0}, UniformType::f2, 2);
+					std::unique_ptr<float[]> value = std::make_unique<float[]>(2);
+
+					value[0] = 0.0f;
+					value[1] = 0.0f;
+
+					this->AddUniform(name, std::move(value), UniformType::f2, 2);
 
 				}
 				else if (type == "vec3") {
 
-					this->AddUniform(name, new float[3] {0.0, 0.0, 0.0}, UniformType::f3, 3);
+					std::unique_ptr<float[]> value = std::make_unique<float[]>(3);
+
+					value[0] = 0.0f;
+					value[1] = 0.0f;
+					value[2] = 0.0f;
+
+					this->AddUniform(name, std::move(value), UniformType::f3, 3);
 
 				}
 				else if (type == "vec4") {
 
-					this->AddUniform(name, new float[4] {0.0, 0.0, 0.0, 0.0}, UniformType::f4, 4);
+					std::unique_ptr<float[]> value = std::make_unique<float[]>(4);
+
+					value[0] = 0.0f;
+					value[1] = 0.0f;
+					value[2] = 0.0f;
+					value[3] = 0.0f;
+
+					this->AddUniform(name, std::move(value), UniformType::f4, 4);
 
 				}
 				else if (type == "ivec2") {
 
-					this->AddUniform(name, new int[2] {0, 0}, UniformType::i2, 2);
+					std::unique_ptr<int[]> value = std::make_unique<int[]>(2);
+
+					value[0] = 0;
+					value[1] = 0;
+
+					this->AddUniform(name, std::move(value), UniformType::i2, 2);
 
 				}
 				else if (type == "ivec3") {
 
-					this->AddUniform(name, new int[3] {0, 0, 0}, UniformType::i3, 3);
+					std::unique_ptr<int[]> value = std::make_unique<int[]>(3);
+
+					value[0] = 0;
+					value[1] = 0;
+					value[2] = 0;
+
+					this->AddUniform(name, std::move(value), UniformType::i3, 3);
 
 				}
 				else if (type == "ivec4") {
 
-					this->AddUniform(name, new int[4] {0, 0, 0, 0}, UniformType::i4, 4);
+					std::unique_ptr<int[]> value = std::make_unique<int[]>(4);
+
+					value[0] = 0;
+					value[1] = 0;
+					value[2] = 0;
+					value[3] = 0;
+
+					this->AddUniform(name, std::move(value), UniformType::i4, 4);
 
 				}
 
@@ -750,7 +791,7 @@ void Shader::SetUniformValue(const std::string& name, const void* newValue) {
 		if (uniform.name == name) {
 
 			// Copy the new value to the existing memory location
-			std::memcpy(uniform.value, newValue, GetUniformSize(uniform.type));
+			std::memcpy(uniform.value.get(), newValue, GetUniformSize(uniform.type));
 
 			return;
 		}

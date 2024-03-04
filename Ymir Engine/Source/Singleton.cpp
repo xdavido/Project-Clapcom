@@ -1,5 +1,7 @@
 #include "Singleton.h"
 
+#include "External/mmgr/mmgr.h"
+
 Singleton::Singleton()
 {
 

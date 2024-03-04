@@ -1,5 +1,7 @@
 #include "Random.h"
 
+#include "External/mmgr/mmgr.h"
+
 unsigned int Random::Generate()
 {
     std::uniform_int_distribution<int> distribution(1, std::numeric_limits<int>::max());

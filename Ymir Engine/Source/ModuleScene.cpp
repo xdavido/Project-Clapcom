@@ -18,6 +18,8 @@
 
 #include "ImporterMesh.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	// UID regenerated = duplication (This will be fixed with scene serialization)

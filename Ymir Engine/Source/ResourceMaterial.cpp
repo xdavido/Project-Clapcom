@@ -5,6 +5,8 @@
 
 #include "DefaultShader.h"
 
+#include "External/mmgr/mmgr.h"
+
 ResourceMaterial* ResourceMaterial::defaultMaterial;
 
 ResourceMaterial::ResourceMaterial(uint UID) : Resource(UID, ResourceType::MATERIAL)

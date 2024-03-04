@@ -25,6 +25,8 @@
 #include "ImporterMaterial.h"
 #include "ImporterShader.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	LOG("Creating ModuleResourceManager");

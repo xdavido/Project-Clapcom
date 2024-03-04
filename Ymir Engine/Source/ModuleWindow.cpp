@@ -3,6 +3,8 @@
 #include "ModuleWindow.h"
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	window = NULL;

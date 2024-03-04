@@ -23,6 +23,8 @@
 
 #include "Texture.h"
 
+#include "External/mmgr/mmgr.h"
+
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
