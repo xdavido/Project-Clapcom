@@ -350,6 +350,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			//	}
 			//}
 
+			DrawUIElements(true);
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);

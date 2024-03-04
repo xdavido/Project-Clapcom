@@ -302,22 +302,21 @@ void UI_Image::Draw(bool game)
 		{
 			boundsDrawn = boundsGame;
 
-			//glMatrixMode(GL_PROJECTION);
-			//glLoadIdentity();
-			//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-			//glMatrixMode(GL_MODELVIEW);
-			//glLoadIdentity();
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
 		}
 
 		else
 		{
 			boundsDrawn = boundsEditor;
 
-			//glPushMatrix();
-			//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+			glPushMatrix();
+			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 		}
-
 
 		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
 		//	: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
@@ -333,15 +332,12 @@ void UI_Image::Draw(bool game)
 		//mat->shader.UseShader(true);
 		//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
 
-
 		// Render
 		glBindVertexArray(boundsDrawn->VAO);
 
 		glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
-
-
 
 		//mat->shader.UseShader(false);
 
@@ -351,12 +347,10 @@ void UI_Image::Draw(bool game)
 
 		//}
 
-
-
-		//if (!game)
-		//{
-		//	glPopMatrix();
-		//}
+		if (!game)
+		{
+			glPopMatrix();
+		}
 
 		boundsDrawn = nullptr;
 
