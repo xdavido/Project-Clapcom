@@ -18,8 +18,6 @@ public class Core : YmirComponent
 	public string testString = "Juan";
     public bool start = true;
 
-    private Vector3 zero = Vector3.up;
-
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
 	public void Update(/*int x*/)
@@ -67,8 +65,8 @@ public class Core : YmirComponent
         //Create a GameObject - Not working
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
         {
-            InternalCalls.CreateGameObject("Cube", zero);
-            Debug.Log("Create GameObject");
+            InternalCalls.CreateGameObject("Cube", Vector3.up);
+            Debug.Log("Create 'Cube' GameObject");
         }
             
 
@@ -86,6 +84,8 @@ public class Core : YmirComponent
         return;
 	}
 }
+
+
 
 
 
