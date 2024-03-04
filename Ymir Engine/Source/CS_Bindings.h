@@ -17,6 +17,8 @@
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
 
+class GameObject;
+
 //------//
 MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posición del objeto
 {
@@ -115,9 +117,10 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 
+	
 	//go->mTransform->translation = posVector;
 	go->mTransform->SetPosition(posVector);
-	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
+	//go->mTransform->dirty_ = true;
 }
 MonoString* Get_GO_Name(MonoObject* go)
 {
@@ -183,7 +186,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 //
 //	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
 //
-//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
+//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 //
 //	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	//TODO: No tenemos GetForward()
 //}
@@ -194,7 +197,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 //
 //	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
 //
-//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, DE_SCRIPTS_NAMESPACE, "Vector3");
+//	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 //	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	//TODO: No tenemos GetRight()
 //}
 

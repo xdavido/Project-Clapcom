@@ -80,7 +80,7 @@ bool ModuleScene::Init()
 	//}
 
 	//mymesh.LoadInMemory();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		const char* n = "Test";
 		std::string numStr = std::to_string(i);

@@ -28,8 +28,8 @@ public class Core : YmirComponent
         if ( start )
         {
             Debug.Log("[WARNING] testString: " + testString);
-            reference = InternalCalls.GetGameObjectByName("Test1");
-            reference.name = InternalCalls.GetGameObjectByName("Test1").Name;
+            reference = InternalCalls.GetGameObjectByName("Test0");
+            reference.name = InternalCalls.GetGameObjectByName("Test0").Name;
             Debug.Log("[WARNING] Reference str: " + reference.name);
             Debug.Log("juan " + testString);
 
@@ -50,7 +50,6 @@ public class Core : YmirComponent
             return;
         }
        
-      
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             reference.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
@@ -67,7 +66,11 @@ public class Core : YmirComponent
 
         //Create a GameObject - Not working
         if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
+        {
             InternalCalls.CreateGameObject("Cube", zero);
+            Debug.Log("Create GameObject");
+        }
+            
 
         //if (Input.GetMouseX() != 0 && turret != null)
         //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
