@@ -41,11 +41,6 @@ public:
 	Component* GetComponent(ComponentType ctype);
 	void RemoveComponent(Component* component);
 
-	void DeleteChild(GameObject* go);
-	//Remove from children vector (do not use)
-	void RemoveChild(GameObject* go);
-	//void DestroyGameObject();
-
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
 public:

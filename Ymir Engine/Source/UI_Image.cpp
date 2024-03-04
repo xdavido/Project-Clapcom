@@ -126,7 +126,7 @@ void UI_Image::Draw(bool game)
 		}
 
 		mat->shader.UseShader(true);
-		mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix);
+		mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
 
 
 		// Render
@@ -160,4 +160,8 @@ void UI_Image::Draw(bool game)
 update_status UI_Image::Update(float dt)
 {
 	return update_status();
+}
+
+void UI_Image::SetNativeSize()
+{
 }

@@ -10,7 +10,7 @@ enum ComponentType {
 	MESH,
 	MATERIAL,
 	CAMERA,
-	UI
+	UI,
 	AUDIO_SOURCE,
 	AUDIO_LISTENER,
 

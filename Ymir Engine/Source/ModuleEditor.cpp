@@ -1268,23 +1268,6 @@ void ModuleEditor::DrawEditor()
 	}
 
 }
-void ModuleEditor::UIMenu()
-{
-	if (ImGui::BeginMenu("UI"))
-	{
-		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
-
-		for (int i = 0; i < ui.size(); i++)
-		{
-			if (ImGui::MenuItem(ui[i].c_str()))
-			{
-				App->scene->CreateGUI((UI_TYPE)i);
-				break;
-			}
-		}
-		ImGui::EndMenu();
-	}
-}
 
 void ModuleEditor::PrimitivesMenu()
 {
@@ -2746,7 +2729,7 @@ void ModuleEditor::DrawInspector()
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
@@ -2799,22 +2782,22 @@ void ModuleEditor::DrawInspector()
 					}*/
 
 					// --- Add component Material ---
-					if (material == nullptr)
-					{
-						if (ImGui::MenuItem("Material"))
-						{
-							(*it)->AddComponent(ComponentType::MATERIAL);
-						}
-					}
+					//if (material == nullptr)
+					//{
+					//	if (ImGui::MenuItem("Material"))
+					//	{
+					//		(*it)->AddComponent(ComponentType::MATERIAL);
+					//	}
+					//}
 
-					// --- Add component Camera ---
-					if (camera == nullptr)
-					{
-						if (ImGui::MenuItem("Camera"))
-						{
-							(*it)->AddComponent(ComponentType::CAMERA);
-						}
-					}
+					//// --- Add component Camera ---
+					//if (camera == nullptr)
+					//{
+					//	if (ImGui::MenuItem("Camera"))
+					//	{
+					//		(*it)->AddComponent(ComponentType::CAMERA);
+					//	}
+					//}
 
 					ImGui::EndPopup();
 				}

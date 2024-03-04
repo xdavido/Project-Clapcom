@@ -223,36 +223,6 @@ void GameObject::RemoveComponent(Component* component)
 	}
 }
 
-void GameObject::DestroyGameObject()
-{
-	if (!mComponents.empty() && component != nullptr)
-	{
-		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
-		//component->~Component();
-		
-		switch (component->ctype)
-		{
-		case NONE:
-			break;
-		case TRANSFORM:
-		{
-			mTransform = nullptr;
-		}
-		break;
-		case MESH:
-			break;
-		case MATERIAL:
-			break;
-		case CAMERA:
-			break;
-		default:
-			break;
-		}
-
-		RELEASE(component);
-	}
-}
-
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
 {
 	GameObject* gameObjectWithUID = nullptr;
