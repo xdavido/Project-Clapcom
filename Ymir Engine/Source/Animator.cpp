@@ -91,7 +91,7 @@ void Animator::UpdateAnimation(float dt)
 				if (currentTime < 0.0f) {
 					currentTime = 0.0f;
 					pingPongAux = true;
-					if (!currentAnimation->loop) {
+					if (!currentAnimation->loop && !currentAnimation->backwards) {
 						StopAnimation();
 					}
 				}
@@ -135,6 +135,9 @@ void Animator::StopAnimation()
 {
 	currentAnimation->isPlaying = false;;
 	currentTime = 0.0f;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
