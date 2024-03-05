@@ -26,7 +26,7 @@ public:
 
 	void OnInspector() override;
 
-	void AddAnimation(Animation newAnimation, std::string animationName);
+	void AddAnimation(Animation &newAnimation, std::string animationName);
 
 	void RemoveAnimation(int ID);
 

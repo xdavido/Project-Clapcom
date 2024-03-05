@@ -13,11 +13,13 @@
 
 CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIMATION)
 {
-    //Just for testing, need to remove from GameObject.h and GameObject.cpp when done with testing
-    Animation test1, test2, test3;
-    AddAnimation(test1, "Ani1     (testing)");
-    AddAnimation(test2, "Ani2     (testing)");
-    AddAnimation(test3, "Ani3     (testing)");
+    //Initializing animator with an empty animation
+    Animation* temp = new Animation();
+    //Animation  test2, test3, test4;
+    animator = new Animator(temp);
+    //AddAnimation(test2, "Ani1     (testing)");
+    //AddAnimation(test3, "Ani2     (testing)");
+    //AddAnimation(test4, "Ani3     (testing)");
 
     active = true;
 
@@ -37,16 +39,16 @@ void CAnimation::Update() {
 
 }
 
-void CAnimation::AddAnimation(Animation newAnimation, std::string animationName) {
-    animations.push_back(newAnimation);
+void CAnimation::AddAnimation(Animation &newAnimation, std::string animationName) {
+    animator->animations.push_back(newAnimation);
     totalAnimations++;
-    animations[totalAnimations].name = animationName;
+    animator->animations[totalAnimations].name = animationName;
 
 }
 
 void CAnimation::RemoveAnimation(int ID) {
-    if (ID < animations.size()) {
-        animations.erase(animations.begin() + ID);
+    if (ID < animator->animations.size()) {
+        animator->animations.erase(animator->animations.begin() + ID);
     }
     selectedAnimation = -1;
     selectedAnimationPlaying = -1;
@@ -66,14 +68,14 @@ void CAnimation::OnInspector() {
             aniName = "None (Select animation)";
         }
         if (selectedAnimation != -1) {
-            aniName = animations[selectedAnimation].name;
+            aniName = animator->animations[selectedAnimation].name;
         }
 
         if (ImGui::BeginCombo("Animations", aniName.c_str())) {
             for (int i = 0; i < totalAnimations+1; i++) {
                 if (selectedAnimation == i) isSelected = true;
                 if (selectedAnimation != i) isSelected = false;
-                ImGui::Checkbox(animations[i].name.c_str(), &isSelected);
+                ImGui::Checkbox(animator->animations[i].name.c_str(), &isSelected);
                 ImGui::SameLine(); 
 
                 if (ImGui::IsItemClicked()) {
@@ -102,12 +104,12 @@ void CAnimation::OnInspector() {
             ImGui::EndCombo();
         }
 
-        if (!animations.empty() && selectedAnimation != -1) {
-            ImGui::Checkbox("Playing", &animations[selectedAnimation].isPlaying);
+        if (!animator->animations.empty() && selectedAnimation != -1) {
+            ImGui::Checkbox("Playing", &animator->animations[selectedAnimation].isPlaying);
 
             if (ImGui::IsItemClicked()) {
 
-                !animations[selectedAnimation].isPlaying;
+                !animator->animations[selectedAnimation].isPlaying;
 
                 selectedAnimationPlaying = selectedAnimation;
 
@@ -115,7 +117,7 @@ void CAnimation::OnInspector() {
 
                     if (i != selectedAnimation) {
 
-                        animations[i].isPlaying = false;
+                        animator->animations[i].isPlaying = false;
 
                     }
 
@@ -125,17 +127,17 @@ void CAnimation::OnInspector() {
                 //animator->PlayAnimation(&animations[selectedAnimationPlaying]);
             }
 
-            ImGui::Checkbox("Loop", &animations[selectedAnimation].isLoop);
+            ImGui::Checkbox("Loop", &animator->animations[selectedAnimation].isLoop);
 
             if (ImGui::IsItemClicked()) {
-                !animations[selectedAnimation].isLoop;
+                !animator->animations[selectedAnimation].isLoop;
                 //Do loop on current animation
             }
 
-            ImGui::Checkbox("PingPong", &animations[selectedAnimation].isPingPong);
+            ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].isPingPong);
 
             if (ImGui::IsItemClicked()) {
-                !animations[selectedAnimation].isPingPong;
+                !animator->animations[selectedAnimation].isPingPong;
                 //Do PingPong on current animation
             }
         }
