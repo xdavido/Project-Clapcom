@@ -23,7 +23,7 @@ struct Character
 struct Font
 {
 public:
-	Font(std::string name, std::string fontPath);
+	Font(std::string name, std::string fontPath = "Assets\\Fonts");
 	~Font();
 
 	bool InitFont(std::string name, std::string fontPath);
@@ -32,6 +32,7 @@ public:
 public:
 	//
 	std::string path;
+	std::string name;
 
 	//buffers
 	float3 vertex[4];
@@ -41,7 +42,7 @@ public:
 
 	GLuint VBO; //vertex buffer object
 	GLuint EBO; //element buffer object
-	GLuint VAO; 
+	GLuint VAO;
 	GLuint id_tex_uvs; //texture UVs
 
 	GLuint textureID;
@@ -57,7 +58,7 @@ class UI_Text : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 200, y = 50
-	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50);
+	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string fontPath = "Assets\\Fonts");
 	~UI_Text();
 
 	void OnInspector();

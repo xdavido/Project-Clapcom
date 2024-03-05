@@ -5,10 +5,18 @@
 
 //#include "External/ImGui/imgui_custom.h"
 
-UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h, std::string fontName, std::string fontPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";
-	font = External->renderer3D->defaultFont;
+
+	if (fontName == "")
+	{
+		font = External->renderer3D->defaultFont;
+	}
+	else
+	{
+		font = new Font(fontName, fontPath);
+	}
 
 	boundsEditor = new UI_Bounds;
 	boundsGame = new UI_Bounds;
@@ -117,42 +125,42 @@ void UI_Text::OnInspector()
 		if (ImGui::Button("change font1"))
 		{
 			//RELEASE(font);
-			font = new Font("Arial.ttf",  "Assets\\Fonts");
+			font = new Font("Arial.ttf");
 		}
 		//if (ImGui::Button("change eglantineVar2"))
 		//{
 		//	//RELEASE(font);
-		//	font = new Font("eglantineVar2.ttf",  "Assets\\Fonts");
+		//	font = new Font("eglantineVar2.ttf");
 		//}
 		if (ImGui::Button("change comic"))
 		{
 			//RELEASE(font);
-			font = new Font("comic.ttf",  "Assets\\Fonts");
+			font = new Font("comic.ttf");
 		}
 		if (ImGui::Button("change times"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf",  "Assets\\Fonts");
+			font = new Font("times.ttf");
 		}
 		if (ImGui::Button("change consola"))
 		{
 			//RELEASE(font);
-			font = new Font("default_consola.ttf",  "Assets\\Fonts");
+			font = new Font("default_consola.ttf");
 		}
 		if (ImGui::Button("change Drawing with markers"))
 		{
 			//RELEASE(font);
-			font = new Font("Drawing with markers.ttf",  "Assets\\Fonts");
+			font = new Font("Drawing with markers.ttf");
 		}
 		//if (ImGui::Button("change Cat Paw"))
 		//{
 		//	//RELEASE(font);
-		//	font = new Font("Cat Paw.otf",  "Assets\\Fonts");
+		//	font = new Font("Cat Paw.otf");
 		//}
 		if (ImGui::Button("change times"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf", "Assets\\Fonts");
+			font = new Font("times.ttf");
 		}
 
 		ImGui::Text("Font Size");
@@ -388,7 +396,7 @@ Font::~Font()
 	mCharacters.clear();
 }
 
-bool Font::InitFont(std::string name, std::string fontPath)
+bool Font::InitFont(std::string n, std::string fontPath)
 {
 	if (FT_Init_FreeType(&ft))
 	{
@@ -396,13 +404,14 @@ bool Font::InitFont(std::string name, std::string fontPath)
 		return false;
 	}
 
-	if (FT_New_Face(ft, (fontPath + "/" + name).c_str(), 0, &face))
+	if (FT_New_Face(ft, (fontPath + "/" + n).c_str(), 0, &face))
 	{
 		LOG("[ERROR] Failed to load font");
 		return false;
 	}
 
-	path = (fontPath + "/" + name);
+	path = fontPath;
+	name = n;
 
 	return true;
 }

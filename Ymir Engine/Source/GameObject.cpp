@@ -34,6 +34,8 @@ GameObject::GameObject(std::string name, GameObject* parent)
 		mTransform = new CTransform(this);
 		AddComponent(mTransform);
 	}
+
+	UID = Random::Generate();
 }
 
 GameObject::~GameObject()

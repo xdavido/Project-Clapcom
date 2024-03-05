@@ -7,19 +7,18 @@
 
 //#include "External/ImGui/imgui_custom.h"
 
-UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
+UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shaderPath, std::string imgPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
     mat = new CMaterial(g);
-    mat->shaderPath = "Assets/Shaders/UI Shader.glsl";
+    mat->shaderPath = shaderPath;
     mat->shader.LoadShader(mat->shaderPath);
 
-    std::string path = "Assets/Baker_house.png";
     ResourceTexture* rTexTemp = new ResourceTexture(0);
-    ImporterTexture::Import(path, rTexTemp);
+    ImporterTexture::Import(imgPath, rTexTemp);
     rTexTemp->type = TextureType::DIFFUSE;
     rTexTemp->UID = Random::Generate();
+    mat->path = imgPath;
     mat->rTextures.push_back(rTexTemp);
-
 }
 
 UI_Image::~UI_Image()
@@ -50,7 +49,7 @@ void UI_Image::OnInspector()
 
     bool exists = true;
 
-    if (ImGui::CollapsingHeader("Material", &exists, flags))
+    if (ImGui::CollapsingHeader("Image", &exists, flags))
     {
         ImGui::Indent();
 
