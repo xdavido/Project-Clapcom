@@ -23,7 +23,7 @@ class Animation {
 public:
 
 	Animation();
-	Animation(const std::string& animationPath, Model* model);
+	Animation(const std::string& animationPath, Model* model, int index);
 	~Animation();
 
 	Bone* FindBone(std::string& name);
@@ -39,7 +39,7 @@ private:
 
 	void ReadHierarchyData(AssimpNodeData& dest, const aiNode* src);
 
-	Animation* ParseAnimationData(const std::string& animationPath, Model* model);
+	Animation* ParseAnimationData(const std::string& animationPath, Model* model, int index);
 
 public:
 

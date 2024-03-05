@@ -8,7 +8,7 @@ Animation::Animation() {
 
 }
 
-Animation::Animation(const std::string& animationPath, Model* model)
+Animation::Animation(const std::string& animationPath, Model* model, int index)
 {
 	name = "";
 	isPlaying = false;
@@ -16,7 +16,7 @@ Animation::Animation(const std::string& animationPath, Model* model)
 	pingPong = false;
 	backwards = false;
 	speed = 1;
-	ParseAnimationData(animationPath, model);
+	ParseAnimationData(animationPath, model, index);
 }
 
 Animation::~Animation() {
@@ -94,12 +94,12 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 	}	
 }
 
-Animation* Animation::ParseAnimationData(const std::string& animationPath, Model* model)
+Animation* Animation::ParseAnimationData(const std::string& animationPath, Model* model, int index)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
 	assert(scene && scene->mRootNode);
-	aiAnimation* animation = scene->mAnimations[0];
+	aiAnimation* animation = scene->mAnimations[index];
 	duration = animation->mDuration;
 	ticksPerSecond = animation->mTicksPerSecond;
 	ReadHierarchyData(rootNode, scene->mRootNode);

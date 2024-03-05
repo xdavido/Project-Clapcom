@@ -457,14 +457,12 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 		// Hardcoded for testing
 		CAnimation* animationComponent = new CAnimation(linkGO);
 		linkGO->AddComponent(animationComponent);
-		//-------------------------
-
-		Animation* anim = new Animation(path, this);
-
 		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-
-		cAnim->AddAnimation(*anim, scene->mAnimations[0]->mName.C_Str());
-
+		//-------------------------
+		for (int i = 0; i < scene->mNumAnimations; i++) {
+			Animation* anim = new Animation(path, this, i);
+			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
+		}
 		LOG("Model has animations");
 	}
 	else {
