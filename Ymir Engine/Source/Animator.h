@@ -21,6 +21,8 @@ public:
 
 	void PlayAnimation(Animation* animation);
 
+	void PauseAnimation();
+
 	void ResumeAnimation();
 
 	void StopAnimation();

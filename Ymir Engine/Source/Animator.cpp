@@ -132,6 +132,10 @@ void Animator::PlayAnimation(Animation* animation)
 	currentTime = 0.0f; 
 }
 
+void Animator::PauseAnimation() {
+	currentAnimation->isPlaying = false;
+}
+
 void Animator::ResumeAnimation()
 {
 	currentAnimation->isPlaying = true;

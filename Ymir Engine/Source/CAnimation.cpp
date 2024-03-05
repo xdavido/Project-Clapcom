@@ -164,7 +164,7 @@ void CAnimation::OnInspector() {
 
             if (ImGui::Button("Stop")) {
 
-                animator->StopAnimation();
+                animator->PauseAnimation();
             }
 
 
