@@ -97,3 +97,13 @@ void ResourceTexture::BindTexture(bool bind)
 
 	}
 }
+
+uint ResourceTexture::GetWidth()
+{
+	return width;
+}
+
+uint ResourceTexture::GetHeight()
+{
+	return height;
+}

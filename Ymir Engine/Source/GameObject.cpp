@@ -17,6 +17,7 @@ GameObject::GameObject()
 	active = true;
 	selected = false;
 	pendingToDelet = false;
+	hidden = false;
 
 	mTransform = nullptr;
 
@@ -31,7 +32,8 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	active = true;
 	selected = false;
 	pendingToDelet = false;
-
+	hidden = false;
+	
 	mTransform = nullptr;
 	UID = Random::Generate();
 
@@ -40,6 +42,8 @@ GameObject::GameObject(std::string name, GameObject* parent)
 		mTransform = new CTransform(this);
 		AddComponent(mTransform);
 	}
+
+	UID = Random::Generate();
 }
 
 GameObject::~GameObject()
@@ -55,7 +59,7 @@ GameObject::~GameObject()
 	
 }
 
-void GameObject::Update()
+update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
 
@@ -69,6 +73,7 @@ void GameObject::Update()
 
 	}
 
+	return update_status::UPDATE_CONTINUE;
 }
 
 void GameObject::Enable()
@@ -111,9 +116,40 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 }
 
+void GameObject::ReParent(GameObject* newParent)
+{
+	mParent->RemoveChild(this);
+	mParent = newParent;
+	mParent->mChildren.push_back(this);
+
+	//Update transform values
+	if (mParent->mTransform != nullptr)
+	{
+		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
+	}
+
+	else
+	{
+		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
+	}
+
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	mChildren.push_back(child);
+}
+
+void GameObject::DeleteChild(GameObject* go)
+{
+	RemoveChild(go);
+	RELEASE(go);
+}
+
+void GameObject::RemoveChild(GameObject* go)
+{
+	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
+	mChildren.shrink_to_fit();
 }
 
 void GameObject::AddComponent(Component* component)
@@ -197,30 +233,11 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 void GameObject::RemoveComponent(Component* component)
 {
+	// TODO: Sara --> test if it needs something else
 	if (!mComponents.empty() && component != nullptr)
 	{
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
-		//component->~Component();
 		
-		switch (component->ctype)
-		{
-		case NONE:
-			break;
-		case TRANSFORM:
-		{
-			mTransform = nullptr;
-		}
-		break;
-		case MESH:
-			break;
-		case MATERIAL:
-			break;
-		case CAMERA:
-			break;
-		default:
-			break;
-		}
-
 		RELEASE(component);
 	}
 }
@@ -272,3 +289,4 @@ bool GameObject::CompareTag(const char* _tag)
 {
 	return strcmp(tag, _tag) == 0;
 }
+

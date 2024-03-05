@@ -15,6 +15,7 @@
 #include "ModuleMonoManager.h"
 
 #include "GameObject.h"
+#include "G_UI.h"
 #include "PhysfsEncapsule.h"
 
 #include "External/SDL/include/SDL_opengl.h"
@@ -39,6 +40,8 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
 	licenseFileContents = ReadFile("../../LICENSE");
 	memleaksFileContents = ReadFile("memleaks.log");
 	AssimpLogFileContents = ReadFile("AssimpLog.txt");
+
+	g = nullptr;
 
 	LOG("Creating ModuleEditor");
 
@@ -66,7 +69,7 @@ bool ModuleEditor::Init()
 
 	IMGUI_CHECKVERSION();
 
-	ImGui::CreateContext();
+	g = ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -259,8 +262,8 @@ void ModuleEditor::DrawEditor()
 			PrimitivesMenu();
 
 			CreateCameraMenu();
-			// TODO: Uncomment when UI
-			//UIMenu();
+
+			UIMenu();
 
 			ImGui::Separator();
 
@@ -1214,12 +1217,17 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
-				ImVec2 size = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
 
 			ImGui::End();
@@ -1495,7 +1503,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				//new G_UI((UI_TYPE)i);
+				App->scene->CreateGUI((UI_TYPE)i);
 				break;
 			}
 		}
@@ -2851,7 +2859,7 @@ void ModuleEditor::DrawInspector()
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
@@ -2870,8 +2878,17 @@ void ModuleEditor::DrawInspector()
 				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
 				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
 				if (script != nullptr) script->OnInspector(); ImGui::Spacing();
-				
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
 
+				for (auto i = 0; i < (*it)->mComponents.size(); i++)
+				{
+					(*it)->mComponents[i]->OnInspector();
+					ImGui::Spacing();
+				}
+				
+				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				//if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+				//if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2904,22 +2921,22 @@ void ModuleEditor::DrawInspector()
 					}*/
 
 					// --- Add component Material ---
-					if (material == nullptr)
-					{
-						if (ImGui::MenuItem("Material"))
-						{
-							(*it)->AddComponent(ComponentType::MATERIAL);
-						}
-					}
+					//if (material == nullptr)
+					//{
+					//	if (ImGui::MenuItem("Material"))
+					//	{
+					//		(*it)->AddComponent(ComponentType::MATERIAL);
+					//	}
+					//}
 
-					// --- Add component Camera ---
-					if (camera == nullptr)
-					{
-						if (ImGui::MenuItem("Camera"))
-						{
-							(*it)->AddComponent(ComponentType::CAMERA);
-						}
-					}
+					//// --- Add component Camera ---
+					//if (camera == nullptr)
+					//{
+					//	if (ImGui::MenuItem("Camera"))
+					//	{
+					//		(*it)->AddComponent(ComponentType::CAMERA);
+					//	}
+					//}
 
 					if (physics == nullptr)
 					{
@@ -3021,6 +3038,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			{
 				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
 				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 				{
 					// Snap to 45 degrees for rotation

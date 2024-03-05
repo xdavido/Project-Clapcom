@@ -13,6 +13,7 @@
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 #include "External/ImGui/misc/cpp/imgui_stdlib.h"
+#include "External/ImGui/imgui_internal.h"
 
 #include "External/ImGuizmo/include/ImGuizmo.h"
 
@@ -272,6 +273,10 @@ public:
 	//Script Editor
 	ScriptEditor* scriptEditor;
 
+	// Stuff needed for UI, don't know if it is 100% needed
+	ImVec2 gameViewSize;
+	float2 mouse;
+	ImGuiContext* g;
 };
 
 #endif // MODULE_EDITOR

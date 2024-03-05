@@ -17,6 +17,7 @@
 #include "CScript.h"
 
 #include "External/Optick/include/optick.h"
+#include "G_UI.h"
 
 #include "ImporterMesh.h"
 
@@ -36,6 +37,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	//audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
+	canvas = nullptr;
 
 	LOG("Creating ModuleScene");
 }
@@ -242,12 +244,27 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 
 	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
 	pendingToAdd.push_back(tempGameObject);
+}
+
+G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
+{
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent);
+	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
 }
 
 
 
+//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
+//{
+//	if (toDestroy) {
+
+//		toDestroy->DestroyGameObject();
+
+//	}
+
+//}
 
 void ModuleScene::ClearScene()
 {
@@ -489,3 +506,14 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z >= aabb.minPoint.z
 		&& point.z <= aabb.maxPoint.z;
 }
+
+void ModuleScene::SetCanvas(G_UI* newCanvas)
+{
+	canvas = newCanvas;
+}
+
+G_UI* ModuleScene::GetCanvas()
+{
+	return canvas;
+}
+
