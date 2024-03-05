@@ -41,7 +41,6 @@ private:
 	int selectedAnimation = -1;
 	bool isSelected = false;
 	int selectedAnimationPlaying = -1;
-	std::string aniName;
 
 	//sizeof crashing the engine for some reason so using int for now
 	int totalAnimations = -1;

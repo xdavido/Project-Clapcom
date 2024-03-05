@@ -64,17 +64,15 @@ void CAnimation::OnInspector() {
     {
         ImGui::Indent();
 
-        if (selectedAnimation == -1) {
-            aniName = "None (Select animation)";
-        }
-        if (selectedAnimation != -1) {
-            aniName = animator->animations[selectedAnimation].name;
-        }
+        std::string animationName;
 
-        if (ImGui::BeginCombo("Animations", aniName.c_str())) {
+        animationName = (selectedAnimation == -1) ? "None (Select animation)" : animator->animations[selectedAnimation].name;
+
+        if (ImGui::BeginCombo("Animations", animationName.c_str())) {
             for (int i = 0; i < totalAnimations+1; i++) {
-                if (selectedAnimation == i) isSelected = true;
-                if (selectedAnimation != i) isSelected = false;
+
+                isSelected = (selectedAnimation == i) ? true : false;
+
                 ImGui::Checkbox(animator->animations[i].name.c_str(), &isSelected);
                 ImGui::SameLine(); 
 
@@ -92,8 +90,8 @@ void CAnimation::OnInspector() {
 
             }
 
-            if (selectedAnimation == -1) isSelected = true;
-            if (selectedAnimation != -1) isSelected = false;
+            isSelected = (selectedAnimation == -1) ? true : false;
+   
 
             ImGui::Checkbox("None", &isSelected);
 
@@ -105,30 +103,28 @@ void CAnimation::OnInspector() {
         }
 
         if (!animator->animations.empty() && selectedAnimation != -1) {
-            float speed = animator->animations[selectedAnimation].GetSpeed();
+            float speed = animator->GetCurrentAnimation()->GetSpeed();
             if (ImGui::DragFloat("Speed", &speed)) {
-                animator->animations[selectedAnimation].SetSpeed(speed);
+                animator->GetCurrentAnimation()->SetSpeed(speed);
             }
 
-            ImGui::Checkbox("Loop", &animator->animations[selectedAnimation].loop);
+            ImGui::Checkbox("Loop", &animator->GetCurrentAnimation()->loop);
 
             if (ImGui::IsItemClicked()) {
                 !animator->animations[selectedAnimation].loop;
                 //Do loop on current animation
             }
 
-            ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].pingPong);
+            ImGui::Checkbox("PingPong", &animator->GetCurrentAnimation()->pingPong);
 
             if (ImGui::IsItemClicked()) {
                 !animator->animations[selectedAnimation].pingPong;
                 //Do PingPong on current animation
             }
 
-            ImGui::Checkbox("Play", &animator->animations[selectedAnimation].isPlaying);
+            ImGui::Checkbox("Play", &animator->GetCurrentAnimation()->isPlaying);
 
             if (ImGui::IsItemClicked()) {
-
-                !animator->animations[selectedAnimation].isPlaying;
 
                 selectedAnimationPlaying = selectedAnimation;
 
@@ -142,8 +138,9 @@ void CAnimation::OnInspector() {
 
                 }
 
-                //When click on play, update the animation to the current selected one
-                //animator->PlayAnimation(&animations[selectedAnimationPlaying]);
+                if (animator->GetCurrentAnimation()->isPlaying == true) {
+                    selectedAnimationPlaying = -1;
+                } 
             }
         }
 

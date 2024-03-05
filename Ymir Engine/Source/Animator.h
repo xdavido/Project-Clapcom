@@ -13,6 +13,8 @@ public:
 	Animator(Animation* animation);
 	~Animator();
 	
+	Animation* GetCurrentAnimation() { return currentAnimation; }
+
 	void UpdateAnimation(float dt);
 
 	void PlayAnimation(Animation* animation);
