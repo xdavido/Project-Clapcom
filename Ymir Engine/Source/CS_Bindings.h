@@ -112,7 +112,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 		return;
 
 	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
-	GameObject* go = External->scene->CreateGameObject(p, External->scene->mRootNode);
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
 	mono_free(p);
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);

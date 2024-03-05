@@ -63,7 +63,7 @@ public class Core : YmirComponent
             InternalCalls.Destroy(reference);
 
         //Create a GameObject - Not working
-        if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_DOWN)
         {
             InternalCalls.CreateGameObject("Cube", Vector3.up);
             Debug.Log("Create 'Cube' GameObject");

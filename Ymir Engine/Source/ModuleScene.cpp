@@ -157,6 +157,8 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
+	pendingToAdd.clear();
 	
 
 	return UPDATE_CONTINUE;
@@ -197,7 +199,7 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	}
 
 	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
-	gameObjects.push_back(tempGameObject);
+	pendingToAdd.push_back(tempGameObject);
 
 	return tempGameObject;
 }

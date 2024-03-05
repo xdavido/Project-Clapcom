@@ -61,6 +61,7 @@ public:
 	std::vector<CCamera*> cameras;
 
 	std::vector<GameObject*> gameObjects;
+	std::vector<GameObject*> pendingToAdd;
 
 	std::vector<std::string> tags;
 
