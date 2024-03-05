@@ -52,6 +52,7 @@ public:
 	std::vector<Component*> mComponents;
 
 	CTransform* mTransform; 
+	CAnimation* cAnimation;
 
 	bool active;
 	bool selected;

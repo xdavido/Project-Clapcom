@@ -27,8 +27,4 @@ private:
 	float deltaTime; 
 
 	float4x4 identity; 
-
-public:
-	std::vector<Animation> animations;
-
 };
