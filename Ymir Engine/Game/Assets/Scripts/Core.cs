@@ -83,7 +83,7 @@ public class Core : YmirComponent
             Vector3 pos = new Vector3(0, 1, 0);
 
 
-          
+   
                 InternalCalls.CreateGameObject(name, pos);
 
         }
@@ -97,7 +97,7 @@ public class Core : YmirComponent
        
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            gameObject.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
@@ -143,7 +143,7 @@ public class Core : YmirComponent
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
-        //Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
+        Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
         gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
         gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
