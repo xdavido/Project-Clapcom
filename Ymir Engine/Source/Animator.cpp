@@ -120,6 +120,7 @@ void Animator::UpdateAnimation(float dt)
 			currentTime = currentAnimation->GetDuration() - 0.01f;
 			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 
+			currentTime = 0.0f;
 			StopAnimation();
 		}
 	}
@@ -131,10 +132,14 @@ void Animator::PlayAnimation(Animation* animation)
 	currentTime = 0.0f; 
 }
 
+void Animator::ResumeAnimation()
+{
+	currentAnimation->isPlaying = true;
+}
+
 void Animator::StopAnimation()
 {
-	currentAnimation->isPlaying = false;;
-	currentTime = 0.0f;
+	currentAnimation->isPlaying = false;
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)

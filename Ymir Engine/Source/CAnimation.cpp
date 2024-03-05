@@ -133,6 +133,7 @@ void CAnimation::OnInspector() {
 
             if (ImGui::Button("Play")) {
 
+                animator->SetCurrentAnimationTime(.0f);
                 animator->GetCurrentAnimation()->isPlaying = true;
 
                 selectedAnimationPlaying = selectedAnimation;
@@ -151,6 +152,22 @@ void CAnimation::OnInspector() {
                     selectedAnimationPlaying = -1;
                 }
             }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Resume")) {
+
+                animator->ResumeAnimation();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Stop")) {
+
+                animator->StopAnimation();
+            }
+
+
         }
 
         ImGui::Unindent();
