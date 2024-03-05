@@ -14,6 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID JV = 1735860057U;
+        static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID ONIICHAN = 1133667304U;
     } // namespace EVENTS
 
@@ -37,6 +38,7 @@ namespace AK
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID FUNCIONAPLS = 6333691U;
+        static const AkUniqueID MUSIC = 3991942870U;
     } // namespace BANKS
 
     namespace BUSSES

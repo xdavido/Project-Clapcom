@@ -32,8 +32,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
 	tags = { "Untagged" };
-	audiosource = CreateGameObject("AudioSource", mRootNode);
-	audiosource->UID = Random::Generate();
+	//audiosource = CreateGameObject("AudioSource", mRootNode);
+	//audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
 
@@ -55,9 +55,11 @@ bool ModuleScene::Init()
 	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
 	audioListenerComponent->SetAsDefaultListener();
 	gameCameraObject->AddComponent(audioListenerComponent);
-
 	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	gameCameraObject->AddComponent(audioSourceComponent);
+
+	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
+	//gameCameraObject->AddComponent(audioSourceComponent);
 
 	// yscene file creation
 
