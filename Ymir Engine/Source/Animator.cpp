@@ -1,5 +1,4 @@
 #include "Animator.h"
-#include "Log.h"
 
 Animator::Animator()
 {
@@ -32,14 +31,25 @@ void Animator::UpdateAnimation(float dt)
 	
 	if (currentAnimation) {
 
-		currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed; 
-
-		if (currentAnimation->loop) {
-			currentTime = fmod(currentTime, currentAnimation->GetDuration());
+		// Backwards
+		if (currentAnimation->backwards) {
+			currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
 		}
+		else {
+			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+		}
+			
+		// Loop
+		if (currentAnimation->loop) {
 
-		LOG("cT: %f", currentTime);
-		LOG("Duration: %f", currentAnimation->GetDuration());
+			//Loop + Backwards
+			if (currentAnimation->backwards) {
+				currentTime = fmod(currentAnimation->GetDuration(), currentTime);
+			}
+			else {
+				currentTime = fmod(currentTime, currentAnimation->GetDuration());
+			}
+		}
 
 		if (currentTime < currentAnimation->GetDuration())
 			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);

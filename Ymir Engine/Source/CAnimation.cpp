@@ -102,6 +102,12 @@ void CAnimation::OnInspector() {
         }
 
         if (!animator->animations.empty() && selectedAnimation != -1) {
+
+            float currentTime = animator->GetCurrentAnimationTime();
+            if (ImGui::SliderFloat("Playback Time", &currentTime, .0f, animator->GetCurrentAnimation()->GetDuration())) {
+                animator->SetCurrentAnimationTime(currentTime);
+            }
+
             float speed = animator->GetCurrentAnimation()->GetSpeed();
             if (ImGui::DragFloat("Speed", &speed)) {
                 animator->GetCurrentAnimation()->SetSpeed(speed);
@@ -110,15 +116,19 @@ void CAnimation::OnInspector() {
             ImGui::Checkbox("Loop", &animator->GetCurrentAnimation()->loop);
 
             if (ImGui::IsItemClicked()) {
-                !animator->animations[selectedAnimation].loop;
-                //Do loop on current animation
+                !animator->GetCurrentAnimation()->loop;
             }
 
             ImGui::Checkbox("PingPong", &animator->GetCurrentAnimation()->pingPong);
 
             if (ImGui::IsItemClicked()) {
-                !animator->animations[selectedAnimation].pingPong;
-                //Do PingPong on current animation
+                !animator->GetCurrentAnimation()->pingPong;
+            }
+
+            ImGui::Checkbox("Backwards", &animator->GetCurrentAnimation()->backwards);
+
+            if (ImGui::IsItemClicked()) {
+                !animator->GetCurrentAnimation()->backwards;
             }
 
             if (ImGui::Button("Play")) {

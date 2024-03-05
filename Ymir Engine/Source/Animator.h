@@ -14,6 +14,8 @@ public:
 	~Animator();
 	
 	Animation* GetCurrentAnimation() { return currentAnimation; }
+	float GetCurrentAnimationTime() { return currentTime; }
+	void SetCurrentAnimationTime(float ct) { currentTime = ct; }
 
 	void UpdateAnimation(float dt);
 
