@@ -37,7 +37,9 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	//void DestroyGameObject(GameObject* toDestroy);
+	//TODO:
+	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
+
 
 	void ClearScene();
 
@@ -46,6 +48,8 @@ public:
 
 	// Start with a loaded scene from start
 	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
+
+	void Destroy(GameObject* gm);
 
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -60,7 +64,11 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
+	std::vector<GameObject*> destroyList;
 	std::vector<GameObject*> gameObjects;
+	std::vector<GameObject*> pendingToAdd;
+
+	std::vector<std::string> tags;
 
 	JsonFile ysceneFile;
 
@@ -73,4 +81,6 @@ public:
 	std::vector<GameObject*> vSelectedGOs;
 
 	GameObject* audiosource;
+
+	bool a = false;
 };

@@ -12,6 +12,7 @@
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
+#include "ModuleMonoManager.h"
 
 #include "GameObject.h"
 #include "PhysfsEncapsule.h"
@@ -23,6 +24,7 @@
 #include "External/Optick/include/optick.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -124,6 +126,9 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
+
+	scriptEditor = new ScriptEditor();
+	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 #ifdef _STANDALONE
 
 	TimeManager::gameTimer.Start();
@@ -918,6 +923,9 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+
+    // END OF APPLICATION MENU
+
 	// Time Management
 
 	if (ImGui::Begin(" ", NULL, ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse)) {
@@ -1285,12 +1293,26 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
+	}
+    if (showScriptingEditor) {
+
+        if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
+
+			scriptEditor->Draw();
+
+            ImGui::End();
+
+        }
+
+    
+
+    // --------------------------------- Here finishes the code for the editor ----------------------------------------
+    
+    // Rendering
+
 
 	}
-
-	// --------------------------------- Here finishes the code for the editor ----------------------------------------
-
-	// Rendering
+	
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -2767,7 +2789,63 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
-				ImGui::Text("UID: %d", (*it)->UID);
+				ImGui::Text("Tag"); ImGui::SameLine();
+
+				ImGuiStyle& style = ImGui::GetStyle();
+				float w = ImGui::CalcItemWidth();
+				float spacing = style.ItemInnerSpacing.x;
+				float button_sz = ImGui::GetFrameHeight();
+				ImGui::PushItemWidth((w - spacing * 2.0f - button_sz * 2.0f) * 0.5f);
+
+				std::vector<std::string> tags = External->scene->tags;
+
+				if (ImGui::BeginCombo("##tags", (*it)->tag))
+				{
+					for (int t = 0; t < tags.size(); t++)
+					{
+						bool is_selected = strcmp((*it)->tag, tags[t].c_str()) == 0;
+						if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
+							strcpy((*it)->tag, tags[t].c_str());
+						}
+
+						if (is_selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					if (ImGui::BeginMenu("Add Tag"))
+					{
+						static char newTag[32];
+						ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
+
+						if (ImGui::Button("Save Tag")) {
+							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+							strcpy(tagToAdd, newTag);
+							External->scene->tags.push_back(tagToAdd);
+							newTag[0] = '\0';
+							delete[] tagToAdd;
+						}
+						ImGui::EndMenu();
+					}
+
+					int tag_to_remove = -1;
+					if (ImGui::BeginMenu("Remove Tag"))
+					{
+						for (int t = 0; t < tags.size(); t++)
+						{
+							if (ImGui::Selectable(tags[t].c_str(), false)) {
+								tag_to_remove = t;
+							}
+						}
+						ImGui::EndMenu();
+					}
+
+					if (tag_to_remove != -1)
+						External->scene->tags.erase(External->scene->tags.begin() + tag_to_remove);
+
+					ImGui::EndCombo();
+				}
+				ImGui::SameLine();
+				ImGui::Text("       UID: %d", (*it)->UID);
+
 
 				ImGui::Spacing();
 
@@ -2781,6 +2859,7 @@ void ModuleEditor::DrawInspector()
 				Component* audioSource = (*it)->GetComponent(ComponentType::AUDIO_SOURCE);
 				Component* physics = (*it)->GetComponent(ComponentType::PHYSICS);
 				Component* animation = (*it)->GetComponent(ComponentType::ANIMATION);
+				Component* script = (*it)->GetComponent(ComponentType::SCRIPT);
 
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
@@ -2790,6 +2869,9 @@ void ModuleEditor::DrawInspector()
 				if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
 				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
+				if (script != nullptr) script->OnInspector(); ImGui::Spacing();
+				
+
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();

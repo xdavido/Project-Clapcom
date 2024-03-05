@@ -20,6 +20,7 @@
 #include "ShaderEditor.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
 
 class GameObject;
 
@@ -168,6 +169,8 @@ public:
 	bool showLibrary = true;
 
 	bool showNodeEditor = false;
+
+	bool showScriptingEditor = true;
 	bool showShaderEditor = false;
 
 	// OpenGL settings checkbox toggle booleans
@@ -266,6 +269,9 @@ public:
 
 	//New Component
 	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider
+	//Script Editor
+	ScriptEditor* scriptEditor;
+
 };
 
 #endif // MODULE_EDITOR

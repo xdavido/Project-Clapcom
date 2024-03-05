@@ -9,6 +9,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
@@ -32,6 +33,7 @@ Application::Application()
 	scene = new ModuleScene(this);
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
+	moduleMono = new ModuleMonoManager(this);
 	audio = new ModuleAudio(this);
 	physics = new ModulePhysics(this);
 
@@ -51,6 +53,7 @@ Application::Application()
 	// Utility Modules
 	AddModule(fileSystem);
 	AddModule(resourceManager);
+	AddModule(moduleMono);
 	AddModule(scene);
 
 	// Renderer last, and then editor!

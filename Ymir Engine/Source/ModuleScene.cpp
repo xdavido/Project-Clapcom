@@ -13,6 +13,8 @@
 
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "ModuleMonoManager.h"
+#include "CScript.h"
 
 #include "External/Optick/include/optick.h"
 
@@ -29,6 +31,9 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
+	tags = { "Untagged" };
+	audiosource = CreateGameObject("AudioSource", mRootNode);
+	audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
 
@@ -37,6 +42,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 
 ModuleScene::~ModuleScene()
 {
+	tags.clear();
 	delete mRootNode;
 }
 
@@ -63,6 +69,32 @@ bool ModuleScene::Init()
 	//ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
 	//ysceneFile.SetHierarchy("Hierarchy", gameObjects);
 
+
+	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
+
+	//char* buffer = nullptr;
+	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
+	//{
+	//	ImporterMesh::Load(buffer, &mymesh);
+	//}
+
+	//mymesh.LoadInMemory();
+	for (int i = 0; i < 1; i++)
+	{
+		const char* n = "Test";
+		std::string numStr = std::to_string(i);
+		std::string name = n + numStr;
+
+		GameObject* goTest = CreateGameObject(name, mRootNode);
+		const char* t = "Core";
+
+		Component* c = nullptr;
+
+		c = new CScript(goTest, t);
+
+		goTest->AddComponent(c);
+	}
+	
 	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 
 	return ret;
@@ -85,6 +117,16 @@ update_status ModuleScene::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	/*Destroy gameobjects inside the destroy queue*/
+	if (destroyList.size() > 0)
+	{
+		for (size_t i = 0; i < destroyList.size(); ++i)
+		{
+			Destroy(destroyList[i]);
+		}
+		destroyList.clear();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -94,6 +136,12 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
+		
+		if ((*it)->pendingToDelet) {
+			destroyList.push_back((*it));
+			continue;
+		}
+
 		if ((*it)->active)(*it)->Update();
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
@@ -145,6 +193,8 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
+	pendingToAdd.clear();
 	
 
 	return UPDATE_CONTINUE;
@@ -171,20 +221,31 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	}
 
-	gameObjects.push_back(tempGameObject);
+	
+		gameObjects.push_back(tempGameObject);
+	
 
 	return tempGameObject;
 }
 
-//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-//{
-//	if (toDestroy) {
-//
-//		toDestroy->DestroyGameObject();
-//
-//	}
-//
-//}
+GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
+{
+	GameObject* tempGameObject = new GameObject(name, parent);
+
+	if (parent != nullptr) {
+
+		parent->AddChild(tempGameObject);
+
+	}
+
+	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
+	pendingToAdd.push_back(tempGameObject);
+
+	return tempGameObject;
+}
+
+
+
 
 void ModuleScene::ClearScene()
 {
@@ -199,7 +260,7 @@ void ModuleScene::ClearScene()
 	RELEASE(mRootNode);
 
 	gameObjects.clear();
-
+	destroyList.clear();
 	App->renderer3D->models.clear();
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
@@ -276,6 +337,27 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	mRootNode = gameObjects[0];
 
 	delete sceneToLoad;
+}
+
+void ModuleScene::Destroy(GameObject* gm)
+{
+	for (std::vector<GameObject*>::iterator i = gm->mParent->mChildren.begin(); i != gm->mParent->mChildren.end(); ++i)
+	{
+		if (*i._Ptr == gm)
+		{
+			gm->mParent->mChildren.erase(i);
+			break;
+		}
+	}
+	gm->mParent->mChildren.shrink_to_fit();
+
+	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
+	if (it != gameObjects.end()) {
+		delete* it; 
+		gameObjects.erase(it); 
+	}
+
+	gm = nullptr;
 }
 
 // Function to handle GameObject selection by Mouse Picking

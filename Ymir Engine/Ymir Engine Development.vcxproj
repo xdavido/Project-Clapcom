@@ -56,6 +56,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
+    <IncludePath>$(ProjectDir)Source\External;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)Source\External;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Standalone|Win32'">
     <TargetName>$(ProjectName)</TargetName>
@@ -139,6 +143,9 @@
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CRigidBody.h" />
+    <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Bindings.h" />
+    <ClInclude Include="Source\CS_Input_Bindings.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
@@ -155,6 +162,8 @@
     <ClInclude Include="Source\External\ImGuizmo\include\ImGuizmo.h" />
     <ClInclude Include="Source\External\ImGuizmo\include\ImSequencer.h" />
     <ClInclude Include="Source\External\ImGuizmo\include\ImZoomSlider.h" />
+    <ClInclude Include="Source\External\PugiXML\pugiconfig.hpp" />
+    <ClInclude Include="Source\External\PugiXML\pugixml.hpp" />
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="Source\External\Wwise\AK\Comm\AkCommunication.h" />
     <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkAtomic.h" />
@@ -410,6 +419,7 @@
     <ClInclude Include="Source\ModuleEditor.h" />
     <ClInclude Include="Source\ModuleFileSystem.h" />
     <ClInclude Include="Source\ModulePhysics.h" />
+    <ClInclude Include="Source\ModuleMonoManager.h" />
     <ClInclude Include="Source\ModuleRenderer3D.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\ModuleInput.h" />
@@ -429,6 +439,7 @@
     <ClInclude Include="Source\ResourceShader.h" />
     <ClInclude Include="Source\ResourceTexture.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\ScriptEditor.h" />
     <ClInclude Include="Source\Settings.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\ShaderEditor.h" />
@@ -454,6 +465,7 @@
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\CRigidBody.cpp" />
+    <ClCompile Include="Source\CScript.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
@@ -477,6 +489,7 @@
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="Source\External\mmgr\mmgr.cpp" />
     <ClCompile Include="Source\External\Parson\parson.cpp" />
+    <ClCompile Include="Source\External\PugiXML\pugixml.cpp" />
     <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkDefaultLowLevelIODispatcher.cpp" />
     <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkFileLocationBase.cpp" />
     <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkFilePackage.cpp" />
@@ -540,6 +553,7 @@
     <ClCompile Include="Source\ModuleFileSystem.cpp" />
     <ClCompile Include="Source\ModuleInput.cpp" />
     <ClCompile Include="Source\ModulePhysics.cpp" />
+    <ClCompile Include="Source\ModuleMonoManager.cpp" />
     <ClCompile Include="Source\ModuleRenderer3D.cpp" />
     <ClCompile Include="Source\ModuleResourceManager.cpp" />
     <ClCompile Include="Source\ModuleScene.cpp" />
@@ -557,6 +571,7 @@
     <ClCompile Include="Source\ResourceShader.cpp" />
     <ClCompile Include="Source\ResourceTexture.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
+    <ClCompile Include="Source\ScriptEditor.cpp" />
     <ClCompile Include="Source\Settings.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\ShaderEditor.cpp" />
