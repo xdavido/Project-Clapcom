@@ -2942,7 +2942,7 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
-					delete camera;
+					//delete camera;
 
 					//// --- Add component Physics ---
 
@@ -2956,7 +2956,7 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
-					delete physics;
+					//delete physics;
 
 					ImGui::EndPopup();
 				}
