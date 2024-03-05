@@ -186,7 +186,7 @@ float3 ModuleMonoManager::UnboxVector(MonoObject* _obj)
 	mono_field_get_value(_obj, mono_class_get_field_from_name(klass, "x"), &ret.x);
 	mono_field_get_value(_obj, mono_class_get_field_from_name(klass, "y"), &ret.y);
 	mono_field_get_value(_obj, mono_class_get_field_from_name(klass, "z"), &ret.z);
-	return ret;
+	return static_cast<float3>(ret);
 }
 //ASK: Is this the worst idea ever? TOO SLOW
 Quat ModuleMonoManager::UnboxQuat(MonoObject* _obj)

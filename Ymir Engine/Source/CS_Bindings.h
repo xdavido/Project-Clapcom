@@ -31,9 +31,9 @@ T DECS_CompToComp(MonoObject* obj)
 	return reinterpret_cast<T>(ptr);
 }
 //------//
-MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posición del objeto
+MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posiciï¿½n del objeto
 {
-	//TODO: Quitar esto mas adelante, cuando esté arreglado el Transform
+	//TODO: Quitar esto mas adelante, cuando estï¿½ arreglado el Transform
 	
 		
 	if (External == nullptr)
@@ -55,9 +55,9 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 
 	return External->moduleMono->Float3ToCS(value);
 }
-MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotación del objeto
+MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotaciï¿½n del objeto
 {
-	//TODO: Quitar esto mas adelante, cuando esté arreglado el Transform
+	//TODO: Quitar esto mas adelante, cuando estï¿½ arreglado el Transform
 	return nullptr;
 
 	if (External == nullptr)
@@ -123,7 +123,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 		return;
 
 	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
-	GameObject* go = External->scene->CreateGameObject(p, External->scene->mRootNode);
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
 	mono_free(p);
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
@@ -153,6 +153,7 @@ MonoString* Get_GO_Name(MonoObject* go)
 		External->moduleMono->domain,
 		External->moduleMono->GameObject_From_CSGO(go)->name.c_str());
 }
+
 MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
@@ -186,6 +187,7 @@ MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" i
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
 	return Ymir_Box_Vector(obj, "POSITION", false); //Use this method to send class types
 }
+
 void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	if (External == nullptr)
@@ -226,6 +228,7 @@ MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" i
 {
 	return Ymir_Box_Quat(obj, false); //Use this method to send class types
 }
+
 void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	if (External == nullptr)
@@ -245,6 +248,7 @@ MonoObject* SendScale(MonoObject* obj)
 {
 	return Ymir_Box_Vector(obj, "SCALE", false);
 }
+
 void RecieveScale(MonoObject* obj, MonoObject* secObj)
 {
 	if (External == nullptr)
@@ -301,12 +305,12 @@ float GetDT()
 //	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
 //
 //
-//	CMesh* meshRenderer = dynamic_cast<CMesh*>(go->AddComponent(ComponentType::MESH));	//TODO: Crear un componente de tipo mesh para añadirle al game object
+//	CMesh* meshRenderer = dynamic_cast<CMesh*>(go->AddComponent(ComponentType::MESH));	//TODO: Crear un componente de tipo mesh para aï¿½adirle al game object
 //
 //	ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->moduleResources->RequestResource(1736836885, "Library/Meshes/1736836885.mmh"));
 //	meshRenderer->SetRenderMesh(test);
 //
-//	go->AddComponent(Component::Type::Script, "BH_Bullet");	//TODO: Añadir el componente script del Bullet al GameObject
+//	go->AddComponent(Component::Type::Script, "BH_Bullet");	//TODO: Aï¿½adir el componente script del Bullet al GameObject
 //
 //	/*return mono_gchandle_get_target(cmp->noGCobject);*/
 //}
@@ -317,11 +321,13 @@ MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "obje
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
 	return Ymir_Box_Vector(obj, "POSITION", true); //Use this method to send class types
 }
+
 MonoObject* SendGlobalRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
 	return Ymir_Box_Quat(obj, true); //Use this method to send class types
 }
+
 MonoObject* SendGlobalScale(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types

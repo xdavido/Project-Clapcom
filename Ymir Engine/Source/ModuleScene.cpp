@@ -77,7 +77,7 @@ bool ModuleScene::Init()
 	//}
 
 	//mymesh.LoadInMemory();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		const char* n = "Test";
 		std::string numStr = std::to_string(i);
@@ -187,6 +187,8 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
+	pendingToAdd.clear();
 	
 
 	return UPDATE_CONTINUE;
@@ -219,6 +221,23 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	return tempGameObject;
 }
+
+GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
+{
+	GameObject* tempGameObject = new GameObject(name, parent);
+
+	if (parent != nullptr) {
+
+		parent->AddChild(tempGameObject);
+
+	}
+
+	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
+	pendingToAdd.push_back(tempGameObject);
+
+	return tempGameObject;
+}
+
 
 
 

@@ -37,7 +37,9 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	//void DestroyGameObject(GameObject* toDestroy);
+	//TODO:
+	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
+
 
 	void ClearScene();
 
@@ -64,6 +66,7 @@ public:
 
 	std::vector<GameObject*> destroyList;
 	std::vector<GameObject*> gameObjects;
+	std::vector<GameObject*> pendingToAdd;
 
 	std::vector<std::string> tags;
 

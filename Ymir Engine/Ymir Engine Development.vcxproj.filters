@@ -114,6 +114,9 @@
     </Filter>
     <Filter Include="Sources\Utils\Bindings">
       <UniqueIdentifier>{10ca609f-e2f7-4020-9e19-4b325c79a1af}</UniqueIdentifier>
+      </Filter>
+    <Filter Include="Sources\Features\Scripting">
+      <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +820,7 @@
       <Filter>Externals\ImGui\misc</Filter>
     </ClInclude>
     <ClInclude Include="Source\ScriptEditor.h">
+      <Filter>Sources\Features\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAllocator.h">
       <Filter>Externals\Wwise</Filter>
@@ -1364,6 +1368,7 @@
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
     <ClCompile Include="Source\ScriptEditor.cpp">
+       <Filter>Sources\Features\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Externals\Wwise</Filter>

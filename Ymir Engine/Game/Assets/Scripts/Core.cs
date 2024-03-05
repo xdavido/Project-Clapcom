@@ -61,18 +61,19 @@ public class Core : YmirComponent
 	public void Update(/*int x*/)
 	{
         
-        //Hardcoceado para que sea una especia de "Start()"
+        
+        //Hardcoceado para que sea una especie de "Start()"
         if ( start )
         {
             currentState = STATE.IDLE;
             Debug.Log("[WARNING] testString: " + testString);
-
-
-            Debug.Log("[WARNING] Reference str: ");
+            reference = InternalCalls.GetGameObjectByName("Test0");
+            reference.name = InternalCalls.GetGameObjectByName("Test0").Name;
+            Debug.Log("[WARNING] Reference str: " + reference.name);
             Debug.Log("juan " + testString);
-           
 
-            start = false;
+
+           start = false;
          
             Debug.Log("[WARNING] Name" + gameObject.Name);
                 
@@ -88,7 +89,15 @@ public class Core : YmirComponent
         }
 
 
-
+		if (this.reference == null)
+        {
+            Debug.Log("[ERROR] Reference on Core.cs was 'null'");
+            return;
+        }
+       
+ 
+        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+            gameObject.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
@@ -101,8 +110,12 @@ public class Core : YmirComponent
             InternalCalls.Destroy(gameObject);
 
         //Create a GameObject - Not working
-        if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_REPEAT)
-            InternalCalls.CreateGameObject("Cube", reference);
+        if (Input.GetKey(YmirKeyCode.C) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.CreateGameObject("Cube", Vector3.up);
+            Debug.Log("Create 'Cube' GameObject");
+        }
+            
 
 
 
@@ -290,6 +303,8 @@ public class Core : YmirComponent
         return Math.Abs( gamepadInput.x) > 0 || Math.Abs(gamepadInput.y) > 0;
     }
 }
+
+
 
 
 
