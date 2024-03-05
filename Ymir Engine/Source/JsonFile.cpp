@@ -836,30 +836,6 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 	// Set Name
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
-	// Set Position
-	//JSON_Value* positionValue = json_value_init_array();
-	//JSON_Array* positionArray = json_value_get_array(positionValue);
-	//json_array_append_number(positionArray, gameObject.mTransform->translation.x);
-	//json_array_append_number(positionArray, gameObject.mTransform->translation.y);
-	//json_array_append_number(positionArray, gameObject.mTransform->translation.z);
-	//json_object_set_value(gameObjectObject, "Position", positionValue);
-
-	// Set Rotation
-	//JSON_Value* rotationValue = json_value_init_array();
-	//JSON_Array* rotationArray = json_value_get_array(rotationValue);
-	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.x);
-	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.y);
-	//json_array_append_number(rotationArray, gameObject.mTransform->rotation.z);
-	//json_object_set_value(gameObjectObject, "Rotation", rotationValue);
-
-	// Set Scale
-	//JSON_Value* scaleValue = json_value_init_array();
-	//JSON_Array* scaleArray = json_value_get_array(scaleValue);
-	//json_array_append_number(scaleArray, gameObject.mTransform->scale.x);
-	//json_array_append_number(scaleArray, gameObject.mTransform->scale.y);
-	//json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
-	//json_object_set_value(gameObjectObject, "Scale", scaleValue);
-
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
@@ -1073,7 +1049,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	case UI:
 	{
 		json_object_set_string(componentObject, "Type", "UI");
-		
+
 		json_object_set_number(componentObject, "UI Type", (int)static_cast<const C_UI&>(component).UI_type);
 
 		switch (static_cast<const C_UI&>(component).UI_type)
@@ -1196,7 +1172,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 			//
 			JSON_Value* selectedColorArrayValue = json_value_init_array();
-			JSON_Array* selectedColorArray = json_value_get_array(pressedColorArrayValue);
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
 
 			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.r);
 			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.g);
@@ -1207,7 +1183,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 			//
 			JSON_Value* disabledColorArrayValue = json_value_init_array();
-			JSON_Array* disabledColorArray = json_value_get_array(pressedColorArrayValue);
+			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
 
 			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.r);
 			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.g);
@@ -1247,7 +1223,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 			//
 			JSON_Value* selectedColorArrayValue = json_value_init_array();
-			JSON_Array* selectedColorArray = json_value_get_array(pressedColorArrayValue);
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
 
 			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.r);
 			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.g);
@@ -1258,7 +1234,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 			//
 			JSON_Value* disabledColorArrayValue = json_value_init_array();
-			JSON_Array* disabledColorArray = json_value_get_array(pressedColorArrayValue);
+			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
 
 			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.r);
 			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.g);
@@ -1275,9 +1251,18 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			break;
 		}
 	}
-
 	break;
-
+	// TODO: Audio save / load
+	case AUDIO_SOURCE:
+	{
+		json_object_set_string(componentObject, "Type", "Audio source");
+	}
+	break;
+	case AUDIO_LISTENER:
+	{
+		json_object_set_string(componentObject, "Type", "Audio listener");
+	}
+	break;
 	default:
 		break;
 	}
@@ -1352,31 +1337,6 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 		}
 
-	}
-
-	{
-		// Get Children UID (commented to solve the problem with load hierarchy)
-
-	//if (json_object_has_value_of_type(gameObjectObject, "Children UID", JSONArray)) {
-
-	//    JSON_Array* childrenArray = json_object_get_array(gameObjectObject, "Children UID");
-
-	//    size_t numChildren = json_array_get_count(childrenArray);
-
-	//    gameObject.mChildren.reserve(numChildren);
-
-	//    for (size_t i = 0; i < numChildren; ++i) {
-
-	//        int childUID = static_cast<int>(json_array_get_number(childrenArray, i));
-	//        // You need to find the corresponding child GameObject using the UID
-	//        // and add it to gameObject.mChildren.
-	//        GameObject* childGO = new GameObject();
-	//        childGO->UID = childUID;
-	//        gameObject.mChildren.push_back(childGO);
-
-	//    }
-
-	//}
 	}
 
 	// Get Components Info
@@ -1767,5 +1727,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 
 	}
+	
+	// TODO: Audio save / load	
+	else if (type == "Audio source")
+	{
 
+	}
+	else if (type == "Audio listener")
+	{
+
+	}
 }
