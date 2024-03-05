@@ -22,6 +22,7 @@
 
 // Definitions to access the paths quickly
 #define SHADER_VS_FS "Assets/Shaders/MyShader.glsl"
+#define SHADER_ANIMATION "Assets/Shaders/AnimationShader.glsl"
 #define WATER_SHADER "Assets/Shaders/WaterShader.glsl"
 
 // Regex utils to retrieve code from unique-file shaders

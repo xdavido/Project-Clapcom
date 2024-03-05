@@ -208,6 +208,10 @@ bool ModuleRenderer3D::Init()
 	Shader* waterShader = new Shader;
 	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
 	delete waterShader;
+	
+	Shader* animationShader = new Shader; 
+	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
+	delete animationShader; 
 
 	// Load Editor and Game FrameBuffers
 
@@ -651,6 +655,7 @@ void ModuleRenderer3D::DrawGameObjects()
 		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
+		CAnimation* animationComponent = (CAnimation*)(*it)->GetComponent(ComponentType::ANIMATION);
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
@@ -667,8 +672,14 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
+					
+					if (animationComponent != nullptr && animationComponent->active) {
+						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
+						for (int i = 0; i < transforms.size(); i++) {
+							materialComponent->shader.SetMatrix4x4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+						}
+					}
 					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
-
 				}
 
 				meshComponent->rMeshReference->Render();

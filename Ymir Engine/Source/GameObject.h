@@ -15,6 +15,7 @@
 #include "CAudioSource.h"
 #include "CRigidBody.h"
 #include "CCollider.h"
+#include "CAnimation.h"
 
 #include "Random.h"
 

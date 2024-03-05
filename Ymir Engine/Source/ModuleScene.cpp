@@ -94,11 +94,11 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		(*it)->Update();
+		if ((*it)->active)(*it)->Update();
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 
-			(*jt)->Update();
+			if ((*jt)->active)(*jt)->Update();
 
 		}
 

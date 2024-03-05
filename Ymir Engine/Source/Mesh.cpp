@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "Model.h"
 
+
 #include "DefaultShader.h"
 
 #include "External/mmgr/mmgr.h"
@@ -347,7 +348,8 @@ void Mesh::LoadMesh()
     //glEnableVertexAttribArray(2);
     //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
 
-    //// 4. Load data into Vertex Buffers
+
+    // 4. Load data into Vertex Buffers
 
     //glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);

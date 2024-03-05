@@ -112,6 +112,9 @@
     <Filter Include="Sources\Utils\Physics">
       <UniqueIdentifier>{3640947e-330d-4980-8ee6-bd5e1d4aeabc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\Skeletal Animation">
+      <UniqueIdentifier>{ad8fbfca-a005-4953-9d78-83c3d7725d02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -1026,6 +1029,21 @@
     <ClInclude Include="Source\PhysBody.h">
       <Filter>Sources\Utils\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnimationController.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animator.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bone.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAnimation.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1391,6 +1409,21 @@
     <ClCompile Include="Source\PhysBody.cpp">
       <Filter>Sources\Utils\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnimationController.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animator.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bone.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAnimation.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\MathGeoLib\include\Geometry\KDTree.inl">
@@ -1437,6 +1470,9 @@
     </None>
     <None Include="Source\External\Wwise\low_level_IO\Common\AkFilePackageLowLevelIO.inl">
       <Filter>Externals\Wwise</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\AnimationShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

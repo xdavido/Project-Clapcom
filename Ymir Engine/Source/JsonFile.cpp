@@ -584,11 +584,16 @@ void JsonFile::SetComponent(const char* key, const Component& component)
 		// Additional properties specific to the Material component can be added here
 		break;
 
-	case CAMERA:
-		json_object_set_string(componentObject, "Type", "Camera");
-		// Additional properties specific to the Camera component can be added here
-		break;
-	}
+    case CAMERA:
+        json_object_set_string(componentObject, "Type", "Camera");
+        // Additional properties specific to the Camera component can be added here
+        break;
+    
+    case ANIMATION:
+        json_object_set_string(componentObject, "Type", "Animation");
+        // Additional properties specific to the Camera component can be added here
+        break;
+    }
 
 	// Add the component object to the main object
 	json_object_set_value(rootObject, key, componentValue);
@@ -630,7 +635,13 @@ Component* JsonFile::GetComponent(const char* key) const
 
 			component->ctype = ComponentType::CAMERA;
 
-		}
+        }
+
+        if (type == "Animation") {
+
+            component->ctype = ComponentType::ANIMATION;
+
+        }
 
 		return component;
 	}
@@ -1058,9 +1069,24 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-		// Is game camera
+        json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
 
+        // Enable/Disable Frustum Culling
+
+        json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
+
+        // Enable/Disable Bounding Boxes
+
+        json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
+
+		//Is game camera
+		
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
+
+    }
+    case ANIMATION: 
+	{
+        //Empty for now
 		break;
 	}
 	case PHYSICS:
@@ -1383,5 +1409,11 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->AddComponent(ccollider);
 
 	}
+    else if (type == "Animation") {
+
+        CAnimation* canimation = new CAnimation(gameObject);
+
+        gameObject->AddComponent(canimation);
+    }
 
 }

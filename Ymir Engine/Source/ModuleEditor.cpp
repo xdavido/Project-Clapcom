@@ -2780,6 +2780,7 @@ void ModuleEditor::DrawInspector()
 				Component* audioListener = (*it)->GetComponent(ComponentType::AUDIO_LISTENER);
 				Component* audioSource = (*it)->GetComponent(ComponentType::AUDIO_SOURCE);
 				Component* physics = (*it)->GetComponent(ComponentType::PHYSICS);
+				Component* animation = (*it)->GetComponent(ComponentType::ANIMATION);
 
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
@@ -2788,6 +2789,7 @@ void ModuleEditor::DrawInspector()
 				if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
 				if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
+				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();

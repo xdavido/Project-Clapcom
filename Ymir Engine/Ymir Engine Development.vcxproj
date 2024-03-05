@@ -131,6 +131,11 @@
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
+    <ClInclude Include="Source\Animation.h" />
+    <ClInclude Include="Source\AnimationController.h" />
+    <ClInclude Include="Source\Animator.h" />
+    <ClInclude Include="Source\Bone.h" />
+    <ClInclude Include="Source\CAnimation.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CRigidBody.h" />
@@ -434,9 +439,14 @@
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animation.cpp" />
+    <ClCompile Include="Source\AnimationController.cpp" />
+    <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\CAudioListener.cpp" />
     <ClCompile Include="Source\CAudioSource.cpp" />
+    <ClCompile Include="Source\Bone.cpp" />
+    <ClCompile Include="Source\CAnimation.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CCollider.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
@@ -557,6 +567,7 @@
     <ClCompile Include="Source\Wwise.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Game\Assets\Shaders\AnimationShader.glsl" />
     <None Include="Game\Assets\Shaders\ColorShader.glsl" />
     <None Include="Game\Assets\Shaders\LavaShader.glsl" />
     <None Include="Game\Assets\Shaders\MyShader.glsl" />

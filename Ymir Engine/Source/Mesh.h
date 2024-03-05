@@ -20,6 +20,8 @@
 #include "External/MathGeoLib/include/Geometry/AABB.h"
 #include "External/MathGeoLib/include/Geometry/OBB.h"
 
+#define MAX_BONE_INFLUENCE 4
+
 struct NodeTransform;
 class GameObject;
 
@@ -29,7 +31,11 @@ struct Vertex {
     float3 normal;
     float2 textureCoordinates;
 
+    int boneIDs[MAX_BONE_INFLUENCE];
+    float weights[MAX_BONE_INFLUENCE];
 };
+
+
 
 class Mesh {
 public:
@@ -48,6 +54,7 @@ public:
     void RenderBoundingBoxes();
 
     void ApplyTransformation(Vertex& vertex);
+
 
 public:
 
@@ -79,6 +86,8 @@ public:
 
     AABB aabb;
     OBB obb;
+
+    
 
 private:
 

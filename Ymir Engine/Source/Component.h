@@ -14,6 +14,7 @@ enum ComponentType {
 	CAMERA,
 	RIGIDBODY,
 	PHYSICS,
+	ANIMATION,
 
 	ALL_TYPES
 
