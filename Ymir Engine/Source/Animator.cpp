@@ -12,6 +12,7 @@ Animator::Animator()
 
 Animator::Animator(Animation* animation)
 {
+	backwardsAux = false;
 	currentTime = 0.0; 
 	currentAnimation = animation; 
 	finalBoneMatrices.reserve(100);
@@ -33,6 +34,23 @@ void Animator::UpdateAnimation(float dt)
 
 		// Backwards
 		if (currentAnimation->backwards) {
+			if (backwardsAux == false) {
+				currentTime = currentAnimation->GetDuration();
+				backwardsAux = true;
+			}
+			if (currentTime < 0.0f) {
+
+				if (currentAnimation->loop) {
+					backwardsAux = false;
+				}
+				else {
+					if (backwardsAux) {
+						StopAnimation();
+						backwardsAux = false;
+					}
+					backwardsAux = false;
+				}
+			}
 			currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
 		}
 		else {
@@ -40,7 +58,7 @@ void Animator::UpdateAnimation(float dt)
 		}
 			
 		// Loop
-		if (currentAnimation->loop) {
+		if (currentAnimation->loop && !currentAnimation->backwards) {
 
 			//Loop + Backwards
 			if (currentAnimation->backwards) {

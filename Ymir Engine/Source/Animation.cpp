@@ -15,7 +15,7 @@ Animation::Animation(const std::string& animationPath, Model* model)
 	loop = false;
 	pingPong = false;
 	backwards = false;
-	speed = 10;
+	speed = 1;
 	ParseAnimationData(animationPath, model);
 }
 

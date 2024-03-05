@@ -35,6 +35,8 @@ private:
 
 	float4x4 identity; 
 
+	bool backwardsAux;
+
 public:
 	std::vector<Animation> animations;
 
