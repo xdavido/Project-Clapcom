@@ -19,6 +19,8 @@ public:
 
 	void PlayAnimation(Animation* animation);
 
+	void StopAnimation();
+
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }

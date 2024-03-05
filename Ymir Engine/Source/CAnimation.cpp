@@ -31,9 +31,8 @@ CAnimation::~CAnimation()
 
 void CAnimation::Update() {
     
-    if (selectedAnimationPlaying != -1) {
+    if (selectedAnimationPlaying != -1 && animator->GetCurrentAnimation()->isPlaying) {
         animator->UpdateAnimation(External->GetDT());
-        //LOG("Updating Animation %s", &aniParamaters[selectedAnimationPlaying].name);
     }
 
 }
@@ -122,9 +121,9 @@ void CAnimation::OnInspector() {
                 //Do PingPong on current animation
             }
 
-            ImGui::Checkbox("Play", &animator->GetCurrentAnimation()->isPlaying);
+            if (ImGui::Button("Play")) {
 
-            if (ImGui::IsItemClicked()) {
+                animator->GetCurrentAnimation()->isPlaying = true;
 
                 selectedAnimationPlaying = selectedAnimation;
 
@@ -138,9 +137,9 @@ void CAnimation::OnInspector() {
 
                 }
 
-                if (animator->GetCurrentAnimation()->isPlaying == true) {
+                if (animator->GetCurrentAnimation()->isPlaying == false) {
                     selectedAnimationPlaying = -1;
-                } 
+                }
             }
         }
 

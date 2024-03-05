@@ -4,6 +4,7 @@
 Animator::Animator()
 {
 	currentTime = 0.0; 
+	currentAnimation = nullptr;
 	finalBoneMatrices.reserve(100);
 	for (int i = 0; i < 100; i++) {
 		finalBoneMatrices.push_back(identity.identity);
@@ -30,10 +31,28 @@ void Animator::UpdateAnimation(float dt)
 	deltaTime = dt; 
 	
 	if (currentAnimation) {
+
 		currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed; 
-		LOG("%f", currentAnimation->speed);
-		currentTime = fmod(currentTime, currentAnimation->GetDuration());
-		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+
+		if (currentAnimation->loop) {
+			currentTime = fmod(currentTime, currentAnimation->GetDuration());
+		}
+
+		LOG("cT: %f", currentTime);
+		LOG("Duration: %f", currentAnimation->GetDuration());
+
+		if (currentTime < currentAnimation->GetDuration())
+			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+
+		float stepTime = currentTime + currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+
+		if (stepTime > currentAnimation->GetDuration() && !currentAnimation->loop) {
+			//Leave animation in its final state
+			currentTime = currentAnimation->GetDuration() - 0.01f;
+			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+
+			StopAnimation();
+		}
 	}
 }
 
@@ -41,6 +60,12 @@ void Animator::PlayAnimation(Animation* animation)
 {
 	currentAnimation = animation; 
 	currentTime = 0.0f; 
+}
+
+void Animator::StopAnimation()
+{
+	currentAnimation->isPlaying = false;;
+	currentTime = 0.0f;
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
