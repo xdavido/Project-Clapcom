@@ -186,6 +186,22 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	return tempGameObject;
 }
 
+GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
+{
+	GameObject* tempGameObject = new GameObject(name, parent);
+
+	if (parent != nullptr) {
+
+		parent->AddChild(tempGameObject);
+
+	}
+
+	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
+	gameObjects.push_back(tempGameObject);
+
+	return tempGameObject;
+}
+
 void ModuleScene::DestroyGameObject(GameObject* toDestroy)
 {
 	if (toDestroy) {
