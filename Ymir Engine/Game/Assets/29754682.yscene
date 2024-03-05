@@ -1,0 +1,199 @@
+{
+    "Editor Camera Position": [
+        4.0792837142944336,
+        8.5179481506347656,
+        10.054924964904785
+    ],
+    "Editor Camera Right (X)": [
+        0.92591989040374756,
+        -2.2351741790771484e-07,
+        -0.37773269414901733
+    ],
+    "Editor Camera Up (Y)": [
+        -0.20765475928783417,
+        0.83533596992492676,
+        -0.50901567935943604
+    ],
+    "Editor Camera Front (Z)": [
+        -0.31553259491920471,
+        -0.54974395036697388,
+        -0.77345114946365356
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 29754682,
+            "Element_Type": "None",
+            "Children UID": [
+                1411771576,
+                951405731
+            ],
+            "Components": []
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 1411771576,
+            "Element_Type": "None",
+            "Parent UID": 29754682,
+            "Children UID": [
+                1208668825,
+                66523108
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "1208668825",
+            "UID": 1208668825,
+            "Element_Type": "None",
+            "Parent UID": 1411771576,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "66523108",
+            "UID": 66523108,
+            "Element_Type": "None",
+            "Parent UID": 1411771576,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Camera",
+            "UID": 951405731,
+            "Element_Type": "None",
+            "Parent UID": 29754682,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        3.5559229850769043,
+                        -14.731389045715332
+                    ],
+                    "Rotation": [
+                        42.91339111328125,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        0.9999997615814209,
+                        0.9999997615814209
+                    ]
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        -1,
+                        0,
+                        0
+                    ],
+                    "Up": [
+                        0,
+                        0.73238378763198853,
+                        0.68089205026626587
+                    ],
+                    "Front": [
+                        0,
+                        -0.68089205026626587,
+                        0.73238378763198853
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        }
+    ]
+}

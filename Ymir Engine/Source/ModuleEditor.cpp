@@ -2803,7 +2803,8 @@ void ModuleEditor::DrawInspector()
 				float w = ImGui::CalcItemWidth();
 				float spacing = style.ItemInnerSpacing.x;
 				float button_sz = ImGui::GetFrameHeight();
-				ImGui::PushItemWidth((w - spacing * 2.0f - button_sz * 2.0f) * 0.5f);
+
+				ImGui::PushItemWidth((w - spacing * 0.5f - button_sz * 0.5f) * 0.5f);
 
 				std::vector<std::string> tags = External->scene->tags;
 
@@ -2930,13 +2931,22 @@ void ModuleEditor::DrawInspector()
 					//}
 
 					//// --- Add component Camera ---
-					//if (camera == nullptr)
-					//{
-					//	if (ImGui::MenuItem("Camera"))
-					//	{
-					//		(*it)->AddComponent(ComponentType::CAMERA);
-					//	}
-					//}
+
+					CCamera* camera = (CCamera*)(*it)->GetComponent(ComponentType::CAMERA);
+
+					if (camera == nullptr)
+					{
+						if (ImGui::MenuItem("Camera"))
+						{
+							(*it)->AddComponent(ComponentType::CAMERA);
+						}
+					}
+
+					delete camera;
+
+					//// --- Add component Physics ---
+
+					CCollider* physics = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
 					if (physics == nullptr)
 					{
@@ -2945,6 +2955,8 @@ void ModuleEditor::DrawInspector()
 							(*it)->AddComponent(ComponentType::PHYSICS);
 						}
 					}
+
+					delete physics;
 
 					ImGui::EndPopup();
 				}

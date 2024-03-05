@@ -132,73 +132,73 @@ void UI_Image::OnInspector()
                 {
                 case UniformType::boolean:
 
-                    ImGui::Checkbox(label.c_str(), (bool*)kt->value);
+                    ImGui::Checkbox(label.c_str(), (bool*)kt->value.get());
 
-                    mat->shader.SetUniformValue(kt->name, (bool*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (bool*)kt->value.get());
 
                     break;
 
                 case UniformType::i1:
 
-                    ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i2:
 
-                    ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i3:
 
-                    ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i4:
 
-                    ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::f1:
 
-                    ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f2:
 
-                    ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f3:
 
-                    ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f4:
 
-                    ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value);
+                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 

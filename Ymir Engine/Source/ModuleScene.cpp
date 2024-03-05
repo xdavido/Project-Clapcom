@@ -146,7 +146,7 @@ update_status ModuleScene::Update(float dt)
 			continue;
 		}
 
-		if ((*it)->active)(*it)->Update();
+		if ((*it)->active) (*it)->Update(dt);
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 
@@ -244,6 +244,8 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 
 	//Creo otro vector de game objects i en el postupdate del scene le meto un push en la lista
 	pendingToAdd.push_back(tempGameObject);
+
+	return tempGameObject;
 }
 
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)

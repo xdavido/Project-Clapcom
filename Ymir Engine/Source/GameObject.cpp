@@ -249,18 +249,6 @@ void GameObject::CollectChilds(std::vector<GameObject*>& vector)
 		mChildren[i]->CollectChilds(vector);
 }
 
-void GameObject::DeleteChild(GameObject* go)
-{
-	RemoveChild(go);
-	RELEASE(go);
-}
-
-void GameObject::RemoveChild(GameObject* go)
-{
-	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
-	mChildren.shrink_to_fit();
-}
-
 void GameObject::DestroyGameObject()
 {
 
