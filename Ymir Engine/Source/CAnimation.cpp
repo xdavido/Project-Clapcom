@@ -26,7 +26,7 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
 
 CAnimation::~CAnimation()
 {
-    animations.~vector();
+
 }
 
 void CAnimation::Update() {
@@ -105,7 +105,26 @@ void CAnimation::OnInspector() {
         }
 
         if (!animator->animations.empty() && selectedAnimation != -1) {
-            ImGui::Checkbox("Playing", &animator->animations[selectedAnimation].isPlaying);
+            float speed = animator->animations[selectedAnimation].GetSpeed();
+            if (ImGui::DragFloat("Speed", &speed)) {
+                animator->animations[selectedAnimation].SetSpeed(speed);
+            }
+
+            ImGui::Checkbox("Loop", &animator->animations[selectedAnimation].loop);
+
+            if (ImGui::IsItemClicked()) {
+                !animator->animations[selectedAnimation].loop;
+                //Do loop on current animation
+            }
+
+            ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].pingPong);
+
+            if (ImGui::IsItemClicked()) {
+                !animator->animations[selectedAnimation].pingPong;
+                //Do PingPong on current animation
+            }
+
+            ImGui::Checkbox("Play", &animator->animations[selectedAnimation].isPlaying);
 
             if (ImGui::IsItemClicked()) {
 
@@ -125,20 +144,6 @@ void CAnimation::OnInspector() {
 
                 //When click on play, update the animation to the current selected one
                 //animator->PlayAnimation(&animations[selectedAnimationPlaying]);
-            }
-
-            ImGui::Checkbox("Loop", &animator->animations[selectedAnimation].isLoop);
-
-            if (ImGui::IsItemClicked()) {
-                !animator->animations[selectedAnimation].isLoop;
-                //Do loop on current animation
-            }
-
-            ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].isPingPong);
-
-            if (ImGui::IsItemClicked()) {
-                !animator->animations[selectedAnimation].isPingPong;
-                //Do PingPong on current animation
             }
         }
 

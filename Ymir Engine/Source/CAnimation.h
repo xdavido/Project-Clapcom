@@ -34,15 +34,10 @@ private:
 
 public:
 
-	bool isPlaying = false;
-	bool isLoop = false;
-	bool isPingPong = false;
-
 	Animator* animator;
 
 private:
 
-	std::vector<Animation> animations;
 	int selectedAnimation = -1;
 	bool isSelected = false;
 	int selectedAnimationPlaying = -1;

@@ -10,6 +10,12 @@ Animation::Animation() {
 
 Animation::Animation(const std::string& animationPath, Model* model)
 {
+	name = "";
+	isPlaying = false;
+	loop = false;
+	pingPong = false;
+	backwards = false;
+	speed = 10;
 	ParseAnimationData(animationPath, model);
 }
 

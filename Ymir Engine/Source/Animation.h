@@ -26,8 +26,10 @@ public:
 	Animation(const std::string& animationPath, Model* model);
 	~Animation();
 
-	Bone* FindBone(std::string& name); 
+	Bone* FindBone(std::string& name);
 
+	float GetSpeed() { return speed; }
+	void SetSpeed(float speed) { this->speed = speed; }
 	inline float GetTickPerSecond() { return ticksPerSecond; }
 	inline float GetDuration() { return duration; }
 	inline const AssimpNodeData& GetRootNode() { return rootNode; }
@@ -43,11 +45,15 @@ public:
 
 	std::string name;
 
-	bool isPlaying = false;
+	bool isPlaying;
 
-	bool isLoop = false;
+	bool loop;
+	
+	bool pingPong;
 
-	bool isPingPong = false;
+	bool backwards;
+
+	float speed;
 
 private:
 
