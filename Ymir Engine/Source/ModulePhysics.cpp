@@ -351,6 +351,52 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 	return false;
 }
 
+bool ModulePhysics::VolumetricRayCast(const btVector3& origin, const btVector3& direction, int numRays, float rayLength, std::vector<btVector3>& hitPoints)
+{
+
+	btVector3 step = direction.normalized() * (rayLength / numRays);
+	
+	btVector3 start = origin - direction.normalized() * (rayLength / 2);
+
+	hitPoints.clear();
+
+
+	for (int i = 0; i < numRays; ++i) {
+		btVector3 end = start + direction.normalized() * rayLength;
+
+		btCollisionWorld::ClosestRayResultCallback rayCallback(start, end);
+
+		world->rayTest(start, end, rayCallback);
+
+		if (rayCallback.hasHit()) {
+			hitPoints.push_back(rayCallback.m_hitPointWorld);
+		}
+
+		
+		start += step;
+	}
+
+	return !hitPoints.empty();
+}
+
+bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3& direction, float rayLength, btVector3& hitPoint) //the most common
+{
+	btVector3 end = origin + direction.normalized() * rayLength;
+
+	btCollisionWorld::ClosestRayResultCallback rayCallback(origin, end);
+
+	world->rayTest(origin, end, rayCallback);
+
+	if (rayCallback.hasHit()) {
+		hitPoint = rayCallback.m_hitPointWorld;
+		return true;
+	}
+
+	return false;
+}
+
+
+
 // DEBUG DRAWER =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
@@ -399,3 +445,4 @@ btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 	}
 	return openGLMatrix;
 }
+

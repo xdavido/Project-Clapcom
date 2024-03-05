@@ -55,6 +55,8 @@ public:
 	// TODO: NIXON
 	// RayCast functions
 	bool RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint);
+	bool VolumetricRayCast(const btVector3& origin, const btVector3& direction, int numRays, float rayLength, std::vector<btVector3>& hitPoints);
+	bool DirectionalRayCast(const btVector3& origin, const btVector3& direction, float rayLength, btVector3& hitPoint);
 
 	btScalar* getOpenGLMatrix(float4x4 matrix);
 
