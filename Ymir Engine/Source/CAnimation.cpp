@@ -16,9 +16,9 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     //Initializing animator with an empty animation
     //Animation  test2, test3, test4;
     animator = new Animator();
-    //AddAnimation(test2, "Ani1     (testing)");
-    //AddAnimation(test3, "Ani2     (testing)");
-    //AddAnimation(test4, "Ani3     (testing)");
+    CMaterial* cMat = (CMaterial*)owner->GetComponent(MATERIAL);
+    cMat->shaderPath = SHADER_ANIMATION;
+    cMat->shader.LoadShader(cMat->shaderPath);
 
     active = true;
 
