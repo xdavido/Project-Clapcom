@@ -9,6 +9,7 @@ struct AssimpNodeData;
 
 class Animator {
 public:
+	Animator();
 	Animator(Animation* animation);
 	~Animator();
 	

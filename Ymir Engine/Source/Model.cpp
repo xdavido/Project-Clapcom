@@ -462,8 +462,8 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 		Animation* anim = new Animation(path, this);
 
 		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-		cAnim->animator = new Animator(anim);
-		cAnim->AddAnimation(*anim, "Animation 1");
+
+		cAnim->AddAnimation(*anim, scene->mAnimations[0]->mName.C_Str());
 
 		LOG("Model has animations");
 	}

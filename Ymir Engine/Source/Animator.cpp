@@ -1,5 +1,14 @@
 #include "Animator.h"
 
+Animator::Animator()
+{
+	currentTime = 0.0; 
+	finalBoneMatrices.reserve(100);
+	for (int i = 0; i < 100; i++) {
+		finalBoneMatrices.push_back(identity.identity);
+	}
+}
+
 Animator::Animator(Animation* animation)
 {
 	currentTime = 0.0; 

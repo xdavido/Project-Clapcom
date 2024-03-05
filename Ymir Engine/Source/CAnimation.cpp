@@ -14,9 +14,8 @@
 CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIMATION)
 {
     //Initializing animator with an empty animation
-    Animation* temp = new Animation();
     //Animation  test2, test3, test4;
-    animator = new Animator(temp);
+    animator = new Animator();
     //AddAnimation(test2, "Ani1     (testing)");
     //AddAnimation(test3, "Ani2     (testing)");
     //AddAnimation(test4, "Ani3     (testing)");
@@ -40,6 +39,7 @@ void CAnimation::Update() {
 }
 
 void CAnimation::AddAnimation(Animation &newAnimation, std::string animationName) {
+    animator->PlayAnimation(&newAnimation);
     animator->animations.push_back(newAnimation);
     totalAnimations++;
     animator->animations[totalAnimations].name = animationName;
