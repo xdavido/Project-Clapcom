@@ -764,7 +764,18 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 
 				}
 				else if (type == "mat4") {
-					this->AddUniform(name, new float[4][4]{ {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0} }, UniformType::f4mat, 16);
+
+					// Create a unique_ptr for a 1-dimensional array of floats
+					std::unique_ptr<float[]> value = std::make_unique<float[]>(16);
+
+					// Initialize the array
+					for (int i = 0; i < 16; ++i) {
+						value[i] = 0.0f;
+					}
+
+					// Add the uniform
+					AddUniform(name, std::move(value), UniformType::f4mat, 16);
+
 				}
 
 			}
