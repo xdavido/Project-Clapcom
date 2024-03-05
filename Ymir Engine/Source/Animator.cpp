@@ -2,6 +2,7 @@
 
 Animator::Animator()
 {
+	backwardsAux = false;
 	currentTime = 0.0; 
 	currentAnimation = nullptr;
 	finalBoneMatrices.reserve(100);
@@ -34,10 +35,12 @@ void Animator::UpdateAnimation(float dt)
 
 		// Backwards
 		if (currentAnimation->backwards) {
+			//Start from the last frame
 			if (backwardsAux == false) {
 				currentTime = currentAnimation->GetDuration();
 				backwardsAux = true;
 			}
+			//If reached first frame, stop or go to last frame
 			if (currentTime < 0.0f) {
 
 				if (currentAnimation->loop) {
