@@ -17,11 +17,11 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	External->audio->RegisterNewAudioObject(id);
 	External->audio->AddAudioSource(this);
 
-	External->audio->LoadBank(std::string("FuncionaPls"));
+	External->audio->LoadBank(std::string("Music"));
 
 #ifdef _STANDALONE
 
-	External->audio->PlayEvent(this->id, std::string("JV"));
+	External->audio->PlayEvent(this->id, std::string("Music"));
 
 #endif // STANDALONE
 }
@@ -144,11 +144,11 @@ void CAudioSource::Update()
 
 	if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
-		External->audio->PlayEvent(this->id, std::string("JV"));
+		External->audio->PlayEvent(this->id, std::string("Music"));
 	}
 	if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
 	{
-		External->audio->StopEvent(this->id, std::string("JV"));
+		External->audio->StopEvent(this->id, std::string("Music"));
 	}
 }
 
