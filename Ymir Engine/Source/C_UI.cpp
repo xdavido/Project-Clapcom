@@ -158,12 +158,12 @@ void C_UI::Draw(bool game)
 	{
 		boundsDrawn = boundsGame;
 
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+		//glMatrixMode(GL_PROJECTION);
+		//glLoadIdentity();
+		//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		//glMatrixMode(GL_MODELVIEW);
+		//glLoadIdentity();
 	}
 
 	else

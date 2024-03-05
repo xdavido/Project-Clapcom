@@ -19,6 +19,7 @@ UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shader
     rTexTemp->UID = Random::Generate();
     mat->path = imgPath;
     mat->rTextures.push_back(rTexTemp);
+
 }
 
 UI_Image::~UI_Image()
@@ -301,20 +302,20 @@ void UI_Image::Draw(bool game)
 		{
 			boundsDrawn = boundsGame;
 
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+			//glMatrixMode(GL_PROJECTION);
+			//glLoadIdentity();
+			//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
+			//glMatrixMode(GL_MODELVIEW);
+			//glLoadIdentity();
 		}
 
 		else
 		{
 			boundsDrawn = boundsEditor;
 
-			glPushMatrix();
-			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+			//glPushMatrix();
+			//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 		}
 
 		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
@@ -348,7 +349,7 @@ void UI_Image::Draw(bool game)
 
 		if (!game)
 		{
-			glPopMatrix();
+			//glPopMatrix();
 		}
 
 		boundsDrawn = nullptr;
