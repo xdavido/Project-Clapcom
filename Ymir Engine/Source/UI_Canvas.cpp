@@ -2,6 +2,8 @@
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 UI_Canvas::UI_Canvas(GameObject* g, int w, int h) : C_UI(UI_TYPE::CANVAS, ComponentType::UI, g, "Canvas")
 {
 	External->scene->vCanvas.push_back((G_UI*)mOwner);

@@ -6,6 +6,8 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 
+#include "External/mmgr/mmgr.h"
+
 C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, int y, int w, int h, Color c) : Component(g, t)
 {
 	UI_type = ui_t;

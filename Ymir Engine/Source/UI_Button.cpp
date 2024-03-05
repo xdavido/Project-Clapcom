@@ -5,6 +5,8 @@
 #include "UI_Canvas.h"
 #include "ModuleEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 UI_Button::UI_Button(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::BUTTON, ComponentType::UI, g, "Button", x, y, w, h)
 {
 	isInteractable = true;

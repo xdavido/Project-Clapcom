@@ -10,6 +10,8 @@
 //
 //#include "External/ImGui/imgui_custom.h"
 
+#include "External/mmgr/mmgr.h"
+
 UI_InputBox::UI_InputBox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::INPUTBOX, ComponentType::UI, g, "Input Box", x, y, w, h)
 {
 	displayText = nullptr;

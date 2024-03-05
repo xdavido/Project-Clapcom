@@ -5,6 +5,8 @@
 
 //#include "External/ImGui/imgui_custom.h"
 
+#include "External/mmgr/mmgr.h"
+
 UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h, std::string fontName, std::string fontPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";

@@ -2800,7 +2800,7 @@ void ModuleEditor::DrawInspector()
 				ImGui::Text("Tag"); ImGui::SameLine();
 
 				ImGuiStyle& style = ImGui::GetStyle();
-				float w = ImGui::CalcItemWidth();
+				float w = ImGui::CalcItemWidth() * 1.25;
 				float spacing = style.ItemInnerSpacing.x;
 				float button_sz = ImGui::GetFrameHeight();
 

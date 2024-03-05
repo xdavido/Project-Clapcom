@@ -5,6 +5,7 @@
 
 //#include "External/ImGui/imgui_custom.h"
 
+#include "External/mmgr/mmgr.h"
 
 UI_Checkbox::UI_Checkbox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::CHECKBOX, ComponentType::UI, g, "Checkbox", x, y, w, h)
 {

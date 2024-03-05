@@ -17,8 +17,6 @@
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
 
-
-
 template<typename T>
 T DECS_CompToComp(MonoObject* obj)
 {

@@ -10,6 +10,8 @@
 #include "ModuleScene.h"
 #include "ModuleInput.h"
 
+#include "External/mmgr/mmgr.h"
+
 CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::AUDIO_SOURCE), audBankReference(nullptr), evName(""), isMuted(false), pitch(50.0f), playOnAwake(true), volume(50.0f), audBankName(""), isMusic(false)
 {
 	id = static_cast<unsigned int>(Random::Generate());

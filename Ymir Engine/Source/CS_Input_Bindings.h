@@ -17,8 +17,6 @@
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
 
-
-
 //int GetGamepadButton(MonoObject* x)
 //{ 
 //	if (External != nullptr)

@@ -3,6 +3,8 @@
 #include <corecrt_malloc.h>
 #include <wtypes.h>
 
+#include "External/mmgr/mmgr.h"
+
 namespace AK
 {
     void* AllocHook(size_t in_size)

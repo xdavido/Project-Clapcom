@@ -37,6 +37,8 @@
 #pragma comment( lib, "Source/External/mono/libx86/mono-2.0-boehm.lib" )
 #pragma comment( lib, "Source/External/mono/libx86/mono-2.0-sgen.lib" )
 
+#include "External/mmgr/mmgr.h"
+
 ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Module(app, start_enabled), domain(nullptr), domainThread(nullptr), assembly(nullptr), image(nullptr), jitDomain(nullptr)
 {
 

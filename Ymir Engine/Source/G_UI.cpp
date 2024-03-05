@@ -10,6 +10,8 @@
 
 #include "ModuleScene.h"
 
+#include "External/mmgr/mmgr.h"
+
 G_UI::G_UI(UI_TYPE t, GameObject* pParent, int x, int y) : GameObject("", pParent)
 {
 	//RemoveComponent(transform);//TODO: fer amb altre transform
