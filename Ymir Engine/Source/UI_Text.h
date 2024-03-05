@@ -30,6 +30,9 @@ public:
 	GLuint GetCharacterTexID(GLchar character);
 
 public:
+	//
+	std::string path;
+
 	//buffers
 	float3 vertex[4];
 	float2 uvs[4];

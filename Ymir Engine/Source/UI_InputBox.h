@@ -27,7 +27,6 @@ public:
 
 public:
 	std::string text;
-	float fontSize;
 	UI_Image* image;
 
 	int maxChars;
@@ -40,6 +39,7 @@ public:
 	Color disabledColor;
 
 private:
+	float fontSize;
 	bool isWriting;
 };
 #endif // __UI_INPUTBOX_H__

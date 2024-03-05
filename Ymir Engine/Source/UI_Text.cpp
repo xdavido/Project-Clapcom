@@ -401,6 +401,9 @@ bool Font::InitFont(std::string name, std::string fontPath)
 		LOG("[ERROR] Failed to load font");
 		return false;
 	}
+
+	path = (fontPath + "/" + name);
+
 	return true;
 }
 
