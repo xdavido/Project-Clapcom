@@ -36,6 +36,8 @@ private:
 	float4x4 identity; 
 
 	bool backwardsAux;
+	bool pingPongAux;
+	bool pingPongBackwardsAux;
 
 public:
 	std::vector<Animation> animations;
