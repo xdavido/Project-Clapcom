@@ -2,7 +2,9 @@
 
 Animator::Animator()
 {
-	backwardsAux = false;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
 	currentTime = 0.0; 
 	currentAnimation = nullptr;
 	finalBoneMatrices.reserve(100);
@@ -13,7 +15,9 @@ Animator::Animator()
 
 Animator::Animator(Animation* animation)
 {
-	backwardsAux = false;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
 	currentTime = 0.0; 
 	currentAnimation = animation; 
 	finalBoneMatrices.reserve(100);
@@ -34,34 +38,68 @@ void Animator::UpdateAnimation(float dt)
 	if (currentAnimation) {
 
 		// Backwards
-		if (currentAnimation->backwards) {
+		if (currentAnimation->backwards && !currentAnimation->pingPong) {
 			//Start from the last frame
-			if (backwardsAux == false) {
+			if (backwardsAux == true) {
 				currentTime = currentAnimation->GetDuration();
-				backwardsAux = true;
+				backwardsAux = false;
 			}
 			//If reached first frame, stop or go to last frame
 			if (currentTime < 0.0f) {
 
 				if (currentAnimation->loop) {
-					backwardsAux = false;
+					backwardsAux = true;
 				}
 				else {
-					if (backwardsAux) {
+					if (!backwardsAux) {
 						StopAnimation();
-						backwardsAux = false;
+						backwardsAux = true;
 					}
-					backwardsAux = false;
+					backwardsAux = true;
 				}
 			}
 			currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
 		}
-		else {
+		else if (!currentAnimation->pingPong) {
 			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+		}
+
+		//PingPong
+		if (currentAnimation->pingPong) {
+			//PingPong and backwards both on
+			if (pingPongBackwardsAux) {
+				currentTime = currentAnimation->GetDuration();
+				pingPongAux = false;
+				pingPongBackwardsAux = false;
+			}
+			//Going
+			if (pingPongAux) {
+				currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+				if (currentTime > currentAnimation->GetDuration()) {
+					currentTime = currentAnimation->GetDuration();
+					pingPongAux = false;
+					if (!currentAnimation->loop && currentAnimation->backwards) {
+						pingPongBackwardsAux = true;
+						pingPongAux = true;
+						StopAnimation();
+					}
+				}
+			}
+			//Returning
+			if (!pingPongAux) {
+				currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+				if (currentTime < 0.0f) {
+					currentTime = 0.0f;
+					pingPongAux = true;
+					if (!currentAnimation->loop && !currentAnimation->backwards) {
+						StopAnimation();
+					}
+				}
+			}
 		}
 			
 		// Loop
-		if (currentAnimation->loop && !currentAnimation->backwards) {
+		if (currentAnimation->loop && !currentAnimation->backwards && !currentAnimation->pingPong) {
 
 			//Loop + Backwards
 			if (currentAnimation->backwards) {
@@ -77,11 +115,12 @@ void Animator::UpdateAnimation(float dt)
 
 		float stepTime = currentTime + currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
 
-		if (stepTime > currentAnimation->GetDuration() && !currentAnimation->loop) {
+		if (stepTime > currentAnimation->GetDuration() && !currentAnimation->loop && !currentAnimation->pingPong) {
 			//Leave animation in its final state
 			currentTime = currentAnimation->GetDuration() - 0.01f;
 			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 
+			currentTime = 0.0f;
 			StopAnimation();
 		}
 	}
@@ -93,10 +132,22 @@ void Animator::PlayAnimation(Animation* animation)
 	currentTime = 0.0f; 
 }
 
+void Animator::PauseAnimation() {
+	currentAnimation->isPlaying = false;
+}
+
+void Animator::ResumeAnimation()
+{
+	currentAnimation->isPlaying = true;
+}
+
 void Animator::StopAnimation()
 {
-	currentAnimation->isPlaying = false;;
+	currentAnimation->isPlaying = false;
 	currentTime = 0.0f;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
