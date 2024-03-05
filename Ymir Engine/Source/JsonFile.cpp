@@ -1509,7 +1509,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		{
 		case UI_TYPE::CANVAS:
 		{
-			UI_Canvas(*gameObject);
+			gameObject->AddComponent(new UI_Canvas(gameObject));
 		}
 
 		break;
@@ -1520,7 +1520,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->height = json_object_get_number(componentObject, "Height");
 
 			// TODO: import img
-			json_object_get_string(componentObject, "Path");
+			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
 
 			// Colors
 
@@ -1537,6 +1537,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.g = static_cast<float>(json_array_get_number(jsonUIArray, 1));
 			ui_comp->color.b = static_cast<float>(json_array_get_number(jsonUIArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
+
+			gameObject->AddComponent(ui_comp);
 		}
 
 		break;
@@ -1560,6 +1562,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.g = static_cast<float>(json_array_get_number(jsonUIArray, 1));
 			ui_comp->color.b = static_cast<float>(json_array_get_number(jsonUIArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
+
+			gameObject->AddComponent(ui_comp);
 		}
 
 		break;
@@ -1612,6 +1616,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
 			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+
+			gameObject->AddComponent(ui_comp);
 		}
 
 		break;
@@ -1664,6 +1670,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
 			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+
+			gameObject->AddComponent(ui_comp);
 		}
 
 		break;
@@ -1717,6 +1725,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
 			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+
+			gameObject->AddComponent(ui_comp);
 		}
 
 		break;
