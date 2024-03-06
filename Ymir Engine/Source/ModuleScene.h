@@ -79,7 +79,9 @@ public:
 
 	void AddToReferenceMap(uint UID, SerializedField* fieldToAdd);
 
-	void LoadScriptsData(GameObject* rootObject);
+	GameObject* GetGOFromUID(GameObject* n, uint sUID);
+
+	void LoadScriptsData(GameObject* rootObject = nullptr);
 
 
 public:

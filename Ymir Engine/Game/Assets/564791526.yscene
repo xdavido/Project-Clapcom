@@ -22,19 +22,19 @@
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 2014290957,
+            "UID": 564791526,
             "Element_Type": "None",
             "Children UID": [
-                1158411710,
-                722088066
+                125797641,
+                1352417387
             ],
             "Components": []
         },
         {
             "Name": "Main Camera",
-            "UID": 1158411710,
+            "UID": 125797641,
             "Element_Type": "None",
-            "Parent UID": 2014290957,
+            "Parent UID": 564791526,
             "Components": [
                 {
                     "Type": "Transform",
@@ -45,9 +45,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -56,28 +56,22 @@
                     ]
                 },
                 {
-                    "Type": "Audio listener"
-                },
-                {
-                    "Type": "Audio source"
-                },
-                {
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        0.76604485511779785,
-                        -1.4361712885602174e-07,
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.6969747081202513e-08,
+                        -6.6969732870347798e-08,
                         1,
-                        1.4361708622345759e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.6969747081202513e-08,
-                        -0.76604485511779785
+                        -6.6969732870347798e-08,
+                        -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
@@ -90,9 +84,9 @@
         },
         {
             "Name": "Test0",
-            "UID": 722088066,
+            "UID": 1352417387,
             "Element_Type": "None",
-            "Parent UID": 2014290957,
+            "Parent UID": 564791526,
             "Components": [
                 {
                     "Type": "Transform",
@@ -116,11 +110,11 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Core",
-                    "pointer": 63532672,
                     "UID": 0,
                     "movementSpeed": 20,
                     "mouseSens": 5,
                     "testBool": true,
+                    "testString": "",
                     "start": true
                 }
             ]

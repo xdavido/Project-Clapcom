@@ -333,6 +333,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
 }
@@ -575,6 +576,22 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
+{
+	if (n->UID == sUID)
+		return n;
+
+	GameObject* ret = nullptr;
+	for (size_t i = 0; i < n->mChildren.size(); i++)
+	{
+		ret = GetGOFromUID(n->mChildren[i], sUID);
+		if (ret != nullptr)
+			return ret;
+	}
+
+	return nullptr;
+}
+
 void ModuleScene::ReplaceScriptsReferences(uint oldUID, uint newUID)
 {
 	std::multimap<uint, SerializedField*>::iterator referenceIt = referenceMap.find(oldUID);
@@ -612,11 +629,11 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 				if (gameObject != nullptr)
 					d->second->fiValue.goValue = gameObject;
 				else
-					d->second->fiValue.goValue = GetGOFromUID(EngineExternal->moduleScene->root, d->first);
+					d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
 			}
 			else
 			{
-				d->second->fiValue.goValue = GetGOFromUID(EngineExternal->moduleScene->root, d->first);
+				d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
 			}
 
 			if (d->second->fiValue.goValue != nullptr)

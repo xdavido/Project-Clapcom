@@ -5,6 +5,7 @@
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "CScript.h"
 #include "Random.h"
 
 #include "External/mmgr/mmgr.h"
@@ -56,6 +57,12 @@ GameObject::~GameObject()
 	{
 		ClearVecPtr(mChildren);
 	}
+	for (size_t i = 0; i < csReferences.size(); i++)
+	{
+		mono_field_set_value(mono_gchandle_get_target(csReferences[i]->parentSC->noGCobject), csReferences[i]->field, NULL);
+		csReferences[i]->fiValue.goValue = nullptr;
+	}
+	csReferences.clear();
 	
 }
 

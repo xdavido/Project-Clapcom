@@ -1660,8 +1660,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 				case MonoTypeEnum::MONO_TYPE_CLASS:
 				{
-					/*if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
-						External->scene->referenceMap.emplace(json_object_get_number(componentObject, mono_field_get_name(_field->field)), _field);*/
+					if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
+					{
+						const char* name = mono_field_get_name(_field->field);
+						int uid = json_object_get_number(componentObject, name);
+						_field->goUID = uid;
+
+						External->scene->AddToReferenceMap(uid, _field);
+					}
 
 					break;
 				}

@@ -16,8 +16,11 @@
 #include "CRigidBody.h"
 #include "CCollider.h"
 #include "CAnimation.h"
+#include "Component.h"
 
 #include "Random.h"
+
+struct SerializedField;
 
 class GameObject {
 public:
@@ -63,6 +66,7 @@ public:
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;
 	std::vector<Component*> mComponents;
+	std::vector<SerializedField*> csReferences;
 
 	CTransform* mTransform; 
 	bool pendingToDelet;
