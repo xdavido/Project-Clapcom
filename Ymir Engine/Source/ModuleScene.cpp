@@ -408,6 +408,7 @@ void ModuleScene::SetSelected(GameObject* go)
 		if (go->selected)
 		{
 			vSelectedGOs.push_back(go);
+
 			// Set selected go children to the same state as the clicked item
 			SetSelectedState(go, go->selected);
 		}
@@ -430,6 +431,7 @@ void ModuleScene::SetSelectedState(GameObject* go, bool selected)
 	if (go != nullptr)
 	{
 		go->selected = selected;
+
 		for (auto i = 0; i < go->mChildren.size(); i++)
 		{
 			if (!go->mChildren.empty())
@@ -438,6 +440,11 @@ void ModuleScene::SetSelectedState(GameObject* go, bool selected)
 			}
 
 			go->mChildren[i]->selected = selected;
+
+			if (go->mChildren[i]->selected)
+			{
+				vSelectedGOs.push_back(go->mChildren[i]);
+			}
 		}
 	}
 }
