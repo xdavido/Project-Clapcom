@@ -101,6 +101,13 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 		case ResourceType::UNKNOWN:
 			break;
 		case ResourceType::TEXTURE:
+		{
+
+			/*for (auto itr = 0; itr != App->editor.; itr++)
+			{
+
+			}*/
+		}
 			break;
 		case ResourceType::MESH:
 		{

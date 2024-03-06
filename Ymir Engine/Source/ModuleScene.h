@@ -57,6 +57,10 @@ public:
 
 	void Destroy(GameObject* gm);
 
+	// Select GameObjects
+	void SetSelected(GameObject* go);
+	void SetSelectedState(GameObject* go, bool selected);
+	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
 

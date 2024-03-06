@@ -2598,17 +2598,19 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
 
-			node->selected = true; // Toggle the selected state when clicked
+			App->scene->SetSelected(node);
 
-			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+			//node->selected = true; // Toggle the selected state when clicked
 
-				if ((*it) != node) {
+			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-					(*it)->selected = false;
+			//	if ((*it) != node) {
 
-				}
+			//		(*it)->selected = false;
 
-			}
+			//	}
+
+			//}
 
 		}
 
@@ -2638,7 +2640,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
 
 			// TODO: Sara --> hacer bien esto
-			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
 				if ((*it) != node) {
 
@@ -2646,9 +2648,11 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				}
 
-			}
+			}*/
 
-			node->selected = true;
+			//node->selected = true;
+
+			App->scene->SetSelected(node);
 
 			if (ImGui::MenuItem("Delete")) {
 
@@ -2662,55 +2666,6 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						),
 						App->scene->gameObjects.end()
 					);
-
-					{
-						//RELEASE(node);
-						//App->editor->DestroyHierarchyTree(node);
-
-						////App->renderer3D->models.erase(
-						////	std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
-						////		[](const Model& model) { return model.modelGO->selected; }
-						////	),
-						////	App->renderer3D->models.end()
-						////);
-
-						////for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
-						////	// Check if the entire model is selected
-						////	if ((*it).modelGO->selected) {
-
-						////		it = App->renderer3D->models.erase(it); // Remove the entire model
-
-						////	}
-						////	else {
-						////		// If the model is not selected, check its meshes
-						////		auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
-
-						////		meshes.erase(
-						////			std::remove_if(meshes.begin(), meshes.end(),
-						////				[](const Mesh& mesh) { return mesh.meshGO->selected; }
-						////			),
-						////			meshes.end()
-						////		);
-						////	}
-						////}
-
-						//App->scene->gameObjects.erase(
-						//	std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-						//		[](const GameObject* obj) { return obj->selected; }
-						//	),
-						//	App->scene->gameObjects.end()
-						//);
-
-						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-						//	(*it)->selected = false;
-
-						//}
-
-						//App->resourceManager->UnloadResource(node->UID);
-
-						//RELEASE(node);
-					}
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -2922,19 +2877,17 @@ void ModuleEditor::DrawInspector()
 					}*/
 
 					// --- Add component Material ---
-					//if (material == nullptr)
-					//{
-					//	if (ImGui::MenuItem("Material"))
-					//	{
-					//		(*it)->AddComponent(ComponentType::MATERIAL);
-					//	}
-					//}
+					if ((CMaterial*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
+					{
+						if (ImGui::MenuItem("Material"))
+						{
+							(*it)->AddComponent(ComponentType::MATERIAL);
+						}
+					}
 
 					//// --- Add component Camera ---
 
-					CCamera* camera = (CCamera*)(*it)->GetComponent(ComponentType::CAMERA);
-
-					if (camera == nullptr)
+					if ((CCamera*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
 					{
 						if (ImGui::MenuItem("Camera"))
 						{
@@ -2942,13 +2895,9 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
-					//delete camera;
-
 					//// --- Add component Physics ---
 
-					CCollider* physics = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
-
-					if (physics == nullptr)
+					if ((CCollider*)(*it)->GetComponent(ComponentType::PHYSICS) == nullptr)
 					{
 						if (ImGui::MenuItem("Physics"))
 						{

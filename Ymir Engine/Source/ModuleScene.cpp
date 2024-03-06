@@ -382,6 +382,61 @@ void ModuleScene::Destroy(GameObject* gm)
 	gm = nullptr;
 }
 
+void ModuleScene::SetSelected(GameObject* go)
+{
+	if (go != nullptr)
+	{
+		// If ctrl not pressed, set everything to false clear and the selected go's vector 
+		if (!ImGui::GetIO().KeyCtrl)
+		{
+			for (auto i = 0; i < vSelectedGOs.size(); i++)
+			{
+				SetSelectedState(vSelectedGOs[i], false);
+			}
+			ClearVec(vSelectedGOs);
+		}
+
+		// On click select or deselect item
+		go->selected = !go->selected;
+
+		// If the item was selected, add it to the vec, otherwise remove it
+		if (go->selected)
+		{
+			vSelectedGOs.push_back(go);
+			// Set selected go children to the same state as the clicked item
+			SetSelectedState(go, go->selected);
+		}
+		else if (!vSelectedGOs.empty())
+		{
+			SetSelectedState(go, false);
+			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+		}
+	}
+	else
+	{
+		ClearVec(vSelectedGOs);
+	}
+}
+
+void ModuleScene::SetSelectedState(GameObject* go, bool selected)
+{
+	// Must change go value manually. In "active" not necessary since it changes from the toggle
+
+	if (go != nullptr)
+	{
+		go->selected = selected;
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			if (!go->mChildren.empty())
+			{
+				SetSelectedState(go->mChildren[i], selected);
+			}
+
+			go->mChildren[i]->selected = selected;
+		}
+	}
+}
+
 // Function to handle GameObject selection by Mouse Picking
 void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 {
