@@ -37,8 +37,11 @@
 #pragma comment( lib, "Source/External/mono/libx86/mono-2.0-boehm.lib" )
 #pragma comment( lib, "Source/External/mono/libx86/mono-2.0-sgen.lib" )
 
+#include "External/mmgr/mmgr.h"
+
 ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Module(app, start_enabled), domain(nullptr), domainThread(nullptr), assembly(nullptr), image(nullptr), jitDomain(nullptr)
 {
+	CMDCompileCS();
 
 	//mono_jit_set_aot_mode(MonoAotMode::MONO_AOT_MODE_HYBRID);
 	mono_set_dirs("mono-runtime/lib", "mono-runtime/etc");
@@ -457,7 +460,7 @@ void ModuleMonoManager::InitMono()
 	//mono_thread_attach(domain);
 
 	MonoImageOpenStatus sts;
-	assembly = mono_assembly_open("Library/ScriptsAssembly/Assembly-CSharp.dll", &sts);
+	assembly = mono_assembly_open("ScriptsAssembly-Output/Assembly-CSharp.dll", &sts);
 	//assembly = mono_domain_assembly_open(domain, "CSSolution/Assembly-CSharp/Build/Assembly-CSharp.dll");
 	if (!assembly)
 		LOG("ERROR");

@@ -13,6 +13,8 @@
 #include <mono/metadata/object.h>
 #include <mono/metadata/debug-helpers.h>
 
+#include "External/mmgr/mmgr.h"
+
 CScript* CScript::runningScript = nullptr;
 CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr)
 {

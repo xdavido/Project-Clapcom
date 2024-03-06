@@ -4,6 +4,8 @@
 #include <functional>
 #include "log.h"
 
+#include "External/mmgr/mmgr.h"
+
 Animation::Animation() {
 
 }

@@ -6,6 +6,8 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
+#include "External/mmgr/mmgr.h"
+
 CAudioListener::CAudioListener(GameObject* owner, bool defaultListener) :Component(owner,ComponentType::AUDIO_LISTENER), isDefaultListener(true), myTransform(nullptr)
 {
 	myTransform = dynamic_cast<CTransform*>(owner->GetComponent(ComponentType::TRANSFORM));

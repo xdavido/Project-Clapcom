@@ -17,6 +17,7 @@
 #include "CScript.h"
 
 #include "External/Optick/include/optick.h"
+#include "G_UI.h"
 
 #include "ImporterMesh.h"
 
@@ -32,10 +33,11 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	gameCameraObject->UID = Random::Generate();
 	tags = { "Untagged" };
-	audiosource = CreateGameObject("AudioSource", mRootNode);
-	audiosource->UID = Random::Generate();
+	//audiosource = CreateGameObject("AudioSource", mRootNode);
+	//audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
+	canvas = nullptr;
 
 	LOG("Creating ModuleScene");
 }
@@ -55,9 +57,11 @@ bool ModuleScene::Init()
 	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
 	audioListenerComponent->SetAsDefaultListener();
 	gameCameraObject->AddComponent(audioListenerComponent);
-
 	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	gameCameraObject->AddComponent(audioSourceComponent);
+
+	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
+	//gameCameraObject->AddComponent(audioSourceComponent);
 
 	// yscene file creation
 
@@ -142,7 +146,7 @@ update_status ModuleScene::Update(float dt)
 			continue;
 		}
 
-		if ((*it)->active)(*it)->Update();
+		if ((*it)->active) (*it)->Update(dt);
 
 		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 
@@ -213,6 +217,7 @@ bool ModuleScene::CleanUp()
 
 GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 {
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	GameObject* tempGameObject = new GameObject(name, parent);
 
 	if (parent != nullptr) {
@@ -244,8 +249,25 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	return tempGameObject;
 }
 
+G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
+{
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent);
+	gameObjects.push_back(tempGameObject);
+
+	return tempGameObject;
+}
 
 
+
+//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
+//{
+//	if (toDestroy) {
+
+//		toDestroy->DestroyGameObject();
+
+//	}
+
+//}
 
 void ModuleScene::ClearScene()
 {
@@ -358,6 +380,61 @@ void ModuleScene::Destroy(GameObject* gm)
 	}
 
 	gm = nullptr;
+}
+
+void ModuleScene::SetSelected(GameObject* go)
+{
+	if (go != nullptr)
+	{
+		// If ctrl not pressed, set everything to false clear and the selected go's vector 
+		if (!ImGui::GetIO().KeyCtrl)
+		{
+			for (auto i = 0; i < vSelectedGOs.size(); i++)
+			{
+				SetSelectedState(vSelectedGOs[i], false);
+			}
+			ClearVec(vSelectedGOs);
+		}
+
+		// On click select or deselect item
+		go->selected = !go->selected;
+
+		// If the item was selected, add it to the vec, otherwise remove it
+		if (go->selected)
+		{
+			vSelectedGOs.push_back(go);
+			// Set selected go children to the same state as the clicked item
+			SetSelectedState(go, go->selected);
+		}
+		else if (!vSelectedGOs.empty())
+		{
+			SetSelectedState(go, false);
+			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+		}
+	}
+	else
+	{
+		ClearVec(vSelectedGOs);
+	}
+}
+
+void ModuleScene::SetSelectedState(GameObject* go, bool selected)
+{
+	// Must change go value manually. In "active" not necessary since it changes from the toggle
+
+	if (go != nullptr)
+	{
+		go->selected = selected;
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			if (!go->mChildren.empty())
+			{
+				SetSelectedState(go->mChildren[i], selected);
+			}
+
+			go->mChildren[i]->selected = selected;
+		}
+	}
 }
 
 // Function to handle GameObject selection by Mouse Picking
@@ -487,3 +564,14 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z >= aabb.minPoint.z
 		&& point.z <= aabb.maxPoint.z;
 }
+
+void ModuleScene::SetCanvas(G_UI* newCanvas)
+{
+	canvas = newCanvas;
+}
+
+G_UI* ModuleScene::GetCanvas()
+{
+	return canvas;
+}
+

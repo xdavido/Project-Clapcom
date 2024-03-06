@@ -26,22 +26,24 @@ public:
 	GameObject(std::string name, GameObject* parent);
 	virtual ~GameObject();
 
-	void Update();
+	virtual update_status Update(float dt);
 
 	void Enable();
 	void Disable();
 
+	//---Parent/Child---
 	void SetParent(GameObject* newParent);
-	void AddChild(GameObject* child);
+	void ReParent(GameObject* newParent);
+	void AddChild(GameObject* go);
+	void DeleteChild(GameObject* go);
+	//Remove from children vector (do not use)
+	void RemoveChild(GameObject* go);
 
 	void AddComponent(Component* component);
 	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
 	void RemoveComponent(Component* component);
 
-	void DeleteChild(GameObject* go);
-	//Remove from children vector (do not use)	
-	void RemoveChild(GameObject* go);
 	void DestroyGameObject();
 	//void DestroyGameObject();
 
@@ -66,6 +68,7 @@ public:
 	bool pendingToDelet;
 	bool active;
 	bool selected;
+	bool hidden;
 
 	char tag[32] = "Untagged";
 

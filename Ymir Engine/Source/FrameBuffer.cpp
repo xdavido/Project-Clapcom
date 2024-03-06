@@ -83,7 +83,8 @@ void FrameBuffer::RenderToScreen()
 		
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
-	glBlitFramebuffer(0, 0, External->window->width, External->window->height, 0, 0, External->window->width, External->window->height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBlitFramebuffer(0, 0, External->window->width, External->window->height, 0, 0, 
+		External->window->width, External->window->height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

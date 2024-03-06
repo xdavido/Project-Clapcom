@@ -1,41 +1,40 @@
 {
     "Editor Camera Position": [
-        -36,
-        48,
-        100
+        1.0563284158706665,
+        9.4867925643920898,
+        16.719850540161133
     ],
     "Editor Camera Right (X)": [
-        0.94088733196258545,
-        0,
-        0.33871945738792419
+        0.99935412406921387,
+        1.3969838619232178e-08,
+        -0.035936687141656876
     ],
     "Editor Camera Up (Y)": [
-        0.13941577076911926,
-        0.91136610507965088,
-        -0.38726601004600525
+        -0.012852933257818222,
+        0.93385398387908936,
+        -0.3574235737323761
     ],
     "Editor Camera Front (Z)": [
-        0.30869746208190918,
-        -0.41159659624099731,
-        -0.85749292373657227
+        -0.033559609204530716,
+        -0.35765469074249268,
+        -0.93325072526931763
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 261674656,
+            "UID": 1858055310,
             "Element_Type": "None",
             "Children UID": [
-                292820346,
-                250634413,
-                2134203263
+                118372093,
+                621490133
             ],
             "Components": []
         },
         {
             "Name": "Main Camera",
-            "UID": 292820346,
+            "UID": 118372093,
             "Element_Type": "None",
-            "Parent UID": 261674656,
+            "Parent UID": 1858055310,
             "Components": [
                 {
                     "Type": "Transform",
@@ -56,8 +55,12 @@
                         1
                     ]
                 },
-                {},
-                {},
+                {
+                    "Type": "Audio listener"
+                },
+                {
+                    "Type": "Audio source"
+                },
                 {
                     "Type": "Camera",
                     "Active": 1,
@@ -86,10 +89,14 @@
             ]
         },
         {
-            "Name": "AudioSource",
-            "UID": 250634413,
+            "Name": "BakerHouse",
+            "UID": 621490133,
             "Element_Type": "None",
-            "Parent UID": 261674656,
+            "Parent UID": 1858055310,
+            "Children UID": [
+                873568128,
+                1697058290
+            ],
             "Components": [
                 {
                     "Type": "Transform",
@@ -113,10 +120,10 @@
             ]
         },
         {
-            "Name": "Test0",
-            "UID": 2134203263,
+            "Name": "873568128",
+            "UID": 873568128,
             "Element_Type": "None",
-            "Parent UID": 261674656,
+            "Parent UID": 621490133,
             "Components": [
                 {
                     "Type": "Transform",
@@ -137,7 +144,61 @@
                         1
                     ]
                 },
-                {}
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "1697058290",
+            "UID": 1697058290,
+            "Element_Type": "None",
+            "Parent UID": 621490133,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
             ]
         }
     ]

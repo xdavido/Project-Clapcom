@@ -4,6 +4,8 @@
 #include "External/ImGui/imgui.h"
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 
+#include "External/mmgr/mmgr.h"
+
 //CRigidBody::CRigidBody(GameObject* owner) : Component(owner, ComponentType::RIGIDBODY)
 //{
 //	this->mOwner = owner;

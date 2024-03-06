@@ -15,6 +15,7 @@
 #include "ModuleMonoManager.h"
 
 #include "GameObject.h"
+#include "G_UI.h"
 #include "PhysfsEncapsule.h"
 
 #include "External/SDL/include/SDL_opengl.h"
@@ -39,6 +40,8 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
 	licenseFileContents = ReadFile("../../LICENSE");
 	memleaksFileContents = ReadFile("memleaks.log");
 	AssimpLogFileContents = ReadFile("AssimpLog.txt");
+
+	g = nullptr;
 
 	LOG("Creating ModuleEditor");
 
@@ -66,7 +69,7 @@ bool ModuleEditor::Init()
 
 	IMGUI_CHECKVERSION();
 
-	ImGui::CreateContext();
+	g = ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -129,6 +132,7 @@ bool ModuleEditor::Init()
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
+
 #ifdef _STANDALONE
 
 	TimeManager::gameTimer.Start();
@@ -259,8 +263,8 @@ void ModuleEditor::DrawEditor()
 			PrimitivesMenu();
 
 			CreateCameraMenu();
-			// TODO: Uncomment when UI
-			//UIMenu();
+
+			UIMenu();
 
 			ImGui::Separator();
 
@@ -1214,12 +1218,17 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
-				ImVec2 size = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
 
 			ImGui::End();
@@ -1495,7 +1504,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				//new G_UI((UI_TYPE)i);
+				App->scene->CreateGUI((UI_TYPE)i);
 				break;
 			}
 		}
@@ -2590,17 +2599,19 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
 
-			node->selected = true; // Toggle the selected state when clicked
+			App->scene->SetSelected(node);
 
-			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+			//node->selected = true; // Toggle the selected state when clicked
 
-				if ((*it) != node) {
+			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-					(*it)->selected = false;
+			//	if ((*it) != node) {
 
-				}
+			//		(*it)->selected = false;
 
-			}
+			//	}
+
+			//}
 
 		}
 
@@ -2630,7 +2641,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
 
 			// TODO: Sara --> hacer bien esto
-			for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
 				if ((*it) != node) {
 
@@ -2638,9 +2649,11 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				}
 
-			}
+			}*/
 
-			node->selected = true;
+			//node->selected = true;
+
+			App->scene->SetSelected(node);
 
 			if (ImGui::MenuItem("Delete")) {
 
@@ -2654,55 +2667,6 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						),
 						App->scene->gameObjects.end()
 					);
-
-					{
-						//RELEASE(node);
-						//App->editor->DestroyHierarchyTree(node);
-
-						////App->renderer3D->models.erase(
-						////	std::remove_if(App->renderer3D->models.begin(), App->renderer3D->models.end(),
-						////		[](const Model& model) { return model.modelGO->selected; }
-						////	),
-						////	App->renderer3D->models.end()
-						////);
-
-						////for (auto it = App->renderer3D->models.begin(); it != App->renderer3D->models.end(); ++it) {
-						////	// Check if the entire model is selected
-						////	if ((*it).modelGO->selected) {
-
-						////		it = App->renderer3D->models.erase(it); // Remove the entire model
-
-						////	}
-						////	else {
-						////		// If the model is not selected, check its meshes
-						////		auto& meshes = it->meshes; // Assuming 'meshes' is the vector of meshes inside the 'Model'
-
-						////		meshes.erase(
-						////			std::remove_if(meshes.begin(), meshes.end(),
-						////				[](const Mesh& mesh) { return mesh.meshGO->selected; }
-						////			),
-						////			meshes.end()
-						////		);
-						////	}
-						////}
-
-						//App->scene->gameObjects.erase(
-						//	std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-						//		[](const GameObject* obj) { return obj->selected; }
-						//	),
-						//	App->scene->gameObjects.end()
-						//);
-
-						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-						//	(*it)->selected = false;
-
-						//}
-
-						//App->resourceManager->UnloadResource(node->UID);
-
-						//RELEASE(node);
-					}
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -2792,10 +2756,11 @@ void ModuleEditor::DrawInspector()
 				ImGui::Text("Tag"); ImGui::SameLine();
 
 				ImGuiStyle& style = ImGui::GetStyle();
-				float w = ImGui::CalcItemWidth();
+				float w = ImGui::CalcItemWidth() * 1.25;
 				float spacing = style.ItemInnerSpacing.x;
 				float button_sz = ImGui::GetFrameHeight();
-				ImGui::PushItemWidth((w - spacing * 2.0f - button_sz * 2.0f) * 0.5f);
+
+				ImGui::PushItemWidth((w - spacing * 0.5f - button_sz * 0.5f) * 0.5f);
 
 				std::vector<std::string> tags = External->scene->tags;
 
@@ -2851,7 +2816,7 @@ void ModuleEditor::DrawInspector()
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
@@ -2870,8 +2835,17 @@ void ModuleEditor::DrawInspector()
 				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
 				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
 				if (script != nullptr) script->OnInspector(); ImGui::Spacing();
-				
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
 
+				for (auto i = 0; i < (*it)->mComponents.size(); i++)
+				{
+					(*it)->mComponents[i]->OnInspector();
+					ImGui::Spacing();
+				}
+				
+				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				//if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+				//if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2904,7 +2878,7 @@ void ModuleEditor::DrawInspector()
 					}*/
 
 					// --- Add component Material ---
-					if (material == nullptr)
+					if ((CMaterial*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
 					{
 						if (ImGui::MenuItem("Material"))
 						{
@@ -2912,8 +2886,9 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
-					// --- Add component Camera ---
-					if (camera == nullptr)
+					//// --- Add component Camera ---
+
+					if ((CCamera*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
 					{
 						if (ImGui::MenuItem("Camera"))
 						{
@@ -2921,13 +2896,17 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
-					if (physics == nullptr)
+					//// --- Add component Physics ---
+
+					if ((CCollider*)(*it)->GetComponent(ComponentType::PHYSICS) == nullptr)
 					{
 						if (ImGui::MenuItem("Physics"))
 						{
 							(*it)->AddComponent(ComponentType::PHYSICS);
 						}
 					}
+
+					//delete physics;
 
 					ImGui::EndPopup();
 				}
@@ -3021,6 +3000,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			{
 				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
 				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 				{
 					// Snap to 45 degrees for rotation

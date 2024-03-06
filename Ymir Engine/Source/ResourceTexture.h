@@ -42,6 +42,14 @@ public:
 
     void BindTexture(bool bind);
 
+    // Getters
+    uint GetWidth();
+    uint GetHeight();
+
+    // Setters
+    void SetWidth(uint w);
+    void SetHeight(uint h);
+
 public:
 
     TextureType type;

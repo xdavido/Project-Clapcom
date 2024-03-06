@@ -10,6 +10,8 @@
 #include <vector>
 #include "External/ImGuizmo/include/ImGuizmo.h"
 
+#include "External/mmgr/mmgr.h"
+
 CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSICS)
 {
 	this->mOwner = owner;

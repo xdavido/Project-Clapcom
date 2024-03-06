@@ -1,5 +1,7 @@
 #include "Animator.h"
 
+#include "External/mmgr/mmgr.h"
+
 Animator::Animator()
 {
 	backwardsAux = true;

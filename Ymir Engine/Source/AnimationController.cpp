@@ -1,5 +1,7 @@
 #include "AnimationController.h"
 
+#include "External/mmgr/mmgr.h"
+
 AnimationController::AnimationController()
 {
 

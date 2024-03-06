@@ -101,6 +101,13 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 		case ResourceType::UNKNOWN:
 			break;
 		case ResourceType::TEXTURE:
+		{
+
+			/*for (auto itr = 0; itr != App->editor.; itr++)
+			{
+
+			}*/
+		}
 			break;
 		case ResourceType::MESH:
 		{
@@ -516,6 +523,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 
 Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
 {
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
 
 	switch (type) {

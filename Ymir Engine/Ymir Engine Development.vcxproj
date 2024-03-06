@@ -146,6 +146,7 @@
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
+    <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\EventSystem.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkFilePackageLowLevelIODeferred.h" />
     <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\stdafx.h" />
     <ClInclude Include="Source\FrameBuffer.h" />
+    <ClInclude Include="Source\G_UI.h" />
     <ClInclude Include="Source\Icon.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\CMaterial.h" />
@@ -447,6 +449,12 @@
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TimeManager.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\UI_Button.h" />
+    <ClInclude Include="Source\UI_Canvas.h" />
+    <ClInclude Include="Source\UI_CheckBox.h" />
+    <ClInclude Include="Source\UI_Image.h" />
+    <ClInclude Include="Source\UI_InputBox.h" />
+    <ClInclude Include="Source\UI_Text.h" />
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +475,7 @@
     <ClCompile Include="Source\CRigidBody.cpp" />
     <ClCompile Include="Source\CScript.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
+    <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
@@ -500,6 +509,7 @@
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\stdafx.cpp" />
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\G_UI.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />
@@ -579,6 +589,12 @@
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TimeManager.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\UI_Button.cpp" />
+    <ClCompile Include="Source\UI_Canvas.cpp" />
+    <ClCompile Include="Source\UI_CheckBox.cpp" />
+    <ClCompile Include="Source\UI_Image.cpp" />
+    <ClCompile Include="Source\UI_InputBox.cpp" />
+    <ClCompile Include="Source\UI_Text.cpp" />
     <ClCompile Include="Source\Wwise.cpp" />
   </ItemGroup>
   <ItemGroup>

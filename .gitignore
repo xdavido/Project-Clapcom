@@ -6,6 +6,9 @@
 # Delete Library Folder
 Library/
 
+# Delete Scripts DLL
+ScriptsAssembly-Output/
+
 # User-specific files
 *.rsuser
 *.suo

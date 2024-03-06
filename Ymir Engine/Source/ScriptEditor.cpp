@@ -4,6 +4,8 @@
 #include <filesystem>
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 ScriptEditor::ScriptEditor()
 {
 	name = "Script Editor";
