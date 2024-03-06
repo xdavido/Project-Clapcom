@@ -1,0 +1,211 @@
+{
+    "Editor Camera Position": [
+        -21.083467483520508,
+        45.213180541992188,
+        89.373077392578125
+    ],
+    "Editor Camera Right (X)": [
+        0.99439722299575806,
+        1.3038516044616699e-07,
+        -0.10574670881032944
+    ],
+    "Editor Camera Up (Y)": [
+        -0.05213511735200882,
+        0.87002003192901611,
+        -0.49025547504425049
+    ],
+    "Editor Camera Front (Z)": [
+        -0.092001460492610931,
+        -0.49301880598068237,
+        -0.86514335870742798
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1403962317,
+            "Element_Type": "None",
+            "Children UID": [
+                1454863162,
+                621490133
+            ],
+            "Components": []
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1454863162,
+            "Element_Type": "None",
+            "Parent UID": 1403962317,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -0.91034221649169922,
+                        2.0699288845062256,
+                        6.8705520629882812
+                    ],
+                    "Rotation": [
+                        -180,
+                        10.867396354675293,
+                        -180
+                    ],
+                    "Scale": [
+                        1.0000786781311035,
+                        1,
+                        1.0000786781311035
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "Music",
+                    "Event Name": "Music",
+                    "Event ID": 3991942870
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.98206627368927002,
+                        -1.4361631883730297e-07,
+                        0.1885366290807724
+                    ],
+                    "Up": [
+                        1.2841441332511749e-07,
+                        1,
+                        9.2845937160745962e-08
+                    ],
+                    "Front": [
+                        0.1885366290807724,
+                        6.6970031298296817e-08,
+                        -0.98206627368927002
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 621490133,
+            "Element_Type": "None",
+            "Parent UID": 1403962317,
+            "Children UID": [
+                873568128,
+                1697058290
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "873568128",
+            "UID": 873568128,
+            "Element_Type": "None",
+            "Parent UID": 621490133,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "1697058290",
+            "UID": 1697058290,
+            "Element_Type": "None",
+            "Parent UID": 621490133,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 0,
+                    "Index Count": 0
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                }
+            ]
+        }
+    ]
+}

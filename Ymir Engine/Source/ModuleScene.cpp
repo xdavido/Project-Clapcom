@@ -116,9 +116,9 @@ bool ModuleScene::Start()
 	// LoadSceneFromStart("Assets", "Water");
 	
 	//Audio Testing
-//#ifdef _STANDALONE
-//	LoadSceneFromStart("Assets", "Funcionaaaaa");
-//#endif // _STANDALONE
+#ifdef _STANDALONE
+	LoadSceneFromStart("Assets", "ComoNoVaya");
+#endif // _STANDALONE
 
 	return false;
 }
