@@ -29,8 +29,6 @@ enum main_states
 
 int main(int argc, char ** argv)
 {
-	//MMGR_INIT;
-
 	LOG("Starting engine '%s'....", TITLE);
 
 	int main_return = EXIT_FAILURE;
