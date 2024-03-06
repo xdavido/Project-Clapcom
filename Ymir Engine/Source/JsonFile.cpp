@@ -1690,6 +1690,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 					break;
 				}
 			}
+
+			gameObject->AddComponent(cscript);
+
 	}
     else if (type == "Animation") {
 
