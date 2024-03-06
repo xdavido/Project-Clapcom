@@ -67,7 +67,7 @@ void Animator::UpdateAnimation(float dt)
 		//PingPong
 		if (currentAnimation->pingPong) {
 			//PingPong and backwards both on
-			if (pingPongBackwardsAux) {
+			if (pingPongBackwardsAux && currentAnimation->backwards) {
 				currentTime = currentAnimation->GetDuration();
 				pingPongAux = false;
 				pingPongBackwardsAux = false;
