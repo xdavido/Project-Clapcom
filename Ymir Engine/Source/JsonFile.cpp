@@ -1114,6 +1114,11 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		break;
 	}
+	case SCRIPT:
+	{
+		//TODO: Añadir la función de SaveData() para que se guarde todo en el documento
+		break;
+	}
 	default:
 		break;
 	}
