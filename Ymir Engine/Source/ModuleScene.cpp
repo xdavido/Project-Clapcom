@@ -334,6 +334,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
 }
@@ -591,3 +592,89 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
+{
+	if (n->UID == sUID)
+		return n;
+
+	GameObject* ret = nullptr;
+	for (size_t i = 0; i < n->mChildren.size(); i++)
+	{
+		ret = GetGOFromUID(n->mChildren[i], sUID);
+		if (ret != nullptr)
+			return ret;
+	}
+
+	return nullptr;
+}
+
+void ModuleScene::ReplaceScriptsReferences(uint oldUID, uint newUID)
+{
+	std::multimap<uint, SerializedField*>::iterator referenceIt = referenceMap.find(oldUID);
+
+	if (referenceIt != referenceMap.end())
+	{
+		AddToReferenceMap(newUID, referenceIt->second);
+		referenceMap.erase(oldUID);
+	}
+}
+
+void ModuleScene::AddToReferenceMap(uint UID, SerializedField* fieldToAdd)
+{
+	referenceMap.emplace(UID, fieldToAdd);
+}
+
+void ModuleScene::LoadScriptsData(GameObject* rootObject)
+{
+	std::multimap<uint, SerializedField*> referenceMapCopy;
+	for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	{
+		// Get the range of the current key
+		auto range = referenceMap.equal_range(i->first);
+
+		// Now render out that whole range
+		for (auto d = range.first; d != range.second; ++d)
+		{
+			//if (d->second->fiValue.goValue != nullptr)
+				//continue;
+
+			if (rootObject != nullptr)
+			{
+				GameObject* gameObject = GetGOFromUID(rootObject, d->first);
+
+				if (gameObject != nullptr)
+					d->second->fiValue.goValue = gameObject;
+				else
+					d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+			else
+			{
+				d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+
+			if (d->second->fiValue.goValue != nullptr)
+			{
+				//d->second->goUID = d->first;
+
+				if (std::find(d->second->fiValue.goValue->csReferences.begin(), d->second->fiValue.goValue->csReferences.end(), d->second) == d->second->fiValue.goValue->csReferences.end())
+					d->second->fiValue.goValue->csReferences.push_back(d->second);
+
+				d->second->parentSC->SetField(d->second->field, d->second->fiValue.goValue);
+
+				//d->second = nullptr;
+			}
+		}
+	}
+
+	//for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	//{
+	//	if (i->second != nullptr)
+	//	{
+	//		referenceMapCopy.emplace(i->first, i->second);
+	//	}
+	//}
+
+	//referenceMap = referenceMapCopy;
+
+	referenceMap.clear();
+}

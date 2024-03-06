@@ -215,7 +215,7 @@ void ModuleMonoManager::DebugAllFields(const char* className, std::vector<Serial
 		{
 			SerializedField pushField = SerializedField(field, obj, script);
 
-			if ( pushField.displayName != "##type" && pushField.displayName != "##componentTable")
+			if (pushField.displayName != "##pointer" && pushField.displayName != "##type" && pushField.displayName != "##componentTable")
 				_data.push_back(pushField);
 			//LOG(LogType::L_NORMAL, mono_field_full_name(method2));
 		}

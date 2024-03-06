@@ -23,6 +23,7 @@
 #include "ModuleResourceManager.h"
 
 #include "External/mmgr/mmgr.h"
+#include "CScript.h"
 
 JsonFile::JsonFile()
 {
@@ -1102,6 +1103,51 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		break;
 	}
+	case SCRIPT:
+	{
+		CScript* cscript = (CScript*)&component;
+
+		//TODO: A�adir la funci�n de SaveData() para que se guarde todo en el documento
+		json_object_set_string(componentObject, "Type", "Script");
+
+		json_object_set_string(componentObject, "ScriptName", cscript->name.c_str());
+
+		for (int i = 0; i < cscript->fields.size(); i++)
+		{
+			switch (cscript->fields[i].type)
+			{
+			case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.bValue);
+				json_object_set_boolean(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.bValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_I4:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.iValue);
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.iValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_CLASS:
+				if (cscript->fields[i].fiValue.goValue != nullptr)
+					json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.goValue->UID);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_R4:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.fValue);
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.fValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_STRING:
+				json_object_set_string(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.strValue);
+				break;
+
+			default:
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.iValue);
+				break;
+			}
+		}
+
+		break;
+	}
 	case UI:
 	{
 		json_object_set_string(componentObject, "Type", "UI");
@@ -1600,6 +1646,71 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 
 		gameObject->AddComponent(ccollider);
+
+	}
+	else if (type == "Script") {
+
+		std::string scriptName = json_object_get_string(componentObject, "ScriptName");
+
+		CScript* cscript = new CScript(gameObject, scriptName.c_str());
+
+			SerializedField* _field = nullptr;
+			for (int i = 0; i < cscript->fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
+			{
+				_field = &cscript->fields[i];
+
+				switch (_field->type)
+				{
+				case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+					_field->fiValue.bValue = json_object_get_boolean(componentObject, mono_field_get_name(_field->field));
+					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.bValue);
+					break;
+
+				case MonoTypeEnum::MONO_TYPE_I4:
+					_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+					break;
+
+				case MonoTypeEnum::MONO_TYPE_CLASS:
+				{
+					if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
+					{
+						const char* name = mono_field_get_name(_field->field);
+						int uid = json_object_get_number(componentObject, name);
+						_field->goUID = uid;
+
+						External->scene->AddToReferenceMap(uid, _field);
+					}
+
+					break;
+				}
+				case MonoTypeEnum::MONO_TYPE_R4:
+					_field->fiValue.fValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.fValue);
+					break;
+
+				case MonoTypeEnum::MONO_TYPE_STRING:
+				{
+					const char* ret = json_object_get_string(componentObject, mono_field_get_name(_field->field));
+
+					if (ret == NULL)
+						ret = "\0";
+
+					strcpy(&_field->fiValue.strValue[0], ret);
+
+					MonoString* str = mono_string_new(External->moduleMono->domain, _field->fiValue.strValue);
+					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, str);
+					break;
+				}
+
+				default:
+					_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+					break;
+				}
+			}
+
+			gameObject->AddComponent(cscript);
 
 	}
     else if (type == "Animation") {

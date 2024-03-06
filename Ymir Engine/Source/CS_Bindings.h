@@ -129,6 +129,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 	go->mTransform->SetPosition( posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
 }
+
 GameObject* DECS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;
