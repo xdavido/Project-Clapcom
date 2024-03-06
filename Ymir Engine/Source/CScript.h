@@ -19,6 +19,8 @@ public:
 
 	void ReloadComponent();
 
+	void OnRecursiveUIDChange(std::map<uint, GameObject*> gameObjects);
+
 	void OnInspector() override;
 
 	//void SaveData(JSON_Object* nObj);

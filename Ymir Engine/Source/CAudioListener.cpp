@@ -27,21 +27,22 @@ CAudioListener::~CAudioListener()
 
 void CAudioListener::OnInspector()
 {
-	//if (ImGui::CollapsingHeader("Audio Listener"))
-	//{
-	//	ImGui::Text("AudioClip");
-	//	ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
-	//	bool deflistener = isDefaultListener;
-	//	ImGui::Checkbox("##AudioClip", &deflistener);
-	//	ImGui::SameLine();
-	//	ImGui::Text("Listen");
-	//}
-	ImGui::Separator();
-
-	bool listenerAux = isDefaultListener;
-	if (ImGui::Checkbox("Default Listener", &listenerAux))
+	if (ImGui::CollapsingHeader("Audio Listener"))
 	{
-		SetAsDefaultListener(listenerAux);
+		/*ImGui::Text("AudioClip");
+		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
+		bool deflistener = isDefaultListener;
+		ImGui::Checkbox("##AudioClip", &deflistener);
+		ImGui::SameLine();
+		ImGui::Text("Listen"); 
+		
+		ImGui::Separator();*/
+
+		bool listenerAux = isDefaultListener;
+		if (ImGui::Checkbox("Default Listener", &listenerAux))
+		{
+			SetAsDefaultListener(listenerAux);
+		}
 	}
 }
 
