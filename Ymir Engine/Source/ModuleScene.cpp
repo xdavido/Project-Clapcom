@@ -100,6 +100,7 @@ bool ModuleScene::Init()
 	}
 	
 	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+	selectedGO = nullptr;
 
 	return ret;
 }
@@ -407,6 +408,8 @@ void ModuleScene::SetSelected(GameObject* go)
 		// If the item was selected, add it to the vec, otherwise remove it
 		if (go->selected)
 		{
+			selectedGO = go;
+
 			vSelectedGOs.push_back(go);
 
 			// Set selected go children to the same state as the clicked item
@@ -420,6 +423,7 @@ void ModuleScene::SetSelected(GameObject* go)
 	}
 	else
 	{
+		selectedGO = nullptr;
 		ClearVec(vSelectedGOs);
 	}
 }

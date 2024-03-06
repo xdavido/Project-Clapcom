@@ -804,12 +804,12 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			if (ImGui::CollapsingHeader("Physics")) 
+			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
 				bool auxDebugDraw = App->physics->GetDebugDraw();
-				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g, 
-										 App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g,
+					App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -928,7 +928,7 @@ void ModuleEditor::DrawEditor()
 	}
 
 
-    // END OF APPLICATION MENU
+	// END OF APPLICATION MENU
 
 	// Time Management
 
@@ -956,7 +956,7 @@ void ModuleEditor::DrawEditor()
 #else
 		static bool isPlaying = false;
 #endif // _STANDALONE
-		
+
 		static bool isPaused = false;
 
 		if (isPlaying) {
@@ -1303,25 +1303,25 @@ void ModuleEditor::DrawEditor()
 			ImGui::End();
 		}
 	}
-    if (showScriptingEditor) {
+	if (showScriptingEditor) {
 
-        if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
+		if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
 
 			scriptEditor->Draw();
 
-            ImGui::End();
+			ImGui::End();
 
-        }
+		}
 
-    
 
-    // --------------------------------- Here finishes the code for the editor ----------------------------------------
-    
-    // Rendering
+
+		// --------------------------------- Here finishes the code for the editor ----------------------------------------
+
+		// Rendering
 
 
 	}
-	
+
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -2731,195 +2731,192 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 void ModuleEditor::DrawInspector()
 {
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-		if ((*it) != nullptr) {
+	if (App->scene->selectedGO != nullptr) {
 
-			if ((*it)->selected) {
+		if (App->scene->selectedGO->selected) {
 
-				ImGui::Checkbox("##Active", &(*it)->active);
-				ImGui::SameLine();
-				char nameBuffer[256]; // You can adjust the buffer size as needed
+			ImGui::Checkbox("##Active", &App->scene->selectedGO->active);
+			ImGui::SameLine();
+			char nameBuffer[256]; // You can adjust the buffer size as needed
 
-				// Copy the current name to the buffer
-				strcpy(nameBuffer, (*it)->name.c_str());
+			// Copy the current name to the buffer
+			strcpy(nameBuffer, App->scene->selectedGO->name.c_str());
 
-				// Create an input text field in your ImGui window
-				if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
+			// Create an input text field in your ImGui window
+			if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
+			{
+				// The input text has changed, update the name
+				App->scene->selectedGO->name = nameBuffer;
+			}
+
+			ImGui::Spacing();
+
+			ImGui::Text("Tag"); ImGui::SameLine();
+
+			ImGuiStyle& style = ImGui::GetStyle();
+			float w = ImGui::CalcItemWidth() * 1.25;
+			float spacing = style.ItemInnerSpacing.x;
+			float button_sz = ImGui::GetFrameHeight();
+
+			ImGui::PushItemWidth((w - spacing * 0.5f - button_sz * 0.5f) * 0.5f);
+
+			std::vector<std::string> tags = External->scene->tags;
+
+			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag))
+			{
+				for (int t = 0; t < tags.size(); t++)
 				{
-					// The input text has changed, update the name
-					(*it)->name = nameBuffer;
+					bool is_selected = strcmp(App->scene->selectedGO->tag, tags[t].c_str()) == 0;
+					if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
+						strcpy(App->scene->selectedGO->tag, tags[t].c_str());
+					}
+
+					if (is_selected)
+						ImGui::SetItemDefaultFocus();
+				}
+				if (ImGui::BeginMenu("Add Tag"))
+				{
+					static char newTag[32];
+					ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
+
+					if (ImGui::Button("Save Tag")) {
+						char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+						strcpy(tagToAdd, newTag);
+						External->scene->tags.push_back(tagToAdd);
+						newTag[0] = '\0';
+						delete[] tagToAdd;
+					}
+					ImGui::EndMenu();
 				}
 
-				ImGui::Spacing();
-
-				ImGui::Text("Tag"); ImGui::SameLine();
-
-				ImGuiStyle& style = ImGui::GetStyle();
-				float w = ImGui::CalcItemWidth() * 1.25;
-				float spacing = style.ItemInnerSpacing.x;
-				float button_sz = ImGui::GetFrameHeight();
-
-				ImGui::PushItemWidth((w - spacing * 0.5f - button_sz * 0.5f) * 0.5f);
-
-				std::vector<std::string> tags = External->scene->tags;
-
-				if (ImGui::BeginCombo("##tags", (*it)->tag))
+				int tag_to_remove = -1;
+				if (ImGui::BeginMenu("Remove Tag"))
 				{
 					for (int t = 0; t < tags.size(); t++)
 					{
-						bool is_selected = strcmp((*it)->tag, tags[t].c_str()) == 0;
-						if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
-							strcpy((*it)->tag, tags[t].c_str());
+						if (ImGui::Selectable(tags[t].c_str(), false)) {
+							tag_to_remove = t;
 						}
-
-						if (is_selected)
-							ImGui::SetItemDefaultFocus();
 					}
-					if (ImGui::BeginMenu("Add Tag"))
-					{
-						static char newTag[32];
-						ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
-
-						if (ImGui::Button("Save Tag")) {
-							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
-							strcpy(tagToAdd, newTag);
-							External->scene->tags.push_back(tagToAdd);
-							newTag[0] = '\0';
-							delete[] tagToAdd;
-						}
-						ImGui::EndMenu();
-					}
-
-					int tag_to_remove = -1;
-					if (ImGui::BeginMenu("Remove Tag"))
-					{
-						for (int t = 0; t < tags.size(); t++)
-						{
-							if (ImGui::Selectable(tags[t].c_str(), false)) {
-								tag_to_remove = t;
-							}
-						}
-						ImGui::EndMenu();
-					}
-
-					if (tag_to_remove != -1)
-						External->scene->tags.erase(External->scene->tags.begin() + tag_to_remove);
-
-					ImGui::EndCombo();
-				}
-				ImGui::SameLine();
-				ImGui::Text("       UID: %d", (*it)->UID);
-
-
-				ImGui::Spacing();
-
-				if (!(*it)->active) { ImGui::BeginDisabled(); }
-
-				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
-				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
-				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
-				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
-				Component* audioListener = (*it)->GetComponent(ComponentType::AUDIO_LISTENER);
-				Component* audioSource = (*it)->GetComponent(ComponentType::AUDIO_SOURCE);
-				Component* physics = (*it)->GetComponent(ComponentType::PHYSICS);
-				Component* animation = (*it)->GetComponent(ComponentType::ANIMATION);
-				Component* script = (*it)->GetComponent(ComponentType::SCRIPT);
-
-				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
-				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
-				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
-				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
-				if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
-				if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
-				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
-				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
-				if (script != nullptr) script->OnInspector(); ImGui::Spacing();
-				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
-
-				for (auto i = 0; i < (*it)->mComponents.size(); i++)
-				{
-					(*it)->mComponents[i]->OnInspector();
-					ImGui::Spacing();
-				}
-				
-				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
-				//if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
-				//if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
-
-				float buttonWidth = 120.0f;  // Adjust the width as needed
-				float windowWidth = ImGui::GetWindowWidth();
-				float xPos = (windowWidth - buttonWidth) * 0.5f;
-
-				// Set the cursor position to center the button within the menu
-				ImGui::SetCursorPosX(xPos);
-
-
-				if (ImGui::Button("Add Component", ImVec2(110, 30)))
-				{
-					ImGui::OpenPopup("AddComponents");
-					ImGui::SameLine();				
+					ImGui::EndMenu();
 				}
 
-				if (ImGui::BeginPopup("AddComponents"))
-				{
-					ImGui::SeparatorText("Components");
+				if (tag_to_remove != -1)
+					External->scene->tags.erase(External->scene->tags.begin() + tag_to_remove);
 
-					// Skip transform
-					// --- Add component Mesh ---
-
-					/*if (mesh == nullptr)
-					{
-						if (ImGui::BeginMenu("Mesh"))
-						{
-							App->editor->PrimitivesMenu();
-							ImGui::EndMenu();
-						}
-					}*/
-
-					// --- Add component Material ---
-					if ((CMaterial*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
-					{
-						if (ImGui::MenuItem("Material"))
-						{
-							(*it)->AddComponent(ComponentType::MATERIAL);
-						}
-					}
-
-					//// --- Add component Camera ---
-
-					if ((CCamera*)(*it)->GetComponent(ComponentType::CAMERA) == nullptr)
-					{
-						if (ImGui::MenuItem("Camera"))
-						{
-							(*it)->AddComponent(ComponentType::CAMERA);
-						}
-					}
-
-					//// --- Add component Physics ---
-
-					if ((CCollider*)(*it)->GetComponent(ComponentType::PHYSICS) == nullptr)
-					{
-						if (ImGui::MenuItem("Physics"))
-						{
-							(*it)->AddComponent(ComponentType::PHYSICS);
-						}
-					}
-
-					//delete physics;
-
-					ImGui::EndPopup();
-				}
-
-
-				if (!(*it)->active) { ImGui::EndDisabled(); }
-
+				ImGui::EndCombo();
 			}
+			ImGui::SameLine();
+			ImGui::Text("       UID: %d", App->scene->selectedGO->UID);
+
+
+			ImGui::Spacing();
+
+			if (!App->scene->selectedGO->active) { ImGui::BeginDisabled(); }
+
+			/*Component* transform =  App->scene->selectedGO->GetComponent(ComponentType::TRANSFORM);
+			Component* mesh =  App->scene->selectedGO->GetComponent(ComponentType::MESH);
+			Component* material =  App->scene->selectedGO->GetComponent(ComponentType::MATERIAL);
+			Component* camera =  App->scene->selectedGO->GetComponent(ComponentType::CAMERA);
+			Component* audioListener =  App->scene->selectedGO->GetComponent(ComponentType::AUDIO_LISTENER);
+			Component* audioSource =  App->scene->selectedGO->GetComponent(ComponentType::AUDIO_SOURCE);
+			Component* physics =  App->scene->selectedGO->GetComponent(ComponentType::PHYSICS);
+			Component* animation =  App->scene->selectedGO->GetComponent(ComponentType::ANIMATION);
+			Component* script =  App->scene->selectedGO->GetComponent(ComponentType::SCRIPT);
+
+			if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
+			if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
+			if (material != nullptr) material->OnInspector(); ImGui::Spacing();
+			if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+			if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+			if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
+			if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
+			if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
+			if (script != nullptr) script->OnInspector(); ImGui::Spacing();
+			if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
+
+			for (auto i = 0; i < App->scene->selectedGO->mComponents.size(); i++)
+			{
+				App->scene->selectedGO->mComponents[i]->OnInspector();
+				ImGui::Spacing();
+			}
+
+			//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+			//if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+			//if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
+
+			float buttonWidth = 120.0f;  // Adjust the width as needed
+			float windowWidth = ImGui::GetWindowWidth();
+			float xPos = (windowWidth - buttonWidth) * 0.5f;
+
+			// Set the cursor position to center the button within the menu
+			ImGui::SetCursorPosX(xPos);
+
+
+			if (ImGui::Button("Add Component", ImVec2(110, 30)))
+			{
+				ImGui::OpenPopup("AddComponents");
+				ImGui::SameLine();
+			}
+
+			if (ImGui::BeginPopup("AddComponents"))
+			{
+				ImGui::SeparatorText("Components");
+
+				// Skip transform
+				// --- Add component Mesh ---
+
+				/*if (mesh == nullptr)
+				{
+					if (ImGui::BeginMenu("Mesh"))
+					{
+						App->editor->PrimitivesMenu();
+						ImGui::EndMenu();
+					}
+				}*/
+
+				// --- Add component Material ---
+				if ((CMaterial*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
+				{
+					if (ImGui::MenuItem("Material"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::MATERIAL);
+					}
+				}
+
+				//// --- Add component Camera ---
+
+				if ((CCamera*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
+				{
+					if (ImGui::MenuItem("Camera"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::CAMERA);
+					}
+				}
+
+				//// --- Add component Physics ---
+
+				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::PHYSICS) == nullptr)
+				{
+					if (ImGui::MenuItem("Physics"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
+					}
+				}
+
+				//delete physics;
+
+				ImGui::EndPopup();
+			}
+
+
+			if (!App->scene->selectedGO->active) { ImGui::EndDisabled(); }
 
 		}
 
 	}
-
 }
 
 void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneContentRegionMax, const float& sceneFrameHeightOffset)

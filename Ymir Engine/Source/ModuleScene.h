@@ -95,12 +95,14 @@ public:
 	std::string currentSceneDir;
 	std::string currentSceneFile;
 
+	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
 
 private:
 
 	G_UI* canvas;
 	int selectedUI;
+
 	std::vector<GameObject*> vSelectedGOs;
 
 	GameObject* audiosource;
