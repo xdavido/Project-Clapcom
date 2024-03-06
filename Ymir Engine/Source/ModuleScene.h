@@ -5,6 +5,7 @@
 
 #include "Module.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -19,6 +20,8 @@
 #include "ResourceMesh.h"
 
 #include "UI_Image.h"
+
+#include <map>
 
 class GameObject;
 class CCamera;
@@ -72,6 +75,12 @@ public:
 	
 	G_UI* ModuleScene::GetCanvas();
 
+	void ReplaceScriptsReferences(uint oldUID, uint newUID);
+
+	void AddToReferenceMap(uint UID, SerializedField* fieldToAdd);
+
+	void LoadScriptsData(GameObject* rootObject);
+
 
 public:
 
@@ -95,6 +104,8 @@ public:
 	std::string currentSceneFile;
 
 	std::vector<G_UI*> vCanvas;
+
+	std::multimap<uint, SerializedField*> referenceMap;
 
 private:
 
