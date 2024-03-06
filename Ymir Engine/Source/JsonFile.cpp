@@ -9,6 +9,8 @@
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
+#include "Animation.h"
+#include "Animator.h"
 
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
@@ -1083,10 +1085,83 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
+		break;
     }
     case ANIMATION: 
 	{
-        //Empty for now
+		// Save component animation
+		json_object_set_string(componentObject, "Type", "Animation");
+
+		CAnimation* cAnimation = (CAnimation*)&component;
+
+		json_object_set_number(componentObject, "Active", cAnimation->active);
+
+
+		json_object_set_number(componentObject, "Selected animation", cAnimation->selectedAnimation);
+
+		json_object_set_number(componentObject, "Total Animations", cAnimation->totalAnimations);
+		
+		// Save animator 
+		JSON_Value* animatorValue = json_value_init_object();
+		JSON_Object* animatorObject = json_value_get_object(animatorValue);
+
+		json_object_set_number(animatorObject, "Current animation time", cAnimation->animator->GetCurrentAnimationTime());
+
+		json_object_set_value(componentObject, "Animator", animatorValue);
+		// When animation is saved, save the list of animations
+
+		// Save animation
+		JSON_Value* animationValue = json_value_init_object();
+		JSON_Object* animationObject = json_value_get_object(animationValue);
+
+		json_object_set_string(animationObject, "Name", cAnimation->animator->GetCurrentAnimation()->name.c_str());
+
+		json_object_set_boolean(animationObject, "IsPlaying", cAnimation->animator->GetCurrentAnimation()->isPlaying);
+
+		json_object_set_boolean(animationObject, "Loop", cAnimation->animator->GetCurrentAnimation()->loop);
+		json_object_set_boolean(animationObject, "PingPong", cAnimation->animator->GetCurrentAnimation()->pingPong);
+		json_object_set_boolean(animationObject, "Backwards", cAnimation->animator->GetCurrentAnimation()->backwards);
+		json_object_set_boolean(animationObject, "EaseIn", cAnimation->animator->GetCurrentAnimation()->easeIn);
+		json_object_set_boolean(animationObject, "EaseOut", cAnimation->animator->GetCurrentAnimation()->easeOut);
+		json_object_set_number(animationObject, "Speed", cAnimation->animator->GetCurrentAnimation()->speed);
+
+		json_object_set_number(animationObject, "Duration", cAnimation->animator->GetCurrentAnimation()->GetDuration());
+		json_object_set_number(animationObject, "TicksPerSecond", cAnimation->animator->GetCurrentAnimation()->GetTickPerSecond());
+
+		// Bone info
+		JSON_Value* boneInfoMapValue = json_value_init_object();
+		JSON_Object* boneInfoMapObject = json_value_get_object(boneInfoMapValue);
+
+		for (const auto& pair : cAnimation->animator->GetCurrentAnimation()->GetBoneIDMap()) {
+			const std::string& boneName = pair.first; 
+			const BoneInfo& boneInfo = pair.second;
+
+			JSON_Value* boneInfoValue = json_value_init_object();
+			JSON_Object* boneInfoObject = json_value_get_object(boneInfoValue);
+
+			json_object_set_number(boneInfoObject, "id", boneInfo.id);
+
+			JSON_Value* offsetArrayValue = json_value_init_array();
+			JSON_Array* offsetArray = json_value_get_array(offsetArrayValue);
+
+			for (int i = 0; i < 4; i++) {
+				JSON_Value* rowArrayValue = json_value_init_array();
+				JSON_Array* rowArray = json_value_get_array(rowArrayValue);
+				for (int j = 0; j < 4; j++) {
+					json_array_append_number(rowArray, boneInfo.offset[i][j]);
+				}
+				json_array_append_value(offsetArray, rowArrayValue);
+			}
+			json_object_set_value(boneInfoObject, "offset", offsetArrayValue);
+
+			json_object_set_value(boneInfoMapObject, boneName.c_str(), boneInfoValue);
+
+		}
+
+		json_object_set_value(animationObject, "BoneInfoMap", boneInfoMapValue);
+
+		json_object_set_value(animatorObject, "Animation", animationValue);
+
 		break;
 	}
 	case PHYSICS:
@@ -1377,6 +1452,62 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->AddComponent(ccamera);
 
 	}
+	else if (type == "Animation") {
+
+		CAnimation* canimation = new CAnimation(gameObject);
+
+		canimation->selectedAnimation = json_object_get_number(componentObject, "Selected Animation");
+
+		canimation->totalAnimations = json_object_get_number(componentObject, "Total Animations");
+
+		//// Load animator
+		JSON_Value* animatorValue = json_object_get_value(componentObject, "Animator");
+
+		if (animatorValue == nullptr || json_value_get_type(animatorValue) != JSONObject) {
+
+			return;
+		}
+
+		JSON_Object* animatorObject = json_value_get_object(animatorValue);
+
+		Animator* animator = new Animator();
+
+		canimation->animator = new Animator();
+
+		canimation->animator->SetCurrentAnimationTime(json_object_get_number(animatorObject, "Current animation time"));
+
+
+
+		// Load animation 
+		JSON_Value* animationValue = json_object_get_value(animatorObject, "Animation");
+
+		if (animationValue == nullptr || json_value_get_type(animationValue) != JSONObject)
+			return;
+
+		JSON_Object* animationObject = json_value_get_object(animationValue);
+
+		//Conseguir crear la animacion mediante el modelo --> Problema, como acceder al modelo?
+		Animation* animation = new Animation();
+
+		canimation->animator->PlayAnimation(animation);
+
+		canimation->animator->GetCurrentAnimation()->name = json_object_get_string(animationObject ,"Name");
+
+		canimation->animator->GetCurrentAnimation()->isPlaying = json_object_get_boolean(animationObject, "IsPlaying");
+		canimation->animator->GetCurrentAnimation()->loop = json_object_get_boolean(animationObject, "Loop");
+		canimation->animator->GetCurrentAnimation()->pingPong = json_object_get_boolean(animationObject, "PingPong");
+		canimation->animator->GetCurrentAnimation()->backwards = json_object_get_boolean(animationObject, "Backwards");
+		canimation->animator->GetCurrentAnimation()->easeIn = json_object_get_boolean(animationObject, "EaseIn");
+		canimation->animator->GetCurrentAnimation()->easeOut = json_object_get_boolean(animationObject, "EaseOut");
+
+		canimation->animator->GetCurrentAnimation()->SetSpeed(json_object_get_number(animationObject, "Speed"));
+		canimation->animator->GetCurrentAnimation()->SetDuration(json_object_get_number(animationObject, "Duration"));
+		canimation->animator->GetCurrentAnimation()->SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));
+
+		gameObject->AddComponent(canimation);
+
+
+	}
 	else if (type == "Physics") {
 
 		CCollider* ccollider = new CCollider(gameObject);
@@ -1409,11 +1540,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->AddComponent(ccollider);
 
 	}
-    else if (type == "Animation") {
-
-        CAnimation* canimation = new CAnimation(gameObject);
-
-        gameObject->AddComponent(canimation);
-    }
+    
 
 }

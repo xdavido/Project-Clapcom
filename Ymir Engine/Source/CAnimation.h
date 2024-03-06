@@ -36,12 +36,16 @@ public:
 
 	Animator* animator;
 
+	int selectedAnimation = -1;
+
+	int totalAnimations = -1;
+
 private:
 
-	int selectedAnimation = -1;
+	
 	bool isSelected = false;
 	int selectedAnimationPlaying = -1;
 
 	//sizeof crashing the engine for some reason so using int for now
-	int totalAnimations = -1;
+	
 };

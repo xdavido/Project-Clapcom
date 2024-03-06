@@ -30,6 +30,8 @@ public:
 
 	float GetSpeed() { return speed; }
 	void SetSpeed(float speed) { this->speed = speed; }
+	void SetDuration(float duration) { this->duration = duration; }
+	void SetTickPerSecond(float ticksPerSecond) { this->ticksPerSecond = ticksPerSecond; }
 	inline float GetTickPerSecond() { return ticksPerSecond; }
 	inline float GetDuration() { return duration; }
 	inline const AssimpNodeData& GetRootNode() { return rootNode; }

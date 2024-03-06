@@ -102,11 +102,11 @@ Animation* Animation::ParseAnimationData(const std::string& animationPath, Model
 	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
 	assert(scene && scene->mRootNode);
 	aiAnimation* animation = scene->mAnimations[index];
+	name = animation->mName.C_Str();
 	duration = animation->mDuration;
 	ticksPerSecond = animation->mTicksPerSecond;
 	ReadHierarchyData(rootNode, scene->mRootNode);
 	ReadMissingBones(animation, *model);
-
 	return this;
 }
 
