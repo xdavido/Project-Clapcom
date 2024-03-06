@@ -382,6 +382,11 @@ void ModuleScene::Destroy(GameObject* gm)
 	gm = nullptr;
 }
 
+std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
+{
+	return vSelectedGOs;
+}
+
 void ModuleScene::SetSelected(GameObject* go)
 {
 	if (go != nullptr)

@@ -15,7 +15,7 @@ UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shader
     mat->shaderPath = shaderPath;
     mat->shader.LoadShader(mat->shaderPath);
 
-    ResourceTexture* rTexTemp = new ResourceTexture(0);
+    ResourceTexture* rTexTemp = new ResourceTexture();
     ImporterTexture::Import(imgPath, rTexTemp);
     rTexTemp->type = TextureType::DIFFUSE;
     rTexTemp->UID = Random::Generate();
