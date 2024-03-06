@@ -15,6 +15,8 @@ class ModuleEditor;
 class ModuleScene;
 class ModuleResourceManager;
 class ModuleFileSystem;
+class ModuleMonoManager;
+class ModuleAudio;
 class ModulePhysics;
 
 class Application
@@ -29,6 +31,8 @@ public:
 	ModuleScene* scene;
 	ModuleResourceManager* resourceManager;
 	ModuleFileSystem* fileSystem;
+	ModuleMonoManager* moduleMono;
+	ModuleAudio* audio;
 	ModulePhysics* physics;
 
 private:

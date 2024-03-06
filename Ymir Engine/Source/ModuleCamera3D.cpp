@@ -6,10 +6,13 @@
 #include "ModuleWindow.h"
 #include "Log.h"
 #include "GameObject.h"
+#include "ModuleAudio.h"
 
 #include "External/MathGeoLib/include/Math/Quat.h"
 
 #include "External/Optick/include/optick.h"
+
+#include "External/mmgr/mmgr.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,13 +27,21 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 }
 
 ModuleCamera3D::~ModuleCamera3D()
-{}
+{
+	delete editorCamera;
+}
 
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
+//#ifdef _STANDALONE
+//
+//	External->audio->PlayEvent(External->scene->gameCameraObject->UID, std::string("JV"));
+//	
+//#endif // STANDALONE
 
 	return ret;
 }
@@ -49,6 +60,15 @@ update_status ModuleCamera3D::Update(float dt)
 	OPTICK_EVENT();
 
 	// TODO: consider moving all camera input to CameraInput function, so that it doesn't work while not hovering
+
+	//if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
+	//{
+	//	External->audio->PlayEvent(External->scene->gameCameraObject->UID, std::string("JV"));
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT)
+	//{
+	//	External->audio->StopEvent(External->scene->gameCameraObject->UID, std::string("JV"));
+	//}
 
 	float3 newPos(0, 0, 0);
 

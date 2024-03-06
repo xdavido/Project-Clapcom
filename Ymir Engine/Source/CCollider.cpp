@@ -10,6 +10,8 @@
 #include <vector>
 #include "External/ImGuizmo/include/ImGuizmo.h"
 
+#include "External/mmgr/mmgr.h"
+
 CCollider::CCollider(GameObject* owner) : Component(owner, ComponentType::PHYSICS)
 {
 	this->mOwner = owner;
@@ -72,9 +74,17 @@ void CCollider::Update()
 			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 			CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
-			float offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
-			float offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
-			float offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+			float offsetX = 0;
+			float offsetY = 0;
+			float offsetZ = 0;
+
+			if (componentMesh != nullptr) {
+
+				offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
+				offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
+				offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+
+			}
 
 			float4x4 newMat;
 

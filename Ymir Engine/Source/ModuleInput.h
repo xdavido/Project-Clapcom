@@ -2,8 +2,10 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <string>
 
 #include "External/SDL/include/SDL_gamecontroller.h"
+#include "External/MathGeoLib/include/Math/float2.h"
 
 #define MAX_MOUSE_BUTTONS 5
 
@@ -43,6 +45,14 @@ public:
 	update_status PreUpdate(float dt) override;
 	bool CleanUp() override;
 
+	// --- UI ---
+	void HandleInput(SDL_Event event);
+
+	//	
+	void SetInputActive(std::string& strToStore, bool getInput = true);
+	void SetMaxChars(int limit);
+
+
 	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
@@ -78,14 +88,37 @@ public:
 		return mouse_y_motion;
 	}
 
+	bool ModuleInput::GetInputActive() const
+	{
+		return getInput_B;
+	}
+
 	// ------------ Gamepad Management ------------
 
 	bool IsGamepadON();
 
-	// Buttons and Joysticks Mapping
+	// Buttons Mapping
 
 	bool IsGamepadButtonPressed(SDL_GameControllerButton button, KEY_STATE state);
+
+	// Joystick Mapping
+
 	bool IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJoystickAxis axis, GamepadJoystickDirection direction);
+
+	float GetGamepadLeftJoystickPositionValueX();
+	float GetGamepadLeftJoystickPositionValueY();
+
+	float GetGamepadRightJoystickPositionValueX();
+	float GetGamepadRightJoystickPositionValueY();
+
+	float GetGamepadJoystickPositionValueX(GamepadJoystick joystick);
+	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
+	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
+
+	// Trigger Mapping
+
+	float GetGamepadLeftTriggerValue();
+	float GetGamepadRightTriggerValue();
 
 	// Idle Management
 
@@ -93,12 +126,26 @@ public:
 	bool IsGamepadJoystickIdle(GamepadJoystick joystick);
 	bool IsGamepadIdle();
 
+private:
+
+	// Gamepad Deadzone Management
+	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
+
+	// Gamepad Triggers Management
+	float ReduceTriggerValue(bool controllerON, float triggerValue);
+
 public:
+
+	bool quit = false;
 
 	// Drag & Drop
 
 	const char* droppedFileDirectory;
 	bool droppedFile = false;
+
+	// 
+	std::string* strToChange;
+	std::string strBU;
 
 	// Gamepad Management
 
@@ -121,7 +168,6 @@ private:
 	int mouse_y_motion;
 	//int mouse_z_motion;
 
-	// Gamepad Deadzone Management
-	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
-
+	int maxChars;
+	bool getInput_B;
 };

@@ -1,6 +1,8 @@
 #include "PhysBody.h"
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
 
+#include "External/mmgr/mmgr.h"
+
 // =================================================
 PhysBody::PhysBody(btRigidBody* body) : body(body)
 {}

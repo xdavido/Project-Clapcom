@@ -8,6 +8,8 @@
 #include "ModuleRenderer3D.h"
 #include "GameObject.h"
 
+#include "External/mmgr/mmgr.h"
+
 CTransform::CTransform(GameObject* owner) : Component(owner, ComponentType::TRANSFORM)
 {
 	translation = float3::zero;
@@ -133,7 +135,7 @@ void CTransform::CalculateMatrix()
 
 void CTransform::SetPosition(float3 vec)
 {
-	translation = float3(vec);
+	translation = static_cast<float3>(vec);
 	dirty_ = true;
 }
 
@@ -255,4 +257,22 @@ void CTransform::UpdateTransformGuizmo(float4x4 matrix)
 	dirty_ = true;
 }
 
+float3 CTransform::GetForward()
+{
+	return GetNormalizeAxis(2);
+}
 
+float3 CTransform::GetUp()
+{
+	return GetNormalizeAxis(1);
+}
+
+float3 CTransform::GetRight()
+{
+	return GetNormalizeAxis(0);
+}
+
+float3 CTransform::GetNormalizeAxis(int i)
+{
+	return mGlobalMatrix.RotatePart().Col(i).Normalized();
+}

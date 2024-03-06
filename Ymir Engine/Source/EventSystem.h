@@ -4,6 +4,8 @@
 #include <functional>
 #include <vector>
 
+#include "External/mmgr/mmgr.h"
+
 // Event system classes to manage event subscriptions and notifications (to use if needed)
 
 // Since it's a template class, it's not possible to split the class in header and source file :(

@@ -103,11 +103,29 @@
     <Filter Include="Externals\ImGuiTextEditor">
       <UniqueIdentifier>{e58bded8-c50c-4799-a1f8-6f87896d18b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\PugiXML">
+      <UniqueIdentifier>{6834f278-314d-4c2a-8d49-9cbe147332b8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Externals\ImGui\misc">
       <UniqueIdentifier>{5b0e3b31-337f-408b-9e83-4393ca9991e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\GameObjects &amp; Components\UI">
+      <UniqueIdentifier>{0e8f6bda-be60-49b2-b534-df0c3b2a34be}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Externals\Wwise">
+      <UniqueIdentifier>{32b0f1d8-dfe9-47cc-b282-e8a05a39d024}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sources\Utils\Physics">
       <UniqueIdentifier>{3640947e-330d-4980-8ee6-bd5e1d4aeabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Features\Skeletal Animation">
+      <UniqueIdentifier>{ad8fbfca-a005-4953-9d78-83c3d7725d02}</UniqueIdentifier>
+      </Filter>
+    <Filter Include="Sources\Utils\Bindings">
+      <UniqueIdentifier>{10ca609f-e2f7-4020-9e19-4b325c79a1af}</UniqueIdentifier>
+      </Filter>
+    <Filter Include="Sources\Features\Scripting">
+      <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -795,8 +813,260 @@
     <ClInclude Include="Source\ShaderEditor.h">
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CScript.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleMonoManager.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\PugiXML\pugiconfig.hpp">
+      <Filter>Externals\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\PugiXML\pugixml.hpp">
+      <Filter>Externals\PugiXML</Filter>
+    </ClInclude>
     <ClInclude Include="Source\External\ImGui\misc\cpp\imgui_stdlib.h">
       <Filter>Externals\ImGui\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScriptEditor.h">
+      <Filter>Sources\Features\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\G_UI.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\C_UI.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_Image.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_Canvas.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_Text.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_Button.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_InputBox.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_CheckBox.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+	</ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAllocator.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkArray.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAssert.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkAtomic.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAutoLock.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkBankReadHelpers.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkBytesCount.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkBytesMem.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkCallback.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkCommonDefs.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Comm\AkCommunication.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Win32\AkCOMScope.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookDeferred.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkDefaultLowLevelIODispatcher.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkDynaBlkPool.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkDynamicDialogue.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkDynamicSequence.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkFileHelpers.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkFileLocationBase.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkFilePackage.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkFilePackageLowLevelIO.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkFilePackageLowLevelIOBlocking.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\AkFilePackageLowLevelIODeferred.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkFilePackageLUT.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkFNVHash.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkFPUtilities.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkHashList.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkHeap.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkKeyArray.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkKeyDef.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkListBare.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkListBareLight.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkLock.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkMemoryMgr.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkMidiTypes.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkModule.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkMonitorError.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Common\AkMultipleFileLocation.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkObject.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkPlatformFuncs.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkQueryParameters.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkRingBuffer.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkSet.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSimd.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSimdMath.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkSmartPtr.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSoundEngine.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSoundEngineExport.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSpeakerConfig.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkSpeakerVolumes.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkStreamMgrModule.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkString.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkSyncCaller.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkTls.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkTypes.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkVectors.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\AkVirtualAcoustics.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkMixerPlugin.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkPlatformContext.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkPlugin.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkPluginMemAlloc.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkProcessorFeatures.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkRTPCSubscriber.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\AK\SoundEngine\Common\IAkStreamMgr.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Wwise\low_level_IO\Win32\stdafx.h">
+      <Filter>Externals\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleAudio.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wwise.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAudioListener.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAudioSource.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AudioBank.h">
+      <Filter>Sources\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\ModulePhysics.h">
       <Filter>Sources\Modules</Filter>
@@ -809,6 +1079,27 @@
     </ClInclude>
     <ClInclude Include="Source\PhysBody.h">
       <Filter>Sources\Utils\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnimationController.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animator.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bone.h">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CAnimation.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+      </ClInclude>
+    <ClInclude Include="Source\CS_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CS_Input_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1124,8 +1415,80 @@
     <ClCompile Include="Source\ShaderEditor.cpp">
       <Filter>Sources\Features\Shader Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CScript.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleMonoManager.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\PugiXML\pugixml.cpp">
+      <Filter>Externals\PugiXML</Filter>
+    </ClCompile>
     <ClCompile Include="Source\External\ImGui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Externals\ImGui\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScriptEditor.cpp">
+       <Filter>Sources\Features\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\G_UI.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\C_UI.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Button.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Canvas.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_CheckBox.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Image.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_InputBox.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Text.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+	</ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkFileLocationBase.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkFilePackage.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkFilePackageLUT.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Common\AkMultipleFileLocation.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\stdafx.cpp">
+      <Filter>Externals\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleAudio.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wwise.cpp">
+      <Filter>Sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAudioListener.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAudioSource.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\ModulePhysics.cpp">
       <Filter>Sources\Modules</Filter>
@@ -1138,6 +1501,21 @@
     </ClCompile>
     <ClCompile Include="Source\PhysBody.cpp">
       <Filter>Sources\Utils\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnimationController.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animator.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bone.cpp">
+      <Filter>Sources\Features\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CAnimation.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1181,6 +1559,12 @@
       <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
     <None Include="Game\Assets\Shaders\RainbowShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Source\External\Wwise\low_level_IO\Common\AkFilePackageLowLevelIO.inl">
+      <Filter>Externals\Wwise</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\AnimationShader.glsl">
       <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
   </ItemGroup>

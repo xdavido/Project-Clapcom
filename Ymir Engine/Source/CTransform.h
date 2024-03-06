@@ -11,6 +11,9 @@
 class CTransform : public Component {
 public:
 
+	//MYTODO: Prueba
+	CTransform();
+
 	CTransform(GameObject* owner);
 	CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled = true);
 
@@ -41,6 +44,12 @@ public:
 	void UpdateBoundingBoxes();
 
 	void UpdateTransformGuizmo(float4x4 matrix);
+
+	float3 GetForward();
+	float3 GetUp();
+	float3 GetRight();
+
+	float3 GetNormalizeAxis(int i);
 
 public:
 

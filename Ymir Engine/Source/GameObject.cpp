@@ -1,10 +1,13 @@
-#include "GameObject.h"
+	#include "GameObject.h"
 
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "Random.h"
+
+#include "External/mmgr/mmgr.h"
 
 GameObject::GameObject()
 {
@@ -13,8 +16,12 @@ GameObject::GameObject()
 
 	active = true;
 	selected = false;
+	pendingToDelet = false;
+	hidden = false;
 
 	mTransform = nullptr;
+
+	UID =Random::Generate();
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
@@ -24,14 +31,19 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 	active = true;
 	selected = false;
-
+	pendingToDelet = false;
+	hidden = false;
+	
 	mTransform = nullptr;
+	UID = Random::Generate();
 
 	if (mParent != nullptr)
 	{
 		mTransform = new CTransform(this);
 		AddComponent(mTransform);
 	}
+
+	UID = Random::Generate();
 }
 
 GameObject::~GameObject()
@@ -44,9 +56,10 @@ GameObject::~GameObject()
 	{
 		ClearVecPtr(mChildren);
 	}
+	
 }
 
-void GameObject::Update()
+update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
 
@@ -60,6 +73,7 @@ void GameObject::Update()
 
 	}
 
+	return update_status::UPDATE_CONTINUE;
 }
 
 void GameObject::Enable()
@@ -102,9 +116,40 @@ void GameObject::SetParent(GameObject* newParent)
 	}
 }
 
+void GameObject::ReParent(GameObject* newParent)
+{
+	mParent->RemoveChild(this);
+	mParent = newParent;
+	mParent->mChildren.push_back(this);
+
+	//Update transform values
+	if (mParent->mTransform != nullptr)
+	{
+		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
+	}
+
+	else
+	{
+		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
+	}
+
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	mChildren.push_back(child);
+}
+
+void GameObject::DeleteChild(GameObject* go)
+{
+	RemoveChild(go);
+	RELEASE(go);
+}
+
+void GameObject::RemoveChild(GameObject* go)
+{
+	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
+	mChildren.shrink_to_fit();
 }
 
 void GameObject::AddComponent(Component* component)
@@ -188,69 +233,28 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 void GameObject::RemoveComponent(Component* component)
 {
+	// TODO: Sara --> test if it needs something else
 	if (!mComponents.empty() && component != nullptr)
 	{
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
-		//component->~Component();
 		
-		switch (component->ctype)
-		{
-		case NONE:
-			break;
-		case TRANSFORM:
-		{
-			mTransform = nullptr;
-		}
-		break;
-		case MESH:
-			break;
-		case MATERIAL:
-			break;
-		case CAMERA:
-			break;
-		default:
-			break;
-		}
-
 		RELEASE(component);
 	}
 }
 
-void GameObject::DeleteChild(GameObject* go)
+void GameObject::CollectChilds(std::vector<GameObject*>& vector)
 {
-	RemoveChild(go);
-	RELEASE(go);
+	vector.push_back(this);
+	for (uint i = 0; i < mChildren.size(); i++)
+		mChildren[i]->CollectChilds(vector);
 }
 
-void GameObject::RemoveChild(GameObject* go)
+void GameObject::DestroyGameObject()
 {
-	mChildren.erase(std::find(mChildren.begin(), mChildren.end(), go));
-	mChildren.shrink_to_fit();
-}
 
-//void GameObject::DestroyGameObject()
-//{
-//	if (this->mParent)
-//	{
-//		auto it = std::find(this->mParent->mChildren.begin(), this->mParent->mChildren.end(), this);
-//		if (it != this->mParent->mChildren.end())
-//		{
-//			this->mParent->mChildren.erase(it);
-//		}
-//	}
-//
-//	//for (std::vector<GameObject*>::reverse_iterator it = mChildren.rbegin(); it != mChildren.rend(); ++it)
-//	//{
-//	//	delete (*it);
-//	//	(*it) = nullptr;
-//	//}
-//
-//	//for (std::vector<Component*>::reverse_iterator it = mComponents.rbegin(); it != mComponents.rend(); ++it)
-//	//{
-//	//	delete (*it);
-//	//	(*it) = nullptr;
-//	//}
-//}
+	pendingToDelet = true;
+
+}
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
 {
@@ -268,3 +272,9 @@ GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gam
 
 	return gameObjectWithUID;
 }
+
+bool GameObject::CompareTag(const char* _tag)
+{
+	return strcmp(tag, _tag) == 0;
+}
+

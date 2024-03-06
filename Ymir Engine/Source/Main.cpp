@@ -1,7 +1,5 @@
 #include <stdlib.h>
 
-//#include "External/mmgr/mmgr.h"
-
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleInput.h"
@@ -18,6 +16,8 @@
 #pragma comment (lib, "Source/External/Optick/lib/releaseLib/OptickCore.lib") 
 #endif // _DEBUG
 
+#include "External/mmgr/mmgr.h"
+
 enum main_states
 {
 	MAIN_CREATION,
@@ -29,6 +29,8 @@ enum main_states
 
 int main(int argc, char ** argv)
 {
+	CMDCompileCS();
+
 	//MMGR_INIT;
 
 	LOG("Starting engine '%s'....", TITLE);
@@ -103,8 +105,6 @@ int main(int argc, char ** argv)
 	External = nullptr;
 	delete App;
 	LOG("Exiting engine '%s'...\n", TITLE);
-
-	//MMGR_TERM;
 
 	return main_return;
 }

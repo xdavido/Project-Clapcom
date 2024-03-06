@@ -1,6 +1,8 @@
 #include "ResourceTexture.h"
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE)
 {
     ID = 0;
@@ -94,4 +96,14 @@ void ResourceTexture::BindTexture(bool bind)
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 	}
+}
+
+uint ResourceTexture::GetWidth()
+{
+	return width;
+}
+
+uint ResourceTexture::GetHeight()
+{
+	return height;
 }

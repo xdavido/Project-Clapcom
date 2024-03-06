@@ -11,6 +11,8 @@
 
 #include "ShaderEditor.h"
 
+#include "External/mmgr/mmgr.h"
+
 CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERIAL)
 {
     ID = 0;
@@ -23,7 +25,6 @@ CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERI
     shaderPath = SHADER_VS_FS;
     shader.LoadShader(shaderPath);
     shaderDirtyFlag = false;
-
 }
 
 CMaterial::~CMaterial()
@@ -95,27 +96,6 @@ void CMaterial::OnInspector()
 
         }
 
-        //for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
-
-        //    for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-        //        if ((*jt).meshGO->selected) {
-
-        //            // Find the index of the current shader path in listShaderPaths
-        //            auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), (*jt).shaderPath);
-
-        //            if (it != listShaderPaths.end()) {
-
-        //                selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
-
-        //            }
-
-        //        }
-
-        //    }
-
-        //}
-
         // Choose between the list of shaders
         if (ImGui::Combo("##ChooseShader", &selectedShader, listShaderNames.data(), listShaderNames.size())) {
             
@@ -133,27 +113,6 @@ void CMaterial::OnInspector()
             shaderDirtyFlag = false;
 
         }
-
-        //if (shaderDirtyFlag) {
-
-        //    // When selected shader changes, update the shader path and recompile
-        //    for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
-
-        //        for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-        //            if ((*jt).meshGO->selected) {
-
-        //                (*jt).shaderPath = listShaderPaths[selectedShader];
-        //                (*jt).loadedShader = false;
-
-        //            }
-        //        }
-        //    }
-
-        //    // Reset the dirty flag after handling the change
-        //    shaderDirtyFlag = false;
-
-        //}
 
         ImGui::Spacing();
 
@@ -189,73 +148,73 @@ void CMaterial::OnInspector()
                 {
                 case UniformType::boolean:
 
-                    ImGui::Checkbox(label.c_str(), (bool*)kt->value);
+                    ImGui::Checkbox(label.c_str(), (bool*)kt->value.get());
 
-                    shader.SetUniformValue(kt->name, (bool*)kt->value);
+                    shader.SetUniformValue(kt->name, (bool*)kt->value.get());
 
                     break;
 
                 case UniformType::i1:
 
-                    ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (int*)kt->value);
+                    shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i2:
 
-                    ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (int*)kt->value);
+                    shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i3:
 
-                    ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (int*)kt->value);
+                    shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::i4:
 
-                    ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
+                    ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (int*)kt->value);
+                    shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
                     break;
 
                 case UniformType::f1:
 
-                    ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (float*)kt->value);
+                    shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f2:
 
-                    ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (float*)kt->value);
+                    shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f3:
 
-                    ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (float*)kt->value);
+                    shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
                 case UniformType::f4:
 
-                    ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
+                    ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    shader.SetUniformValue(kt->name, (float*)kt->value);
+                    shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
                     break;
 
@@ -266,122 +225,6 @@ void CMaterial::OnInspector()
             ImGui::Unindent();
 
         }
-
-        //for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
-
-        //    for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
-
-        //        if ((*jt).meshGO->selected) {
-
-        //            if ((*jt).meshShader.uniforms.size() == 0) {
-
-        //                ImGui::Text("No editable uniforms.");
-
-        //            }
-        //            else {
-
-        //                ImGui::Text("Uniforms:");
-
-        //            }
-
-        //            ImGui::Spacing();
-
-        //            ImGui::Indent();
-        //            
-        //            // In case the shader has editable uniforms:
-        //            for (auto kt = jt->meshShader.uniforms.begin(); kt != jt->meshShader.uniforms.end(); ++kt) {
-
-        //                std::string label = "##" + kt->name;
-
-        //                ImGui::Text("%s", kt->name.c_str());
-        //                ImGui::SameLine();
-
-        //                // Change display according to uniform type
-        //                switch (kt->type)
-        //                {
-        //                case UniformType::boolean:
-
-        //                    ImGui::Checkbox(label.c_str(), (bool*)kt->value);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (bool*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::i1:
-
-        //                    ImGui::DragInt(label.c_str(), (int*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::i2:
-
-        //                    ImGui::DragInt2(label.c_str(), (int*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::i3:
-
-        //                    ImGui::DragInt3(label.c_str(), (int*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::i4:
-
-        //                    ImGui::DragInt4(label.c_str(), (int*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (int*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::f1:
-
-        //                    ImGui::DragFloat(label.c_str(), (float*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::f2:
-
-        //                    ImGui::DragFloat2(label.c_str(), (float*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::f3:
-
-        //                    ImGui::DragFloat3(label.c_str(), (float*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
-
-        //                    break;
-
-        //                case UniformType::f4:
-
-        //                    ImGui::DragFloat4(label.c_str(), (float*)kt->value, 0.1f);
-
-        //                    jt->meshShader.SetUniformValue(kt->name, (float*)kt->value);
-
-        //                    break;
-
-        //                }
-
-        //            }
-
-        //            ImGui::Unindent();
-
-        //        }
-
-        //    }
-
-        //}
 
         ImGui::Spacing();
 

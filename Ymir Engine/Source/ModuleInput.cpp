@@ -11,6 +11,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "External/mmgr/mmgr.h"
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -233,10 +235,11 @@ update_status ModuleInput::PreUpdate(float dt)
 
 		controllers[i].j1_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
 		controllers[i].j1_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTY);
+		controllers[i].LT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+
 		controllers[i].j2_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTX);
 		controllers[i].j2_y = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_RIGHTY);
 		controllers[i].RT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-		controllers[i].LT = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_TRIGGERLEFT);
 
 	}
 
@@ -265,6 +268,61 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
+void ModuleInput::HandleInput(SDL_Event event)
+{
+	// If backspace was pressed and the string isn't blank
+	if ((event.key.keysym.sym == SDLK_BACKSPACE))
+	{
+		if (!strToChange->empty())	// For logical purposes it can't be in the previous if
+		{
+			// Remove a character from the end
+			strToChange->erase(strToChange->length() - 1);
+		}
+	}
+
+	// Cancel and reset the string to the original
+	else if ((event.key.keysym.sym == SDLK_ESCAPE))
+	{
+		// Change back to previous string;
+		*strToChange = strBU;
+		getInput_B = false;
+	}
+
+	// Submit and change the corresponding string
+	else if ((event.key.keysym.sym == SDLK_RETURN && event.key.keysym.sym == SDLK_TAB) && !strToChange->empty())
+	{
+		//strToChange->erase(strToChange->length() - 1);
+		getInput_B = false;
+	}
+
+	// Ignore shift
+	else if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
+	{
+	}
+
+	// else ifthe string less than maximum size
+	else if (strToChange->length() <= maxChars)
+	{
+		//Append the character
+		*strToChange += (char)event.key.keysym.sym;
+	}
+}
+
+void ModuleInput::SetInputActive(std::string& strToStore, bool getInput)
+{
+	// Keep a copy of the current version of the string
+	strBU = strToStore;
+
+	// Activate getting input
+	getInput_B = getInput;
+
+	strToChange = &strToStore;
+}
+
+void ModuleInput::SetMaxChars(int limit)
+{
+	maxChars = limit;
+}
 bool ModuleInput::AreGamepadButtonsIdle()
 {
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
@@ -328,6 +386,26 @@ float ModuleInput::ReduceJoystickValue(bool controllerON, float v1, float min, f
 
 }
 
+float ModuleInput::ReduceTriggerValue(bool controllerON, float triggerValue)
+{
+	if (controllerON) {
+
+		// Scale triggerValue to the range [0, 100] based on 32767
+		triggerValue = (triggerValue / 32767.0f) * 100.0f;
+
+		// Clamp triggerValue to the range [0, 100]
+		triggerValue = MAX(0.0f, MIN(100.0f, triggerValue));
+
+		return triggerValue;
+	}
+	else {
+
+		return 0;
+
+	}
+
+}
+
 bool ModuleInput::IsGamepadON()
 {
 	return gamepadON;
@@ -353,13 +431,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Movement Right
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Movement Left
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_x, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -372,13 +450,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Movement Down
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Movement Up
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j1_y, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -398,13 +476,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Camera Right
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Camera Left
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_x, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -417,13 +495,13 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 			case GamepadJoystickDirection::POSITIVE:
 			{
 				// Camera Down
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) > 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2) > 0;
 				break;
 			}
 			case GamepadJoystickDirection::NEGATIVE:
 			{
 				// Camera Up
-				return App->input->ReduceJoystickValue(SDL_IsGameController(0), App->input->controllers[0].j2_y, 10000, 2) < 0;
+				return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2) < 0;
 				break;
 			}
 			}
@@ -433,6 +511,98 @@ bool ModuleInput::IsGamepadJoystickDirection(GamepadJoystick joystick, GamepadJo
 		break;
 	}
 
+	}
+
+}
+
+float ModuleInput::GetGamepadLeftTriggerValue()
+{
+	return ReduceTriggerValue(SDL_IsGameController(0), controllers[0].LT);
+}
+
+float ModuleInput::GetGamepadRightTriggerValue()
+{
+	return ReduceTriggerValue(SDL_IsGameController(0), controllers[0].RT);
+}
+
+float ModuleInput::GetGamepadLeftJoystickPositionValueX()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+
+}
+
+float ModuleInput::GetGamepadLeftJoystickPositionValueY()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);	
+}
+
+float ModuleInput::GetGamepadRightJoystickPositionValueX()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2);
+}
+
+float ModuleInput::GetGamepadRightJoystickPositionValueY()
+{
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2);
+}
+
+float ModuleInput::GetGamepadJoystickPositionValueX(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+
+		break;
+
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2);
+		break;
+	}
+	}
+
+}
+
+float ModuleInput::GetGamepadJoystickPositionValueY(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
+
+		break;
+
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2);
+		break;
+	}
+	}
+
+}
+
+float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
+{
+	switch (joystick)
+	{
+	case GamepadJoystick::LEFT:
+	{
+		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2));
+
+		break;
+	
+	}
+	case GamepadJoystick::RIGHT:
+	{
+		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j2_y, 10000, 2));
+
+		break;
+	}
 	}
 
 }

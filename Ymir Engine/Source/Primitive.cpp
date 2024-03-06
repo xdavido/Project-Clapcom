@@ -4,6 +4,8 @@
 
 #include <gl/GL.h>
 
+#include "External/mmgr/mmgr.h"
+
 // ------------------------------------------------------------
 Primitive::Primitive() : transform(float4x4::identity), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
 {}

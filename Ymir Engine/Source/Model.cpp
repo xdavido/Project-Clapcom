@@ -14,6 +14,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "External/stb_image/stb_image.h"
 
+#include "External/mmgr/mmgr.h"
+
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcessPreset_TargetRealtime_MaxQuality)
 
 Model::Model()
@@ -92,6 +94,8 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 		name = path.substr(lastSlash, lastDot - lastSlash);
 
 	}
+
+	LOG("");
 
 	// Import the model using Assimp
 
@@ -223,9 +227,12 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 	for (uint i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
+		
+		// Initialize bone data
+		SetVertexBoneDataDefault(vertex);
 
 		// Retrieve vertex positions
-
+		
 		float3 vPosition;
 
 		vPosition.x = mesh->mVertices[i].x;
@@ -434,6 +441,39 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 	}
 
+	// Process Bones
+
+	if (mesh->HasBones())
+	{
+		ExtractBoneWeightForVertices(vertices, mesh, scene);
+		LOG("Model with %i bones", mesh->mNumBones);
+	}
+	else {
+		LOG("Model with no bones");
+	}
+
+	// Load animations
+
+	if (scene->HasAnimations()) {
+
+		// Hardcoded for testing
+		CAnimation* animationComponent = new CAnimation(linkGO);
+		linkGO->AddComponent(animationComponent);
+		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+		//-------------------------
+		for (int i = 0; i < scene->mNumAnimations; i++) {
+			Animation* anim = new Animation(path, this, i);
+			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
+		}
+		LOG("Model has animations");
+	}
+	else {
+
+		//animator = nullptr;
+
+		LOG("Model doesn't have animations");
+	}
+
 	// Create the mesh
 
 	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
@@ -485,4 +525,79 @@ void Model::GenerateYmodelFile(const float3& translation, const float3& rotation
 	ymodelFile.SetIntArray("Children UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
 
 	ymodelFile.CreateJSON(External->fileSystem->libraryModelsPath, std::to_string(modelGO->UID) + ".ymodel");
+}
+
+void Model::SetVertexBoneDataDefault(Vertex& vertex)
+{
+	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
+		vertex.boneIDs[i] = -1;
+		vertex.weights[i] = 0.0f;
+	}
+}
+
+void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
+{
+	// In theory if both boneIds and weights array macht each other, so we only need to check for available space in either or.
+	for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
+		if (vertex.boneIDs[i] == -1) {
+			vertex.boneIDs[i] = boneID;
+			vertex.weights[i] = weight;
+			break;
+		}
+	}
+}
+
+void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
+{
+	boneCounter = 0;
+
+	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++) {
+		int boneID = -1; 
+		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
+		if (boneInfoMap.find(boneName) == boneInfoMap.end()) {
+			/*LOG("===== Bone with ID %i =====", boneCounter + 1);
+			LOG("Name: %s", boneName.c_str());*/
+			BoneInfo newBoneInfo; 
+			newBoneInfo.id = boneCounter; 
+
+			// Copy Transform Matrix
+			float4x4 m;
+
+			m.At(0, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.a1;	m.At(0, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.a2;	m.At(0, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.a3;	m.At(0, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.a4;
+			m.At(1, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.b1;	m.At(1, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.b2;	m.At(1, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.b3;	m.At(1, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.b4;
+			m.At(2, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.c1;	m.At(2, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.c2;	m.At(2, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.c3;	m.At(2, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.c4;
+			m.At(3, 0) = mesh->mBones[boneIndex]->mOffsetMatrix.d1;	m.At(3, 1) = mesh->mBones[boneIndex]->mOffsetMatrix.d2;	m.At(3, 2) = mesh->mBones[boneIndex]->mOffsetMatrix.d3;	m.At(3, 3) = mesh->mBones[boneIndex]->mOffsetMatrix.d4;
+
+			newBoneInfo.offset = m;
+
+			/*LOG("Offset matrix:");
+			LOG("%f %f %f %f", newBoneInfo.offset.At(0, 0), newBoneInfo.offset.At(0, 1), newBoneInfo.offset.At(0, 2), newBoneInfo.offset.At(0, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(1, 0), newBoneInfo.offset.At(1, 1), newBoneInfo.offset.At(1, 2), newBoneInfo.offset.At(1, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(2, 0), newBoneInfo.offset.At(2, 1), newBoneInfo.offset.At(2, 2), newBoneInfo.offset.At(2, 3));
+			LOG("%f %f %f %f", newBoneInfo.offset.At(3, 0), newBoneInfo.offset.At(3, 1), newBoneInfo.offset.At(3, 2), newBoneInfo.offset.At(3, 3));*/
+
+			boneInfoMap[boneName] = newBoneInfo;
+			boneID = boneCounter;
+			boneCounter++;
+		}
+		else {
+			boneID = boneInfoMap[boneName].id;
+		}
+		assert(boneID != -1);
+
+		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
+		
+		/*LOG("Vertices that influences:");*/
+
+		for (int weightIndex = 0; weightIndex < numWeights; weightIndex++) {
+			int vertexID = mesh->mBones[boneIndex]->mWeights[weightIndex].mVertexId;
+			float weight = mesh->mBones[boneIndex]->mWeights[weightIndex].mWeight;
+			assert(vertexID <= vertices.size());
+			SetVertexBoneData(vertices[vertexID], boneID, weight);
+
+			/*LOG("-Vertex ID %i, %f influence", vertexID, weight);*/
+			
+		}
+		///*LOG("=======================\n");*/
+	}
 }

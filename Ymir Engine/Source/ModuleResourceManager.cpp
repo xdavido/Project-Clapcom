@@ -25,6 +25,8 @@
 #include "ImporterMaterial.h"
 #include "ImporterShader.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleResourceManager::ModuleResourceManager(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	LOG("Creating ModuleResourceManager");
@@ -514,6 +516,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 
 Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
 {
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
 
 	switch (type) {

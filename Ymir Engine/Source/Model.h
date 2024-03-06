@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 #include "Mesh.h"
+
+#include "CAnimation.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -14,12 +17,21 @@
 
 class GameObject;
 
+class Animation;
+class Animator;
+
 struct NodeTransform {
   
     float3 translation;
     float3 rotation;
     float3 scale;
 
+};
+
+struct BoneInfo {
+
+    int id;
+    float4x4 offset;
 };
 
 class Model {
@@ -34,6 +46,9 @@ public:
     void LoadModel(const std::string& path, const std::string& shaderPath);
     void DrawModel();
 
+    std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }
+    int GetBoneCount() { return boneCounter; }
+
 private:
 
     void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration);
@@ -41,6 +56,12 @@ private:
 
     void GenerateModelMetaFile();
     void GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale);
+
+    void SetVertexBoneDataDefault(Vertex& vertex);
+    void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
+
+    void ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
+    
 
 public:
 
@@ -59,5 +80,9 @@ public:
     //std::vector<Texture> loadedTextures;
 
     std::vector<int> embeddedMeshesUID;
+
+    //Animation stuff
+    std::map<std::string, BoneInfo> boneInfoMap;
+    int boneCounter;
 
 };

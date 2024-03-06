@@ -1,5 +1,7 @@
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 char Log::tmp_string[4096];
 char Log::tmp_string2[4096];
 

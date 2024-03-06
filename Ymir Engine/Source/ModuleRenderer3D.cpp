@@ -15,6 +15,8 @@
 
 #include "External/Optick/include/optick.h"
 
+#include "External/mmgr/mmgr.h"
+
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	context = nullptr;
@@ -206,6 +208,10 @@ bool ModuleRenderer3D::Init()
 	Shader* waterShader = new Shader;
 	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
 	delete waterShader;
+	
+	Shader* animationShader = new Shader; 
+	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
+	delete animationShader; 
 
 	// Load Editor and Game FrameBuffers
 
@@ -224,6 +230,8 @@ bool ModuleRenderer3D::Init()
 	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
 	
 	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
+
+	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
 
 	return ret;
 }
@@ -287,6 +295,20 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
+		//listUI.clear(); // Cutre, I know
+		// Get UI elements to draw
+		//GetUIGOs(App->scene->mRootNode, listUI);
+
+		//for (auto i = 0; i < listUI.size(); i++)
+		//{
+		//	if (listUI[i]->mOwner->active && listUI[i]->active)
+		//	{
+		//		listUI[i]->Draw(false);
+		//	}
+		//}
+
+		DrawUIElements(false);
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
@@ -323,6 +345,29 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			//}
 
+			// TODO: preguntar porque el out of range este raro
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
+
+			//		if (i == 0) { break; }
+			//	}
+			//}
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
+
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -345,6 +390,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -366,6 +419,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+
 
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
@@ -642,6 +696,102 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 	return true;
 }
 
+void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
+{
+	if (go->GetComponent(ComponentType::UI) != nullptr)
+	{
+		C_UI* ui = static_cast<C_UI*>(go->GetComponent(ComponentType::UI));
+		listgo.push_back(ui);
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUIGOs(go->mChildren[i], listgo);
+		}
+	}
+}
+
+void ModuleRenderer3D::DrawUIElements(bool isGame)
+{
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+
+		if ((*it)->active && uiComponent != nullptr)
+		{
+			switch (uiComponent->UI_type)
+			{
+			case UI_TYPE::CANVAS:
+
+
+
+				break;
+
+			case UI_TYPE::IMAGE: {
+
+				UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(true);
+
+				}
+
+				uiImage->mat->shader.UseShader(true);
+				uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+
+				uiImage->Draw(isGame);
+
+				uiImage->mat->shader.UseShader(false);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(false);
+
+				}
+
+				break;
+			}
+			case UI_TYPE::TEXT:
+
+
+
+				break;
+
+			case UI_TYPE::BUTTON:
+
+
+
+				break;
+
+			case UI_TYPE::INPUTBOX:
+
+
+
+				break;
+
+			case UI_TYPE::CHECKBOX:
+
+
+
+				break;
+
+			case UI_TYPE::NONE:
+
+
+
+				break;
+
+			}
+
+		}
+
+	}
+
+}
+
 void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
@@ -649,6 +799,7 @@ void ModuleRenderer3D::DrawGameObjects()
 		CTransform* transformComponent = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
 		CMesh* meshComponent = (CMesh*)(*it)->GetComponent(ComponentType::MESH);
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
+		CAnimation* animationComponent = (CAnimation*)(*it)->GetComponent(ComponentType::ANIMATION);
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
@@ -665,8 +816,14 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
+					
+					if (animationComponent != nullptr && animationComponent->active) {
+						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
+						for (int i = 0; i < transforms.size(); i++) {
+							materialComponent->shader.SetMatrix4x4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+						}
+					}
 					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
-
 				}
 
 				meshComponent->rMeshReference->Render();

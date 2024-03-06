@@ -15,9 +15,15 @@
 
 #define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
 
+#define MIN(a,b) ((a)<(b)) ? (a) : (b)
+#define MAX(a,b) ((a)>(b)) ? (a) : (b)
+
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 #define PI 3.14159265358979323846264338327950288
+
+#define MIN(a,b) ((a)<(b)) ? (a) : (b)
+#define MAX(a,b) ((a)>(b)) ? (a) : (b)
 
 typedef unsigned int uint;
 typedef unsigned __int64 uint64;
@@ -98,4 +104,29 @@ void ClearVecPtr(std::vector<T*>& x)
 
 	x.clear();
 	x.shrink_to_fit();
+
+}
+//Scripting fuction: Va a buscar un proyecto .sln y lo compila -> El proyecto Assembly-CSharp.sln
+static void CMDCompileCS()
+{
+#pragma region ShellExecute
+	SHELLEXECUTEINFO execInfo = { 0 };
+	execInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	execInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	execInfo.hwnd = NULL;
+	execInfo.lpVerb = NULL;
+	execInfo.lpFile = "cmd";
+	//ShExecInfo.lpParameters = "/K dotnet build Assembly-CSharp.sln --configuration Release";
+	execInfo.lpParameters = "/C cd mono-runtime/MSBuild & msbuild ../../Assembly-CSharp.sln /p:Configuration=Release"; //Should include msbuild to the editor folder to make sure this will work? /p:Configuration=Release
+	execInfo.lpDirectory = NULL;
+	execInfo.nShow = SW_SHOW; /*SW_SHOW  SW_HIDE*/
+	execInfo.hInstApp = NULL;
+	ShellExecuteEx(&execInfo);
+
+	if (execInfo.hProcess != NULL) {
+		WaitForSingleObject(execInfo.hProcess, INFINITE);
+		CloseHandle(execInfo.hProcess);
+	}
+
+#pragma endregion
 }

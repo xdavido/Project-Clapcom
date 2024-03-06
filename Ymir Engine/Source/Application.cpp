@@ -9,11 +9,15 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
+#include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
 #include "Log.h"
 
 #include "External/Optick/include/optick.h"
+
+#include "External/mmgr/mmgr.h"
 
 extern Application* External = nullptr;
 
@@ -29,6 +33,8 @@ Application::Application()
 	scene = new ModuleScene(this);
 	resourceManager = new ModuleResourceManager(this);
 	fileSystem = new ModuleFileSystem(this);
+	moduleMono = new ModuleMonoManager(this);
+	audio = new ModuleAudio(this);
 	physics = new ModulePhysics(this);
 
 	// The order of calls is very important!
@@ -39,6 +45,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+	AddModule(audio);
 
 	// Physics
 	AddModule(physics);
@@ -46,6 +53,7 @@ Application::Application()
 	// Utility Modules
 	AddModule(fileSystem);
 	AddModule(resourceManager);
+	AddModule(moduleMono);
 	AddModule(scene);
 
 	// Renderer last, and then editor!

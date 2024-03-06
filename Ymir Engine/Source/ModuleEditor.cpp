@@ -12,8 +12,10 @@
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
+#include "ModuleMonoManager.h"
 
 #include "GameObject.h"
+#include "G_UI.h"
 #include "PhysfsEncapsule.h"
 
 #include "External/SDL/include/SDL_opengl.h"
@@ -23,6 +25,9 @@
 #include "External/Optick/include/optick.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
+
+#include "External/mmgr/mmgr.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -35,6 +40,8 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
 	licenseFileContents = ReadFile("../../LICENSE");
 	memleaksFileContents = ReadFile("memleaks.log");
 	AssimpLogFileContents = ReadFile("AssimpLog.txt");
+
+	g = nullptr;
 
 	LOG("Creating ModuleEditor");
 
@@ -62,7 +69,7 @@ bool ModuleEditor::Init()
 
 	IMGUI_CHECKVERSION();
 
-	ImGui::CreateContext();
+	g = ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -122,6 +129,9 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 
+
+	scriptEditor = new ScriptEditor();
+	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 #ifdef _STANDALONE
 
 	TimeManager::gameTimer.Start();
@@ -252,8 +262,8 @@ void ModuleEditor::DrawEditor()
 			PrimitivesMenu();
 
 			CreateCameraMenu();
-			// TODO: Uncomment when UI
-			//UIMenu();
+
+			UIMenu();
 
 			ImGui::Separator();
 
@@ -825,7 +835,7 @@ void ModuleEditor::DrawEditor()
 
 				ImGui::Text("Collider Color"); ImGui::SameLine();
 
-				// Mostrar el botón de color personalizado
+				// Mostrar el botï¿½n de color personalizado
 				if (ImGui::ColorButton("##ColorButton", auxColor))
 				{
 					ImGui::OpenPopup("ColorPickerPopup");
@@ -915,6 +925,9 @@ void ModuleEditor::DrawEditor()
 		ImGui::ShowDemoWindow();
 
 	}
+
+
+    // END OF APPLICATION MENU
 
 	// Time Management
 
@@ -1204,12 +1217,17 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
-				ImVec2 size = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
 
 			ImGui::End();
@@ -1283,12 +1301,26 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
+	}
+    if (showScriptingEditor) {
+
+        if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
+
+			scriptEditor->Draw();
+
+            ImGui::End();
+
+        }
+
+    
+
+    // --------------------------------- Here finishes the code for the editor ----------------------------------------
+    
+    // Rendering
+
 
 	}
-
-	// --------------------------------- Here finishes the code for the editor ----------------------------------------
-
-	// Rendering
+	
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -1471,7 +1503,7 @@ void ModuleEditor::UIMenu()
 		{
 			if (ImGui::MenuItem(ui[i].c_str()))
 			{
-				//new G_UI((UI_TYPE)i);
+				App->scene->CreateGUI((UI_TYPE)i);
 				break;
 			}
 		}
@@ -2765,23 +2797,99 @@ void ModuleEditor::DrawInspector()
 
 				ImGui::Spacing();
 
-				ImGui::Text("UID: %d", (*it)->UID);
+				ImGui::Text("Tag"); ImGui::SameLine();
+
+				ImGuiStyle& style = ImGui::GetStyle();
+				float w = ImGui::CalcItemWidth() * 1.25;
+				float spacing = style.ItemInnerSpacing.x;
+				float button_sz = ImGui::GetFrameHeight();
+
+				ImGui::PushItemWidth((w - spacing * 0.5f - button_sz * 0.5f) * 0.5f);
+
+				std::vector<std::string> tags = External->scene->tags;
+
+				if (ImGui::BeginCombo("##tags", (*it)->tag))
+				{
+					for (int t = 0; t < tags.size(); t++)
+					{
+						bool is_selected = strcmp((*it)->tag, tags[t].c_str()) == 0;
+						if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
+							strcpy((*it)->tag, tags[t].c_str());
+						}
+
+						if (is_selected)
+							ImGui::SetItemDefaultFocus();
+					}
+					if (ImGui::BeginMenu("Add Tag"))
+					{
+						static char newTag[32];
+						ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
+
+						if (ImGui::Button("Save Tag")) {
+							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+							strcpy(tagToAdd, newTag);
+							External->scene->tags.push_back(tagToAdd);
+							newTag[0] = '\0';
+							delete[] tagToAdd;
+						}
+						ImGui::EndMenu();
+					}
+
+					int tag_to_remove = -1;
+					if (ImGui::BeginMenu("Remove Tag"))
+					{
+						for (int t = 0; t < tags.size(); t++)
+						{
+							if (ImGui::Selectable(tags[t].c_str(), false)) {
+								tag_to_remove = t;
+							}
+						}
+						ImGui::EndMenu();
+					}
+
+					if (tag_to_remove != -1)
+						External->scene->tags.erase(External->scene->tags.begin() + tag_to_remove);
+
+					ImGui::EndCombo();
+				}
+				ImGui::SameLine();
+				ImGui::Text("       UID: %d", (*it)->UID);
+
 
 				ImGui::Spacing();
 
 				if (!(*it)->active) { ImGui::BeginDisabled(); }
 
-				Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
+				/*Component* transform = (*it)->GetComponent(ComponentType::TRANSFORM);
 				Component* mesh = (*it)->GetComponent(ComponentType::MESH);
 				Component* material = (*it)->GetComponent(ComponentType::MATERIAL);
 				Component* camera = (*it)->GetComponent(ComponentType::CAMERA);
+				Component* audioListener = (*it)->GetComponent(ComponentType::AUDIO_LISTENER);
+				Component* audioSource = (*it)->GetComponent(ComponentType::AUDIO_SOURCE);
 				Component* physics = (*it)->GetComponent(ComponentType::PHYSICS);
+				Component* animation = (*it)->GetComponent(ComponentType::ANIMATION);
+				Component* script = (*it)->GetComponent(ComponentType::SCRIPT);
 
 				if (transform != nullptr) transform->OnInspector(); ImGui::Spacing();
 				if (mesh != nullptr) mesh->OnInspector(); ImGui::Spacing();
 				if (material != nullptr) material->OnInspector(); ImGui::Spacing();
 				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+				if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 				if (physics != nullptr) physics->OnInspector(); ImGui::Spacing();
+				if (animation != nullptr) animation->OnInspector(); ImGui::Spacing();
+				if (script != nullptr) script->OnInspector(); ImGui::Spacing();
+				if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();*/
+
+				for (auto i = 0; i < (*it)->mComponents.size(); i++)
+				{
+					(*it)->mComponents[i]->OnInspector();
+					ImGui::Spacing();
+				}
+				
+				//if (camera != nullptr) camera->OnInspector(); ImGui::Spacing();
+				//if (audioListener != nullptr) audioListener->OnInspector(); ImGui::Spacing();
+				//if (audioSource != nullptr) audioSource->OnInspector(); ImGui::Spacing();
 
 				float buttonWidth = 120.0f;  // Adjust the width as needed
 				float windowWidth = ImGui::GetWindowWidth();
@@ -2814,15 +2922,18 @@ void ModuleEditor::DrawInspector()
 					}*/
 
 					// --- Add component Material ---
-					if (material == nullptr)
-					{
-						if (ImGui::MenuItem("Material"))
-						{
-							(*it)->AddComponent(ComponentType::MATERIAL);
-						}
-					}
+					//if (material == nullptr)
+					//{
+					//	if (ImGui::MenuItem("Material"))
+					//	{
+					//		(*it)->AddComponent(ComponentType::MATERIAL);
+					//	}
+					//}
 
-					// --- Add component Camera ---
+					//// --- Add component Camera ---
+
+					CCamera* camera = (CCamera*)(*it)->GetComponent(ComponentType::CAMERA);
+
 					if (camera == nullptr)
 					{
 						if (ImGui::MenuItem("Camera"))
@@ -2831,6 +2942,12 @@ void ModuleEditor::DrawInspector()
 						}
 					}
 
+					//delete camera;
+
+					//// --- Add component Physics ---
+
+					CCollider* physics = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
+
 					if (physics == nullptr)
 					{
 						if (ImGui::MenuItem("Physics"))
@@ -2838,6 +2955,8 @@ void ModuleEditor::DrawInspector()
 							(*it)->AddComponent(ComponentType::PHYSICS);
 						}
 					}
+
+					//delete physics;
 
 					ImGui::EndPopup();
 				}
@@ -2931,6 +3050,7 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			{
 				snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
 				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 				{
 					// Snap to 45 degrees for rotation

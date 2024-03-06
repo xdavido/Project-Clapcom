@@ -1,6 +1,8 @@
 #include "ImporterMesh.h"
 #include "PhysfsEncapsule.h"
 
+#include "External/mmgr/mmgr.h"
+
 void ImporterMesh::Import(const aiMesh* mesh, Mesh* ourMesh)
 {
 

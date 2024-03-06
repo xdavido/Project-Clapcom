@@ -1,0 +1,99 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "12",
+  "SoundbankVersion": "135",
+  "RootPaths": {
+   "ProjectRoot": "C:\\Users\\Mario\\Documents\\WwiseProjects\\Funciona Porfa\\",
+   "SourceFilesRoot": "C:\\Users\\Mario\\Documents\\WwiseProjects\\Funciona Porfa\\.cache\\Windows\\",
+   "SoundBanksRoot": "C:\\Users\\Mario\\Documents\\GitHub\\Project-Clapcom\\Ymir Engine\\Game\\Assets\\SoundBanks\\",
+   "ExternalSourcesInputFile": "",
+   "ExternalSourcesOutputRoot": "C:\\Users\\Mario\\Documents\\WwiseProjects\\Funciona Porfa\\GeneratedSoundBanks\\Windows"
+  },
+  "DialogueEvents": [],
+  "StreamedFiles": [],
+  "MediaFilesNotInAnyBank": [],
+  "SoundBanks": [
+   {
+    "Id": "6333691",
+    "Language": "SFX",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\FuncionaPls",
+    "ShortName": "FuncionaPls",
+    "Path": "FuncionaPls.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "1735860057",
+      "Name": "JV",
+      "ObjectPath": "\\Events\\Default Work Unit\\JV",
+      "DurationType": "OneShot",
+      "DurationMin": "60.60408",
+      "DurationMax": "60.60408",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "42736708",
+        "Language": "SFX",
+        "ShortName": "Jovani Elden.wav",
+        "Path": "SFX\\Jovani Elden_10C4C929.wem"
+       }
+      ]
+     },
+     {
+      "Id": "1133667304",
+      "Name": "OniiChan",
+      "ObjectPath": "\\Events\\Default Work Unit\\OniiChan",
+      "DurationType": "OneShot",
+      "DurationMin": "1.066667",
+      "DurationMax": "1.066667",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "890177970",
+        "Language": "SFX",
+        "ShortName": "Onichan.wav",
+        "Path": "SFX\\Onichan_10C4C929.wem"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "Id": "1355168291",
+    "Language": "SFX",
+    "Hash": "3791779620",
+    "ObjectPath": "Init",
+    "ShortName": "Init",
+    "Path": "Init.bnk"
+   },
+   {
+    "Id": "3991942870",
+    "Language": "SFX",
+    "Hash": "2444254074",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music",
+    "ShortName": "Music",
+    "Path": "Music.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "3991942870",
+      "Name": "Music",
+      "ObjectPath": "\\Events\\Default Work Unit\\Music",
+      "DurationType": "Infinite",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "107121754",
+        "Language": "SFX",
+        "ShortName": "LV2_PROVISIONAL.wav",
+        "Path": "SFX\\LV2_PROVISIONAL_D79FB2B7.wem"
+       },
+       {
+        "Id": "1062417392",
+        "Language": "SFX",
+        "ShortName": "LV2_PROVISIONAL_PART2.wav",
+        "Path": "SFX\\LV2_PROVISIONAL_PART2_D79FB2B7.wem"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
