@@ -26,11 +26,12 @@ public:
 	void SetAsDefaultListener(bool setDefault = true);
 	bool IsDefaultListener();
 
+	bool isDefaultListener;
+
 private:
 
 	CTransform* myTransform;
-
-	bool isDefaultListener;
+	
 	unsigned int id;
 
 };

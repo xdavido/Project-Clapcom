@@ -2659,6 +2659,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
+					App->scene->SetSelected();
 					node->mParent->DeleteChild(node);
 
 					App->scene->gameObjects.erase(
@@ -2924,112 +2925,109 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 	// Begin the ImGuizmo frame.
 	ImGuizmo::BeginFrame();
 
-	// Iterate through all game objects in the scene.
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	// Check if the current game object is selected.
+	if (App->scene->selectedGO != nullptr) {
 
-		// Check if the current game object is selected.
-		if ((*it)->selected) {
+		ImGuizmo::SetDrawlist();
+		// Set the rectangle for ImGuizmo in the editor window.
+		ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-			ImGuizmo::SetDrawlist();
-			// Set the rectangle for ImGuizmo in the editor window.
-			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
+		if (App->camera->hoveringEditor)
+		{
+			// Check for key presses to set the gizmo operation and mode.
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 
-			if (App->camera->hoveringEditor)
+				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+
+				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+
+				gizmoOperation = ImGuizmo::OPERATION::SCALE;
+
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+
+				gizmoMode = ImGuizmo::MODE::WORLD;
+
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+				gizmoMode = ImGuizmo::MODE::LOCAL;
+
+			}
+
+		}
+
+		ImGuizmo::MODE modeApplied;
+
+		// Hardcoded local mode to prevent Scale from Reseting the Rotation.
+		if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
+
+			modeApplied = ImGuizmo::MODE::LOCAL;
+		}
+		else {
+
+			modeApplied = gizmoMode;
+
+		}
+
+		// Get the view and projection matrices from the editor camera.
+		float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
+		float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
+
+		// Get the transform component of the current game object.
+		CTransform* ctransform = (CTransform*)App->scene->selectedGO->GetComponent(ComponentType::TRANSFORM);
+
+		modelMatrix = ctransform->mGlobalMatrix.Transposed();
+
+		//// Copy the model matrix to a float array for ImGuizmo.
+		//float modelPtr[16];
+		//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
+
+		//Snap
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+		{
+			snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
+			if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 			{
-				// Check for key presses to set the gizmo operation and mode.
-				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::SCALE;
-
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-
-					gizmoMode = ImGuizmo::MODE::WORLD;
-
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-
-					gizmoMode = ImGuizmo::MODE::LOCAL;
-
-				}
-
-			}
-
-			ImGuizmo::MODE modeApplied;
-
-			// Hardcoded local mode to prevent Scale from Reseting the Rotation.
-			if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
-
-				modeApplied = ImGuizmo::MODE::LOCAL;
-			}
-			else {
-
-				modeApplied = gizmoMode;
-
-			}
-
-			// Get the view and projection matrices from the editor camera.
-			float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
-			float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
-
-			// Get the transform component of the current game object.
-			CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
-
-			modelMatrix = ctransform->mGlobalMatrix.Transposed();
-
-			//// Copy the model matrix to a float array for ImGuizmo.
-			//float modelPtr[16];
-			//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
-
-			//Snap
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-			{
-				snapValue = 1.0f; // Snap to 1.0m for translation/scale
-
-				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
-				{
-					// Snap to 45 degrees for rotation
-					snapValue = 45.0f;
-				}
-			}
-
-			else
-			{
-				snapValue = 0.0f;
-			}
-
-			float snapValues[3] = { snapValue, snapValue, snapValue };
-
-			// Use ImGuizmo to manipulate the object in the scene.
-			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
-
-			// Check if the gizmo is being used.
-			if (ImGuizmo::IsUsing())
-			{
-				float4x4 matrix = modelMatrix.Transposed();
-				(*it)->mTransform->UpdateTransformGuizmo(matrix);
-			}
-
-			// Check if the reset button is pressed, and reset the model matrix.
-			if (ctransform->resetPressed) {
-
-				modelMatrix = float4x4::identity;
-				ctransform->resetPressed = false;
+				// Snap to 45 degrees for rotation
+				snapValue = 45.0f;
 			}
 		}
+
+		else
+		{
+			snapValue = 0.0f;
+		}
+
+		float snapValues[3] = { snapValue, snapValue, snapValue };
+
+		// Use ImGuizmo to manipulate the object in the scene.
+		ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
+
+		// Check if the gizmo is being used.
+		if (ImGuizmo::IsUsing())
+		{
+			float4x4 matrix = modelMatrix.Transposed();
+			App->scene->selectedGO->mTransform->UpdateTransformGuizmo(matrix);
+		}
+
+		// Check if the reset button is pressed, and reset the model matrix.
+		if (ctransform->resetPressed) {
+
+			modelMatrix = float4x4::identity;
+			ctransform->resetPressed = false;
+		}
 	}
+
 }
 
 // TODO: Sara

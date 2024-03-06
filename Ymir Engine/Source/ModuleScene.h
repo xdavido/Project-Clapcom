@@ -59,7 +59,7 @@ public:
 
 	// Select GameObjects
 	std::vector<GameObject*>& GetSelectedGOs();
-	void SetSelected(GameObject* go);
+	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
 	
 	// Function to handle GameObject selection by Mouse Picking

@@ -1312,11 +1312,24 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	case AUDIO_SOURCE:
 	{
 		json_object_set_string(componentObject, "Type", "Audio source");
+
+		CAudioSource* caudiosource = (CAudioSource*)&component;
+
+		json_object_set_number(componentObject, "Active", caudiosource->active);
+
+		json_object_set_string(componentObject, "Bank Name", caudiosource->audBankName.c_str());
+		json_object_set_string(componentObject, "Event Name", caudiosource->evName.c_str());
+		json_object_set_number(componentObject, "Event ID", caudiosource->evID);
 	}
 	break;
 	case AUDIO_LISTENER:
 	{
 		json_object_set_string(componentObject, "Type", "Audio listener");
+
+		CAudioListener* caudiolistener = (CAudioListener*)&component;
+
+		json_object_set_number(componentObject, "Active", caudiolistener->active);
+		json_object_set_number(componentObject, "Default Listener", caudiolistener->isDefaultListener);
 	}
 	break;
 	default:
@@ -1835,10 +1848,18 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	// TODO: Audio save / load	
 	else if (type == "Audio source")
 	{
+		CAudioSource* caudiosource = new CAudioSource(gameObject);
+		caudiosource->active = json_object_get_number(componentObject, "Active");
+		caudiosource->audBankName = json_object_get_string(componentObject, "Bank Name");
+		caudiosource->evName = json_object_get_string(componentObject, "Event Name");
+		caudiosource->evID = json_object_get_number(componentObject, "Event ID");
 
+		gameObject->AddComponent(caudiosource);
 	}
 	else if (type == "Audio listener")
 	{
-
+		CAudioListener* caudiolistener = new CAudioListener(gameObject);
+		caudiolistener->active = json_object_get_number(componentObject, "Active");
+		caudiolistener->isDefaultListener = json_object_get_number(componentObject, "Default Listener");
 	}
 }

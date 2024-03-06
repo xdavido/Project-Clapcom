@@ -495,15 +495,15 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 	}
 
 	// Set all meshes to unselected initially.
-	for (CMesh* mesh : meshesSorted) {
+	/*for (CMesh* mesh : meshesSorted) {
 
 		if (mesh != nullptr && mesh->mOwner != nullptr) {
 
-			mesh->mOwner->selected = false;
+			SetSelected();
 
 		}
 
-	}
+	}*/
 
 	// Iterate through the sorted meshes to find the first intersection with the ray.
 	for (CMesh* mesh : meshesSorted) {
@@ -535,19 +535,19 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 					// Intersection found, set the selected object.
 					if (mesh->mOwner != nullptr) {
 
-						mesh->mOwner->selected = true;
+						App->scene->SetSelected(mesh->mOwner);
 
-						// Iterate through all game objects in the scene.
-						for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+						//// Iterate through all game objects in the scene.
+						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-							// Unselect other game objects.
-							if ((*it) != mesh->mOwner) {
+						//	// Unselect other game objects.
+						//	if ((*it) != mesh->mOwner) {
 
-								(*it)->selected = false;
+						//		(*it)->selected = false;
 
-							}
+						//	}
 
-						}
+						//}
 
 					}
 
@@ -562,12 +562,14 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 
 	}
 
-	// No intersection found, clear the selection for all meshes.
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	SetSelected();
 
-		(*it)->selected = false;
+	//// No intersection found, clear the selection for all meshes.
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-	}
+	//	(*it)->selected = false;
+
+	//}
 
 }
 
