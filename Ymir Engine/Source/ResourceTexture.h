@@ -35,7 +35,7 @@ enum class TextureType {
 class ResourceTexture : public Resource {
 public:
 
-	ResourceTexture(uint UID);
+	ResourceTexture(uint UID = 0);
 
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;

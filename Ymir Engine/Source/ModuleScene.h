@@ -58,6 +58,7 @@ public:
 	void Destroy(GameObject* gm);
 
 	// Select GameObjects
+	std::vector<GameObject*>& GetSelectedGOs();
 	void SetSelected(GameObject* go);
 	void SetSelectedState(GameObject* go, bool selected);
 	
