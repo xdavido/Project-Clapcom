@@ -2910,13 +2910,7 @@ void ModuleEditor::DrawInspector()
 				{
 					if (ImGui::BeginMenu("Script"))
 					{
-						if (ImGui::MenuItem("New"))
-						{
-							if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
-							{
-								//Todo: Crear una ventaa aparte para crear script de 0
-							}
-						}
+						
 						if (ImGui::MenuItem("Core"))
 						{
 							script_name = "Core";
@@ -2933,22 +2927,18 @@ void ModuleEditor::DrawInspector()
 							script_name = "BH_Bullet";
 							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
 						}
-				
+						if (ImGui::MenuItem("New")) {
 
+
+						}
 						ImGui::EndMenu();
 					}
 				}
-
 				//delete physics;
-
 				ImGui::EndPopup();
 			}
-
-
 			if (!App->scene->selectedGO->active) { ImGui::EndDisabled(); }
-
 		}
-
 	}
 }
 
