@@ -53,6 +53,10 @@ public:
 
 	bool backwards;
 
+	bool easeIn;
+
+	bool easeOut;
+
 	float speed;
 
 private:

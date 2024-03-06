@@ -108,7 +108,7 @@ void CAnimation::OnInspector() {
             }
 
             float speed = animator->GetCurrentAnimation()->GetSpeed();
-            if (ImGui::DragFloat("Speed", &speed)) {
+            if (ImGui::DragFloat("Speed", &speed, 1.0f, .0f, 100.0f)) {
                 animator->GetCurrentAnimation()->SetSpeed(speed);
             }
 
@@ -118,17 +118,90 @@ void CAnimation::OnInspector() {
                 !animator->GetCurrentAnimation()->loop;
             }
 
+            ImGui::SameLine();
+
+            ImGui::Button("?");
+
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Activate looping, works with all buttons from below");
+                ImGui::EndTooltip();
+            }
+
+
             ImGui::Checkbox("PingPong", &animator->GetCurrentAnimation()->pingPong);
 
             if (ImGui::IsItemClicked()) {
                 !animator->GetCurrentAnimation()->pingPong;
             }
 
+            ImGui::SameLine();
+
+            ImGui::Button("?");
+
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Goes from the start to the end and then back. Works with both Loop and backwards features");
+                ImGui::EndTooltip();
+            }
+
+
             ImGui::Checkbox("Backwards", &animator->GetCurrentAnimation()->backwards);
 
             if (ImGui::IsItemClicked()) {
                 !animator->GetCurrentAnimation()->backwards;
             }
+
+            ImGui::SameLine();
+
+            ImGui::Button("?");
+
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Backwards starts the animation from the end. When combined with PingPong it does the PingPong effect starting from the end. It's incompatible with Ease-In and Ease-Out");
+                ImGui::EndTooltip();
+            }
+
+
+            ImGui::Checkbox("Ease-In", &animator->GetCurrentAnimation()->easeIn);
+
+            if (ImGui::IsItemClicked()) {
+                !animator->GetCurrentAnimation()->easeIn;
+            }
+
+            ImGui::SameLine();
+
+            ImGui::Button("?");
+
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Ease-In only works properly when both PingPong and Backwards are not activated. You can decide the multiplier for more or less Ease-In speed, but the default (1.025) one or similar one are recommended");
+                ImGui::EndTooltip();
+            }
+
+            ImGui::SameLine();
+
+            ImGui::InputFloat("Ease-In Multiplier", &animator->easeInMultiplier);
+
+            ImGui::Checkbox("Ease-Out", &animator->GetCurrentAnimation()->easeOut);
+
+            if (ImGui::IsItemClicked()) {
+                !animator->GetCurrentAnimation()->easeOut;
+            }
+
+            ImGui::SameLine();
+
+            ImGui::Button("?");
+
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Ease-Out only works properly when both PingPong and Backwards are not activated. You can decide the multiplier for more or less Ease-Out speed, but the default one (0.995) or similar one are recommended");
+                ImGui::EndTooltip();
+            }
+
+            ImGui::SameLine();
+
+            ImGui::InputFloat("Ease-Out Multiplier", &animator->easeOutMultiplier);
 
             if (ImGui::Button("Play")) {
 

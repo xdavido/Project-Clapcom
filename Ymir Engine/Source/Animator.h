@@ -45,5 +45,9 @@ private:
 
 public:
 	std::vector<Animation> animations;
+	float easeInSpeed;
+	float easeOutSpeed;
+	float easeInMultiplier;
+	float easeOutMultiplier;
 
 };
