@@ -361,7 +361,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrtho(0.0, App->editor->gameViewSize.y, App->editor->gameViewSize.x, 0.0, 1.0, -1.0);
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
 
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
@@ -390,6 +390,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
