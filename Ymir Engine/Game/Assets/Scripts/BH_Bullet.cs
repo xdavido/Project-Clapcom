@@ -24,7 +24,7 @@ public class BH_Bullet : YmirComponent
 
         if (currentLifeTime >= maxLifeTime)
         {
-            InternalCalls.Destroy(thisReference);
+            InternalCalls.Destroy(gameObject);
         }
     }
 }
