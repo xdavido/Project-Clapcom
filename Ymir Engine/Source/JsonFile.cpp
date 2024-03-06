@@ -1647,7 +1647,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		canimation->modelPath = modelPathTemp;
 
-		//// Load animator
+		Model* model = new Model(canimation->modelPath);
+
+		// Load animator
 		JSON_Value* animatorValue = json_object_get_value(componentObject, "Animator");
 
 		if (animatorValue == nullptr || json_value_get_type(animatorValue) != JSONObject) {
@@ -1657,12 +1659,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		JSON_Object* animatorObject = json_value_get_object(animatorValue);
 
-		Animator* animator = new Animator();
-
-		canimation->animator = new Animator();
-
 		canimation->animator->SetCurrentAnimationTime(json_object_get_number(animatorObject, "Current animation time"));
-
 
 
 		// Load animation 
@@ -1672,14 +1669,21 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			return;
 
 		JSON_Object* animationObject = json_value_get_object(animationValue);
+	
 
-		//Conseguir crear la animacion mediante el modelo --> Problema, como acceder al modelo?
-		Model* model = new Model(modelPathTemp, SHADER_ANIMATION);
-		Animation* animation = new Animation(modelPathTemp, model, 0);
+		
+		/*canimation->animator->animations[0].name = json_object_get_string(animationObject, "Name");
 
-		canimation->AddAnimation(*animation, animation->name);
+		canimation->animator->animations[0].isPlaying = json_object_get_boolean(animationObject, "IsPlaying");
+		canimation->animator->animations[0].loop = json_object_get_boolean(animationObject, "Loop");
+		canimation->animator->animations[0].pingPong = json_object_get_boolean(animationObject, "PingPong");
+		canimation->animator->animations[0].backwards = json_object_get_boolean(animationObject, "Backwards");
+		canimation->animator->animations[0].easeIn = json_object_get_boolean(animationObject, "EaseIn");
+		canimation->animator->animations[0].easeOut = json_object_get_boolean(animationObject, "EaseOut");
 
-		canimation->animator->PlayAnimation(animation);
+		canimation->animator->animations[0].SetSpeed(json_object_get_number(animationObject, "Speed"));
+		canimation->animator->animations[0].SetDuration(json_object_get_number(animationObject, "Duration"));
+		canimation->animator->animations[0].SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));*/
 
 		canimation->animator->GetCurrentAnimation()->name = json_object_get_string(animationObject ,"Name");
 
@@ -1695,7 +1699,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		canimation->animator->GetCurrentAnimation()->SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));
 
 		gameObject->AddComponent(canimation);
-
 
 	}
 	else if (type == "Physics") {
