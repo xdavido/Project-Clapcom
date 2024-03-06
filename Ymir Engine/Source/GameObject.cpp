@@ -213,6 +213,14 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+	case ComponentType::SCRIPT:
+		if (GetComponent(ComponentType::SCRIPT) == nullptr)
+		{
+			temp = new CScript(this,"Core");
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
 	default:
 		break;
 	}
