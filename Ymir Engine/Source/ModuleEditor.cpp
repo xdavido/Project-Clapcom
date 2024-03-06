@@ -2659,6 +2659,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
+					App->scene->SetSelected();
 					node->mParent->DeleteChild(node);
 
 					App->scene->gameObjects.erase(
