@@ -49,10 +49,12 @@ public:
 
 	bool IsMusic();
 
-private:
-
 	std::string	evName;
 	std::string	audBankName;
+	uint64 evID;
+
+private:
+
 	AudioBank* audBankReference;
 	float volume;
 	float pitch;

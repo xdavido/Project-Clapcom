@@ -19,6 +19,7 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	External->audio->RegisterNewAudioObject(id);
 	External->audio->AddAudioSource(this);
 
+	evID = 0;
 	External->audio->LoadBank(std::string("Music"));
 
 #ifdef _STANDALONE
@@ -83,6 +84,7 @@ void CAudioSource::OnInspector()
 			if (ImGui::Selectable((*ev_it).second.c_str()))
 			{
 				evName = (*ev_it).second;
+				evID = (*ev_it).first;
 			}
 			if (isSelected)
 				ImGui::SetItemDefaultFocus();
