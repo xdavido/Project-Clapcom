@@ -4,7 +4,7 @@ using YmirEngine;
 
 public class BH_Bullet : YmirComponent
 {
-    public GameObject thisReference = null; //This is needed until i make all this be part of a component base class
+    public GameObject thisReference = InternalCalls.GetGameObjectByName("Bullet"); //This is needed until i make all this be part of a component base class
 
     public float speed = 60.0f;
     public float maxLifeTime = 5.0f;
@@ -24,7 +24,7 @@ public class BH_Bullet : YmirComponent
 
         if (currentLifeTime >= maxLifeTime)
         {
-            InternalCalls.Destroy(this.thisReference);
+            InternalCalls.Destroy(thisReference);
         }
     }
 }

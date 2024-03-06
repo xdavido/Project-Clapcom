@@ -16,6 +16,7 @@
 #include "CRigidBody.h"
 #include "CCollider.h"
 #include "CAnimation.h"
+#include "CScript.h"
 
 #include "Random.h"
 
