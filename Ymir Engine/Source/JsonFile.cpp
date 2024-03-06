@@ -1070,6 +1070,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
+		break;
     }
     case ANIMATION: 
 	{
