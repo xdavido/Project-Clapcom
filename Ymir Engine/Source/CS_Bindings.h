@@ -310,20 +310,21 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->mTransform->SetScale(scaleVector);
 	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
 
-	External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
+	//External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
 
-	CMesh* meshRenderer = reinterpret_cast<CMesh*>(go->AddComponent(ComponentType::MESH));	//TODO: Crear un componente de tipo mesh para a�adirle al game object
+	CMesh* meshRenderer = nullptr;
 
-	ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(80893934, "Library/Meshes/80893934.ymesh"));
-	meshRenderer->rMeshReference = test;
+	go->AddComponent(ComponentType::MESH);
+	meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
+	Model("Assets/Primitives/Cube.fbx");
+	/*ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(1753294, "Library/Meshes/1753294.ymesh"));
+	meshRenderer->rMeshReference = test;*/
 
 	//Añade el componente Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
-
-	//go->AddComponent(Component::SCRIPT, "BH_Bullet");	//TODO: A�adir el componente script del Bullet al GameObject
 
 	/*return mono_gchandle_get_target(cmp->noGCobject);*/
 }
