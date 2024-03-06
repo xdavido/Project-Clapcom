@@ -13,6 +13,7 @@
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
 #include "External/ImGui/backends/imgui_impl_opengl3.h"
 #include "External/ImGui/misc/cpp/imgui_stdlib.h"
+#include "External/ImGui/imgui_internal.h"
 
 #include "External/ImGuizmo/include/ImGuizmo.h"
 
@@ -20,6 +21,7 @@
 #include "ShaderEditor.h"
 
 #include "Texture.h"
+#include "ScriptEditor.h"
 
 class GameObject;
 
@@ -168,6 +170,8 @@ public:
 	bool showLibrary = true;
 
 	bool showNodeEditor = false;
+
+	bool showScriptingEditor = true;
 	bool showShaderEditor = false;
 
 	// OpenGL settings checkbox toggle booleans
@@ -266,6 +270,13 @@ public:
 
 	//New Component
 	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider
+	//Script Editor
+	ScriptEditor* scriptEditor;
+
+	// Stuff needed for UI, don't know if it is 100% needed
+	ImVec2 gameViewSize;
+	float2 mouse;
+	ImGuiContext* g;
 };
 
 #endif // MODULE_EDITOR

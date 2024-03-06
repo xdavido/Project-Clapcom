@@ -11,6 +11,9 @@
 class CTransform : public Component {
 public:
 
+	//MYTODO: Prueba
+	CTransform();
+
 	CTransform(GameObject* owner);
 	CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled = true);
 

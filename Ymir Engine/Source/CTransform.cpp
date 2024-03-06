@@ -135,7 +135,7 @@ void CTransform::CalculateMatrix()
 
 void CTransform::SetPosition(float3 vec)
 {
-	translation = float3(vec);
+	translation = static_cast<float3>(vec);
 	dirty_ = true;
 }
 

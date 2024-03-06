@@ -18,6 +18,8 @@
 	#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath.lib")
 #endif
  
+#include "External/mmgr/mmgr.h"
+
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	LOG("Creating ModulePhysics");

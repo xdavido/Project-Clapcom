@@ -18,8 +18,12 @@
 #include "JsonFile.h"
 #include "ResourceMesh.h"
 
+#include "UI_Image.h"
+
 class GameObject;
 class CCamera;
+
+class G_UI;
 
 class ModuleScene : public Module
 {
@@ -37,6 +41,10 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
+	//TODO:
+	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
+
+	G_UI* CreateGUI(UI_TYPE t, GameObject* pParent = nullptr, int x = 0, int y = 0);
 	//void DestroyGameObject(GameObject* toDestroy);
 
 	void ClearScene();
@@ -47,11 +55,24 @@ public:
 	// Start with a loaded scene from start
 	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
 
+	void Destroy(GameObject* gm);
+
+	// Select GameObjects
+	std::vector<GameObject*>& GetSelectedGOs();
+	void SetSelected(GameObject* go = nullptr);
+	void SetSelectedState(GameObject* go, bool selected);
+	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
 
 	// Function to test if picking inside an AABB
 	bool IsInsideAABB(const float3& point, const AABB& aabb);
+
+	
+	void SetCanvas(G_UI* newCanvas = nullptr);
+	
+	G_UI* ModuleScene::GetCanvas();
+
 
 public:
 
@@ -60,7 +81,11 @@ public:
 	GameObject* gameCameraObject;
 	CCamera* gameCameraComponent;
 
+	std::vector<GameObject*> destroyList;
 	std::vector<GameObject*> gameObjects;
+	std::vector<GameObject*> pendingToAdd;
+
+	std::vector<std::string> tags;
 
 	JsonFile ysceneFile;
 
@@ -70,7 +95,17 @@ public:
 	std::string currentSceneDir;
 	std::string currentSceneFile;
 
+	GameObject* selectedGO;
+	std::vector<G_UI*> vCanvas;
+
+private:
+
+	G_UI* canvas;
+	int selectedUI;
+
 	std::vector<GameObject*> vSelectedGOs;
 
 	GameObject* audiosource;
+
+	bool a = false;
 };

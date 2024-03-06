@@ -268,6 +268,61 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
+void ModuleInput::HandleInput(SDL_Event event)
+{
+	// If backspace was pressed and the string isn't blank
+	if ((event.key.keysym.sym == SDLK_BACKSPACE))
+	{
+		if (!strToChange->empty())	// For logical purposes it can't be in the previous if
+		{
+			// Remove a character from the end
+			strToChange->erase(strToChange->length() - 1);
+		}
+	}
+
+	// Cancel and reset the string to the original
+	else if ((event.key.keysym.sym == SDLK_ESCAPE))
+	{
+		// Change back to previous string;
+		*strToChange = strBU;
+		getInput_B = false;
+	}
+
+	// Submit and change the corresponding string
+	else if ((event.key.keysym.sym == SDLK_RETURN && event.key.keysym.sym == SDLK_TAB) && !strToChange->empty())
+	{
+		//strToChange->erase(strToChange->length() - 1);
+		getInput_B = false;
+	}
+
+	// Ignore shift
+	else if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
+	{
+	}
+
+	// else ifthe string less than maximum size
+	else if (strToChange->length() <= maxChars)
+	{
+		//Append the character
+		*strToChange += (char)event.key.keysym.sym;
+	}
+}
+
+void ModuleInput::SetInputActive(std::string& strToStore, bool getInput)
+{
+	// Keep a copy of the current version of the string
+	strBU = strToStore;
+
+	// Activate getting input
+	getInput_B = getInput;
+
+	strToChange = &strToStore;
+}
+
+void ModuleInput::SetMaxChars(int limit)
+{
+	maxChars = limit;
+}
 bool ModuleInput::AreGamepadButtonsIdle()
 {
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
@@ -473,11 +528,12 @@ float ModuleInput::GetGamepadRightTriggerValue()
 float ModuleInput::GetGamepadLeftJoystickPositionValueX()
 {
 	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2);
+
 }
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueY()
 {
-	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);	
 }
 
 float ModuleInput::GetGamepadRightJoystickPositionValueX()

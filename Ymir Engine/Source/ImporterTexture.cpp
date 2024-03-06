@@ -72,6 +72,9 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	int width = ilGetInteger(IL_IMAGE_WIDTH);
 	int height = ilGetInteger(IL_IMAGE_HEIGHT);
 
+	ourTexture->SetWidth(width);
+	ourTexture->SetHeight(height);
+
 	ourTexture->ID = ilutGLBindTexImage();
 
 	// 4. Generate OpenGL Texture

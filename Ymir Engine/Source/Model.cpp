@@ -104,6 +104,7 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		int it = 0;
+
 		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
 
 		GenerateModelMetaFile();
@@ -354,7 +355,7 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 			}
 
 			delete metaFile;
-
+			
 		}
 
 		if (material->GetTextureCount(aiTextureType_SPECULAR)) {

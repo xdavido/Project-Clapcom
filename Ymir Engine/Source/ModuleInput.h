@@ -2,6 +2,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <string>
 
 #include "External/SDL/include/SDL_gamecontroller.h"
 #include "External/MathGeoLib/include/Math/float2.h"
@@ -44,6 +45,14 @@ public:
 	update_status PreUpdate(float dt) override;
 	bool CleanUp() override;
 
+	// --- UI ---
+	void HandleInput(SDL_Event event);
+
+	//	
+	void SetInputActive(std::string& strToStore, bool getInput = true);
+	void SetMaxChars(int limit);
+
+
 	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
@@ -77,6 +86,11 @@ public:
 	int GetMouseYMotion() const
 	{
 		return mouse_y_motion;
+	}
+
+	bool ModuleInput::GetInputActive() const
+	{
+		return getInput_B;
 	}
 
 	// ------------ Gamepad Management ------------
@@ -122,10 +136,16 @@ private:
 
 public:
 
+	bool quit = false;
+
 	// Drag & Drop
 
 	const char* droppedFileDirectory;
 	bool droppedFile = false;
+
+	// 
+	std::string* strToChange;
+	std::string strBU;
 
 	// Gamepad Management
 
@@ -148,4 +168,6 @@ private:
 	int mouse_y_motion;
 	//int mouse_z_motion;
 
+	int maxChars;
+	bool getInput_B;
 };

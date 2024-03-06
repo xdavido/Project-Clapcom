@@ -13,6 +13,8 @@
 #include "ModuleAudio.h"
 #include "Log.h"
 
+#include "External/mmgr/mmgr.h"
+
 CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
 
 ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled), wwiseListenerHasToUpdate(false), defaultListener(nullptr), masterVolume(50.0f), musicVolume(50.0f), fxVolume(50.0f), uiBankRef(nullptr)

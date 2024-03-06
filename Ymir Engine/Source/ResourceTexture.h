@@ -35,12 +35,20 @@ enum class TextureType {
 class ResourceTexture : public Resource {
 public:
 
-	ResourceTexture(uint UID);
+	ResourceTexture(uint UID = 0);
 
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
 
     void BindTexture(bool bind);
+
+    // Getters
+    uint GetWidth();
+    uint GetHeight();
+
+    // Setters
+    void SetWidth(uint w);
+    void SetHeight(uint h);
 
 public:
 

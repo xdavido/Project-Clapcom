@@ -146,11 +146,11 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
-
+		glEnable(GL_BLEND);
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
-		glDisable(GL_BLEND);
+
 		glDisable(GL_MULTISAMPLE);
 		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
@@ -231,6 +231,8 @@ bool ModuleRenderer3D::Init()
 	
 	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
 
+	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
+
 	return ret;
 }
 
@@ -293,6 +295,20 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
+		//listUI.clear(); // Cutre, I know
+		// Get UI elements to draw
+		//GetUIGOs(App->scene->mRootNode, listUI);
+
+		//for (auto i = 0; i < listUI.size(); i++)
+		//{
+		//	if (listUI[i]->mOwner->active && listUI[i]->active)
+		//	{
+		//		listUI[i]->Draw(false);
+		//	}
+		//}
+
+		DrawUIElements(false);
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
@@ -329,6 +345,29 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			//}
 
+			// TODO: preguntar porque el out of range este raro
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
+
+			//		if (i == 0) { break; }
+			//	}
+			//}
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
+
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -351,6 +390,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -372,6 +419,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+
 
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
@@ -646,6 +694,102 @@ bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
 
 	// If frustum culling is not enabled or the AABB is inside the frustum, return true.
 	return true;
+}
+
+void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
+{
+	if (go->GetComponent(ComponentType::UI) != nullptr)
+	{
+		C_UI* ui = static_cast<C_UI*>(go->GetComponent(ComponentType::UI));
+		listgo.push_back(ui);
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUIGOs(go->mChildren[i], listgo);
+		}
+	}
+}
+
+void ModuleRenderer3D::DrawUIElements(bool isGame)
+{
+	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	{
+		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+
+		if ((*it)->active && uiComponent != nullptr)
+		{
+			switch (uiComponent->UI_type)
+			{
+			case UI_TYPE::CANVAS:
+
+
+
+				break;
+
+			case UI_TYPE::IMAGE: {
+
+				UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(true);
+
+				}
+
+				uiImage->mat->shader.UseShader(true);
+				uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+
+				uiImage->Draw(isGame);
+
+				uiImage->mat->shader.UseShader(false);
+
+				for (auto& textures : uiImage->mat->rTextures) {
+
+					textures->BindTexture(false);
+
+				}
+
+				break;
+			}
+			case UI_TYPE::TEXT:
+
+
+
+				break;
+
+			case UI_TYPE::BUTTON:
+
+
+
+				break;
+
+			case UI_TYPE::INPUTBOX:
+
+
+
+				break;
+
+			case UI_TYPE::CHECKBOX:
+
+
+
+				break;
+
+			case UI_TYPE::NONE:
+
+
+
+				break;
+
+			}
+
+		}
+
+	}
+
 }
 
 void ModuleRenderer3D::DrawGameObjects()
