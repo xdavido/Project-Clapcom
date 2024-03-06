@@ -114,6 +114,11 @@ bool ModuleScene::Start()
 
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
+	
+	//Audio Testing
+//#ifdef _STANDALONE
+//	LoadSceneFromStart("Assets", "Funcionaaaaa");
+//#endif // _STANDALONE
 
 	return false;
 }

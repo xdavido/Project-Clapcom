@@ -18,6 +18,7 @@
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleAudio.h"
 
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
@@ -1955,8 +1956,21 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 
 	}
-	
 	// TODO: Audio save / load	
+
+	else if (type == "Audio listener")
+	{
+		CAudioListener* caudiolistener = new CAudioListener(gameObject);
+		caudiolistener->active = json_object_get_number(componentObject, "Active");
+		caudiolistener->isDefaultListener = json_object_get_number(componentObject, "Default Listener");
+
+		gameObject->AddComponent(caudiolistener);
+		CAudioListener* a = (CAudioListener*)gameObject->GetComponent(AUDIO_LISTENER);
+		if (a->isDefaultListener) {
+			a->SetAsDefaultListener(gameObject);
+		}
+
+	}
 	else if (type == "Audio source")
 	{
 		CAudioSource* caudiosource = new CAudioSource(gameObject);
@@ -1964,13 +1978,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		caudiosource->audBankName = json_object_get_string(componentObject, "Bank Name");
 		caudiosource->evName = json_object_get_string(componentObject, "Event Name");
 		caudiosource->evID = json_object_get_number(componentObject, "Event ID");
+		//caudiosource->id = json_object_get_number(componentObject, "Event ID");
+
+		External->audio->LoadBank(caudiosource->audBankName);
+		
+
+#ifdef _STANDALONE
+
+		External->audio->PlayEvent(caudiosource->id, caudiosource->evName);
+
+#endif // STANDALONE
 
 		gameObject->AddComponent(caudiosource);
+
+
 	}
-	else if (type == "Audio listener")
-	{
-		CAudioListener* caudiolistener = new CAudioListener(gameObject);
-		caudiolistener->active = json_object_get_number(componentObject, "Active");
-		caudiolistener->isDefaultListener = json_object_get_number(componentObject, "Default Listener");
-	}
+
 }

@@ -52,6 +52,7 @@ public:
 	std::string	evName;
 	std::string	audBankName;
 	uint64 evID;
+	unsigned int id;
 
 private:
 
@@ -60,7 +61,6 @@ private:
 	float pitch;
 	bool playOnAwake;
 	bool isMuted;
-	unsigned int id;
 	bool isMusic;
 
 	CTransform*	gameObjectTransform;

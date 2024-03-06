@@ -20,13 +20,6 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	External->audio->AddAudioSource(this);
 
 	evID = 0;
-	External->audio->LoadBank(std::string("Music"));
-
-#ifdef _STANDALONE
-
-	External->audio->PlayEvent(this->id, std::string("Music"));
-
-#endif // STANDALONE
 }
 
 CAudioSource::~CAudioSource()
@@ -73,6 +66,7 @@ void CAudioSource::OnInspector()
 			}
 			ImGui::EndCombo();
 		}
+
 
 
 		if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
