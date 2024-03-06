@@ -280,6 +280,8 @@ void ModuleScene::ClearScene()
 	delete mRootNode;
 	mRootNode = nullptr;*/
 
+	SetSelected();
+
 	RELEASE(mRootNode);
 
 	gameObjects.clear();
@@ -425,6 +427,12 @@ void ModuleScene::SetSelected(GameObject* go)
 	else
 	{
 		selectedGO = nullptr;
+
+		for (auto i = 0; i < vSelectedGOs.size(); i++)
+		{
+			SetSelectedState(vSelectedGOs[i], false);
+		}
+
 		ClearVec(vSelectedGOs);
 	}
 }

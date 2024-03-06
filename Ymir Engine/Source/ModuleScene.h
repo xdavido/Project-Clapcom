@@ -62,6 +62,8 @@ public:
 
 	// Select GameObjects
 	std::vector<GameObject*>& GetSelectedGOs();
+
+	// If no parameter --> deselect everything
 	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
 	
