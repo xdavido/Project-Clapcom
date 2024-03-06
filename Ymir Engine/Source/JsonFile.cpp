@@ -1730,12 +1730,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->AddComponent(ccollider);
 
 	}
-    else if (type == "Animation") {
-
-        CAnimation* canimation = new CAnimation(gameObject);
-
-        gameObject->AddComponent(canimation);
-    }
 	else if (type == "UI")
 	{
 		gameObject = static_cast<G_UI*>(gameObject);
