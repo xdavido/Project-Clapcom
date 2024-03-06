@@ -120,7 +120,7 @@ void UI_Text::OnInspector()
 
 		ImGui::Checkbox("Draggeable", &isDraggable);
 
-		ImGui::InputTextMultiline(("Text##"+ std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
+		ImGui::InputTextMultiline(("Text##" + std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
 		//ImGui::InputText(name.c_str(), &text, ImGuiInputTextFlags_EnterReturnsTrue);
 		ImGui::Dummy(ImVec2(0, 10));
 
@@ -239,7 +239,7 @@ void UI_Text::Draw(bool game)
 
 			// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
-			
+
 			//for (auto& textures : mat->rTextures) {
 
 			//	textures->BindTexture(true);
@@ -371,16 +371,15 @@ Font::Font(std::string name, std::string fontPath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		// now store character for later use
-		Character* character = new Character
-		{
-			texture,
-			float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			static_cast<unsigned int>(face->glyph->advance.x),
-		};
+		std::unique_ptr <Character> chara(new Character
+			{
+				texture,
+				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+				float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+				static_cast<unsigned int>(face->glyph->advance.x),
+			});
 
-		mCharacters.insert(std::pair<GLchar, Character*>(c, character));
+		mCharacters.insert(std::pair<GLchar, Character*>(c, chara.get()));
 	}
 
 	// destroy FreeType once we're finished

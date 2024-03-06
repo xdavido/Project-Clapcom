@@ -46,6 +46,10 @@ public:
     uint GetWidth();
     uint GetHeight();
 
+    // Setters
+    void SetWidth(uint w);
+    void SetHeight(uint h);
+
 public:
 
     TextureType type;

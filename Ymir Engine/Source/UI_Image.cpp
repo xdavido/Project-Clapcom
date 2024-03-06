@@ -21,7 +21,6 @@ UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shader
     rTexTemp->UID = Random::Generate();
     mat->path = imgPath;
     mat->rTextures.push_back(rTexTemp);
-
 }
 
 UI_Image::~UI_Image()
@@ -59,6 +58,24 @@ void UI_Image::OnInspector()
         ImGui::Spacing();
 
         if (!active) { ImGui::BeginDisabled(); }
+
+        // ------------------------------------ IMAGE ------------------------------------
+
+        ImGui::SeparatorText("Image");
+
+        ImGui::Spacing();
+
+        ImGui::Text("Image Width: %d", width);
+        ImGui::Text("Image Height: %d", height);
+
+        ImGui::Spacing();
+
+        if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
+        {
+            SetNativeSize();
+        }
+
+        ImGui::Spacing();
 
         // ------------------------------------ SHADER ------------------------------------
 
@@ -366,4 +383,6 @@ update_status UI_Image::Update(float dt)
 
 void UI_Image::SetNativeSize()
 {
+    width = mat->rTextures[0]->GetWidth();
+    height = mat->rTextures[0]->GetHeight();
 }

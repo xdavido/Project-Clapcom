@@ -21,7 +21,7 @@ GameObject::GameObject()
 
 	mTransform = nullptr;
 
-	UID =Random::Generate();
+	UID = Random::Generate();
 }
 
 GameObject::GameObject(std::string name, GameObject* parent)
