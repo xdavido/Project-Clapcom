@@ -13,6 +13,7 @@
 #include"ModuleInput.h"
 #include"ModuleScene.h"
 #include"ModuleResourceManager.h"
+#include "Resources.h"
 
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
@@ -312,11 +313,22 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 
 	//External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
 
-	CMesh* meshRenderer = nullptr;
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Assets/863721484.ymesh", ResourceType::MESH, 863721484));
+	
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
 
-	go->AddComponent(ComponentType::MESH);
-	meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
-	Model("Assets/Primitives/Cube.fbx");
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//go->AddComponent(ComponentType::MESH);
+	//meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
+
+	//Model("Assets/Primitives/Cube.fbx");
 	/*ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(1753294, "Library/Meshes/1753294.ymesh"));
 	meshRenderer->rMeshReference = test;*/
 
