@@ -2906,6 +2906,13 @@ void ModuleEditor::DrawInspector()
 						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
 					}
 				}
+				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
+				{
+					if (ImGui::MenuItem("Script"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+				}
 
 				//delete physics;
 
