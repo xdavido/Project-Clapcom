@@ -7,6 +7,7 @@
 #include "PhysfsEncapsule.h"
 #include "CScript.h"
 #include "Random.h"
+#include "ModuleEditor.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -216,7 +217,7 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 	case ComponentType::SCRIPT:
 		if (GetComponent(ComponentType::SCRIPT) == nullptr)
 		{
-			temp = new CScript(this,"Core");
+			temp = new CScript(this, External->editor->script_name.c_str());
 			mComponents.push_back(temp);
 		}
 		else { ret = false; }

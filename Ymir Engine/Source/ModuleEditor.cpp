@@ -2908,9 +2908,34 @@ void ModuleEditor::DrawInspector()
 				}
 				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
 				{
-					if (ImGui::MenuItem("Script"))
+					if (ImGui::BeginMenu("Script"))
 					{
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						if (ImGui::MenuItem("New"))
+						{
+							if (ImGui::InputText(" ", nameBuffer, sizeof(nameBuffer)))
+							{
+								//Todo: Crear una ventaa aparte para crear script de 0
+							}
+						}
+						if (ImGui::MenuItem("Core"))
+						{
+							script_name = "Core";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+							
+						}
+						if (ImGui::MenuItem("BH_Plane"))
+						{
+							script_name = "BH_Plane";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						}
+						if (ImGui::MenuItem("BH_Bullet"))
+						{
+							script_name = "BH_Bullet";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						}
+				
+
+						ImGui::EndMenu();
 					}
 				}
 
