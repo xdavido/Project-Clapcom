@@ -146,11 +146,11 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
-
+		glEnable(GL_BLEND);
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
-		glDisable(GL_BLEND);
+
 		glDisable(GL_MULTISAMPLE);
 		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
