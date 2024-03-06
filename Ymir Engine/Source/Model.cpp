@@ -460,6 +460,7 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 		CAnimation* animationComponent = new CAnimation(linkGO);
 		linkGO->AddComponent(animationComponent);
 		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+		cAnim->modelPath = path;
 		//-------------------------
 		for (int i = 0; i < scene->mNumAnimations; i++) {
 			Animation* anim = new Animation(path, this, i);

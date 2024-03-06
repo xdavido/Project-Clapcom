@@ -1100,6 +1100,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		json_object_set_number(componentObject, "Selected animation", cAnimation->selectedAnimation);
 
 		json_object_set_number(componentObject, "Total Animations", cAnimation->totalAnimations);
+
+		json_object_set_string(componentObject, "ModelPath", cAnimation->modelPath.c_str());
 		
 		// Save animator 
 		JSON_Value* animatorValue = json_value_init_object();
@@ -1108,6 +1110,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		json_object_set_number(animatorObject, "Current animation time", cAnimation->animator->GetCurrentAnimationTime());
 
 		json_object_set_value(componentObject, "Animator", animatorValue);
+
+		
 		// When animation is saved, save the list of animations
 
 		// Save animation
@@ -1460,6 +1464,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		canimation->totalAnimations = json_object_get_number(componentObject, "Total Animations");
 
+		std::string modelPathTemp = canimation->modelPath = json_object_get_string(componentObject, "ModelPath");
+
+		canimation->modelPath = modelPathTemp;
+
 		//// Load animator
 		JSON_Value* animatorValue = json_object_get_value(componentObject, "Animator");
 
@@ -1487,7 +1495,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		JSON_Object* animationObject = json_value_get_object(animationValue);
 
 		//Conseguir crear la animacion mediante el modelo --> Problema, como acceder al modelo?
-		Animation* animation = new Animation();
+		Model* model = new Model(modelPathTemp, SHADER_ANIMATION);
+		Animation* animation = new Animation(modelPathTemp, model, 0);
+
+		canimation->AddAnimation(*animation, animation->name);
 
 		canimation->animator->PlayAnimation(animation);
 

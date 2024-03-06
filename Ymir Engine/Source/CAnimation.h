@@ -40,6 +40,8 @@ public:
 
 	int totalAnimations = -1;
 
+	std::string modelPath;
+
 private:
 
 	
