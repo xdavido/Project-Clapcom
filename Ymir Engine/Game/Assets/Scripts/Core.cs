@@ -59,19 +59,13 @@ public class Core : YmirComponent
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
 	public void Update(/*int x*/)
-	{
-        
-        
-        //Hardcoceado para que sea una especie de "Start()"
-        if ( start )
+	{        
+        //Hardcoceado para que sea una especie de "Awake()"
+        if (start)
         {
             currentState = STATE.IDLE;
             Debug.Log("[WARNING] testString: " + testString);
-            reference = InternalCalls.GetGameObjectByName("Test0");
-            reference.name = InternalCalls.GetGameObjectByName("Test0").Name;
-            Debug.Log("[WARNING] Reference str: " + reference.name);
-            Debug.Log("juan " + testString);
-
+            reference = gameObject;
 
            start = false;
          
@@ -81,8 +75,6 @@ public class Core : YmirComponent
             testString = "Update string";
             string name = "hola";
             Vector3 pos = new Vector3(0, 1, 0);
-
-
    
                 InternalCalls.CreateGameObject(name, pos);
 
