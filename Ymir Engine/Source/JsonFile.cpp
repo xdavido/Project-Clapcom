@@ -1076,7 +1076,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
     }
     case ANIMATION: 
 	{
-        //Empty for now
+		json_object_set_string(componentObject, "Type", "Animation");
 		break;
 	}
 	case PHYSICS:
