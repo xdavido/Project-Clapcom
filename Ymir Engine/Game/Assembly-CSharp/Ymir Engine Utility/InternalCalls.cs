@@ -59,6 +59,12 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetGamepadRightTrigger();
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern bool IsGamepadButtonAPressedCS();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern bool IsGamepadButtonBPressedCS();
+
 
 
     }
