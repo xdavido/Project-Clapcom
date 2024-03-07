@@ -60,29 +60,14 @@ bool ModuleScene::Init()
 	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	gameCameraObject->AddComponent(audioSourceComponent);
 
+	//Hardcodeado para la VS1
+	MainCharacter = CreateGameObject("Main Character", mRootNode);
+	CScript* scriptComponent = new CScript(MainCharacter,"Core");
+	//MainCharacter->AddComponent(scriptComponent);
+
 	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	//gameCameraObject->AddComponent(audioSourceComponent);
 
-	// yscene file creation
-
-	// You shouldn't save from default
-
-	//ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
-	//ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
-	//ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
-	//ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
-	//ysceneFile.SetHierarchy("Hierarchy", gameObjects);
-
-
-	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
-
-	//char* buffer = nullptr;
-	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
-	//{
-	//	ImporterMesh::Load(buffer, &mymesh);
-	//}
-
-	//mymesh.LoadInMemory();
 	for (int i = 0; i < 1; i++)
 	{
 		const char* n = "Test";
@@ -99,7 +84,6 @@ bool ModuleScene::Init()
 		goTest->AddComponent(c);
 	}
 	
-	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 	selectedGO = nullptr;
 
 	return ret;
