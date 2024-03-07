@@ -2906,7 +2906,7 @@ void ModuleEditor::DrawInspector()
 						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
 					}
 				}
-				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
+				if ((CScript*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
 				{
 					if (ImGui::BeginMenu("Script"))
 					{
@@ -2927,10 +2927,11 @@ void ModuleEditor::DrawInspector()
 							script_name = "BH_Bullet";
 							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
 						}
-						if (ImGui::MenuItem("New")) {
+						/*if (ImGui::MenuItem("New")) {
+						
+						//Todo: Add NewScript
 
-
-						}
+						}*/
 						ImGui::EndMenu();
 					}
 				}
