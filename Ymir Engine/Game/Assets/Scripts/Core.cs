@@ -151,6 +151,9 @@ public class Core : YmirComponent
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
+        Debug.Log("[ERROR]" + x);
+        Debug.Log("[ERROR]" + y);
+
         //Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
         //if (x < 0)
@@ -167,16 +170,12 @@ public class Core : YmirComponent
         //gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
         //gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
 
-            
+
         gamepadInput = new Vector3(x, y, 0f);
 
-        if (y < 0)
+        if (y > 0)
         {
-            gameObject.transform.localPosition += reference.GetForward() * 20f * x * Time.deltaTime;
-        }
-        else if (y > 0)
-        {
-            gameObject.transform.localPosition += reference.GetForward() * -20f * x * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(0,0,1) * movementSpeed * Time.deltaTime;
         }
 
         if (IsMoving())
