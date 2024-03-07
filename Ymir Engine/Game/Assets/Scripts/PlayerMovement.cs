@@ -17,22 +17,32 @@ public class PlayerMovement : YmirComponent
 
         //-------------- Keyboard --------------//
 
+        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+
+        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
 
         if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
 
         if (Input.GetKey(YmirKeyCode.E) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
             Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
             Vector3 rot = new Vector3(0, 1, 0);
-            Vector3 scale = new Vector3(1, 1, 1);
+            Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
             InternalCalls.CreateBullet(pos, rot, scale);
         }
 
