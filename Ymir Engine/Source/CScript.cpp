@@ -112,6 +112,7 @@ void CScript::OnInspector()
 
 	if (ImGui::CollapsingHeader(("Script##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
+		ImGui::Text("Script name: %s", name.c_str());
 		if (!active) { ImGui::BeginDisabled(); }
 
 		ImGui::Text("Scripting things");

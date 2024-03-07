@@ -2925,12 +2925,10 @@ void ModuleEditor::DrawInspector()
 
 				if (ImGui::BeginMenu("Script"))
 				{
-
 					if (ImGui::MenuItem("Core"))
 					{
 						script_name = "Core";
 						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-
 					}
 					if (ImGui::MenuItem("BH_Plane"))
 					{
@@ -2942,9 +2940,14 @@ void ModuleEditor::DrawInspector()
 						script_name = "BH_Bullet";
 						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
 					}
+					if (ImGui::MenuItem("PlayerMovement"))
+					{
+						script_name = "PlayerMovement";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
 					/*if (ImGui::MenuItem("New")) {
 
-					//Todo: Add NewScript
+					 //Todo: Add NewScript
 
 					}*/
 					ImGui::EndMenu();
