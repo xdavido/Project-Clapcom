@@ -2632,7 +2632,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
 
-				draggedGO->SetParent(hoveredGO);
+				draggedGO->ReParent(hoveredGO);
 			}
 			ImGui::EndDragDropTarget();
 		}
