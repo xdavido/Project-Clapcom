@@ -222,6 +222,23 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+
+	case ComponentType::AUDIO_SOURCE:
+		if (GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
+		{
+			temp = new CAudioSource(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
+	case ComponentType::AUDIO_LISTENER:
+		if (GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
+		{
+			temp = new CAudioListener(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
 	default:
 		break;
 	}

@@ -2906,8 +2906,23 @@ void ModuleEditor::DrawInspector()
 						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
 					}
 				}
-				if ((CScript*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
+
+				if ((CAudioSource*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
 				{
+					if (ImGui::MenuItem("Audio_Source"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_SOURCE);
+					}
+				}
+
+				if ((CAudioListener*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
+				{
+					if (ImGui::MenuItem("Audio_Listener"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_LISTENER);
+					}
+				}
+
 					if (ImGui::BeginMenu("Script"))
 					{
 						
@@ -2934,7 +2949,7 @@ void ModuleEditor::DrawInspector()
 						}*/
 						ImGui::EndMenu();
 					}
-				}
+				
 				//delete physics;
 				ImGui::EndPopup();
 			}
