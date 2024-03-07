@@ -30,9 +30,13 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	mRootNode = CreateGameObject("Scene", nullptr);
 	mRootNode->UID = Random::Generate();
 
-	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
+	//Hardcodeado para la VS1
+	MainCharacter = CreateGameObject("Main Character", mRootNode);
+
+	gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
 	gameCameraObject->UID = Random::Generate();
 	tags = { "Untagged" };
+
 	//audiosource = CreateGameObject("AudioSource", mRootNode);
 	//audiosource->UID = Random::Generate();
 
@@ -61,28 +65,11 @@ bool ModuleScene::Init()
 	gameCameraObject->AddComponent(audioSourceComponent);
 
 	//Hardcodeado para la VS1
-	MainCharacter = CreateGameObject("Main Character", mRootNode);
-	CScript* scriptComponent = new CScript(MainCharacter,"Core");
-	//MainCharacter->AddComponent(scriptComponent);
+	CScript* scriptComponent = new CScript(MainCharacter,"PlayerMovement");
+	MainCharacter->AddComponent(scriptComponent);
 
 	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	//gameCameraObject->AddComponent(audioSourceComponent);
-
-	for (int i = 0; i < 1; i++)
-	{
-		const char* n = "Test";
-		std::string numStr = std::to_string(i);
-		std::string name = n + numStr;
-
-		GameObject* goTest = CreateGameObject(name, mRootNode);
-		const char* t = "Core";
-
-		Component* c = nullptr;
-
-		c = new CScript(goTest, t);
-
-		goTest->AddComponent(c);
-	}
 	
 	selectedGO = nullptr;
 
