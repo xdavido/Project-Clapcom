@@ -97,7 +97,7 @@ public class Core : YmirComponent
        
  
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
 
@@ -139,20 +139,47 @@ public class Core : YmirComponent
             InternalCalls.CreateBullet(pos, rot, scale);
         }
 
-        GameMovement();
-        UpdateState();
 
+        float x = Input.GetLeftAxisX();
+        float y = Input.GetLeftAxisY();
+
+       
+
+
+        gamepadInput = new Vector3(x, y, 0f);
+
+        Debug.Log("[WARNING] InputX " + gamepadInput.x);
+        Debug.Log("[WARNING] InputY " + gamepadInput.y);
+
+
+        if (gamepadInput.x > 0)
+        {
+            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+        }
+        if (gamepadInput.x < 0)
+        {
+            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        }
+        if (gamepadInput.y > 0)
+        {
+            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+        }
+        if (gamepadInput.y < 0)
+        {
+            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        }
+
+
+        Debug.Log("[WARNING] PosicionX " + gameObject.transform.localPosition.x);
+        Debug.Log("[WARNING] PosicionY " + gameObject.transform.localPosition.y);
+        Debug.Log("[WARNING] PosicionZ " + gameObject.transform.localPosition.z);
         return;
 	}
 
     private void GameMovement()
     {
 
-        float x = Input.GetLeftAxisX();
-        float y = Input.GetLeftAxisY();
 
-        Debug.Log("[ERROR]" + x);
-        Debug.Log("[ERROR]" + y);
 
         //Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
@@ -171,97 +198,97 @@ public class Core : YmirComponent
         //gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
 
 
-        gamepadInput = new Vector3(x, y, 0f);
+        //gamepadInput = new Vector3(x, y, 0f);
 
-        if (y > 0)
-        {
-            gameObject.transform.localPosition += new Vector3(0,0,1) * movementSpeed * Time.deltaTime;
-        }
+        //if (y > 0)
+        //{
+        //    gameObject.transform.localPosition += new Vector3(0,0,1) * movementSpeed * Time.deltaTime;
+        //}
 
-        if (IsMoving())
-            inputList.Add(INPUT.IN_MOVE);
-        else if (currentState == STATE.MOVE && !IsMoving())
-            inputList.Add(INPUT.IN_IDLE);
+        //if (IsMoving())
+        //    inputList.Add(INPUT.IN_MOVE);
+        //else if (currentState == STATE.MOVE && !IsMoving())
+        //    inputList.Add(INPUT.IN_IDLE);
 
-        if (Input.GetGamepadRightTrigger() > 0)
-            inputList.Add(INPUT.IN_SHOOT);
+        //if (Input.GetGamepadRightTrigger() > 0)
+        //    inputList.Add(INPUT.IN_SHOOT);
 
-        while (inputList.Count > 0)
-        {
-            INPUT input = inputList[0];
-            switch (currentState)
-            {
-                case STATE.NONE:
+        //while (inputList.Count > 0)
+        //{
+        //    INPUT input = inputList[0];
+        //    switch (currentState)
+        //    {
+        //        case STATE.NONE:
                     
-                    break;
+        //            break;
 
-                case STATE.IDLE:
-                    switch (input)
-                    {
-                        case INPUT.IN_MOVE:
-                            currentState = STATE.MOVE;
+        //        case STATE.IDLE:
+        //            switch (input)
+        //            {
+        //                case INPUT.IN_MOVE:
+        //                    currentState = STATE.MOVE;
                             
-                            Move();
-                            break;
+        //                    Move();
+        //                    break;
 
-                        case INPUT.IN_DASH:
-                            currentState = STATE.DASH;
-                            Dash();
-                            break;
+        //                case INPUT.IN_DASH:
+        //                    currentState = STATE.DASH;
+        //                    Dash();
+        //                    break;
 
-                        case INPUT.IN_SHOOTING:
-                            currentState = STATE.SHOOT;
-                            Shoot();
-                            break;
+        //                case INPUT.IN_SHOOTING:
+        //                    currentState = STATE.SHOOT;
+        //                    Shoot();
+        //                    break;
 
-                    }
-                    break;
-                case STATE.MOVE:
-                    switch (input)
-                    {
-                        case INPUT.IN_IDLE:
-                            currentState = STATE.IDLE;
-                            break;
+        //            }
+        //            break;
+        //        case STATE.MOVE:
+        //            switch (input)
+        //            {
+        //                case INPUT.IN_IDLE:
+        //                    currentState = STATE.IDLE;
+        //                    break;
 
-                        case INPUT.IN_DASH:
-                            currentState = STATE.DASH;
-                            Dash();
-                            break;
+        //                case INPUT.IN_DASH:
+        //                    currentState = STATE.DASH;
+        //                    Dash();
+        //                    break;
 
-                        case INPUT.IN_SHOOTING:
-                            currentState = STATE.SHOOT;
-                            Shoot();
-                            break;
+        //                case INPUT.IN_SHOOTING:
+        //                    currentState = STATE.SHOOT;
+        //                    Shoot();
+        //                    break;
 
-                        case INPUT.IN_DEAD:
-                            break;
-                    }
-                    break;
-                case STATE.SHOOT:
-                    switch (input)
-                    {
-                        case INPUT.IN_SHOOT_END:
-                            currentState = STATE.SHOOT;
-                            Shoot();
-                            break;
+        //                case INPUT.IN_DEAD:
+        //                    break;
+        //            }
+        //            break;
+        //        case STATE.SHOOT:
+        //            switch (input)
+        //            {
+        //                case INPUT.IN_SHOOT_END:
+        //                    currentState = STATE.SHOOT;
+        //                    Shoot();
+        //                    break;
 
-                        case INPUT.IN_DEAD:
-                            break;
-                    }
-                    break;
+        //                case INPUT.IN_DEAD:
+        //                    break;
+        //            }
+        //            break;
 
-                case STATE.DASH:
-                    switch (input)
-                    {
-                        case INPUT.IN_DASH_END:
-                            currentState = STATE.IDLE;
-                            break;
-                    }
-                    break;
-            }
-            inputList.RemoveAt(0);
+        //        case STATE.DASH:
+        //            switch (input)
+        //            {
+        //                case INPUT.IN_DASH_END:
+        //                    currentState = STATE.IDLE;
+        //                    break;
+        //            }
+        //            break;
+        //    }
+        //    inputList.RemoveAt(0);
 
-        }
+        //}
     }
 
     private void UpdateState()
