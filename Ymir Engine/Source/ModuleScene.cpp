@@ -96,7 +96,7 @@ bool ModuleScene::Start()
 	// LoadSceneFromStart("Assets", "Water");
 	
 	//Audio Testing
-//#ifdef _STANDALONE
+#ifdef _STANDALONE
 
 	LoadSceneFromStart("Assets", "Colliders");
 
@@ -122,7 +122,7 @@ bool ModuleScene::Start()
 	componentCamera->enableFrustumCulling = false;
 	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 	gameCameraObject->AddComponent(componentCamera);
-	gameCameraComponent->framebuffer.Load();
+	//gameCameraComponent->framebuffer.Load();
 	gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
 	gameCameraObject->mTransform->SetRotation({ 35,0,0});
 
@@ -160,7 +160,7 @@ bool ModuleScene::Start()
 	animationComponent->animator->GetCurrentAnimation()->loop = true;
 	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
 
-//#endif // _STANDALONE
+#endif // _STANDALONE
 
 	return false;
 }
