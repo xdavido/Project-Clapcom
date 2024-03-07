@@ -13,6 +13,7 @@
 #include"ModuleInput.h"
 #include"ModuleScene.h"
 #include"ModuleResourceManager.h"
+#include "Resources.h"
 
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
@@ -287,32 +288,58 @@ float GetDT()
 	return External->GetDT();
 }
 
+void AddMeshToGameObject()
+{
+
+}
+
 //TODO:
-//void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) //TODO: We really need prefabs
-//{
-//	if (External == nullptr)
-//		return /*nullptr*/;
-//
-//	GameObject* go = External->scene->CreateGameObject("Empty", External->scene->root);
-//	////go->name = std::to_string(go->UID);
-//
-//	float3 posVector = ModuleMonoManager::UnboxVector(position);
-//	Quat rotQuat = ModuleMonoManager::UnboxQuat(rotation);
-//	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
-//
-//	go->mTransform->SetTransformMatrix(posVector, rotQuat, scaleVector);
-//	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
-//
-//
-//	CMesh* meshRenderer = dynamic_cast<CMesh*>(go->AddComponent(ComponentType::MESH));	//TODO: Crear un componente de tipo mesh para a�adirle al game object
-//
-//	ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->moduleResources->RequestResource(1736836885, "Library/Meshes/1736836885.mmh"));
-//	meshRenderer->SetRenderMesh(test);
-//
-//	go->AddComponent(Component::Type::Script, "BH_Bullet");	//TODO: A�adir el componente script del Bullet al GameObject
-//
-//	/*return mono_gchandle_get_target(cmp->noGCobject);*/
-//}
+void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) //TODO: We really need prefabs
+{
+	if (External == nullptr)
+		return /*nullptr*/;
+
+	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
+	////go->name = std::to_string(go->UID);
+
+	float3 posVector = ModuleMonoManager::UnboxVector(position);
+	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
+	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
+
+	go->mTransform->SetPosition(posVector);
+	go->mTransform->SetRotation(rotQuat);
+	go->mTransform->SetScale(scaleVector);
+	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
+
+	//External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
+
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Assets/863721484.ymesh", ResourceType::MESH, 863721484));
+	
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
+
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//go->AddComponent(ComponentType::MESH);
+	//meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
+
+	//Model("Assets/Primitives/Cube.fbx");
+	/*ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(1753294, "Library/Meshes/1753294.ymesh"));
+	meshRenderer->rMeshReference = test;*/
+
+	//Añade el componente Bullet al gameObject Bullet
+	const char* t = "BH_Bullet";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+	/*return mono_gchandle_get_target(cmp->noGCobject);*/
+}
 
 //---------- GLOBAL GETTERS ----------//
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class

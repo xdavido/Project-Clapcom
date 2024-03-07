@@ -13,8 +13,13 @@ public class BH_Bullet : YmirComponent
 
     public float yVel = 0.0f;
 
+    private bool destroyed = false;
+
     public void Update()
     {
+
+        thisReference = gameObject;
+
         currentLifeTime += Time.deltaTime;
 
         thisReference.transform.localPosition += thisReference.GetForward() * (speed * Time.deltaTime);
@@ -22,9 +27,10 @@ public class BH_Bullet : YmirComponent
         yVel -= Time.deltaTime / 15.0f;
         thisReference.transform.localPosition += (Vector3.up * yVel);
 
-        if (currentLifeTime >= maxLifeTime)
+        if (currentLifeTime >= maxLifeTime && destroyed == false)
         {
-            InternalCalls.Destroy(this.thisReference);
+            InternalCalls.Destroy(gameObject);
+            destroyed = true;
         }
     }
 }

@@ -115,9 +115,6 @@ public class Core : YmirComponent
             InternalCalls.CreateGameObject("Cube", Vector3.up);
             Debug.Log("Create 'Cube' GameObject");
         }
-            
-
-
 
 
         //if (Input.GetMouseX() != 0 && turret != null)
@@ -126,12 +123,16 @@ public class Core : YmirComponent
         ////if (Input.GetMouseY() != 0 && turret != null)
         ////    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);
 
-        //if (Input.GetMouseClick(MouseButton.LEFT) == KeyState.KEY_DOWN)
-        //{
-        //    InternalCalls.CreateBullet(shootPoint.globalPosition, shootPoint.globalRotation, shootPoint.globalScale);
-        //}
+        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_DOWN)
+        {
+            Debug.Log("Shoot!");
+            Vector3 pos = new Vector3(0, 0, 0);
+            Vector3 rot = new Vector3(0, 1, 0);
+            Vector3 scale = new Vector3(1, 1, 1);
+            InternalCalls.CreateBullet(pos, rot, scale);
+        }
 
-            GameMovement();
+        GameMovement();
             //UpdateState();
 
         return;
@@ -143,7 +144,7 @@ public class Core : YmirComponent
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
-        Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
+        //Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
         gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
         gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
