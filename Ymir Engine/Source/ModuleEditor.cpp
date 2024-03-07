@@ -256,7 +256,6 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::MenuItem("Empty")) {
 
 				GameObject* empty = App->scene->CreateGameObject("Empty", App->scene->mRootNode);
-				empty->UID = Random::Generate();
 
 			}
 
