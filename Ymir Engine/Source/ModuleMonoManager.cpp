@@ -91,6 +91,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetGamepadLeftTrigger", GetGamepadLeftTrigger);
 	mono_add_internal_call("YmirEngine.Input::GetGamepadRightTrigger", GetGamepadRightTrigger);
 	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
+	mono_add_internal_call("YmirEngine.Input::IsGamepadButtonAPressedCS", IsGamepadButtonAPressedCS);
+	mono_add_internal_call("YmirEngine.Input::IsGamepadButtonBPressedCS", IsGamepadButtonBPressedCS);
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
