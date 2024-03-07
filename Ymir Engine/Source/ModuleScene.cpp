@@ -117,7 +117,7 @@ bool ModuleScene::Start()
 	
 	//Audio Testing
 #ifdef _STANDALONE
-	LoadSceneFromStart("Assets", "ComoNoVaya");
+	LoadSceneFromStart("Assets", "BakerHouse");
 #endif // _STANDALONE
 
 	return false;

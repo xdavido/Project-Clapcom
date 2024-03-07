@@ -1729,9 +1729,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		case UI_TYPE::CANVAS:
 		{
 			gameObject->AddComponent(new UI_Canvas(gameObject));
-		}
 
-		break;
+			break;
+		}
 		case UI_TYPE::IMAGE:
 		{
 			UI_Image* ui_comp = new UI_Image(gameObject);
@@ -1758,9 +1758,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
-		}
 
-		break;
+			break;
+		}
 		case UI_TYPE::TEXT:
 		{
 			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, 200, 50, json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"));
@@ -1783,9 +1783,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::BUTTON:
 		{
 			UI_Button* ui_comp = new UI_Button(gameObject);
@@ -1837,9 +1836,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::INPUTBOX:
 		{
 			UI_InputBox* ui_comp = new UI_InputBox(gameObject);
@@ -1891,9 +1889,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::CHECKBOX:
 		{
 			UI_Checkbox* ui_comp = new UI_Checkbox(gameObject);
@@ -1946,9 +1943,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::NONE:
 			break;
 		default:

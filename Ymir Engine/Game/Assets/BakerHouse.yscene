@@ -1,54 +1,53 @@
 {
     "Editor Camera Position": [
-        -2.749948263168335,
-        4.2464938163757324,
-        -19.59605598449707
+        3.9766817092895508,
+        4.7544922828674316,
+        5.3185677528381348
     ],
     "Editor Camera Right (X)": [
-        -0.99075824022293091,
-        3.2410025596618652e-07,
-        0.13563233613967896
+        0.79934293031692505,
+        -1.3411045074462891e-07,
+        -0.60087370872497559
     ],
     "Editor Camera Up (Y)": [
-        0.024830153211951256,
-        0.98309952020645142,
-        0.18137530982494354
+        -0.26122674345970154,
+        0.90055334568023682,
+        -0.34751039743423462
     ],
     "Editor Camera Front (Z)": [
-        0.1333402693271637,
-        -0.18306741118431091,
-        0.97401565313339233
+        -0.54111915826797485,
+        -0.43474516272544861,
+        -0.71985125541687012
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1665209465,
+            "UID": 306007605,
             "Element_Type": "None",
             "Children UID": [
-                1157622811,
-                917673120,
-                1624882381
+                2044374242,
+                246315976
             ],
             "Components": []
         },
         {
             "Name": "Main Camera",
-            "UID": 1157622811,
+            "UID": 2044374242,
             "Element_Type": "None",
-            "Parent UID": 1665209465,
+            "Parent UID": 306007605,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        0,
-                        0,
-                        -12.392416000366211
+                        -40,
+                        29,
+                        54
                     ],
                     "Rotation": [
-                        -0,
-                        0,
-                        -0
+                        180,
+                        40.000007629394531,
+                        180
                     ],
                     "Scale": [
                         1,
@@ -57,22 +56,34 @@
                     ]
                 },
                 {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "Music",
+                    "Event Name": "Music",
+                    "Event ID": 3991942870
+                },
+                {
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        -1,
-                        0,
-                        0
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
                     ],
                     "Up": [
-                        0,
+                        -6.6969732870347798e-08,
                         1,
-                        0
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
-                        0,
-                        0,
-                        1
+                        0.64278769493103027,
+                        -6.6969732870347798e-08,
+                        -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
@@ -85,12 +96,12 @@
         },
         {
             "Name": "BakerHouse",
-            "UID": 917673120,
+            "UID": 246315976,
             "Element_Type": "Model",
-            "Parent UID": 1665209465,
+            "Parent UID": 306007605,
             "Children UID": [
-                1388085129,
-                80893934
+                1743589259,
+                1379521798
             ],
             "Components": [
                 {
@@ -116,9 +127,9 @@
         },
         {
             "Name": "Chimney",
-            "UID": 1388085129,
+            "UID": 1743589259,
             "Element_Type": "None",
-            "Parent UID": 917673120,
+            "Parent UID": 246315976,
             "Components": [
                 {
                     "Type": "Transform",
@@ -144,8 +155,8 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/524512793.dds",
-                    "UID": 524512793
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
                 },
                 {
                     "Type": "Mesh",
@@ -157,9 +168,9 @@
         },
         {
             "Name": "Baker_house",
-            "UID": 80893934,
+            "UID": 1379521798,
             "Element_Type": "None",
-            "Parent UID": 917673120,
+            "Parent UID": 246315976,
             "Components": [
                 {
                     "Type": "Transform",
@@ -185,85 +196,14 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/524512793.dds",
-                    "UID": 524512793
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
                 },
                 {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 1641,
                     "Index Count": 2751
-                }
-            ]
-        },
-        {
-            "Name": "Water",
-            "UID": 1624882381,
-            "Element_Type": "Model",
-            "Parent UID": 1665209465,
-            "Children UID": [
-                1030243416
-            ],
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Plane",
-            "UID": 1030243416,
-            "Element_Type": "None",
-            "Parent UID": 1624882381,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        -0.26550042629241943,
-                        0
-                    ],
-                    "Rotation": [
-                        179.42373657226562,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        0.5,
-                        0.50000810623168945,
-                        0.50000810623168945
-                    ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/WaterShader.glsl",
-                    "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/1615785792.dds",
-                    "UID": 1615785792
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 961,
-                    "Index Count": 5400
                 }
             ]
         }
