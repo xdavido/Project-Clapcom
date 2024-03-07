@@ -100,6 +100,11 @@ public class Core : YmirComponent
             gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+
+        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
         //    reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, rotationSpeed * Time.deltaTime);
         //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
@@ -123,17 +128,19 @@ public class Core : YmirComponent
         ////if (Input.GetMouseY() != 0 && turret != null)
         ////    turret.localRotation = turret.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * Time.deltaTime);
 
-        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_DOWN)
+        if (Input.GetKey(YmirKeyCode.E) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
-            Vector3 pos = new Vector3(0, 0, 0);
+            Debug.Log("[ERROR]" + gameObject.transform.localPosition.x);
+            Debug.Log("[ERROR]" + gameObject.transform.localPosition.z);
+            Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
             Vector3 rot = new Vector3(0, 1, 0);
             Vector3 scale = new Vector3(1, 1, 1);
             InternalCalls.CreateBullet(pos, rot, scale);
         }
 
         GameMovement();
-            //UpdateState();
+        UpdateState();
 
         return;
 	}
@@ -146,11 +153,31 @@ public class Core : YmirComponent
 
         //Debug.Log("[WARNING] PosicionX: " + x + "PosicionY: " + y);
 
-        gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
-        gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
+        //if (x < 0)
+        //{
+        //    gameObject.transform.localPosition += reference.GetRight() * -movementSpeed * Time.deltaTime;
+        //}
+        //else if (x > 0)
+        //{
+        //    gameObject.transform.localPosition += reference.GetRight() * movementSpeed * Time.deltaTime;
+        //}
+
+
+
+        //gameObject.transform.localPosition.x += 20f * x * Time.deltaTime; ;
+        //gameObject.transform.localPosition.y += 20f * y * Time.deltaTime; ;
 
             
         gamepadInput = new Vector3(x, y, 0f);
+
+        if (y < 0)
+        {
+            gameObject.transform.localPosition += reference.GetForward() * 20f * x * Time.deltaTime;
+        }
+        else if (y > 0)
+        {
+            gameObject.transform.localPosition += reference.GetForward() * -20f * x * Time.deltaTime;
+        }
 
         if (IsMoving())
             inputList.Add(INPUT.IN_MOVE);
