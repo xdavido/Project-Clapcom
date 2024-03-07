@@ -1,0 +1,591 @@
+{
+    "Editor Camera Position": [
+        -20.820632934570312,
+        6.5055937767028809,
+        -31.337667465209961
+    ],
+    "Editor Camera Right (X)": [
+        -0.7818760871887207,
+        -8.4936618804931641e-07,
+        0.62365776300430298
+    ],
+    "Editor Camera Up (Y)": [
+        0.11478628218173981,
+        0.98297494649887085,
+        0.14390823245048523
+    ],
+    "Editor Camera Front (Z)": [
+        0.61296308040618896,
+        -0.18408438563346863,
+        0.76846802234649658
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 48857222,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                1077389653,
+                499874132,
+                1475873655,
+                1886822563,
+                659755720,
+                1520477814,
+                121948480,
+                246315976
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom",
+            "UID": 1077389653,
+            "Element_Type": "Model",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        8.524627685546875
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1140283760
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom_$AssimpFbx$_RotationPivot",
+            "UID": 1140283760,
+            "Element_Type": "None",
+            "Parent UID": 1077389653,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1903208129
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom_$AssimpFbx$_RotationPivotInverse",
+            "UID": 1903208129,
+            "Element_Type": "None",
+            "Parent UID": 1140283760,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                863420602
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom_$AssimpFbx$_ScalingPivot",
+            "UID": 863420602,
+            "Element_Type": "None",
+            "Parent UID": 1903208129,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                704438145
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom_$AssimpFbx$_ScalingPivotInverse",
+            "UID": 704438145,
+            "Element_Type": "None",
+            "Parent UID": 863420602,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                739010400
+            ]
+        },
+        {
+            "Name": "VS1_DemoRoom",
+            "UID": 739010400,
+            "Element_Type": "None",
+            "Parent UID": 704438145,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 4535,
+                    "Index Count": 9048
+                }
+            ]
+        },
+        {
+            "Name": "Suelo",
+            "UID": 499874132,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -5.9208030700683594,
+                        -0.2086036205291748,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        26.370693206787109,
+                        1,
+                        26.461109161376953
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        26.370693206787109,
+                        1,
+                        26.461109161376953
+                    ],
+                    "Mass": 0
+                }
+            ]
+        },
+        {
+            "Name": "P_Izq",
+            "UID": 1475873655,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        3.56854248046875,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        5.8845486640930176,
+                        18.88389778137207
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        1,
+                        5.8845486640930176,
+                        18.88389778137207
+                    ],
+                    "Mass": 0
+                }
+            ]
+        },
+        {
+            "Name": "P_Front",
+            "UID": 1886822563,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        9.8316965103149414
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        35.750778198242188,
+                        6.1689190864562988,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        35.750778198242188,
+                        6.1689190864562988,
+                        1
+                    ],
+                    "Mass": 0
+                }
+            ]
+        },
+        {
+            "Name": "P_Der",
+            "UID": 659755720,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -17.886695861816406,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        6.0161190032958984,
+                        19.53203010559082
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        1,
+                        6.0161190032958984,
+                        19.53203010559082
+                    ],
+                    "Mass": 0
+                }
+            ]
+        },
+        {
+            "Name": "P_Back",
+            "UID": 1520477814,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -7.8118791580200195,
+                        0,
+                        -8.7416906356811523
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        22.032764434814453,
+                        6.0474262237548828,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        22.032764434814453,
+                        6.0474262237548828,
+                        1
+                    ],
+                    "Mass": 0
+                }
+            ]
+        },
+        {
+            "Name": "Camera",
+            "UID": 121948480,
+            "Element_Type": "None",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        -12.915182113647461
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        -1,
+                        0,
+                        0
+                    ],
+                    "Up": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "Front": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 0,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 246315976,
+            "Element_Type": "Model",
+            "Parent UID": 48857222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -7.5702829360961914,
+                        4.9767789840698242,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1743589259,
+                1379521798
+            ]
+        },
+        {
+            "Name": "Chimney",
+            "UID": 1743589259,
+            "Element_Type": "None",
+            "Parent UID": 246315976,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "UID": 1379521798,
+            "Element_Type": "None",
+            "Parent UID": 246315976,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        3.2137579917907715,
+                        3.542975902557373,
+                        3.9672598838806152
+                    ],
+                    "Mass": 1
+                }
+            ]
+        }
+    ]
+}

@@ -43,21 +43,38 @@ public class PlayerMovement : YmirComponent
 
         gamepadInput = new Vector3(x, y, 0f);
 
+        //if (gamepadInput.x > 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.y > 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.y < 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //}
+
         if (gamepadInput.x > 0)
         {
-            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(1,0,0) * -movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.x < 0)
         {
-            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.y > 0)
         {
-            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.y < 0)
         {
-            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         }
 
         if (Input.IsGamepadButtonBPressedCS())
