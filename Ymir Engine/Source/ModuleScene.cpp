@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ResourceMesh.h"
 
 #include "GameObject.h"
 #include "Log.h"
@@ -65,8 +66,28 @@ bool ModuleScene::Init()
 	gameCameraObject->AddComponent(audioSourceComponent);
 
 	//Hardcodeado para la VS1
+
+	//App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
+
+	/*ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Assets/863721484.ymesh", ResourceType::MESH, 863721484));
+
+	CMesh* cmesh = new CMesh(MainCharacter);
+	cmesh->rMeshReference = rMesh;
+	MainCharacter->AddComponent(cmesh);
+
+	CMaterial* cmaterial = new CMaterial(MainCharacter);
+	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	MainCharacter->AddComponent(cmaterial);*/
+
 	CScript* scriptComponent = new CScript(MainCharacter,"PlayerMovement");
 	MainCharacter->AddComponent(scriptComponent);
+	//CAnimation* animationComponent = new CAnimation(MainCharacter);
+	//animationComponent->animator->GetCurrentAnimation()->loop = true;
+	//animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
+	//MainCharacter->AddComponent(animationComponent);
+
 
 	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	//gameCameraObject->AddComponent(audioSourceComponent);
