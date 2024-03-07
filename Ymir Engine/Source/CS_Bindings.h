@@ -96,13 +96,13 @@ int GetKey(MonoObject* x)
 }
 
 //Hardcoded para que solo sea KEY_DOWN y A
-bool IsGamepadButtonAPressedCS(MonoObject* button)
+bool IsGamepadButtonAPressedCS()
 {
 	return External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN);
 }
 
 //Hardcoded para que solo sea KEY_DOWN y B
-bool IsGamepadButtonBPressedCS(MonoObject* button)
+bool IsGamepadButtonBPressedCS()
 {
 	return External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_B, KEY_DOWN);
 }
