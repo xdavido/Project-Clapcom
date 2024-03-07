@@ -277,6 +277,9 @@ public:
 	ImVec2 gameViewSize;
 	float2 mouse;
 	ImGuiContext* g;
+
+	//Name Script
+	std::string script_name;
 };
 
 #endif // MODULE_EDITOR

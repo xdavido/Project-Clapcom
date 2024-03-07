@@ -2906,24 +2906,40 @@ void ModuleEditor::DrawInspector()
 						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
 					}
 				}
-				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
+				if ((CScript*)App->scene->selectedGO->GetComponent(ComponentType::SCRIPT) == nullptr)
 				{
-					if (ImGui::MenuItem("Script"))
+					if (ImGui::BeginMenu("Script"))
 					{
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						
+						if (ImGui::MenuItem("Core"))
+						{
+							script_name = "Core";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+							
+						}
+						if (ImGui::MenuItem("BH_Plane"))
+						{
+							script_name = "BH_Plane";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						}
+						if (ImGui::MenuItem("BH_Bullet"))
+						{
+							script_name = "BH_Bullet";
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						}
+						/*if (ImGui::MenuItem("New")) {
+						
+						//Todo: Add NewScript
+
+						}*/
+						ImGui::EndMenu();
 					}
 				}
-
 				//delete physics;
-
 				ImGui::EndPopup();
 			}
-
-
 			if (!App->scene->selectedGO->active) { ImGui::EndDisabled(); }
-
 		}
-
 	}
 }
 
