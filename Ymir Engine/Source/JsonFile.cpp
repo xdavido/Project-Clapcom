@@ -597,16 +597,16 @@ void JsonFile::SetComponent(const char* key, const Component& component)
 		// Additional properties specific to the Material component can be added here
 		break;
 
-    case CAMERA:
-        json_object_set_string(componentObject, "Type", "Camera");
-        // Additional properties specific to the Camera component can be added here
-        break;
-    
-    case ANIMATION:
-        json_object_set_string(componentObject, "Type", "Animation");
-        // Additional properties specific to the Camera component can be added here
-        break;
-    }
+	case CAMERA:
+		json_object_set_string(componentObject, "Type", "Camera");
+		// Additional properties specific to the Camera component can be added here
+		break;
+
+	case ANIMATION:
+		json_object_set_string(componentObject, "Type", "Animation");
+		// Additional properties specific to the Camera component can be added here
+		break;
+	}
 
 	// Add the component object to the main object
 	json_object_set_value(rootObject, key, componentValue);
@@ -648,13 +648,13 @@ Component* JsonFile::GetComponent(const char* key) const
 
 			component->ctype = ComponentType::CAMERA;
 
-        }
+		}
 
-        if (type == "Animation") {
+		if (type == "Animation") {
 
-            component->ctype = ComponentType::ANIMATION;
+			component->ctype = ComponentType::ANIMATION;
 
-        }
+		}
 
 		return component;
 	}
@@ -832,24 +832,32 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	JSON_Value* hierarchyValue = json_value_init_array();
 	JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
-	for (const auto& gameObject : gameObjects) {
+	//for (const auto& gameObject : gameObjects) {
 
-		JSON_Value* gameObjectValue = json_value_init_object();
-		JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+	//	JSON_Value* gameObjectValue = json_value_init_object();
+	//	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-		// Call the existing SetGameObject function to set individual GameObject properties
-		SetGameObject(gameObjectObject, *gameObject);
+	//	// Call the existing SetGameObject function to set individual GameObject properties
+	//	SetGameObject(gameObjectObject, *gameObject);
 
-		// Add the GameObject to the hierarchy array
-		json_array_append_value(hierarchyArray, gameObjectValue);
-	}
+	//	// Add the GameObject to the hierarchy array
+	//	json_array_append_value(hierarchyArray, gameObjectValue);
+	//}
+
+	
+	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
 	// Add the hierarchy array to the main object
 	json_object_set_value(rootObject, key, hierarchyValue);
 }
 
-void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& gameObject)
+void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 {
+	JSON_Value* gameObjectValue = json_value_init_object();
+	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+
+	json_array_append_value(hArray, gameObjectValue);
+
 	// Set Name
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
@@ -860,36 +868,23 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
-	//for (Component* component : gameObject.mComponents) {
-
-	//    if (component->ctype == ComponentType::MESH) {
-
-	//        json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
-
-	//    }
-
-	//}
-
 	// Set Parent UID
 	if (gameObject.mParent != nullptr) {
 		json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
 	}
 
-	// Set Children UID
-	std::vector<int> childrenUID;
-	for (const auto& child : gameObject.mChildren) {
-		childrenUID.push_back(child->UID);
-	}
+	JSON_Value* childrenValue = json_value_init_array();
+	JSON_Array* childrenArray = json_value_get_array(childrenValue);
 
-	if (!childrenUID.empty()) {
-		JSON_Value* childrenValue = json_value_init_array();
-		JSON_Array* childrenArray = json_value_get_array(childrenValue);
+	// Set Children
+	for (int i = 0; i < gameObject.mChildren.size(); i++)
+	{
+		SetGameObject(hArray, *gameObject.mChildren[i]);
 
-		for (const auto& childUID : childrenUID) {
-			json_array_append_number(childrenArray, childUID);
-		}
-
+		json_array_append_value(childrenArray, childrenValue);
 		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+
+		//counter = GameObjectJSON(gameObject.mChildren[i], subInfo + ".Child " + std::to_string(counter), counter, subInfo);
 	}
 
 	// Save Components Info
@@ -912,6 +907,30 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 	// Add the hierarchy array to the main object
 	json_object_set_value(gameObjectObject, "Components", componentsValue);
 
+	// Set Children UID
+
+	std::vector<int> childrenUID;
+
+	for (const auto& child : gameObject.mChildren) {
+
+		childrenUID.push_back(child->UID);
+
+	}
+
+	if (!childrenUID.empty()) {
+
+		JSON_Value* childrenValue = json_value_init_array();
+
+		JSON_Array* childrenArray = json_value_get_array(childrenValue);
+
+		for (const auto& childUID : childrenUID) {
+
+			json_array_append_number(childrenArray, childUID);
+
+		}
+
+		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+	}
 }
 
 void JsonFile::SetComponent(JSON_Object* componentObject, const Component& component)
@@ -1058,23 +1077,23 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-        json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
+		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
 
-        // Enable/Disable Frustum Culling
+		// Enable/Disable Frustum Culling
 
-        json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
+		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
 
-        // Enable/Disable Bounding Boxes
+		// Enable/Disable Bounding Boxes
 
-        json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
+		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
 		//Is game camera
-		
+
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
 		break;
-    }
-    case ANIMATION: 
+	}
+	case ANIMATION:
 	{
 		json_object_set_string(componentObject, "Type", "Animation");
 		break;
@@ -1655,71 +1674,71 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CScript* cscript = new CScript(gameObject, scriptName.c_str());
 
-			SerializedField* _field = nullptr;
-			for (int i = 0; i < cscript->fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
+		SerializedField* _field = nullptr;
+		for (int i = 0; i < cscript->fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
+		{
+			_field = &cscript->fields[i];
+
+			switch (_field->type)
 			{
-				_field = &cscript->fields[i];
+			case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+				_field->fiValue.bValue = json_object_get_boolean(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.bValue);
+				break;
 
-				switch (_field->type)
+			case MonoTypeEnum::MONO_TYPE_I4:
+				_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_CLASS:
+			{
+				if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
 				{
-				case MonoTypeEnum::MONO_TYPE_BOOLEAN:
-					_field->fiValue.bValue = json_object_get_boolean(componentObject, mono_field_get_name(_field->field));
-					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.bValue);
-					break;
+					const char* name = mono_field_get_name(_field->field);
+					int uid = json_object_get_number(componentObject, name);
+					_field->goUID = uid;
 
-				case MonoTypeEnum::MONO_TYPE_I4:
-					_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
-					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
-					break;
-
-				case MonoTypeEnum::MONO_TYPE_CLASS:
-				{
-					if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
-					{
-						const char* name = mono_field_get_name(_field->field);
-						int uid = json_object_get_number(componentObject, name);
-						_field->goUID = uid;
-
-						External->scene->AddToReferenceMap(uid, _field);
-					}
-
-					break;
-				}
-				case MonoTypeEnum::MONO_TYPE_R4:
-					_field->fiValue.fValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
-					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.fValue);
-					break;
-
-				case MonoTypeEnum::MONO_TYPE_STRING:
-				{
-					const char* ret = json_object_get_string(componentObject, mono_field_get_name(_field->field));
-
-					if (ret == NULL)
-						ret = "\0";
-
-					strcpy(&_field->fiValue.strValue[0], ret);
-
-					MonoString* str = mono_string_new(External->moduleMono->domain, _field->fiValue.strValue);
-					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, str);
-					break;
+					External->scene->AddToReferenceMap(uid, _field);
 				}
 
-				default:
-					_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
-					mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
-					break;
-				}
+				break;
+			}
+			case MonoTypeEnum::MONO_TYPE_R4:
+				_field->fiValue.fValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.fValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_STRING:
+			{
+				const char* ret = json_object_get_string(componentObject, mono_field_get_name(_field->field));
+
+				if (ret == NULL)
+					ret = "\0";
+
+				strcpy(&_field->fiValue.strValue[0], ret);
+
+				MonoString* str = mono_string_new(External->moduleMono->domain, _field->fiValue.strValue);
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, str);
+				break;
 			}
 
-			gameObject->AddComponent(cscript);
+			default:
+				_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+				break;
+			}
+		}
+
+		gameObject->AddComponent(cscript);
 
 	}
-    else if (type == "Animation") {
+	else if (type == "Animation") {
 
-        CAnimation* canimation = new CAnimation(gameObject);
+		CAnimation* canimation = new CAnimation(gameObject);
 
-        gameObject->AddComponent(canimation);
-    }
+		gameObject->AddComponent(canimation);
+	}
 	else if (type == "UI")
 	{
 		gameObject = static_cast<G_UI*>(gameObject);
@@ -1977,7 +1996,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		//caudiosource->id = json_object_get_number(componentObject, "Event ID");
 
 		External->audio->LoadBank(caudiosource->audBankName);
-		
+
 
 #ifdef _STANDALONE
 

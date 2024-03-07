@@ -262,7 +262,6 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 void GameObject::RemoveComponent(Component* component)
 {
-	// TODO: Sara --> test if it needs something else
 	if (!mComponents.empty() && component != nullptr)
 	{
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
