@@ -19,6 +19,10 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	External->audio->RegisterNewAudioObject(id);
 	External->audio->AddAudioSource(this);
 
+	External->audio->LoadBank(std::string("Music"));
+	External->audio->PlayEvent(this->id, std::string("Music"));
+
+
 	evID = 0;
 }
 

@@ -221,8 +221,8 @@ bool ModuleRenderer3D::Init()
 	//App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
 
 	// TODO: remove and do with proper constructor
-	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+	//App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	//App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
 
 	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
 	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
@@ -231,7 +231,7 @@ bool ModuleRenderer3D::Init()
 	//App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 	//App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
 	
-	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
+	//App->scene->gameCameraComponent->framebuffer.Load();
 
 	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
 
@@ -392,14 +392,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			glMatrixMode(GL_PROJECTION);
+			/*glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
 			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
 
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
 
-			DrawUIElements(true);
+			DrawUIElements(true);*/
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);

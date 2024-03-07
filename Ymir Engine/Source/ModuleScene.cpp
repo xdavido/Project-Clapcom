@@ -61,7 +61,7 @@ bool ModuleScene::Init()
 
 	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	//gameCameraObject->AddComponent(audioSourceComponent);
-	
+
 	selectedGO = nullptr;
 
 	return ret;
@@ -96,7 +96,7 @@ bool ModuleScene::Start()
 	// LoadSceneFromStart("Assets", "Water");
 	
 	//Audio Testing
-#ifdef _STANDALONE
+//#ifdef _STANDALONE
 
 	LoadSceneFromStart("Assets", "Colliders");
 
@@ -118,9 +118,11 @@ bool ModuleScene::Start()
 	gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
 	
 	CCamera* componentCamera = new CCamera(App->scene->gameCameraObject);
+	gameCameraComponent = componentCamera;
 	componentCamera->enableFrustumCulling = false;
 	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 	gameCameraObject->AddComponent(componentCamera);
+	gameCameraComponent->framebuffer.Load();
 	gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
 	gameCameraObject->mTransform->SetRotation({ 35,0,0});
 
@@ -133,22 +135,22 @@ bool ModuleScene::Start()
 	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
 	componentTransform->SetScale({ 0.003f,0.003f,0.003f });
 	componentTransform->SetRotation({ -90,0,180 });
-	componentTransform->SetPosition({ 0,2,0});
+	//componentTransform->SetPosition({ 0,2,0});
 
-	CCollider* colliderComponent = new CCollider(MainCharacter);
-	float3 size;
+	//CCollider* colliderComponent = new CCollider(MainCharacter);
+	//float3 size;
 
-	size.x = static_cast<float>(1);
-	size.y = static_cast<float>(1);
-	size.z = static_cast<float>(1);
+	//size.x = static_cast<float>(1);
+	//size.y = static_cast<float>(1);
+	//size.z = static_cast<float>(1);
 
-	colliderComponent->size = size;
+	//colliderComponent->size = size;
 
-	colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+	//colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 
-	// Mass
-	colliderComponent->mass = static_cast<float>(1);
-	MainCharacter->AddComponent(colliderComponent);
+	//// Mass
+	//colliderComponent->mass = static_cast<float>(1);
+	//MainCharacter->AddComponent(colliderComponent);
 
 	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
 	MainCharacter->mParent->AddComponent(scriptComponent);
@@ -158,7 +160,7 @@ bool ModuleScene::Start()
 	animationComponent->animator->GetCurrentAnimation()->loop = true;
 	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
 
-#endif // _STANDALONE
+//#endif // _STANDALONE
 
 	return false;
 }
