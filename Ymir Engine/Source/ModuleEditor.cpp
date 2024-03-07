@@ -3081,8 +3081,13 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			// TODO: Sara -> borrar library file from meta
-			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta"); 
+
+			if (tmpMetaFile) 
+			{
+				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
+			}
+
 			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 
@@ -3091,8 +3096,20 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			// TODO: Sara -> borrar library file from meta
-			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+			if (tmpMetaFile)
+			{
+				int* ids = tmpMetaFile->GetIntArray("Meshes Embedded UID");
+
+				for (int i = 0; i < tmpMetaFile->GetInt("Meshes num"); i++)
+				{
+					PhysfsEncapsule::DeleteFS((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str());
+				}
+
+				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
+			}
+
 			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 

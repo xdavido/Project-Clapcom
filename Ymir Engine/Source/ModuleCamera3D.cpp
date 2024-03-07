@@ -80,26 +80,26 @@ update_status ModuleCamera3D::Update(float dt)
 	if (hoveringEditor)
 	{
 		editorCamera->ZoomHandling(newPos, speed);
-	}
 
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
+		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
 
-		// Mouse wheel pressed while dragging movement handling
+			// Mouse wheel pressed while dragging movement handling
 
-		editorCamera->PanHandling(newPos, speed, dt);
+			editorCamera->PanHandling(newPos, speed, dt);
 
-	}
+		}
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) {
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) {
 
-		// WASD Camera Movement Handling
+			// WASD Camera Movement Handling
 
-		editorCamera->MovementHandling(newPos, speed);
+			editorCamera->MovementHandling(newPos, speed);
 
-		// Camera Rotation Handling
+			// Camera Rotation Handling
 
-		editorCamera->RotationHandling(speed, dt);
+			editorCamera->RotationHandling(speed, dt);
 
+		}
 	}
 
 	editorCamera->UpdatePos(newPos);
