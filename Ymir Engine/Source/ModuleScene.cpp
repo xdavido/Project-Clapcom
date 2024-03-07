@@ -96,7 +96,7 @@ bool ModuleScene::Start()
 	// LoadSceneFromStart("Assets", "Water");
 	
 	//Audio Testing
-#ifdef _STANDALONE
+//#ifdef _STANDALONE
 
 	LoadSceneFromStart("Assets", "Colliders");
 
@@ -160,7 +160,7 @@ bool ModuleScene::Start()
 	animationComponent->animator->GetCurrentAnimation()->loop = true;
 	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
 
-#endif // _STANDALONE
+//#endif // _STANDALONE
 
 	return false;
 }
