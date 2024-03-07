@@ -1639,6 +1639,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CAnimation* canimation = new CAnimation(gameObject);
 
+		Animation* temp = new Animation();
+
+		canimation->animator->PlayAnimation(temp);
+
 		canimation->selectedAnimation = json_object_get_number(componentObject, "Selected Animation");
 
 		canimation->totalAnimations = json_object_get_number(componentObject, "Total Animations");
@@ -1670,9 +1674,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		JSON_Object* animationObject = json_value_get_object(animationValue);
 	
+		Animation temp1;
+
+		canimation->animator->animations.push_back(temp1);
 
 		
-		/*canimation->animator->animations[0].name = json_object_get_string(animationObject, "Name");
+		canimation->animator->animations[0].name = json_object_get_string(animationObject, "Name");
 
 		canimation->animator->animations[0].isPlaying = json_object_get_boolean(animationObject, "IsPlaying");
 		canimation->animator->animations[0].loop = json_object_get_boolean(animationObject, "Loop");
@@ -1683,9 +1690,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		canimation->animator->animations[0].SetSpeed(json_object_get_number(animationObject, "Speed"));
 		canimation->animator->animations[0].SetDuration(json_object_get_number(animationObject, "Duration"));
-		canimation->animator->animations[0].SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));*/
-
-		canimation->animator->GetCurrentAnimation()->name = json_object_get_string(animationObject ,"Name");
+		canimation->animator->animations[0].SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));
 
 		canimation->animator->GetCurrentAnimation()->isPlaying = json_object_get_boolean(animationObject, "IsPlaying");
 		canimation->animator->GetCurrentAnimation()->loop = json_object_get_boolean(animationObject, "Loop");
