@@ -44,7 +44,10 @@ CAudioSource::~CAudioSource()
 #ifndef STANDALONE
 void CAudioSource::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Audio Source")) 
+	bool exists = true;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+	if (ImGui::CollapsingHeader("Audio Source", &exists, flags)) 
 	{
 		if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
 		{
@@ -134,6 +137,7 @@ void CAudioSource::OnInspector()
 
 	}
 
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 #endif // !STANDALONE
 

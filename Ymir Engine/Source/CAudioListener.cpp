@@ -27,7 +27,10 @@ CAudioListener::~CAudioListener()
 
 void CAudioListener::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Audio Listener"))
+	bool exists = true;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+	if (ImGui::CollapsingHeader("Audio Listener", &exists, flags))
 	{
 		/*ImGui::Text("AudioClip");
 		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
@@ -44,6 +47,8 @@ void CAudioListener::OnInspector()
 			SetAsDefaultListener(listenerAux);
 		}
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CAudioListener::Update()

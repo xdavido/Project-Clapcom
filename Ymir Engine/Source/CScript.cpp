@@ -23,9 +23,6 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 
 	/*External->moduleMono->DebugAllMethods(YMIR_SCRIPTS_NAMESPACE, "GameObject", methods);*/
 	LoadScriptData(name.c_str());
-
-
-
 }
 
 CScript::~CScript()
@@ -78,9 +75,7 @@ void CScript::Update()
 
 void CScript::ReloadComponent() {
 
-
 	LoadScriptData(name.c_str());
-
 
 }	
 
@@ -108,9 +103,11 @@ void CScript::OnRecursiveUIDChange(std::map<uint, GameObject*> gameObjects)
 
 void CScript::OnInspector()
 {
+	bool exists = true;
+
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("Script", flags))
+	if (ImGui::CollapsingHeader("Script", &exists, flags))
 	{
 		ImGui::Text("Scripting things");
 		for (int i = 0; i < fields.size(); i++)
@@ -124,6 +121,7 @@ void CScript::OnInspector()
 		}
 	}
 
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 //
