@@ -65,6 +65,9 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern bool IsGamepadButtonBPressedCS();
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void GameControllerRumbleCS(int minrumble, int maxrumble, int time);
+
 
 
     }

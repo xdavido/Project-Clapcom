@@ -67,7 +67,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Transform::get_localPosition", SendPosition);
 	mono_add_internal_call("YmirEngine.Transform::get_globalPosition", SendGlobalPosition);
 	mono_add_internal_call("YmirEngine.Transform::set_localPosition", RecievePosition);
-	mono_add_internal_call("YmirEngine.Transform::get_localRotation", SendRotation);
+	mono_add_internal_call("YmirEngine.Transform::get_localRotation", SendRotation); 
 	mono_add_internal_call("YmirEngine.Transform::get_globalRotation", SendGlobalRotation);
 	mono_add_internal_call("YmirEngine.Transform::set_localRotation", RecieveRotation);
 
@@ -96,6 +96,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
+	mono_add_internal_call("YmirEngine.Input::GameControllerRumbleCS", GameControllerRumbleCS);
 
 #pragma endregion
 

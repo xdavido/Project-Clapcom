@@ -114,6 +114,8 @@ public:
 	float GetGamepadJoystickPositionValueX(GamepadJoystick joystick);
 	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
 	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
+	
+	void GetRumbleGamepad(_SDL_GameController* gameController, Uint16 leftRumble , Uint16 rightRumble, Uint32 timer);
 
 	// Trigger Mapping
 

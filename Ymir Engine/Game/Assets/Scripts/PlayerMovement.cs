@@ -67,6 +67,7 @@ public class PlayerMovement : YmirComponent
             Vector3 rot = new Vector3(0, 1, 0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
             InternalCalls.CreateBullet(pos, rot, scale);
+            Input.GameControllerRumbleCS(3,32,100);
         }
     }
 }

@@ -12,7 +12,8 @@
 
 #include"ModuleInput.h"
 #include"ModuleScene.h"
-#include"ModuleResourceManager.h"
+#include"ModuleResourceManager.h" 
+#include "ModuleInput.h"
 #include "Resources.h"
 
 #include"GameObject.h"
@@ -401,6 +402,11 @@ void SetTag(MonoObject* cs_Object, MonoString* string)
 		External->scene->tags.push_back(newTag);
 	}
 	strcpy(cpp_gameObject->tag, newTag.c_str());
+}
+void GameControllerRumbleCS(int minrumble, int maxrumble, int time)
+{
+	LOG("JODEME MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS");
+	External->input->GetRumbleGamepad(External->input->sdl_controllers[0], minrumble, maxrumble, time);
 }
 
 #pragma endregion
