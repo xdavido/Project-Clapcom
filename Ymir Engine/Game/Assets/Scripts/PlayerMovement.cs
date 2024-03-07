@@ -9,7 +9,7 @@ public class PlayerMovement : YmirComponent
 
     public GameObject thisReference = null;
 
-    public float movementSpeed = 20f;
+    public float movementSpeed = 5f;
 
     public void Update()
     {
@@ -58,6 +58,15 @@ public class PlayerMovement : YmirComponent
         if (gamepadInput.y < 0)
         {
             gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        }
+
+        if (Input.IsGamepadButtonBPressedCS())
+        {
+            Debug.Log("Shoot!");
+            Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
+            Vector3 rot = new Vector3(0, 1, 0);
+            Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+            InternalCalls.CreateBullet(pos, rot, scale);
         }
     }
 }

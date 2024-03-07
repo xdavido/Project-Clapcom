@@ -112,6 +112,7 @@ void CCollider::Update()
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr && physBody != nullptr) {
+
 			if (collType != ColliderType::CONVEX_HULL)
 			{
 				float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
@@ -122,6 +123,18 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) {
 
 				size = componentMesh->rMeshReference->obb.Size();
+
+			}
+
+		}
+		else {
+
+			physBody->SetPosition(componentTransform->GetLocalTransform().TranslatePart());
+			physBody->SetRotation(componentTransform->GetLocalRotation());
+
+			if (ImGuizmo::IsUsing()) {
+
+				size = componentTransform->GetGlobalTransform().GetScale();
 
 			}
 
