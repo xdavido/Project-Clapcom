@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 
 class GameObject;
 
@@ -42,4 +43,7 @@ public:
 	bool active;
 	ComponentType ctype;
 
+protected:
+
+	uint UID;
 };

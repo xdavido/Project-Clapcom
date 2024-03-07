@@ -2923,33 +2923,33 @@ void ModuleEditor::DrawInspector()
 					}
 				}
 
-					if (ImGui::BeginMenu("Script"))
-					{
-						
-						if (ImGui::MenuItem("Core"))
-						{
-							script_name = "Core";
-							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-							
-						}
-						if (ImGui::MenuItem("BH_Plane"))
-						{
-							script_name = "BH_Plane";
-							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-						}
-						if (ImGui::MenuItem("BH_Bullet"))
-						{
-							script_name = "BH_Bullet";
-							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-						}
-						/*if (ImGui::MenuItem("New")) {
-						
-						//Todo: Add NewScript
+				if (ImGui::BeginMenu("Script"))
+				{
 
-						}*/
-						ImGui::EndMenu();
+					if (ImGui::MenuItem("Core"))
+					{
+						script_name = "Core";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+
 					}
-				
+					if (ImGui::MenuItem("BH_Plane"))
+					{
+						script_name = "BH_Plane";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					if (ImGui::MenuItem("BH_Bullet"))
+					{
+						script_name = "BH_Bullet";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					/*if (ImGui::MenuItem("New")) {
+
+					//Todo: Add NewScript
+
+					}*/
+					ImGui::EndMenu();
+				}
+
 				//delete physics;
 				ImGui::EndPopup();
 			}

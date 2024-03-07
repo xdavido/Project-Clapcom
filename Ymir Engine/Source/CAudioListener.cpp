@@ -27,11 +27,18 @@ CAudioListener::~CAudioListener()
 
 void CAudioListener::OnInspector()
 {
-	bool exists = true;
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("Audio Listener", &exists, flags))
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+
+	if (ImGui::CollapsingHeader(("Audio Listener##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
+		if (!active) { ImGui::BeginDisabled(); }
+
 		/*ImGui::Text("AudioClip");
 		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
 		bool deflistener = isDefaultListener;
@@ -46,6 +53,8 @@ void CAudioListener::OnInspector()
 		{
 			SetAsDefaultListener(listenerAux);
 		}
+
+		if (!active) { ImGui::EndDisabled(); }
 	}
 
 	if (!exists) { mOwner->RemoveComponent(this); }

@@ -1,4 +1,4 @@
-	#include "GameObject.h"
+#include "GameObject.h"
 
 #include "Globals.h"
 #include "Application.h"
@@ -35,7 +35,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	selected = false;
 	pendingToDelet = false;
 	hidden = false;
-	
+
 	mTransform = nullptr;
 	UID = Random::Generate();
 
@@ -62,7 +62,7 @@ GameObject::~GameObject()
 		csReferences[i]->fiValue.goValue = nullptr;
 	}
 	csReferences.clear();
-	
+
 }
 
 update_status GameObject::Update(float dt)
@@ -215,13 +215,11 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		else { ret = false; }
 		break;
 	case ComponentType::SCRIPT:
-		if (GetComponent(ComponentType::SCRIPT) == nullptr)
-		{
-			temp = new CScript(this, External->editor->script_name.c_str());
-			mComponents.push_back(temp);
-		}
-		else { ret = false; }
-		break;
+	{
+		temp = new CScript(this, External->editor->script_name.c_str());
+		mComponents.push_back(temp);
+	}
+	break;
 
 	case ComponentType::AUDIO_SOURCE:
 		if (GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
@@ -268,7 +266,7 @@ void GameObject::RemoveComponent(Component* component)
 	if (!mComponents.empty() && component != nullptr)
 	{
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
-		
+
 		RELEASE(component);
 	}
 }

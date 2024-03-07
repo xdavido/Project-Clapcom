@@ -103,22 +103,32 @@ void CScript::OnRecursiveUIDChange(std::map<uint, GameObject*> gameObjects)
 
 void CScript::OnInspector()
 {
-	bool exists = true;
-
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("Script", &exists, flags))
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader(("Script##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
+		if (!active) { ImGui::BeginDisabled(); }
+
 		ImGui::Text("Scripting things");
+
 		for (int i = 0; i < fields.size(); i++)
 		{
 			DropField(fields[i], "_GAMEOBJECT");
 		}
+
 		ImGui::Separator();
+
 		for (int i = 0; i < methods.size(); i++)
 		{
 			ImGui::Text(methods[i].c_str());
 		}
+
+		if (!active) { ImGui::EndDisabled(); }
 	}
 
 	if (!exists) { mOwner->RemoveComponent(this); }

@@ -44,11 +44,17 @@ CAudioSource::~CAudioSource()
 #ifndef STANDALONE
 void CAudioSource::OnInspector()
 {
-	bool exists = true;
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("Audio Source", &exists, flags)) 
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader(("Audio Source##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
+		if (!active) { ImGui::BeginDisabled(); }
+
 		if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
 		{
 			std::vector<AudioBank*>::const_iterator it;
@@ -69,8 +75,6 @@ void CAudioSource::OnInspector()
 			}
 			ImGui::EndCombo();
 		}
-
-
 
 		if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
 		{
@@ -135,6 +139,7 @@ void CAudioSource::OnInspector()
 			SetPitch(pitch);
 		}
 
+		if (!active) { ImGui::EndDisabled(); }
 	}
 
 	if (!exists) { mOwner->RemoveComponent(this); }
