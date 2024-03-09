@@ -126,7 +126,7 @@ bool ModulePhysics::CleanUp()
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
 	collidersList.push_back(shape);
@@ -154,7 +154,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 }
 
 // Sphere ---------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
 	collidersList.push_back(shape);
@@ -182,7 +182,7 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mas
 }
 
 // Capsule --------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
 	collidersList.push_back(shape);
@@ -210,7 +210,7 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float m
 }
 
 // Convex Collider ----------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btConvexHullShape*& shape)
 {
 	shape = CreateConvexHullShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
