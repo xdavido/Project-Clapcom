@@ -61,17 +61,23 @@ public:
 public:
 
 	// Public para el Save/Load
+	
+	ColliderType collType;
+	PhysicsType physType;
+
 	float3 size;
 	btVector3 btSize;
+	float radius;
+	float height;
 
 	float mass;
-	float radius;
+	bool gravity;
+
 	btCollisionShape* shape;
 	btConvexHullShape* convexShape;
 
 public:
 
-	ColliderType collType;
 	PhysBody* physBody;
 
 	CTransform* transform;
@@ -80,6 +86,4 @@ public:
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
-	PhysicsType physType;
-	bool gravity;
 };

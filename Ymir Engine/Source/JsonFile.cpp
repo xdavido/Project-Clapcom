@@ -1125,6 +1125,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Radius", ccollider->radius);
 
+		//Height
+
+		json_object_set_number(componentObject, "Height", ccollider->height);
+
 		// Physics type
 
 		json_object_set_number(componentObject, "Physics Type", (int)static_cast<const CCollider&>(component).physType);
@@ -1690,6 +1694,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->radius = json_object_get_number(componentObject, "Radius");
 
+		// Height
+
+		ccollider->height = json_object_get_number(componentObject, "Height");
 
 		// Mass
 
