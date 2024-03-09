@@ -425,6 +425,20 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+	if (showNewScriptPopUp) {
+
+		ImGui::OpenPopup("New Script");
+
+		if (ImGui::BeginPopupModal("New Script")) {
+
+			scriptEditor->ShowNewScriptDialogue();
+
+			ImGui::EndPopup();
+
+		}
+
+	}
+
 	// END OF MAIN MENU BAR
 
 	// APPLICATION MENU START
@@ -2925,6 +2939,12 @@ void ModuleEditor::DrawInspector()
 
 				if (ImGui::BeginMenu("Script"))
 				{
+					if (ImGui::MenuItem("Add New Script")) {
+
+						//Todo: Add NewScript
+						showNewScriptPopUp = true;
+
+					}
 					if (ImGui::MenuItem("Core"))
 					{
 						script_name = "Core";
@@ -2945,11 +2965,6 @@ void ModuleEditor::DrawInspector()
 						script_name = "PlayerMovement";
 						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
 					}
-					/*if (ImGui::MenuItem("New")) {
-
-					 //Todo: Add NewScript
-
-					}*/
 					ImGui::EndMenu();
 				}
 
