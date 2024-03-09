@@ -1,5 +1,6 @@
 #include "ScriptEditor.h"
 #include"ModuleMonoManager.h"
+#include "ModuleEditor.h"
 
 #include <filesystem>
 #include "Log.h"
@@ -158,6 +159,45 @@ void ScriptEditor::LoadScriptTXT(std::string filePath)
 	// Retrieve the script file contents for the Scripting Editor
 	txtName = std::filesystem::path(filePath).stem().string();
 	txtEditor.SetText(fileContents);
+}
+
+void ScriptEditor::ShowNewScriptDialogue()
+{
+	char nameChar[256] = "New Script";
+	std::string newName;
+	ImGui::Text("Name: ");
+	ImGui::SameLine();
+	if(ImGui::InputText(" ", nameChar, sizeof(nameChar)))
+	{
+		newName = nameChar;
+	}
+
+	ImGui::NewLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.0f, 0.0f, 1.0f)); // Set button color to red
+	if (ImGui::Button("Close")) {
+
+		External->editor->showNewScriptPopUp = false;
+
+		ImGui::CloseCurrentPopup();
+
+	}
+	ImGui::PopStyleColor();
+
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.6f, 0.0f, 1.0f)); // Set button color to green
+	if (ImGui::Button("Create")) {
+		std::string tmpName = nameChar;
+		newName = "../Assets/Scripts/" + tmpName + ".cs";
+
+		//Call fuction to add script to SLN
+		External->moduleMono->AddScriptToSLN(newName.c_str());
+
+	}
+	ImGui::PopStyleColor();
+	
+
 }
 
 
