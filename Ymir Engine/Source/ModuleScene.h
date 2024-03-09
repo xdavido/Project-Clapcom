@@ -113,17 +113,12 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
-	//Hardcodeado para la VS1
-	GameObject* MainCharacter;
-
 private:
 
 	G_UI* canvas;
 	int selectedUI;
 
 	std::vector<GameObject*> vSelectedGOs;
-
-	GameObject* audiosource;
 
 	bool a = false;
 };
