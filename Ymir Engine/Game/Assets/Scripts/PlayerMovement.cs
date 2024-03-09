@@ -11,6 +11,8 @@ public class PlayerMovement : YmirComponent
 
     public float movementSpeed = 5f;
 
+    private double angle = 0.0f;
+
     public void Update()
     {
         thisReference = gameObject;
@@ -87,7 +89,7 @@ public class PlayerMovement : YmirComponent
             gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         }
 
-        if (Input.IsGamepadButtonBPressedCS())
+        if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
             Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
@@ -96,5 +98,30 @@ public class PlayerMovement : YmirComponent
             InternalCalls.CreateBullet(pos, rot, scale);
             Input.GameControllerRumbleCS(3,32,100);
         }
+
+        RotatePlayer();
+    }
+
+
+    private void RotatePlayer()
+    {
+        //Calculate player rotation
+        Vector3 aX = new Vector3(gamepadInput.x, 0, -gamepadInput.y - 1);
+        Vector3 aY = new Vector3(0, 0, 1);
+        aX = Vector3.Normalize(aX);
+
+        if (aX.x >= 0)
+        {
+            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+        }
+        else if (aX.x < 0)
+        {
+            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
+        }
+
+        //Convert angle from world view to orthogonal view
+        angle += 0.785398f; //Rotate 45 degrees to the right
+
+        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
     }
 }
