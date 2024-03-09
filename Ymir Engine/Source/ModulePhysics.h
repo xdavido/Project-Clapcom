@@ -12,7 +12,7 @@
 
 class DebugDrawer;
 struct PhysBody;
-enum physicsType;
+enum PhysicsType;
 class ModulePhysics : public Module 
 {
 public:
@@ -41,10 +41,10 @@ public:
 
 	// TODO: LLUC i MARC
 	// PhysBody related
-	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
-	PhysBody* AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
-	PhysBody* AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
-	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape);				 // Convex
+	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
+	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
+	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
+	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btConvexHullShape*& shape);				 // Convex
 	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);

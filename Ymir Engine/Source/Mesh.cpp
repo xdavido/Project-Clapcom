@@ -48,7 +48,7 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
     //this->meshShader.scale = transform->scale;
 
     // TODO: While load doesn't work, load transform info here. When load works, add this info in the component transform with the large constructor: CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled)
-    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(transform->translation, transform->rotation * RADTODEG, transform->scale);
+    static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(transform->translation, transform->rotation * RADTODEG, transform->scale);
     //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->translation = transform->translation;
     //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->eulerRot = transform->rotation * RADTODEG;
     //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->scale = transform->scale;

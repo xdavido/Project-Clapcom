@@ -93,143 +93,185 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
 
-	// If meta file doesn't exist
-	if (metaFile == nullptr)
+	if (CheckExtensionType(assetsFilePath.c_str()) == ResourceType::TEXTURE)
 	{
-		switch (CheckExtensionType(assetsFilePath.c_str()))
+		for (auto it = App->scene->GetSelectedGOs().begin(); it != App->scene->GetSelectedGOs().end(); ++it)
 		{
-		case ResourceType::UNKNOWN:
-			break;
-		case ResourceType::TEXTURE:
-			break;
-		case ResourceType::MESH:
-		{
-			// Rework to ImporterModel::Import(path);
-			App->renderer3D->models.push_back(Model(path));
-		}
-		break;
-		case ResourceType::SCENE:
-			break;
-		case ResourceType::SHADER:
-			break;
-		case ResourceType::MATERIAL:
-			break;
-		case ResourceType::META:
-			break;
-		case ResourceType::ALL_TYPES:
-			break;
-		default:
-			break;
-		}
+			for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
+			{
+				if ((*jt)->ctype == ComponentType::MATERIAL)
+				{
+					ResourceTexture* rTexTemp = new ResourceTexture();
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
+					
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
+					static_cast<CMaterial*>((*jt))->rTextures.clear();
+					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+				}
+				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
+				{
+					ResourceTexture* rTexTemp = new ResourceTexture();
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
+					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
+				}
+			}
+		}
 	}
 	else
 	{
-		metaFile = JsonFile::GetJSON(metaFilePath);
-		uint UID = metaFile->GetInt("UID");
-
-		std::string ext;
-		PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
-
-		ResourceType type = GetTypeFromString(ext);
-
-		/* The resources that have to be transformed to Ymir Engine format have to be imported,
-		but the resources that are already in the custom format only have to be loaded. */
-
-		switch (type) {
-
-		case ResourceType::MESH:
-
-			//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
-			break;
-
-		case ResourceType::MODEL:
+		// If meta file doesn't exist
+		//if (metaFile == nullptr)
 		{
-			//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
-
-			GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
-			modelGO->UID = metaFile->GetInt("UID");
-
-			int* ids = metaFile->GetIntArray("Meshes Embedded UID");
-
-			for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+			switch (CheckExtensionType(assetsFilePath.c_str()))
 			{
-				// Search resource: if it exists --> create a game object with a reference to it
-				// else --> create the resource from library and the game object to contain it
-				auto itr = resources.find(ids[i]);
+			case ResourceType::UNKNOWN:
+				break;
+			case ResourceType::TEXTURE:
+			{
 
-				if (itr == resources.end())
+				/*for (auto itr = 0; itr != App->editor.; itr++)
 				{
-					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
-					meshGO->UID = ids[i];
 
-					if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
-
-						// Rework to ImporterModel::Import(path);
-						App->renderer3D->models.push_back(Model(path));
-
-					}
-
-					ResourceMesh* rMesh = static_cast<ResourceMesh*>
-						(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
-
-					CMesh* cmesh = new CMesh(meshGO);
-
-					cmesh->rMeshReference = rMesh;
-					cmesh->nIndices = 0;
-					cmesh->nVertices = 0;
-
-					meshGO->AddComponent(cmesh);
-
-					CMaterial* cmat = new CMaterial(meshGO);
-					meshGO->AddComponent(cmat);
-				}
-				else
-				{
-					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
-					meshGO->UID = ids[i];
-
-					CMesh* cmesh = new CMesh(meshGO);
-
-					cmesh->rMeshReference = (ResourceMesh*)itr->second;
-					cmesh->nIndices = 0;
-					cmesh->nVertices = 0;
-
-					meshGO->AddComponent(cmesh);
-
-					CMaterial* cmat = new CMaterial(meshGO);
-					meshGO->AddComponent(cmat);
-
-					itr->second->IncreaseReferenceCount();
-				}
-
+				}*/
+			}
+			break;
+			case ResourceType::MESH:
+			{
+				// Rework to ImporterModel::Import(path);
+				App->renderer3D->models.push_back(Model(path));
+			}
+			break;
+			case ResourceType::SCENE:
+				break;
+			case ResourceType::SHADER:
+				break;
+			case ResourceType::MATERIAL:
+				break;
+			case ResourceType::META:
+				break;
+			case ResourceType::ALL_TYPES:
+				break;
+			default:
+				break;
 			}
 
-			//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
 		}
-		break;
+		//else
+		//{
+		//	metaFile = JsonFile::GetJSON(metaFilePath);
+		//	uint UID = metaFile->GetInt("UID");
 
-		case ResourceType::SCENE:
+		//	std::string ext;
+		//	PhysfsEncapsule::SplitFilePath(metaFile->GetString("Library Path").c_str(), nullptr, nullptr, &ext);
 
-			//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
-			break;
+		//	ResourceType type = GetTypeFromString(ext);
 
-		case ResourceType::TEXTURE:
+		//	/* The resources that have to be transformed to Ymir Engine format have to be imported,
+		//	but the resources that are already in the custom format only have to be loaded. */
 
-			//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
-			break;
+		//	switch (type) {
 
-		case ResourceType::MATERIAL:
+		//	case ResourceType::MESH:
 
-			//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
-			break;
+		//		//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
+		//		break;
 
-		case ResourceType::SHADER:
+		//	case ResourceType::MODEL:
+		//	{
+		//		//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
-			//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
-			break;
+		//		GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
+		//		modelGO->UID = metaFile->GetInt("UID");
 
-		}
+		//		int* ids = metaFile->GetIntArray("Meshes Embedded UID");
+
+		//		for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
+		//		{
+		//			// Search resource: if it exists --> create a game object with a reference to it
+		//			// else --> create the resource from library and the game object to contain it
+		//			auto itr = resources.find(ids[i]);
+
+		//			if (itr == resources.end())
+		//			{
+		//				GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+		//				meshGO->UID = ids[i];
+
+		//				if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
+
+		//					// Rework to ImporterModel::Import(path);
+		//					App->renderer3D->models.push_back(Model(path));
+
+		//				}
+
+		//				ResourceMesh* rMesh = static_cast<ResourceMesh*>
+		//					(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
+
+		//				CMesh* cmesh = new CMesh(meshGO);
+
+		//				cmesh->rMeshReference = rMesh;
+		//				cmesh->nIndices = 0;
+		//				cmesh->nVertices = 0;
+
+		//				meshGO->AddComponent(cmesh);
+
+		//				CMaterial* cmat = new CMaterial(meshGO);
+		//				meshGO->AddComponent(cmat);
+		//			}
+		//			else
+		//			{
+		//				GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+		//				meshGO->UID = ids[i];
+
+		//				CMesh* cmesh = new CMesh(meshGO);
+
+		//				cmesh->rMeshReference = (ResourceMesh*)itr->second;
+		//				cmesh->nIndices = 0;
+		//				cmesh->nVertices = 0;
+
+		//				meshGO->AddComponent(cmesh);
+
+		//				CMaterial* cmat = new CMaterial(meshGO);
+		//				meshGO->AddComponent(cmat);
+
+		//				itr->second->IncreaseReferenceCount();
+		//			}
+
+		//		}
+
+		//		//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
+		//	}
+		//	break;
+
+		//	case ResourceType::SCENE:
+
+		//		//ImporterScene::Load(assetsFilePath.c_str(), (ResourceScene*)resource);
+		//		break;
+
+		//	case ResourceType::TEXTURE:
+
+		//		//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
+		//		break;
+
+		//	case ResourceType::MATERIAL:
+
+		//		//ImporterMaterial::Load(assetsFilePath.c_str(), (ResourceMaterial*)resource);
+		//		break;
+
+		//	case ResourceType::SHADER:
+
+		//		//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+		//		break;
+
+		//	}
+
+		//}
 
 	}
 

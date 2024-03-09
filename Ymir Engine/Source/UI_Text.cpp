@@ -120,7 +120,7 @@ void UI_Text::OnInspector()
 
 		ImGui::Checkbox("Draggeable", &isDraggable);
 
-		ImGui::InputTextMultiline(("Text##"+ std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
+		ImGui::InputTextMultiline(("Text##" + std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
 		//ImGui::InputText(name.c_str(), &text, ImGuiInputTextFlags_EnterReturnsTrue);
 		ImGui::Dummy(ImVec2(0, 10));
 
@@ -221,25 +221,25 @@ void UI_Text::Draw(bool game)
 			{
 				boundsDrawn = boundsGame;
 
-				glMatrixMode(GL_PROJECTION);
-				glLoadIdentity();
-				glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+				//glMatrixMode(GL_PROJECTION);
+				//glLoadIdentity();
+				//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
 
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
+				//glMatrixMode(GL_MODELVIEW);
+				//glLoadIdentity();
 			}
 
 			else
 			{
 				boundsDrawn = boundsEditor;
 
-				glPushMatrix();
-				glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+				//glPushMatrix();
+				//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 			}
 
 			// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
-			
+
 			//for (auto& textures : mat->rTextures) {
 
 			//	textures->BindTexture(true);
@@ -251,23 +251,28 @@ void UI_Text::Draw(bool game)
 
 			// Render
 
+			
+			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+			
+			//uiImage->mat->shader.UseShader(true);
+			//uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+
 			glBindVertexArray(boundsDrawn->VAO);
 
 			glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);
 
-			/*mat->shader.UseShader(false);
+			//uiImage->mat->shader.UseShader(false);
 
-			for (auto& textures : mat->rTextures) {
+			glBindTexture(GL_TEXTURE_2D, 0);
 
-				textures->BindTexture(false);
+			//mat->shader.UseShader(false);
 
-			}*/
 
 			if (!game)
 			{
-				glPopMatrix();
+				//glPopMatrix();
 			}
 		}
 	}
@@ -371,16 +376,15 @@ Font::Font(std::string name, std::string fontPath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		// now store character for later use
-		Character* character = new Character
-		{
-			texture,
-			float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-			float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-			static_cast<unsigned int>(face->glyph->advance.x),
-		};
+		std::unique_ptr <Character> chara(new Character
+			{
+				texture,
+				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+				float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+				static_cast<unsigned int>(face->glyph->advance.x),
+			});
 
-		mCharacters.insert(std::pair<GLchar, Character*>(c, character));
+		mCharacters.insert(std::pair<GLchar, Character*>(c, chara.get()));
 	}
 
 	// destroy FreeType once we're finished

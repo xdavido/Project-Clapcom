@@ -5,6 +5,7 @@
 
 #include "Module.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -19,6 +20,8 @@
 #include "ResourceMesh.h"
 
 #include "UI_Image.h"
+
+#include <map>
 
 class GameObject;
 class CCamera;
@@ -57,6 +60,13 @@ public:
 
 	void Destroy(GameObject* gm);
 
+	// Select GameObjects
+	std::vector<GameObject*>& GetSelectedGOs();
+
+	// If no parameter --> deselect everything
+	void SetSelected(GameObject* go = nullptr);
+	void SetSelectedState(GameObject* go, bool selected);
+	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
 
@@ -67,6 +77,14 @@ public:
 	void SetCanvas(G_UI* newCanvas = nullptr);
 	
 	G_UI* ModuleScene::GetCanvas();
+
+	void ReplaceScriptsReferences(uint oldUID, uint newUID);
+
+	void AddToReferenceMap(uint UID, SerializedField* fieldToAdd);
+
+	GameObject* GetGOFromUID(GameObject* n, uint sUID);
+
+	void LoadScriptsData(GameObject* rootObject = nullptr);
 
 
 public:
@@ -90,12 +108,19 @@ public:
 	std::string currentSceneDir;
 	std::string currentSceneFile;
 
+	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
+
+	std::multimap<uint, SerializedField*> referenceMap;
+
+	//Hardcodeado para la VS1
+	GameObject* MainCharacter;
 
 private:
 
 	G_UI* canvas;
 	int selectedUI;
+
 	std::vector<GameObject*> vSelectedGOs;
 
 	GameObject* audiosource;

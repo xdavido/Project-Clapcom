@@ -5,12 +5,12 @@
 
 ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE)
 {
-    ID = 0;
+	ID = 0;
 
-    type = TextureType::UNKNOWN;
+	type = TextureType::UNKNOWN;
 
-    width = 0;
-    height = 0;
+	width = 0;
+	height = 0;
 }
 
 bool ResourceTexture::LoadInMemory()
@@ -49,8 +49,8 @@ bool ResourceTexture::LoadInMemory()
 	// 3. Get Image Data
 
 	ILubyte* imageData = ilGetData();
-	int width = ilGetInteger(IL_IMAGE_WIDTH);
-	int height = ilGetInteger(IL_IMAGE_HEIGHT);
+	width = ilGetInteger(IL_IMAGE_WIDTH);
+	height = ilGetInteger(IL_IMAGE_HEIGHT);
 
 	ID = ilutGLBindTexImage();
 
@@ -76,12 +76,12 @@ bool ResourceTexture::LoadInMemory()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
 
-    return ret;
+	return ret;
 }
 
 bool ResourceTexture::UnloadFromMemory()
 {
-    return false;
+	return false;
 }
 
 void ResourceTexture::BindTexture(bool bind)
@@ -106,4 +106,14 @@ uint ResourceTexture::GetWidth()
 uint ResourceTexture::GetHeight()
 {
 	return height;
+}
+
+void ResourceTexture::SetWidth(uint w)
+{
+	width = w;
+}
+
+void ResourceTexture::SetHeight(uint h)
+{
+	height = h;
 }

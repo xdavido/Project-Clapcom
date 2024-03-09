@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ResourceMesh.h"
 
 #include "GameObject.h"
 #include "Log.h"
@@ -30,9 +31,13 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	mRootNode = CreateGameObject("Scene", nullptr);
 	mRootNode->UID = Random::Generate();
 
+	////Hardcodeado para la VS1
+	//MainCharacter = CreateGameObject("Main Character", mRootNode);
+	//
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
-	gameCameraObject->UID = Random::Generate();
-	tags = { "Untagged" };
+	//gameCameraObject->UID = Random::Generate();
+	//tags = { "Untagged" };
+
 	//audiosource = CreateGameObject("AudioSource", mRootNode);
 	//audiosource->UID = Random::Generate();
 
@@ -54,52 +59,10 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
-	audioListenerComponent->SetAsDefaultListener();
-	gameCameraObject->AddComponent(audioListenerComponent);
-	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
-	gameCameraObject->AddComponent(audioSourceComponent);
-
 	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	//gameCameraObject->AddComponent(audioSourceComponent);
 
-	// yscene file creation
-
-	// You shouldn't save from default
-
-	//ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
-	//ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
-	//ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
-	//ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
-	//ysceneFile.SetHierarchy("Hierarchy", gameObjects);
-
-
-	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
-
-	//char* buffer = nullptr;
-	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
-	//{
-	//	ImporterMesh::Load(buffer, &mymesh);
-	//}
-
-	//mymesh.LoadInMemory();
-	for (int i = 0; i < 1; i++)
-	{
-		const char* n = "Test";
-		std::string numStr = std::to_string(i);
-		std::string name = n + numStr;
-
-		GameObject* goTest = CreateGameObject(name, mRootNode);
-		const char* t = "Core";
-
-		Component* c = nullptr;
-
-		c = new CScript(goTest, t);
-
-		goTest->AddComponent(c);
-	}
-	
-	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
+	selectedGO = nullptr;
 
 	return ret;
 }
@@ -108,11 +71,96 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
+	//Hardcodeado para la VS1
+	/*App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
+
+	MainCharacter = gameObjects[4];
+
+	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
+	componentTransform->SetScale({0.003f,0.003f,0.003f});
+	componentTransform->SetRotation({ -90,0,180});
+
+	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
+	MainCharacter->mParent->AddComponent(scriptComponent);
+
+	CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
+	animationComponent->selectedAnimationPlaying = 0;
+	animationComponent->animator->GetCurrentAnimation()->loop = true;
+	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;*/
+
+
 	// Test for Physics
 	// LoadSceneFromStart("Assets", "PhysicsTest"); 
 
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
+	
+	//Audio Testing
+//#ifdef _STANDALONE
+
+	LoadSceneFromStart("Assets", "Colliders");
+
+	//Hardcodeado para la VS1
+	tags = { "Untagged" };
+
+	App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
+
+	App->resourceManager->ImportFile("Assets/VS1_DemoRoom.fbx");
+
+	MainCharacter = gameObjects[7];
+
+	gameObjects[219]->mTransform->SetPosition({ 0,0, 8.524627685546875 });
+
+	G_UI* juan = CreateGUI(UI_TYPE::IMAGE);
+	UI_Image* coso = (UI_Image*)(juan->GetComponentUI(UI_TYPE::IMAGE));
+	coso->SetNativeSize();
+
+	gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
+	
+	CCamera* componentCamera = new CCamera(App->scene->gameCameraObject);
+	gameCameraComponent = componentCamera;
+	componentCamera->enableFrustumCulling = false;
+	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	gameCameraObject->AddComponent(componentCamera);
+	//gameCameraComponent->framebuffer.Load();
+	gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
+	gameCameraObject->mTransform->SetRotation({ 35,0,0});
+
+	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
+	audioListenerComponent->SetAsDefaultListener();
+	gameCameraObject->AddComponent(audioListenerComponent);
+	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
+	gameCameraObject->AddComponent(audioSourceComponent);
+
+	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
+	componentTransform->SetScale({ 0.003f,0.003f,0.003f });
+	componentTransform->SetRotation({ -90,0,180 });
+	//componentTransform->SetPosition({ 0,2,0});
+
+	//CCollider* colliderComponent = new CCollider(MainCharacter);
+	//float3 size;
+
+	//size.x = static_cast<float>(1);
+	//size.y = static_cast<float>(1);
+	//size.z = static_cast<float>(1);
+
+	//colliderComponent->size = size;
+
+	//colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+
+	//// Mass
+	//colliderComponent->mass = static_cast<float>(1);
+	//MainCharacter->AddComponent(colliderComponent);
+
+	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
+	MainCharacter->mParent->AddComponent(scriptComponent);
+
+	CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
+	animationComponent->selectedAnimationPlaying = 0;
+	animationComponent->animator->GetCurrentAnimation()->loop = true;
+	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
+
+//#endif // _STANDALONE
 
 	return false;
 }
@@ -279,6 +327,8 @@ void ModuleScene::ClearScene()
 	delete mRootNode;
 	mRootNode = nullptr;*/
 
+	SetSelected();
+
 	RELEASE(mRootNode);
 
 	gameObjects.clear();
@@ -333,6 +383,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
 }
@@ -382,6 +433,82 @@ void ModuleScene::Destroy(GameObject* gm)
 	gm = nullptr;
 }
 
+std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
+{
+	return vSelectedGOs;
+}
+
+void ModuleScene::SetSelected(GameObject* go)
+{
+	if (go != nullptr)
+	{
+		// If ctrl not pressed, set everything to false clear and the selected go's vector 
+		if (!ImGui::GetIO().KeyCtrl)
+		{
+			for (auto i = 0; i < vSelectedGOs.size(); i++)
+			{
+				SetSelectedState(vSelectedGOs[i], false);
+			}
+			ClearVec(vSelectedGOs);
+		}
+
+		// On click select or deselect item
+		go->selected = !go->selected;
+
+		// If the item was selected, add it to the vec, otherwise remove it
+		if (go->selected)
+		{
+			selectedGO = go;
+
+			vSelectedGOs.push_back(go);
+
+			// Set selected go children to the same state as the clicked item
+			SetSelectedState(go, go->selected);
+		}
+		else if (!vSelectedGOs.empty())
+		{
+			SetSelectedState(go, false);
+			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+		}
+	}
+	else
+	{
+		selectedGO = nullptr;
+
+		for (auto i = 0; i < vSelectedGOs.size(); i++)
+		{
+			SetSelectedState(vSelectedGOs[i], false);
+		}
+
+		ClearVec(vSelectedGOs);
+	}
+}
+
+void ModuleScene::SetSelectedState(GameObject* go, bool selected)
+{
+	// Must change go value manually. In "active" not necessary since it changes from the toggle
+
+	if (go != nullptr)
+	{
+		go->selected = selected;
+
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			if (!go->mChildren.empty())
+			{
+				SetSelectedState(go->mChildren[i], selected);
+			}
+
+			go->mChildren[i]->selected = selected;
+
+			if (go->mChildren[i]->selected)
+			{
+				vSelectedGOs.push_back(go->mChildren[i]);
+			}
+		}
+	}
+}
+
 // Function to handle GameObject selection by Mouse Picking
 void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 {
@@ -424,15 +551,15 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 	}
 
 	// Set all meshes to unselected initially.
-	for (CMesh* mesh : meshesSorted) {
+	/*for (CMesh* mesh : meshesSorted) {
 
 		if (mesh != nullptr && mesh->mOwner != nullptr) {
 
-			mesh->mOwner->selected = false;
+			SetSelected();
 
 		}
 
-	}
+	}*/
 
 	// Iterate through the sorted meshes to find the first intersection with the ray.
 	for (CMesh* mesh : meshesSorted) {
@@ -464,19 +591,19 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 					// Intersection found, set the selected object.
 					if (mesh->mOwner != nullptr) {
 
-						mesh->mOwner->selected = true;
+						App->scene->SetSelected(mesh->mOwner);
 
-						// Iterate through all game objects in the scene.
-						for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+						//// Iterate through all game objects in the scene.
+						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-							// Unselect other game objects.
-							if ((*it) != mesh->mOwner) {
+						//	// Unselect other game objects.
+						//	if ((*it) != mesh->mOwner) {
 
-								(*it)->selected = false;
+						//		(*it)->selected = false;
 
-							}
+						//	}
 
-						}
+						//}
 
 					}
 
@@ -491,12 +618,14 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 
 	}
 
-	// No intersection found, clear the selection for all meshes.
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	SetSelected();
 
-		(*it)->selected = false;
+	//// No intersection found, clear the selection for all meshes.
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-	}
+	//	(*it)->selected = false;
+
+	//}
 
 }
 
@@ -520,3 +649,89 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
+{
+	if (n->UID == sUID)
+		return n;
+
+	GameObject* ret = nullptr;
+	for (size_t i = 0; i < n->mChildren.size(); i++)
+	{
+		ret = GetGOFromUID(n->mChildren[i], sUID);
+		if (ret != nullptr)
+			return ret;
+	}
+
+	return nullptr;
+}
+
+void ModuleScene::ReplaceScriptsReferences(uint oldUID, uint newUID)
+{
+	std::multimap<uint, SerializedField*>::iterator referenceIt = referenceMap.find(oldUID);
+
+	if (referenceIt != referenceMap.end())
+	{
+		AddToReferenceMap(newUID, referenceIt->second);
+		referenceMap.erase(oldUID);
+	}
+}
+
+void ModuleScene::AddToReferenceMap(uint UID, SerializedField* fieldToAdd)
+{
+	referenceMap.emplace(UID, fieldToAdd);
+}
+
+void ModuleScene::LoadScriptsData(GameObject* rootObject)
+{
+	std::multimap<uint, SerializedField*> referenceMapCopy;
+	for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	{
+		// Get the range of the current key
+		auto range = referenceMap.equal_range(i->first);
+
+		// Now render out that whole range
+		for (auto d = range.first; d != range.second; ++d)
+		{
+			//if (d->second->fiValue.goValue != nullptr)
+				//continue;
+
+			if (rootObject != nullptr)
+			{
+				GameObject* gameObject = GetGOFromUID(rootObject, d->first);
+
+				if (gameObject != nullptr)
+					d->second->fiValue.goValue = gameObject;
+				else
+					d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+			else
+			{
+				d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+
+			if (d->second->fiValue.goValue != nullptr)
+			{
+				//d->second->goUID = d->first;
+
+				if (std::find(d->second->fiValue.goValue->csReferences.begin(), d->second->fiValue.goValue->csReferences.end(), d->second) == d->second->fiValue.goValue->csReferences.end())
+					d->second->fiValue.goValue->csReferences.push_back(d->second);
+
+				d->second->parentSC->SetField(d->second->field, d->second->fiValue.goValue);
+
+				//d->second = nullptr;
+			}
+		}
+	}
+
+	//for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	//{
+	//	if (i->second != nullptr)
+	//	{
+	//		referenceMapCopy.emplace(i->first, i->second);
+	//	}
+	//}
+
+	//referenceMap = referenceMapCopy;
+
+	referenceMap.clear();
+}

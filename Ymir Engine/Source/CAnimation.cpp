@@ -61,9 +61,17 @@ void CAnimation::OnInspector() {
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-    if (ImGui::CollapsingHeader("Animation", flags))
+    bool exists = true;
+
+    ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+    ImGui::SameLine();
+
+
+    if (ImGui::CollapsingHeader(("Animation##" + std::to_string(UID)).c_str(), &exists, flags))
     {
         ImGui::Indent();
+
+        if (!active) { ImGui::BeginDisabled(); }
 
         std::string animationName;
 
@@ -169,8 +177,9 @@ void CAnimation::OnInspector() {
                 animator->PauseAnimation();
             }
 
-
         }
+
+        if (!active) { ImGui::EndDisabled(); }
 
         ImGui::Unindent();
     }

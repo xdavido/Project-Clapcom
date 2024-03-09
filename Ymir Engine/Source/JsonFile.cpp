@@ -18,11 +18,13 @@
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleAudio.h"
 
 #include "ImporterMesh.h"
 #include "ModuleResourceManager.h"
 
 #include "External/mmgr/mmgr.h"
+#include "CScript.h"
 
 JsonFile::JsonFile()
 {
@@ -595,16 +597,16 @@ void JsonFile::SetComponent(const char* key, const Component& component)
 		// Additional properties specific to the Material component can be added here
 		break;
 
-    case CAMERA:
-        json_object_set_string(componentObject, "Type", "Camera");
-        // Additional properties specific to the Camera component can be added here
-        break;
-    
-    case ANIMATION:
-        json_object_set_string(componentObject, "Type", "Animation");
-        // Additional properties specific to the Camera component can be added here
-        break;
-    }
+	case CAMERA:
+		json_object_set_string(componentObject, "Type", "Camera");
+		// Additional properties specific to the Camera component can be added here
+		break;
+
+	case ANIMATION:
+		json_object_set_string(componentObject, "Type", "Animation");
+		// Additional properties specific to the Camera component can be added here
+		break;
+	}
 
 	// Add the component object to the main object
 	json_object_set_value(rootObject, key, componentValue);
@@ -646,13 +648,13 @@ Component* JsonFile::GetComponent(const char* key) const
 
 			component->ctype = ComponentType::CAMERA;
 
-        }
+		}
 
-        if (type == "Animation") {
+		if (type == "Animation") {
 
-            component->ctype = ComponentType::ANIMATION;
+			component->ctype = ComponentType::ANIMATION;
 
-        }
+		}
 
 		return component;
 	}
@@ -830,24 +832,32 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	JSON_Value* hierarchyValue = json_value_init_array();
 	JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
-	for (const auto& gameObject : gameObjects) {
+	//for (const auto& gameObject : gameObjects) {
 
-		JSON_Value* gameObjectValue = json_value_init_object();
-		JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+	//	JSON_Value* gameObjectValue = json_value_init_object();
+	//	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
-		// Call the existing SetGameObject function to set individual GameObject properties
-		SetGameObject(gameObjectObject, *gameObject);
+	//	// Call the existing SetGameObject function to set individual GameObject properties
+	//	SetGameObject(gameObjectObject, *gameObject);
 
-		// Add the GameObject to the hierarchy array
-		json_array_append_value(hierarchyArray, gameObjectValue);
-	}
+	//	// Add the GameObject to the hierarchy array
+	//	json_array_append_value(hierarchyArray, gameObjectValue);
+	//}
+
+	
+	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
 	// Add the hierarchy array to the main object
 	json_object_set_value(rootObject, key, hierarchyValue);
 }
 
-void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& gameObject)
+void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 {
+	JSON_Value* gameObjectValue = json_value_init_object();
+	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+
+	json_array_append_value(hArray, gameObjectValue);
+
 	// Set Name
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
@@ -858,36 +868,23 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
-	//for (Component* component : gameObject.mComponents) {
-
-	//    if (component->ctype == ComponentType::MESH) {
-
-	//        json_object_set_string(gameObjectObject, "Element_Type", "Mesh");
-
-	//    }
-
-	//}
-
 	// Set Parent UID
 	if (gameObject.mParent != nullptr) {
 		json_object_set_number(gameObjectObject, "Parent UID", gameObject.mParent->UID);
 	}
 
-	// Set Children UID
-	std::vector<int> childrenUID;
-	for (const auto& child : gameObject.mChildren) {
-		childrenUID.push_back(child->UID);
-	}
+	JSON_Value* childrenValue = json_value_init_array();
+	JSON_Array* childrenArray = json_value_get_array(childrenValue);
 
-	if (!childrenUID.empty()) {
-		JSON_Value* childrenValue = json_value_init_array();
-		JSON_Array* childrenArray = json_value_get_array(childrenValue);
+	// Set Children
+	for (int i = 0; i < gameObject.mChildren.size(); i++)
+	{
+		SetGameObject(hArray, *gameObject.mChildren[i]);
 
-		for (const auto& childUID : childrenUID) {
-			json_array_append_number(childrenArray, childUID);
-		}
-
+		json_array_append_value(childrenArray, childrenValue);
 		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+
+		//counter = GameObjectJSON(gameObject.mChildren[i], subInfo + ".Child " + std::to_string(counter), counter, subInfo);
 	}
 
 	// Save Components Info
@@ -910,6 +907,30 @@ void JsonFile::SetGameObject(JSON_Object* gameObjectObject, const GameObject& ga
 	// Add the hierarchy array to the main object
 	json_object_set_value(gameObjectObject, "Components", componentsValue);
 
+	// Set Children UID
+
+	std::vector<int> childrenUID;
+
+	for (const auto& child : gameObject.mChildren) {
+
+		childrenUID.push_back(child->UID);
+
+	}
+
+	if (!childrenUID.empty()) {
+
+		JSON_Value* childrenValue = json_value_init_array();
+
+		JSON_Array* childrenArray = json_value_get_array(childrenValue);
+
+		for (const auto& childUID : childrenUID) {
+
+			json_array_append_number(childrenArray, childUID);
+
+		}
+
+		json_object_set_value(gameObjectObject, "Children UID", childrenValue);
+	}
 }
 
 void JsonFile::SetComponent(JSON_Object* componentObject, const Component& component)
@@ -1056,24 +1077,25 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-        json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
+		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
 
-        // Enable/Disable Frustum Culling
+		// Enable/Disable Frustum Culling
 
-        json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
+		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
 
-        // Enable/Disable Bounding Boxes
+		// Enable/Disable Bounding Boxes
 
-        json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
+		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
 		//Is game camera
-		
+
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
-    }
-    case ANIMATION: 
+		break;
+	}
+	case ANIMATION:
 	{
-        //Empty for now
+		json_object_set_string(componentObject, "Type", "Animation");
 		break;
 	}
 	case PHYSICS:
@@ -1083,6 +1105,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		CCollider* ccollider = (CCollider*)&component;
 
 		json_object_set_number(componentObject, "Active", ccollider->active);
+
+		// Collider Type
+		
+		json_object_set_number(componentObject, "Collider Type", (int)static_cast<const CCollider&>(component).collType);
 
 		// Size
 
@@ -1095,9 +1121,70 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_value(componentObject, "Size", sizeArrayValue);
 
+		// Radius
+
+		json_object_set_number(componentObject, "Radius", ccollider->radius);
+
+		//Height
+
+		json_object_set_number(componentObject, "Height", ccollider->height);
+
+		// Physics type
+
+		json_object_set_number(componentObject, "Physics Type", (int)static_cast<const CCollider&>(component).physType);
+
 		// Mass
 
 		json_object_set_number(componentObject, "Mass", ccollider->mass);
+
+		// Gravity
+
+		json_object_set_boolean(componentObject, "Gravity", ccollider->gravity);
+
+		break;
+	}
+	case SCRIPT:
+	{
+		CScript* cscript = (CScript*)&component;
+
+		//TODO: A�adir la funci�n de SaveData() para que se guarde todo en el documento
+		json_object_set_string(componentObject, "Type", "Script");
+
+		json_object_set_string(componentObject, "ScriptName", cscript->name.c_str());
+
+		for (int i = 0; i < cscript->fields.size(); i++)
+		{
+			switch (cscript->fields[i].type)
+			{
+			case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.bValue);
+				json_object_set_boolean(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.bValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_I4:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.iValue);
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.iValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_CLASS:
+				if (cscript->fields[i].fiValue.goValue != nullptr)
+					json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.goValue->UID);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_R4:
+				mono_field_get_value(mono_gchandle_get_target(cscript->noGCobject), cscript->fields[i].field, &cscript->fields[i].fiValue.fValue);
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.fValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_STRING:
+				json_object_set_string(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.strValue);
+				break;
+
+			default:
+				json_object_set_number(componentObject, mono_field_get_name(cscript->fields[i].field), cscript->fields[i].fiValue.iValue);
+				break;
+			}
+		}
 
 		break;
 	}
@@ -1311,11 +1398,24 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	case AUDIO_SOURCE:
 	{
 		json_object_set_string(componentObject, "Type", "Audio source");
+
+		CAudioSource* caudiosource = (CAudioSource*)&component;
+
+		json_object_set_number(componentObject, "Active", caudiosource->active);
+
+		json_object_set_string(componentObject, "Bank Name", caudiosource->audBankName.c_str());
+		json_object_set_string(componentObject, "Event Name", caudiosource->evName.c_str());
+		json_object_set_number(componentObject, "Event ID", caudiosource->evID);
 	}
 	break;
 	case AUDIO_LISTENER:
 	{
 		json_object_set_string(componentObject, "Type", "Audio listener");
+
+		CAudioListener* caudiolistener = (CAudioListener*)&component;
+
+		json_object_set_number(componentObject, "Active", caudiolistener->active);
+		json_object_set_number(componentObject, "Default Listener", caudiolistener->isDefaultListener);
 	}
 	break;
 	default:
@@ -1558,7 +1658,16 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Physics") {
 
-		CCollider* ccollider = new CCollider(gameObject);
+		// Collider Type
+
+		ColliderType collider = static_cast<ColliderType>(json_object_get_number(componentObject, "Collider Type"));
+
+		// Physics Type
+
+		PhysicsType physics = static_cast<PhysicsType>(json_object_get_number(componentObject, "Physics Type"));
+
+
+		CCollider* ccollider = new CCollider(gameObject, collider, physics);
 
 		// Size
 
@@ -1581,19 +1690,96 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 
+		// Radius
+
+		ccollider->radius = json_object_get_number(componentObject, "Radius");
+
+		// Height
+
+		ccollider->height = json_object_get_number(componentObject, "Height");
+
 		// Mass
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 
 		gameObject->AddComponent(ccollider);
 
+		// Gravity
+
+		ccollider->gravity = json_object_get_boolean(componentObject, "gravity");
+
 	}
-    else if (type == "Animation") {
+	else if (type == "Script") {
 
-        CAnimation* canimation = new CAnimation(gameObject);
+		std::string scriptName = json_object_get_string(componentObject, "ScriptName");
 
-        gameObject->AddComponent(canimation);
-    }
+		CScript* cscript = new CScript(gameObject, scriptName.c_str());
+
+		SerializedField* _field = nullptr;
+		for (int i = 0; i < cscript->fields.size(); i++) //TODO IMPORTANT ASK: There must be a better way to do this... too much use of switches with this stuff, look at MONOMANAGER
+		{
+			_field = &cscript->fields[i];
+
+			switch (_field->type)
+			{
+			case MonoTypeEnum::MONO_TYPE_BOOLEAN:
+				_field->fiValue.bValue = json_object_get_boolean(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.bValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_I4:
+				_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_CLASS:
+			{
+				if (strcmp(mono_type_get_name(mono_field_get_type(_field->field)), "YmirEngine.GameObject") == 0)
+				{
+					const char* name = mono_field_get_name(_field->field);
+					int uid = json_object_get_number(componentObject, name);
+					_field->goUID = uid;
+
+					External->scene->AddToReferenceMap(uid, _field);
+				}
+
+				break;
+			}
+			case MonoTypeEnum::MONO_TYPE_R4:
+				_field->fiValue.fValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.fValue);
+				break;
+
+			case MonoTypeEnum::MONO_TYPE_STRING:
+			{
+				const char* ret = json_object_get_string(componentObject, mono_field_get_name(_field->field));
+
+				if (ret == NULL)
+					ret = "\0";
+
+				strcpy(&_field->fiValue.strValue[0], ret);
+
+				MonoString* str = mono_string_new(External->moduleMono->domain, _field->fiValue.strValue);
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, str);
+				break;
+			}
+
+			default:
+				_field->fiValue.iValue = json_object_get_number(componentObject, mono_field_get_name(_field->field));
+				mono_field_set_value(mono_gchandle_get_target(cscript->noGCobject), _field->field, &_field->fiValue.iValue);
+				break;
+			}
+		}
+
+		gameObject->AddComponent(cscript);
+
+	}
+	else if (type == "Animation") {
+
+		CAnimation* canimation = new CAnimation(gameObject);
+
+		gameObject->AddComponent(canimation);
+	}
 	else if (type == "UI")
 	{
 		gameObject = static_cast<G_UI*>(gameObject);
@@ -1603,9 +1789,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		case UI_TYPE::CANVAS:
 		{
 			gameObject->AddComponent(new UI_Canvas(gameObject));
-		}
 
-		break;
+			break;
+		}
 		case UI_TYPE::IMAGE:
 		{
 			UI_Image* ui_comp = new UI_Image(gameObject);
@@ -1632,9 +1818,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
-		}
 
-		break;
+			break;
+		}
 		case UI_TYPE::TEXT:
 		{
 			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, 200, 50, json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"));
@@ -1657,9 +1843,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::BUTTON:
 		{
 			UI_Button* ui_comp = new UI_Button(gameObject);
@@ -1711,9 +1896,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::INPUTBOX:
 		{
 			UI_InputBox* ui_comp = new UI_InputBox(gameObject);
@@ -1765,9 +1949,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::CHECKBOX:
 		{
 			UI_Checkbox* ui_comp = new UI_Checkbox(gameObject);
@@ -1820,9 +2003,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			break;
 		}
-
-		break;
 		case UI_TYPE::NONE:
 			break;
 		default:
@@ -1830,14 +2012,40 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 
 	}
-	
-	// TODO: Audio save / load	
-	else if (type == "Audio source")
-	{
-
-	}
 	else if (type == "Audio listener")
 	{
+		CAudioListener* caudiolistener = new CAudioListener(gameObject);
+		caudiolistener->active = json_object_get_number(componentObject, "Active");
+		caudiolistener->isDefaultListener = json_object_get_number(componentObject, "Default Listener");
+
+		gameObject->AddComponent(caudiolistener);
+		CAudioListener* a = (CAudioListener*)gameObject->GetComponent(AUDIO_LISTENER);
+		if (a->isDefaultListener) {
+			a->SetAsDefaultListener(gameObject);
+		}
 
 	}
+	else if (type == "Audio source")
+	{
+		CAudioSource* caudiosource = new CAudioSource(gameObject);
+		caudiosource->active = json_object_get_number(componentObject, "Active");
+		caudiosource->audBankName = json_object_get_string(componentObject, "Bank Name");
+		caudiosource->evName = json_object_get_string(componentObject, "Event Name");
+		caudiosource->evID = json_object_get_number(componentObject, "Event ID");
+		//caudiosource->id = json_object_get_number(componentObject, "Event ID");
+
+		External->audio->LoadBank(caudiosource->audBankName);
+
+
+#ifdef _STANDALONE
+
+		External->audio->PlayEvent(caudiosource->id, caudiosource->evName);
+
+#endif // STANDALONE
+
+		gameObject->AddComponent(caudiosource);
+
+
+	}
+
 }

@@ -11,7 +11,7 @@ class UI_Image : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 100, y = 100
-	UI_Image(GameObject* g, int x = 0, int y = 0, int w = 100, int h = 100, std::string shaderPath = "Assets/Shaders/UI Shader.glsl", std::string imgPath= "Assets/Baker_house.png");
+	UI_Image(GameObject* g, int x = 0, int y = 0, int w = 100, int h = 100, std::string shaderPath = "Assets/Shaders/UI Shader.glsl", std::string imgPath= "Assets/InGameConeptPng.png");
 	~UI_Image();
 
 	void OnInspector();

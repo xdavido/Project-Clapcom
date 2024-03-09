@@ -115,6 +115,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Shaders"); // SPIR-V
 	PhysfsEncapsule::CreateFolder(libraryPath, "Textures"); // DDS 
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
+	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
 }
 
 bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {
