@@ -1172,6 +1172,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	{
 		json_object_set_string(componentObject, "Type", "UI");
 
+		json_object_set_number(componentObject, "Active", component.active);
+
 		json_object_set_number(componentObject, "UI Type", (int)static_cast<const C_UI&>(component).UI_type);
 
 		switch (static_cast<const C_UI&>(component).UI_type)
