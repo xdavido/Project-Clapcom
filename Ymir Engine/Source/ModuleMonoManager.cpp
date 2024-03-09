@@ -16,6 +16,7 @@
 #include "CScript.h"
 #include "CS_Bindings.h"
 #include "CS_Input_Bindings.h"
+#include "CS_Audio_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -79,7 +80,23 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
 
-	
+#pragma region Audio
+	mono_add_internal_call("YmirEngine.Audio::PlayAudio", PlayAudio);
+	mono_add_internal_call("YmirEngine.Audio::StopAudio", StopAudio);
+	mono_add_internal_call("YmirEngine.Audio::StopOneAudio", StopOneAudio);
+	mono_add_internal_call("YmirEngine.Audio::ResumeAudio", ResumeAudio);
+	mono_add_internal_call("YmirEngine.Audio::PauseAudio", PauseAudio);
+	mono_add_internal_call("YmirEngine.Audio::GetVolume", GetVolume);
+	mono_add_internal_call("YmirEngine.Audio::SetVolume", SetVolume);
+	mono_add_internal_call("YmirEngine.Audio::GetPitch", GetPitch);
+	mono_add_internal_call("YmirEngine.Audio::SetPitch", SetPitch);
+	mono_add_internal_call("YmirEngine.Audio::GetMuted", GetMuted);
+	mono_add_internal_call("YmirEngine.Audio::SetMuted", SetMuted);
+	mono_add_internal_call("YmirEngine.Audio::SetState", SetState);
+	mono_add_internal_call("YmirEngine.Audio::SetSwitch", SetSwitch);
+	mono_add_internal_call("YmirEngine.Audio::PauseAllAudios", PauseAllAudios);
+	mono_add_internal_call("YmirEngine.Audio::ResumeAllAudios", ResumeAllAudios);
+#pragma endregion
 
 
 #pragma region GamePad

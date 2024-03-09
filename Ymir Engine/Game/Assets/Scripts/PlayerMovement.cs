@@ -99,7 +99,20 @@ public class PlayerMovement : YmirComponent
             Input.GameControllerRumbleCS(3,32,100);
         }
 
-        RotatePlayer();
+        if(Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        {
+            Debug.Log("Pause!");
+            Audio.PauseAllAudios();
+        }
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        {
+            Debug.Log("Play!");
+            Audio.ResumeAllAudios();
+        }
+
+
+        //En un futuro proximo para hace bien el movimiento
+        //RotatePlayer();
     }
 
 
