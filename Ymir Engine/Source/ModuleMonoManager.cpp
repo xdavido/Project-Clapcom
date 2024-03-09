@@ -84,6 +84,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 #pragma region GamePad
 
+	mono_add_internal_call("YmirEngine.Input::GetGamepadButton", GetGamepadButton);
 	mono_add_internal_call("YmirEngine.Input::GetLeftAxisY", GetLeftAxisY);
 	mono_add_internal_call("YmirEngine.Input::GetLeftAxisX", GetLeftAxisX);
 	mono_add_internal_call("YmirEngine.Input::GetRightAxisY", GetRightAxisY);

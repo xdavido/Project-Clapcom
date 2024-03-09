@@ -225,7 +225,7 @@ MonoObject* GetForward(MonoObject* go)
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	//TODO: No tenemos GetForward()
+	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	
 }
 MonoObject* GetRight(MonoObject* go)
 {
@@ -235,7 +235,7 @@ MonoObject* GetRight(MonoObject* go)
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	//TODO: No tenemos GetRight()
+	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	
 }
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
