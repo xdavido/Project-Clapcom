@@ -98,67 +98,67 @@ bool ModuleScene::Start()
 	//Audio Testing
 //#ifdef _STANDALONE
 
-	LoadSceneFromStart("Assets", "Colliders");
+	//LoadSceneFromStart("Assets", "Colliders");
 
 	//Hardcodeado para la VS1
-	tags = { "Untagged" };
+	//tags = { "Untagged" };
 
-	App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
+	//App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
 
-	App->resourceManager->ImportFile("Assets/VS1_DemoRoom.fbx");
+	//App->resourceManager->ImportFile("Assets/VS1_DemoRoom.fbx");
 
-	MainCharacter = gameObjects[7];
+	//MainCharacter = gameObjects[7];
 
-	gameObjects[219]->mTransform->SetPosition({ 0,0, 8.524627685546875 });
+	//gameObjects[219]->mTransform->SetPosition({ 0,0, 8.524627685546875 });
 
-	G_UI* juan = CreateGUI(UI_TYPE::IMAGE);
-	UI_Image* coso = (UI_Image*)(juan->GetComponentUI(UI_TYPE::IMAGE));
-	coso->SetNativeSize();
+	//G_UI* juan = CreateGUI(UI_TYPE::IMAGE);
+	//UI_Image* coso = (UI_Image*)(juan->GetComponentUI(UI_TYPE::IMAGE));
+	//coso->SetNativeSize();
 
-	gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
-	
-	CCamera* componentCamera = new CCamera(App->scene->gameCameraObject);
-	gameCameraComponent = componentCamera;
-	componentCamera->enableFrustumCulling = false;
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-	gameCameraObject->AddComponent(componentCamera);
-	//gameCameraComponent->framebuffer.Load();
-	gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
-	gameCameraObject->mTransform->SetRotation({ 35,0,0});
+	//gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
+	//
+	//CCamera* componentCamera = new CCamera(App->scene->gameCameraObject);
+	//gameCameraComponent = componentCamera;
+	//componentCamera->enableFrustumCulling = false;
+	//gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	//gameCameraObject->AddComponent(componentCamera);
+	////gameCameraComponent->framebuffer.Load();
+	//gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
+	//gameCameraObject->mTransform->SetRotation({ 35,0,0});
 
-	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
-	audioListenerComponent->SetAsDefaultListener();
-	gameCameraObject->AddComponent(audioListenerComponent);
-	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
-	gameCameraObject->AddComponent(audioSourceComponent);
+	//CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
+	//audioListenerComponent->SetAsDefaultListener();
+	//gameCameraObject->AddComponent(audioListenerComponent);
+	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
+	//gameCameraObject->AddComponent(audioSourceComponent);
 
-	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
-	componentTransform->SetScale({ 0.003f,0.003f,0.003f });
-	componentTransform->SetRotation({ -90,0,180 });
-	//componentTransform->SetPosition({ 0,2,0});
+	//CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
+	//componentTransform->SetScale({ 0.003f,0.003f,0.003f });
+	//componentTransform->SetRotation({ -90,0,180 });
+	////componentTransform->SetPosition({ 0,2,0});
 
-	//CCollider* colliderComponent = new CCollider(MainCharacter);
-	//float3 size;
+	////CCollider* colliderComponent = new CCollider(MainCharacter);
+	////float3 size;
 
-	//size.x = static_cast<float>(1);
-	//size.y = static_cast<float>(1);
-	//size.z = static_cast<float>(1);
+	////size.x = static_cast<float>(1);
+	////size.y = static_cast<float>(1);
+	////size.z = static_cast<float>(1);
 
-	//colliderComponent->size = size;
+	////colliderComponent->size = size;
 
-	//colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+	////colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 
-	//// Mass
-	//colliderComponent->mass = static_cast<float>(1);
-	//MainCharacter->AddComponent(colliderComponent);
+	////// Mass
+	////colliderComponent->mass = static_cast<float>(1);
+	////MainCharacter->AddComponent(colliderComponent);
 
-	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
-	MainCharacter->mParent->AddComponent(scriptComponent);
+	//CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
+	//MainCharacter->mParent->AddComponent(scriptComponent);
 
-	CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
-	animationComponent->selectedAnimationPlaying = 0;
-	animationComponent->animator->GetCurrentAnimation()->loop = true;
-	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
+	//CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
+	//animationComponent->selectedAnimationPlaying = 0;
+	//animationComponent->animator->GetCurrentAnimation()->loop = true;
+	//animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
 
 //#endif // _STANDALONE
 
