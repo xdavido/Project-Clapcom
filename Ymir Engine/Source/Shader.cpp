@@ -4,6 +4,8 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -394,6 +396,8 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 	// Time uniform management
 	this->SetFloat("time", TimeManager::graphicsTimer.ReadSec());
 
+	this->SetUniformValue("lightDir", External->scene->pointLight->mTransform->GetGlobalPosition().ptr());
+	
 }
 
 void Shader::AddShader(GLuint shaderProgram, const char* pShaderText, GLenum shaderType)

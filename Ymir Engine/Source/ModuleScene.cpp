@@ -33,6 +33,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	tags = { "Untagged" };
 
+	pointLight = CreateGameObject("Point Light", mRootNode);
+
 	gameCameraComponent = nullptr;
 	canvas = nullptr;
 }

@@ -113,6 +113,8 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
+	GameObject* pointLight;
+
 private:
 
 	G_UI* canvas;

@@ -111,7 +111,7 @@
     </Filter>
     <Filter Include="Sources\Features\GameObjects &amp; Components\UI">
       <UniqueIdentifier>{0e8f6bda-be60-49b2-b534-df0c3b2a34be}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Externals\Wwise">
       <UniqueIdentifier>{32b0f1d8-dfe9-47cc-b282-e8a05a39d024}</UniqueIdentifier>
     </Filter>
@@ -120,10 +120,10 @@
     </Filter>
     <Filter Include="Sources\Features\Skeletal Animation">
       <UniqueIdentifier>{ad8fbfca-a005-4953-9d78-83c3d7725d02}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="Sources\Utils\Bindings">
       <UniqueIdentifier>{10ca609f-e2f7-4020-9e19-4b325c79a1af}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="Sources\Features\Scripting">
       <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
     </Filter>
@@ -854,7 +854,7 @@
     </ClInclude>
     <ClInclude Include="Source\UI_CheckBox.h">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\External\Wwise\AK\Tools\Common\AkAllocator.h">
       <Filter>Externals\Wwise</Filter>
     </ClInclude>
@@ -1094,7 +1094,7 @@
     </ClInclude>
     <ClInclude Include="Source\CAnimation.h">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\CS_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
@@ -1428,7 +1428,7 @@
       <Filter>Externals\ImGui\misc</Filter>
     </ClCompile>
     <ClCompile Include="Source\ScriptEditor.cpp">
-       <Filter>Sources\Features\Scripting</Filter>
+      <Filter>Sources\Features\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Source\G_UI.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
@@ -1453,7 +1453,7 @@
     </ClCompile>
     <ClCompile Include="Source\UI_Text.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Source\External\Wwise\low_level_IO\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Externals\Wwise</Filter>
     </ClCompile>
@@ -1565,6 +1565,15 @@
       <Filter>Externals\Wwise</Filter>
     </None>
     <None Include="Game\Assets\Shaders\AnimationShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\DefaultShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\Lighting Shader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\UI Shader.glsl">
       <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
   </ItemGroup>
