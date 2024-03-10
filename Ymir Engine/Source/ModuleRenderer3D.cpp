@@ -208,10 +208,10 @@ bool ModuleRenderer3D::Init()
 	Shader* waterShader = new Shader;
 	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
 	delete waterShader;
-	
-	Shader* animationShader = new Shader; 
+
+	Shader* animationShader = new Shader;
 	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
-	delete animationShader; 
+	delete animationShader;
 
 	// Load Editor and Game FrameBuffers
 
@@ -294,7 +294,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		// Render Bounding Boxes
 
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
+		if (External->scene->gameCameraComponent->drawBoundingBoxes)
 		{
 			DrawBoundingBoxes();
 		}
@@ -596,7 +596,7 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 		if (colliderComponent != nullptr) {
 
 			App->physics->world->debugDrawWorld();
-			
+
 		}
 
 	}
@@ -665,12 +665,15 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 
 void ModuleRenderer3D::DrawUIElements(bool isGame)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+	if (isGame)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+	}
 
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
@@ -775,7 +778,7 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
-					
+
 					if (animationComponent != nullptr && animationComponent->active) {
 						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
 						for (int i = 0; i < transforms.size(); i++) {
