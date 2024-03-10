@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h, std::string shaderPath, std::string fontName, std::string fontPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h,  std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";
 
@@ -177,7 +177,6 @@ void UI_Text::OnInspector()
 
 		if (!active) { ImGui::EndDisabled(); }
 	}
-	ImGui::SameLine();
 
 	// Vectors of shader paths and names
 	std::vector<const char*> listShaderPaths;
@@ -637,7 +636,8 @@ Font::Font(std::string name, std::string fontPath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		std::unique_ptr <Character> chara(new Character
+		// TODO: MEMORY LEAK -> Smart pointers don't work here
+		Character* chara(new Character
 			{
 				texture,
 				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
@@ -645,7 +645,7 @@ Font::Font(std::string name, std::string fontPath)
 				static_cast<unsigned int>(face->glyph->advance.x),
 			});
 
-		mCharacters.insert(std::pair<GLchar, Character*>(c, chara.get()));
+		mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
 	}
 
 	// destroy FreeType once we're finished
@@ -655,10 +655,10 @@ Font::Font(std::string name, std::string fontPath)
 
 Font::~Font()
 {
-	for (unsigned char c = 0; c < 128; ++c)
-	{
-		RELEASE(mCharacters[c]);
-	}
+	//for (unsigned char c = 0; c < 128; ++c)
+	//{
+	//	RELEASE(mCharacters[c]);
+	//}
 
 	mCharacters.clear();
 }
@@ -681,18 +681,4 @@ bool Font::InitFont(std::string n, std::string fontPath)
 	name = n;
 
 	return true;
-}
-
-GLuint Font::GetCharacterTexID(GLchar character)
-{
-	for (std::map<GLchar, Character*>::const_iterator it = mCharacters.begin(); it != mCharacters.end(); it++)
-	{
-		if ((*it).first == character)
-		{
-			GLuint id = (*it).second->textureID;
-			return id;
-		}
-	}
-
-	return 0;
 }

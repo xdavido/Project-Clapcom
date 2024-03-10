@@ -29,7 +29,6 @@ public:
 	~Font();
 
 	bool InitFont(std::string name, std::string fontPath);
-	GLuint GetCharacterTexID(GLchar character);
 
 public:
 	//
@@ -53,14 +52,14 @@ public:
 	FT_Library ft;
 	FT_Face face;
 
-	std::map<char, Character*> mCharacters;
+	std::map<char, std::unique_ptr<Character>> mCharacters;
 };
 
 class UI_Text : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 200, y = 50
-	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string shaderPath = "Assets/Shaders/UI Shader.glsl", std::string fontPath = "Assets\\Fonts");
+	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string fontPath = "Assets\\Fonts", std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
 	~UI_Text();
 
 	void OnInspector();
