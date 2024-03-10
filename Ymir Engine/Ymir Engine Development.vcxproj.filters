@@ -1116,6 +1116,12 @@
     <ClInclude Include="Source\GL_Light.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AreaLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1543,6 +1549,12 @@
     </ClCompile>
     <ClCompile Include="Source\GL_Light.cpp">
       <Filter>Sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AreaLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

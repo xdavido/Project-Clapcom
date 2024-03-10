@@ -265,6 +265,8 @@ void ModuleEditor::DrawEditor()
 
 			UIMenu();
 
+			LightsMenu();
+
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Clear Scene")) {
@@ -1488,6 +1490,43 @@ void ModuleEditor::CreateCameraMenu()
 
 		empty->AddComponent(ComponentType::CAMERA);
 	}
+}
+
+void ModuleEditor::LightsMenu()
+{
+	if (ImGui::BeginMenu("Light"))
+	{
+		// Temporal: Rework with LightManager
+
+		if (ImGui::MenuItem("Point Light")) {
+
+			// App->lightManager->CreateLight(LightType::POINT_LIGHT);
+			PointLight* pLight = static_cast<PointLight*>(App->scene->CreateGameObject("Point Light", App->scene->mRootNode));
+			pLight->UID = Random::Generate();
+		}
+
+		if (ImGui::MenuItem("Directional Light")) {
+
+			DirectionalLight* dLight = static_cast<DirectionalLight*>(App->scene->CreateGameObject("Directional Light", App->scene->mRootNode));
+			dLight->UID = Random::Generate();
+		}
+
+		if (ImGui::MenuItem("Spot Light")) {
+
+			SpotLight* sLight = static_cast<SpotLight*>(App->scene->CreateGameObject("Spot Light", App->scene->mRootNode));
+			sLight->UID = Random::Generate();
+		}
+
+		if (ImGui::MenuItem("Area Light")) {
+
+			AreaLight* aLight = static_cast<AreaLight*>(App->scene->CreateGameObject("Area Light", App->scene->mRootNode));
+			aLight->UID = Random::Generate();
+		}
+
+		ImGui::EndMenu();
+
+	}
+
 }
 
 void ModuleEditor::UIMenu()

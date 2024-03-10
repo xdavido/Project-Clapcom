@@ -23,6 +23,12 @@
 
 #include <map>
 
+// Temporal: Rework with LightManager
+#include "PointLight.h"
+#include "DirectionalLight.h"
+#include "SpotLight.h"
+#include "AreaLight.h"
+
 class GameObject;
 class CCamera;
 
@@ -113,7 +119,8 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
-	GameObject* pointLight;
+	// Temporal: Rework with LightManager
+	PointLight* pointLight;
 
 private:
 

@@ -33,7 +33,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	tags = { "Untagged" };
 
-	pointLight = CreateGameObject("Point Light", mRootNode);
+	// Temporal: Rework with LightManager
+	pointLight = static_cast<PointLight*>(CreateGameObject("Point Light", mRootNode));
 
 	gameCameraComponent = nullptr;
 	canvas = nullptr;

@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AreaLight.h" />
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
@@ -413,6 +414,7 @@
     <ClInclude Include="Source\External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LightManager.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Material.h" />
@@ -466,6 +468,7 @@
     <ClCompile Include="Source\AnimationController.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\AreaLight.cpp" />
     <ClCompile Include="Source\CAudioListener.cpp" />
     <ClCompile Include="Source\CAudioSource.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
@@ -524,6 +527,7 @@
     <ClCompile Include="Source\ImporterTexture.cpp" />
     <ClCompile Include="Source\JsonFile.cpp" />
     <ClCompile Include="Source\GL_Light.cpp" />
+    <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LightManager.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Main.cpp" />
