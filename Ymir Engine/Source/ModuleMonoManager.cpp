@@ -417,7 +417,8 @@ void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 
 	std::string path; // Should be like ../Assets/Scripts/Hola.cs
 	path += scriptLocalPath;
-	std::string name = path.substr(path.find_last_of("\\"));
+	std::string name = path.substr(path.find_last_of("/\\") + 1);
+	std::string unnormalizedPath = PhysfsEncapsule::UnNormalizePath(path.c_str());
 
 	pugi::xml_node whereToAdd = doc.child("Project");
 	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
@@ -427,13 +428,22 @@ void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 			panel = panel.append_child();
 			panel.set_name("Compile");
 			pugi::xml_attribute att = panel.append_attribute("Include");
-			att.set_value(path.c_str());
+			att.set_value(unnormalizedPath.c_str());
 
 			break;
 		}
 	}
 
 	doc.save_file("Assembly-CSharp.csproj");
+
+	// Crear el archivo con el nombre correcto en la ruta indicada
+	std::ofstream outputFile(path); // Crear el archivo con el nombre dado por 'path'
+
+	// Aquí puedes escribir contenido en el archivo si es necesario
+	outputFile << baseSourcePart1 + PhysfsEncapsule::ConvertFileName(name) + baseSourcePart2;
+
+	// No olvides cerrar el archivo después de terminar de escribir en él
+	outputFile.close();
 }
 
 void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)

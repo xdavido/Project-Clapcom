@@ -387,6 +387,23 @@ bool PhysfsEncapsule::RenameFile(std::string oldFile, std::string newFile) {
 
 }
 
+std::string PhysfsEncapsule::ConvertFileName(const std::string& name)
+{
+	// Find the position of the last dot
+		size_t dotPosition = name.find_last_of('.');
+	std::string nameWithoutExtension = name.substr(0, dotPosition); // Get part of the name before the dot
+
+	std::string convertedName = nameWithoutExtension;
+
+	// Replace spaces with underscores
+	for (char& c : convertedName) {
+		if (c == ' ') {
+			c = '_';
+		}
+	}
+	return convertedName;
+}
+
 
 
 std::string PhysfsEncapsule::UnNormalizePath(const char* full_path)

@@ -60,7 +60,11 @@ namespace PhysfsEncapsule {
     std::string NormalizePath(const char* full_path);
 
     uint LoadToBuffer(const char* file, char** buffer);
+
     //Rename
     bool RenameFile(std::string oldFile, std::string newFile);
+
+    //Scipt name conversion
+    std::string ConvertFileName(const std::string& name);
 
 }
