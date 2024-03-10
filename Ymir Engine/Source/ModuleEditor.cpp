@@ -1213,24 +1213,34 @@ void ModuleEditor::DrawEditor()
 
 	}
 
-	if (showGame) {
+	if (showNodeEditor) {
 
-		if (ImGui::Begin("Game", &showGame), true) {
+		if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
-
-			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
-			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
-
-			if (App->scene->gameCameraComponent != nullptr)
-			{
-				// Display the contents of the framebuffer texture
-				gameViewSize = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
-			}
+			nodeEditor.Update();
 
 			ImGui::End();
+		}
+
+	}
+
+	if (showShaderEditor) {
+
+		if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
+
+			shaderEditor.Update();
+
+			ImGui::End();
+		}
+	}
+	if (showScriptingEditor) {
+
+		if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
+
+			scriptEditor->Draw();
+
+			ImGui::End();
+
 		}
 
 	}
@@ -1282,44 +1292,31 @@ void ModuleEditor::DrawEditor()
 
 	}
 
-	if (showNodeEditor) {
+	if (showGame) {
 
-		if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
+		if (ImGui::Begin("Game", &showGame), true) {
 
-			nodeEditor.Update();
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
 
 			ImGui::End();
 		}
 
 	}
 
-	if (showShaderEditor) {
+	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
-		if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
-
-			shaderEditor.Update();
-
-			ImGui::End();
-		}
-	}
-	if (showScriptingEditor) {
-
-		if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
-
-			scriptEditor->Draw();
-
-			ImGui::End();
-
-		}
-
-
-
-		// --------------------------------- Here finishes the code for the editor ----------------------------------------
-
-		// Rendering
-
-
-	}
+	// Rendering
 
 
 	ImGui::Render();

@@ -217,21 +217,14 @@ bool ModuleRenderer3D::Init()
 
 	App->camera->editorCamera->framebuffer.Load();
 
-	//Hardcodeado para la VS1
-	//App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
+	App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
 
 	// TODO: remove and do with proper constructor
-	//App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
-	//App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
+	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
+	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
 
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
-
-	//Hardcodeado para la VS1
-	//App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-	//App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
-	
-	//App->scene->gameCameraComponent->framebuffer.Load();
+	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
 
 	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
 
@@ -297,18 +290,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
-		//listUI.clear(); // Cutre, I know
-		// Get UI elements to draw
-		//GetUIGOs(App->scene->mRootNode, listUI);
-
-		//for (auto i = 0; i < listUI.size(); i++)
-		//{
-		//	if (listUI[i]->mOwner->active && listUI[i]->active)
-		//	{
-		//		listUI[i]->Draw(false);
-		//	}
-		//}
-
 		DrawUIElements(false);
 
 		// Render Bounding Boxes
@@ -341,33 +322,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			//if (External->scene->gameCameraComponent->drawBoundingBoxes) {
-
-			//	DrawBoundingBoxes();
-
-			//}
-
-			// TODO: preguntar porque el out of range este raro
-			//if (!listUI.empty())
-			//{
-			//	for (auto i = listUI.size() - 1; i >= 0; i--)
-			//	{
-			//		if (listUI[i]->mOwner->active && listUI[i]->active)
-			//		{
-			//			listUI[i]->Draw(true);
-			//		}
-
-			//		if (i == 0) { break; }
-			//	}
-			//}
-
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
-
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-
 			DrawUIElements(true);
 
 		}
@@ -392,15 +346,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			//glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
-			glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
-
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-
 			DrawUIElements(true);
+
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -718,6 +665,13 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 
 void ModuleRenderer3D::DrawUIElements(bool isGame)
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
