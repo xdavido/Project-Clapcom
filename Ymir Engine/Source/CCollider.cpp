@@ -158,14 +158,14 @@ void CCollider::Update()
 
 	}	
 
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
+	//btSize = float3_to_btVector3(size);
+	//shape->setLocalScaling(btSize);
 
 }
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Capsule", "Convex (needs a component mesh) (UNSTABLE)" };
+	char* titles[]{ "Box", "Sphere", "Capsule", "Mesh (needs a component mesh!)" };
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -398,16 +398,16 @@ void CCollider::SetMeshCollider()
 	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 	if (auxMesh == nullptr)
 	{
-		LOG("Convex hull needs a ComponentMesh!");
+		LOG("Mesh collider needs a ComponentMesh!");
 		SetBoxCollider();
 		return;
 	}
 
-	LOG("Set Convex Collider");
+	LOG("Set Mesh Collider");
 	collType = ColliderType::MESH_COLLIDER;
 
 
-	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, convexShape);
+	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
 
 	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
 	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));

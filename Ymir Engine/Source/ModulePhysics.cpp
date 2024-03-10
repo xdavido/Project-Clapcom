@@ -209,10 +209,10 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 	return pbody;
 }
 
-// Convex Collider ----------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btConvexHullShape*& shape)
+// Mesh Collider ----------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape)
 {
-	shape = CreateConvexHullShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
+	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
 	collidersList.push_back(shape);
 
@@ -306,35 +306,34 @@ void ModulePhysics::ResetGravity()
 	world->setGravity(GRAVITY);
 }
 
-// CONVEX HULL SHAPE ===============================================================
-btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
+// MESH SHAPE ===============================================================
+btCollisionShape* ModulePhysics::CreateCollisionShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
 {
-	btConvexHullShape* convexShape = new btConvexHullShape();
+	btTriangleMesh* triangleMesh = new btTriangleMesh();
 
-	// Add vertices to shape
-	for (const auto& vertex : vertices) {
-		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-		convexShape->addPoint(btVertex);
+	// Add vertices to the triangle mesh
+    for (const Vertex& vertex : vertices) {
+        btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+        triangleMesh->findOrAddVertex(btVertex, 1);
+    }
 
-		//LOG("Vertex: (%f, %f, %f)", vertex.position.x, vertex.position.y, vertex.position.z);
+	// Add triangles to the triangle mesh
+	for (size_t i = 0; i < indices.size(); i += 3) {
+		const Vertex& v0 = vertices[indices[i]];
+		const Vertex& v1 = vertices[indices[i + 1]];
+		const Vertex& v2 = vertices[indices[i + 2]];
+
+		btVector3 btV0(v0.position.x, v0.position.y, v0.position.z);
+		btVector3 btV1(v1.position.x, v1.position.y, v1.position.z);
+		btVector3 btV2(v2.position.x, v2.position.y, v2.position.z);
+
+		triangleMesh->addTriangle(btV0, btV1, btV2);
 	}
 
-	// Optionally, you can also add indices to maintain convexity
-	//for (size_t i = 0; i < indices.size(); i += 3) {
-	//	btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
-	//	btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
-	//	btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
-
-	//	LOG("Vertex: (% .0f, % .0f, % .0f) - Index: (%d, %d, %d)", i, vertex0, vertex1, vertex2, i, indices[i], indices[i + 1], indices[i + 2]);
-
-	//	convexShape->addPoint(vertex0);
-	//	convexShape->addPoint(vertex1);
-	//	convexShape->addPoint(vertex2);
-	//}
-
-	return convexShape;
+	btCollisionShape* collisionShape = new btConvexTriangleMeshShape(triangleMesh);
+	
+	return collisionShape;
 }
-
 
 // RayCasts ========================================================================
 bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
