@@ -127,6 +127,9 @@
     <Filter Include="Sources\Features\Scripting">
       <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\Lighting System">
+      <UniqueIdentifier>{5306c3a7-4d09-4e89-88dd-224d560e9d5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -145,9 +148,6 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Primitive.h">
-      <Filter>Sources\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Light.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\External\MathGeoLib\include\MathBuildConfig.h">
@@ -1101,6 +1101,21 @@
     <ClInclude Include="Source\CS_Input_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PointLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectionalLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpotLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LightManager.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GL_Light.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1116,9 +1131,6 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Primitive.cpp">
-      <Filter>Sources\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Light.cpp">
       <Filter>Sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\External\MathGeoLib\include\Geometry\AABB.cpp">
@@ -1516,6 +1528,21 @@
     </ClCompile>
     <ClCompile Include="Source\CAnimation.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PointLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectionalLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpotLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LightManager.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GL_Light.cpp">
+      <Filter>Sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

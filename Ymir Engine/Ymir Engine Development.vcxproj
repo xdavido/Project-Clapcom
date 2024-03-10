@@ -149,6 +149,7 @@
     <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
+    <ClInclude Include="Source\DirectionalLight.h" />
     <ClInclude Include="Source\EventSystem.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\crude_json.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.h" />
@@ -351,7 +352,7 @@
     <ClInclude Include="Source\ImporterShader.h" />
     <ClInclude Include="Source\ImporterTexture.h" />
     <ClInclude Include="Source\JsonFile.h" />
-    <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\GL_Light.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Geometry\AABB.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Geometry\AABB2D.h" />
@@ -412,6 +413,7 @@
     <ClInclude Include="Source\External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="Source\LightManager.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
@@ -431,6 +433,7 @@
     <ClInclude Include="Source\NodeEditor.h" />
     <ClInclude Include="Source\PhysBody.h" />
     <ClInclude Include="Source\PhysfsEncapsule.h" />
+    <ClInclude Include="Source\PointLight.h" />
     <ClInclude Include="Source\Primitive.h" />
     <ClInclude Include="Source\Random.h" />
     <ClInclude Include="Source\ResourceMaterial.h" />
@@ -446,6 +449,7 @@
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\ShaderEditor.h" />
     <ClInclude Include="Source\Singleton.h" />
+    <ClInclude Include="Source\SpotLight.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TimeManager.h" />
     <ClInclude Include="Source\Timer.h" />
@@ -477,6 +481,7 @@
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
+    <ClCompile Include="Source\DirectionalLight.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_node_editor.cpp" />
@@ -518,7 +523,8 @@
     <ClCompile Include="Source\ImporterShader.cpp" />
     <ClCompile Include="Source\ImporterTexture.cpp" />
     <ClCompile Include="Source\JsonFile.cpp" />
-    <ClCompile Include="Source\Light.cpp" />
+    <ClCompile Include="Source\GL_Light.cpp" />
+    <ClCompile Include="Source\LightManager.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\External\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
@@ -571,6 +577,7 @@
     <ClCompile Include="Source\NodeEditor.cpp" />
     <ClCompile Include="Source\PhysBody.cpp" />
     <ClCompile Include="Source\PhysfsEncapsule.cpp" />
+    <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
     <ClCompile Include="Source\Random.cpp" />
     <ClCompile Include="Source\ResourceMaterial.cpp" />
@@ -586,6 +593,7 @@
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\ShaderEditor.cpp" />
     <ClCompile Include="Source\Singleton.cpp" />
+    <ClCompile Include="Source\SpotLight.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TimeManager.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
