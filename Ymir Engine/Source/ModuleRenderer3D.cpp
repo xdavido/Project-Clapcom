@@ -758,11 +758,13 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 				break;
 			}
 			case UI_TYPE::TEXT:
+			{
+				UI_Text* uiText = (UI_Text*)(*it)->GetComponent(ComponentType::UI);
 
-
+				uiText->Draw(isGame);
 
 				break;
-
+			}
 			case UI_TYPE::BUTTON:
 
 

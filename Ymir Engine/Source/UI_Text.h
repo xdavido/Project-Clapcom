@@ -60,7 +60,7 @@ class UI_Text : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 200, y = 50
-	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string fontPath = "Assets\\Fonts");
+	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string shaderPath = "Assets/Shaders/UI Shader.glsl", std::string fontPath = "Assets\\Fonts");
 	~UI_Text();
 
 	void OnInspector();
@@ -77,6 +77,8 @@ public:
 
 	UI_Bounds* boundsEditor;
 	UI_Bounds* boundsGame;
+
+	CMaterial* mat;
 
 private:
 	float space;
