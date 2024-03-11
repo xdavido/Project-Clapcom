@@ -386,19 +386,42 @@ SerializedField::SerializedField(MonoClassField* _field, MonoObject* _object, CS
 
 void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 {
-	std::string unnormalizedPath("Assets/");
-	unnormalizedPath += localPath;
+	std::string unnormalizedPath = localPath;
 	unnormalizedPath = PhysfsEncapsule::UnNormalizePath(unnormalizedPath.c_str());
 
 	std::ofstream outfile(unnormalizedPath.c_str());
 
 	std::string className("Assets/");
+	std::string startScript = "HelloWorld";
 	className += localPath;
 	className = className.substr(className.find_last_of("/") + 1);
 	className = className.substr(0, className.find_last_of("."));
 
-	outfile << "using System;" << std::endl << "using YmirEngine;" << std::endl << std::endl << "public class " << className.c_str() << " : YmirComponent" << std::endl << "{" << std::endl <<
-		"	public void Update()" << std::endl << "	{" << std::endl << std::endl << "	}" << std::endl << std::endl << "}";
+	//Default Script Text
+	outfile << "using System;"
+		<< std::endl << "using System.Collections.Generic;"
+		<< std::endl << "using System.Reflection;"
+		<< std::endl << "using System.Runtime.CompilerServices;"
+		<< std::endl << "using System.Runtime.InteropServices;;"
+		<< std::endl << ""
+		<< std::endl << "using YmirEngine;"
+		<< std::endl << ""
+		<< std::endl <<	"public class " << className.c_str() << " : YmirComponent" 
+		<< std::endl <<	"{" 
+		<< std::endl << "bool start = true;"
+		<< std::endl << ""
+		<< std::endl <<	"	public void Update()"
+		<< std::endl << "	{" 
+		<< std::endl << "		if(start) {" 
+		<< std::endl << ""
+		<< std::endl << "			Debug.Log(" + startScript + "); "
+		<< std::endl << ""
+		<< std::endl << "			start = false;"
+		<< std::endl <<	"		}" 
+		<< std::endl << ""
+		<< std::endl << "		return;"
+		<< std::endl << "	}" 
+		<< std::endl << "}";
 
 	outfile.close();
 
@@ -435,15 +458,6 @@ void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 	}
 
 	doc.save_file("Assembly-CSharp.csproj");
-
-	// Crear el archivo con el nombre correcto en la ruta indicada
-	std::ofstream outputFile(path); // Crear el archivo con el nombre dado por 'path'
-
-	// Aquí puedes escribir contenido en el archivo si es necesario
-	outputFile << baseSourcePart1 + PhysfsEncapsule::ConvertFileName(name) + baseSourcePart2;
-
-	// No olvides cerrar el archivo después de terminar de escribir en él
-	outputFile.close();
 }
 
 void ModuleMonoManager::RemoveScriptFromSLN(const char* scriptLocalPath)

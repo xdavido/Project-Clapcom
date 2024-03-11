@@ -188,7 +188,7 @@ void ScriptEditor::ShowNewScriptDialogue()
 		newName = "Assets/Scripts/" + newName + ".cs";
 
 		//Call fuction to add script to SLN
-		External->moduleMono->AddScriptToSLN(newName.c_str());
+		External->moduleMono->CreateAssetsScript(newName.c_str());
 
 		External->editor->showNewScriptPopUp = false;
 		ImGui::CloseCurrentPopup();
