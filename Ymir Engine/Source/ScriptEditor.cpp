@@ -163,14 +163,10 @@ void ScriptEditor::LoadScriptTXT(std::string filePath)
 
 void ScriptEditor::ShowNewScriptDialogue()
 {
-	char nameChar[256] = "New Script";
-	std::string newName;
+	static std::string newName = "New Script";
 	ImGui::Text("Name: ");
 	ImGui::SameLine();
-	if(ImGui::InputText(" ", nameChar, sizeof(nameChar)))
-	{
-		newName.append(nameChar);
-	}
+	if (ImGui::InputText(" ", &newName));
 
 	ImGui::NewLine();
 
@@ -189,9 +185,7 @@ void ScriptEditor::ShowNewScriptDialogue()
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.6f, 0.0f, 1.0f)); // Set button color to green
 	if (ImGui::Button("Create")) {
 
-		newName.append(nameChar);
-		std::string tmpName = nameChar;
-		newName = "Assets/Scripts/" + tmpName + ".cs";
+		newName = "Assets/Scripts/" + newName + ".cs";
 
 		//Call fuction to add script to SLN
 		External->moduleMono->AddScriptToSLN(newName.c_str());
