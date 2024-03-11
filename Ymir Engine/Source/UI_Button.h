@@ -30,9 +30,6 @@ public:
 
 	UI_Text* displayText;
 
-	// TODO: fix this
-	bool defaultFunction;
-
 	//color
 	Color focusedColor;
 	Color pressedColor;

@@ -5,6 +5,7 @@
 #include "UI_Button.h"
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
+#include "UI_Slider.h"
 
 #include "External/ImGui/imgui.h"
 
@@ -20,11 +21,6 @@ G_UI::G_UI(UI_TYPE t, GameObject* pParent, int x, int y) : GameObject("", pParen
 	mParent->AddChild(this);
 
 	AddUIComponent(t, x, y, pParent);
-
-	//AddComponent(C_TYPE::MESH, nullptr, ai::POLY_PRIMITIVE_TYPE::PLANE);
-
-	/*CMesh* meshComponent = (CMesh*)(*pParent).GetComponent(ComponentType::MESH);
-	meshComponent->meshReference = nullptr;*/
 }
 
 G_UI::~G_UI()
@@ -348,6 +344,58 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		aux3 = nullptr;
 	}
 	break;
+	case UI_TYPE::SLIDER:
+	{
+		int w = 300;
+		int h = 50;
+
+		// Background
+		G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
+		aux->GetComponentUI(UI_TYPE::IMAGE)->width = w;
+		aux->GetComponentUI(UI_TYPE::IMAGE)->height = h;
+		aux->ReParent(this);
+		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
+		aux->name = "Background";
+
+		// Fill
+		aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
+		aux->GetComponentUI(UI_TYPE::IMAGE)->width = w;
+		aux->GetComponentUI(UI_TYPE::IMAGE)->height = h;
+		aux->ReParent(this);
+		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
+		aux->name = "Fill";
+
+		// Handle
+		aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, -50, -18.3);
+		aux->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
+		aux->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
+		aux->ReParent(this);
+		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
+		aux->name = "Handle";
+
+		UI_Slider* comp = new UI_Slider(this, x, y);
+		mComponents.push_back(comp);
+
+		name = "Slider";
+
+		if (External->scene->GetCanvas() == nullptr)
+		{
+			External->scene->SetCanvas(External->scene->CreateGUI(UI_TYPE::CANVAS));
+		}
+
+		if (parent == External->scene->mRootNode)
+		{
+			ReParent(External->scene->GetCanvas());
+		}
+		else
+		{
+			ReParent(parent);
+		}
+		canvas = static_cast<G_UI*>(mParent)->canvas;
+
+		comp = nullptr;
+		aux = nullptr;
+	}
 	case UI_TYPE::NONE:
 		break;
 	default:

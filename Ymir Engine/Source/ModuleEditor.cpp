@@ -1494,7 +1494,7 @@ void ModuleEditor::UIMenu()
 {
 	if (ImGui::BeginMenu("UI"))
 	{
-		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider"};
 
 		for (int i = 0; i < ui.size(); i++)
 		{

@@ -58,6 +58,7 @@ enum class UI_TYPE
 	BUTTON,
 	INPUTBOX,
 	CHECKBOX,
+	SLIDER,
 
 	NONE
 };

@@ -1,4 +1,4 @@
-#include "UI_Button.h"
+#include "UI_Slider.h"
 #include "GameObject.h"
 #include "G_UI.h"
 
@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Button::UI_Button(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::BUTTON, ComponentType::UI, g, "Button", x, y, w, h)
+UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int w, int h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
 {
 	isInteractable = true;
 
@@ -16,22 +16,22 @@ UI_Button::UI_Button(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::
 	selectedColor = { 0, 0, 1, 1 };
 	disabledColor = { 1, 1, 1, 1 };
 
-	image = nullptr;
-	displayText = nullptr;
+	fillImage = fill;
+	handleImage = handle;
+
+	direction = SLIDER_DIRECTION::LEFT_TO_RIGHT;
 }
 
-UI_Button::~UI_Button()
+UI_Slider::~UI_Slider()
 {
-	// Image is already another GameObject
-	image = nullptr;
 }
 
-void UI_Button::OnInspector()
+void UI_Slider::OnInspector()
 {
 	bool exists = true;
-	ImGui::Checkbox(("##UI Button Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
+	ImGui::Checkbox(("##UI Slider Checkbox" + std::to_string(mOwner->UID)).c_str(), &active);		ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader(("Button##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader(("Slider##UI Collapsing Header" + std::to_string(mOwner->UID)).c_str(), &exists, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 
@@ -41,13 +41,10 @@ void UI_Button::OnInspector()
 		{
 			if (!isInteractable)
 			{
-				image->color = disabledColor;
+				//static_cast<UI_Image*>(handleImage->GetComponentUI(UI_TYPE::IMAGE))->color = disabledColor;
 			}
 		} ImGui::SameLine();
-		ImGui::Checkbox("Draggeable", &isDraggable);
 
-		ImGui::Dummy(ImVec2(0, 10));
-		ImGui::Text("Text: %s", displayText->text.c_str());
 		ImGui::Dummy(ImVec2(0, 10));
 
 		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
@@ -56,13 +53,6 @@ void UI_Button::OnInspector()
 		ImGui::ColorEdit4("Selected color", (float*)&selectedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Disabled color", (float*)&disabledColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 
-		{
-			ImGui::Dummy(ImVec2(0, 10));
-			ImGui::Text("Funtion: "); ImGui::SameLine();
-
-			ImGui::Text("<null>");
-		}
-
 		if (!active) { ImGui::EndDisabled(); }
 	}
 	ImGui::SameLine();
@@ -70,34 +60,34 @@ void UI_Button::OnInspector()
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
-void UI_Button::OnNormal()
+void UI_Slider::OnNormal()
 {
 	if (isInteractable)
 	{
-		image->color = color;
+		//image->color = color;
 	}
 	else
 	{
-		image->color = disabledColor;
+		//image->color = disabledColor;
 	}
 }
 
-void UI_Button::OnFocused()
+void UI_Slider::OnFocused()
 {
-	image->color = focusedColor;
+	//image->color = focusedColor;
 }
 
-void UI_Button::OnPressed()
+void UI_Slider::OnPressed()
 {
-	image->color = pressedColor;
+	//image->color = pressedColor;
 }
 
-void UI_Button::OnSelected()
+void UI_Slider::OnSelected()
 {
-	image->color = selectedColor;
+	//image->color = selectedColor;
 }
 
-void UI_Button::OnRelease()
+void UI_Slider::OnRelease()
 {
 
 }
