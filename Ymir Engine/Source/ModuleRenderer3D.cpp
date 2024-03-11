@@ -213,6 +213,10 @@ bool ModuleRenderer3D::Init()
 	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
 	delete animationShader; 
 
+	Shader* lightingShader = new Shader;
+	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
+	delete lightingShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
