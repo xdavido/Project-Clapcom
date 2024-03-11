@@ -13,6 +13,7 @@
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -1496,31 +1497,22 @@ void ModuleEditor::LightsMenu()
 {
 	if (ImGui::BeginMenu("Light"))
 	{
-		// Temporal: Rework with LightManager
 
-		if (ImGui::MenuItem("Point Light")) {
-
-			// App->lightManager->CreateLight(LightType::POINT_LIGHT);
-			PointLight* pLight = static_cast<PointLight*>(App->scene->CreateGameObject("Point Light", App->scene->mRootNode));
-			pLight->UID = Random::Generate();
+		if (ImGui::MenuItem("Point Light")) 
+		{
+			PointLight* pLight = static_cast<PointLight*>(App->lightManager->CreateLight(LightType::POINT_LIGHT));
 		}
-
-		if (ImGui::MenuItem("Directional Light")) {
-
-			DirectionalLight* dLight = static_cast<DirectionalLight*>(App->scene->CreateGameObject("Directional Light", App->scene->mRootNode));
-			dLight->UID = Random::Generate();
+		if (ImGui::MenuItem("Directional Light")) 
+		{
+			DirectionalLight* pLight = static_cast<DirectionalLight*>(App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT));
 		}
-
-		if (ImGui::MenuItem("Spot Light")) {
-
-			SpotLight* sLight = static_cast<SpotLight*>(App->scene->CreateGameObject("Spot Light", App->scene->mRootNode));
-			sLight->UID = Random::Generate();
+		if (ImGui::MenuItem("Spot Light")) 
+		{
+			SpotLight* pLight = static_cast<SpotLight*>(App->lightManager->CreateLight(LightType::SPOT_LIGHT));
 		}
-
-		if (ImGui::MenuItem("Area Light")) {
-
-			AreaLight* aLight = static_cast<AreaLight*>(App->scene->CreateGameObject("Area Light", App->scene->mRootNode));
-			aLight->UID = Random::Generate();
+		if (ImGui::MenuItem("Area Light")) 
+		{
+			AreaLight* pLight = static_cast<AreaLight*>(App->lightManager->CreateLight(LightType::AREA_LIGHT));
 		}
 
 		ImGui::EndMenu();

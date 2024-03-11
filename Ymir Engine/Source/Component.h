@@ -18,6 +18,7 @@ enum ComponentType {
 	PHYSICS,
 	ANIMATION,
 	UI,
+	LIGHT,
 
 	ALL_TYPES
 

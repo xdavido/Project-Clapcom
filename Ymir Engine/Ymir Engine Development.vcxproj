@@ -143,6 +143,7 @@
     <ClInclude Include="Source\CAnimation.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
+    <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
@@ -415,7 +416,7 @@
     <ClInclude Include="Source\External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Time\Clock.h" />
     <ClInclude Include="Source\Light.h" />
-    <ClInclude Include="Source\LightManager.h" />
+    <ClInclude Include="Source\ModuleLightManager.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
@@ -475,6 +476,7 @@
     <ClCompile Include="Source\CAnimation.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CCollider.cpp" />
+    <ClCompile Include="Source\CLight.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -528,7 +530,7 @@
     <ClCompile Include="Source\JsonFile.cpp" />
     <ClCompile Include="Source\GL_Light.cpp" />
     <ClCompile Include="Source\Light.cpp" />
-    <ClCompile Include="Source\LightManager.cpp" />
+    <ClCompile Include="Source\ModuleLightManager.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\External\MathGeoLib\include\Algorithm\Random\LCG.cpp" />

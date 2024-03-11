@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -22,12 +23,6 @@
 #include "UI_Image.h"
 
 #include <map>
-
-// Temporal: Rework with LightManager
-#include "PointLight.h"
-#include "DirectionalLight.h"
-#include "SpotLight.h"
-#include "AreaLight.h"
 
 class GameObject;
 class CCamera;

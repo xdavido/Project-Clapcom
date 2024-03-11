@@ -1110,7 +1110,7 @@
     <ClInclude Include="Source\SpotLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
-    <ClInclude Include="Source\LightManager.h">
+    <ClInclude Include="Source\ModuleLightManager.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
     <ClInclude Include="Source\GL_Light.h">
@@ -1120,6 +1120,9 @@
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
     <ClInclude Include="Source\AreaLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1544,7 +1547,7 @@
     <ClCompile Include="Source\SpotLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LightManager.cpp">
+    <ClCompile Include="Source\ModuleLightManager.cpp">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
     <ClCompile Include="Source\GL_Light.cpp">
@@ -1554,6 +1557,9 @@
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
     <ClCompile Include="Source\AreaLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
   </ItemGroup>
