@@ -472,10 +472,10 @@ void UI_Text::Draw(bool game)
 			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
 			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
+			boundsGame->vertices[3].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[2].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[1].position = float3(posX + space, posY, 0);
+			boundsGame->vertices[0].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
@@ -484,30 +484,16 @@ void UI_Text::Draw(bool game)
 			{
 				boundsDrawn = boundsGame;
 
-				//glMatrixMode(GL_PROJECTION);
-				//glLoadIdentity();
-				//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
-
-				//glMatrixMode(GL_MODELVIEW);
-				//glLoadIdentity();
 			}
 
 			else
 			{
 				boundsDrawn = boundsEditor;
 
-				//glPushMatrix();
-				//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+				glPushMatrix();
+				glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+
 			}
-
-			// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
-
-
-			//for (auto& textures : mat->rTextures) {
-
-			//	textures->BindTexture(true);
-
-			//}
 
 
 			// Render
@@ -527,12 +513,10 @@ void UI_Text::Draw(bool game)
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 
-			//mat->shader.UseShader(false);
-
 
 			if (!game)
 			{
-				//glPopMatrix();
+				glPopMatrix();
 			}
 		}
 	}

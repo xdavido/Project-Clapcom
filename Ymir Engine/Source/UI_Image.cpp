@@ -320,36 +320,15 @@ void UI_Image::Draw(bool game)
 		if (game)
 		{
 			boundsDrawn = boundsGame;
-
-			//glMatrixMode(GL_PROJECTION);
-			//glLoadIdentity();
-			//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
-
-			//glMatrixMode(GL_MODELVIEW);
-			//glLoadIdentity();
 		}
 
 		else
 		{
 			boundsDrawn = boundsEditor;
 
-			//glPushMatrix();
-			//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+			glPushMatrix();
+			glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
 		}
-
-		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
-		//	: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
-
-		// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
-
-		//for (auto& textures : mat->rTextures) {
-
-		//	textures->BindTexture(true);
-
-		//}
-
-		//mat->shader.UseShader(true);
-		//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
 
 		// Render
 		glBindVertexArray(boundsDrawn->VAO);
@@ -368,7 +347,7 @@ void UI_Image::Draw(bool game)
 
 		if (!game)
 		{
-			//glPopMatrix();
+			glPopMatrix();
 		}
 
 		boundsDrawn = nullptr;
