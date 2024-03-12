@@ -22,6 +22,9 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject GetGameObjectByName(string name);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject LoadScene(string name);
+
     }
     public class Audio
     {
