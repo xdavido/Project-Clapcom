@@ -19,6 +19,12 @@ enum class SLIDER_DIRECTION
 	NONE
 };
 
+union uValue
+{
+	int iValue;
+	float fValue;
+};
+
 class UI_Slider : public C_UI
 {
 public:
@@ -40,9 +46,10 @@ public:
 	G_UI* fillImage;
 	G_UI* handleImage;
 
-	int minValue, maxValue;
+	uValue minValue, maxValue;
 	bool useFloat;
-	int value;
+	
+	uValue value;
 
 	//color
 	Color focusedColor;

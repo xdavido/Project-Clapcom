@@ -19,6 +19,12 @@ UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int 
 	fillImage = fill;
 	handleImage = handle;
 
+	minValue.iValue = 0;
+	maxValue.iValue = 1;
+
+	value.iValue = 0;
+	useFloat = false;
+
 	direction = SLIDER_DIRECTION::LEFT_TO_RIGHT;
 }
 
@@ -47,11 +53,70 @@ void UI_Slider::OnInspector()
 
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::SeparatorText("Colors");
 		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Pressed color", (float*)&pressedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Selected color", (float*)&selectedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Disabled color", (float*)&disabledColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+
+		ImGui::Dummy(ImVec2(0, 10));
+
+		ImGui::Separator();
+
+		ImGui::Dummy(ImVec2(0, 10));
+
+		const char* directions[] { "Left to Right", "Right to Left", "Bottom to Up", "Up to Bottom" };
+		if (ImGui::Combo("Direction", (int*)&direction, directions, IM_ARRAYSIZE(directions)));
+
+		ImGui::Dummy(ImVec2(0, 10));
+
+		ImGui::Checkbox("Use Floats", &useFloat);
+
+		if (useFloat)
+		{
+			ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.3 );
+			ImGui::DragFloat("Min Value", &minValue.fValue);
+			ImGui::DragFloat("Max Value", &maxValue.fValue);
+
+			if (minValue.fValue == maxValue.fValue)
+			{
+				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::SameLine();
+				ImGui::Text("Min value and Max value can't be the same");
+			}
+
+			if (minValue.fValue > maxValue.fValue)
+			{
+				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::SameLine();
+				ImGui::Text("Min value can't be bigger than Max value");
+			}
+
+			ImGui::SliderFloat("Value", &value.fValue, minValue.fValue, maxValue.fValue, "%.2f");
+		}
+		else
+		{
+			ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.3);
+			ImGui::DragInt("Min Value", &minValue.iValue);
+			ImGui::DragInt("Max Value", &maxValue.iValue);
+
+			if (minValue.iValue == maxValue.iValue)
+			{
+				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::SameLine();
+				ImGui::Text("Min value and Max value can't be the same");
+			}
+
+			if (minValue.iValue > maxValue.iValue)
+			{
+				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::SameLine();
+				ImGui::Text("Min value can't be bigger than Max value");
+			}
+
+			ImGui::SliderInt("Value", &value.iValue, minValue.iValue, maxValue.iValue, "%.2f");
+		}
 
 		if (!active) { ImGui::EndDisabled(); }
 	}

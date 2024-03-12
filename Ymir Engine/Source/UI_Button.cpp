@@ -50,6 +50,7 @@ void UI_Button::OnInspector()
 		ImGui::Text("Text: %s", displayText->text.c_str());
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::SeparatorText("Colors");
 		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Pressed color", (float*)&pressedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
