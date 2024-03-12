@@ -12,6 +12,7 @@
 #include <mono/metadata/class.h>
 #include <mono/metadata/object.h>
 #include <mono/metadata/debug-helpers.h>
+#include <filesystem>
 
 #include "External/mmgr/mmgr.h"
 
@@ -22,7 +23,7 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 	//strcpy(name, scriptName);
 
 	/*External->moduleMono->DebugAllMethods(YMIR_SCRIPTS_NAMESPACE, "GameObject", methods);*/
-	LoadScriptData(name.c_str());
+	LoadScriptData(name);
 }
 
 CScript::~CScript()
@@ -75,7 +76,7 @@ void CScript::Update()
 
 void CScript::ReloadComponent() {
 
-	LoadScriptData(name.c_str());
+	LoadScriptData(name);
 
 }	
 
@@ -315,13 +316,19 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 	ImGui::PopID();
 }
 
-void CScript::LoadScriptData(const char* scriptName)
+void CScript::LoadScriptData(std::string scriptName)
 {
 	methods.clear();
 	fields.clear();
+	
+	scriptName.find_first_of('.');
+	size_t pos = scriptName.find_last_of('.');
 
+	if (pos != std::string::npos) {
+		scriptName = scriptName.substr(0, pos);
+	}
 
-	MonoClass* klass = mono_class_from_name(External->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName);
+	MonoClass* klass = mono_class_from_name(External->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName.c_str());
 
 	if (klass == nullptr)
 	{
@@ -330,7 +337,7 @@ void CScript::LoadScriptData(const char* scriptName)
 		return;
 	}
 
-	External->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName, methods);
+	External->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName.c_str(), methods);
 
 	noGCobject = mono_gchandle_new(mono_object_new(External->moduleMono->domain, klass), false);
 	mono_runtime_object_init(mono_gchandle_get_target(noGCobject));
@@ -347,7 +354,7 @@ void CScript::LoadScriptData(const char* scriptName)
 	if (baseClass != nullptr)
 		External->moduleMono->DebugAllFields(mono_class_get_name(baseClass), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(baseClass));
 
-	External->moduleMono->DebugAllFields(scriptName, fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
+	External->moduleMono->DebugAllFields(scriptName.c_str(), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
 }
 
 void CScript::SetField(MonoClassField* field, GameObject* value)

@@ -116,13 +116,16 @@ public:
 	//Hardcodeado para la VS1
 	GameObject* MainCharacter;
 
+	
+
 private:
+
+	std::vector<GameObject*> vSelectedGOs;
 
 	G_UI* canvas;
 	int selectedUI;
 
-	std::vector<GameObject*> vSelectedGOs;
-
+	
 	GameObject* audiosource;
 
 	bool a = false;

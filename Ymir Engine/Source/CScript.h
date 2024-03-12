@@ -29,7 +29,7 @@ public:
 	void SetField(MonoClassField* field, GameObject* value);
 	void DropField(SerializedField& fieldName, const char* dropType);
 
-	void LoadScriptData(const char*);
+	void LoadScriptData(std::string scriptName);
 
 public:
 
