@@ -17,7 +17,7 @@ public:
 
 public:
 
-	int canvasWidth, canvasHeight;
+	//int canvasWidth, canvasHeight;
 	//SDL_Rect bounds;        // Position and size
 	//SDL_Texture* texture;   // Texture atlas reference
 	//SDL_Rect section;       // Texture atlas base section
