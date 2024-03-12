@@ -284,6 +284,8 @@ public:
 
 	//Name Script
 	std::string script_name;
+
+	std::vector<std::string> scriptsName;
 };
 
 #endif // MODULE_EDITOR

@@ -2945,25 +2945,14 @@ void ModuleEditor::DrawInspector()
 						showNewScriptPopUp = true;
 
 					}
-					if (ImGui::MenuItem("Core"))
+					
+					for (std::vector<std::string>::iterator it = scriptsName.begin(); it != scriptsName.end(); ++it)
 					{
-						script_name = "Core";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Plane"))
-					{
-						script_name = "BH_Plane";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Bullet"))
-					{
-						script_name = "BH_Bullet";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("PlayerMovement"))
-					{
-						script_name = "PlayerMovement";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						if (ImGui::MenuItem((*it).c_str()))
+						{
+							script_name = (*it).c_str();
+							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+						}
 					}
 					ImGui::EndMenu();
 				}
