@@ -18,7 +18,7 @@ GameObject::GameObject()
 
 	active = true;
 	selected = false;
-	pendingToDelet = false;
+	pendingToDelete = false;
 	hidden = false;
 
 	mTransform = nullptr;
@@ -33,7 +33,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 	active = true;
 	selected = false;
-	pendingToDelet = false;
+	pendingToDelete = false;
 	hidden = false;
 
 	mTransform = nullptr;
@@ -48,6 +48,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 GameObject::~GameObject()
 {
+	// Clear components
 	ClearVecPtr(mComponents);
 
 	mTransform = nullptr;
@@ -166,6 +167,8 @@ void GameObject::AddChild(GameObject* child)
 void GameObject::DeleteChild(GameObject* go)
 {
 	RemoveChild(go);
+	go->ClearReferences();
+
 	RELEASE(go);
 }
 
@@ -297,7 +300,7 @@ void GameObject::CollectChilds(std::vector<GameObject*>& vector)
 void GameObject::DestroyGameObject()
 {
 
-	pendingToDelet = true;
+	pendingToDelete = true;
 
 }
 
@@ -323,3 +326,12 @@ bool GameObject::CompareTag(const char* _tag)
 	return strcmp(tag, _tag) == 0;
 }
 
+void GameObject::ClearReferences()
+{
+	// Clear references
+	for (auto it = vReferences.begin(); it != vReferences.end(); ++it)
+	{
+		(*it)->OnReferenceDestroyed(this);
+	}
+	ClearVec(vReferences);
+}

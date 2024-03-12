@@ -33,7 +33,9 @@ public:
 	~UI_Slider();
 
 	void OnInspector();
+	void OnReferenceDestroyed(void* ptr = nullptr);
 
+	//
 	void OnNormal();
 	void OnFocused();
 	void OnPressed();
@@ -43,8 +45,8 @@ public:
 public:
 	bool isInteractable;
 
-	G_UI** fillImage;
-	G_UI** handleImage;
+	G_UI* fillImage;
+	G_UI* handleImage;
 
 	uValue minValue, maxValue;
 	bool useFloat;

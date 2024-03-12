@@ -18,8 +18,11 @@ UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int 
 	selectedColor = { 0, 0, 1, 1 };
 	disabledColor = { 1, 1, 1, 1 };
 
-	fillImage = &fill;
-	handleImage = &handle;
+	fillImage = fill;
+	fillImage->vReferences.push_back(this);
+
+	handleImage = handle;
+	handleImage->vReferences.push_back(this);
 
 	minValue.iValue = 0;
 	maxValue.iValue = 1;
@@ -69,50 +72,11 @@ void UI_Slider::OnInspector()
 
 		//
 		ImGui::Text("Fill Image: ");	ImGui::SameLine();
-		
-		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+		fillImage = static_cast<G_UI*>(ImGui_GameObjectReference(fillImage));
 
-		if (ImGui::Button(fillImage == nullptr ? "<null>" : (*fillImage)->name.c_str()))
-		{
-			/*if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) 
-				{
-					fillImage = static_cast<G_UI*>(External->editor->draggedGO);
-				}
-				ImGui::EndDragDropTarget();
-			}*/
-
-			if (fillImage != nullptr)
-			{
-				External->scene->SetSelected(*fillImage);
-			}
-		}
-		ImGui::PopStyleColor(2);
-
-		//
+		// Handle Image reference
 		ImGui::Text("Handle Image: ");	ImGui::SameLine();
-
-		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
-		if (ImGui::Button(handleImage == nullptr ? "<null>" : (*handleImage)->name.c_str()))
-		{
-			/*if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) 
-				{
-					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
-				}
-				ImGui::EndDragDropTarget();
-			}*/
-
-			if (handleImage != nullptr)
-			{
-				External->scene->SetSelected(*handleImage);
-			}
-		}
-		ImGui::PopStyleColor(2);
+		handleImage = static_cast<G_UI*>(ImGui_GameObjectReference(handleImage));
 
 		ImGui::Dummy(ImVec2(0, 10));
 
@@ -195,6 +159,19 @@ void UI_Slider::OnInspector()
 	ImGui::SameLine();
 
 	if (!exists) { mOwner->RemoveComponent(this); }
+}
+
+void UI_Slider::OnReferenceDestroyed(void* ptr)
+{
+	if (fillImage == ptr)
+	{
+		fillImage = nullptr;
+	}
+	else if (handleImage == ptr)
+	{
+		handleImage = nullptr;
+	}
+
 }
 
 void UI_Slider::OnNormal()

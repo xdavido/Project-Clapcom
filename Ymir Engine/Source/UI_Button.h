@@ -17,6 +17,7 @@ public:
 	~UI_Button();
 
 	void OnInspector();
+	void OnReferenceDestroyed(void* ptr = nullptr);
 
 	void OnNormal();
 	void OnFocused();

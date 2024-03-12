@@ -37,6 +37,7 @@ public:
 
 	// Module functions
 	bool Init() override;
+	update_status Update(float dt) override;
 	bool CleanUp() override;
 
 	// Draws the editor on the window
@@ -148,6 +149,7 @@ public:
 	ImVec2 NormalizePoint(const float& x, const float& y, const float& w, const float& h, const ImVec2& originalPoint);
 
 public:
+	update_status exit;
 
 	// Enables ImGui to render additional data
 	bool UpdateAndRenderAdditionalPlatformWindows = false;

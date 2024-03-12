@@ -50,13 +50,15 @@ public:
 	void RemoveComponent(Component* component);
 
 	void DestroyGameObject();
-	//void DestroyGameObject();
 
 	void CollectChilds(std::vector<GameObject*>& vector);
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
 	bool CompareTag(const char* _tag);
+
+	// Clear references
+	void ClearReferences();
 
 public:
 
@@ -68,14 +70,17 @@ public:
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;
 	std::vector<Component*> mComponents;
+
 	std::vector<SerializedField*> csReferences;
 
 	CTransform* mTransform; 
-	bool pendingToDelet;
+	bool pendingToDelete;
+
 	bool active;
 	bool selected;
 	bool hidden;
 
 	char tag[32] = "Untagged";
 
+	std::vector<Component*> vReferences;
 };

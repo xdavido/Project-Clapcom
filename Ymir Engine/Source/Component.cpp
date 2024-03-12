@@ -1,6 +1,9 @@
 #include "Component.h"
 #include "GameObject.h"
 
+#include "ModuleEditor.h"
+#include "ModuleScene.h"
+
 #include "External/mmgr/mmgr.h"
 
 Component::Component()
@@ -46,4 +49,38 @@ void Component::Update()
 void Component::OnInspector()
 {
 
+}
+
+GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonClicked)
+{
+	ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+	if (ImGui::Button(go == nullptr ? "<null>" : (go)->name.c_str()))
+	{
+		if (buttonClicked != nullptr)
+		{
+			*buttonClicked = true;
+		}
+
+		if (go != nullptr)
+		{
+			External->scene->SetSelected(go);
+		}
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
+		{
+			go = External->editor->draggedGO;
+		}
+		ImGui::EndDragDropTarget();
+	}
+	ImGui::PopStyleColor(2);
+
+	return go;
+}
+
+void Component::OnReferenceDestroyed(void* ptr)
+{
 }

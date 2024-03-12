@@ -57,7 +57,9 @@ public:
 
 	// Start with a loaded scene from start
 	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
-
+	
+	// TODO: Sara --> esta funcion quizas se tendria que eliminar ya que 
+	// al no ser recursiva creo que no borra correctamente los hijos de los hijos y viceversa
 	void Destroy(GameObject* gm);
 
 	// Select GameObjects
@@ -108,6 +110,7 @@ public:
 	std::string currentSceneDir;
 	std::string currentSceneFile;
 
+	bool isLocked;
 	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
 

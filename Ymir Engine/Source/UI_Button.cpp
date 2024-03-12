@@ -39,17 +39,61 @@ void UI_Button::OnInspector()
 
 		if (ImGui::Checkbox("Interactable", &isInteractable))
 		{
-			if (!isInteractable)
+			if (!isInteractable && image != nullptr)
 			{
 				image->color = disabledColor;
 			}
 		} ImGui::SameLine();
 		ImGui::Checkbox("Draggeable", &isDraggable);
 
-		ImGui::Dummy(ImVec2(0, 10));
-		ImGui::Text("Text: %s", displayText->text.c_str());
+		// Image reference
+		ImGui::Text("Image: ");	ImGui::SameLine();
+		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+		if (ImGui::Button(image == nullptr ? "<null>" : (image->mOwner)->name.c_str()))
+		{
+			/*if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
+				{
+					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
+				}
+				ImGui::EndDragDropTarget();
+			}*/
+
+			if (image->mOwner != nullptr)
+			{
+				External->scene->SetSelected(image->mOwner);
+			}
+		}
+		ImGui::PopStyleColor(2);
+
 		ImGui::Dummy(ImVec2(0, 10));
 
+		// Text reference
+		ImGui::Text("Text: ");	ImGui::SameLine();
+		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+		if (ImGui::Button(displayText == nullptr ? "<null>" : (displayText->mOwner)->name.c_str()))
+		{
+			/*if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
+				{
+					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
+				}
+				ImGui::EndDragDropTarget();
+			}*/
+
+			if (displayText->mOwner != nullptr)
+			{
+				External->scene->SetSelected(displayText->mOwner);
+			}
+		}
+		ImGui::PopStyleColor(2);
+		ImGui::Dummy(ImVec2(0, 10));
+
+		// Colors
 		ImGui::SeparatorText("Colors");
 		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
@@ -69,6 +113,18 @@ void UI_Button::OnInspector()
 	ImGui::SameLine();
 
 	if (!exists) { mOwner->RemoveComponent(this); }
+}
+
+void UI_Button::OnReferenceDestroyed(void* ptr)
+{
+	if (image->mOwner == ptr)
+	{
+		image = nullptr;
+	}
+	else if (displayText->mOwner == ptr)
+	{
+		displayText = nullptr;
+	}
 }
 
 void UI_Button::OnNormal()

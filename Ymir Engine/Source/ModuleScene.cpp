@@ -33,6 +33,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	tags = { "Untagged" };
 
+	isLocked = false;
+
 	gameCameraComponent = nullptr;
 	canvas = nullptr;
 }
@@ -79,7 +81,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	OPTICK_EVENT();
 
 	/*Destroy gameobjects inside the destroy queue*/
-	if (destroyList.size() > 0)
+	if (destroyList.empty())
 	{
 		for (size_t i = 0; i < destroyList.size(); ++i)
 		{
@@ -97,8 +99,7 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		
-		if ((*it)->pendingToDelet) {
+		if ((*it)->pendingToDelete) {
 			destroyList.push_back((*it));
 			continue;
 		}
@@ -213,18 +214,6 @@ G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 
 	return tempGameObject;
 }
-
-
-
-//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-//{
-//	if (toDestroy) {
-
-//		toDestroy->DestroyGameObject();
-
-//	}
-
-//}
 
 void ModuleScene::ClearScene()
 {
@@ -342,6 +331,7 @@ void ModuleScene::Destroy(GameObject* gm)
 	gm = nullptr;
 }
 
+//
 std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 {
 	return vSelectedGOs;
@@ -548,6 +538,7 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z <= aabb.maxPoint.z;
 }
 
+// GUI
 void ModuleScene::SetCanvas(G_UI* newCanvas)
 {
 	canvas = newCanvas;
@@ -558,6 +549,7 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+//
 GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
 {
 	if (n->UID == sUID)

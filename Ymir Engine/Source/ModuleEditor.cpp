@@ -58,6 +58,7 @@ bool ModuleEditor::Init()
 	LOG("Initializing editor...");
 
 	bool ret = true;
+	exit = update_status::UPDATE_CONTINUE;
 
 	// Retrieving data from window initial status
 
@@ -142,6 +143,11 @@ bool ModuleEditor::Init()
 	return ret;
 }
 
+update_status ModuleEditor::Update(float dt)
+{
+	return exit;
+}
+
 void ModuleEditor::DrawEditor()
 {
 	OPTICK_EVENT();
@@ -204,12 +210,14 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			/*ImGui::SeparatorText("Exit");
+			ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
+				// TODO: Sara --> make a popup to ask to save
+				exit = update_status::UPDATE_STOP;
 
-			}*/
+			}
 
 			ImGui::EndMenu();
 
@@ -906,7 +914,13 @@ void ModuleEditor::DrawEditor()
 
 	if (showInspector) {
 
-		if (ImGui::Begin("Inspector", &showInspector), true) {
+		if (ImGui::Begin("Inspector", &showInspector, ImGuiWindowFlags_MenuBar), true) {
+			
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Checkbox("Lock", &App->scene->isLocked);
+			}
+			ImGui::EndMenuBar();
 
 			// Show GameObject Inspector
 
@@ -2594,7 +2608,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
+		if (node != App->scene->mRootNode && !App->scene->isLocked && ImGui::IsItemClicked()) {
 
 			App->scene->SetSelected(node);
 
@@ -2620,11 +2634,19 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::Text("Drag to");
 			ImGui::EndDragDropSource();
 		}
+		/*else
+		{
+			draggedGO = nullptr;
+		}*/
 
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
 		{
 			hoveredGO = node;
 		}
+		/*else
+		{
+			hoveredGO = nullptr;
+		}*/
 
 		if (ImGui::BeginDragDropTarget())
 		{
@@ -2632,7 +2654,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				draggedGO->ReParent(hoveredGO);
 			}
-			ImGui::EndDragDropTarget();
+			ImGui::EndDragDropTarget(); ImGui::ClearDragDrop();
 		}
 
 		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
