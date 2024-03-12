@@ -141,6 +141,23 @@ void GameObject::ReParent(GameObject* newParent)
 
 }
 
+GameObject* GameObject::GetChildByUID(const uint& UID)
+{
+	GameObject* gameObjectWithUID = nullptr;
+
+	for (auto it = mChildren.begin(); it != mChildren.end(); ++it) {
+
+		if ((*it)->UID == UID) {
+
+			gameObjectWithUID = (*it);
+
+		}
+
+	}
+
+	return gameObjectWithUID;
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	mChildren.push_back(child);

@@ -38,6 +38,7 @@ public:
 	//---Parent/Child---
 	void SetParent(GameObject* newParent);
 	void ReParent(GameObject* newParent);
+	GameObject* GetChildByUID(const uint& UID);
 	void AddChild(GameObject* go);
 	void DeleteChild(GameObject* go);
 	//Remove from children vector (do not use)

@@ -7,6 +7,8 @@
 
 #include "External/mmgr/mmgr.h"
 
+#define ENGINE_COLOR ImVec4(1, 0.5, 0.5, 1)
+
 UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int w, int h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
 {
 	isInteractable = true;
@@ -16,8 +18,8 @@ UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int 
 	selectedColor = { 0, 0, 1, 1 };
 	disabledColor = { 1, 1, 1, 1 };
 
-	fillImage = fill;
-	handleImage = handle;
+	fillImage = &fill;
+	handleImage = &handle;
 
 	minValue.iValue = 0;
 	maxValue.iValue = 1;
@@ -62,33 +64,102 @@ void UI_Slider::OnInspector()
 
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::SeparatorText("Game Objects references");
+		ImGui::Dummy(ImVec2(0, 10));
+
+		//
+		ImGui::Text("Fill Image: ");	ImGui::SameLine();
+		
+		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+
+		if (ImGui::Button(fillImage == nullptr ? "<null>" : (*fillImage)->name.c_str()))
+		{
+			/*if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) 
+				{
+					fillImage = static_cast<G_UI*>(External->editor->draggedGO);
+				}
+				ImGui::EndDragDropTarget();
+			}*/
+
+			if (fillImage != nullptr)
+			{
+				External->scene->SetSelected(*fillImage);
+			}
+		}
+		ImGui::PopStyleColor(2);
+
+		//
+		ImGui::Text("Handle Image: ");	ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+		if (ImGui::Button(handleImage == nullptr ? "<null>" : (*handleImage)->name.c_str()))
+		{
+			/*if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) 
+				{
+					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
+				}
+				ImGui::EndDragDropTarget();
+			}*/
+
+			if (handleImage != nullptr)
+			{
+				External->scene->SetSelected(*handleImage);
+			}
+		}
+		ImGui::PopStyleColor(2);
+
+		ImGui::Dummy(ImVec2(0, 10));
+
 		ImGui::Separator();
 
 		ImGui::Dummy(ImVec2(0, 10));
 
-		const char* directions[] { "Left to Right", "Right to Left", "Bottom to Up", "Up to Bottom" };
+		const char* directions[]{ "Left to Right", "Right to Left", "Bottom to Up", "Up to Bottom" };
 		if (ImGui::Combo("Direction", (int*)&direction, directions, IM_ARRAYSIZE(directions)));
 
 		ImGui::Dummy(ImVec2(0, 10));
 
-		ImGui::Checkbox("Use Floats", &useFloat);
+		if (ImGui::Checkbox("Use Floats", &useFloat))
+		{
+			if (useFloat)
+			{
+				minValue.fValue = (float)minValue.iValue;
+				maxValue.fValue = (float)maxValue.iValue;
+
+				value.fValue = (float)value.iValue;
+			}
+			else
+			{
+				minValue.iValue = (int)minValue.fValue;
+				maxValue.iValue = (int)maxValue.fValue;
+
+				value.iValue = (int)value.fValue;
+			}
+		}
 
 		if (useFloat)
 		{
-			ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.3 );
+			ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.3);
 			ImGui::DragFloat("Min Value", &minValue.fValue);
 			ImGui::DragFloat("Max Value", &maxValue.fValue);
+			ImGui::PopItemWidth();
 
 			if (minValue.fValue == maxValue.fValue)
 			{
-				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::TextColored(ImVec4(1, 0, 1, 1), "[!]");
 				ImGui::SameLine();
 				ImGui::Text("Min value and Max value can't be the same");
 			}
 
 			if (minValue.fValue > maxValue.fValue)
 			{
-				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::TextColored(ImVec4(1, 0, 1, 1), "[!]");
 				ImGui::SameLine();
 				ImGui::Text("Min value can't be bigger than Max value");
 			}
@@ -100,22 +171,23 @@ void UI_Slider::OnInspector()
 			ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.3);
 			ImGui::DragInt("Min Value", &minValue.iValue);
 			ImGui::DragInt("Max Value", &maxValue.iValue);
+			ImGui::PopItemWidth();
 
 			if (minValue.iValue == maxValue.iValue)
 			{
-				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::TextColored(ImVec4(1, 0, 1, 1), "[!]");
 				ImGui::SameLine();
 				ImGui::Text("Min value and Max value can't be the same");
 			}
 
 			if (minValue.iValue > maxValue.iValue)
 			{
-				ImGui::TextColored(ImVec4(0, 1, 1, 1), "[!]");
+				ImGui::TextColored(ImVec4(1, 0, 1, 1), "[!]");
 				ImGui::SameLine();
 				ImGui::Text("Min value can't be bigger than Max value");
 			}
 
-			ImGui::SliderInt("Value", &value.iValue, minValue.iValue, maxValue.iValue, "%.2f");
+			ImGui::SliderInt("Value", &value.iValue, minValue.iValue, maxValue.iValue);
 		}
 
 		if (!active) { ImGui::EndDisabled(); }

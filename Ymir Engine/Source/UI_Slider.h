@@ -43,8 +43,8 @@ public:
 public:
 	bool isInteractable;
 
-	G_UI* fillImage;
-	G_UI* handleImage;
+	G_UI** fillImage;
+	G_UI** handleImage;
 
 	uValue minValue, maxValue;
 	bool useFloat;

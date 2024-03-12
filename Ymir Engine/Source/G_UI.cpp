@@ -17,7 +17,7 @@ G_UI::G_UI(UI_TYPE t, GameObject* pParent, int x, int y) : GameObject("", pParen
 {
 	//RemoveComponent(transform);//TODO: fer amb altre transform
 	canvas = nullptr;
-	
+
 	mParent->AddChild(this);
 
 	AddUIComponent(t, x, y, pParent);
@@ -358,22 +358,22 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		aux->name = "Background";
 
 		// Fill
-		aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
-		aux->GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		aux->GetComponentUI(UI_TYPE::IMAGE)->height = h;
-		aux->ReParent(this);
-		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
-		aux->name = "Fill";
+		G_UI* aux1 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
+		aux1->GetComponentUI(UI_TYPE::IMAGE)->width = w;
+		aux1->GetComponentUI(UI_TYPE::IMAGE)->height = h;
+		aux1->ReParent(this);
+		aux1->canvas = static_cast<G_UI*>(mParent)->canvas;
+		aux1->name = "Fill";
 
 		// Handle
-		aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, -50, -18.3);
-		aux->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
-		aux->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
-		aux->ReParent(this);
-		aux->canvas = static_cast<G_UI*>(mParent)->canvas;
-		aux->name = "Handle";
+		G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, -50, -18.3);
+		aux2->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
+		aux2->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
+		aux2->ReParent(this);
+		aux2->canvas = static_cast<G_UI*>(mParent)->canvas;
+		aux2->name = "Handle";
 
-		UI_Slider* comp = new UI_Slider(this, x, y);
+		/*UI_Slider* comp = new UI_Slider(this, x, y, GetChildByUID(aux1->UID), GetChildByUID(aux2->UID));
 		mComponents.push_back(comp);
 
 		name = "Slider";
@@ -393,8 +393,10 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
-		comp = nullptr;
+		comp = nullptr;*/
 		aux = nullptr;
+		aux1 = nullptr;
+		aux2 = nullptr;
 	}
 	case UI_TYPE::NONE:
 		break;
