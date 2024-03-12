@@ -465,3 +465,25 @@ uint PhysfsEncapsule::LoadToBuffer(const char* file, char** buffer)
 
 	return ret;
 }
+
+std::string PhysfsEncapsule::GetAssetName(const std::string& path) {
+	// Find the last occurrence of '/' or '\\' in the path
+	size_t lastSlashPos = path.find_last_of("/\\");
+
+	// If no slash is found, return the entire path
+	if (lastSlashPos == std::string::npos)
+		return path;
+
+	// Get the substring after the last slash
+	std::string name = path.substr(lastSlashPos + 1);
+
+	// Find the dot (.) to get the name without extension
+	size_t dotPos = name.find_last_of(".");
+
+	// If no dot is found, return the full name
+	if (dotPos == std::string::npos)
+		return name;
+
+	// Return only the name without extension
+	return name.substr(0, dotPos);
+}

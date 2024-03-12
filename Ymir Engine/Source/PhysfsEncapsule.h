@@ -67,4 +67,6 @@ namespace PhysfsEncapsule {
     //Scipt name conversion
     std::string ConvertFileName(const std::string& name);
 
+    //Get name from any asset path
+    std::string GetAssetName(const std::string& path);
 }

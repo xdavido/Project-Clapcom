@@ -15,6 +15,7 @@
 #include"ModuleResourceManager.h" 
 #include "ModuleInput.h"
 #include "Resources.h"
+#include "PhysfsEncapsule.h"
 
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
@@ -361,7 +362,8 @@ void ChangeSceneCS(MonoString* scenePath)
 	External->resourceManager->ImportFile(_name);
 	//TODO:
 	//External->resourceManager->CreateResourceFromAssets(_name, ResourceType::SCENE, );
-	External->scene->LoadScene(External->fileSystem->libraryScenesPath, _name);
+	std::string name = PhysfsEncapsule::GetAssetName(_name);
+	External->scene->LoadScene(_name, name.c_str());
 }
 
 //---------- GLOBAL GETTERS ----------//
