@@ -61,6 +61,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
 
+	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);
+
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
 	mono_add_internal_call("YmirEngine.GameObject::GetRight", GetRight);
@@ -77,8 +79,11 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Transform::set_localScale", RecieveScale);
 #pragma endregion
 
+#pragma region Tag
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
+
+#pragma endregion
 
 #pragma region Audio
 	mono_add_internal_call("YmirEngine.Audio::PlayAudio", PlayAudio);

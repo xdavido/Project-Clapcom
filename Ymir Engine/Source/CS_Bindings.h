@@ -355,6 +355,12 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	/*return mono_gchandle_get_target(cmp->noGCobject);*/
 }
 
+void ChangeSceneCS(MonoString* scenePath)
+{
+	char* _name = mono_string_to_utf8(scenePath);
+	External->resourceManager->ImportFile(_name);
+}
+
 //---------- GLOBAL GETTERS ----------//
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
