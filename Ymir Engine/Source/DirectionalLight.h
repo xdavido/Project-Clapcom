@@ -13,9 +13,12 @@ public:
 
     virtual ~DirectionalLight();
 
+    void Update() override;
+    void Render() override;
+
 private:
 
-    
+    CCylinder* collider;
 
 };
 

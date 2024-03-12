@@ -13,6 +13,9 @@ public:
 
     virtual ~SpotLight();
 
+    void Update() override;
+    void Render() override;
+
     float GetRange() const;
     void SetRange(float range);
 
@@ -23,6 +26,8 @@ private:
 
     float range;
     float angle;
+
+    CCone* collider;
 
 };
 

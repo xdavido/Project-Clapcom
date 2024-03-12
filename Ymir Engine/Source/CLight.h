@@ -4,12 +4,14 @@
 #define __COMPONENT_LIGHT__
 
 #include "Component.h"
+
 #include "Light.h"
+#include "ModuleLightManager.h"
 
 class CLight : public Component {
 public:
 
-	CLight(GameObject* owner);
+	CLight(GameObject* owner, LightType type);
 	virtual ~CLight();
 
 	void Update() override;
@@ -18,7 +20,7 @@ public:
 public:
 
 	Light* lightOwner;
-
+	LightType type;
 };
 
 #endif // __COMPONENT_LIGHT__

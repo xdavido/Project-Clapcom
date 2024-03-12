@@ -15,6 +15,16 @@ Light::~Light()
 
 }
 
+void Light::Update()
+{
+
+}
+
+void Light::Render()
+{
+
+}
+
 const LightType& Light::GetType() const
 {
 	return type;

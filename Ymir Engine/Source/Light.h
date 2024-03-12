@@ -4,6 +4,7 @@
 #define __LIGHT__
 
 #include "GameObject.h"
+#include "Primitive.h"
 
 enum class LightType {
 
@@ -25,6 +26,9 @@ public:
 	Light(LightType type, float3 color, float intensity);
 
 	virtual ~Light();
+
+	virtual void Update();
+	virtual void Render();
 
 	const LightType& GetType() const;
 	void SetType(const LightType& type);

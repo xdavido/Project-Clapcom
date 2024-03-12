@@ -15,6 +15,16 @@ AreaLight::~AreaLight()
 
 }
 
+void AreaLight::Update()
+{
+
+}
+
+void AreaLight::Render()
+{
+
+}
+
 float AreaLight::GetRange() const
 {
 	return range;

@@ -6,9 +6,28 @@
 
 #include <string>
 
-CLight::CLight(GameObject* owner) : Component(owner, ComponentType::LIGHT)
+CLight::CLight(GameObject* owner, LightType type) : Component(owner, ComponentType::LIGHT)
 {
-	lightOwner = static_cast<Light*>(owner);
+	switch (type) {
+		case LightType::UNKNOWN:
+			lightOwner = dynamic_cast<Light*>(owner);
+			break;
+		case LightType::POINT_LIGHT:
+			lightOwner = dynamic_cast<PointLight*>(owner);
+			break;
+		case LightType::DIRECTIONAL_LIGHT:
+			lightOwner = dynamic_cast<DirectionalLight*>(owner);
+			break;
+		case LightType::SPOT_LIGHT:
+			lightOwner = dynamic_cast<SpotLight*>(owner);
+			break;
+		case LightType::AREA_LIGHT:
+			lightOwner = dynamic_cast<AreaLight*>(owner);
+			break;
+	}
+
+	this->type = type;
+	
 }
 
 CLight::~CLight()
@@ -40,7 +59,8 @@ void CLight::OnInspector()
 
 		// ----------------- Content ----------------- 
 
-		switch (lightOwner->GetType()) {
+	
+			switch (type) {
 
 			case LightType::UNKNOWN:
 			{
@@ -51,6 +71,17 @@ void CLight::OnInspector()
 			case LightType::POINT_LIGHT:
 			{
 				ImGui::Text("Point Light");
+
+				PointLight* pointLight = new PointLight();
+				pointLight = dynamic_cast<PointLight*>(lightOwner);
+
+				if (pointLight) {
+
+					// Access PointLight's specific members
+					float radius = pointLight->GetRadius();
+					ImGui::SliderFloat("Radius", &radius, 0.0f, 100.0f);
+					pointLight->SetRadius(radius); // If you want to set the new radius back to the PointLight
+				}
 
 				// Get Type
 
@@ -77,7 +108,9 @@ void CLight::OnInspector()
 				break;
 			}
 
-		}
+			}
+
+		
 
 		// ----------------- End Content ----------------- 
 

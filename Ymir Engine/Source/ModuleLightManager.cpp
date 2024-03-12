@@ -18,48 +18,48 @@ ModuleLightManager::~ModuleLightManager()
 Light* ModuleLightManager::CreateLight(LightType type)
 {
     Light* tmpLight = nullptr;
-    //CLight* tmpComponentLight = nullptr;
+    CLight* tmpComponentLight = nullptr;
 
     switch (type) {
 
         case LightType::UNKNOWN:
         {
             tmpLight = static_cast<Light*>(App->scene->CreateGameObject("Light", App->scene->mRootNode));
-
+            tmpComponentLight = new CLight(tmpLight, LightType::UNKNOWN);
             break;
         }
         case LightType::POINT_LIGHT:
         {
             tmpLight = static_cast<PointLight*>(App->scene->CreateGameObject("Point Light", App->scene->mRootNode));
-
+            tmpComponentLight = new CLight(tmpLight, LightType::POINT_LIGHT);
             break;
         }
         case LightType::DIRECTIONAL_LIGHT:
         {
             tmpLight = static_cast<DirectionalLight*>(App->scene->CreateGameObject("Directional Light", App->scene->mRootNode));
-
+            tmpComponentLight = new CLight(tmpLight, LightType::DIRECTIONAL_LIGHT);
             break;
         }
         case LightType::SPOT_LIGHT:
         {
             tmpLight = static_cast<SpotLight*>(App->scene->CreateGameObject("Spot Light", App->scene->mRootNode));
-
+            tmpComponentLight = new CLight(tmpLight, LightType::SPOT_LIGHT);
             break;
         }
         case LightType::AREA_LIGHT:
         {
             tmpLight = static_cast<AreaLight*>(App->scene->CreateGameObject("Area Light", App->scene->mRootNode));
-
+            tmpComponentLight = new CLight(tmpLight, LightType::AREA_LIGHT);
             break;
         }
     }
 
     if (tmpLight) {
 
-        //tmpComponentLight = new CLight(tmpLight);
-        //tmpLight->AddComponent(tmpComponentLight);
+        tmpLight->AddComponent(tmpComponentLight);
+        return tmpLight;
 
     }   
 
-    return tmpLight;
+    return nullptr;
 }

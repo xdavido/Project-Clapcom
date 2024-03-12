@@ -13,12 +13,16 @@ public:
 
     virtual ~PointLight();
 
+    void Update() override; 
+    void Render() override;
+
     float GetRadius() const;
     void SetRadius(float radius);
 
 private:
 
     float radius;
+    CSphere* collider;
 
 };
 

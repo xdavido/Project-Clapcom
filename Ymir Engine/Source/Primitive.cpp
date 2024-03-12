@@ -183,6 +183,7 @@ void CSphere::InnerRender() const
 
 	const float TWO_PI = 2.0f * PI;
 
+	glLineWidth(3.0f);
 	glBegin(GL_TRIANGLES);
 
 	for (int i = 0; i < nF; i++) {
@@ -233,6 +234,7 @@ void CSphere::InnerRender() const
 	}
 
 	glEnd();
+	glLineWidth(1.0f);
 
 }
 

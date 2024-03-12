@@ -13,6 +13,9 @@ public:
 
     virtual ~AreaLight();
 
+    void Update() override;
+    void Render() override;
+
     float GetRange() const;
     void SetRange(float range);
 
@@ -28,6 +31,8 @@ private:
 
     float width;
     float height;
+
+    CCube* collider;
 
 };
 

@@ -14,3 +14,13 @@ DirectionalLight::~DirectionalLight()
 {
 
 }
+
+void DirectionalLight::Update()
+{
+
+}
+
+void DirectionalLight::Render()
+{
+
+}

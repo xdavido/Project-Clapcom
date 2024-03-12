@@ -15,6 +15,16 @@ SpotLight::~SpotLight()
 
 }
 
+void SpotLight::Update()
+{
+
+}
+
+void SpotLight::Render()
+{
+
+}
+
 float SpotLight::GetRange() const
 {
 	return range;
