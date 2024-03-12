@@ -55,11 +55,7 @@
     <Compile Include="Assets\Scripts\Core.cs" />
     <Compile Include="Assets\Scripts\main.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Assets\Scripts\Amarillo.cs" />
-    <Compile Include="Assets\Assets\Scripts\Juan.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\ScriptsAssets\Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
