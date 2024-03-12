@@ -59,6 +59,7 @@ public:
 
 	// Clear references
 	void ClearReferences();
+	void RemoveReference(Component* comp);
 
 public:
 
