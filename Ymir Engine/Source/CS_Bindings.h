@@ -359,6 +359,9 @@ void ChangeSceneCS(MonoString* scenePath)
 {
 	char* _name = mono_string_to_utf8(scenePath);
 	External->resourceManager->ImportFile(_name);
+	//TODO:
+	//External->resourceManager->CreateResourceFromAssets(_name, ResourceType::SCENE, );
+	External->scene->LoadScene(External->fileSystem->libraryScenesPath, _name);
 }
 
 //---------- GLOBAL GETTERS ----------//

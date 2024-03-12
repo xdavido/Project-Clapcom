@@ -113,6 +113,11 @@ public class Core : YmirComponent
             Debug.Log("Create 'Cube' GameObject");
         }
 
+        if (Input.GetKey(YmirKeyCode.J) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.LoadScene("Assets/Scenes/TestScene.yscene");
+        }
+
 
         //if (Input.GetMouseX() != 0 && turret != null)
         //    turret.localRotation = Quaternion.RotateAroundAxis(Vector3.up, -Input.GetMouseX() * mouseSens * Time.deltaTime) * turret.localRotation;
