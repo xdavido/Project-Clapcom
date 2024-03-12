@@ -114,9 +114,6 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
-	// Temporal: Rework with LightManager
-	PointLight* pointLight;
-
 private:
 
 	G_UI* canvas;

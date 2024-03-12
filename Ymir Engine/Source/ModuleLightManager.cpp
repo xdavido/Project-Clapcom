@@ -6,7 +6,7 @@ ModuleLightManager::ModuleLightManager(Application* app, bool start_enabled) : M
 {
     LOG("Creating ModuleLightManager");
 
-
+    debuglightsEnabled = true;
 
 }
 
@@ -15,19 +15,20 @@ ModuleLightManager::~ModuleLightManager()
 
 }
 
+void ModuleLightManager::EnableLightDebug(bool enable)
+{
+    debuglightsEnabled = enable;
+}
+
+bool ModuleLightManager::IsLightDebugEnabled()
+{
+    return debuglightsEnabled;
+}
+
 Light* ModuleLightManager::CreateLight(LightType type)
 {
     switch (type) {
 
-        //case LightType::UNKNOWN:
-        //{
-        //    Light* tmpLight = static_cast<Light*>(App->scene->CreateGameObject("Light", App->scene->mRootNode));
-        //    CLight* tmpComponentLight = new CLight(tmpLight, LightType::UNKNOWN);
-        //    tmpLight->AddComponent(tmpComponentLight);
-        //    return tmpLight;
-
-        //    break;
-        //}
         case LightType::POINT_LIGHT:
         {
             PointLight* tmpLight = new PointLight();
@@ -36,37 +37,55 @@ Light* ModuleLightManager::CreateLight(LightType type)
             CLight* tmpComponentLight = new CLight(tmpLight->lightGO, tmpLight);
             tmpLight->lightGO->AddComponent(tmpComponentLight);
 
+            lights.push_back(tmpLight);
+
             return tmpLight;
 
             break;
         }
-        /*case LightType::DIRECTIONAL_LIGHT:
+        case LightType::DIRECTIONAL_LIGHT:
         {
-            DirectionalLight* tmpLight = static_cast<DirectionalLight*>(App->scene->CreateGameObject("Directional Light", App->scene->mRootNode));
-            CLight* tmpComponentLight = new CLight(tmpLight, LightType::DIRECTIONAL_LIGHT);
-            tmpLight->AddComponent(tmpComponentLight);
+            DirectionalLight* tmpLight = new DirectionalLight();
+            tmpLight->lightGO = App->scene->CreateGameObject("Directional Light", App->scene->mRootNode);
+
+            CLight* tmpComponentLight = new CLight(tmpLight->lightGO, tmpLight);
+            tmpLight->lightGO->AddComponent(tmpComponentLight);
+
+            lights.push_back(tmpLight);
+
             return tmpLight;
 
             break;
-        }*/
-        //case LightType::SPOT_LIGHT:
-        //{
-        //    SpotLight* tmpLight = static_cast<SpotLight*>(App->scene->CreateGameObject("Spot Light", App->scene->mRootNode));
-        //    CLight* tmpComponentLight = new CLight(tmpLight, LightType::SPOT_LIGHT);
-        //    tmpLight->AddComponent(tmpComponentLight);
-        //    return tmpLight;
+        }
+        case LightType::SPOT_LIGHT:
+        {
+            SpotLight* tmpLight = new SpotLight();
+            tmpLight->lightGO = App->scene->CreateGameObject("Spot Light", App->scene->mRootNode);
 
-        //    break;
-        //}
-        //case LightType::AREA_LIGHT:
-        //{
-        //    AreaLight* tmpLight = static_cast<AreaLight*>(App->scene->CreateGameObject("Area Light", App->scene->mRootNode));
-        //    CLight* tmpComponentLight = new CLight(tmpLight, LightType::AREA_LIGHT);
-        //    tmpLight->AddComponent(tmpComponentLight);
-        //    return tmpLight;
+            CLight* tmpComponentLight = new CLight(tmpLight->lightGO, tmpLight);
+            tmpLight->lightGO->AddComponent(tmpComponentLight);
 
-        //    break;
-        //}
+            lights.push_back(tmpLight);
+
+            return tmpLight;
+         
+            break;
+        }
+        case LightType::AREA_LIGHT:
+        {
+            AreaLight* tmpLight = new AreaLight();
+            tmpLight->lightGO = App->scene->CreateGameObject("Area Light", App->scene->mRootNode);
+
+            CLight* tmpComponentLight = new CLight(tmpLight->lightGO, tmpLight);
+            tmpLight->lightGO->AddComponent(tmpComponentLight);
+
+            lights.push_back(tmpLight);
+
+            return tmpLight;
+
+            break;
+        }
+
     }
 
 }

@@ -396,7 +396,12 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 	// Time uniform management
 	this->SetFloat("time", TimeManager::graphicsTimer.ReadSec());
 
-	this->SetUniformValue("lightDir", External->scene->pointLight->mTransform->GetGlobalPosition().ptr());
+	if (!External->lightManager->lights.empty()) 
+	{
+		this->SetUniformValue("lightDir", External->lightManager->lights[0]->lightGO->mTransform->GetGlobalPosition().ptr());
+		this->SetFloat("lightInt", External->lightManager->lights[0]->GetIntensity());
+		this->SetUniformValue("lightColor", External->lightManager->lights[0]->GetColor().ptr());
+	}
 	
 }
 

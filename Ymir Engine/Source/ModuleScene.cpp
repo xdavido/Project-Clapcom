@@ -71,9 +71,6 @@ bool ModuleScene::Start()
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
 
-	// Temporal: Rework with LightManager
-	pointLight = static_cast<PointLight*>(App->lightManager->CreateLight(LightType::POINT_LIGHT));
-
 	return false;
 }
 

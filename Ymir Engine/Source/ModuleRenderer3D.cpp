@@ -296,6 +296,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
+		DrawLightsDebug();
+
 		DrawUIElements(false);
 
 		// Render Bounding Boxes
@@ -755,6 +757,27 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 
 }
 
+void ModuleRenderer3D::DrawLightsDebug()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	if (App->lightManager->IsLightDebugEnabled()) {
+
+		for (auto& it = App->lightManager->lights.begin(); it != App->lightManager->lights.end(); ++it) {
+
+			if ((*it)->debug && (*it)->lightGO->active && (*it)->lightGO->GetComponent(ComponentType::LIGHT)->active) {
+
+				(*it)->Render();
+
+			}	
+
+		}
+
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
@@ -804,14 +827,6 @@ void ModuleRenderer3D::DrawGameObjects()
 				}
 
 			}
-		}
-
-		CLight* lightComponent = (CLight*)(*it)->GetComponent(ComponentType::LIGHT);
-
-		if (lightComponent) {
-
-			lightComponent->Update();
-
 		}
 
 	}

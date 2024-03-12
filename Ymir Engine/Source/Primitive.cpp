@@ -22,7 +22,7 @@ void Primitive::Render(Color col) const
 	glPushMatrix();
 	glMultMatrixf(transform.ptr());
 
-	if(axis == true)
+	if (axis == true)
 	{
 		// Draw Axis Grid
 		glLineWidth(2.0f);

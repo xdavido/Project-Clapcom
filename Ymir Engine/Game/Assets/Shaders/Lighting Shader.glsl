@@ -41,6 +41,8 @@
 	uniform sampler2D texture_emissive;
 
 	uniform vec3 lightDir;
+	uniform float lightInt;
+	uniform vec3 lightColor;
 
 	vec2 blinnPhongDir(vec3 lightDir, float lightInt, float Ka, float Kd, float Ks, float shininess)
 	{
@@ -55,12 +57,20 @@
 
 	void main()
 	{
-		//FragColor = texture(texture_diffuse, TexCoords);
-
-		vec3 lcolor = vec3(1.0,1.0,1.0);
-		vec2 inten = blinnPhongDir(lightDir, 1.5, 0.2, 0.8, 0.3, 80.0);
+		// Calculate the lighting intensity using Blinn-Phong
+		vec2 inten = blinnPhongDir(lightDir, lightInt, 0.2, 0.8, 0.3, 80.0);
+    
+		// Sample the diffuse texture
 		vec3 textureColor = texture(texture_diffuse, TexCoords).rgb;
-		FragColor = vec4(vec3(textureColor * inten.x + vec3(1.0) * inten.y),1.0);
+
+		// Multiply the texture color with the light intensity and add ambient term
+		vec3 finalColor = textureColor * inten.x + vec3(1.0) * inten.y;
+
+		// Apply the light color
+		finalColor *= lightColor;
+
+		// Output the final color
+		FragColor = vec4(finalColor, 1.0);
 	}
 
 #endif

@@ -9,61 +9,25 @@
 CLight::CLight(GameObject* owner, Light* lightReference) : Component(owner, ComponentType::LIGHT)
 {
 	this->lightReference = lightReference;
-
 }
 
 CLight::~CLight()
 {
+	auto it = std::find(External->lightManager->lights.begin(), External->lightManager->lights.end(), lightReference);
+
+	if (it != External->lightManager->lights.end()) {
+
+		External->lightManager->lights.erase(it);
+
+	}
+
+	delete lightReference;
 
 }
 
 void CLight::Update()
 {
-	switch (lightReference->GetType()) {
-
-	case LightType::UNKNOWN:
-	{
-		
-
-		break;
-	}
-	case LightType::POINT_LIGHT:
-	{
-		PointLight* pointLight = static_cast<PointLight*>(lightReference);
-
-		if (pointLight) {
-
-			pointLight->Update();
-			pointLight->Render();
-
-		}
-
-		// Get Type
-
-		// Change radius
-
-		break;
-	}
-	case LightType::DIRECTIONAL_LIGHT:
-	{
-		
-
-		break;
-	}
-	case LightType::SPOT_LIGHT:
-	{
-		
-
-		break;
-	}
-	case LightType::AREA_LIGHT:
-	{
-		
-
-		break;
-	}
-
-	}
+	lightReference->Update();
 }
 
 void CLight::OnInspector()
@@ -87,36 +51,47 @@ void CLight::OnInspector()
 
 		switch (lightReference->GetType()) {
 
-			case LightType::UNKNOWN:
-			{
-				ImGui::Text("Unknown");
-
-				break;
-			}
 			case LightType::POINT_LIGHT:
 			{
-				ImGui::Text("Point Light");
-
 				PointLight* pointLight = static_cast<PointLight*>(lightReference);
 				
 				if (pointLight) {
 
-					// Access PointLight's specific members
-					float radius = pointLight->GetRadius();
-					ImGui::SliderFloat("Radius", &radius, 0.0f, 100.0f);
-					pointLight->SetRadius(radius); // If you want to set the new radius back to the PointLight
+					ImGui::SeparatorText("POINT LIGHT");
 
-					float intensity = pointLight->GetIntensity();
-					ImGui::SliderFloat("Intensity", &intensity, 0.0f, 100.0f);
-					pointLight->SetIntensity(intensity); // If you want to set the new radius back to the PointLight
+					ImGui::Spacing();
+
+					ImGui::SeparatorText("General Light Settings");
+
+					ImGui::Spacing();
+
+					ImGui::Checkbox("Show Debug", &pointLight->debug);
+
+					ImGui::Spacing();
 
 					float3 color = pointLight->GetColor();
+					ImGui::ColorEdit3("Light Color", (float*)&color);
+					pointLight->SetColor(color);
+
+					ImGui::Spacing();
+
+					float intensity = pointLight->GetIntensity();
+					ImGui::DragFloat("Intensity", &intensity, 0.1f, 0.0f, 100.0f);
+					pointLight->SetIntensity(intensity);
+
+					ImGui::Spacing();
+
+					ImGui::SeparatorText("Point Light Settings");
+
+					ImGui::Spacing();
+
+					float radius = pointLight->GetRadius();
+					ImGui::DragFloat("Radius", &radius, 0.1f, 0.0f, 100.0f);
+					pointLight->SetRadius(radius); 
+
+					ImGui::Spacing();
 
 				}
-
-				// Get Type
-
-				// Change radius
 
 				break;
 			}

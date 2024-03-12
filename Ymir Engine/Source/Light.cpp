@@ -2,12 +2,12 @@
 
 Light::Light() : type(LightType::UNKNOWN), color(float3::one), intensity(1.0f)
 {
-
+	lightGO = nullptr;
 }
 
 Light::Light(LightType type, float3 color, float intensity) : type(type), color(color), intensity(intensity)
 {
-
+	lightGO = nullptr;
 }
 
 Light::~Light()

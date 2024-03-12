@@ -90,6 +90,8 @@ public:
 	void GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo);
 	void DrawUIElements(bool isGame);
 
+	void DrawLightsDebug();
+
 public:
 
 	GL_Light gl_lights[MAX_GL_LIGHTS];

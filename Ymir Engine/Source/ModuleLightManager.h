@@ -18,12 +18,18 @@ public:
 	ModuleLightManager(Application* app, bool start_enabled = true);
 	virtual ~ModuleLightManager();
 
-	//void EnableLightingSystem(bool enable);
-	Light* CreateLight(LightType type = LightType::UNKNOWN);
+	void EnableLightDebug(bool enable);
+	bool IsLightDebugEnabled();
+
+	Light* CreateLight(LightType type);
+
+public:
+
+	std::vector<Light*> lights;
 
 private:
 
-	std::vector<Light*> lights;
+	bool debuglightsEnabled;
 
 };
 

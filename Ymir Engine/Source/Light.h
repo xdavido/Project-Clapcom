@@ -43,6 +43,8 @@ public:
 
 	GameObject* lightGO;
 
+	bool debug = true;
+
 private:
 
 	LightType type;
