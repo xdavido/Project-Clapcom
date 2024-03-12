@@ -2945,13 +2945,17 @@ void ModuleEditor::DrawInspector()
 						showNewScriptPopUp = true;
 
 					}
-					
-					for (std::vector<std::string>::iterator it = scriptsName.begin(); it != scriptsName.end(); ++it)
-					{
-						if (ImGui::MenuItem((*it).c_str()))
-						{
-							script_name = (*it).c_str();
-							App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
+
+						if (!entry.is_directory()) {
+
+							std::string entryName = entry.path().filename().string();
+							if (ImGui::MenuItem(entryName.c_str()))
+							{
+								script_name = entryName.c_str();
+								App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+							}
+
 						}
 					}
 					ImGui::EndMenu();
