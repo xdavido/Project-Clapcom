@@ -39,6 +39,10 @@ public:
 	float GetIntensity() const;
 	void SetIntensity(float intensity);
 
+public:
+
+	GameObject* lightGO;
+
 private:
 
 	LightType type;

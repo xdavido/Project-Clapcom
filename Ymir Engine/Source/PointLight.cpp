@@ -8,6 +8,7 @@ PointLight::PointLight() : Light(LightType::POINT_LIGHT, float3::one, 1.0f), rad
 
 PointLight::PointLight(float3 color, float intensity, float radius) : Light(LightType::POINT_LIGHT, color, intensity), radius(radius)
 {
+	collider->SetPos(0,0,0);
 	collider = new CSphere(radius, 10);
 	collider->wire = true;
 }

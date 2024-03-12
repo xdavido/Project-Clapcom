@@ -6,38 +6,64 @@
 
 #include <string>
 
-CLight::CLight(GameObject* owner, LightType type) : Component(owner, ComponentType::LIGHT)
+CLight::CLight(GameObject* owner, Light* lightReference) : Component(owner, ComponentType::LIGHT)
 {
-	switch (type) {
-		case LightType::UNKNOWN:
-			lightOwner = dynamic_cast<Light*>(owner);
-			break;
-		case LightType::POINT_LIGHT:
-			lightOwner = dynamic_cast<PointLight*>(owner);
-			break;
-		case LightType::DIRECTIONAL_LIGHT:
-			lightOwner = dynamic_cast<DirectionalLight*>(owner);
-			break;
-		case LightType::SPOT_LIGHT:
-			lightOwner = dynamic_cast<SpotLight*>(owner);
-			break;
-		case LightType::AREA_LIGHT:
-			lightOwner = dynamic_cast<AreaLight*>(owner);
-			break;
-	}
+	this->lightReference = lightReference;
 
-	this->type = type;
-	
 }
 
 CLight::~CLight()
 {
-	RELEASE(lightOwner);
+
 }
 
 void CLight::Update()
 {
+	switch (lightReference->GetType()) {
 
+	case LightType::UNKNOWN:
+	{
+		
+
+		break;
+	}
+	case LightType::POINT_LIGHT:
+	{
+		PointLight* pointLight = static_cast<PointLight*>(lightReference);
+
+		if (pointLight) {
+
+			pointLight->Update();
+			pointLight->Render();
+
+		}
+
+		// Get Type
+
+		// Change radius
+
+		break;
+	}
+	case LightType::DIRECTIONAL_LIGHT:
+	{
+		
+
+		break;
+	}
+	case LightType::SPOT_LIGHT:
+	{
+		
+
+		break;
+	}
+	case LightType::AREA_LIGHT:
+	{
+		
+
+		break;
+	}
+
+	}
 }
 
 void CLight::OnInspector()
@@ -59,8 +85,7 @@ void CLight::OnInspector()
 
 		// ----------------- Content ----------------- 
 
-	
-			switch (type) {
+		switch (lightReference->GetType()) {
 
 			case LightType::UNKNOWN:
 			{
@@ -72,15 +97,21 @@ void CLight::OnInspector()
 			{
 				ImGui::Text("Point Light");
 
-				PointLight* pointLight = new PointLight();
-				pointLight = dynamic_cast<PointLight*>(lightOwner);
-
+				PointLight* pointLight = static_cast<PointLight*>(lightReference);
+				
 				if (pointLight) {
 
 					// Access PointLight's specific members
 					float radius = pointLight->GetRadius();
 					ImGui::SliderFloat("Radius", &radius, 0.0f, 100.0f);
 					pointLight->SetRadius(radius); // If you want to set the new radius back to the PointLight
+
+					float intensity = pointLight->GetIntensity();
+					ImGui::SliderFloat("Intensity", &intensity, 0.0f, 100.0f);
+					pointLight->SetIntensity(intensity); // If you want to set the new radius back to the PointLight
+
+					float3 color = pointLight->GetColor();
+
 				}
 
 				// Get Type
@@ -108,9 +139,7 @@ void CLight::OnInspector()
 				break;
 			}
 
-			}
-
-		
+		}
 
 		// ----------------- End Content ----------------- 
 

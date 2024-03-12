@@ -19,10 +19,13 @@ public:
     float GetRadius() const;
     void SetRadius(float radius);
 
+public:
+
+    CSphere* collider;
+
 private:
 
     float radius;
-    CSphere* collider;
 
 };
 

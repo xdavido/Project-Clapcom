@@ -11,7 +11,7 @@
 class CLight : public Component {
 public:
 
-	CLight(GameObject* owner, LightType type);
+	CLight(GameObject* owner, Light* lightReference);
 	virtual ~CLight();
 
 	void Update() override;
@@ -19,8 +19,8 @@ public:
 
 public:
 
-	Light* lightOwner;
-	LightType type;
+	Light* lightReference;
+
 };
 
 #endif // __COMPONENT_LIGHT__

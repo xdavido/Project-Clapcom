@@ -806,6 +806,14 @@ void ModuleRenderer3D::DrawGameObjects()
 			}
 		}
 
+		CLight* lightComponent = (CLight*)(*it)->GetComponent(ComponentType::LIGHT);
+
+		if (lightComponent) {
+
+			lightComponent->Update();
+
+		}
+
 	}
 }
 
