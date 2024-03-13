@@ -188,7 +188,7 @@ void ScriptEditor::ShowNewScriptDialogue()
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.6f, 0.0f, 1.0f)); // Set button color to green
 	if (ImGui::Button("Create")) {
 
-		newName = "Assets/Scripts/" + newName;
+		newName = "Assets/Scripts/" + newName + ".cs";
 
 		//Call fuction to add script to SLN
 		External->moduleMono->CreateAssetsScript(newName.c_str());
