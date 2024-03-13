@@ -2634,30 +2634,19 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::Text("Drag to");
 			ImGui::EndDragDropSource();
 		}
-		/*else
-		{
-			draggedGO = nullptr;
-		}*/
 
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
 		{
 			hoveredGO = node;
 		}
-		/*else
-		{
-			hoveredGO = nullptr;
-		}*/
-		if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
-		{
-			LOG("Break!");
-		}
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
 
 				draggedGO->ReParent(hoveredGO);
 			}
-			ImGui::EndDragDropTarget(); ImGui::ClearDragDrop();
+			ImGui::EndDragDropTarget();
 		}
 
 		if (node != App->scene->mRootNode && ImGui::BeginPopupContextItem()) {
