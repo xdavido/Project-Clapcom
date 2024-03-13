@@ -17,8 +17,6 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	height = h;
 	color = c;
 
-	isDragging = false;
-	isDraggeable = false;
 	fade = false;
 
 	mOwner->mTransform->SetPosition(float3(x, y, 0));
@@ -133,6 +131,12 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	obb.Transform(mOwner->mTransform->GetGlobalTransform());
 	global_aabb.SetNegativeInfinity();
 	global_aabb.Enclose(obb);
+
+	// Drag
+	isDragging = false;
+	isDraggeable = false;
+
+	dragLimits = { 0, 0, External->editor->gameViewSize.x,External->editor->gameViewSize.y };
 }
 
 C_UI::~C_UI()

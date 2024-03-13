@@ -29,10 +29,29 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 	useFloat = false;
 
 	direction = SLIDER_DIRECTION::LEFT_TO_RIGHT;
+	usingBar = false;
+	usingHandle = false;
 }
 
 UI_Slider::~UI_Slider()
 {
+}
+
+update_status UI_Slider::Update(float dt)
+{
+	update_status ret = UPDATE_CONTINUE;
+
+	if (fillImage != nullptr && usingBar)
+	{
+		SliderBar(dt);
+	}
+	
+	if (handleImage != nullptr && usingHandle)
+	{
+		SliderHandle(dt);
+	}
+
+	return ret;
 }
 
 void UI_Slider::OnInspector()
@@ -193,14 +212,14 @@ void UI_Slider::OnPressed()
 {
 	//image->color = pressedColor;
 
-	if (fillImage != nullptr)
+	if (fillImage != nullptr && fillImage->active && usingBar)
 	{
-
+		usingBar = true;
 	}
 
-	if (handleImage != nullptr)
+	if (handleImage != nullptr && handleImage->active)
 	{
-		handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
+		usingHandle = true;
 	}
 }
 
@@ -217,9 +236,9 @@ void UI_Slider::OnSelected()
 	{
 		// if moving joystick --> drag true, else drag false
 		//if ()
-		{
-			handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
-		}
+		//{
+			//handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
+		//}
 	}
 }
 
@@ -227,11 +246,103 @@ void UI_Slider::OnRelease()
 {
 	if (fillImage != nullptr)
 	{
-
+		usingBar = false;
 	}
 
 	if (handleImage != nullptr)
 	{
-		handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = false;
+		usingHandle = false;
+	}
+}
+
+void UI_Slider::SliderBar(float dt)
+{
+	int movementX = External->input->GetMouseXMotion() * dt * 30;
+	int movementY = -External->input->GetMouseYMotion() * dt * 30;
+
+	C_UI* comp = fillImage->GetComponentUI(UI_TYPE::IMAGE);
+
+	if (comp->width + movementX >= dragLimits.x && comp->width + movementX <= dragLimits.x + dragLimits.z &&
+		comp->height + movementY >= dragLimits.y && comp->height + movementY <= dragLimits.y + dragLimits.w)
+	{
+
+		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+		{
+			comp->width += movementX;
+		}
+		else
+		{
+			comp->height += movementY;
+		}
+
+		float3 globalPos;
+		Quat rot;
+		float3 scale;
+
+		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
+		mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+
+		scaleBounds = scale;
+
+		float3 position = mOwner->mTransform->translation;
+
+		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (comp->height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[1].position = float3(position.x + (comp->width * scaleBounds.x) + movementX, position.y + (comp->height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+		boundsEditor->vertices[3].position = float3(position.x + (comp->width * scaleBounds.x) + movementX, position.y + movementY, 0);
+
+		boundsGame->vertices[0].position = float3(posX, posY + (comp->height * scaleBounds.y), 0);
+		boundsGame->vertices[1].position = float3(posX + (comp->width * scaleBounds.x), posY + (comp->height * scaleBounds.y), 0);
+		boundsGame->vertices[2].position = float3(posX, posY, 0);
+		boundsGame->vertices[3].position = float3(posX + (comp->width * scaleBounds.x), posY, 0);
+
+
+		boundsEditor->RegenerateVBO();
+		boundsGame->RegenerateVBO();
+	}
+}
+
+void UI_Slider::SliderHandle(float dt)
+{
+	int movementX = External->input->GetMouseXMotion() * dt * 30;
+	int movementY = -External->input->GetMouseYMotion() * dt * 30;
+
+	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
+		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w)
+	{
+		
+		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+		{
+			posX += movementX;
+		}
+		else
+		{
+			posY += movementY;
+		}
+
+		float3 globalPos;
+		Quat rot;
+		float3 scale;
+
+		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
+		mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+
+		scaleBounds = scale;
+
+		float3 position = mOwner->mTransform->translation;
+
+		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
+
+		boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[2].position = float3(posX, posY, 0);
+		boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+
+
+		boundsEditor->RegenerateVBO();
+		boundsGame->RegenerateVBO();
 	}
 }

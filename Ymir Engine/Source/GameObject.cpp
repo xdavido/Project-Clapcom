@@ -280,6 +280,21 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	return nullptr;
 }
 
+std::vector<Component*> GameObject::GetAllComponentsByType(ComponentType type)
+{
+	std::vector<Component*> vec = {};
+
+	for (auto i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i]->ctype == type)
+		{
+			vec.push_back(mComponents[i]);
+		}
+	}
+	
+	return vec;
+}
+
 void GameObject::RemoveComponent(Component* component)
 {
 	if (!mComponents.empty() && component != nullptr)

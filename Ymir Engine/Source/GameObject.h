@@ -47,6 +47,7 @@ public:
 	void AddComponent(Component* component);
 	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
+	std::vector<Component*> GetAllComponentsByType(ComponentType type);
 	void RemoveComponent(Component* component);
 
 	void DestroyGameObject();

@@ -6,10 +6,12 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModuleResourceManager.h"
+
 #include "Globals.h"
 #include "Log.h"
 #include "GameObject.h"
-#include "ModuleResourceManager.h"
+#include "G_UI.h"
 
 #include "DefaultShader.h"
 
@@ -678,73 +680,80 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+		//std::vector<C_UI*> uiComponents = static_cast<std::vector<C_UI*>>((*it)->GetAllComponentsByType(ComponentType::UI));
 
-		if ((*it)->active && uiComponent != nullptr)
+		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
 		{
-			switch (uiComponent->UI_type)
+			C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+
+			if ((*it)->active && uiComponent != nullptr && uiComponent->active)
 			{
-			case UI_TYPE::CANVAS:
+				switch (uiComponent->UI_type)
+				{
+				case UI_TYPE::CANVAS:
 
 
 
-				break;
+					break;
 
-			case UI_TYPE::IMAGE: {
+				case UI_TYPE::IMAGE: {
 
-				UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
+					UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
 
-				for (auto& textures : uiImage->mat->rTextures) {
+					for (auto& textures : uiImage->mat->rTextures) {
 
-					textures->BindTexture(true);
+						textures->BindTexture(true);
+
+					}
+
+					uiImage->mat->shader.UseShader(true);
+					uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+
+					uiImage->Draw(isGame);
+
+					uiImage->mat->shader.UseShader(false);
+
+					for (auto& textures : uiImage->mat->rTextures) {
+
+						textures->BindTexture(false);
+
+					}
+
+					break;
+				}
+				case UI_TYPE::TEXT:
+				{
+					UI_Text* uiText = (UI_Text*)(*it)->GetComponent(ComponentType::UI);
+
+					uiText->Draw(isGame);
+
+					break;
+				}
+				case UI_TYPE::BUTTON:
+
+
+
+					break;
+
+				case UI_TYPE::INPUTBOX:
+
+
+
+					break;
+
+				case UI_TYPE::CHECKBOX:
+
+
+
+					break;
+
+				case UI_TYPE::NONE:
+
+
+
+					break;
 
 				}
-
-				uiImage->mat->shader.UseShader(true);
-				uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
-
-				uiImage->Draw(isGame);
-
-				uiImage->mat->shader.UseShader(false);
-
-				for (auto& textures : uiImage->mat->rTextures) {
-
-					textures->BindTexture(false);
-
-				}
-
-				break;
-			}
-			case UI_TYPE::TEXT:
-			{
-				UI_Text* uiText = (UI_Text*)(*it)->GetComponent(ComponentType::UI);
-
-				uiText->Draw(isGame);
-
-				break;
-			}
-			case UI_TYPE::BUTTON:
-
-
-
-				break;
-
-			case UI_TYPE::INPUTBOX:
-
-
-
-				break;
-
-			case UI_TYPE::CHECKBOX:
-
-
-
-				break;
-
-			case UI_TYPE::NONE:
-
-
-
-				break;
 
 			}
 

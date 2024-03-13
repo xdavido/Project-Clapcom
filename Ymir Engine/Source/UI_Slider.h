@@ -32,6 +32,8 @@ public:
 	UI_Slider(GameObject* g, float x = 0, float y = 0, G_UI* fill = nullptr, G_UI* handle = nullptr, float w = 300, float h = 50);
 	~UI_Slider();
 
+	update_status Update(float dt);
+
 	void OnInspector();
 	void OnReferenceDestroyed(void* ptr = nullptr);
 
@@ -41,6 +43,10 @@ public:
 	void OnPressed();
 	void OnSelected();
 	void OnRelease();
+
+	//
+	void SliderBar(float dt);
+	void SliderHandle(float dt);
 
 public:
 	bool isInteractable;
@@ -61,5 +67,7 @@ public:
 
 private:
 	SLIDER_DIRECTION direction;
+	bool usingBar;
+	bool usingHandle;
 };
 #endif // __UI_Slider_H__
