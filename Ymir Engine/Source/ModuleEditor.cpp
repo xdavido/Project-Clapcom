@@ -1500,19 +1500,19 @@ void ModuleEditor::LightsMenu()
 
 		if (ImGui::MenuItem("Point Light")) 
 		{
-			PointLight* pLight = static_cast<PointLight*>(App->lightManager->CreateLight(LightType::POINT_LIGHT));
+			App->lightManager->CreateLight(LightType::POINT_LIGHT);
 		}
 		if (ImGui::MenuItem("Directional Light")) 
 		{
-			DirectionalLight* pLight = static_cast<DirectionalLight*>(App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT));
+			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
 		}
 		if (ImGui::MenuItem("Spot Light")) 
 		{
-			SpotLight* pLight = static_cast<SpotLight*>(App->lightManager->CreateLight(LightType::SPOT_LIGHT));
+			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
 		}
 		if (ImGui::MenuItem("Area Light")) 
 		{
-			AreaLight* pLight = static_cast<AreaLight*>(App->lightManager->CreateLight(LightType::AREA_LIGHT));
+			App->lightManager->CreateLight(LightType::AREA_LIGHT);
 		}
 
 		ImGui::EndMenu();

@@ -19,7 +19,7 @@ enum class LightType {
 
 };
 
-class Light : public GameObject {
+class Light {
 public:
 
 	Light();
