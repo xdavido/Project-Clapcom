@@ -73,22 +73,22 @@ UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h,  std::string fontNam
 
 	Vertex gameVertex1;
 	gameVertex1.position = float3::zero;
-	gameVertex1.textureCoordinates = float2(0, 0);
+	gameVertex1.textureCoordinates = float2(0, 1);
 	boundsGame->vertices.push_back(gameVertex1);
 
 	Vertex gameVertex2;
 	gameVertex2.position = float3::zero;
-	gameVertex2.textureCoordinates = float2(1, 0);
+	gameVertex2.textureCoordinates = float2(1, 1);
 	boundsGame->vertices.push_back(gameVertex2);
 
 	Vertex gameVertex3;
 	gameVertex3.position = float3::zero;
-	gameVertex3.textureCoordinates = float2(0, 1);
+	gameVertex3.textureCoordinates = float2(0, 0);
 	boundsGame->vertices.push_back(gameVertex3);
 
 	Vertex gameVertex4;
 	gameVertex4.position = float3::zero;
-	gameVertex4.textureCoordinates = float2(1, 1);
+	gameVertex4.textureCoordinates = float2(1, 0);
 	boundsGame->vertices.push_back(gameVertex4);
 
 	boundsEditor->InitBuffers();
@@ -472,10 +472,10 @@ void UI_Text::Draw(bool game)
 			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
 			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertices[3].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[0].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
+			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
+			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
