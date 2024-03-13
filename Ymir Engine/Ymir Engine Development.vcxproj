@@ -605,6 +605,7 @@
     <None Include="Game\Assets\Shaders\LavaShader.glsl" />
     <None Include="Game\Assets\Shaders\MyShader.glsl" />
     <None Include="Game\Assets\Shaders\RainbowShader.glsl" />
+    <None Include="Game\Assets\Shaders\UI Shader.glsl" />
     <None Include="Game\Assets\Shaders\WaterShader.glsl" />
     <None Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.inl" />
     <None Include="Source\External\ImGuiNodeEditor\include\imgui_extra_math.inl" />

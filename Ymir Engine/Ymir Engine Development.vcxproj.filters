@@ -1573,6 +1573,9 @@
     <None Include="Game\Assets\Shaders\AnimationShader.glsl">
       <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
+    <None Include="Game\Assets\Shaders\UI Shader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Icon.rc">
