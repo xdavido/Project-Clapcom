@@ -112,11 +112,13 @@ public class PlayerMovement : YmirComponent
             Audio.ResumeAllAudios();
         }
 
-        if (script)
-        {
-            GetHudScript();
-            script = false;
-        }
+
+        //Prueba para acceder a otro script funcional
+        //if (script)
+        //{
+        //    GetAnotherScript();
+        //    script = false;
+        //}
 
            
 
@@ -124,7 +126,7 @@ public class PlayerMovement : YmirComponent
         //RotatePlayer();
     }
 
-    private void GetHudScript()
+    private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
         if (gameObject != null)
@@ -133,7 +135,9 @@ public class PlayerMovement : YmirComponent
 
               player.movementSpeed = 10f;
 
-}
+            Debug.Log("MovmentSpeed= " + movementSpeed);
+
+        }
 
 
     }
