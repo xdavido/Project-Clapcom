@@ -47,6 +47,7 @@ public:
 	//
 	void SliderBar(float dt);
 	void SliderHandle(float dt);
+	void ValueCalculationsFromHandles(float val, float max);
 
 public:
 	bool isInteractable;

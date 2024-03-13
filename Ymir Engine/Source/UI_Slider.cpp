@@ -41,6 +41,9 @@ update_status UI_Slider::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
+	dragLimits.x = mOwner->mTransform->GetGlobalPosition().x;
+	dragLimits.y = mOwner->mTransform->GetGlobalPosition().y;
+
 	if (fillImage != nullptr && usingBar)
 	{
 		//SliderBar(dt);
@@ -309,21 +312,28 @@ void UI_Slider::SliderHandle(float dt)
 	int movementY = -External->input->GetMouseYMotion() * dt * 30;
 
 	UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+	
+	// Calculate new position of the slider handle
+	float newX = External->input->GetMouseX() + movementX;
+	float newY = External->input->GetMouseY() + movementY;
 
-	if (img.posX + movementX >= dragLimits.x && img.posX + movementX <= dragLimits.x + dragLimits.z &&
-		img.posY + movementY >= dragLimits.y && img.posY + movementY <= dragLimits.y + dragLimits.w)
+	// Check if the new position is within dragLimits
+	if (newX >= dragLimits.x && newX <= dragLimits.x + dragLimits.z &&
+		newY >= dragLimits.y && newY <= dragLimits.y + dragLimits.w)
 	{
 		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 		{
-			img.posX += movementX;
+			img.posX = newX;
 			movementY = 0;
-			(useFloat ? value.fValue = dragLimits.z * 100 / img.posX : value.iValue = dragLimits.z * 100 / img.posX);
+
+			ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
 		}
 		else
 		{
-			img.posY += movementY;
+			img.posY = newY;
 			movementX = 0;
-			(useFloat ? value.fValue = dragLimits.z * 100 / img.posX : value.iValue = dragLimits.z * 100 / img.posX);
+
+			ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
 		}
 
 		float3 globalPos;
@@ -350,5 +360,87 @@ void UI_Slider::SliderHandle(float dt)
 
 		boundsEditor->RegenerateVBO();
 		boundsGame->RegenerateVBO();
+	}
+
+	/*if (External->input->GetMouseX() + movementX >= dragLimits.x && External->input->GetMouseX() + movementX <= dragLimits.x + dragLimits.z &&
+		External->input->GetMouseY() + movementY >= dragLimits.y && External->input->GetMouseY() + movementY <= dragLimits.y + dragLimits.w)
+	{
+		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+		{
+			img.posX += movementX;
+			movementY = 0;
+
+			ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
+		}
+		else
+		{
+			img.posY += movementY;
+			movementX = 0;
+		
+			ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
+		}
+
+		float3 globalPos;
+		Quat rot;
+		float3 scale;
+
+		img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
+		img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+
+		scaleBounds = scale;
+
+		float3 position = img.mOwner->mTransform->translation;
+
+		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
+
+		boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+		boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
+
+
+		boundsEditor->RegenerateVBO();
+		boundsGame->RegenerateVBO();
+	}*/
+}
+
+void UI_Slider::ValueCalculationsFromHandles(float val, float max)
+{
+	if (useFloat)
+	{
+		float aux = val * maxValue.fValue / max;
+
+		if (aux < minValue.fValue)
+		{
+			value.fValue = minValue.fValue;
+		}
+		else if (aux > maxValue.fValue)
+		{
+			value.fValue = maxValue.fValue;
+		}
+		else
+		{
+			value.fValue = aux;
+		}
+	}
+	else
+	{
+		int aux = val * maxValue.iValue / (dragLimits.x + dragLimits.z);
+
+		if (aux < minValue.iValue)
+		{
+			value.iValue = minValue.iValue;
+		}
+		else if (aux > maxValue.iValue)
+		{
+			value.iValue = maxValue.iValue;
+		}
+		else
+		{
+			value.iValue = aux;
+		}
 	}
 }
