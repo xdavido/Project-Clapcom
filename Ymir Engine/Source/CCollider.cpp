@@ -112,7 +112,7 @@ void CCollider::Update()
 				newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
 
 			mOwner->mTransform->SetPosition(newMat.TranslatePart());
-			//mOwner->mTransform->SetRotation(newMat.RotatePart().ToEulerXYZ());
+			mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
 			//mOwner->mTransform->SetScale(newMat.GetScale());
 
 			mOwner->mTransform->UpdateTransformsChilds();
@@ -423,4 +423,5 @@ void CCollider::RemovePhysbody()
 		External->physics->RemoveBody(physBody);
 		physBody = nullptr;
 	}
+
 }
