@@ -225,9 +225,10 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
 		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
+		aux->vReferences.push_back(comp);
 
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
-		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
+		comp->displayText = aux;
 
 		name = "Button";
 

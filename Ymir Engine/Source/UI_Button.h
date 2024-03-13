@@ -27,9 +27,10 @@ public:
 
 public:
 	bool isInteractable;
+
 	UI_Image* image;
 
-	UI_Text* displayText;
+	G_UI* displayText;
 
 	//color
 	Color focusedColor;

@@ -48,49 +48,14 @@ void UI_Button::OnInspector()
 
 		// Image reference
 		ImGui::Text("Image: ");	ImGui::SameLine();
-		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
-		if (ImGui::Button(image == nullptr ? "<null>" : (image->mOwner)->name.c_str()))
-		{
-			/*if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
-				{
-					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
-				}
-				ImGui::EndDragDropTarget();
-			}*/
-
-			if (image->mOwner != nullptr)
-			{
-				External->scene->SetSelected(image->mOwner);
-			}
-		}
-		ImGui::PopStyleColor(2);
+		
 
 		ImGui::Dummy(ImVec2(0, 10));
 
 		// Text reference
 		ImGui::Text("Text: ");	ImGui::SameLine();
-		ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
-		if (ImGui::Button(displayText == nullptr ? "<null>" : (displayText->mOwner)->name.c_str()))
-		{
-			/*if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
-				{
-					handleImage = static_cast<G_UI*>(External->editor->draggedGO);
-				}
-				ImGui::EndDragDropTarget();
-			}*/
+		displayText = static_cast<G_UI*>(ImGui_GameObjectReference(displayText));
 
-			if (displayText->mOwner != nullptr)
-			{
-				External->scene->SetSelected(displayText->mOwner);
-			}
-		}
-		ImGui::PopStyleColor(2);
 		ImGui::Dummy(ImVec2(0, 10));
 
 		// Colors
