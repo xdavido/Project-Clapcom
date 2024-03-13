@@ -7,8 +7,6 @@
 
 #include "External/mmgr/mmgr.h"
 
-#define ENGINE_COLOR ImVec4(1, 0.5, 0.5, 1)
-
 UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, float w, float h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
 {
 	isInteractable = true;
