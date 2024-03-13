@@ -45,7 +45,7 @@ update_status UI_Slider::Update(float dt)
 	{
 		SliderBar(dt);
 	}
-	
+
 	if (handleImage != nullptr && usingHandle)
 	{
 		SliderHandle(dt);
@@ -269,10 +269,12 @@ void UI_Slider::SliderBar(float dt)
 		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 		{
 			comp->width += movementX;
+			(useFloat ? value.fValue = dragLimits.z * 100 / comp->width : value.iValue = dragLimits.z * 100 / comp->width);
 		}
 		else
 		{
 			comp->height += movementY;
+			(useFloat ? value.fValue = dragLimits.z * 100 / comp->width : value.iValue = dragLimits.z * 100 / comp->width);
 		}
 
 		float3 globalPos;
@@ -310,14 +312,16 @@ void UI_Slider::SliderHandle(float dt)
 	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
 		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w)
 	{
-		
+
 		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 		{
 			posX += movementX;
+			(useFloat ? value.fValue = dragLimits.z * 100 / posX : value.iValue = dragLimits.z * 100 / posX);
 		}
 		else
 		{
 			posY += movementY;
+			(useFloat ? value.fValue = dragLimits.z * 100 / posX : value.iValue = dragLimits.z * 100 / posX);
 		}
 
 		float3 globalPos;

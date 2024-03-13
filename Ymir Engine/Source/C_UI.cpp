@@ -136,7 +136,7 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	isDragging = false;
 	isDraggeable = false;
 
-	dragLimits = { 0, 0, External->editor->gameViewSize.x,External->editor->gameViewSize.y };
+	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
 }
 
 C_UI::~C_UI()
@@ -415,7 +415,7 @@ void C_UI::Drag(float dt)
 {
 	int movementX = External->input->GetMouseXMotion() * dt * 30;
 	int movementY = -External->input->GetMouseYMotion() * dt * 30;
-	
+
 	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
 		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w) {
 

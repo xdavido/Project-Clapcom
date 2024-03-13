@@ -679,26 +679,24 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
-		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
-		//std::vector<C_UI*> uiComponents = static_cast<std::vector<C_UI*>>((*it)->GetAllComponentsByType(ComponentType::UI));
+		std::vector<Component*> uiComponents = (*it)->GetAllComponentsByType(ComponentType::UI);
 
-		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
+		for (auto jt = uiComponents.begin(); jt != uiComponents.end(); ++jt)
 		{
-			C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+			C_UI* uiComponent = (C_UI*)(*jt);
 
 			if ((*it)->active && uiComponent != nullptr && uiComponent->active)
 			{
 				switch (uiComponent->UI_type)
 				{
 				case UI_TYPE::CANVAS:
+				{
+				}
+				break;
 
-
-
-					break;
-
-				case UI_TYPE::IMAGE: {
-
-					UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
+				case UI_TYPE::IMAGE:
+				{
+					UI_Image* uiImage = (UI_Image*)(uiComponent);
 
 					for (auto& textures : uiImage->mat->rTextures) {
 
@@ -723,35 +721,31 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 				}
 				case UI_TYPE::TEXT:
 				{
-					UI_Text* uiText = (UI_Text*)(*it)->GetComponent(ComponentType::UI);
-
+					UI_Text* uiText = (UI_Text*)(uiComponent);
 					uiText->Draw(isGame);
-
-					break;
 				}
+				break;
 				case UI_TYPE::BUTTON:
+				{
 
-
-
-					break;
+				}
+				break;
 
 				case UI_TYPE::INPUTBOX:
+				{
 
-
-
-					break;
-
+				}
+				break;
 				case UI_TYPE::CHECKBOX:
+				{
 
-
-
-					break;
-
+				}
+				break;
 				case UI_TYPE::NONE:
+				{
 
-
-
-					break;
+				}
+				break;
 
 				}
 
