@@ -86,7 +86,7 @@ void UI_Button::OnReferenceDestroyed(void* ptr)
 	{
 		image = nullptr;
 	}
-	else if (displayText->mOwner == ptr)
+	else if (displayText == ptr)
 	{
 		displayText = nullptr;
 	}

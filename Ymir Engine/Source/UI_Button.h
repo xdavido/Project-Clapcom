@@ -30,7 +30,7 @@ public:
 
 	UI_Image* image;
 
-	G_UI* displayText;
+	GameObject* displayText;
 
 	//color
 	Color focusedColor;
