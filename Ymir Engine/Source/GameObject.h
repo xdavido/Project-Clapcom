@@ -46,6 +46,7 @@ public:
 	void AddComponent(Component* component);
 	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
+	Component* GetComponent(ComponentType ctype, char* scriptname);
 	void RemoveComponent(Component* component);
 
 	void DestroyGameObject();

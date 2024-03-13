@@ -259,6 +259,26 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 	return nullptr;
 }
+Component* GameObject::GetComponent(ComponentType ctype,char* scriptname)
+{
+	for (size_t i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i] && mComponents[i]->ctype == ctype)
+		{
+			if (ctype == ComponentType::SCRIPT)
+			{
+				if (scriptname != nullptr && strcmp(dynamic_cast<CScript*>(mComponents[i])->name.c_str(), scriptname) == 0)
+					return mComponents[i];
+			}
+			else
+			{
+				return mComponents[i];
+			}
+		}
+	}
+
+	return nullptr;
+}
 
 void GameObject::RemoveComponent(Component* component)
 {

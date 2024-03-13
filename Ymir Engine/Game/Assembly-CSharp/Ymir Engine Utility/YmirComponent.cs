@@ -7,12 +7,12 @@ namespace YmirEngine
 {
     public enum ComponentType
     {
-        NONE,
+        NONE = -1,
         TRANSFORM,
         MESH,
         MATERIAL,
-        CAMERA,
         SCRIPT,
+        CAMERA,
         AUDIO_SOURCE,
         AUDIO_LISTENER
     }

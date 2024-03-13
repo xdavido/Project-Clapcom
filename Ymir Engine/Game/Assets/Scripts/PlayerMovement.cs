@@ -6,12 +6,14 @@ public class PlayerMovement : YmirComponent
 {
 
     Vector3 gamepadInput;
+   
 
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
 
     private double angle = 0.0f;
+    private bool script = true;
 
     public void Update()
     {
@@ -110,11 +112,31 @@ public class PlayerMovement : YmirComponent
             Audio.ResumeAllAudios();
         }
 
+        if (script)
+        {
+            GetHudScript();
+            script = false;
+        }
+
+           
 
         //En un futuro proximo para hace bien el movimiento
         //RotatePlayer();
     }
 
+    private void GetHudScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (gameObject != null)
+        {
+            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
+
+              player.movementSpeed = 10f;
+
+}
+
+
+    }
 
     private void RotatePlayer()
     {

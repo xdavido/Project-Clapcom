@@ -13,6 +13,7 @@
 #include"ModuleInput.h"
 #include"ModuleScene.h"
 #include"ModuleResourceManager.h" 
+#include "ModuleMonoManager.h"
 #include "ModuleInput.h"
 #include "Resources.h"
 #include "PhysfsEncapsule.h"
@@ -142,10 +143,39 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 
-	go->mTransform->SetPosition( posVector);
+	go->mTransform->SetPosition(posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
-}
 
+
+}
+MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
+{
+	ComponentType sType = static_cast<ComponentType>(inputType);
+
+	char* name = mono_string_to_utf8(type);
+	Component* component = External->moduleMono->GameObject_From_CSGO(ref)->GetComponent(sType, name);
+	mono_free(name);
+
+	//assert(component != nullptr, "Trying to get a null component");
+	if (component == nullptr)
+		return nullptr;
+
+	if (sType == ComponentType::SCRIPT)
+		return mono_gchandle_get_target(dynamic_cast<CScript*>(component)->noGCobject);
+
+	MonoClass* cmpClass = mono_object_get_class(ref);
+	MonoObject* ret = mono_object_new(External->moduleMono->domain, cmpClass);
+
+	//Get type from unity
+
+	//Get type
+	MonoClassField* field = mono_class_get_field_from_name(cmpClass, "pointer");
+
+	uintptr_t goPtr = reinterpret_cast<uintptr_t>(component);
+	mono_field_set_value(ret, field, &goPtr);
+
+	return ret;
+}
 GameObject* DECS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;

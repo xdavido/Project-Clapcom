@@ -24,6 +24,24 @@ namespace YmirEngine
 
         }
 
+
+        public T GetComponent<T>() //where T : DiamondComponent
+        {
+            //ComponentType type = T.get;
+            ComponentType retValue = ComponentType.SCRIPT;
+            if (YmirComponent.componentTable.ContainsKey(typeof(T)))
+            {
+                retValue = YmirComponent.componentTable[typeof(T)];
+            }
+
+            return TryGetComponent<T>(typeof(T).ToString(), (int)retValue);
+        }
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        extern internal T TryGetComponent<T>(string type, int inputType = 0);
+
+
         public extern string Name
         {
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
