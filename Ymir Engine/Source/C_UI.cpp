@@ -229,6 +229,7 @@ void C_UI::StateLogic()
 				break;
 			case UI_STATE::NORMAL:
 			{
+				LOG("NORMAL");
 				OnNormal();
 				if (MouseCheck(mousePos))
 				{
@@ -238,6 +239,8 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::FOCUSED:	// On hover
 			{
+				LOG("FOCUSED");
+
 				OnFocused();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -252,6 +255,8 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::PRESSED: // On hold
 			{
+				LOG("PRESSED");
+
 				OnPressed();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -266,12 +271,16 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::RELEASE:
 			{
+				LOG("RELEASE");
+
 				OnRelease();
 				state = UI_STATE::SELECTED;
 			}
 			break;
 			case UI_STATE::SELECTED:
 			{
+				LOG("SELECTED");
+
 				OnSelected();
 				if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -325,10 +334,14 @@ void C_UI::SetState(UI_STATE uiState)
 
 bool C_UI::MouseCheck(float2 mouse)
 {
-	mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
+	//mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
+
+	LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, posX + (width * scaleBounds.x));
+
+	LOG("%f, %f, %f MOUSE Y", mouse.y, (posY) / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 
 	return (mouse.x >= posX / External->editor->gameViewSize.x && mouse.x <= (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x
-		&& mouse.y >= (posY - 20) / External->editor->gameViewSize.y && mouse.y <= (posY - 20 + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
+		&& mouse.y >= (posY) / External->editor->gameViewSize.y && mouse.y <= (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 }
 
 void C_UI::UpdateUITransform()

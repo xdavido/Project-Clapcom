@@ -64,10 +64,10 @@ update_status G_UI::Update(float dt)
 			{
 				if (mComponents[i]->ctype == ComponentType::UI)
 				{
-					//if (TimeManager::IsOnPlay()) // idk how to do this
-					//{
-					//	static_cast<C_UI*>(mComponents[i])->StateLogic();
-					//}
+					if (true) 
+					{
+						static_cast<C_UI*>(mComponents[i])->StateLogic();
+					}
 
 					static_cast<C_UI*>(mComponents[i])->Update(dt);
 
