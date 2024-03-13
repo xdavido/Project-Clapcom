@@ -23,7 +23,7 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 	handleImage->vReferences.push_back(this);
 
 	minValue.iValue = 0;
-	maxValue.iValue = 1;
+	maxValue.iValue = 10;
 
 	value.iValue = 0;
 	useFloat = false;
@@ -188,7 +188,6 @@ void UI_Slider::OnReferenceDestroyed(void* ptr)
 	{
 		handleImage = nullptr;
 	}
-
 }
 
 void UI_Slider::OnNormal()
@@ -212,7 +211,7 @@ void UI_Slider::OnPressed()
 {
 	//image->color = pressedColor;
 
-	if (fillImage != nullptr && fillImage->active && usingBar)
+	if (fillImage != nullptr && fillImage->active)
 	{
 		usingBar = true;
 	}
@@ -309,40 +308,44 @@ void UI_Slider::SliderHandle(float dt)
 	int movementX = External->input->GetMouseXMotion() * dt * 30;
 	int movementY = -External->input->GetMouseYMotion() * dt * 30;
 
-	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
-		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w)
+	UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+
+	if (img.posX + movementX >= dragLimits.x && img.posX + movementX <= dragLimits.x + dragLimits.z &&
+		img.posY + movementY >= dragLimits.y && img.posY + movementY <= dragLimits.y + dragLimits.w)
 	{
 		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 		{
-			posX += movementX;
-			(useFloat ? value.fValue = dragLimits.z * 100 / posX : value.iValue = dragLimits.z * 100 / posX);
+			img.posX += movementX;
+			movementY = 0;
+			(useFloat ? value.fValue = dragLimits.z * 100 / img.posX : value.iValue = dragLimits.z * 100 / img.posX);
 		}
 		else
 		{
-			posY += movementY;
-			(useFloat ? value.fValue = dragLimits.z * 100 / posX : value.iValue = dragLimits.z * 100 / posX);
+			img.posY += movementY;
+			movementX = 0;
+			(useFloat ? value.fValue = dragLimits.z * 100 / img.posX : value.iValue = dragLimits.z * 100 / img.posX);
 		}
 
 		float3 globalPos;
 		Quat rot;
 		float3 scale;
 
-		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
-		mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+		img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
+		img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
 
 		scaleBounds = scale;
 
-		float3 position = mOwner->mTransform->translation;
+		float3 position = img.mOwner->mTransform->translation;
 
 		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
 		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
 		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
 		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
 
-		boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[2].position = float3(posX, posY, 0);
-		boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+		boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+		boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
 
 
 		boundsEditor->RegenerateVBO();

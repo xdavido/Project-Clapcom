@@ -365,8 +365,8 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 
 		// Fill
 		G_UI* aux1 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
-		aux1->GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		aux1->GetComponentUI(UI_TYPE::IMAGE)->height = h;
+		aux1->GetComponentUI(UI_TYPE::IMAGE)->width = 0;
+		aux1->GetComponentUI(UI_TYPE::IMAGE)->height = 50;
 		aux1->name = "Fill";
 
 		// Handle
