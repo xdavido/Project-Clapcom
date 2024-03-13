@@ -361,9 +361,9 @@ void ChangeSceneCS(MonoString* scenePath)
 	char* _name = mono_string_to_utf8(scenePath);
 	External->resourceManager->ImportFile(_name);
 	//TODO:
-	//External->resourceManager->CreateResourceFromAssets(_name, ResourceType::SCENE, );
 	std::string name = PhysfsEncapsule::GetAssetName(_name);
-	External->scene->LoadScene(_name, name.c_str());
+
+	External->scene->LoadSceneFromStart("Assets", name);
 }
 
 //---------- GLOBAL GETTERS ----------//

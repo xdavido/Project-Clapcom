@@ -115,7 +115,7 @@ public class Core : YmirComponent
 
         if (Input.GetKey(YmirKeyCode.J) == KeyState.KEY_DOWN)
         {
-            InternalCalls.LoadScene("Assets/Scenes/TestScene.yscene");
+            InternalCalls.LoadScene("Assets/Scenes/Blockout.yscene");
         }
 
 
