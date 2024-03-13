@@ -13,7 +13,7 @@ class UI_Button : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 300, y = 50
-	UI_Button(GameObject* g, int x = 0, int y = 0, int w = 300, int h = 50);
+	UI_Button(GameObject* g, float x = 0, float y = 0, float w = 300, float h = 50);
 	~UI_Button();
 
 	void OnInspector();

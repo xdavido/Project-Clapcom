@@ -12,7 +12,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_InputBox::UI_InputBox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::INPUTBOX, ComponentType::UI, g, "Input Box", x, y, w, h)
+UI_InputBox::UI_InputBox(GameObject* g, float x, float y, float w, float h) : C_UI(UI_TYPE::INPUTBOX, ComponentType::UI, g, "Input Box", x, y, w, h)
 {
 	displayText = nullptr;
 	fontSize = 21;
@@ -58,7 +58,7 @@ void UI_InputBox::OnInspector()
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		//ImGuiCustom::ToggleButton("Writing##", &isWriting);
 

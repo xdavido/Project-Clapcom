@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h,  std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, float x, float y, float w, float h,  std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";
 
@@ -122,7 +122,7 @@ void UI_Text::OnInspector()
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		ImGui::InputTextMultiline(("Text##" + std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
 		//ImGui::InputText(name.c_str(), &text, ImGuiInputTextFlags_EnterReturnsTrue);

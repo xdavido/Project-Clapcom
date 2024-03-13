@@ -13,7 +13,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-G_UI::G_UI(UI_TYPE t, GameObject* pParent, int x, int y) : GameObject("", pParent)
+G_UI::G_UI(UI_TYPE t, GameObject* pParent, float x, float y) : GameObject("", pParent)
 {
 	//RemoveComponent(transform);//TODO: fer amb altre transform
 	canvas = nullptr;
@@ -122,7 +122,7 @@ std::vector<C_UI*> G_UI::GetComponentsUI_ByType(UI_TYPE type)
 	return vec;
 }
 
-bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
+bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 {
 	bool ret = true;
 
@@ -196,13 +196,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 	break;
 	case UI_TYPE::BUTTON:
 	{
-		int w = 300;
-		int h = 50;
+		float w = 300;
+		float h = 50;
 
 		UI_Button* comp = new UI_Button(this, x, y);
 		mComponents.push_back(comp);
-
-		name = "Button";
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
@@ -231,19 +229,19 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
 
+		name = "Button";
+
 		comp = nullptr;
 		aux = nullptr;
 	}
 	break;
 	case UI_TYPE::INPUTBOX:
 	{
-		int w = 300;
-		int h = 50;
+		float w = 300;
+		float h = 50;
 
 		UI_InputBox* comp = new UI_InputBox(this, x, y);
 		mComponents.push_back(comp);
-
-		name = "Input Box";
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
@@ -278,14 +276,16 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 
+		name = "Input Box";
+
 		comp = nullptr;
 		aux = nullptr;
 	}
 	break;
 	case UI_TYPE::CHECKBOX:
 	{
-		int w = 170;
-		int h = 20;
+		float w = 170;
+		float h = 20;
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
@@ -338,8 +338,8 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 	break;
 	case UI_TYPE::SLIDER:
 	{
-		int w = 300;
-		int h = 50;
+		float w = 300;
+		float h = 50;
 
 		if (External->scene->GetCanvas() == nullptr)
 		{
@@ -373,6 +373,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, int x, int y, GameObject* parent)
 		aux2->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
 		aux2->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
 		aux2->name = "Handle";
+
+		aux2->GetComponentUI(UI_TYPE::IMAGE)->dragLimits = { x, y, w, h };
+
 
 		UI_Slider* comp = new UI_Slider(this, x, y, static_cast<G_UI*>(GetChildByUID(aux1->UID)), static_cast<G_UI*>(GetChildByUID(aux2->UID)));
 		mComponents.push_back(comp);

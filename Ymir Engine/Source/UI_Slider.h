@@ -29,7 +29,7 @@ class UI_Slider : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 300, y = 50
-	UI_Slider(GameObject* g, int x = 0, int y = 0, G_UI* fill = nullptr, G_UI* handle = nullptr, int w = 300, int h = 50);
+	UI_Slider(GameObject* g, float x = 0, float y = 0, G_UI* fill = nullptr, G_UI* handle = nullptr, float w = 300, float h = 50);
 	~UI_Slider();
 
 	void OnInspector();

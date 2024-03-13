@@ -9,7 +9,7 @@
 
 #define ENGINE_COLOR ImVec4(1, 0.5, 0.5, 1)
 
-UI_Slider::UI_Slider(GameObject* g, int x, int y, G_UI* fill, G_UI* handle, int w, int h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
+UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, float w, float h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
 {
 	isInteractable = true;
 
@@ -194,14 +194,46 @@ void UI_Slider::OnFocused()
 void UI_Slider::OnPressed()
 {
 	//image->color = pressedColor;
+
+	if (fillImage != nullptr)
+	{
+
+	}
+
+	if (handleImage != nullptr)
+	{
+		handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
+	}
 }
 
 void UI_Slider::OnSelected()
 {
 	//image->color = selectedColor;
+
+	if (fillImage != nullptr)
+	{
+
+	}
+
+	if (handleImage != nullptr)
+	{
+		// if moving joystick --> drag true, else drag false
+		//if ()
+		{
+			handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
+		}
+	}
 }
 
 void UI_Slider::OnRelease()
 {
+	if (fillImage != nullptr)
+	{
 
+	}
+
+	if (handleImage != nullptr)
+	{
+		handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = false;
+	}
 }

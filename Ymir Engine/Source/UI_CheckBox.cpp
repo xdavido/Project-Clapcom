@@ -53,7 +53,7 @@ void UI_Checkbox::OnInspector()
 			}
 		}	ImGui::SameLine();
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		if (ImGui::Checkbox("Checked##", &isChecked))
 		{
@@ -140,6 +140,6 @@ void UI_Checkbox::CheckDraggeable()
 
 	if (static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE) != nullptr)
 	{
-		static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE)->isDraggable = isChecked;
+		static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE)->isDraggeable = isChecked;
 	}
 }

@@ -2647,7 +2647,10 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		{
 			hoveredGO = nullptr;
 		}*/
-
+		if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
+		{
+			LOG("Break!");
+		}
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
@@ -2657,20 +2660,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget(); ImGui::ClearDragDrop();
 		}
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
-
-			// TODO: Sara --> hacer bien esto
-			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-				if ((*it) != node) {
-
-					(*it)->selected = false;
-
-				}
-
-			}*/
-
-			//node->selected = true;
+		if (node != App->scene->mRootNode && ImGui::BeginPopupContextItem()) {
 
 			App->scene->SetSelected(node);
 

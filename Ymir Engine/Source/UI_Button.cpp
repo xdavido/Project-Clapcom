@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Button::UI_Button(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TYPE::BUTTON, ComponentType::UI, g, "Button", x, y, w, h)
+UI_Button::UI_Button(GameObject* g, float x, float y, float w, float h) : C_UI(UI_TYPE::BUTTON, ComponentType::UI, g, "Button", x, y, w, h)
 {
 	isInteractable = true;
 
@@ -44,7 +44,7 @@ void UI_Button::OnInspector()
 				image->color = disabledColor;
 			}
 		} ImGui::SameLine();
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		// Image reference
 		ImGui::Text("Image: ");	ImGui::SameLine();

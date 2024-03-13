@@ -9,7 +9,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shaderPath, std::string imgPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
+UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::string shaderPath, std::string imgPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
     mat = new CMaterial(g);
     mat->shaderPath = shaderPath;

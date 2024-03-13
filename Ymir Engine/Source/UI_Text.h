@@ -59,7 +59,7 @@ class UI_Text : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 200, y = 50
-	UI_Text(GameObject* g, int x = 0, int y = 0, int w = 200, int h = 50, std::string fontName = "", std::string fontPath = "Assets\\Fonts", std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
+	UI_Text(GameObject* g, float x = 0, float y = 0, float w = 200, float h = 50, std::string fontName = "", std::string fontPath = "Assets\\Fonts", std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
 	~UI_Text();
 
 	void OnInspector();
