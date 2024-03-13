@@ -73,11 +73,8 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-	if (physBody != nullptr) {
-
-		//physBody->body->setMassProps(mass, btVector3(0, 0, 0));
-
-	}
+	if (External->physics->beginPlay)
+		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, gravity);
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
@@ -259,7 +256,7 @@ void CCollider::OnInspector()
 				if (componentMesh != nullptr) {
 
 					size = componentMesh->rMeshReference->obb.Size();
-					radius = size.Length() / 2 / PI;
+					radius = size.Length();
 					height = size.y;
 				}
 

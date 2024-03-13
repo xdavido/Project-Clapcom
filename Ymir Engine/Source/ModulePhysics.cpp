@@ -94,6 +94,7 @@ update_status ModulePhysics::Update(float dt)
 // POST-UPDATE ---------------------------------------------------------------
 update_status ModulePhysics::PostUpdate(float dt)
 {
+	beginPlay = false;
 	return UPDATE_CONTINUE;
 }
 

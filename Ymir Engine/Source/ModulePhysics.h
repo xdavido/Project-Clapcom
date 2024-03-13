@@ -76,6 +76,7 @@ public:
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
 
+	bool beginPlay;
 private:
 	Color colliderColor;
 };
