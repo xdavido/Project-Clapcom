@@ -75,7 +75,7 @@ void CCollider::Update()
 {
 	if (physBody != nullptr) {
 
-		physBody->body->setMassProps(mass, btVector3(0, 0, 0));
+		//physBody->body->setMassProps(mass, btVector3(0, 0, 0));
 
 	}
 
