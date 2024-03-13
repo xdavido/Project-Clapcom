@@ -49,17 +49,17 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	if (componentMesh != nullptr) {
 
 		size = componentMesh->rMeshReference->obb.Size();
-
+		radius = size.Length() / 2;
+		height = size.y;
 	}
 	else {
 
 		size = float3(10, 10, 10);
-
+		radius = 5;
+		height = 10;
 	}
 
-	shape->setLocalScaling(btSize);
-
-	convexShape = nullptr;
+	//shape->setLocalScaling(btSize);
 	
 }
 
@@ -69,7 +69,6 @@ CCollider::~CCollider()
 
 	delete physBody;
 	delete shape;
-	delete convexShape;
 }
 
 void CCollider::Update()
@@ -139,7 +138,8 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) {
 
 				size = componentMesh->rMeshReference->obb.Size();
-
+				radius = size.Length() / 2;
+				height = size.y;
 			}
 
 		}
@@ -158,8 +158,8 @@ void CCollider::Update()
 
 	}	
 
-	//btSize = float3_to_btVector3(size);
-	//shape->setLocalScaling(btSize);
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 
 }
 
@@ -207,10 +207,8 @@ void CCollider::OnInspector()
 				RemovePhysbody();
 				SetMeshCollider();
 				break;
-			//case ColliderType::MESH_COLLIDER:
-			//	RemovePhysbody();
-			//	SetMeshCollider();
-			//	break;
+			default:
+				break;
 			}
 		}
 
@@ -232,9 +230,9 @@ void CCollider::OnInspector()
 
 				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
 				{
-					size.x = radius * 2 * PI;
-					size.y = radius * 2 * PI;
-					size.z = radius * 2 * PI;
+					size.x = radius;
+					size.y = radius;
+					size.z = radius;
 				}
 
 				break;
@@ -244,15 +242,13 @@ void CCollider::OnInspector()
 				{
 					if (radius == 0) radius = 0.1f;
 
-					size.x = radius * 2 * PI;
-					size.z = radius * 2 * PI;
+					size.x = radius;
+					size.z = radius;
 				}
 
 				ImGui::Text("Height: "); ImGui::SameLine();
-				if (ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f))
-				{
-					if (size.y == 0) size.y = 0.1f;
-				}
+				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
+
 				break;
 			}
 
@@ -264,6 +260,7 @@ void CCollider::OnInspector()
 
 					size = componentMesh->rMeshReference->obb.Size();
 					radius = size.Length() / 2 / PI;
+					height = size.y;
 				}
 
 			}
@@ -336,17 +333,17 @@ void CCollider::SetBoxCollider()
 	collType = ColliderType::BOX;
 
 	CCube cube;
-	cube.size.x = size.x;
-	cube.size.y = size.y;
-	cube.size.z = size.z;
+	//cube.size.x = size.x;
+	//cube.size.y = size.y;
+	//cube.size.z = size.z;
 	
 	transform = mOwner->mTransform;
 
-	if (transform) {
+	//if (transform) {
 
-		float3 pos = transform->GetGlobalPosition();
-		cube.SetPos(pos.x, pos.y, pos.z);
-	}
+	//	float3 pos = transform->GetGlobalPosition();
+	//	cube.SetPos(pos.x, pos.y, pos.z);
+	//}
 
 	physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
 
@@ -357,18 +354,9 @@ void CCollider::SetSphereCollider()
 	LOG("Set Sphere Collider");
 	collType = ColliderType::SPHERE;
 
-	radius = size.Length() / 2 / PI;
-
 	CSphere sphere;
-	sphere.radius = radius;
 
 	transform = mOwner->mTransform;
-
-	if (transform) {
-
-		float3 pos = transform->GetGlobalPosition();
-		sphere.SetPos(pos.x, pos.y, pos.z);
-	}
 
 	physBody = External->physics->AddBody(sphere, PhysicsType::DYNAMIC, mass, true, shape);
 }
@@ -379,16 +367,8 @@ void CCollider::SetCapsuleCollider()
 	collType = ColliderType::CAPSULE;
 	
 	CCapsule capsule;
-	capsule.radius = size.x / 2 / PI;
-	capsule.height = size.y / 2 / PI;
 
 	transform = mOwner->mTransform;
-
-	if (transform) {
-
-		float3 pos = transform->GetGlobalPosition();
-		capsule.SetPos(pos.x, pos.y, pos.z);
-	}
 
 	physBody = External->physics->AddBody(capsule, PhysicsType::DYNAMIC, mass, true, shape);
 }

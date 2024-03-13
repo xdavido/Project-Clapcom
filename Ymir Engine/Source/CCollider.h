@@ -74,7 +74,7 @@ public:
 	bool gravity;
 
 	btCollisionShape* shape;
-	btConvexHullShape* convexShape;
+	//btConvexHullShape* convexShape;
 
 public:
 
