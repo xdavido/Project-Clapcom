@@ -149,6 +149,7 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
+		glEnable(GL_ALPHA_TEST);
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
@@ -156,7 +157,6 @@ bool ModuleRenderer3D::Init()
 		glDisable(GL_MULTISAMPLE);
 		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
-		glDisable(GL_ALPHA_TEST);
 		glDisable(GL_POINT_SPRITE);
 		glDisable(GL_FOG);
 		glDisable(GL_POINT_SMOOTH);
@@ -675,83 +675,31 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.0f);
 	}
 
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	//Get UI elements to draw
+	std::vector<C_UI*> listUI;
+
+	for (auto it = App->scene->vCanvas.begin(); it != App->scene->vCanvas.end(); ++it)
 	{
-		std::vector<Component*> uiComponents = (*it)->GetAllComponentsByType(ComponentType::UI);
+		GetUIGOs(*it, listUI);
 
-		for (auto jt = uiComponents.begin(); jt != uiComponents.end(); ++jt)
+	}
+
+	if (!listUI.empty())
+	{
+		for (auto i = listUI.size() - 1; i > 0; --i)
 		{
-			C_UI* uiComponent = (C_UI*)(*jt);
-
-			if ((*it)->active && uiComponent != nullptr && uiComponent->active)
+			if (listUI[i]->mOwner->active && listUI[i]->active)
 			{
-				switch (uiComponent->UI_type)
-				{
-				case UI_TYPE::CANVAS:
-				{
-				}
-				break;
-				case UI_TYPE::IMAGE:
-				{
-					UI_Image* uiImage = (UI_Image*)(uiComponent);
-
-					for (auto& textures : uiImage->mat->rTextures) {
-
-						textures->BindTexture(true);
-
-					}
-
-					uiImage->mat->shader.UseShader(true);
-					uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
-
-					uiImage->Draw(isGame);
-
-					uiImage->mat->shader.UseShader(false);
-
-					for (auto& textures : uiImage->mat->rTextures) {
-
-						textures->BindTexture(false);
-
-					}
-
-					break;
-				}
-				case UI_TYPE::TEXT:
-				{
-					UI_Text* uiText = (UI_Text*)(uiComponent);
-					uiText->Draw(isGame);
-				}
-				break;
-				case UI_TYPE::BUTTON:
-				{
-
-				}
-				break;
-
-				case UI_TYPE::INPUTBOX:
-				{
-
-				}
-				break;
-				case UI_TYPE::CHECKBOX:
-				{
-
-				}
-				break;
-				case UI_TYPE::NONE:
-				{
-
-				}
-				break;
-
-				}
-
+				listUI[i]->Draw(isGame);
 			}
-
 		}
-
 	}
 
 }

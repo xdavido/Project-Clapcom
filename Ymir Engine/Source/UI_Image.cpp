@@ -315,6 +315,17 @@ void UI_Image::Draw(bool game)
 {
 	UI_Bounds* boundsDrawn = nullptr;
 
+
+	for (auto& textures : mat->rTextures) {
+
+		textures->BindTexture(true);
+
+	}
+
+	mat->shader.UseShader(true);
+	mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, mOwner->selected);
+
+
 	if (game)
 	{
 		boundsDrawn = boundsGame;
@@ -341,6 +352,14 @@ void UI_Image::Draw(bool game)
 	}
 
 	boundsDrawn = nullptr;
+
+	mat->shader.UseShader(false);
+
+	for (auto& textures : mat->rTextures) {
+
+		textures->BindTexture(false);
+
+	}
 }
 
 update_status UI_Image::Update(float dt)
