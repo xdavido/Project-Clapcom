@@ -9,7 +9,7 @@ class SpotLight : public Light {
 public:
 
     SpotLight();
-    SpotLight(float3 color, float intensity, float range, float angle);
+    SpotLight(float3 color, float intensity, float range, float radius);
 
     virtual ~SpotLight();
 
@@ -19,14 +19,14 @@ public:
     float GetRange() const;
     void SetRange(float range);
 
-    float GetAngle() const;
-    void SetAngle(float angle);
+    float GetRadius() const;
+    void SetRadius(float radius);
 
 private:
 
     float range;
-    float angle;
-
+    float radius;
+    
     CCone* shape;
 
 };

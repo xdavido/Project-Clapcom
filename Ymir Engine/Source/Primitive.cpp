@@ -460,7 +460,6 @@ void CCone::InnerRender() const
 
 	// Base
 	for (int i = 0; i < nF; i++) {
-
 		float theta1 = i * TWO_PI / nF;
 		float theta2 = (i + 1) * TWO_PI / nF;
 
@@ -470,16 +469,20 @@ void CCone::InnerRender() const
 		float x2 = radius * cos(theta2);
 		float z2 = radius * sin(theta2);
 
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.0f, 0.0f, 0.0f);
-		glVertex3f(x1, 0.0f, z1);
-		glVertex3f(x2, 0.0f, z2);
+		//glNormal3f(0.0f, 1.0f, 0.0f); // Reverse normal direction
+		//glVertex3f(0.0f, height, 0.0f); // Base at height
+		//glVertex3f(x2, height, z2);
+		//glVertex3f(x1, height, z1);
+
+		glNormal3f(1.0f, 0.0f, 0.0f); // Reverse normal direction
+		glVertex3f(height, x1, z1);
+		glVertex3f(height, x2, z2);
+		glVertex3f(height, 0.0f, 0.0f); // Base at height
 
 	}
 
 	// Side
 	for (int i = 0; i < nF; i++) {
-
 		float theta1 = i * TWO_PI / nF;
 		float theta2 = (i + 1) * TWO_PI / nF;
 
@@ -489,11 +492,16 @@ void CCone::InnerRender() const
 		float x2 = radius * cos(theta2);
 		float z2 = radius * sin(theta2);
 
-		glNormal3f(x1, radius / sqrt(radius * radius + height * height), z1);
-		glVertex3f(x1, 0.0f, z1);
-		glVertex3f(0.0f, height, 0.0f);
-		glVertex3f(x2, 0.0f, z2);
+		//glNormal3f(x1, -radius / sqrt(radius * radius + height), z1); // Reverse normal direction
+		//glVertex3f(x1, height, z1); // Peak at the base
+		//glVertex3f(x2, height, z2);
+		//glVertex3f(0.0f, 0.0f, 0.0f); // Base at height
 
+		glNormal3f(-radius / sqrt(radius * radius + height), x1, z1); // Reverse normal direction
+		glVertex3f(0.0f, 0.0f, 0.0f); // Base at height
+		glVertex3f(height, x2, z2);
+		glVertex3f(height, x1, z1); // Peak at the base
+		
 	}
 
 	glEnd();

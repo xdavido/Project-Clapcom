@@ -169,9 +169,9 @@ void CLight::OnInspector()
 
 					ImGui::Spacing();
 
-					float angle = spotLight->GetAngle();
-					ImGui::DragFloat("Angle", &angle, 0.1f, 0.0f, 100.0f);
-					spotLight->SetAngle(angle);
+					float radius = spotLight->GetRadius();
+					ImGui::DragFloat("Radius", &radius, 0.1f, 0.0f, 100.0f);
+					spotLight->SetRadius(radius);
 
 					ImGui::Spacing();
 
