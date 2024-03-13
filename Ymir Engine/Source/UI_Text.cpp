@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Text::UI_Text(GameObject* g, float x, float y, float w, float h,  std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, float x, float y, float w, float h, std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";
 
@@ -446,6 +446,8 @@ void UI_Text::Draw(bool game)
 	UI_Bounds* boundsDrawn = nullptr;
 	space = 0;
 
+	float fs = fontSize * 1.5;
+
 	for (size_t i = 0; i < text.length(); i++)
 	{
 		float3 position = mOwner->mTransform->translation;
@@ -454,26 +456,31 @@ void UI_Text::Draw(bool game)
 
 		if (itr != font->mCharacters.end())
 		{
-			float sizeX = itr->second->size.x * (fontSize / 98);
+			float sizeX = itr->second->size.x * (fs / 98);
 
 			if (i != 0)
 			{
 				auto itr2 = font->mCharacters.find(text[i - 1]);
-				space = space + itr2->second->size.x * (fontSize / 98) + (fontSize / 5);
+				space = space + itr2->second->size.x * (fs / 98) + (fs / 5);
 			}
 
 			if (itr->first == ' ')
 			{
-				space += fontSize;
+				space += (fs / 2);
 			}
 
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
+			float aux = (fs * itr->second.get()->size.y * scaleBounds.x / 100);
+			//float aux = (fs * (scaleBounds.x / itr->second.get()->size.x) * itr->second.get()->size.y);
+
+			// Top left - Top right - Bot left - Bot right
+
+			boundsEditor->vertices[0].position = float3(position.x + space, position.y + aux, 0);
+			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + aux, 0);
 			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
 			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
+			boundsGame->vertices[0].position = float3(posX + space, posY + aux, 0);
+			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + aux, 0);
 			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
 			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
 
@@ -483,7 +490,6 @@ void UI_Text::Draw(bool game)
 			if (game)
 			{
 				boundsDrawn = boundsGame;
-
 			}
 
 			else
@@ -492,14 +498,12 @@ void UI_Text::Draw(bool game)
 
 				glPushMatrix();
 				glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
-
 			}
-
 
 			// Render
 
 			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
-			
+
 			mat->shader.UseShader(true);
 			mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, mOwner->selected);
 
@@ -512,7 +516,6 @@ void UI_Text::Draw(bool game)
 			mat->shader.UseShader(false);
 
 			glBindTexture(GL_TEXTURE_2D, 0);
-
 
 			if (!game)
 			{
