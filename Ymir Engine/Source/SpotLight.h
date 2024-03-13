@@ -27,7 +27,7 @@ private:
     float range;
     float angle;
 
-    CCone* collider;
+    CCone* shape;
 
 };
 

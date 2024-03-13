@@ -32,7 +32,7 @@ private:
     float width;
     float height;
 
-    CCube* collider;
+    CCube* shape;
 
 };
 

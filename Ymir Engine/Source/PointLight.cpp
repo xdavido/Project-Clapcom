@@ -9,6 +9,7 @@ PointLight::PointLight() : Light(LightType::POINT_LIGHT, float3::one, 1.0f), rad
 PointLight::PointLight(float3 color, float intensity, float radius) : Light(LightType::POINT_LIGHT, color, intensity), radius(radius)
 {
 	shape = new CSphere(radius, 10);
+	shape->wire = true;
 }
 
 PointLight::~PointLight()

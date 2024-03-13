@@ -18,7 +18,7 @@ public:
 
 private:
 
-    CCylinder* collider;
+    CCylinder* shape;
 
 };
 
