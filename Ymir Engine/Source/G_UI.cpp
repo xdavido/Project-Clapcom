@@ -199,6 +199,11 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		float w = 300;
 		float h = 50;
 
+		// Unity-like
+		AddUIComponent(UI_TYPE::IMAGE, x, y);
+		GetComponentUI(UI_TYPE::IMAGE)->width = w;
+		GetComponentUI(UI_TYPE::IMAGE)->height = h;
+
 		UI_Button* comp = new UI_Button(this, x, y);
 		mComponents.push_back(comp);
 
@@ -216,11 +221,6 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y);
-		GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
 		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
 		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;

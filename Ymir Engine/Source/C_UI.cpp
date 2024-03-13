@@ -199,12 +199,10 @@ void C_UI::DebugDraw()
 	glBegin(GL_LINE_LOOP);
 	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 
-	float3 position = mOwner->mTransform->translation;
-
-	float3 v1 = float3(position.x, position.y, position.z);
-	float3 v2 = float3(position.x + (width * scaleBounds.x), position.y, position.z);
-	float3 v3 = float3(position.x, position.y + (height * scaleBounds.y), position.z);
-	float3 v4 = float3(position.x + (width * scaleBounds.x), position.y + (height * scaleBounds.y), position.z);
+	float3 v1 = boundsGame->vertices[0].position;
+	float3 v2 = boundsGame->vertices[1].position;
+	float3 v3 = boundsGame->vertices[2].position;
+	float3 v4 = boundsGame->vertices[3].position;
 
 	glVertex3f(v1.x, v1.y, v1.z);
 	glVertex3f(v2.x, v2.y, v2.z);
@@ -336,12 +334,12 @@ bool C_UI::MouseCheck(float2 mouse)
 {
 	//mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
 
-	LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, posX + (width * scaleBounds.x));
+	LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x);
 
-	LOG("%f, %f, %f MOUSE Y", mouse.y, (posY) / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
+	LOG("%f, %f, %f MOUSE Y", mouse.y, posY / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 
 	return (mouse.x >= posX / External->editor->gameViewSize.x && mouse.x <= (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x
-		&& mouse.y >= (posY) / External->editor->gameViewSize.y && mouse.y <= (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
+		&& mouse.y >= posY / External->editor->gameViewSize.y && mouse.y <= (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 }
 
 void C_UI::UpdateUITransform()
