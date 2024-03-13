@@ -260,6 +260,16 @@ Component* GameObject::GetComponent(ComponentType ctype)
 	return nullptr;
 }
 
+int GameObject::GetComponentPosition(Component* component)
+{
+	int ret = -1; //If not in the list
+	for (int i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents.at(i) == component) { ret = i; }
+	}
+	return ret;
+}
+
 void GameObject::RemoveComponent(Component* component)
 {
 	if (!mComponents.empty() && component != nullptr)

@@ -57,6 +57,8 @@ public:
 
 	bool CompareTag(const char* _tag);
 
+	int GetComponentPosition(Component* component);
+
 public:
 
 	std::string name;

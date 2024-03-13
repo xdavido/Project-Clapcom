@@ -142,6 +142,7 @@
     <ClInclude Include="Source\CAnimation.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
+    <ClInclude Include="Source\CParticleSystem.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
+    <ClInclude Include="Source\EmitterInstance.h" />
     <ClInclude Include="Source\EventSystem.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\crude_json.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.h" />
@@ -429,6 +431,8 @@
     <ClInclude Include="Source\ModuleScene.h" />
     <ClInclude Include="Source\ModuleWindow.h" />
     <ClInclude Include="Source\NodeEditor.h" />
+    <ClInclude Include="Source\Particle.h" />
+    <ClInclude Include="Source\ParticleEmitter.h" />
     <ClInclude Include="Source\PhysBody.h" />
     <ClInclude Include="Source\PhysfsEncapsule.h" />
     <ClInclude Include="Source\Primitive.h" />
@@ -472,11 +476,13 @@
     <ClCompile Include="Source\CMesh.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\CParticleSystem.cpp" />
     <ClCompile Include="Source\CRigidBody.cpp" />
     <ClCompile Include="Source\CScript.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
+    <ClCompile Include="Source\EmitterInstance.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_node_editor.cpp" />
@@ -569,6 +575,8 @@
     <ClCompile Include="Source\ModuleScene.cpp" />
     <ClCompile Include="Source\ModuleWindow.cpp" />
     <ClCompile Include="Source\NodeEditor.cpp" />
+    <ClCompile Include="Source\Particle.cpp" />
+    <ClCompile Include="Source\ParticleEmitter.cpp" />
     <ClCompile Include="Source\PhysBody.cpp" />
     <ClCompile Include="Source\PhysfsEncapsule.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
