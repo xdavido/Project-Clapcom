@@ -43,7 +43,7 @@ update_status UI_Slider::Update(float dt)
 
 	if (fillImage != nullptr && usingBar)
 	{
-		SliderBar(dt);
+		//SliderBar(dt);
 	}
 
 	if (handleImage != nullptr && usingHandle)
@@ -312,7 +312,6 @@ void UI_Slider::SliderHandle(float dt)
 	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
 		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w)
 	{
-
 		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 		{
 			posX += movementX;

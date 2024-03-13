@@ -693,7 +693,6 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 				{
 				}
 				break;
-
 				case UI_TYPE::IMAGE:
 				{
 					UI_Image* uiImage = (UI_Image*)(uiComponent);
