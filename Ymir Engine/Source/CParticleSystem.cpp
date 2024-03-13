@@ -15,22 +15,26 @@
 
 //#include "parson-master/parson.h" //For JSONs
 
-ComponentParticleSystem::ComponentParticleSystem()
+CParticleSystem::CParticleSystem()
 {
 	active = true;
 	Enable();
 }
 
-ComponentParticleSystem::ComponentParticleSystem(GameObject* own)
+CParticleSystem::CParticleSystem(GameObject* own, std::string shaderPath)
 {
+	mat = new CMaterial(own);
+	mat->shaderPath = shaderPath;
+	mat->shader.LoadShader(mat->shaderPath);
+
 	mOwner = own;
-	UID = External->resourceManager->GenerateNewUID(); //TODO TONI: esto podria dar problemas?
+	UID = External->resourceManager->GenerateNewUID();
 	active = true;
 	Enable();
 }
 
 
-ComponentParticleSystem::~ComponentParticleSystem()
+CParticleSystem::~CParticleSystem()
 {
 	for (auto it = allEmitters.rbegin(); it != allEmitters.rend(); ++it)
 	{
@@ -39,13 +43,13 @@ ComponentParticleSystem::~ComponentParticleSystem()
 	}
 }
 
-//bool ComponentParticleSystem::Update()
-//{
-//	//Si la primera vez que se ejecuta
-//	//return Update(App->editor->GetPlayDT()); TODO TONI: No entiendo muy bien para que sirve esto
-//}
+void CParticleSystem::Update()
+{
+	//Si la primera vez que se ejecuta
+	Update(TimeManager::DeltaTime);
+}
 
-bool ComponentParticleSystem::Update(float dt)
+bool CParticleSystem::Update(float dt)
 {
 	bool ret = true;
 	if (dt > 0.0f)
@@ -67,12 +71,12 @@ bool ComponentParticleSystem::Update(float dt)
 	return ret;
 }
 
-bool ComponentParticleSystem::GetActive()
+bool CParticleSystem::GetActive()
 {
 	return active;
 }
 
-ParticleEmitter* ComponentParticleSystem::CreateEmitter()
+ParticleEmitter* CParticleSystem::CreateEmitter()
 {
 	//Creamos un nuevo emisor
 	ParticleEmitter* emisor = new ParticleEmitter;
@@ -82,7 +86,7 @@ ParticleEmitter* ComponentParticleSystem::CreateEmitter()
 	return emisor;
 }
 
-void ComponentParticleSystem::OnEditor()
+void CParticleSystem::OnInspector()
 {
 	std::string butonChar;
 
@@ -111,7 +115,7 @@ void ComponentParticleSystem::OnEditor()
 		butonChar.append("Delete component");
 		if (ImGui::Button(butonChar.append(idComponent).c_str()))
 		{
-			this->~ComponentParticleSystem();
+			this->~CParticleSystem();
 		}
 
 		int treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
@@ -383,7 +387,7 @@ void ComponentParticleSystem::OnEditor()
 	}
 }
 
-const char* ComponentParticleSystem::SaveMetaEmitters()
+const char* CParticleSystem::SaveMetaEmitters()
 {
 	std::string filePath;
 
@@ -433,7 +437,7 @@ const char* ComponentParticleSystem::SaveMetaEmitters()
 	}
 }
 
-uint32_t ComponentParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
+uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 {
 	uint32_t docID = External->resourceManager->GenerateNewUID();
 	JSON_Value* root_value = json_value_init_object();
@@ -631,7 +635,7 @@ uint32_t ComponentParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 	return docID;
 }
 
-ParticleEmitter* ComponentParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
+ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 {
 	ParticleEmitter* pE = new ParticleEmitter;
 	pE->owner = this;
@@ -759,7 +763,7 @@ ParticleEmitter* ComponentParticleSystem::LoadEmitterFromMeta(const char* pathMe
 	return pE;
 }
 
-void ComponentParticleSystem::LoadAllEmmitersJSON(const char* path)
+void CParticleSystem::LoadAllEmmitersJSON(const char* path)
 {
 	JSON_Value* root_value = json_parse_file(path);
 	JSON_Object* root_object = json_value_get_object(root_value);

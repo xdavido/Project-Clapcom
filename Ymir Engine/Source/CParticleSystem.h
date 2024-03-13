@@ -13,24 +13,25 @@
 #include "MathGeoLib/include/Math/float4x4.h"
 
 #include "ParticleEmitter.h"
+#include "CMaterial.h"
 
 #include <vector>
 #include <string>
 
 class ParticleEmitter;
 
-class ComponentParticleSystem : public Component
+class CParticleSystem : public Component
 {
 public:
 
 	bool active = true;
 
-	ComponentParticleSystem();
-	ComponentParticleSystem(GameObject* own);
+	CParticleSystem();
+	CParticleSystem(GameObject* own, std::string shaderPath = "Assets/Shaders/LavaShader.glsl"); //TODO TONI: CAMBIAR EL SHADER POR UNO PROPIO 
 
-	~ComponentParticleSystem();
+	~CParticleSystem();
 
-	//bool Update();
+	void Update();
 	bool Update(float dt);
 	bool GetActive();
 
@@ -40,7 +41,7 @@ public:
 	std::vector<ParticleEmitter*> allEmitters;
 
 	//ImGui
-	void OnEditor();
+	void OnInspector();
 
 	const char* SaveMetaEmitters(); //Returns the Meta Path File
 	uint32_t SaveEmmiterJSON(ParticleEmitter* emitter);
@@ -48,6 +49,8 @@ public:
 	void LoadAllEmmitersJSON(const char* path);
 
 private:
+
+	CMaterial* mat;
 };
 
 #endif //!__COMPONENT_PARTICLE_H__

@@ -9,7 +9,7 @@
 
 #define MAXPARTICLES 500
 
-class ComponentParticleSystem;
+class CParticleSystem;
 class EmitterInstance;
 
 //Ellos generan y controlan las particulas
@@ -21,13 +21,13 @@ public:
 
 	std::vector<Particle*> listParticles;
 	std::vector<EmitterInstance*> modules; //Son las Particle module del power, son las settings
-	ComponentParticleSystem* owner;
+	CParticleSystem* owner;
 
 	std::string name;
 
 	float emitterTime = 0; //Tiempo de las particulas
 
-	void Init(ComponentParticleSystem* component);
+	void Init(CParticleSystem* component);
 
 	void Update(float dt);
 	void DrawParticles();

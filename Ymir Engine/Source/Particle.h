@@ -4,6 +4,7 @@
 #include "MathGeoLib/include/Math/float4.h"
 #include "MathGeoLib/include/Math/Quat.h"
 #include "Color.h"
+#include "CMaterial.h"
 
 class Particle
 {

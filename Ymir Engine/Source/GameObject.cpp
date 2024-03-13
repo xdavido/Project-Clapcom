@@ -237,6 +237,14 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+	case ComponentType::PARTICLE:
+		if (GetComponent(ComponentType::PARTICLE) == nullptr)
+		{
+			temp = new CParticleSystem(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
 	default:
 		break;
 	}

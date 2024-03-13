@@ -17,6 +17,7 @@
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CScript.h"
+#include "CParticleSystem.h"
 #include "Component.h"
 
 #include "Random.h"

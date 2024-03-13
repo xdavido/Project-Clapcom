@@ -819,3 +819,63 @@ void ModuleRenderer3D::CleanUpAssimpDebugger()
 {
 	aiDetachAllLogStreams();
 }
+
+void ModuleRenderer3D::DrawParticles(Particle* particle)
+{
+	////Matrix transform de la particula
+	//float4x4 m = float4x4::FromTRS(particle->position, particle->worldRotation, particle->size).Transposed();
+
+	//glPushMatrix();
+	//glMultMatrixf(m.ptr());
+
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_ALPHA_TEST);
+	//glAlphaFunc(GL_GREATER, 0.0f);
+
+	////Binding particle Texture
+	//if (/*particle.mat*/ true)
+	//{
+	//	if (/*ResourceTexture* rTex = particle.mat->hTexture.Get()*/ true)
+	//	{
+	//		if (/*rTex && rTex->buffer != 0*/ true)
+	//		{
+	//			glBindTexture(GL_TEXTURE_2D, /*rTex->buffer*/ 0);
+	//		}
+	//	}
+	//}
+
+	//glColor4f(particle->color.r, particle->color.g, particle->color.b, particle->color.a);
+
+	////Drawing to tris in direct mode
+	//glBegin(GL_TRIANGLES);
+
+	//glTexCoord2f(1.0f, 0.0f);
+	//glVertex3f(.5f, -.5f, .0f);
+	//glTexCoord2f(0.0f, 1.0f);
+	//glVertex3f(-.5f, .5f, .0f);
+	//glTexCoord2f(0.0f, 0.0f);
+	//glVertex3f(-.5f, -.5f, .0f);
+
+	//glTexCoord2f(1.0f, 0.0f);
+	//glVertex3f(.5f, -.5f, .0f);
+	//glTexCoord2f(1.0f, 1.0f);
+	//glVertex3f(.5f, .5f, .0f);
+	//glTexCoord2f(0.0f, 1.0f);
+	//glVertex3f(-.5f, .5f, .0f);
+
+	//glEnd();
+	//glPopMatrix();
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	////glDisable(GL_BLEND);
+	////glDisable(GL_ALPHA_TEST);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

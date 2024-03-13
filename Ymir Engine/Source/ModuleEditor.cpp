@@ -2920,6 +2920,16 @@ void ModuleEditor::DrawInspector()
 					}
 				}
 
+				// --- Add component Particles ---
+
+				if ((CParticleSystem*)App->scene->selectedGO->GetComponent(ComponentType::PARTICLE) == nullptr)
+				{
+					if (ImGui::MenuItem("Particle"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::PARTICLE);
+					}
+				}
+
 				if (ImGui::BeginMenu("Script"))
 				{
 					if (ImGui::MenuItem("Core"))

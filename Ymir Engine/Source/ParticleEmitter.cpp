@@ -134,7 +134,7 @@ void ParticleEmitter::UpdateModules(float dt)
 	}
 }
 
-void ParticleEmitter::Init(ComponentParticleSystem* component)
+void ParticleEmitter::Init(CParticleSystem* component)
 {
 	//Si el numero de particles es fijo y lo que hay pues
 	this->owner = component;
@@ -166,7 +166,7 @@ void ParticleEmitter::DrawParticles()
 	for (int i = 0; i < listParticles.size(); i++)
 	{
 		auto par = listParticles.at(i);
-		// External->renderer3D->DrawParticles(par); TODO TONI (no se si es viable poner esa funcion en ModuleRenderer (Shaders oh oh))
+		External->renderer3D->DrawParticles(par); //TODO TONI (no se si es viable poner esa funcion en ModuleRenderer (Shaders oh oh))
 		//Draw particles a traves de moduleRenderer
 	}
 }
@@ -199,7 +199,6 @@ void ParticleEmitter::SpawnParticle(uint particlesToAdd)
 					listParticles.emplace(listParticles.begin() + j, particula);
 					break;
 				}
-
 			}
 			//Si no esta lo suficientemente lejos se coloca al final
 			listParticles.push_back(particula);
