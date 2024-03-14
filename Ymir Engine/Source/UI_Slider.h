@@ -37,6 +37,8 @@ public:
 	void OnInspector();
 	void OnReferenceDestroyed(void* ptr = nullptr);
 
+	void UpdateUITransform() override;
+
 	//
 	void OnNormal();
 	void OnFocused();

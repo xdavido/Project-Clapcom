@@ -361,6 +361,18 @@ void UI_Slider::SliderHandle(float dt)
 				movementY = 0;
 
 				ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
+
+				float3 position = img.mOwner->mTransform->translation;
+				
+				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
+				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
+				img.boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + movementY, 0);
+				
+				img.boundsGame->vertices[0].position = float3(newX, img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[1].position = float3(newX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[2].position = float3(newX, img.posY, 0);
+				img.boundsGame->vertices[3].position = float3(newX + (img.width * img.scaleBounds.x), img.posY, 0);
 			}
 			else
 			{
@@ -370,32 +382,19 @@ void UI_Slider::SliderHandle(float dt)
 				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
 			}
 
-			float3 globalPos;
-			Quat rot;
-			float3 scale;
-
-			img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
-			img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-			scaleBounds = scale;
-
-			float3 position = img.mOwner->mTransform->translation;
-
-
 			// Top left - Top right - Bot left - Bot right
-			boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+			/*boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
 			boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
 			boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
 			boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
 
-			boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-			boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
+			img.boundsGame->vertices[0].position = float3(newX, img.posY + (height * scaleBounds.y), 0);
+			img.boundsGame->vertices[1].position = float3(newX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
+			img.boundsGame->vertices[2].position = float3(newX, img.posY, 0);
+			img.boundsGame->vertices[3].position = float3(newX + (width * scaleBounds.x), img.posY, 0);*/
 
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
+			img.boundsEditor->RegenerateVBO();
+			img.boundsGame->RegenerateVBO();
 		}
 	}
 }
