@@ -61,7 +61,8 @@ void UI_Checkbox::OnInspector()
 		}
 
 		ImGui::Dummy(ImVec2(0, 10));
-		ImGui::Text("Text: %s", displayText->text.c_str());
+
+		(displayText != nullptr) ? ImGui::Text("Text: %s", displayText->text.c_str()) : ImGui::Text("Text: <null>");
 		ImGui::Dummy(ImVec2(0, 10));
 
 		ImGui::SeparatorText("Colors");

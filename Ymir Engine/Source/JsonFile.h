@@ -94,6 +94,7 @@ public:
     void SetHierarchy(const char* key, const std::vector<GameObject*>& gameObjects);
     void SetGameObject(JSON_Array* value, const GameObject& gameObject);
     void SetComponent(JSON_Object* componentObject, const Component& component);
+    void SetColor(JSON_Object* componentObject, const Component& component);
 
     // ---------- Load Scene
 

@@ -72,7 +72,10 @@ GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonCli
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
 		{
-			go->RemoveReference(this);
+			if (go != nullptr)
+			{
+				go->RemoveReference(this);
+			}
 			go = External->editor->draggedGO;
 			go->vReferences.push_back(this);
 		}

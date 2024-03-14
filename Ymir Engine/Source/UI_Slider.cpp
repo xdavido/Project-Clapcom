@@ -17,10 +17,17 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 	disabledColor = { 1, 1, 1, 1 };
 
 	fillImage = fill;
-	fillImage->vReferences.push_back(this);
+	
+	if (fillImage != nullptr)
+	{
+		fillImage->vReferences.push_back(this);
+	}
 
-	handleImage = handle;
-	handleImage->vReferences.push_back(this);
+	handleImage = handle; 
+	if (handleImage != nullptr)
+	{
+		handleImage->vReferences.push_back(this);
+	}
 
 	minValue.iValue = 0;
 	maxValue.iValue = 10;

@@ -66,8 +66,9 @@ public:
 	Color selectedColor;
 	Color disabledColor;
 
-private:
 	SLIDER_DIRECTION direction;
+
+private:
 	bool usingBar;
 	bool usingHandle;
 };

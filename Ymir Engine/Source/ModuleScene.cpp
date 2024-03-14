@@ -235,6 +235,8 @@ void ModuleScene::ClearScene()
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
+	vCanvas.clear();
+
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
 }
