@@ -341,8 +341,8 @@ void UI_Slider::SliderHandle(float dt)
 		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
 
 		// Calculate new position of the slider handle
-		float newX = normalizedPoint.x + movementX;
-		float newY = normalizedPoint.y + movementY;
+		float newX = normalizedPoint.x + movementX - img.width / 2;
+		float newY = normalizedPoint.y + movementY - img.height / 2;
 
 		// Calculate new position of the slider handle
 		//float newX = External->input->GetMouseX() + movementX;
@@ -380,6 +380,18 @@ void UI_Slider::SliderHandle(float dt)
 				movementX = 0;
 
 				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
+
+				float3 position = img.mOwner->mTransform->translation;
+
+				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
+				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
+				img.boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + movementY, 0);
+
+				img.boundsGame->vertices[0].position = float3(img.posX, newY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), newY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[2].position = float3(img.posX, newY, 0);
+				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), newY, 0);
 			}
 
 			// Top left - Top right - Bot left - Bot right
