@@ -74,6 +74,7 @@ bool ModuleScene::Start()
 	// LoadSceneFromStart("Assets", "Water");
 
 	CreateGUI(UI_TYPE::SLIDER);
+	CreateGUI(UI_TYPE::TEXT);
 
 	return false;
 }

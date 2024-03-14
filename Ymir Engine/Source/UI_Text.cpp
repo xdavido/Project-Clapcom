@@ -457,6 +457,7 @@ void UI_Text::Draw(bool game)
 		if (itr != font->mCharacters.end())
 		{
 			float sizeX = itr->second->size.x * (fs / 98);
+			float sizeY = itr->second->size.y * (fs / 98);
 
 			if (i != 0)
 			{
@@ -469,20 +470,16 @@ void UI_Text::Draw(bool game)
 				space += (fs / 2);
 			}
 
-			float aux = (fs * itr->second.get()->size.y * scaleBounds.x / 100);
-			//float aux = (fs * (scaleBounds.x / itr->second.get()->size.x) * itr->second.get()->size.y);
-
-			// Top left - Top right - Bot left - Bot right
-
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + aux, 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + aux, 0);
+			boundsEditor->vertices[0].position = float3(position.x + space, position.y + sizeY, 0);
+			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + sizeY, 0);
 			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
 			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
 
-			boundsGame->vertices[0].position = float3(posX + space, posY + aux, 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + aux, 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
+			// Bot left - Bot right - Top left - Top right
+			boundsGame->vertices[0].position = float3(posX + space, posY + scaleBounds.y, 0);
+			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + scaleBounds.y, 0);
+			boundsGame->vertices[2].position = float3(posX + space, posY + scaleBounds.y - sizeY, 0);
+			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY + scaleBounds.y - sizeY, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
