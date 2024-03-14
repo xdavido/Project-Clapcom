@@ -18,11 +18,10 @@ enum ColliderType
 	BOX,
 	SPHERE,
 	CAPSULE,
-	CONVEX_HULL,
-	//MESH_COLLIDER
+	MESH_COLLIDER,
 };
 
-enum physicsType {
+enum PhysicsType {
 	DYNAMIC,
 	KINEMATIC,
 	STATIC
@@ -31,7 +30,7 @@ enum physicsType {
 class CCollider : public Component
 {
 public:
-	CCollider(GameObject* owner);
+	CCollider(GameObject* owner, ColliderType collider = ColliderType::BOX, PhysicsType physics = PhysicsType::DYNAMIC);
 	~CCollider();
 
 	void Update();
@@ -43,12 +42,11 @@ public:
 	void SetBoxCollider();
 	void SetSphereCollider();
 	void SetCapsuleCollider();
-	void SetConvexCollider();
 	void SetMeshCollider();
 
 	void RemovePhysbody();
 
-	void SetDefaultValues(physicsType type);
+	void SetDefaultValues(PhysicsType type);
 
 	// Conversion function from btVector3 to float3
 	float3 btVector3_to_float3(const btVector3& v) {
@@ -63,17 +61,23 @@ public:
 public:
 
 	// Public para el Save/Load
+	
+	ColliderType collType;
+	PhysicsType physType;
+
 	float3 size;
 	btVector3 btSize;
+	float radius;
+	float height;
 
 	float mass;
-	float radius;
+	bool gravity;
+
 	btCollisionShape* shape;
-	btConvexHullShape* convexShape;
+	//btConvexHullShape* convexShape;
 
-private:
+public:
 
-	ColliderType collType;
 	PhysBody* physBody;
 
 	CTransform* transform;
@@ -82,6 +86,4 @@ private:
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
 
-	physicsType physType;
-	bool gravity;
 };

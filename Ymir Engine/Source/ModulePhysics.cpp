@@ -86,6 +86,39 @@ update_status ModulePhysics::Update(float dt)
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		world->stepSimulation(dt, 15);
+
+		int numManifolds = world->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
+		{
+			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+			btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
+
+			int numContacts = contactManifold->getNumContacts();
+			if (numContacts > 0)
+			{
+				//LOG("Contacts number: %i", contactManifold->getNumContacts());
+				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
+				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
+
+				if (pbodyA && pbodyB)
+				{
+					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyA, pbodyB);
+						item = item->next;
+					}
+
+					item = pbodyB->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyB, pbodyA);
+						item = item->next;
+					}
+				}
+			}
+		}
 	}
 
 	return UPDATE_CONTINUE;
@@ -94,6 +127,7 @@ update_status ModulePhysics::Update(float dt)
 // POST-UPDATE ---------------------------------------------------------------
 update_status ModulePhysics::PostUpdate(float dt)
 {
+	beginPlay = false;
 	return UPDATE_CONTINUE;
 }
 
@@ -126,7 +160,7 @@ bool ModulePhysics::CleanUp()
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
 	collidersList.push_back(shape);
@@ -154,7 +188,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 }
 
 // Sphere ---------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
 	collidersList.push_back(shape);
@@ -182,7 +216,7 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mas
 }
 
 // Capsule --------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
 	collidersList.push_back(shape);
@@ -209,10 +243,10 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float m
 	return pbody;
 }
 
-// Convex Collider ----------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
+// Mesh Collider ----------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape)
 {
-	shape = CreateConvexHullShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
+	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
 	collidersList.push_back(shape);
 
@@ -306,35 +340,34 @@ void ModulePhysics::ResetGravity()
 	world->setGravity(GRAVITY);
 }
 
-// CONVEX HULL SHAPE ===============================================================
-btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
+// MESH SHAPE ===============================================================
+btCollisionShape* ModulePhysics::CreateCollisionShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
 {
-	btConvexHullShape* convexShape = new btConvexHullShape();
+	btTriangleMesh* triangleMesh = new btTriangleMesh();
 
-	// Add vertices to shape
-	for (const auto& vertex : vertices) {
-		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-		convexShape->addPoint(btVertex);
+	// Add vertices to the triangle mesh
+    for (const Vertex& vertex : vertices) {
+        btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+        triangleMesh->findOrAddVertex(btVertex, 1);
+    }
 
-		//LOG("Vertex: (%f, %f, %f)", vertex.position.x, vertex.position.y, vertex.position.z);
+	// Add triangles to the triangle mesh
+	for (size_t i = 0; i < indices.size(); i += 3) {
+		const Vertex& v0 = vertices[indices[i]];
+		const Vertex& v1 = vertices[indices[i + 1]];
+		const Vertex& v2 = vertices[indices[i + 2]];
+
+		btVector3 btV0(v0.position.x, v0.position.y, v0.position.z);
+		btVector3 btV1(v1.position.x, v1.position.y, v1.position.z);
+		btVector3 btV2(v2.position.x, v2.position.y, v2.position.z);
+
+		triangleMesh->addTriangle(btV0, btV1, btV2);
 	}
 
-	// Optionally, you can also add indices to maintain convexity
-	//for (size_t i = 0; i < indices.size(); i += 3) {
-	//	btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
-	//	btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
-	//	btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
-
-	//	LOG("Vertex: (% .0f, % .0f, % .0f) - Index: (%d, %d, %d)", i, vertex0, vertex1, vertex2, i, indices[i], indices[i + 1], indices[i + 2]);
-
-	//	convexShape->addPoint(vertex0);
-	//	convexShape->addPoint(vertex1);
-	//	convexShape->addPoint(vertex2);
-	//}
-
-	return convexShape;
+	btCollisionShape* collisionShape = new btConvexTriangleMeshShape(triangleMesh);
+	
+	return collisionShape;
 }
-
 
 // RayCasts ========================================================================
 bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
@@ -352,6 +385,52 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 
 	return false;
 }
+
+bool ModulePhysics::VolumetricRayCast(const btVector3& origin, const btVector3& direction, int numRays, float rayLength, std::vector<btVector3>& hitPoints)
+{
+
+	btVector3 step = direction.normalized() * (rayLength / numRays);
+	
+	btVector3 start = origin - direction.normalized() * (rayLength / 2);
+
+	hitPoints.clear();
+
+
+	for (int i = 0; i < numRays; ++i) {
+		btVector3 end = start + direction.normalized() * rayLength;
+
+		btCollisionWorld::ClosestRayResultCallback rayCallback(start, end);
+
+		world->rayTest(start, end, rayCallback);
+
+		if (rayCallback.hasHit()) {
+			hitPoints.push_back(rayCallback.m_hitPointWorld);
+		}
+
+		
+		start += step;
+	}
+
+	return !hitPoints.empty();
+}
+
+bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3& direction, float rayLength, btVector3& hitPoint) //the most common
+{
+	btVector3 end = origin + direction.normalized() * rayLength;
+
+	btCollisionWorld::ClosestRayResultCallback rayCallback(origin, end);
+
+	world->rayTest(origin, end, rayCallback);
+
+	if (rayCallback.hasHit()) {
+		hitPoint = rayCallback.m_hitPointWorld;
+		return true;
+	}
+
+	return false;
+}
+
+
 
 // DEBUG DRAWER =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
@@ -401,3 +480,4 @@ btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 	}
 	return openGLMatrix;
 }
+

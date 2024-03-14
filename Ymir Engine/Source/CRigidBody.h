@@ -22,13 +22,13 @@ class CRigidBody : public Component
 //	btRigidBody* body;
 //
 //	//TODO: crear variables (massa, usegravity, etc.)
-//	enum physicsType {
+//	enum PhysicsType {
 //		NONE = -1,
 //		DYNAMIC,
 //		KINEMATIC,
 //		STATIC
 //	};
-//	physicsType physType;
+//	PhysicsType physType;
 //	float mass;
 //	bool gravity;
 

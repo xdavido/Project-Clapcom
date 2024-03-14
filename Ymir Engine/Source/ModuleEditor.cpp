@@ -989,13 +989,13 @@ void ModuleEditor::DrawEditor()
 		else {
 
 			if (ImGui::Button("Play")) {
-
 				TimeManager::gameTimer.Start();
 
 				isPlaying = true;
 
-				App->scene->SaveScene();
+				App->physics->beginPlay = true;
 
+				App->scene->SaveScene();
 			}
 
 		}

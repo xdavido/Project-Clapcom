@@ -145,6 +145,12 @@ void CTransform::SetRotation(float3 vec)
 	dirty_ = true;
 }
 
+void CTransform::SetOrientation(btQuaternion bulletQuat)
+{
+	rotation = math::Quat(bulletQuat.x(), bulletQuat.y(), bulletQuat.z(), bulletQuat.w());
+	dirty_ = true;
+}
+
 void CTransform::SetScale(float3 vec)
 {
 	scale = float3(vec);

@@ -1106,6 +1106,10 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Active", ccollider->active);
 
+		// Collider Type
+		
+		json_object_set_number(componentObject, "Collider Type", (int)static_cast<const CCollider&>(component).collType);
+
 		// Size
 
 		JSON_Value* sizeArrayValue = json_value_init_array();
@@ -1117,9 +1121,25 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_value(componentObject, "Size", sizeArrayValue);
 
+		// Radius
+
+		json_object_set_number(componentObject, "Radius", ccollider->radius);
+
+		//Height
+
+		json_object_set_number(componentObject, "Height", ccollider->height);
+
+		// Physics type
+
+		json_object_set_number(componentObject, "Physics Type", (int)static_cast<const CCollider&>(component).physType);
+
 		// Mass
 
 		json_object_set_number(componentObject, "Mass", ccollider->mass);
+
+		// Gravity
+
+		json_object_set_boolean(componentObject, "Gravity", ccollider->gravity);
 
 		break;
 	}
@@ -1638,7 +1658,16 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Physics") {
 
-		CCollider* ccollider = new CCollider(gameObject);
+		// Collider Type
+
+		ColliderType collider = static_cast<ColliderType>(json_object_get_number(componentObject, "Collider Type"));
+
+		// Physics Type
+
+		PhysicsType physics = static_cast<PhysicsType>(json_object_get_number(componentObject, "Physics Type"));
+
+
+		CCollider* ccollider = new CCollider(gameObject, collider, physics);
 
 		// Size
 
@@ -1661,11 +1690,23 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
 
+		// Radius
+
+		ccollider->radius = json_object_get_number(componentObject, "Radius");
+
+		// Height
+
+		ccollider->height = json_object_get_number(componentObject, "Height");
+
 		// Mass
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 
 		gameObject->AddComponent(ccollider);
+
+		// Gravity
+
+		ccollider->gravity = json_object_get_boolean(componentObject, "gravity");
 
 	}
 	else if (type == "Script") {
@@ -1971,8 +2012,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 
 	}
-	// TODO: Audio save / load	
-
 	else if (type == "Audio listener")
 	{
 		CAudioListener* caudiolistener = new CAudioListener(gameObject);
