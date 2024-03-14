@@ -31,6 +31,12 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 	direction = SLIDER_DIRECTION::LEFT_TO_RIGHT;
 	usingBar = false;
 	usingHandle = false;
+
+	// Dragging
+	dragLimits.x = x;
+	dragLimits.y = y;
+	dragLimits.z = w;
+	dragLimits.w = h;
 }
 
 UI_Slider::~UI_Slider()
@@ -43,6 +49,12 @@ update_status UI_Slider::Update(float dt)
 
 	dragLimits.x = mOwner->mTransform->GetGlobalPosition().x;
 	dragLimits.y = mOwner->mTransform->GetGlobalPosition().y;
+
+	if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		usingBar = false;
+		usingHandle = false;
+	}
 
 	if (fillImage != nullptr && usingBar)
 	{
@@ -313,9 +325,28 @@ void UI_Slider::SliderHandle(float dt)
 
 	UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
 	
+	// Get the Mouse Position using ImGui.
+	ImVec2 mousePosition = ImGui::GetMousePos();
+
+	// Get the position of the ImGui window.
+	ImVec2 sceneWindowPos = External->editor->gameViewPos;
+
+	// Get the size of the ImGui window.
+	ImVec2 sceneWindowSize = External->editor->gameViewSize;
+
+	ImVec2 normalizedPoint;
+	normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
+	normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
+
 	// Calculate new position of the slider handle
-	float newX = External->input->GetMouseX() + movementX;
-	float newY = External->input->GetMouseY() + movementY;
+	float newX = normalizedPoint.x + movementX;
+	float newY = normalizedPoint.y + movementY;
+
+	// Calculate new position of the slider handle
+	//float newX = External->input->GetMouseX() + movementX;
+	//float newY = External->input->GetMouseY() + movementY;
+
+	LOG("%f - %f", newX, newY);
 
 	// Check if the new position is within dragLimits
 	if (newX >= dragLimits.x && newX <= dragLimits.x + dragLimits.z &&

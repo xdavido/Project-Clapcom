@@ -64,7 +64,7 @@ update_status G_UI::Update(float dt)
 			{
 				if (mComponents[i]->ctype == ComponentType::UI)
 				{
-					if (true) 
+					if (/*TimeManager::gameTimer.GetState() == TimerState::RUNNING*/ true)
 					{
 						static_cast<C_UI*>(mComponents[i])->StateLogic();
 					}
@@ -378,7 +378,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		aux2->GetComponentUI(UI_TYPE::IMAGE)->dragLimits = { x, y, w, h };
 
 
-		UI_Slider* comp = new UI_Slider(this, x, y, static_cast<G_UI*>(GetChildByUID(aux1->UID)), static_cast<G_UI*>(GetChildByUID(aux2->UID)));
+		UI_Slider* comp = new UI_Slider(this, x, y, static_cast<G_UI*>(GetChildByUID(aux1->UID)), static_cast<G_UI*>(GetChildByUID(aux2->UID)), w, h);
 		mComponents.push_back(comp);
 
 		name = "Slider";

@@ -73,6 +73,8 @@ bool ModuleScene::Start()
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
 
+	CreateGUI(UI_TYPE::SLIDER);
+
 	return false;
 }
 

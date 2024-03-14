@@ -276,6 +276,7 @@ public:
 	ScriptEditor* scriptEditor;
 
 	// Stuff needed for UI, don't know if it is 100% needed
+	ImVec2 gameViewPos;
 	ImVec2 gameViewSize;
 	float2 mouse;
 	ImGuiContext* g;

@@ -136,6 +136,7 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	isDragging = false;
 	isDraggeable = false;
 
+	// TODO: Sara --> adapt to standalone
 	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
 }
 
@@ -227,7 +228,7 @@ void C_UI::StateLogic()
 				break;
 			case UI_STATE::NORMAL:
 			{
-				LOG("NORMAL");
+				//LOG("NORMAL");
 				OnNormal();
 				if (MouseCheck(mousePos))
 				{
@@ -237,7 +238,7 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::FOCUSED:	// On hover
 			{
-				LOG("FOCUSED");
+				//LOG("FOCUSED");
 
 				OnFocused();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
@@ -253,7 +254,7 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::PRESSED: // On hold
 			{
-				LOG("PRESSED");
+				//LOG("PRESSED");
 
 				OnPressed();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
@@ -277,7 +278,7 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::SELECTED:
 			{
-				LOG("SELECTED");
+				//LOG("SELECTED");
 
 				OnSelected();
 				if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
@@ -334,9 +335,9 @@ bool C_UI::MouseCheck(float2 mouse)
 {
 	//mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
 
-	LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x);
+	//LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x);
 
-	LOG("%f, %f, %f MOUSE Y", mouse.y, posY / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
+	//LOG("%f, %f, %f MOUSE Y", mouse.y, posY / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 
 	return (mouse.x >= posX / External->editor->gameViewSize.x && mouse.x <= (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x
 		&& mouse.y >= posY / External->editor->gameViewSize.y && mouse.y <= (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);

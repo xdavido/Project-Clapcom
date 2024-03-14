@@ -1310,7 +1310,7 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
+			gameViewPos = ImGui::GetWindowPos();
 
 			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
 			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
@@ -1318,6 +1318,7 @@ void ModuleEditor::DrawEditor()
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
+				gameViewPos =ImGui::GetWindowPos();
 				gameViewSize = ImGui::GetContentRegionAvail();
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
