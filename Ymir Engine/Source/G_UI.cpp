@@ -15,7 +15,7 @@
 
 G_UI::G_UI(UI_TYPE t, GameObject* pParent, float x, float y) : GameObject("", pParent)
 {
-	//RemoveComponent(transform);//TODO: fer amb altre transform
+	//RemoveComponent(mTransform); // TODO: fer amb altre transform
 	canvas = nullptr;
 
 	mParent->AddChild(this);
@@ -48,15 +48,15 @@ update_status G_UI::Update(float dt)
 			}
 		}
 
-		CTransform* transformComponent = mParent->mTransform;
-		if (transformComponent != nullptr)
-		{
-			if (transformComponent->dirty_)
-			{
-				transformComponent->UpdateTransformsChilds();
-				//canvas->UpdateBoundingBoxes(); Not implemented yet
-			}
-		}
+		//CTransform* transformComponent = mParent->mTransform;
+		//if (transformComponent != nullptr)
+		//{
+		//	if (transformComponent->dirty_)
+		//	{
+		//		//transformComponent->UpdateTransformsChilds();
+		//		//canvas->UpdateBoundingBoxes(); Not implemented yet
+		//	}
+		//}
 
 		if (mComponents.size() > 1)
 		{

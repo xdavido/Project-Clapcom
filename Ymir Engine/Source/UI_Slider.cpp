@@ -332,7 +332,7 @@ void UI_Slider::SliderHandle(float dt)
 	//if (img.state == UI_STATE::PRESSED)
 	{
 		int movementX = External->input->GetMouseXMotion() * dt * 30;
-		int movementY = -External->input->GetMouseYMotion() * dt * 30;		
+		int movementY = -External->input->GetMouseYMotion() * dt * 30;
 
 		// Get the Mouse Position using ImGui.
 		ImVec2 mousePosition = ImGui::GetMousePos();
@@ -369,13 +369,13 @@ void UI_Slider::SliderHandle(float dt)
 
 				ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
 
-				float3 position = img.mOwner->mTransform->translation;
-				
+				float3 position = { 0,0,0 };
+
 				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
 				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
 				img.boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
 				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + movementY, 0);
-				
+
 				img.boundsGame->vertices[0].position = float3(newX, img.posY + (img.height * img.scaleBounds.y), 0);
 				img.boundsGame->vertices[1].position = float3(newX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
 				img.boundsGame->vertices[2].position = float3(newX, img.posY, 0);
@@ -388,7 +388,7 @@ void UI_Slider::SliderHandle(float dt)
 
 				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
 
-				float3 position = img.mOwner->mTransform->translation;
+				float3 position = { 0,0,0 };
 
 				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
 				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);

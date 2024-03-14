@@ -7,6 +7,7 @@ enum ComponentType {
 
 	NONE = -1,
 
+	UI_TRAMSFORM,
 	TRANSFORM,
 	MESH,
 	MATERIAL,

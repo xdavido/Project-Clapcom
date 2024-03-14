@@ -456,6 +456,7 @@
     <ClInclude Include="Source\UI_InputBox.h" />
     <ClInclude Include="Source\UI_Slider.h" />
     <ClInclude Include="Source\UI_Text.h" />
+    <ClInclude Include="Source\UI_Transform.h" />
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
@@ -597,6 +598,7 @@
     <ClCompile Include="Source\UI_InputBox.cpp" />
     <ClCompile Include="Source\UI_Slider.cpp" />
     <ClCompile Include="Source\UI_Text.cpp" />
+    <ClCompile Include="Source\UI_Transform.cpp" />
     <ClCompile Include="Source\Wwise.cpp" />
   </ItemGroup>
   <ItemGroup>

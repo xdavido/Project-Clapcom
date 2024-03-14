@@ -335,8 +335,8 @@ void UI_Image::Draw(bool game)
 	{
 		boundsDrawn = boundsEditor;
 
-		glPushMatrix();
-		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+		/*glPushMatrix();
+		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());*/
 	}
 
 	// Render
@@ -348,7 +348,7 @@ void UI_Image::Draw(bool game)
 
 	if (!game)
 	{
-		glPopMatrix();
+		//glPopMatrix();
 	}
 
 	boundsDrawn = nullptr;

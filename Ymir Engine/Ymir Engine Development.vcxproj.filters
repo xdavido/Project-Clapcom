@@ -1104,6 +1104,9 @@
     <ClInclude Include="Source\UI_Slider.h">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI_Transform.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1521,6 +1524,9 @@
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI_Slider.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Transform.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
     </ClCompile>
   </ItemGroup>

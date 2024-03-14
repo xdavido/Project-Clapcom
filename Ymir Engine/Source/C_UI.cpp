@@ -19,28 +19,10 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 
 	fade = false;
 
-	mOwner->mTransform->SetPosition(float3(x, y, 0));
-	mOwner->mTransform->UpdateGlobalMatrix();
-
-	float3 position = mOwner->mTransform->translation;
-
-	float3 globalPos;
-	Quat rot;
-	float3 scale;
-	mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-	if (x != 0 || y != 0)
-	{
-		posX = x;
-		posY = y;
-	}
-	else
-	{
-		posX = globalPos.x;
-		posY = globalPos.y;
-	}
-
-	scaleBounds = scale;
+	float3 position = { x,y,0 };
+	posX = x;
+	posY = y;
+	scaleBounds = { 1,1,1 };
 
 	boundsEditor = new UI_Bounds;
 	boundsGame = new UI_Bounds;
@@ -124,13 +106,13 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
-	//Mouse pick
-	local_aabb.SetNegativeInfinity();
-	//local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
-	obb = local_aabb;
-	obb.Transform(mOwner->mTransform->GetGlobalTransform());
-	global_aabb.SetNegativeInfinity();
-	global_aabb.Enclose(obb);
+	////Mouse pick
+	//local_aabb.SetNegativeInfinity();
+	////local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
+	//obb = local_aabb;
+	//obb.Transform(mOwner->mTransform->GetGlobalTransform());
+	//global_aabb.SetNegativeInfinity();
+	//global_aabb.Enclose(obb);
 
 	// Drag
 	isDragging = false;
@@ -177,8 +159,8 @@ void C_UI::Draw(bool game)
 	{
 		boundsDrawn = boundsEditor;
 
-		glPushMatrix();
-		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+		/*glPushMatrix();
+		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());*/
 	}
 
 	glBindVertexArray(boundsDrawn->VAO);
@@ -189,7 +171,7 @@ void C_UI::Draw(bool game)
 
 	if (!game)
 	{
-		glPopMatrix();
+		//glPopMatrix();
 	}
 
 	boundsDrawn = nullptr;
