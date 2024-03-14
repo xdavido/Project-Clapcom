@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "p2List.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
@@ -23,6 +24,7 @@ public:
 
 	void SetAsSensor(bool is_sensor);
 	btRigidBody* body = nullptr;
+	p2List<Module*> collision_listeners;
 
 public:
 	bool is_sensor = false;

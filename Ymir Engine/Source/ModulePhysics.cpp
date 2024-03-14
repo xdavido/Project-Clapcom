@@ -86,6 +86,39 @@ update_status ModulePhysics::Update(float dt)
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		world->stepSimulation(dt, 15);
+
+		int numManifolds = world->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
+		{
+			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+			btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
+
+			int numContacts = contactManifold->getNumContacts();
+			if (numContacts > 0)
+			{
+				//LOG("Contacts number: %i", contactManifold->getNumContacts());
+				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
+				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
+
+				if (pbodyA && pbodyB)
+				{
+					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyA, pbodyB);
+						item = item->next;
+					}
+
+					item = pbodyB->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyB, pbodyA);
+						item = item->next;
+					}
+				}
+			}
+		}
 	}
 
 	return UPDATE_CONTINUE;
