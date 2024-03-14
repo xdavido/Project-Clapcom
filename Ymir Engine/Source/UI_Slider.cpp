@@ -320,122 +320,84 @@ void UI_Slider::SliderBar(float dt)
 
 void UI_Slider::SliderHandle(float dt)
 {
-	int movementX = External->input->GetMouseXMotion() * dt * 30;
-	int movementY = -External->input->GetMouseYMotion() * dt * 30;
-
 	UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
-	
-	// Get the Mouse Position using ImGui.
-	ImVec2 mousePosition = ImGui::GetMousePos();
 
-	// Get the position of the ImGui window.
-	ImVec2 sceneWindowPos = External->editor->gameViewPos;
-
-	// Get the size of the ImGui window.
-	ImVec2 sceneWindowSize = External->editor->gameViewSize;
-
-	ImVec2 normalizedPoint;
-	normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
-	normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
-
-	// Calculate new position of the slider handle
-	float newX = normalizedPoint.x + movementX;
-	float newY = normalizedPoint.y + movementY;
-
-	// Calculate new position of the slider handle
-	//float newX = External->input->GetMouseX() + movementX;
-	//float newY = External->input->GetMouseY() + movementY;
-
-	LOG("%f - %f", newX, newY);
-
-	// Check if the new position is within dragLimits
-	if (newX >= dragLimits.x && newX <= dragLimits.x + dragLimits.z &&
-		newY >= dragLimits.y && newY <= dragLimits.y + dragLimits.w)
+	//if (img.state == UI_STATE::PRESSED)
 	{
-		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+		int movementX = External->input->GetMouseXMotion() * dt * 30;
+		int movementY = -External->input->GetMouseYMotion() * dt * 30;		
+
+		// Get the Mouse Position using ImGui.
+		ImVec2 mousePosition = ImGui::GetMousePos();
+
+		// Get the position of the ImGui window.
+		ImVec2 sceneWindowPos = External->editor->gameViewPos;
+
+		// Get the size of the ImGui window.
+		ImVec2 sceneWindowSize = External->editor->gameViewSize;
+
+		ImVec2 normalizedPoint;
+		normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
+		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
+
+		// Calculate new position of the slider handle
+		float newX = normalizedPoint.x + movementX;
+		float newY = normalizedPoint.y + movementY;
+
+		// Calculate new position of the slider handle
+		//float newX = External->input->GetMouseX() + movementX;
+		//float newY = External->input->GetMouseY() + movementY;
+
+		LOG("%f - %f", newX, newY);
+
+		// Check if the new position is within dragLimits
+		if (newX >= dragLimits.x && newX <= dragLimits.x + dragLimits.z &&
+			newY >= dragLimits.y && newY <= dragLimits.y + dragLimits.w)
 		{
-			img.posX = newX;
-			movementY = 0;
+			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+			{
+				LOG("pos %f", img.posX);
+				img.posX = newX;
+				movementY = 0;
 
-			ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
+				ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
+			}
+			else
+			{
+				img.posY = newY;
+				movementX = 0;
+
+				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
+			}
+
+			float3 globalPos;
+			Quat rot;
+			float3 scale;
+
+			img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
+			img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+
+			scaleBounds = scale;
+
+			float3 position = img.mOwner->mTransform->translation;
+
+
+			// Top left - Top right - Bot left - Bot right
+			boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+			boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+			boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+			boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
+
+			boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
+			boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
+			boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+			boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
+
+
+			boundsEditor->RegenerateVBO();
+			boundsGame->RegenerateVBO();
 		}
-		else
-		{
-			img.posY = newY;
-			movementX = 0;
-
-			ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
-		}
-
-		float3 globalPos;
-		Quat rot;
-		float3 scale;
-
-		img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
-		img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-		scaleBounds = scale;
-
-		float3 position = img.mOwner->mTransform->translation;
-
-		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
-
-		boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-		boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
-
-
-		boundsEditor->RegenerateVBO();
-		boundsGame->RegenerateVBO();
 	}
-
-	/*if (External->input->GetMouseX() + movementX >= dragLimits.x && External->input->GetMouseX() + movementX <= dragLimits.x + dragLimits.z &&
-		External->input->GetMouseY() + movementY >= dragLimits.y && External->input->GetMouseY() + movementY <= dragLimits.y + dragLimits.w)
-	{
-		if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
-		{
-			img.posX += movementX;
-			movementY = 0;
-
-			ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
-		}
-		else
-		{
-			img.posY += movementY;
-			movementX = 0;
-		
-			ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
-		}
-
-		float3 globalPos;
-		Quat rot;
-		float3 scale;
-
-		img.mOwner->mTransform->SetPosition(float3(img.mOwner->mTransform->translation.x + movementX, img.mOwner->mTransform->translation.y + movementY, 0));
-		img.mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-		scaleBounds = scale;
-
-		float3 position = img.mOwner->mTransform->translation;
-
-		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
-
-		boundsGame->vertices[0].position = float3(img.posX, img.posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[1].position = float3(img.posX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
-		boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-		boundsGame->vertices[3].position = float3(img.posX + (width * scaleBounds.x), img.posY, 0);
-
-
-		boundsEditor->RegenerateVBO();
-		boundsGame->RegenerateVBO();
-	}*/
 }
 
 void UI_Slider::ValueCalculationsFromHandles(float val, float max)

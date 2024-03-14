@@ -2609,7 +2609,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode && !App->scene->isLocked && ImGui::IsItemClicked()) {
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) {
 
 			App->scene->SetSelected(node);
 

@@ -341,47 +341,50 @@ std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 
 void ModuleScene::SetSelected(GameObject* go)
 {
-	if (go != nullptr)
+	if (!App->scene->isLocked)
 	{
-		// If ctrl not pressed, set everything to false clear and the selected go's vector 
-		if (!ImGui::GetIO().KeyCtrl)
+		if (go != nullptr)
 		{
+			// If ctrl not pressed, set everything to false clear and the selected go's vector 
+			if (!ImGui::GetIO().KeyCtrl)
+			{
+				for (auto i = 0; i < vSelectedGOs.size(); i++)
+				{
+					SetSelectedState(vSelectedGOs[i], false);
+				}
+				ClearVec(vSelectedGOs);
+			}
+
+			// On click select or deselect item
+			go->selected = !go->selected;
+
+			// If the item was selected, add it to the vec, otherwise remove it
+			if (go->selected)
+			{
+				selectedGO = go;
+
+				vSelectedGOs.push_back(go);
+
+				// Set selected go children to the same state as the clicked item
+				SetSelectedState(go, go->selected);
+			}
+			else if (!vSelectedGOs.empty())
+			{
+				SetSelectedState(go, false);
+				vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+			}
+		}
+		else
+		{
+			selectedGO = nullptr;
+
 			for (auto i = 0; i < vSelectedGOs.size(); i++)
 			{
 				SetSelectedState(vSelectedGOs[i], false);
 			}
+
 			ClearVec(vSelectedGOs);
 		}
-
-		// On click select or deselect item
-		go->selected = !go->selected;
-
-		// If the item was selected, add it to the vec, otherwise remove it
-		if (go->selected)
-		{
-			selectedGO = go;
-
-			vSelectedGOs.push_back(go);
-
-			// Set selected go children to the same state as the clicked item
-			SetSelectedState(go, go->selected);
-		}
-		else if (!vSelectedGOs.empty())
-		{
-			SetSelectedState(go, false);
-			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
-		}
-	}
-	else
-	{
-		selectedGO = nullptr;
-
-		for (auto i = 0; i < vSelectedGOs.size(); i++)
-		{
-			SetSelectedState(vSelectedGOs[i], false);
-		}
-
-		ClearVec(vSelectedGOs);
 	}
 }
 
