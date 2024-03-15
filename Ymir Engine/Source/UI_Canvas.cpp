@@ -6,6 +6,7 @@
 
 UI_Canvas::UI_Canvas(GameObject* g, float w, float h) : C_UI(UI_TYPE::CANVAS, ComponentType::UI, g, "Canvas")
 {
+	External->scene->SetCanvas((G_UI*)mOwner);
 	External->scene->vCanvas.push_back((G_UI*)mOwner);
 }
 
