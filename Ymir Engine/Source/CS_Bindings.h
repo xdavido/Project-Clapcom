@@ -227,6 +227,21 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 }
 
+void SetVelocity(MonoObject* obj, MonoObject* vel) {
+
+	//if (External == nullptr)
+	//	return;
+
+	//float3 omgItWorks = External->moduleMono->UnboxVector(vel);
+	//  //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	//if (workTrans)
+	//{
+	//	workTrans->SetPosition(omgItWorks);
+
+	//}
+	 
+}
+
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
