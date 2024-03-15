@@ -423,9 +423,6 @@ void UI_Slider::SliderBar(float dt)
 		// Get the position of the ImGui window.
 		ImVec2 sceneWindowPos = External->editor->gameViewPos;
 
-		// Get the size of the ImGui window.
-		ImVec2 sceneWindowSize = External->editor->gameViewSize;
-
 		ImVec2 normalizedPoint;
 		normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
 		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
