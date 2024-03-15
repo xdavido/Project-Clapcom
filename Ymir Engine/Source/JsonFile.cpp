@@ -1398,6 +1398,73 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		json_object_set_number(componentObject, "Default Listener", caudiolistener->isDefaultListener);
 	}
 	break;
+	case LIGHT:
+	{
+		json_object_set_string(componentObject, "Type", "Light");
+
+		CLight* clight = (CLight*)&component;
+
+		json_object_set_number(componentObject, "Active", clight->active);
+
+		JSON_Value* colorArrayValue = json_value_init_array();
+		JSON_Array* colorArray = json_value_get_array(colorArrayValue);
+
+		json_array_append_number(colorArray, clight->lightReference->GetColor().x);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().y);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().z);
+
+		json_object_set_value(componentObject, "Color", colorArrayValue);
+
+		json_object_set_number(componentObject, "Intensity", clight->lightReference->GetIntensity());
+
+		switch (clight->lightReference->GetType()) 
+		{
+			case LightType::POINT_LIGHT: 
+			{
+				json_object_set_number(componentObject, "Light Type", "Point Light");
+
+				PointLight* pointLight = static_cast<PointLight*>(clight->lightReference);
+				
+				json_object_set_number(componentObject, "Radius", pointLight->GetRadius());
+
+				break;
+			}
+			case LightType::DIRECTIONAL_LIGHT:
+			{
+				json_object_set_string(componentObject, "Light Type", "Directional Light");
+
+				// DirectionalLight* directionalLight = static_cast<DirectionalLight*>(clight->lightReference);
+
+				break;
+			}
+			case LightType::SPOT_LIGHT:
+			{
+				json_object_set_string(componentObject, "Light Type", "Spot Light");
+
+				SpotLight* spotLight = static_cast<SpotLight*>(clight->lightReference);
+
+				json_object_set_number(componentObject, "Range", spotLight->GetRange());
+				json_object_set_number(componentObject, "Radius", spotLight->GetRadius());
+
+				break;
+			}
+			case LightType::AREA_LIGHT:
+			{
+				json_object_set_string(componentObject, "Light Type", "Area Light");
+
+				AreaLight* areaLight = static_cast<AreaLight*>(clight->lightReference);
+
+				json_object_set_number(componentObject, "Width", areaLight->GetWidth());
+				json_object_set_number(componentObject, "Height", areaLight->GetHeight());
+				json_object_set_number(componentObject, "Range", areaLight->GetRange());
+				
+				break;
+			}
+
+		}
+
+	}
+	break;
 	default:
 		break;
 	}
@@ -2006,6 +2073,78 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		gameObject->AddComponent(caudiosource);
 
+
+	}
+	else if (type == "Light")
+	{
+		External->lightManager->CreateLight(LightType::POINT_LIGHT);
+
+		switch ((UI_TYPE)json_object_get_number(componentObject, "UI Type")) {
+
+		}
+
+		json_object_set_string(componentObject, "Type", "Light");
+
+		CLight* clight = (CLight*)&component;
+
+		json_object_set_number(componentObject, "Active", clight->active);
+
+		JSON_Value* colorArrayValue = json_value_init_array();
+		JSON_Array* colorArray = json_value_get_array(colorArrayValue);
+
+		json_array_append_number(colorArray, clight->lightReference->GetColor().x);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().y);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().z);
+
+		json_object_set_value(componentObject, "Color", colorArrayValue);
+
+		json_object_set_number(componentObject, "Intensity", clight->lightReference->GetIntensity());
+
+		switch (clight->lightReference->GetType())
+		{
+		case LightType::POINT_LIGHT:
+		{
+			json_object_set_string(componentObject, "Light Type", "Point Light");
+
+			PointLight* pointLight = static_cast<PointLight*>(clight->lightReference);
+
+			json_object_set_number(componentObject, "Radius", pointLight->GetRadius());
+
+			break;
+		}
+		case LightType::DIRECTIONAL_LIGHT:
+		{
+			json_object_set_string(componentObject, "Light Type", "Directional Light");
+
+			// DirectionalLight* directionalLight = static_cast<DirectionalLight*>(clight->lightReference);
+
+			break;
+		}
+		case LightType::SPOT_LIGHT:
+		{
+			json_object_set_string(componentObject, "Light Type", "Spot Light");
+
+			SpotLight* spotLight = static_cast<SpotLight*>(clight->lightReference);
+
+			json_object_set_number(componentObject, "Range", spotLight->GetRange());
+			json_object_set_number(componentObject, "Radius", spotLight->GetRadius());
+
+			break;
+		}
+		case LightType::AREA_LIGHT:
+		{
+			json_object_set_string(componentObject, "Light Type", "Area Light");
+
+			AreaLight* areaLight = static_cast<AreaLight*>(clight->lightReference);
+
+			json_object_set_number(componentObject, "Width", areaLight->GetWidth());
+			json_object_set_number(componentObject, "Height", areaLight->GetHeight());
+			json_object_set_number(componentObject, "Range", areaLight->GetRange());
+
+			break;
+		}
+
+		}
 
 	}
 
