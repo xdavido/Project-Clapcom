@@ -15,10 +15,14 @@ public:
 
 	void OnInspector() override;
 
+	void UpdateUITransformChilds();
+
 public:
 
 	// Component reference
 	C_UI* componentReference;
+	float auxPosX;
+	float auxPosY;
 
 	float4x4 mMatrixUI;
 

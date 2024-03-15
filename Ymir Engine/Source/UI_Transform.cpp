@@ -19,12 +19,8 @@ UI_Transform::UI_Transform(C_UI* owner) : Component(owner->mOwner, ComponentType
 
 UI_Transform::~UI_Transform()
 {
-	/*RELEASE(boundsEditorReference);
-	RELEASE(boundsGameReference);
-	RELEASE(posX);
-	RELEASE(posY);
-	RELEASE(width);
-	RELEASE(height);*/
+	//RELEASE(boundsEditorReference);
+	//RELEASE(boundsGameReference);
 }
 
 
@@ -36,32 +32,55 @@ void UI_Transform::OnInspector()
 	{
 		ImGui::Indent();
 
-		if (ImGui::DragFloat("Position X", &componentReference->posX, 0.1f))
+		auxPosX = componentReference->posX;
+		auxPosY = componentReference->posY;
+
+		if (ImGui::DragFloat("POSITION X", &componentReference->posX, 0.1f))
 		{
+			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("Position Y", &componentReference->posY, 0.1f))
+		if (ImGui::DragFloat("POSITION Y", &componentReference->posY, 0.1f))
 		{
+			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("Width", &componentReference->width, 0.1f))
+		if (ImGui::DragFloat("WIDTH", &componentReference->width, 0.1f))
 		{
+			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("Height", &componentReference->height, 0.1f))
+		if (ImGui::DragFloat("HEIGHT", &componentReference->height, 0.1f))
 		{
+			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat3("Scale", &componentReference->scaleBounds[0], 0.1f))
+		if (ImGui::DragFloat3("SCALE", &componentReference->scaleBounds[0], 0.1f))
 		{
+			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
 		ImGui::Unindent();
+	}
+
+}
+
+void UI_Transform::UpdateUITransformChilds()
+{
+	std::vector<C_UI*> listUI;
+	External->renderer3D->GetUIGOs(mOwner, listUI);
+
+	for (auto i = 1; i < listUI.size(); i++)
+	{
+		listUI[i]->posX = listUI[i]->posX + componentReference->posX - auxPosX;
+		listUI[i]->posY = listUI[i]->posY + componentReference->posY - auxPosY;
+		listUI[i]->scaleBounds = componentReference->scaleBounds;
+		
 	}
 
 }
