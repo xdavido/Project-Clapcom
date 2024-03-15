@@ -35,25 +35,25 @@ void UI_Transform::OnInspector()
 		auxPosX = componentReference->posX;
 		auxPosY = componentReference->posY;
 
-		if (ImGui::DragFloat("POSITION X", &componentReference->posX, 0.1f))
+		if (ImGui::DragFloat("POSITION X", &componentReference->posX, 1.0f))
 		{
 			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("POSITION Y", &componentReference->posY, 0.1f))
+		if (ImGui::DragFloat("POSITION Y", &componentReference->posY, 1.0f))
 		{
 			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("WIDTH", &componentReference->width, 0.1f))
+		if (ImGui::DragFloat("WIDTH", &componentReference->width, 1.0f))
 		{
 			UpdateUITransformChilds();
 			dirty_ = true;
 		}
 
-		if (ImGui::DragFloat("HEIGHT", &componentReference->height, 0.1f))
+		if (ImGui::DragFloat("HEIGHT", &componentReference->height, 1.0f))
 		{
 			UpdateUITransformChilds();
 			dirty_ = true;

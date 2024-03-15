@@ -671,7 +671,11 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 	{
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+		glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+		// TODO: Use this when crating the build
+		//glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
