@@ -45,6 +45,7 @@ public:
 	/// <returns></returns>
 	GameObject* ImGui_GameObjectReference(GameObject* go, bool *buttonClicked = nullptr);
 
+	virtual void SetReference(GameObject& go);
 	virtual void OnReferenceDestroyed(void* ptr = nullptr);
 
 public:

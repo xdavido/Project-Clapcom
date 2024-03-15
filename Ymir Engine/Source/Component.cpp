@@ -86,6 +86,10 @@ GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonCli
 	return go;
 }
 
+void Component::SetReference(GameObject& go)
+{
+}
+
 void Component::OnReferenceDestroyed(void* ptr)
 {
 }

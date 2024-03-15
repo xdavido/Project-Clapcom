@@ -15,6 +15,9 @@ UI_Canvas::~UI_Canvas()
 	{
 		External->scene->SetCanvas();
 	}
+
+	External->scene->vCanvas.erase(std::find(External->scene->vCanvas.begin(), External->scene->vCanvas.end(), (G_UI*)mOwner));
+	External->scene->vCanvas.shrink_to_fit();
 }
 
 void UI_Canvas::OnInspector()

@@ -1234,6 +1234,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.g);
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.b);
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.a);
+
+			json_object_set_value(componentObject, "Color", colorArrayValue);
 		}
 
 		break;
