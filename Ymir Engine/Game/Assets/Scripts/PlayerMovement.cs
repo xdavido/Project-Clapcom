@@ -132,6 +132,11 @@ public class PlayerMovement : YmirComponent
         //RotatePlayer();
     }
 
+    public void OnCollisionEnter()
+    {
+        Debug.Log("OnCollisionEnter!!!!");
+    }
+
     private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");

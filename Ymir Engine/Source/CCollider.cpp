@@ -343,6 +343,7 @@ void CCollider::SetBoxCollider()
 	//}
 
 	physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
 
 }
 
@@ -356,6 +357,7 @@ void CCollider::SetSphereCollider()
 	transform = mOwner->mTransform;
 
 	physBody = External->physics->AddBody(sphere, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
 }
 
 void CCollider::SetCapsuleCollider()
@@ -368,6 +370,7 @@ void CCollider::SetCapsuleCollider()
 	transform = mOwner->mTransform;
 
 	physBody = External->physics->AddBody(capsule, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
 }
 
 void CCollider::SetMeshCollider()
@@ -385,6 +388,7 @@ void CCollider::SetMeshCollider()
 
 
 	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
 
 	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
 	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));

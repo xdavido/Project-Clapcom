@@ -3,6 +3,8 @@
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
 #include "PhysBody.h"
+#include "GameObject.h"
+#include "CScript.h"
 
 #include "Log.h"
 
@@ -101,6 +103,26 @@ update_status ModulePhysics::Update(float dt)
 				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
 				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
 
+				// Pendiente de revisar de momento wuaaaaarrrraaaaaaaaaada!!!!
+				if (pbodyA->owner != nullptr) {
+					CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+
+					if (aux != nullptr) {
+						aux->CollisionCallback(false, pbodyA->owner);
+					}
+				}
+
+
+
+				if (pbodyB->owner != nullptr) {
+					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
+
+					if (aux != nullptr) {
+						aux->CollisionCallback(false, pbodyB->owner);
+					}
+				}
+				
+
 				if (pbodyA && pbodyB)
 				{
 					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
@@ -108,6 +130,14 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyA, pbodyB);
 						item = item->next;
+
+						if (pbodyA->owner != nullptr) {
+							CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+
+							if (aux != nullptr) {
+								aux->CollisionCallback(false, pbodyA->owner);
+							}
+						}
 					}
 
 					item = pbodyB->collision_listeners.getFirst();
@@ -115,6 +145,14 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyB, pbodyA);
 						item = item->next;
+
+						if (pbodyB->owner != nullptr) {
+							CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
+
+							if (aux != nullptr) {
+								aux->CollisionCallback(false, pbodyB->owner);
+							}
+						}
 					}
 				}
 			}

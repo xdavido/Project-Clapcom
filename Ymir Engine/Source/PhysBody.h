@@ -8,6 +8,7 @@
 
 class btRigidBody;
 class Module;
+class GameObject;
 
 struct PhysBody
 {
@@ -21,11 +22,13 @@ public:
 	void SetTransform(const float* matrix) const;
 	void SetPosition(float3 pos);
 	void SetRotation(Quat q);
-
+	GameObject* SetGameObject(GameObject* _owner);
 	void SetAsSensor(bool is_sensor);
 	btRigidBody* body = nullptr;
 	p2List<Module*> collision_listeners;
 
 public:
 	bool is_sensor = false;
+
+	GameObject* owner;
 };
