@@ -212,10 +212,10 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
 
-	}
+		// Load Transform From Assimp
+		static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
 
-	// Load Transform From Assimp
-	static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
+	}
 
 	// Process children of the current node
 	for (uint i = 0; i < node->mNumChildren; i++) {
