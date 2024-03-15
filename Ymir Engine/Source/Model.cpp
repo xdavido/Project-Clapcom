@@ -468,7 +468,7 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 		for (int i = 0; i < scene->mNumAnimations; i++) {
 			Animation* anim = new Animation(path, this, i);
-			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
+			cAnim->AddAnimation(*anim);
 		}
 		LOG("Model has animations");
 	}

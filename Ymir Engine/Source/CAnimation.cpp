@@ -32,18 +32,15 @@ CAnimation::~CAnimation()
 
 void CAnimation::Update() {
     
-    if (selectedAnimationPlaying != -1 && animator->GetCurrentAnimation()->isPlaying) {
+    if (animationPlaying) {
         animator->UpdateAnimation(External->GetDT());
     }
 
 }
 
-void CAnimation::AddAnimation(Animation &newAnimation, std::string animationName) {
-    animator->PlayAnimation(&newAnimation);
-    animator->animations.push_back(newAnimation);
-    totalAnimations++;
-    animator->animations[totalAnimations].name = animationName;
+void CAnimation::AddAnimation(Animation &newAnimation) {
 
+    animator->animations.push_back(newAnimation);
 }
 
 void CAnimation::RemoveAnimation(int ID) {
@@ -51,9 +48,27 @@ void CAnimation::RemoveAnimation(int ID) {
         animator->animations.erase(animator->animations.begin() + ID);
     }
     selectedAnimation = -1;
-    selectedAnimationPlaying = -1;
+}
 
-    totalAnimations--;
+void CAnimation::PlayAnimation(std::string animationName)
+{
+    Animation* animationToPLay = nullptr;
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animationToPLay = &animator->animations[i];
+                break;
+            }
+        }
+    }
+
+    if (animationToPLay != nullptr) {
+        animator->PlayAnimation(animationToPLay);
+    }
+    else {
+        LOG("Animation not found");
+    }
 }
 
 void CAnimation::OnInspector() {
@@ -69,7 +84,7 @@ void CAnimation::OnInspector() {
         animationName = (selectedAnimation == -1) ? "None (Select animation)" : animator->animations[selectedAnimation].name;
 
         if (ImGui::BeginCombo("Animations", animationName.c_str())) {
-            for (int i = 0; i < totalAnimations+1; i++) {
+            for (int i = 0; i < animator->animations.size(); i++) {
 
                 isSelected = (selectedAnimation == i) ? true : false;
 
@@ -210,21 +225,6 @@ void CAnimation::OnInspector() {
                 animator->SetCurrentAnimationTime(.0f);
                 animator->GetCurrentAnimation()->isPlaying = true;
 
-                selectedAnimationPlaying = selectedAnimation;
-
-                for (int i = 0; i < totalAnimations; i++) {
-
-                    if (i != selectedAnimation) {
-
-                        animator->animations[i].isPlaying = false;
-
-                    }
-
-                }
-
-                if (animator->GetCurrentAnimation()->isPlaying == false) {
-                    selectedAnimationPlaying = -1;
-                }
             }
 
             ImGui::SameLine();

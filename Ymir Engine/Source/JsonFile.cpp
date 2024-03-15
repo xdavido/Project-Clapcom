@@ -1086,8 +1086,6 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Selected animation", cAnimation->selectedAnimation);
 
-		json_object_set_number(componentObject, "Total Animations", cAnimation->totalAnimations);
-
 		json_object_set_string(componentObject, "ModelPath", cAnimation->modelPath.c_str());
 		
 		// Save animator 
@@ -1644,8 +1642,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		canimation->animator->PlayAnimation(temp);
 
 		canimation->selectedAnimation = json_object_get_number(componentObject, "Selected Animation");
-
-		canimation->totalAnimations = json_object_get_number(componentObject, "Total Animations");
 
 		std::string modelPathTemp = canimation->modelPath = json_object_get_string(componentObject, "ModelPath");
 

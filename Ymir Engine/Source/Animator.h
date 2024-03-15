@@ -7,6 +7,12 @@ class Animation;
 
 struct AssimpNodeData;
 
+struct AnimationController {
+
+	float currentTime;
+	Animation* animation;
+};
+
 class Animator {
 public:
 	Animator();
@@ -27,13 +33,20 @@ public:
 
 	void StopAnimation();
 
+	void UpdateCurrentTime() {
+
+	}
+
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
 private:
 	std::vector<float4x4> finalBoneMatrices;
+
+	// Variable to remove
 	Animation* currentAnimation; 
+
 	float currentTime; 
 	float deltaTime; 
 
@@ -44,7 +57,10 @@ private:
 	bool pingPongBackwardsAux;
 
 public:
+	// Change to Animation *
 	std::vector<Animation> animations;
+	std::vector<AnimationController*> animationsPlaying;
+
 	float easeInSpeed;
 	float easeOutSpeed;
 	float easeInMultiplier;

@@ -4,6 +4,8 @@
 
 Animator::Animator()
 {
+	currentAnimation = nullptr;
+
 	backwardsAux = true;
 	pingPongAux = true;
 	pingPongBackwardsAux = true;
@@ -21,6 +23,8 @@ Animator::Animator()
 
 Animator::Animator(Animation* animation)
 {
+	currentAnimation = nullptr;
+
 	backwardsAux = true;
 	pingPongAux = true;
 	pingPongBackwardsAux = true;
