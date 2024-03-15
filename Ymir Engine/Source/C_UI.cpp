@@ -334,8 +334,8 @@ void C_UI::UpdateUITransform()
 {
 	dragLimits.x = posX;
 	dragLimits.y = posY;
-	dragLimits.z = posX + (width * scaleBounds.x);
-	dragLimits.w = posY + (height * scaleBounds.y);
+	//dragLimits.z = posX + (width * scaleBounds.x);
+	//dragLimits.w = posY + (height * scaleBounds.y);
 
 	boundsEditor->vertices[0].position = float3(posX, posY + ((height * scaleBounds.y)), 0);
 	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + ((height * scaleBounds.y)), 0);
