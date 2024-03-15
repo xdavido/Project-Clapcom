@@ -5,6 +5,11 @@
 
 #include "External/mmgr/mmgr.h"
 
+Bone::Bone()
+{
+
+}
+
 Bone::Bone(const std::string& name, int id, const aiNodeAnim* channel) : name(name), id(id)
 {
 	localTransform.identity;

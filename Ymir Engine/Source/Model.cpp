@@ -8,6 +8,7 @@
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "ModuleResourceManager.h"
 
@@ -468,6 +469,28 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 		for (int i = 0; i < scene->mNumAnimations; i++) {
 			Animation* anim = new Animation(path, this, i);
+			uint bufferSize = 0;
+			char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
+
+			JsonFile yanimFile(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", std::to_string(linkGO->UID) + ".yanim");
+			std::ofstream outFile(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim" , std::ios::binary);
+
+			if (!outFile.is_open()) {
+
+				LOG("[ERROR] Unable to open the file for writing: %s", External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim");
+
+				return false;
+			}
+
+			// Write the buffer to the file
+			outFile.write(fileBuffer, bufferSize);
+
+			// Close the file
+			outFile.close();
+
+			// Free the allocated memory for the buffer
+			delete[] fileBuffer;
+			//ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", ResourceType::ANIMATION, linkGO->UID);
 			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
 		}
 		LOG("Model has animations");

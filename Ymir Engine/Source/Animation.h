@@ -61,12 +61,14 @@ public:
 
 	float speed;
 
-private:
-
 	float duration;
 	float ticksPerSecond;
 
-	std::vector<Bone> bones; 
+	std::vector<Bone> bones;
+
+private:
+
+	
 	AssimpNodeData rootNode;
 	std::map<std::string, BoneInfo> boneInfoMap;
 

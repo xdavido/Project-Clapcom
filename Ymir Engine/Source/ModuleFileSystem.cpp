@@ -21,6 +21,7 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryShadersPath = libraryPath + "Shaders/";
 	libraryTexturesPath = libraryPath + "Textures/";
 	librarySettingsPath = libraryPath + "Settings/";
+	libraryAnimationsPath = libraryPath + "Animations/";
 
 	LOG("Creating ModuleFileSystem");
 }
@@ -116,6 +117,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Textures"); // DDS 
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
+	PhysfsEncapsule::CreateFolder(libraryPath, "Animations"); // Animations
 }
 
 bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {

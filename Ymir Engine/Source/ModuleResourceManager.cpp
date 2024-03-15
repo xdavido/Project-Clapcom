@@ -17,6 +17,7 @@
 #include "ResourceTexture.h"
 #include "ResourceMaterial.h"
 #include "ResourceShader.h"
+#include "ResourceAnimation.h"
 
 #include "ImporterModel.h"
 #include "ImporterMesh.h"
@@ -158,6 +159,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				break;
 			case ResourceType::ALL_TYPES:
 				break;
+			case ResourceType::ANIMATION:
+				break;
 			default:
 				break;
 			}
@@ -268,6 +271,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
 				break;
+			case ResourceType::ANIMATION:
+				break;
 
 			}
 
@@ -309,6 +314,8 @@ void ModuleResourceManager::SaveResourceToLibrary(Resource* resource)
 	case ResourceType::SHADER:
 
 		//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
+		break;
+	case ResourceType::ANIMATION:
 		break;
 
 	}
@@ -450,6 +457,8 @@ Resource* ModuleResourceManager::RequestResource(const uint& UID, const char* li
 					tmpResource = new ResourceShader(UID);
 
 					break;
+				case ResourceType::ANIMATION:
+					tmpResource = new ResourceAnimation(UID);
 
 				}
 
@@ -539,6 +548,11 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 		tmpResource = new ResourceShader(UID);
 		break;
 
+	case ResourceType::ANIMATION:
+
+		tmpResource = new ResourceAnimation(UID);
+		break;
+
 	}
 
 	if (tmpResource != nullptr)
@@ -592,7 +606,10 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		tmpResource = new ResourceShader(UID);
 		break;
+	case ResourceType::ANIMATION:
 
+		tmpResource = new ResourceAnimation(UID);
+		break; 
 	}
 
 	if (tmpResource != nullptr)
@@ -618,6 +635,7 @@ ResourceType ModuleResourceManager::GetTypeFromAssetsPath(std::string assetsFile
 
 	if (extension == "fbx" || extension == "dae" || extension == "obj") return ResourceType::MODEL;
 	else if (extension == "yscene") return ResourceType::SCENE;
+	else if (extension == "yanim") return ResourceType::ANIMATION;
 	else if (extension == "png" || extension == "dds" || extension == "jpg" || extension == "tga") return ResourceType::TEXTURE;
 
 	return ResourceType::UNKNOWN;
@@ -630,6 +648,7 @@ ResourceType ModuleResourceManager::GetTypeFromLibraryPath(std::string libraryFi
 	if (extension == "ymesh") return ResourceType::MESH;
 	else if (extension == "ymodel") return ResourceType::MODEL;
 	else if (extension == "yscene") return ResourceType::SCENE;
+	else if (extension == "yanim") return ResourceType::ANIMATION;
 	else if (extension == "ymat") return ResourceType::MATERIAL;
 	else if (extension == "dds") return ResourceType::TEXTURE;
 	else if (extension == "spv") return ResourceType::SHADER;
@@ -693,6 +712,11 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 	if (PhysfsEncapsule::HasExtension(fileDir, "glsl"))
 	{
 		return ResourceType::SHADER;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
+	{
+		return ResourceType::ANIMATION;
 	}
 
 	return ResourceType::UNKNOWN;

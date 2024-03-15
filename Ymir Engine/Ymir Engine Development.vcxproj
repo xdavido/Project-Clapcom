@@ -342,6 +342,7 @@
     <ClInclude Include="Source\External\stb_image\stb_image.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Globals.h" />
+    <ClInclude Include="Source\ImporterAnimation.h" />
     <ClInclude Include="Source\ImporterMaterial.h" />
     <ClInclude Include="Source\ImporterMesh.h" />
     <ClInclude Include="Source\ImporterModel.h" />
@@ -432,6 +433,7 @@
     <ClInclude Include="Source\PhysfsEncapsule.h" />
     <ClInclude Include="Source\Primitive.h" />
     <ClInclude Include="Source\Random.h" />
+    <ClInclude Include="Source\ResourceAnimation.h" />
     <ClInclude Include="Source\ResourceMaterial.h" />
     <ClInclude Include="Source\ResourceMesh.h" />
     <ClInclude Include="Source\ResourceModel.h" />
@@ -508,6 +510,7 @@
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\G_UI.cpp" />
+    <ClCompile Include="Source\ImporterAnimation.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />
@@ -571,6 +574,7 @@
     <ClCompile Include="Source\PhysfsEncapsule.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
     <ClCompile Include="Source\Random.cpp" />
+    <ClCompile Include="Source\ResourceAnimation.cpp" />
     <ClCompile Include="Source\ResourceMaterial.cpp" />
     <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\ResourceMesh.cpp" />
