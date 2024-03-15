@@ -44,6 +44,8 @@ public:
 	void PrimitivesMenu();
 	void CreateCameraMenu();
 	void UIMenu();
+	void LightsMenu();
+
 	void SaveAs();
 
 	// Manages the docking functionality with the main window

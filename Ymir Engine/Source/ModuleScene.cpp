@@ -177,8 +177,6 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	GameObject* tempGameObject = new GameObject(name, parent);
 
-	tempGameObject->UID = Random::Generate();
-
 	if (parent != nullptr) {
 
 		parent->AddChild(tempGameObject);
@@ -240,6 +238,7 @@ void ModuleScene::ClearScene()
 
 	RELEASE(mRootNode);
 
+	External->lightManager->lights.clear();
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();

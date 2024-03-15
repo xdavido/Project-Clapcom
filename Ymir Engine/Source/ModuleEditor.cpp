@@ -13,6 +13,7 @@
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -264,6 +265,8 @@ void ModuleEditor::DrawEditor()
 			CreateCameraMenu();
 
 			UIMenu();
+
+			LightsMenu();
 
 			ImGui::Separator();
 
@@ -1488,6 +1491,34 @@ void ModuleEditor::CreateCameraMenu()
 
 		empty->AddComponent(ComponentType::CAMERA);
 	}
+}
+
+void ModuleEditor::LightsMenu()
+{
+	if (ImGui::BeginMenu("Light"))
+	{
+
+		if (ImGui::MenuItem("Point Light")) 
+		{
+			App->lightManager->CreateLight(LightType::POINT_LIGHT);
+		}
+		if (ImGui::MenuItem("Directional Light")) 
+		{
+			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
+		}
+		if (ImGui::MenuItem("Spot Light")) 
+		{
+			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
+		}
+		if (ImGui::MenuItem("Area Light")) 
+		{
+			App->lightManager->CreateLight(LightType::AREA_LIGHT);
+		}
+
+		ImGui::EndMenu();
+
+	}
+
 }
 
 void ModuleEditor::UIMenu()
