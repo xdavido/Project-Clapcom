@@ -18,6 +18,8 @@ public class PlayerMovement : YmirComponent
     {
 
         Debug.Log("START!");
+        Vector3 vel = new Vector3(10, 0, 0);
+        gameObject.SetVelocity(vel);
 
 
     }

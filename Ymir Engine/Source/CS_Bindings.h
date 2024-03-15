@@ -229,16 +229,18 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
-	//if (External == nullptr)
-	//	return;
+	if (External == nullptr)
+		return;
 
-	//float3 omgItWorks = External->moduleMono->UnboxVector(vel);
-	//  //TODO IMPORTANT: First parameter is the object reference, use that to find UID
-	//if (workTrans)
-	//{
-	//	workTrans->SetPosition(omgItWorks);
+	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
+	  //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 
-	//}
+	CCollider* workColl = DECS_CompToComp<CCollider*>(obj);
+	if (workColl)
+	{
+		workColl->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
+
+	}
 	 
 }
 
