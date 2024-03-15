@@ -1,6 +1,7 @@
 #include "C_UI.h"
 
 #include "UI_Canvas.h"
+#include "UI_Transform.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
@@ -117,6 +118,10 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	// Drag
 	isDragging = false;
 	isDraggeable = false;
+
+	// Add ui transform to component
+	transformUI = new UI_Transform(this);
+	g->mComponents.push_back(transformUI);
 
 	// TODO: Sara --> adapt to standalone
 	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
@@ -327,21 +332,10 @@ bool C_UI::MouseCheck(float2 mouse)
 
 void C_UI::UpdateUITransform()
 {
-	float3 position = mOwner->mTransform->translation;
-	float3 globalPos;
-	Quat rot;
-	float3 scale;
-
-	mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-	posX = globalPos.x;//TODO: arreglar
-	posY = globalPos.y;
-	scaleBounds = scale;
-
-	boundsEditor->vertices[0].position = float3(position.x, position.y + ((height * scaleBounds.y) * scale.y), 0);
-	boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x), position.y + ((height * scaleBounds.y) * scale.y), 0);
-	boundsEditor->vertices[2].position = float3(position.x, position.y, 0);
-	boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x), position.y, 0);
+	boundsEditor->vertices[0].position = float3(posX, posY + ((height * scaleBounds.y)), 0);
+	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + ((height * scaleBounds.y)), 0);
+	boundsEditor->vertices[2].position = float3(posX, posY, 0);
+	boundsEditor->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
 
 	boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
 	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
@@ -350,6 +344,8 @@ void C_UI::UpdateUITransform()
 
 	boundsEditor->RegenerateVBO();
 	boundsGame->RegenerateVBO();
+
+	transformUI->dirty_ = false;
 
 	/*if (!gameObject->vChildren.empty())
 	{

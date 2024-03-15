@@ -1,4 +1,6 @@
 #include "UI_Text.h"
+#include "UI_Transform.h"
+
 #include "GameObject.h"
 
 #include "ModuleEditor.h"
@@ -502,7 +504,7 @@ void UI_Text::Draw(bool game)
 			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
 			mat->shader.UseShader(true);
-			mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, mOwner->selected);
+			mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
 
 			glBindVertexArray(boundsDrawn->VAO);
 

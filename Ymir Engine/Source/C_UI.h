@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+class UI_Transform;
+
 struct UI_Bounds
 {
 	GLuint VBO; //vertex buffer object
@@ -119,5 +121,9 @@ public:
 	UI_Bounds* boundsGame;
 
 	float3 scaleBounds;
+
+	UI_Transform* transformUI;
+	bool dirty_;
+
 };
 #endif // __UI_H__

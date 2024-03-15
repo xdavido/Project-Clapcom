@@ -1,5 +1,6 @@
 #include "UI_Image.h"
 #include "GameObject.h"
+#include "UI_Transform.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
@@ -323,7 +324,7 @@ void UI_Image::Draw(bool game)
 	}
 
 	mat->shader.UseShader(true);
-	mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, mOwner->selected);
+	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
 
 
 	if (game)

@@ -72,7 +72,10 @@ update_status G_UI::Update(float dt)
 					static_cast<C_UI*>(mComponents[i])->Update(dt);
 
 					// TODO: Andreu
-					//static_cast<C_UI*>(mComponents[i])->UpdateUITransform();
+					if (static_cast<C_UI*>(mComponents[i])->dirty_)
+					{
+						static_cast<C_UI*>(mComponents[i])->UpdateUITransform();
+					}
 
 					if (static_cast<C_UI*>(mComponents[i])->isDragging)
 					{
