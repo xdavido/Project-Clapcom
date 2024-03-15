@@ -25,6 +25,8 @@ public:
 
 	void UpdateAnimation(float dt);
 
+	void UpdateCurrentTime();
+	
 	void PlayAnimation(Animation* animation);
 
 	void PauseAnimation();
@@ -33,9 +35,7 @@ public:
 
 	void StopAnimation();
 
-	void UpdateCurrentTime() {
-
-	}
+	
 
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 

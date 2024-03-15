@@ -49,10 +49,135 @@ void Animator::UpdateAnimation(float dt)
 {
 	deltaTime = dt; 
 	
-	if (currentAnimation) {
+	for (int i = 0; i < animationsPlaying.size(); i++) {
+		
+		CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity);
+	}
 
+	//if (currentAnimation) {
+
+	//	// Backwards
+	//	if (currentAnimation->backwards && !currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
+	//		//Start from the last frame
+	//		if (backwardsAux == true) {
+	//			currentTime = currentAnimation->GetDuration();
+	//			backwardsAux = false;
+	//		}
+	//		//If reached first frame, stop or go to last frame
+	//		if (currentTime < 0.0f) {
+
+	//			if (currentAnimation->loop) {
+	//				backwardsAux = true;
+	//			}
+	//			else {
+	//				if (!backwardsAux) {
+	//					StopAnimation();
+	//					backwardsAux = true;
+	//				}
+	//				backwardsAux = true;
+	//			}
+	//		}
+	//		currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+	//	}
+	//	else if (!currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
+	//		currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+	//	}
+
+	//	//PingPong
+	//	if (currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
+	//		//PingPong and backwards both on
+	//		if (pingPongBackwardsAux && currentAnimation->backwards) {
+	//			currentTime = currentAnimation->GetDuration();
+	//			pingPongAux = false;
+	//			pingPongBackwardsAux = false;
+	//		}
+	//		//Going
+	//		if (pingPongAux) {
+	//			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+	//			if (currentTime > currentAnimation->GetDuration()) {
+	//				currentTime = currentAnimation->GetDuration();
+	//				pingPongAux = false;
+	//				if (!currentAnimation->loop && currentAnimation->backwards) {
+	//					pingPongBackwardsAux = true;
+	//					pingPongAux = true;
+	//					StopAnimation();
+	//				}
+	//			}
+	//		}
+	//		//Returning
+	//		if (!pingPongAux) {
+	//			currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+	//			if (currentTime < 0.0f) {
+	//				currentTime = 0.0f;
+	//				pingPongAux = true;
+	//				if (!currentAnimation->loop && !currentAnimation->backwards) {
+	//					StopAnimation();
+	//				}
+	//			}
+	//		}
+	//	}
+
+	//	//Ease-In
+	//	if (currentAnimation->easeIn) {
+	//		currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed * easeInSpeed;
+	//		easeInSpeed *= easeInMultiplier;
+	//		if (currentTime > currentAnimation->GetDuration()) {
+	//			easeInSpeed = 1;
+	//			currentTime = 0.0f;
+	//			if (!currentAnimation->loop) {
+	//				StopAnimation();
+	//			}
+	//		}
+	//	}
+
+	//	//Ease-Out
+	//	if (currentAnimation->easeOut) {
+	//		currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed * easeOutSpeed;
+	//		easeOutSpeed *= easeOutMultiplier;
+	//		if (currentTime > currentAnimation->GetDuration()) {
+	//			easeOutSpeed = 1;
+	//			currentTime = 0.0f;
+	//			if (!currentAnimation->loop) {
+	//				StopAnimation();
+	//			}
+	//		}
+	//	}
+
+	//		
+	//	// Loop
+	//	if (currentAnimation->loop && !currentAnimation->backwards && !currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
+
+	//		//Loop + Backwards
+	//		if (currentAnimation->backwards) {
+	//			currentTime = fmod(currentAnimation->GetDuration(), currentTime);
+	//		}
+	//		else {
+	//			currentTime = fmod(currentTime, currentAnimation->GetDuration());
+	//		}
+	//	}
+
+	//	if (currentTime < currentAnimation->GetDuration()) {
+	//		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+	//	}
+
+	//	float stepTime = currentTime + currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+
+	//	if (stepTime > currentAnimation->GetDuration() && !currentAnimation->loop && !currentAnimation->pingPong) {
+	//		//Leave animation in its final state
+	//		currentTime = currentAnimation->GetDuration() - 0.01f;
+	//		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+
+	//		currentTime = 0.0f;
+	//		StopAnimation();
+	//	}
+	//}
+}
+
+void Animator::UpdateCurrentTime() {
+
+	for (int i = 0; i < animationsPlaying.size(); i++) {
 		// Backwards
-		if (currentAnimation->backwards && !currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
+		if (animationsPlaying[i]->animation->backwards && !currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
 			//Start from the last frame
 			if (backwardsAux == true) {
 				currentTime = currentAnimation->GetDuration();
@@ -72,10 +197,10 @@ void Animator::UpdateAnimation(float dt)
 					backwardsAux = true;
 				}
 			}
-			currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+			currentTime -= currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed;
 		}
 		else if (!currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
-			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+			currentTime += currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed;
 		}
 
 		//PingPong
@@ -88,7 +213,7 @@ void Animator::UpdateAnimation(float dt)
 			}
 			//Going
 			if (pingPongAux) {
-				currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+				currentTime += currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed;
 				if (currentTime > currentAnimation->GetDuration()) {
 					currentTime = currentAnimation->GetDuration();
 					pingPongAux = false;
@@ -101,7 +226,7 @@ void Animator::UpdateAnimation(float dt)
 			}
 			//Returning
 			if (!pingPongAux) {
-				currentTime -= currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+				currentTime -= currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed;
 				if (currentTime < 0.0f) {
 					currentTime = 0.0f;
 					pingPongAux = true;
@@ -114,7 +239,7 @@ void Animator::UpdateAnimation(float dt)
 
 		//Ease-In
 		if (currentAnimation->easeIn) {
-			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed * easeInSpeed;
+			currentTime += currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed * easeInSpeed;
 			easeInSpeed *= easeInMultiplier;
 			if (currentTime > currentAnimation->GetDuration()) {
 				easeInSpeed = 1;
@@ -127,7 +252,7 @@ void Animator::UpdateAnimation(float dt)
 
 		//Ease-Out
 		if (currentAnimation->easeOut) {
-			currentTime += currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed * easeOutSpeed;
+			currentTime += currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed * easeOutSpeed;
 			easeOutSpeed *= easeOutMultiplier;
 			if (currentTime > currentAnimation->GetDuration()) {
 				easeOutSpeed = 1;
@@ -138,7 +263,7 @@ void Animator::UpdateAnimation(float dt)
 			}
 		}
 
-			
+
 		// Loop
 		if (currentAnimation->loop && !currentAnimation->backwards && !currentAnimation->pingPong && !currentAnimation->easeIn && !currentAnimation->easeOut) {
 
@@ -155,7 +280,7 @@ void Animator::UpdateAnimation(float dt)
 			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 		}
 
-		float stepTime = currentTime + currentAnimation->GetTickPerSecond() * dt * currentAnimation->speed;
+		float stepTime = currentTime + currentAnimation->GetTickPerSecond() * deltaTime * currentAnimation->speed;
 
 		if (stepTime > currentAnimation->GetDuration() && !currentAnimation->loop && !currentAnimation->pingPong) {
 			//Leave animation in its final state
