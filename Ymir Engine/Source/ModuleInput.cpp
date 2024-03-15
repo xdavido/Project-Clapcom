@@ -231,7 +231,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				controllers[i].buttons[j] = (controllers[i].buttons[j] == KEY_REPEAT || controllers[i].buttons[j] == KEY_DOWN) ? KEY_UP : KEY_IDLE;
 
 			}
-				
+
 		}
 
 		controllers[i].j1_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
@@ -534,7 +534,7 @@ float ModuleInput::GetGamepadLeftJoystickPositionValueX()
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueY()
 {
-	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);	
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
 }
 
 float ModuleInput::GetGamepadRightJoystickPositionValueX()
@@ -596,7 +596,7 @@ float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
 		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2));
 
 		break;
-	
+
 	}
 	case GamepadJoystick::RIGHT:
 	{

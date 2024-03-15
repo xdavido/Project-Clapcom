@@ -45,6 +45,9 @@ public:
 	void OnRelease();
 
 	//
+	void SetValue(float val);
+
+	//
 	void SliderBar(float dt);
 	void SliderHandle(float dt);
 	void ValueCalculationsFromHandles(float val, float max);

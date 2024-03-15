@@ -63,35 +63,9 @@ update_status UI_Slider::Update(float dt)
 		usingHandle = false;
 	}
 
-	if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		// Get the Mouse Position using ImGui.
-		ImVec2 mousePosition = ImGui::GetMousePos();
-
-		// Get the position of the ImGui window.
-		ImVec2 sceneWindowPos = External->editor->gameViewPos;
-
-		// Get the size of the ImGui window.
-		ImVec2 sceneWindowSize = External->editor->gameViewSize;
-
-		ImVec2 normalizedPoint;
-		normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
-		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
-
-		// Calculate new position of the slider handle
-		float newX = normalizedPoint.x;
-		float newY = normalizedPoint.y;
-
-		// Calculate new position of the slider handle
-		//float newX = External->input->GetMouseX() + movementX;
-		//float newY = External->input->GetMouseY() + movementY;
-
-		LOG("mouse pos normalized %f - %f", newX, newY);
-	}
-
 	if (fillImage != nullptr && usingBar)
 	{
-		//SliderBar(dt);
+		SliderBar(dt);
 	}
 
 	if (handleImage != nullptr && usingHandle)
@@ -193,7 +167,10 @@ void UI_Slider::OnInspector()
 				ImGui::Text("Min value can't be bigger than Max value");
 			}
 
-			ImGui::SliderFloat("Value", &value.fValue, minValue.fValue, maxValue.fValue, "%.2f");
+			if (ImGui::SliderFloat("Value", &value.fValue, minValue.fValue, maxValue.fValue, "%.2f"))
+			{
+				SetValue(value.fValue);
+			}
 		}
 		else
 		{
@@ -216,7 +193,10 @@ void UI_Slider::OnInspector()
 				ImGui::Text("Min value can't be bigger than Max value");
 			}
 
-			ImGui::SliderInt("Value", &value.iValue, minValue.iValue, maxValue.iValue);
+			if (ImGui::SliderInt("Value", &value.iValue, minValue.iValue, maxValue.iValue))
+			{
+				SetValue(value.iValue);
+			}
 		}
 
 		if (!active) { ImGui::EndDisabled(); }
@@ -302,14 +282,140 @@ void UI_Slider::OnRelease()
 	}
 }
 
+void UI_Slider::SetValue(float val)
+{
+	if (useFloat)
+	{
+		if (value.fValue >= minValue.fValue && value.fValue <= maxValue.fValue)
+		{
+			value.fValue = std::round(val);
+
+			// Fill bar
+			if (fillImage != nullptr)
+			{
+				UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
+
+				if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+				{
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				else
+				{
+					img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.fValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.height + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.height + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+
+			// Handle
+			if (handleImage != nullptr)
+			{
+				UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+
+				if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+				{
+					img.posX = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue) - (img.width * img.scaleBounds.x) / 2;
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				else
+				{
+					img.posY = ((dragLimits.y + dragLimits.w) * val / maxValue.fValue) - (img.height * img.scaleBounds.y) / 2;
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+		}
+	}
+	else
+	{
+		if (value.iValue >= minValue.iValue && value.iValue <= maxValue.iValue)
+		{
+			value.iValue = std::round(val);
+
+			// Fill bar
+			if (fillImage != nullptr)
+			{
+				UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
+
+				if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+				{
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				else
+				{
+					height = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.height + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.height + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+
+			// Handle
+			if (handleImage != nullptr)
+			{
+				UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+
+				if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+				{
+					img.posX = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue) - (img.width * img.scaleBounds.x) / 2;
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				else
+				{
+					img.posY = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue) - (img.height * img.scaleBounds.y) / 2;
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+		}
+	}
+}
+
 void UI_Slider::SliderBar(float dt)
 {
 	UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
 
-	//if (img.state == UI_STATE::PRESSED)
+	if (img.state == UI_STATE::PRESSED)
 	{
-		int movementX = External->input->GetMouseXMotion() * dt * 30;
-		int movementY = -External->input->GetMouseYMotion() * dt * 30;
+		int movementX = External->input->GetMouseXMotion() * dt * 50;
+		int movementY = -External->input->GetMouseYMotion() * dt * 50;
 
 		// Get the Mouse Position using ImGui.
 		ImVec2 mousePosition = ImGui::GetMousePos();
@@ -340,109 +446,14 @@ void UI_Slider::SliderBar(float dt)
 		{
 			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 			{
-				LOG("pos %f", img.posX);
-				//img.posX = newX;
-				movementY = 0;
-
 				ValueCalculationsFromHandles(newX, dragLimits.x + dragLimits.z);
-
-				float3 position = { 0,0,0 };
-
-				img.width = newX;
-
-				img.boundsEditor->vertices[0].position = float3(position.x, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + newX * img.scaleBounds.x, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[2].position = float3(position.x, position.y + movementY, 0);
-				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + newX * img.scaleBounds.x, position.y + movementY, 0);
-
-				img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
 			}
 			else
 			{
-				//img.posY = newY;
-				movementX = 0;
-
-				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
-
-				float3 position = { 0,0,0 };
-
-				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + movementY, 0);
-
-				img.boundsGame->vertices[0].position = float3(img.posX, newY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), newY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[2].position = float3(img.posX, newY, 0);
-				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), newY, 0);
+				ValueCalculationsFromHandles(newY, dragLimits.y + dragLimits.w);
 			}
-
-			// Top left - Top right - Bot left - Bot right
-			/*boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-			boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-			boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-			boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
-
-			img.boundsGame->vertices[0].position = float3(newX, img.posY + (height * scaleBounds.y), 0);
-			img.boundsGame->vertices[1].position = float3(newX + (width * scaleBounds.x), img.posY + (height * scaleBounds.y), 0);
-			img.boundsGame->vertices[2].position = float3(newX, img.posY, 0);
-			img.boundsGame->vertices[3].position = float3(newX + (width * scaleBounds.x), img.posY, 0);*/
-
-			img.boundsEditor->RegenerateVBO();
-			img.boundsGame->RegenerateVBO();
 		}
 	}
-
-	/*{
-		int movementX = External->input->GetMouseXMotion() * dt * 30;
-		int movementY = -External->input->GetMouseYMotion() * dt * 30;
-
-		C_UI* comp = fillImage->GetComponentUI(UI_TYPE::IMAGE);
-
-		if (comp->width + movementX >= dragLimits.x && comp->width + movementX <= dragLimits.x + dragLimits.z &&
-			comp->height + movementY >= dragLimits.y && comp->height + movementY <= dragLimits.y + dragLimits.w)
-		{
-
-			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
-			{
-				comp->width += movementX;
-				(useFloat ? value.fValue = dragLimits.z * 100 / comp->width : value.iValue = dragLimits.z * 100 / comp->width);
-			}
-			else
-			{
-				comp->height += movementY;
-				(useFloat ? value.fValue = dragLimits.z * 100 / comp->width : value.iValue = dragLimits.z * 100 / comp->width);
-			}
-
-			float3 globalPos;
-			Quat rot;
-			float3 scale;
-
-			mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
-			mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-			scaleBounds = scale;
-
-			float3 position = mOwner->mTransform->translation;
-
-			boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (comp->height * scaleBounds.y) + movementY, 0);
-			boundsEditor->vertices[1].position = float3(position.x + (comp->width * scaleBounds.x) + movementX, position.y + (comp->height * scaleBounds.y) + movementY, 0);
-			boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-			boundsEditor->vertices[3].position = float3(position.x + (comp->width * scaleBounds.x) + movementX, position.y + movementY, 0);
-
-			boundsGame->vertices[0].position = float3(posX, posY + (comp->height * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + (comp->width * scaleBounds.x), posY + (comp->height * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + (comp->width * scaleBounds.x), posY, 0);
-
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
-		}
-	}*/
 }
 
 void UI_Slider::SliderHandle(float dt)
@@ -451,6 +462,9 @@ void UI_Slider::SliderHandle(float dt)
 
 	//if (img.state == UI_STATE::PRESSED)
 	{
+		int movementX = External->input->GetMouseXMotion() * dt * 50;
+		int movementY = -External->input->GetMouseYMotion() * dt * 50;
+
 		// Get the Mouse Position using ImGui.
 		ImVec2 mousePosition = ImGui::GetMousePos();
 
@@ -462,8 +476,8 @@ void UI_Slider::SliderHandle(float dt)
 		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
 
 		// Calculate new position of the slider handle
-		float newX = normalizedPoint.x;
-		float newY = normalizedPoint.y;
+		float newX = normalizedPoint.x + movementX;
+		float newY = normalizedPoint.y + movementY;
 
 		// Calculate new position of the slider handle
 		//float newX = External->input->GetMouseX() + movementX;
@@ -477,46 +491,12 @@ void UI_Slider::SliderHandle(float dt)
 		{
 			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 			{
-				float x = ((newX - (dragLimits.x + ((dragLimits.x + dragLimits.z) / 2))) / ((dragLimits.x + dragLimits.z) / 2)) * (img.width * img.scaleBounds.x / 2);
-
-				img.posX = newX + x;
-				LOG("pos %f  - %f", img.posX, newX + (img.width * img.scaleBounds.x));
-
-				ValueCalculationsFromHandles(img.posX, dragLimits.x + dragLimits.z);
-
-				float3 position = { 0,0,0 };
-
-				img.boundsEditor->vertices[0].position = float3(position.x, position.y + (img.height * img.scaleBounds.y), 0);
-				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x), position.y + (img.height * img.scaleBounds.y), 0);
-				img.boundsEditor->vertices[2].position = float3(position.x, position.y, 0);
-				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x), position.y, 0);
-
-				img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				ValueCalculationsFromHandles(normalizedPoint.x, dragLimits.x + dragLimits.z);
 			}
 			else
 			{
-				img.posY = newY;
-
-				ValueCalculationsFromHandles(img.posY, dragLimits.y + dragLimits.w);
-
-				/*float3 position = { 0,0,0 };
-
-				img.boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[1].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + (img.height * img.scaleBounds.y) + movementY, 0);
-				img.boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-				img.boundsEditor->vertices[3].position = float3(position.x + (img.width * img.scaleBounds.x) + movementX, position.y + movementY, 0);
-
-				img.boundsGame->vertices[0].position = float3(img.posX, newY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), newY + (img.height * img.scaleBounds.y), 0);
-				img.boundsGame->vertices[2].position = float3(img.posX, newY, 0);
-				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), newY, 0);*/
+				ValueCalculationsFromHandles(normalizedPoint.y, dragLimits.y + dragLimits.w);
 			}
-
-			img.boundsEditor->RegenerateVBO();
-			img.boundsGame->RegenerateVBO();
 		}
 	}
 }
@@ -525,36 +505,36 @@ void UI_Slider::ValueCalculationsFromHandles(float val, float max)
 {
 	if (useFloat)
 	{
-		float aux = val * maxValue.fValue / max;
+		float aux = (val * maxValue.fValue) / max;
 
 		if (aux < minValue.fValue)
 		{
-			value.fValue = minValue.fValue;
+			SetValue(minValue.fValue);
 		}
 		else if (aux > maxValue.fValue)
 		{
-			value.fValue = maxValue.fValue;
+			SetValue(maxValue.fValue);
 		}
 		else
 		{
-			value.fValue = aux;
+			SetValue(aux);
 		}
 	}
 	else
 	{
-		int aux = val * maxValue.iValue / (dragLimits.x + dragLimits.z);
+		float aux = (val * maxValue.iValue) / max;
 
 		if (aux < minValue.iValue)
 		{
-			value.iValue = minValue.iValue;
+			SetValue(minValue.iValue);
 		}
 		else if (aux > maxValue.iValue)
 		{
-			value.iValue = maxValue.iValue;
+			SetValue(maxValue.iValue);
 		}
 		else
 		{
-			value.iValue = aux;
+			SetValue(aux);
 		}
 	}
 }
