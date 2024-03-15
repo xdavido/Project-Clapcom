@@ -54,8 +54,8 @@ update_status UI_Slider::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	dragLimits.x = mOwner->mTransform->GetGlobalPosition().x;
-	dragLimits.y = mOwner->mTransform->GetGlobalPosition().y;
+	//dragLimits.x = mOwner->mTransform->GetGlobalPosition().x;
+	//dragLimits.y = mOwner->mTransform->GetGlobalPosition().y;
 
 	if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 	{

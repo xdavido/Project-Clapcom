@@ -58,7 +58,7 @@ void UI_Transform::OnInspector()
 
 		if (ImGui::DragFloat3("Scale", &componentReference->scaleBounds[0], 0.1f))
 		{
-			dirty_ = false;
+			dirty_ = true;
 		}
 
 		ImGui::Unindent();

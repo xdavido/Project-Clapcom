@@ -77,6 +77,8 @@ void UI_Canvas::UpdateUITransform()
 	boundsEditor->vertices[1].textureCoordinates = float2(1, 0);
 	boundsEditor->vertices[0].textureCoordinates = float2(0, 0);
 
+	dirty_ = false;
+
 	boundsEditor->RegenerateVBO();
 }
 
