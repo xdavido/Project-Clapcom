@@ -25,10 +25,17 @@ public:
 	void Update();
 
 	void OnInspector() override;
-
-	void AddAnimation(Animation &newAnimation, std::string animationName);
+	
+	// Add animation to animations list
+	void AddAnimation(Animation &newAnimation);
 
 	void RemoveAnimation(int ID);
+
+	void PlayAnimation(std::string animationName = "");
+
+	void ResumeAnimation(std::string animationName = "");
+
+	void StopAnimation(std::string animationName = "");
 
 private:
 
@@ -38,16 +45,12 @@ public:
 
 	int selectedAnimation = -1;
 
-	int totalAnimations = -1;
-
 	std::string modelPath;
 
 private:
 
-	
-	bool isSelected = false;
-	int selectedAnimationPlaying = -1;
+	bool animationPlaying;
 
-	//sizeof crashing the engine for some reason so using int for now
+	bool isSelected = false;
 	
 };
