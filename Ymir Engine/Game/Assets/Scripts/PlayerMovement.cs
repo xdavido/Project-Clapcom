@@ -14,7 +14,13 @@ public class PlayerMovement : YmirComponent
 
     private double angle = 0.0f;
     private bool script = true;
+    public void Start()
+    {
 
+        Debug.Log("START!");
+
+
+    }
     public void Update()
     {
         thisReference = gameObject;

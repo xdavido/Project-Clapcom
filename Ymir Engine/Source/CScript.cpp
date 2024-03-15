@@ -17,7 +17,7 @@
 #include "External/mmgr/mmgr.h"
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr),startMethod(nullptr), isStarting(true)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
@@ -56,7 +56,12 @@ void CScript::Update()
 		return;
 
 	CScript::runningScript = this; // I really think this is the peak of stupid code, but hey, it works, slow as hell but works.
+	MonoObject* exec2 = nullptr;
 
+	if (startMethod && isStarting) {
+		mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
+		isStarting = false;
+	}
 	MonoObject* exec = nullptr;
 
 	mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);  //Peta al hacer PLAY en el motor
@@ -350,11 +355,40 @@ void CScript::LoadScriptData(std::string scriptName)
 	updateMethod = mono_method_desc_search_in_class(mdesc, klass);
 	mono_method_desc_free(mdesc);
 
+	MonoMethodDesc* oncDesc = mono_method_desc_new(":OnCollisionEnter", false);
+	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
+	oncDesc = mono_method_desc_new(":Start", false);
+	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
+
+
 	MonoClass* baseClass = mono_class_get_parent(klass);
 	if (baseClass != nullptr)
 		External->moduleMono->DebugAllFields(mono_class_get_name(baseClass), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(baseClass));
 
 	External->moduleMono->DebugAllFields(scriptName.c_str(), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
+}
+
+void CScript::CollisionCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+
+	if (collidedGameObject != nullptr)
+	{
+		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
+
+		if (onCollisionEnterMethod != nullptr)
+			mono_runtime_invoke(onCollisionEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+
+		if (isTrigger)
+		{
+			if (onTriggerEnterMethod != nullptr)
+				mono_runtime_invoke(onTriggerEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		}
+	}
 }
 
 void CScript::SetField(MonoClassField* field, GameObject* value)
