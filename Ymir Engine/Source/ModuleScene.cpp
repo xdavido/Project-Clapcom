@@ -238,6 +238,7 @@ void ModuleScene::ClearScene()
 
 	RELEASE(mRootNode);
 
+	External->lightManager->lights.clear();
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
