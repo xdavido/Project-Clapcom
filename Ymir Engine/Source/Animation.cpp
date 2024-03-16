@@ -7,6 +7,13 @@
 #include "External/mmgr/mmgr.h"
 
 Animation::Animation() {
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
+	easeInSpeed = 1;
+	easeOutSpeed = 1;
+	easeInMultiplier = 1.025f;
+	easeOutMultiplier = 0.995f;
 
 }
 
@@ -20,6 +27,14 @@ Animation::Animation(const std::string& animationPath, Model* model, int index)
 	easeIn = false;
 	easeOut = false;
 	speed = 1;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
+	easeInSpeed = 1;
+	easeOutSpeed = 1;
+	easeInMultiplier = 1.025f;
+	easeOutMultiplier = 0.995f;
+
 	ParseAnimationData(animationPath, model, index);
 }
 

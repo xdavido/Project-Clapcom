@@ -6,15 +6,7 @@ Animator::Animator()
 {
 	currentAnimation = nullptr;
 
-	backwardsAux = true;
-	pingPongAux = true;
-	pingPongBackwardsAux = true;
-	currentTime = 0.0; 
 	currentAnimation = nullptr;
-	easeInSpeed = 1;
-	easeOutSpeed = 1;
-	easeInMultiplier = 1.025f;
-	easeOutMultiplier = 0.995f;
 	finalBoneMatrices.reserve(100);
 	for (int i = 0; i < 100; i++) {
 		finalBoneMatrices.push_back(identity.identity);
@@ -25,14 +17,6 @@ Animator::Animator(Animation* animation)
 {
 	currentAnimation = nullptr;
 
-	backwardsAux = true;
-	pingPongAux = true;
-	pingPongBackwardsAux = true;
-	easeInSpeed = 1;
-	easeOutSpeed = 1;
-	easeInMultiplier = 1.025f;
-	easeOutMultiplier = 0.995f;
-	currentTime = 0.0; 
 	currentAnimation = animation; 
 	finalBoneMatrices.reserve(100);
 	
