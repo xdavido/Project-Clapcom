@@ -198,7 +198,7 @@ void CAnimation::OnInspector() {
 
             ImGui::SameLine();
 
-            ImGui::InputFloat("Factor", &animator->easeInMultiplier);
+            ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeInMultiplier);
 
             ImGui::Checkbox("Ease-Out", &animator->GetCurrentAnimation()->easeOut);
 
@@ -218,7 +218,7 @@ void CAnimation::OnInspector() {
 
             ImGui::SameLine();
 
-            ImGui::InputFloat("Factor", &animator->easeOutMultiplier);
+            ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeOutMultiplier);
 
             if (ImGui::Button("Play")) {
 

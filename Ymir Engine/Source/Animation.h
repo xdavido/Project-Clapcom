@@ -64,6 +64,15 @@ public:
 	float duration;
 	float ticksPerSecond;
 
+	bool backwardsAux;
+	bool pingPongAux;
+	bool pingPongBackwardsAux;
+
+	float easeInSpeed;
+	float easeOutSpeed;
+	float easeInMultiplier;
+	float easeOutMultiplier;
+
 	std::vector<Bone> bones;
 
 private:

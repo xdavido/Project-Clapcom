@@ -35,7 +35,7 @@ public:
 
 	void StopAnimation();
 
-	
+	void ResetAnimation(int ID);
 
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
@@ -52,18 +52,9 @@ private:
 
 	float4x4 identity; 
 
-	bool backwardsAux;
-	bool pingPongAux;
-	bool pingPongBackwardsAux;
-
 public:
 	// Change to Animation *
 	std::vector<Animation> animations;
 	std::vector<AnimationController*> animationsPlaying;
-
-	float easeInSpeed;
-	float easeOutSpeed;
-	float easeInMultiplier;
-	float easeOutMultiplier;
 
 };
