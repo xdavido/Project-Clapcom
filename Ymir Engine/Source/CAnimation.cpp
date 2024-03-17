@@ -39,7 +39,9 @@ void CAnimation::Update() {
 }
 
 void CAnimation::AddAnimation(Animation &newAnimation) {
-
+    if (animator->animations.empty()) {
+        animator->PlayAnimation(&newAnimation);
+    }
     animator->animations.push_back(newAnimation);
 }
 
@@ -221,9 +223,10 @@ void CAnimation::OnInspector() {
             ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeOutMultiplier);
 
             if (ImGui::Button("Play")) {
-
+                //CHANGE THIS
                 animator->SetCurrentAnimationTime(.0f);
                 animator->GetCurrentAnimation()->isPlaying = true;
+                animationPlaying = true;
 
             }
 
