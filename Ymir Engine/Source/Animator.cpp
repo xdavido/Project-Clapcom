@@ -188,7 +188,7 @@ void Animator::StopAnimation(Animation* animation)
 
 void Animator::ResetAnimation(Animation* animation) {
 	animation->currentTime = 0.0f;
-	animation->backwards = true;
+	animation->backwardsAux = true;
 	animation->pingPongAux = true;
 	animation->pingPongBackwardsAux = true;
 	animation->easeInSpeed = 1;
