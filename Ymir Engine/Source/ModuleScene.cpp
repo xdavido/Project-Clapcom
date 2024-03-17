@@ -61,6 +61,7 @@ bool ModuleScene::Init()
 	selectedGO = nullptr;
 
 	selectedUI = 0;
+	canTab = true;
 
 	return ret;
 }
@@ -153,17 +154,9 @@ update_status ModuleScene::Update(float dt)
 		//node->mParent->DeleteChild(node);
 	}
 
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-	{
-		TabNavigate(false);
-	}
-
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-		TabNavigate(true);
-	}
-
+	// UI navigation
+	HandleUINavigation();
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -173,7 +166,7 @@ update_status ModuleScene::PostUpdate(float dt)
 
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
 	pendingToAdd.clear();
-	
+
 
 	return UPDATE_CONTINUE;
 }
@@ -203,7 +196,7 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	}
 
 	gameObjects.push_back(tempGameObject);
-	
+
 	return tempGameObject;
 }
 
@@ -269,7 +262,7 @@ void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 		App->scene->currentSceneDir = dir;
 		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
 
-		ysceneFile.CreateJSON(dir +"/", App->scene->currentSceneFile + ".yscene");
+		ysceneFile.CreateJSON(dir + "/", App->scene->currentSceneFile + ".yscene");
 
 		LOG("Scene '%s' saved to %s", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
 	}
@@ -343,8 +336,8 @@ void ModuleScene::Destroy(GameObject* gm)
 
 	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
 	if (it != gameObjects.end()) {
-		delete* it; 
-		gameObjects.erase(it); 
+		delete* it;
+		gameObjects.erase(it);
 	}
 
 	gm = nullptr;
@@ -732,10 +725,30 @@ bool ModuleScene::TabNavigate(bool isForward)
 				return true;
 			}
 		}
-		
+
 		return true;
 	}
 
 	return true;
+}
+
+void ModuleScene::HandleUINavigation()
+{
+	if (!canTab && App->input->GetGamepadLeftJoystickPositionValueY() == 0)
+	{
+		canTab = true;
+	}
+
+	if ((App->input->GetGamepadLeftJoystickPositionValueY() < 0 && canTab) || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(false);
+	}
+
+	else if ((App->input->GetGamepadLeftJoystickPositionValueY() > 0 && canTab) || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(true);
+	}
 }
 

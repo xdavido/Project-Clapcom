@@ -89,6 +89,9 @@ public:
 	// UI navigation
 	bool TabNavigate(bool isForward);
 
+	// Handle both keyboard and gamepad control of all UI game objects
+	void HandleUINavigation();
+
 
 public:
 
@@ -125,4 +128,7 @@ private:
 	std::vector<GameObject*> vSelectedGOs;
 
 	bool a = false;
+
+	// Limit tab navigation with controller
+	bool canTab;
 };
