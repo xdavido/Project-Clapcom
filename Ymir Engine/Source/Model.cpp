@@ -490,8 +490,8 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 			// Free the allocated memory for the buffer
 			delete[] fileBuffer;
-			//ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", ResourceType::ANIMATION, linkGO->UID);
-			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
+			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", ResourceType::ANIMATION, linkGO->UID);
+			cAnim->AddAnimation(*anim);
 		}
 		LOG("Model has animations");
 	}

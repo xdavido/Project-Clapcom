@@ -31,8 +31,8 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 
 	uint header[4] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size() };
 
-	retSize = sizeof(header) + (sizeof(float) * header[0]) + (sizeof(float) + header[1]) + (boneMapTotalSize*header[2]) + (sizeof(char) * header[3]);
-	//retSize += sizeof(header);
+	//retSize = sizeof(header) + (sizeof(float) * header[0]) + (sizeof(float) + header[1]) + (boneMapTotalSize*header[2]) + (sizeof(char) * header[3]);
+	retSize += sizeof(header);
 
 	char* fileBuffer = new char[retSize];
 	char* cursor = fileBuffer;
@@ -184,6 +184,7 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 		cursor += boneHeader[2] * sizeof(float3);
 
 		// Build vectors
+		ourAnimation->bones[i].positions.resize(boneHeader[0]);
 		// Position
 		for (int j = 0; j < posKey.size(); j++) {
 			ourAnimation->bones[i].positions[j].timeStamp = posKey[j];
@@ -191,12 +192,14 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 		}
 
 		// Rotation
+		ourAnimation->bones[i].rotations.resize(boneHeader[1]);
 		for (int j = 0; j < rotKey.size(); j++) {
 			ourAnimation->bones[i].rotations[j].timeStamp = rotKey[j];
 			ourAnimation->bones[i].rotations[j].rotation = rotVal[j];
 		}
 
 		// Scale
+		ourAnimation->bones[i].scales.resize(boneHeader[2]);
 		for (int j = 0; j < scaKey.size(); j++) {
 			ourAnimation->bones[i].scales[j].timeStamp = scaKey[j];
 			ourAnimation->bones[i].scales[j].scale = scaVal[j];
