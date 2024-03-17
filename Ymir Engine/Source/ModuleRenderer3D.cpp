@@ -298,15 +298,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		DrawGameObjects();
-
-		DrawLightsDebug();
-
-		DrawUIElements(false);
-
 		// Render Bounding Boxes
 
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
+		if (External->scene->gameCameraComponent->drawBoundingBoxes)
 		{
 			DrawBoundingBoxes();
 		}
@@ -317,6 +311,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		{
 			DrawPhysicsColliders();
 		}
+
+		DrawGameObjects();
+
+		DrawLightsDebug();
+
+		DrawUIElements(false);
 
 	}
 
