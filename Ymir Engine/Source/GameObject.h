@@ -36,9 +36,13 @@ public:
 	void Disable();
 
 	//---Parent/Child---
+	// Return nullptr if gameobject not found. Recursive method
+	GameObject* FindChild(u32 idToFind, GameObject* go = nullptr);
+	GameObject* GetChildByUID(const uint& UID);
+
 	void SetParent(GameObject* newParent);
 	void ReParent(GameObject* newParent);
-	GameObject* GetChildByUID(const uint& UID);
+
 	void AddChild(GameObject* go);
 	void DeleteChild(GameObject* go);
 	//Remove from children vector (do not use)

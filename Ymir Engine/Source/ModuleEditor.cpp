@@ -3071,7 +3071,6 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 
 }
 
-// TODO: Sara
 void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 {
 	std::string path = filePath;

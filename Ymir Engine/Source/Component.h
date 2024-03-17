@@ -37,6 +37,8 @@ public:
 	virtual void Update();
 	virtual void OnInspector();
 
+	uint GetUID();
+
 	/// <summary>
 	/// Create Button Drag&Drop target. If GO is dropped, set as new reference to given pointer (go)
 	/// </summary>

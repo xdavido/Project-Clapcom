@@ -121,14 +121,17 @@ public:
 	std::multimap<uint, SerializedField*> referenceMap;
 
 private:
-
 	G_UI* canvas;
 	int selectedUI;
 
 	std::vector<GameObject*> vSelectedGOs;
 
-	bool a = false;
-
 	// Limit tab navigation with controller
 	bool canTab;
+
+public:
+	// DO NOT USE, Save/Load purposes only
+	std::vector<GameObject*> vTempReferences;
+	std::vector<Component*> vTempComponents;
+	std::vector<int> vTempGOid;
 };

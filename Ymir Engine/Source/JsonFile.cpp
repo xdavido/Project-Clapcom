@@ -1,6 +1,7 @@
 #include "JsonFile.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "UI_Transform.h"
 
 #include "UI_Canvas.h"
 #include "UI_Image.h"
@@ -26,6 +27,7 @@
 
 #include "External/mmgr/mmgr.h"
 #include "CScript.h"
+#include "ImporterTexture.h"
 
 JsonFile::JsonFile()
 {
@@ -845,7 +847,7 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	//	json_array_append_value(hierarchyArray, gameObjectValue);
 	//}
 
-	
+
 	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
 	// Add the hierarchy array to the main object
@@ -887,6 +889,21 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 
 		//counter = GameObjectJSON(gameObject.mChildren[i], subInfo + ".Child " + std::to_string(counter), counter, subInfo);
 	}
+
+	//// Save component references
+
+	//json_object_set_number(gameObjectObject, "References num", gameObject.vReferences.size());
+
+	//JSON_Value* referencesValue = json_value_init_array();
+	//JSON_Array* referencesArray = json_value_get_array(referencesValue);
+
+	//for (auto jt = gameObject.vReferences.begin(); jt != gameObject.vReferences.end(); ++jt)
+	//{
+	//	json_array_append_number(referencesArray, (*jt)->GetUID());
+
+	//	// Add the Reference UID to the array
+	//	json_array_append_value(referencesArray, referencesValue);
+	//}
 
 	// Save Components Info
 
@@ -1271,8 +1288,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		case UI_TYPE::SLIDER:
 		{
 			json_object_set_boolean(componentObject, "Is interactable", static_cast<const UI_Slider&>(component).isInteractable);
-			
-			json_object_set_number(componentObject, "Fill image", static_cast<const UI_Slider&>(component).fillImage == nullptr 
+
+			json_object_set_number(componentObject, "Fill image", static_cast<const UI_Slider&>(component).fillImage == nullptr
 				? -1 : static_cast<const UI_Slider&>(component).fillImage->UID);
 
 			json_object_set_number(componentObject, "Handle image", static_cast<const UI_Slider&>(component).handleImage == nullptr
@@ -1308,7 +1325,16 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		}
 	}
 	break;
-	// TODO: Audio save / load
+
+	case UI_TRAMSFORM:
+	{
+		json_object_set_string(componentObject, "Type", "UI Transform");
+
+		json_object_set_number(componentObject, "Component reference", (int)static_cast<const UI_Transform&>(component).componentReference->UI_type);
+
+	}
+	break;
+
 	case AUDIO_SOURCE:
 	{
 		json_object_set_string(componentObject, "Type", "Audio source");
@@ -1420,6 +1446,47 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 			}
 
 		}
+
+		External->scene->gameObjects = gameObjects;
+		External->scene->mRootNode = gameObjects[0];
+
+		auto it = External->scene->vTempReferences.begin();
+		auto jt = External->scene->vTempComponents.begin();
+		for (int i = 0; i < External->scene->vTempGOid.size(); ++i)
+		{
+			GameObject* g = External->scene->mRootNode->FindChild(External->scene->vTempGOid[i]);
+
+			++it;
+			++jt;
+		}
+
+		/*for (size_t i = 0; i < numGameObjects; ++i)
+		{
+			JSON_Value* gameObjectValue = json_array_get_value(hierarchyArray, i);
+
+			if (json_value_get_type(gameObjectValue) == JSONObject) {
+
+				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+
+				for (int j = 0; j < json_object_get_number(gameObjectObject, "References num"); ++j)
+				{
+					JSON_Value* referencesValue = json_value_init_array();
+					JSON_Array* referencesArray = json_value_get_array(referencesValue);
+
+					int size = json_object_get_number(gameObjectObject, "References num");
+
+					if (referencesValue != nullptr || json_value_get_type(referencesValue) == JSONArray)
+					{
+						for (int k = 0; k < size; ++k)
+						{
+							GameObject& go = *External->scene->mRootNode->GetChildByUID(json_array_get_number(referencesArray, k));
+						}
+					}
+				}
+
+			}
+
+		}*/
 
 	}
 
@@ -1743,6 +1810,13 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			// TODO: import img
 			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
 
+			ResourceTexture* rTexTemp = new ResourceTexture();
+			ImporterTexture::Import(ui_comp->mat->path, rTexTemp);
+			rTexTemp->type = TextureType::DIFFUSE;
+			rTexTemp->UID = Random::Generate();
+			ui_comp->mat->path = ui_comp->mat->path;
+			ui_comp->mat->rTextures.push_back(rTexTemp);
+
 			// Colors
 
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
@@ -2002,17 +2076,26 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			break;
 		}
-
 		case UI_TYPE::SLIDER:
 		{
 			UI_Slider* ui_comp = new UI_Slider(gameObject);
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
 
-			/*ui_comp-> = json_object_get_number(componentObject, "Fill image", static_cast<const UI_Slider&>(component).fillImage == nullptr
-				? -1 : static_cast<const UI_Slider&>(component).fillImage->UID);
+			int id = json_object_get_number(componentObject, "Fill image");
+			if (id != -1)
+			{
+				External->scene->vTempReferences.push_back(ui_comp->fillImage);
+				External->scene->vTempComponents.push_back(ui_comp);
+				External->scene->vTempGOid.push_back(id);
+			}
 
-			ui_comp-> = json_object_get_number(componentObject, "Handle image", static_cast<const UI_Slider&>(component).handleImage == nullptr
-				? -1 : static_cast<const UI_Slider&>(component).handleImage->UID);*/
+			id = json_object_get_number(componentObject, "Handle image");
+			if (id != -1)
+			{
+				External->scene->vTempReferences.push_back(ui_comp->handleImage);
+				External->scene->vTempComponents.push_back(ui_comp);
+				External->scene->vTempGOid.push_back(id);
+			}
 
 			// Values
 			ui_comp->useFloat = json_object_get_boolean(componentObject, "Use Floats");
@@ -2132,9 +2215,17 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			comp->dragLimits.w = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 		}
 
-	}
-	// TODO: Audio save / load	
+		comp = nullptr;
 
+	}
+	else if (type == "UI Transform")
+	{
+		C_UI& ui = *static_cast<G_UI*>(gameObject)->GetComponentUI((UI_TYPE)json_object_get_number(componentObject, "Component reference"));
+		ui.transformUI = new UI_Transform(&ui);
+
+		gameObject->AddComponent(ui.transformUI);
+
+	}
 	else if (type == "Audio listener")
 	{
 		CAudioListener* caudiolistener = new CAudioListener(gameObject);
@@ -2167,7 +2258,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 #endif // STANDALONE
 
 		gameObject->AddComponent(caudiosource);
-
 
 	}
 

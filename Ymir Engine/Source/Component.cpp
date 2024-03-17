@@ -51,6 +51,11 @@ void Component::OnInspector()
 
 }
 
+uint Component::GetUID()
+{
+	return UID;
+}
+
 GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonClicked)
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);

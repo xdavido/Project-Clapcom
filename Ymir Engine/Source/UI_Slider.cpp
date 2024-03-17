@@ -63,14 +63,9 @@ update_status UI_Slider::Update(float dt)
 		usingHandle = false;
 	}
 
-	if (fillImage != nullptr && usingBar)
+	if (fillImage != nullptr && usingBar || handleImage != nullptr && usingHandle)
 	{
-		SliderBar(dt);
-	}
-
-	if (handleImage != nullptr && usingHandle)
-	{
-		SliderHandle(dt);
+		SliderManagement(dt);
 	}
 
 	return ret;
@@ -361,9 +356,9 @@ void UI_Slider::SetValue(float val)
 					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
 
 					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-					img.boundsGame->vertices[1].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
 					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-					img.boundsGame->vertices[3].position = float3(img.width + (img.width * img.scaleBounds.x), img.posY, 0);
+					img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
 				}
 				else
 				{
@@ -408,11 +403,9 @@ void UI_Slider::SetValue(float val)
 	}
 }
 
-void UI_Slider::SliderBar(float dt)
+void UI_Slider::SliderManagement(float dt)
 {
-	UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
-
-	if (img.state == UI_STATE::PRESSED)
+	//if (img.state == UI_STATE::PRESSED)
 	{
 		int movementX = External->input->GetMouseXMotion() * dt * 50;
 		int movementY = -External->input->GetMouseYMotion() * dt * 50;
@@ -448,51 +441,6 @@ void UI_Slider::SliderBar(float dt)
 			else
 			{
 				ValueCalculationsFromHandles(newY, dragLimits.y + dragLimits.w);
-			}
-		}
-	}
-}
-
-void UI_Slider::SliderHandle(float dt)
-{
-	UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
-
-	//if (img.state == UI_STATE::PRESSED)
-	{
-		int movementX = External->input->GetMouseXMotion() * dt * 50;
-		int movementY = -External->input->GetMouseYMotion() * dt * 50;
-
-		// Get the Mouse Position using ImGui.
-		ImVec2 mousePosition = ImGui::GetMousePos();
-
-		// Get the position of the ImGui window.
-		ImVec2 sceneWindowPos = External->editor->gameViewPos;
-
-		ImVec2 normalizedPoint;
-		normalizedPoint.x = mousePosition.x - sceneWindowPos.x;
-		normalizedPoint.y = mousePosition.y - sceneWindowPos.y;
-
-		// Calculate new position of the slider handle
-		float newX = normalizedPoint.x + movementX;
-		float newY = normalizedPoint.y + movementY;
-
-		// Calculate new position of the slider handle
-		//float newX = External->input->GetMouseX() + movementX;
-		//float newY = External->input->GetMouseY() + movementY;
-
-		LOG("%f - %f", newX, newY);
-
-		// Check if the new position is within dragLimits
-		if (newX >= dragLimits.x && newX <= dragLimits.x + dragLimits.z &&
-			newY >= dragLimits.y && newY <= dragLimits.y + dragLimits.w)
-		{
-			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
-			{
-				ValueCalculationsFromHandles(normalizedPoint.x, dragLimits.x + dragLimits.z);
-			}
-			else
-			{
-				ValueCalculationsFromHandles(normalizedPoint.y, dragLimits.y + dragLimits.w);
 			}
 		}
 	}

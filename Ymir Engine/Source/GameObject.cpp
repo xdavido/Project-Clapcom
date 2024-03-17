@@ -97,6 +97,29 @@ void GameObject::Disable()
 	}
 }
 
+GameObject* GameObject::FindChild(u32 idToFind, GameObject* go)
+{
+	for (auto i = 0; i < mChildren.size(); i++)
+	{
+		if (go != nullptr)
+		{
+			break;
+		}
+		if (!mChildren[i]->mChildren.empty())
+		{
+			go = mChildren[i]->FindChild(idToFind, go);
+		}
+		if (idToFind == mChildren[i]->UID)
+		{
+			go = mChildren[i];
+			return go;
+		}
+	}
+
+	return go;
+}
+
+
 void GameObject::SetParent(GameObject* newParent)
 {
 	if (this->mParent)

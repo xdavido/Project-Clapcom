@@ -102,6 +102,11 @@ public:
     void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const;
     void GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const;
 
+public:
+
+    //std::vector<GameObject*> vTempReferences;
+    //std::vector<int> vTempGOid;
+
 private:
 
     JSON_Value* rootValue; // Private member to store JSON value
