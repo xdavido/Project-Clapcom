@@ -107,7 +107,19 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
-	////Mouse pick
+	// Add ui transform to component if it is not a button (only the image in the button needs transform)
+	if (ui_t == UI_TYPE::BUTTON)
+	{
+		transformUI = nullptr;
+	}
+
+	else
+	{
+		transformUI = new UI_Transform(this);
+		g->mComponents.push_back(transformUI);
+	}
+
+	//// Mouse pick
 	//local_aabb.SetNegativeInfinity();
 	////local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
 	//obb = local_aabb;
@@ -118,10 +130,6 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	// Drag
 	isDragging = false;
 	isDraggeable = false;
-
-	// Add ui transform to component
-	transformUI = new UI_Transform(this);
-	g->mComponents.push_back(transformUI);
 
 	// TODO: Sara --> adapt to standalone
 	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
@@ -332,6 +340,12 @@ bool C_UI::MouseCheck(float2 mouse)
 
 void C_UI::UpdateUITransform()
 {
+	//posX = posX + mOwner->mTransform->translation.x;
+	//posY = posY + mOwner->mTransform->translation.y;
+
+	//scaleBounds.x = scaleBounds.x * mOwner->mTransform->scale.x;
+	//scaleBounds.y = scaleBounds.y * mOwner->mTransform->scale.y;
+
 	dragLimits.x = posX;
 	dragLimits.y = posY;
 	//dragLimits.z = posX + (width * scaleBounds.x);
@@ -350,7 +364,10 @@ void C_UI::UpdateUITransform()
 	boundsEditor->RegenerateVBO();
 	boundsGame->RegenerateVBO();
 
-	transformUI->dirty_ = false;
+	if (transformUI != nullptr)
+	{
+		transformUI->dirty_ = false;
+	}
 
 	/*if (!gameObject->vChildren.empty())
 	{
