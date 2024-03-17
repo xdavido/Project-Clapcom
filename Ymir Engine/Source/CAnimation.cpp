@@ -32,16 +32,13 @@ CAnimation::~CAnimation()
 
 void CAnimation::Update() {
     
-    if (animationPlaying) {
-        animator->UpdateAnimation(External->GetDT());
-    }
+    
+    animator->UpdateAnimation(External->GetDT());
+
 
 }
 
 void CAnimation::AddAnimation(Animation &newAnimation) {
-    if (animator->animations.empty()) {
-        animator->PlayAnimation(&newAnimation);
-    }
     animator->animations.push_back(newAnimation);
 }
 
@@ -121,20 +118,19 @@ void CAnimation::OnInspector() {
 
         if (!animator->animations.empty() && selectedAnimation != -1) {
 
-            float currentTime = animator->GetCurrentAnimationTime();
-            if (ImGui::SliderFloat("Playback Time", &currentTime, .0f, animator->GetCurrentAnimation()->GetDuration())) {
-                animator->SetCurrentAnimationTime(currentTime);
+
+            if (ImGui::SliderFloat("Playback Time", &animator->animations[selectedAnimation].currentTime, .0f, animator->animations[selectedAnimation].GetDuration())) {
+
             }
 
-            float speed = animator->GetCurrentAnimation()->GetSpeed();
-            if (ImGui::DragFloat("Speed", &speed, 1.0f, .0f, 100.0f)) {
-                animator->GetCurrentAnimation()->SetSpeed(speed);
+            if (ImGui::DragFloat("Speed", &animator->animations[selectedAnimation].speed, 1.0f, .0f, 100.0f)) {
+
             }
 
-            ImGui::Checkbox("Loop", &animator->GetCurrentAnimation()->loop);
+            ImGui::Checkbox("Loop", &animator->animations[selectedAnimation].loop);
 
             if (ImGui::IsItemClicked()) {
-                !animator->GetCurrentAnimation()->loop;
+                !animator->animations[selectedAnimation].loop;
             }
 
             ImGui::SameLine();
@@ -148,10 +144,10 @@ void CAnimation::OnInspector() {
             }
 
 
-            ImGui::Checkbox("PingPong", &animator->GetCurrentAnimation()->pingPong);
+            ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].pingPong);
 
             if (ImGui::IsItemClicked()) {
-                !animator->GetCurrentAnimation()->pingPong;
+                !animator->animations[selectedAnimation].pingPong;
             }
 
             ImGui::SameLine();
@@ -165,10 +161,10 @@ void CAnimation::OnInspector() {
             }
 
 
-            ImGui::Checkbox("Backwards", &animator->GetCurrentAnimation()->backwards);
+            ImGui::Checkbox("Backwards", &animator->animations[selectedAnimation].backwards);
 
             if (ImGui::IsItemClicked()) {
-                !animator->GetCurrentAnimation()->backwards;
+                !animator->animations[selectedAnimation].backwards;
             }
 
             ImGui::SameLine();
@@ -182,10 +178,10 @@ void CAnimation::OnInspector() {
             }
 
 
-            ImGui::Checkbox("Ease-In", &animator->GetCurrentAnimation()->easeIn);
+            ImGui::Checkbox("Ease-In", &animator->animations[selectedAnimation].easeIn);
 
             if (ImGui::IsItemClicked()) {
-                !animator->GetCurrentAnimation()->easeIn;
+                !animator->animations[selectedAnimation].easeIn;
             }
 
             ImGui::SameLine();
@@ -202,10 +198,10 @@ void CAnimation::OnInspector() {
 
             ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeInMultiplier);
 
-            ImGui::Checkbox("Ease-Out", &animator->GetCurrentAnimation()->easeOut);
+            ImGui::Checkbox("Ease-Out", &animator->animations[selectedAnimation].easeOut);
 
             if (ImGui::IsItemClicked()) {
-                !animator->GetCurrentAnimation()->easeOut;
+                !animator->animations[selectedAnimation].easeOut;
             }
 
             ImGui::SameLine();
@@ -223,10 +219,7 @@ void CAnimation::OnInspector() {
             ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeOutMultiplier);
 
             if (ImGui::Button("Play")) {
-                //CHANGE THIS
-                animator->SetCurrentAnimationTime(.0f);
-                animator->GetCurrentAnimation()->isPlaying = true;
-                animationPlaying = true;
+                animator->PlayAnimation(&animator->animations[selectedAnimation]);
 
             }
 
@@ -234,14 +227,14 @@ void CAnimation::OnInspector() {
 
             if (ImGui::Button("Resume")) {
 
-                animator->ResumeAnimation();
+                animator->ResumeAnimation(&animator->animations[selectedAnimation]);
             }
 
             ImGui::SameLine();
 
             if (ImGui::Button("Stop")) {
 
-                animator->PauseAnimation();
+                animator->PauseAnimation(&animator->animations[selectedAnimation]);
             }
 
 

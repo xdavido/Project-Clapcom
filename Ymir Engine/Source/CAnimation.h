@@ -49,8 +49,6 @@ public:
 
 private:
 
-	bool animationPlaying;
-
 	bool isSelected = false;
 	
 };

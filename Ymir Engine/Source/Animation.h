@@ -73,6 +73,8 @@ public:
 	float easeInMultiplier;
 	float easeOutMultiplier;
 
+	float currentTime;
+
 	std::vector<Bone> bones;
 
 private:
