@@ -12,6 +12,9 @@ UI_Transform::UI_Transform(C_UI* owner) : Component(owner->mOwner, ComponentType
 {
 	componentReference = owner;
 
+	auxPosX = componentReference->posX;
+	auxPosY = componentReference->posY;
+
 	mMatrixUI = float4x4::identity;
 	dirty_ = true;
 

@@ -291,7 +291,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::i1:
 
-					ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
@@ -299,7 +299,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::i2:
 
-					ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
@@ -307,7 +307,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::i3:
 
-					ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
@@ -315,7 +315,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::i4:
 
-					ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
@@ -323,7 +323,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::f1:
 
-					ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
@@ -331,7 +331,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::f2:
 
-					ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
@@ -339,7 +339,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::f3:
 
-					ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
@@ -347,7 +347,7 @@ void UI_Text::OnInspector()
 
 				case UniformType::f4:
 
-					ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.01f);
 
 					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
