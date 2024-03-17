@@ -472,16 +472,16 @@ void UI_Text::Draw(bool game)
 				space += (fs / 2);
 			}
 
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + sizeY, 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + sizeY, 0);
-			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
-			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
+			boundsEditor->vertices[0].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsEditor->vertices[2].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
 
 			// Bot left - Bot right - Top left - Top right
-			boundsGame->vertices[0].position = float3(posX + space, posY + scaleBounds.y, 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + scaleBounds.y, 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY + scaleBounds.y - sizeY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY + scaleBounds.y - sizeY, 0);
+			boundsGame->vertices[0].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsGame->vertices[2].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
 			boundsEditor->RegenerateVBO();
 			boundsGame->RegenerateVBO();
