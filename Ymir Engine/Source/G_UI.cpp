@@ -49,14 +49,22 @@ update_status G_UI::Update(float dt)
 		}
 
 		//CTransform* transformComponent = mParent->mTransform;
-		//if (transformComponent != nullptr)
-		//{
-		//	if (transformComponent->dirty_)
-		//	{
-		//		//transformComponent->UpdateTransformsChilds();
-		//		//canvas->UpdateBoundingBoxes(); Not implemented yet
-		//	}
-		//}
+		if (mTransform != nullptr)
+		{
+			if (mTransform->dirty_)
+			{
+				mTransform->UpdateTransformsChilds();
+				//canvas->UpdateBoundingBoxes(); Not implemented yet
+
+				std::vector<C_UI*> listUI;
+				External->renderer3D->GetUIGOs(this, listUI);
+
+				for (auto i = 0; i < listUI.size(); i++)
+				{
+					listUI[i]->dirty_ = true;
+				}
+			}
+		}
 
 		if (mComponents.size() > 1)
 		{
@@ -71,7 +79,6 @@ update_status G_UI::Update(float dt)
 
 					static_cast<C_UI*>(mComponents[i])->Update(dt);
 
-					// TODO: Andreu
 					if (static_cast<C_UI*>(mComponents[i])->dirty_)
 					{
 						static_cast<C_UI*>(mComponents[i])->UpdateUITransform();
@@ -280,7 +287,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 
 		//AddUIComponent(UI_TYPE::IMAGE);
 		//AddUIComponent(UI_TYPE::TEXT);
-		
+
 		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 

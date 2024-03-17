@@ -26,8 +26,5 @@ public:
 
 	float4x4 mMatrixUI;
 
-
-	bool dirty_;
-
 };
 #endif // __UI_TRANSFORM_H__

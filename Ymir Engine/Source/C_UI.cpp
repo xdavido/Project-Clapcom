@@ -119,6 +119,8 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 		g->mComponents.push_back(transformUI);
 	}
 
+	dirty_ = true;
+
 	//// Mouse pick
 	//local_aabb.SetNegativeInfinity();
 	////local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
@@ -340,34 +342,25 @@ bool C_UI::MouseCheck(float2 mouse)
 
 void C_UI::UpdateUITransform()
 {
-	//posX = posX + mOwner->mTransform->translation.x;
-	//posY = posY + mOwner->mTransform->translation.y;
-
-	//scaleBounds.x = scaleBounds.x * mOwner->mTransform->scale.x;
-	//scaleBounds.y = scaleBounds.y * mOwner->mTransform->scale.y;
-
-	dragLimits.x = posX;
-	dragLimits.y = posY;
+	dragLimits.x = posX + mOwner->mTransform->GetGlobalPosition().x;
+	dragLimits.y = posY + mOwner->mTransform->GetGlobalPosition().y;
 	//dragLimits.z = posX + (width * scaleBounds.x);
 	//dragLimits.w = posY + (height * scaleBounds.y);
 
-	boundsEditor->vertices[0].position = float3(posX, posY + ((height * scaleBounds.y)), 0);
-	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + ((height * scaleBounds.y)), 0);
-	boundsEditor->vertices[2].position = float3(posX, posY, 0);
-	boundsEditor->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+	boundsEditor->vertices[0].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y * mOwner->mTransform->scale.y)) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y) * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[2].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[3].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
-	boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[2].position = float3(posX, posY, 0);
-	boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+	boundsGame->vertices[0].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + (height * scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (height * scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[2].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
 	boundsEditor->RegenerateVBO();
 	boundsGame->RegenerateVBO();
 
-	if (transformUI != nullptr)
-	{
-		transformUI->dirty_ = false;
-	}
+	dirty_ = false;
 
 	/*if (!gameObject->vChildren.empty())
 	{
@@ -439,7 +432,7 @@ void C_UI::Drag(float dt)
 		Quat rot;
 		float3 scale;
 
-		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
+		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->GetGlobalPosition().x + movementX, mOwner->mTransform->GetGlobalPosition().y + movementY, 0));
 		mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
 
 		scaleBounds = scale;

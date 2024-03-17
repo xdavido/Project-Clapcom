@@ -16,7 +16,6 @@ UI_Transform::UI_Transform(C_UI* owner) : Component(owner->mOwner, ComponentType
 	auxPosY = componentReference->posY;
 
 	mMatrixUI = float4x4::identity;
-	dirty_ = true;
 
 }
 
@@ -41,31 +40,31 @@ void UI_Transform::OnInspector()
 		if (ImGui::DragFloat("POSITION X", &componentReference->posX, 1.0f))
 		{
 			UpdateUITransformChilds();
-			dirty_ = true;
+			componentReference->dirty_ = true;
 		}
 
 		if (ImGui::DragFloat("POSITION Y", &componentReference->posY, 1.0f))
 		{
 			UpdateUITransformChilds();
-			dirty_ = true;
+			componentReference->dirty_ = true;
 		}
 
 		if (ImGui::DragFloat("WIDTH", &componentReference->width, 1.0f))
 		{
 			UpdateUITransformChilds();
-			dirty_ = true;
+			componentReference->dirty_ = true;
 		}
 
 		if (ImGui::DragFloat("HEIGHT", &componentReference->height, 1.0f))
 		{
 			UpdateUITransformChilds();
-			dirty_ = true;
+			componentReference->dirty_ = true;
 		}
 
 		if (ImGui::DragFloat3("SCALE", &componentReference->scaleBounds[0], 0.1f))
 		{
 			UpdateUITransformChilds();
-			dirty_ = true;
+			componentReference->dirty_ = true;
 		}
 
 		ImGui::Unindent();
@@ -83,7 +82,7 @@ void UI_Transform::UpdateUITransformChilds()
 		listUI[i]->posX = listUI[i]->posX + componentReference->posX - auxPosX;
 		listUI[i]->posY = listUI[i]->posY + componentReference->posY - auxPosY;
 		listUI[i]->scaleBounds = componentReference->scaleBounds;
-		
+		listUI[i]->dirty_ = true;
 	}
 
 }

@@ -88,6 +88,7 @@ public:
 	bool MouseCheck(float2 mouse);
 
 	virtual void UpdateUITransform();
+
 	void DrawABB();
 	void DrawOBB();
 	void UpdateBoundingBoxes();
