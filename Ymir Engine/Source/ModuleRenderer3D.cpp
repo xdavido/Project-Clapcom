@@ -292,6 +292,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawUIElements(false);
 
+		DrawParticles();
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
@@ -820,62 +822,88 @@ void ModuleRenderer3D::CleanUpAssimpDebugger()
 	aiDetachAllLogStreams();
 }
 
-void ModuleRenderer3D::DrawParticles(Particle* particle)
+void ModuleRenderer3D::DrawParticles()
 {
-	////Matrix transform de la particula
-	//float4x4 m = float4x4::FromTRS(particle->position, particle->worldRotation, particle->size).Transposed();
+	for (int i = 0; i < ParticleEmitter::listParticles.size(); i++)
+	{
+		auto par = ParticleEmitter::listParticles.at(i);
 
-	//glPushMatrix();
-	//glMultMatrixf(m.ptr());
+		//Matrix transform de la particula
+		float4x4 m = float4x4::FromTRS(par->position, par->worldRotation, par->size).Transposed();
 
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_ALPHA_TEST);
-	//glAlphaFunc(GL_GREATER, 0.0f);
+		glPushMatrix();
+		glMultMatrixf(m.ptr());
 
-	////Binding particle Texture
-	//if (/*particle.mat*/ true)
-	//{
-	//	if (/*ResourceTexture* rTex = particle.mat->hTexture.Get()*/ true)
-	//	{
-	//		if (/*rTex && rTex->buffer != 0*/ true)
-	//		{
-	//			glBindTexture(GL_TEXTURE_2D, /*rTex->buffer*/ 0);
-	//		}
-	//	}
-	//}
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.0f);
 
-	//glColor4f(particle->color.r, particle->color.g, particle->color.b, particle->color.a);
+		//Binding particle Texture
+		if (/*particle.mat*/ true)
+		{
+			if (/*ResourceTexture* rTex = particle.mat->hTexture.Get()*/ true)
+			{
+				if (/*rTex && rTex->buffer != 0*/ true)
+				{
+					glBindTexture(GL_TEXTURE_2D, /*rTex->buffer*/ 0);
+				}
+			}
+		}
+		
+		glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
 
-	////Drawing to tris in direct mode
-	//glBegin(GL_TRIANGLES);
+		//ParticleEmitter thisParticleEmitter; // TODO: Rework
 
-	//glTexCoord2f(1.0f, 0.0f);
-	//glVertex3f(.5f, -.5f, .0f);
-	//glTexCoord2f(0.0f, 1.0f);
-	//glVertex3f(-.5f, .5f, .0f);
-	//glTexCoord2f(0.0f, 0.0f);
-	//glVertex3f(-.5f, -.5f, .0f);
+		/* TODO TONI : Tienes que acceder al particle emitter que esté utilizando 
+		estas particulas y con eso ya puedes llegar al material del gameobject.
+		
+		Necesitarás reworkear el draw de esta forma: Primero hacemos draw de los emitters 
+		y luego draw de cada emitter, ya que cada emitter tendrá su propia lista de particulas, 
+		así que no podrá ser static. Después ya deberían verse por pantalla bien.*/
 
-	//glTexCoord2f(1.0f, 0.0f);
-	//glVertex3f(.5f, -.5f, .0f);
-	//glTexCoord2f(1.0f, 1.0f);
-	//glVertex3f(.5f, .5f, .0f);
-	//glTexCoord2f(0.0f, 1.0f);
-	//glVertex3f(-.5f, .5f, .0f);
+		// Esto iria bien
+		//CMaterial* particleMaterial = (CMaterial*)thisParticleEmitter.owner->mOwner->GetComponent(ComponentType::MATERIAL);
 
-	//glEnd();
-	//glPopMatrix();
+		// Esto iria bien
+		//particleMaterial->shader.UseShader(true);
+		//particleMaterial->shader.SetShaderUniforms(&m);
+
+		//Drawing to tris in direct mode
+		glBegin(GL_TRIANGLES);
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(.5f, -.5f, .0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-.5f, .5f, .0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-.5f, -.5f, .0f);
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(.5f, -.5f, .0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(.5f, .5f, .0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-.5f, .5f, .0f);
+
+		// Esto iria bien
+		//particleMaterial->shader.UseShader(false);
+
+		glEnd();
+		glPopMatrix();
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+	}
+
+	//glDisable(GL_BLEND);
+	//glDisable(GL_ALPHA_TEST);
+
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+
 	//glBindTexture(GL_TEXTURE_2D, 0);
-	////glDisable(GL_BLEND);
-	////glDisable(GL_ALPHA_TEST);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glBindTexture(GL_TEXTURE_2D, 0);
 }

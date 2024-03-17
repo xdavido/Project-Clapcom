@@ -19,7 +19,7 @@ public:
 	ParticleEmitter();
 	~ParticleEmitter();
 
-	std::vector<Particle*> listParticles;
+	static std::vector<Particle*> listParticles;
 	std::vector<EmitterInstance*> modules; //Son las Particle module del power, son las settings
 	CParticleSystem* owner;
 
@@ -30,7 +30,7 @@ public:
 	void Init(CParticleSystem* component);
 
 	void Update(float dt);
-	void DrawParticles();
+	/*void DrawParticles();*/
 	void Reset();
 
 	void SpawnParticle(uint particlesToAdd = 1);

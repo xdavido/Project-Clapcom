@@ -42,6 +42,7 @@
 #include "Shader.h"
 #include "UI_Text.h"
 #include "Particle.h"
+#include "ParticleEmitter.h"
 
 #define MAX_LIGHTS 8
 
@@ -91,7 +92,7 @@ public:
 	void GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo);
 	void DrawUIElements(bool isGame);
 
-	void DrawParticles(Particle* particle);
+	void DrawParticles();
 
 public:
 

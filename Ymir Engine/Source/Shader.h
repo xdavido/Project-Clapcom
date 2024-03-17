@@ -111,7 +111,7 @@ public:
     void Scale(float3 scale);
 
     // Function to set shader uniforms that are essential (matrices, time, etc.)
-    void SetShaderUniforms(float4x4* matrix, bool isSelected);
+    void SetShaderUniforms(float4x4* matrix, bool isSelected = false);
 
     // Uniform Management Functions
     void AddUniform(std::string name, std::shared_ptr<void> value, UniformType type, int nElements);
