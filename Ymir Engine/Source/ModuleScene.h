@@ -45,7 +45,6 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	//TODO:
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
 
 	G_UI* CreateGUI(UI_TYPE t, GameObject* pParent = nullptr, int x = 0, int y = 0);

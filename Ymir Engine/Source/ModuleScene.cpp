@@ -291,6 +291,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+
 	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
@@ -312,7 +313,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	// ClearScene();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];

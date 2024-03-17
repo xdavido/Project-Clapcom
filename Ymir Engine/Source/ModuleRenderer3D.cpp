@@ -266,6 +266,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	// Clear color buffer and depth buffer before each PostUpdate call
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	// Your rendering code here
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
@@ -274,12 +278,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	App->camera->editorCamera->framebuffer.Render(true);
 
-	App->camera->editorCamera->Update();
-
 	// Render Grid
 
-	if (showGrid) {
+	App->camera->editorCamera->Update();
 
+	if (showGrid) {
+		
 		Grid.Render();
 
 	}
@@ -789,7 +793,6 @@ void ModuleRenderer3D::DrawGameObjects()
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
 
