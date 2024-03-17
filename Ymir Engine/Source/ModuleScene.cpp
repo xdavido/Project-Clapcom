@@ -60,6 +60,8 @@ bool ModuleScene::Init()
 
 	selectedGO = nullptr;
 
+	selectedUI = 0;
+
 	return ret;
 }
 
@@ -149,6 +151,17 @@ update_status ModuleScene::Update(float dt)
 	{
 		// TODO: Sara --> multiple selection
 		//node->mParent->DeleteChild(node);
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		TabNavigate(false);
+	}
+
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		TabNavigate(true);
 	}
 
 	return UPDATE_CONTINUE;
@@ -645,3 +658,84 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 
 	referenceMap.clear();
 }
+
+bool ModuleScene::TabNavigate(bool isForward)
+{
+	// Get UI elements to navigate
+	std::vector<C_UI*> listUI;
+
+	for (int i = 0; i < vCanvas.size(); ++i)
+	{
+		for (int k = 0; k < vCanvas[i]->mChildren.size(); ++k)
+		{
+			for (int j = 0; j < vCanvas[i]->mChildren[k]->mComponents.size(); ++j)
+			{
+				if (static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::BUTTON
+					|| static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::CHECKBOX ||
+					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::INPUTBOX ||
+					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::SLIDER)
+				{
+					listUI.push_back(static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j]));
+				}
+			}
+		}
+	}
+
+	for (auto i = 0; i < listUI.size(); i++)
+	{
+		if (isForward)
+		{
+			if (selectedUI == listUI.size() - 1)
+			{
+				App->scene->SetSelected(listUI[0]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[0]->SetState(UI_STATE::SELECTED);
+
+				selectedUI = 0;
+			}
+
+			else
+			{
+				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
+
+				selectedUI += 1;
+			}
+		}
+
+		else
+		{
+			for (auto i = 0; i < listUI.size(); i++)
+			{
+				if (selectedUI == 0)
+				{
+					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[0]->SetState(UI_STATE::SELECTED);
+
+					selectedUI = listUI.size() - 1;
+				}
+
+				else
+				{
+					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI -= 1;
+				}
+				return true;
+			}
+		}
+		
+		return true;
+	}
+
+	return true;
+}
+

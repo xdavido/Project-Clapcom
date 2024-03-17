@@ -86,6 +86,9 @@ public:
 
 	void LoadScriptsData(GameObject* rootObject = nullptr);
 
+	// UI navigation
+	bool TabNavigate(bool isForward);
+
 
 public:
 
