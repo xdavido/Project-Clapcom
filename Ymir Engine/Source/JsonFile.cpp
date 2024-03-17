@@ -1076,7 +1076,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
     }
     case ANIMATION: 
 	{
-		// Save component animation
+		/*// Save component animation
 		json_object_set_string(componentObject, "Type", "Animation");
 
 		CAnimation* cAnimation = (CAnimation*)&component;
@@ -1151,7 +1151,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_value(animatorObject, "Animation", animationValue);
 
-		break;
+		break;*/
 	}
 	case PHYSICS:
 	{
@@ -1635,7 +1635,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Animation") {
 
-		CAnimation* canimation = new CAnimation(gameObject);
+		/*CAnimation* canimation = new CAnimation(gameObject);
 
 		Animation* temp = new Animation();
 
@@ -1699,7 +1699,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		canimation->animator->GetCurrentAnimation()->SetDuration(json_object_get_number(animationObject, "Duration"));
 		canimation->animator->GetCurrentAnimation()->SetTickPerSecond(json_object_get_number(animationObject, "TicksPerSecond"));
 
-		gameObject->AddComponent(canimation);
+		gameObject->AddComponent(canimation);*/
 
 	}
 	else if (type == "Physics") {

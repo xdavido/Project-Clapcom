@@ -14,7 +14,7 @@ Animation::Animation() {
 	easeOutSpeed = 1;
 	easeInMultiplier = 1.025f;
 	easeOutMultiplier = 0.995f;
-
+	duration = 0;
 }
 
 Animation::Animation(const std::string& animationPath, Model* model, int index)
@@ -34,6 +34,7 @@ Animation::Animation(const std::string& animationPath, Model* model, int index)
 	easeOutSpeed = 1;
 	easeInMultiplier = 1.025f;
 	easeOutMultiplier = 0.995f;
+	duration = 0;
 
 	ParseAnimationData(animationPath, model, index);
 }

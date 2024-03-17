@@ -7,47 +7,33 @@ class Animation;
 
 struct AssimpNodeData;
 
-struct AnimationController {
-
-	float currentTime;
-	Animation* animation;
-};
-
 class Animator {
 public:
 	Animator();
 	Animator(Animation* animation);
 	~Animator();
-	
-	Animation* GetCurrentAnimation() { return currentAnimation; }
-	float GetCurrentAnimationTime() { return currentTime; }
-	void SetCurrentAnimationTime(float ct) { currentTime = ct; }
 
 	void UpdateAnimation(float dt);
 
-	void UpdateCurrentTime();
+	void UpdateCurrentTime(Animation* animation);
 	
 	void PlayAnimation(Animation* animation);
 
-	void PauseAnimation();
+	void PauseAnimation(Animation* animation);
 
-	void ResumeAnimation();
+	void ResumeAnimation(Animation* animation);
 
-	void StopAnimation();
+	void StopAnimation(Animation* animation);
 
-	void ResetAnimation(int ID);
+	void ResetAnimation(Animation* animation);
 
-	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
+	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
 private:
 	std::vector<float4x4> finalBoneMatrices;
 
-	// Variable to remove
-	Animation* currentAnimation; 
-
-	float currentTime; 
 	float deltaTime; 
 
 	float4x4 identity; 
@@ -55,6 +41,5 @@ private:
 public:
 	// Change to Animation *
 	std::vector<Animation> animations;
-	std::vector<AnimationController*> animationsPlaying;
 
 };
