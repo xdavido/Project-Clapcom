@@ -41,13 +41,12 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "UI_Text.h"
-#include "Particle.h"
-#include "ParticleEmitter.h"
 
 #define MAX_LIGHTS 8
 
 class GameObject;
 class CCamera;
+class ParticleEmitter;
 
 class ModuleRenderer3D : public Module
 {
@@ -112,5 +111,7 @@ public:
 
 	//font
 	Font* defaultFont;
+
+	std::vector<ParticleEmitter*> particleEmitters;
 
 };

@@ -50,7 +50,6 @@ public:
 
 private:
 
-	CMaterial* mat;
 };
 
 #endif //!__COMPONENT_PARTICLE_H__

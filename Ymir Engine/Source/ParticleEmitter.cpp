@@ -4,8 +4,7 @@
 #include "Application.h"
 #include "CTransform.h"
 #include "ModuleCamera3D.h"
-
-std::vector<Particle*> ParticleEmitter::listParticles;
+#include "ModuleRenderer3D.h"
 
 ParticleEmitter::ParticleEmitter()
 {

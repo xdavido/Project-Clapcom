@@ -23,10 +23,6 @@ CParticleSystem::CParticleSystem()
 
 CParticleSystem::CParticleSystem(GameObject* own, std::string shaderPath)
 {
-	mat = new CMaterial(own);
-	mat->shaderPath = shaderPath;
-	mat->shader.LoadShader(mat->shaderPath);
-
 	mOwner = own;
 	UID = External->resourceManager->GenerateNewUID();
 	active = true;
@@ -81,6 +77,7 @@ ParticleEmitter* CParticleSystem::CreateEmitter()
 	//Creamos un nuevo emisor
 	ParticleEmitter* emisor = new ParticleEmitter;
 	allEmitters.push_back(emisor);
+	External->renderer3D->particleEmitters = allEmitters;
 	emisor->Init(this);
 
 	return emisor;
