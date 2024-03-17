@@ -382,10 +382,8 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
-	App->scene->gameCameraComponent->framebuffer.Delete();
 
 	// Detach Assimp Log Stream
 	CleanUpAssimpDebugger();
