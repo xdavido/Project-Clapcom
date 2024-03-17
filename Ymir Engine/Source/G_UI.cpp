@@ -6,6 +6,7 @@
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
 #include "UI_Slider.h"
+#include "UI_Transform.h"
 
 #include "External/ImGui/imgui.h"
 
@@ -146,6 +147,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 			UI_Canvas* comp = new UI_Canvas(this);
 			mComponents.push_back(comp);
 
+			comp->transformUI = new UI_Transform(comp);
+			mComponents.push_back(comp->transformUI);
+
 			canvas = comp;
 
 			comp = nullptr;
@@ -177,6 +181,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
 
+		comp->transformUI = new UI_Transform(comp);
+		mComponents.push_back(comp->transformUI);
+
 		comp = nullptr;
 	}
 	break;
@@ -202,6 +209,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 			ReParent(parent);
 		}
 		canvas = static_cast<G_UI*>(mParent)->canvas;
+
+		comp->transformUI = new UI_Transform(comp);
+		mComponents.push_back(comp->transformUI);
 
 		comp = nullptr;
 	}
@@ -242,6 +252,8 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 		comp->displayText = aux;
+
+		comp->transformUI = nullptr;
 
 		name = "Button";
 
@@ -292,6 +304,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 
 		name = "Input Box";
+
+		comp->transformUI = new UI_Transform(comp);
+		mComponents.push_back(comp->transformUI);
 
 		comp = nullptr;
 		aux = nullptr;
@@ -346,6 +361,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		comp->cmImg->active = false;
 		comp->displayText = static_cast<UI_Text*>(aux3->GetComponentUI(UI_TYPE::TEXT));
 
+		comp->transformUI = new UI_Transform(comp);
+		mComponents.push_back(comp->transformUI);
+
 		comp = nullptr;
 		aux = nullptr;
 		aux2 = nullptr;
@@ -398,6 +416,9 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		mComponents.push_back(comp);
 
 		name = "Slider";
+
+		comp->transformUI = new UI_Transform(comp);
+		mComponents.push_back(comp->transformUI);
 
 		comp = nullptr;
 		aux = nullptr;

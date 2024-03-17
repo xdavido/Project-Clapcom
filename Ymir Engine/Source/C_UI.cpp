@@ -107,18 +107,6 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
-	// Add ui transform to component if it is not a button (only the image in the button needs transform)
-	if (ui_t == UI_TYPE::BUTTON)
-	{
-		transformUI = nullptr;
-	}
-
-	else
-	{
-		transformUI = new UI_Transform(this);
-		g->mComponents.push_back(transformUI);
-	}
-
 	dirty_ = true;
 
 	//// Mouse pick
