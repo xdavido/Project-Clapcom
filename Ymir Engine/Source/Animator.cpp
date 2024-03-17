@@ -38,7 +38,7 @@ void Animator::UpdateAnimation(float dt)
 
 	for (int i = 0; i < animationsPlaying.size(); i++) {
 		
-		CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity);
+		CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity,*animationsPlaying[i]);
 	}
 
 }
@@ -203,20 +203,20 @@ void Animator::ResetAnimation(int ID) {
 	animationsPlaying[ID]->animation->easeOutSpeed = 1;
 }
 
-void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
+void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, AnimationController &animationController)
 {
 	std::string nodeName = node->name;
 	float4x4 nodeTransform = node->transformation; 
 
-	Bone* bone = currentAnimation->FindBone(nodeName);
+	Bone* bone = animationController.animation->FindBone(nodeName);
 	if (bone) {
-		bone->Update(currentTime);
+		bone->Update(animationController.currentTime);
 		nodeTransform = bone->GetLocalTransform();
 	}
 
 	float4x4 globalTransform = parentTransform * nodeTransform;
 
-	std::map<std::string, BoneInfo> boneInfoMap = currentAnimation->GetBoneIDMap();
+	std::map<std::string, BoneInfo> boneInfoMap = animationController.animation->GetBoneIDMap();
 	if (boneInfoMap.find(nodeName) != boneInfoMap.end()) {
 		int index = boneInfoMap[nodeName].id;
 		float4x4 offset = boneInfoMap[nodeName].offset;
@@ -224,6 +224,6 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
-		CalculateBoneTransform(&node->children[i], globalTransform);
+		CalculateBoneTransform(&node->children[i], globalTransform, animationController);
 	}
 }

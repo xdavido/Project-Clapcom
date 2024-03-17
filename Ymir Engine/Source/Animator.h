@@ -37,7 +37,7 @@ public:
 
 	void ResetAnimation(int ID);
 
-	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
+	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, AnimationController &animationController);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
