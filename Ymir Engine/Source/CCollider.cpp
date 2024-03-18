@@ -155,6 +155,10 @@ void CCollider::Update()
 
 	}	
 
+	if (size.x == 0) size.x = 0.1;
+	if (size.y == 0) size.y = 0.1;
+	if (size.z == 0) size.z = 0.1;
+
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
 
