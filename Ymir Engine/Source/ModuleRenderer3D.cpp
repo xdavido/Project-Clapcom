@@ -653,9 +653,9 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
 
 			if (shape->getShapeType() == BOX_SHAPE_PROXYTYPE) App->physics->RenderBoxCollider(colliderComponent->physBody, App->physics->colliderColor);
-			if (shape->getShapeType() == SPHERE_SHAPE_PROXYTYPE) App->physics->RenderSphereCollider(colliderComponent->physBody, App->physics->colliderColor);
-			if (shape->getShapeType() == CAPSULE_SHAPE_PROXYTYPE) App->physics->RenderCapsuleCollider(colliderComponent->physBody, App->physics->colliderColor);
-			if (shape->getShapeType() == TRIANGLE_MESH_SHAPE_PROXYTYPE) App->physics->RenderMeshCollider(colliderComponent->physBody, App->physics->colliderColor);
+			else if (shape->getShapeType() == SPHERE_SHAPE_PROXYTYPE) App->physics->RenderSphereCollider(colliderComponent->physBody, App->physics->colliderColor);
+			else if (shape->getShapeType() == CAPSULE_SHAPE_PROXYTYPE) App->physics->RenderCapsuleCollider(colliderComponent->physBody, App->physics->colliderColor);
+			else App->physics->RenderMeshCollider(colliderComponent->physBody, App->physics->colliderColor);
 		}
 	}
 }

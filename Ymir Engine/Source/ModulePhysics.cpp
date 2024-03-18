@@ -584,9 +584,46 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody, Color color)
 	float mat[16];
 	pbody->GetTransform(mat);
 
-	// TODO: render mesh collider
-}
+	btConvexTriangleMeshShape* shape = (btConvexTriangleMeshShape*)pbody->body->getCollisionShape();
+	btStridingMeshInterface* meshInterface = shape->getMeshInterface();
 
+	int numTriangles = meshInterface->getNumSubParts();
+
+	glColor3f(color.r, color.g, color.b);
+
+	glPushMatrix(); 
+	glMultMatrixf(mat); // translation and rotation 
+
+	// TODO: render mesh collider
+	for (int part = 0; part < numTriangles; ++part) {
+		const unsigned char* vertexBase;
+		int numVerts, vertexStride;
+		const unsigned char* indexBase;
+		int indexStride, numFaces;
+		PHY_ScalarType indexType, vertexType;
+
+		meshInterface->getLockedReadOnlyVertexIndexBase(&vertexBase, numVerts, vertexType, vertexStride, &indexBase, indexStride, numFaces, indexType, part);
+
+		glBegin(GL_LINES);
+		for (int f = 0; f < numFaces; ++f) {
+			unsigned int* index = (unsigned int*)(indexBase + f * indexStride);
+
+			for (int i = 0; i < 3; ++i) {
+				btVector3* vertex1 = (btVector3*)(vertexBase + index[i] * vertexStride);
+				btVector3* vertex2 = (btVector3*)(vertexBase + index[(i + 1) % 3] * vertexStride);
+
+				glVertex3f(vertex1->x(), vertex1->y(), vertex1->z());
+				glVertex3f(vertex2->x(), vertex2->y(), vertex2->z());
+			}
+		}
+
+		glEnd();
+
+		meshInterface->unLockReadOnlyVertexBase(part);
+	}
+
+	glPopMatrix();
+}
 
 btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 {
