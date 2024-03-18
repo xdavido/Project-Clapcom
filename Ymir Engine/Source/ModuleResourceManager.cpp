@@ -219,13 +219,14 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 						CMesh* cmesh = new CMesh(meshGO);
 
 						cmesh->rMeshReference = rMesh;
-						cmesh->nIndices = 0;
-						cmesh->nVertices = 0;
+						cmesh->nVertices = rMesh->vertices.size();
+						cmesh->nIndices = rMesh->indices.size();
 
 						meshGO->AddComponent(cmesh);
 
 						CMaterial* cmat = new CMaterial(meshGO);
 						meshGO->AddComponent(cmat);
+
 					}
 					else
 					{

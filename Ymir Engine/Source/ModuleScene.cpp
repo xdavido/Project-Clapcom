@@ -287,7 +287,9 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	ClearScene();
+	//ClearScene();
+	SetSelected();
+	External->lightManager->lights.clear();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
