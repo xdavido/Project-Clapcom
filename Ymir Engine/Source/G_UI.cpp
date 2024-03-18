@@ -28,7 +28,6 @@ G_UI::G_UI(UI_TYPE t, GameObject* pParent, float x, float y) : GameObject("", pP
 G_UI::~G_UI()
 {
 	canvas = nullptr;
-	//RELEASE(canvas);
 }
 
 update_status G_UI::Update(float dt)

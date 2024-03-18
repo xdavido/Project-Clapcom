@@ -367,8 +367,11 @@ bool GameObject::CompareTag(const char* _tag)
 //
 void GameObject::RemoveReference(Component* comp)
 {
-	vReferences.erase(std::find(vReferences.begin(), vReferences.end(), comp));
-	vReferences.shrink_to_fit();
+	if (!vReferences.empty())
+	{
+		vReferences.erase(std::find(vReferences.begin(), vReferences.end(), comp));
+		vReferences.shrink_to_fit();
+	}
 }
 
 void GameObject::ClearReferences()

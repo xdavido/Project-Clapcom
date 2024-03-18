@@ -1289,13 +1289,13 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		{
 			json_object_set_boolean(componentObject, "Is interactable", static_cast<const UI_Slider&>(component).isInteractable);
 
-			json_object_set_number(componentObject, "Fill image", static_cast<const UI_Slider&>(component).fillImage == nullptr
-				? -1 : static_cast<const UI_Slider&>(component).fillImage->UID);
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Slider&>(component).fillImage), "Fill image");
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Slider&>(component).handleImage), "Handle image");
 
-			json_object_set_number(componentObject, "Handle image", static_cast<const UI_Slider&>(component).handleImage == nullptr
-				? -1 : static_cast<const UI_Slider&>(component).handleImage->UID);
+			/*json_object_set_number(componentObject, "Handle image", static_cast<const UI_Slider&>(component).handleImage == nullptr
+				? -1 : static_cast<const UI_Slider&>(component).handleImage->UID);*/
 
-			// Values
+				// Values
 			json_object_set_boolean(componentObject, "Use Floats", static_cast<const UI_Slider&>(component).useFloat);
 
 			if (static_cast<const UI_Slider&>(component).useFloat)
@@ -1410,6 +1410,12 @@ void JsonFile::SetColor(JSON_Object* componentObject, const Component& component
 	json_object_set_value(componentObject, "Disabled color", disabledColorArrayValue);
 }
 
+void JsonFile::SetReference(JSON_Object* componentObject, GameObject& pointer, const char* name)
+{
+	json_object_set_number(componentObject, name, &pointer == nullptr
+		? -1 : pointer.UID);
+}
+
 // ---------- Load Scene
 
 std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
@@ -1456,52 +1462,6 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 		{
 			(*it)->SetReference();
 		}
-
-		//auto it = External->scene->vTempReferences.begin();
-		//auto jt = External->scene->vTempComponents.begin();
-		//for (int i = 0; i < External->scene->vTempGOid.size(); ++i)
-		//{
-		//	GameObject* g = External->scene->mRootNode->FindChild(External->scene->vTempGOid[i]);
-		//	//(*jt).SetReference((*it), *g);
-
-		//	if (External->scene->vTempReferences[i] != nullptr)
-		//	{
-		//		(**External->scene->vTempReferences[i]).RemoveReference(&(*jt));
-		//	}
-		//	(**External->scene->vTempReferences[i]) = *g;
-		//	(**External->scene->vTempReferences[i]).vReferences.push_back(&(*jt));
-
-		//	++it;
-		//	++jt;
-		//}
-
-		/*for (size_t i = 0; i < numGameObjects; ++i)
-		{
-			JSON_Value* gameObjectValue = json_array_get_value(hierarchyArray, i);
-
-			if (json_value_get_type(gameObjectValue) == JSONObject) {
-
-				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
-
-				for (int j = 0; j < json_object_get_number(gameObjectObject, "References num"); ++j)
-				{
-					JSON_Value* referencesValue = json_value_init_array();
-					JSON_Array* referencesArray = json_value_get_array(referencesValue);
-
-					int size = json_object_get_number(gameObjectObject, "References num");
-
-					if (referencesValue != nullptr || json_value_get_type(referencesValue) == JSONArray)
-					{
-						for (int k = 0; k < size; ++k)
-						{
-							GameObject& go = *External->scene->mRootNode->GetChildByUID(json_array_get_number(referencesArray, k));
-						}
-					}
-				}
-
-			}
-
-		}*/
 
 	}
 
@@ -2096,40 +2056,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			UI_Slider* ui_comp = new UI_Slider(gameObject);
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
 
-			int id = json_object_get_number(componentObject, "Fill image");
-			if (id != -1)
-			{
-				ui_comp->vTempReferences.insert(std::pair<std::string, int>("Fill image", id));
-				
-				//GameObject* go = ui_comp->fillImage;
-				//GameObject** a = &go;
-				//External->scene->vTempReferences.push_back(a);
-				//External->scene->vTempComponents.push_back(*ui_comp);
-
-				////
-				//External->scene->vTempGO.push_back(gameObject);
-				//External->scene->vTempGOid.push_back(id);
-			}
-
-			int id2 = json_object_get_number(componentObject, "Handle image");
-			if (id2 != -1)
-			{
-				ui_comp->vTempReferences.insert(std::pair<std::string, int>("Handle image", id2));
-
-				if (id != -1)
-				{
-					External->scene->vTempComponents.push_back(ui_comp);
-				}
-
-				//GameObject* go = ui_comp->handleImage;
-				//GameObject** a = &go;
-				//External->scene->vTempReferences.push_back(a);
-				//External->scene->vTempComponents.push_back(*ui_comp);
-
-				////
-				//External->scene->vTempGO.push_back(gameObject);
-				//External->scene->vTempGOid.push_back(id);
-			}
+			// Get references UIDs for later
+			int ret = GetReference(componentObject, *ui_comp, "Fill image", true);
+			GetReference(componentObject, *ui_comp, "Handle image", (ret == -1 ? true : false));
 
 			// Values
 			ui_comp->useFloat = json_object_get_boolean(componentObject, "Use Floats");
@@ -2295,4 +2224,21 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 	}
 
+}
+
+int JsonFile::GetReference(const JSON_Object* componentObject, Component& comp, const char* name, bool push) const
+{
+	int id = json_object_get_number(componentObject, name);
+
+	if (id != -1)
+	{
+		comp.vTempReferences.insert(std::pair<std::string, int>(name, id));
+
+		if (push)
+		{
+			External->scene->vTempComponents.push_back(&comp);
+		}
+	}
+
+	return id;
 }

@@ -96,16 +96,15 @@ public:
     void SetComponent(JSON_Object* componentObject, const Component& component);
     void SetColor(JSON_Object* componentObject, const Component& component);
 
+    void SetReference(JSON_Object* componentObject, GameObject& pointer, const char* name);
     // ---------- Load Scene
 
     std::vector<GameObject*> GetHierarchy(const char* key) const;
     void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const;
     void GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const;
 
-public:
-
-    //std::vector<GameObject*> vTempReferences;
-    //std::vector<int> vTempGOid;
+    // Use "push" only the first time in each component
+    int GetReference(const JSON_Object* componentObject, Component& comp, const char* name, bool push = false) const;
 
 private:
 
