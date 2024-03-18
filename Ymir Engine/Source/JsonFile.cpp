@@ -2099,6 +2099,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 				External->scene->vTempReferences.push_back(a);
 				External->scene->vTempComponents.push_back(*ui_comp);
 
+				//
 				External->scene->vTempGO.push_back(gameObject);
 				//External->scene->vTempGOid.push_back(id);
 			}
@@ -2111,6 +2112,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 				External->scene->vTempReferences.push_back(a);
 				External->scene->vTempComponents.push_back(*ui_comp);
 
+				//
 				External->scene->vTempGO.push_back(gameObject);
 				//External->scene->vTempGOid.push_back(id);
 			}
