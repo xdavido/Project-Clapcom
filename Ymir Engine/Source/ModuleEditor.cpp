@@ -2609,22 +2609,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) {
-
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) 
+		{
 			App->scene->SetSelected(node);
-
-			//node->selected = true; // Toggle the selected state when clicked
-
-			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-			//	if ((*it) != node) {
-
-			//		(*it)->selected = false;
-
-			//	}
-
-			//}
-
 		}
 
 		if (ImGui::BeginDragDropSource())
@@ -2667,6 +2654,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						App->scene->gameObjects.end()
 					);
 
+					App->scene->isLocked = false;
 					App->scene->SetSelected();
 
 				}
