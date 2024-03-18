@@ -76,12 +76,12 @@ bool ModuleScene::Start()
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
 
-	CreateGUI(UI_TYPE::BUTTON);
-	CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
-	CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
+	//CreateGUI(UI_TYPE::BUTTON);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
 
-	//CreateGUI(UI_TYPE::SLIDER);
-	//CreateGUI(UI_TYPE::TEXT);
+	CreateGUI(UI_TYPE::SLIDER);
+	CreateGUI(UI_TYPE::TEXT);
 
 	return false;
 }
