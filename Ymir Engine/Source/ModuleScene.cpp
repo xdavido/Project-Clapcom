@@ -234,10 +234,7 @@ void ModuleScene::ClearScene()
 
 	uint deletedSceneUID = mRootNode->UID;
 
-	/*App->editor->DestroyHierarchyTree(mRootNode);
-	delete mRootNode;
-	mRootNode = nullptr;*/
-
+	isLocked = false;
 	SetSelected();
 
 	RELEASE(mRootNode);
@@ -295,8 +292,6 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	ClearScene();
 	sceneToLoad->GetHierarchy("Hierarchy");
-	//gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
-	//mRootNode = gameObjects[0];
 	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
@@ -355,7 +350,7 @@ std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 
 void ModuleScene::SetSelected(GameObject* go)
 {
-	if (!App->scene->isLocked)
+	if (!isLocked)
 	{
 		if (go != nullptr)
 		{
