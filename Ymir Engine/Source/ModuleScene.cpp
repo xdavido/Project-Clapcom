@@ -708,7 +708,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[0]->SetState(UI_STATE::SELECTED);
+					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
 
 					selectedUI = listUI.size() - 1;
 				}
