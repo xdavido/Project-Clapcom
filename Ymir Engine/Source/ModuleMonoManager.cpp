@@ -83,6 +83,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma region Physics
 
 	mono_add_internal_call("YmirEngine.GameObject::SetVelocity", SetVelocity);
+	mono_add_internal_call("YmirEngine.GameObject::SetImpulse", SetImpulse);
 
 #pragma endregion
 

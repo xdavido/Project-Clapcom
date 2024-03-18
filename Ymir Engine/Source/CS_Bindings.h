@@ -227,21 +227,38 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 }
 
+void SetImpulse(MonoObject* obj, MonoObject* vel) {
+
+	if (External == nullptr)				
+		return;
+
+	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+	  
+	if (rigidbody)
+	{
+		rigidbody->physBody->body->applyCentralImpulse({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
+
+	}
+	 
+}
+
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
 	if (External == nullptr)
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
-	  //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
 
-	CCollider* workColl = DECS_CompToComp<CCollider*>(obj);
-	if (workColl)
+	if (rigidbody)
 	{
-		workColl->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
+		rigidbody->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
 
 	}
-	 
+
 }
 
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class

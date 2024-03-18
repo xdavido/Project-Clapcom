@@ -81,6 +81,10 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void SetVelocity(Vector3 velocity);
 
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetImpulse(Vector3 impulse);
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void AddComponent(int componentType);
 

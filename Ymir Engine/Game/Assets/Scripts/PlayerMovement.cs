@@ -7,19 +7,19 @@ public class PlayerMovement : YmirComponent
 
     Vector3 gamepadInput;
    
-
+        
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
 
     private double angle = 0.0f;
-    private bool script = true;
+    //private bool script = true;
     public void Start()
     {
 
         Debug.Log("START!");
-        Vector3 vel = new Vector3(10, 0, 0);
-        gameObject.SetVelocity(vel);
+        //Vector3 vel = new Vector3(10, 0, 0);
+        //gameObject.SetVelocity(vel);
 
 
     }
@@ -56,6 +56,42 @@ public class PlayerMovement : YmirComponent
             Vector3 rot = new Vector3(0, 1, 0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
             InternalCalls.CreateBullet(pos, rot, scale);
+        }
+
+
+        if(Input.GetKey(YmirKeyCode.SPACE)== KeyState.KEY_DOWN)
+        {
+
+            Vector3 vel = new Vector3(0, 0, 10);
+            gameObject.SetImpulse(vel);
+        }
+
+
+
+        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        {
+
+            Vector3 vel = new Vector3(0, 0, 10);
+            gameObject.SetImpulse(vel);
+        }
+        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
+        {
+
+            Vector3 vel = new Vector3(0, 0, -10);
+            gameObject.SetImpulse(vel);
+        }
+
+        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+        {
+
+            Vector3 vel = new Vector3(-10, 0, 0);
+            gameObject.SetImpulse(vel);
+        }
+        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+        {
+
+            Vector3 vel = new Vector3(10, 0, 0);
+            gameObject.SetImpulse(vel);
         }
 
         //-------------- Controller --------------//

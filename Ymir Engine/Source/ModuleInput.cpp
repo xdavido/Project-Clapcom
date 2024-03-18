@@ -242,7 +242,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				App->renderer3D->OnResize(e.window.data1, e.window.data2);
 				App->scene->gameCameraComponent->SetAspectRatio((float)(External->window->width / (float)External->window->height));
 
-#endif // _STANDALONE	
+#endif // _STANDALONE		
 
 				break;
 			}
