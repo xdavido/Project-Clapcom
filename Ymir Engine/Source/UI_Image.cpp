@@ -23,34 +23,6 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 
-	// TODO: very ugly, provisional
-	std::string path = "Assets/InGameConeptPng.png";
-
-	ResourceTexture* rTexTemp1 = new ResourceTexture();
-	ImporterTexture::Import(path, rTexTemp1);
-	rTexTemp1->type = TextureType::DIFFUSE;
-	rTexTemp1->UID = Random::Generate();
-	mat->path = path;
-	mat->rTextures.push_back(rTexTemp1);
-
-	path = "Assets/pato.png";
-
-	ResourceTexture* rTexTemp2 = new ResourceTexture();
-	ImporterTexture::Import(path, rTexTemp2);
-	rTexTemp2->type = TextureType::DIFFUSE;
-	rTexTemp2->UID = Random::Generate();
-	mat->path = path;
-	mat->rTextures.push_back(rTexTemp2);
-
-	path = "Assets/Water.png";
-
-	ResourceTexture* rTexTemp3 = new ResourceTexture();
-	ImporterTexture::Import(path, rTexTemp3);
-	rTexTemp3->type = TextureType::DIFFUSE;
-	rTexTemp3->UID = Random::Generate();
-	mat->path = path;
-	mat->rTextures.push_back(rTexTemp3);
-
 	selectedTexture = mat->rTextures[0];
 }
 
@@ -105,7 +77,7 @@ void UI_Image::OnInspector()
 		{
 			for (auto& textures : mat->rTextures)
 			{
-				const bool is_selected = (selectedTexture == textures);
+				const bool is_selected = (textures == selectedTexture);
 				if (ImGui::Selectable(textures->GetAssetsFilePath().c_str(), is_selected))
 				{
 					selectedTexture = textures;
@@ -119,7 +91,6 @@ void UI_Image::OnInspector()
 			}
 			ImGui::EndCombo();
 		}
-		ImGui::SameLine();
 	
 		if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
 		{
@@ -414,4 +385,6 @@ void UI_Image::SetNativeSize()
 {
 	width = mat->rTextures[0]->GetWidth();
 	height = mat->rTextures[0]->GetHeight();
+
+	dirty_ = true;
 }

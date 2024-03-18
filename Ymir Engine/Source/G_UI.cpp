@@ -7,6 +7,7 @@
 #include "UI_CheckBox.h"
 #include "UI_Slider.h"
 #include "UI_Transform.h"
+#include "ImporterTexture.h"
 
 #include "External/ImGui/imgui.h"
 
@@ -252,6 +253,34 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 
 		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 		comp->displayText = aux;
+
+		// TODO: very ugly, provisional
+		std::string path = "Assets/Lava.png";
+
+		ResourceTexture* rTexTemp1 = new ResourceTexture();
+		ImporterTexture::Import(path, rTexTemp1);
+		rTexTemp1->type = TextureType::DIFFUSE;
+		rTexTemp1->UID = Random::Generate();
+		comp->image->mat->path = path;
+		comp->image->mat->rTextures.push_back(rTexTemp1);
+
+		path = "Assets/pato.png";
+
+		ResourceTexture* rTexTemp2 = new ResourceTexture();
+		ImporterTexture::Import(path, rTexTemp2);
+		rTexTemp2->type = TextureType::DIFFUSE;
+		rTexTemp2->UID = Random::Generate();
+		comp->image->mat->path = path;
+		comp->image->mat->rTextures.push_back(rTexTemp2);
+
+		path = "Assets/Water.png";
+
+		ResourceTexture* rTexTemp3 = new ResourceTexture();
+		ImporterTexture::Import(path, rTexTemp3);
+		rTexTemp3->type = TextureType::DIFFUSE;
+		rTexTemp3->UID = Random::Generate();
+		comp->image->mat->path = path;
+		comp->image->mat->rTextures.push_back(rTexTemp3);
 
 		comp->transformUI = nullptr;
 
