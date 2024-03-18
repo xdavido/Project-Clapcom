@@ -97,7 +97,7 @@ void UI_Button::OnNormal()
 	if (isInteractable)
 	{
 		image->color = color;
-		image->selectedTexture = image->mat->rTextures[0];
+		image->selectedTexture = image->mapTextures.find(state)->second;
 	}
 	else
 	{
@@ -108,25 +108,25 @@ void UI_Button::OnNormal()
 void UI_Button::OnFocused()
 {
 	image->color = focusedColor;
-	image->selectedTexture = image->mat->rTextures[1];
+	image->selectedTexture = image->mapTextures.find(state)->second;
 
 }
 
 void UI_Button::OnPressed()
 {
 	image->color = pressedColor;
-	image->selectedTexture = image->mat->rTextures[2];
+	image->selectedTexture = image->mapTextures.find(state)->second;
 
 }
 
 void UI_Button::OnSelected()
 {
 	image->color = selectedColor;
-	image->selectedTexture = image->mat->rTextures[3];
+	image->selectedTexture = image->mapTextures.find(state)->second;
 
 }
 
 void UI_Button::OnRelease()
 {
-
+	image->selectedTexture = image->mapTextures.find(state)->second;
 }

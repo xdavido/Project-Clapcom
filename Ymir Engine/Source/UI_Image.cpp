@@ -16,14 +16,16 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	mat->shaderPath = shaderPath;
 	mat->shader.LoadShader(mat->shaderPath);
 
-	SetImg(imgPath);
+	SetImg(imgPath, UI_STATE::NORMAL);
 
-	selectedTexture = mat->rTextures[0];
+	selectedTexture = mapTextures.find(state)->second;
 }
 
 UI_Image::~UI_Image()
 {
 	RELEASE(mat);
+	RELEASE(selectedTexture);
+	//RELEASE(mapTextures);
 }
 
 void UI_Image::OnInspector()
@@ -376,7 +378,7 @@ update_status UI_Image::Update(float dt)
 	return update_status();
 }
 
-void UI_Image::SetImg(std::string imgPath)
+void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 {
 	ResourceTexture* rTexTemp = new ResourceTexture();
 	ImporterTexture::Import(imgPath, rTexTemp);
@@ -385,6 +387,9 @@ void UI_Image::SetImg(std::string imgPath)
 
 	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
+
+	mapTextures.insert({ state, rTexTemp });
+
 }
 
 void UI_Image::SetNativeSize()
