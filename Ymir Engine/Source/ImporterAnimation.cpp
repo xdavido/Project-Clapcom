@@ -18,21 +18,20 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 		boneNames += ourAnimation->bones[i].name;
 		boneNames += "\n";
 
-		boneMapTotalSize += sizeof(uint) * 3; //Header size
-		boneMapTotalSize += ourAnimation->bones[i].positions.size() * (sizeof(float) + sizeof(float3)); // Save the float TimeStamp and the position vector
-		boneMapTotalSize += ourAnimation->bones[i].rotations.size() * (sizeof(float) + sizeof(Quat)); // Save the float TimeStamp and the position quaternion
-		boneMapTotalSize += ourAnimation->bones[i].scales.size() * (sizeof(float) + sizeof(float3)); // Save the float TimeStamp and the scale vector
-
 		retSize += sizeof(uint) + ourAnimation->bones[i].name.size() + sizeof(uint) * 3;
 		retSize += ourAnimation->bones[i].positions.size() * (sizeof(float) + sizeof(float3)); // Save the float TimeStamp and the position vector
 		retSize += ourAnimation->bones[i].rotations.size() * (sizeof(float) + sizeof(Quat)); // Save the float TimeStamp and the position quaternion
 		retSize += ourAnimation->bones[i].scales.size() * (sizeof(float) + sizeof(float3));
 	}
+	retSize += ourAnimation->boneInfoMap.size() * sizeof(BoneInfo) + ourAnimation->boneInfoMap.size() * sizeof(std::string);
 
-	uint header[4] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size() };
+	uint header[6] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size(), ourAnimation->name.size(), ourAnimation->boneInfoMap.size()};
 
 	//retSize = sizeof(header) + (sizeof(float) * header[0]) + (sizeof(float) + header[1]) + (boneMapTotalSize*header[2]) + (sizeof(char) * header[3]);
 	retSize += sizeof(header);
+
+	// BoneInfoMap
+	
 
 	char* fileBuffer = new char[retSize];
 	char* cursor = fileBuffer;
@@ -97,6 +96,23 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 		cursor += ourAnimation->bones[i].scales.size() * sizeof(float3);
 	}
 
+	// Save animation name
+	memcpy(cursor, ourAnimation->name.c_str(), ourAnimation->name.size() + 1);
+	cursor += ourAnimation->name.size() + 1;
+
+	// Save BoneInfoMap
+	std::map<std::string, BoneInfo>::const_iterator it = ourAnimation->boneInfoMap.begin();
+	for (it = ourAnimation->boneInfoMap.begin(); it != ourAnimation->boneInfoMap.end(); it++) {
+		memcpy(cursor, &it->first, sizeof(std::string));
+		cursor += sizeof(std::string);
+
+		memcpy(cursor, &it->second, sizeof(BoneInfo));
+		cursor += sizeof(BoneInfo);
+	}
+
+	// Save assimp imported nodes
+	
+
 	return fileBuffer;
 }
 
@@ -117,8 +133,8 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	char* cursor = fileBuffer;
 
 	// Load headers
-	uint header[4];
-	uint headerSize = sizeof(uint) * 4;
+	uint header[6];
+	uint headerSize = sizeof(uint) * 6;
 	memcpy(header, cursor, headerSize);
 	cursor += headerSize;
 
@@ -205,6 +221,27 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 			ourAnimation->bones[i].scales[j].scale = scaVal[j];
 		}
 	}
+
+	// Load animation name. The + 1 in animation name size is due to the '\0'
+	uint animationNameSize = header[4] * sizeof(char) + 1;
+	char* nameBuffer = new char[animationNameSize];
+	memcpy(nameBuffer, cursor, animationNameSize);
+	ourAnimation->name = std::string(nameBuffer);
+	delete[] nameBuffer;
+	cursor += animationNameSize;
+
+	// Load boneInfoMap
+	for (int i = 0; i < header[5]; i++) {
+		std::string name; 
+		memcpy(&name, cursor, sizeof(std::string));
+		cursor += sizeof(std::string);
+
+		BoneInfo info; 
+		memcpy(&info, cursor, sizeof(BoneInfo));
+		cursor += sizeof(BoneInfo);
+		ourAnimation->boneInfoMap[name] = BoneInfo(info);
+	}
+	// Load AssimpNodeData
 
 	// Deallocate memory for file buffer
 	delete[] fileBuffer;

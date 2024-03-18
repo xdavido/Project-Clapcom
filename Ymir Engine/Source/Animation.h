@@ -77,11 +77,9 @@ public:
 
 	std::vector<Bone> bones;
 
-private:
-
-	
 	AssimpNodeData rootNode;
 	std::map<std::string, BoneInfo> boneInfoMap;
+private:
 
 };
 

@@ -111,7 +111,7 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 		AssimpNodeData newData; 
 		ReadHierarchyData(newData, src->mChildren[i]);
 		dest.children.push_back(newData);
-	}	
+	}
 }
 
 Animation* Animation::ParseAnimationData(const std::string& animationPath, Model* model, int index)

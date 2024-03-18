@@ -63,9 +63,11 @@ public:
 
 	std::vector<Bone> bones;
 
+	std::map<std::string, BoneInfo> boneInfoMap;
+
 private:
 
-	std::map<std::string, BoneInfo> boneInfoMap;
+	
 
 
 
