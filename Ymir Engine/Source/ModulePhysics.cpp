@@ -31,7 +31,6 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 
 	// Debug drawer	
-	debugDraw = new DebugDrawer();
 	debug = true;
 
 	// Colors
@@ -44,15 +43,11 @@ ModulePhysics::~ModulePhysics()
 	delete collisionConfig;
 	delete broadphase;
 	delete constraintSolver;
-
-	delete debugDraw;
 }
 
 // INIT ----------------------------------------------------------------------
 bool ModulePhysics::Init() 
 {
-	debugDraw->setDebugMode(1);
-
 	return true;
 }
 
@@ -61,7 +56,6 @@ bool ModulePhysics::Start()
 {
 	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
 	world->setGravity(GRAVITY);
-	world->setDebugDrawer(debugDraw);
 
 	return true;
 }
@@ -593,42 +587,6 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody, Color color)
 	// TODO: render mesh collider
 }
 
-// DEBUG DRAWER =============================================
-void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
-{
-	line.origin.Set(from.getX(), from.getY(), from.getZ());
-	line.destination.Set(to.getX(), to.getY(), to.getZ());
-	line.color.Set(color.getX(), color.getY(), color.getZ());
-
-	line.Render(External->physics->GetColliderColor()); // Custom color yey
-}
-
-void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
-{
-	point.transform.Translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
-	point.color.Set(color.getX(), color.getY(), color.getZ());
-	point.Render();
-}
-
-void DebugDrawer::reportErrorWarning(const char* warningString)
-{
-	LOG("Bullet warning: %s", warningString);
-}
-
-void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
-{
-	LOG("Bullet draw text: %s", textString);
-}
-
-void DebugDrawer::setDebugMode(int debugMode)
-{
-	mode = (DebugDrawModes)debugMode;
-}
-
-int	 DebugDrawer::getDebugMode() const
-{
-	return mode;
-}
 
 btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 {
