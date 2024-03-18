@@ -116,6 +116,8 @@ public:
 
 private:
 
+	std::vector<GameObject*> vSelectedGOs;
+
 	G_UI* canvas;
 	int selectedUI;
 

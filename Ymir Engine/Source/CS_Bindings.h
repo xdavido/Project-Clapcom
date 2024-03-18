@@ -13,8 +13,10 @@
 #include"ModuleInput.h"
 #include"ModuleScene.h"
 #include"ModuleResourceManager.h" 
+#include "ModuleMonoManager.h"
 #include "ModuleInput.h"
 #include "Resources.h"
+#include "PhysfsEncapsule.h"
 
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
@@ -141,10 +143,39 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 
-	go->mTransform->SetPosition( posVector);
+	go->mTransform->SetPosition(posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
-}
 
+
+}
+MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
+{
+	ComponentType sType = static_cast<ComponentType>(inputType);
+
+	char* name = mono_string_to_utf8(type);
+	Component* component = External->moduleMono->GameObject_From_CSGO(ref)->GetComponent(sType, name);
+	mono_free(name);
+
+	//assert(component != nullptr, "Trying to get a null component");
+	if (component == nullptr)
+		return nullptr;
+
+	if (sType == ComponentType::SCRIPT)
+		return mono_gchandle_get_target(dynamic_cast<CScript*>(component)->noGCobject);
+
+	MonoClass* cmpClass = mono_object_get_class(ref);
+	MonoObject* ret = mono_object_new(External->moduleMono->domain, cmpClass);
+
+	//Get type from unity
+
+	//Get type
+	MonoClassField* field = mono_class_get_field_from_name(cmpClass, "pointer");
+
+	uintptr_t goPtr = reinterpret_cast<uintptr_t>(component);
+	mono_field_set_value(ret, field, &goPtr);
+
+	return ret;
+}
 GameObject* DECS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;
@@ -196,6 +227,40 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 }
 
+void SetImpulse(MonoObject* obj, MonoObject* vel) {
+
+	if (External == nullptr)				
+		return;
+
+	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+	  
+	if (rigidbody)
+	{
+		rigidbody->physBody->body->applyCentralImpulse({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
+
+	}
+	 
+}
+
+void SetVelocity(MonoObject* obj, MonoObject* vel) {
+
+	if (External == nullptr)
+		return;
+
+	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+
+	if (rigidbody)
+	{
+		rigidbody->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
+
+	}
+
+}
+
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
@@ -225,7 +290,7 @@ MonoObject* GetForward(MonoObject* go)
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	//TODO: No tenemos GetForward()
+	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	
 }
 MonoObject* GetRight(MonoObject* go)
 {
@@ -235,7 +300,7 @@ MonoObject* GetRight(MonoObject* go)
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	//TODO: No tenemos GetRight()
+	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	
 }
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
@@ -353,6 +418,16 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->AddComponent(c);
 
 	/*return mono_gchandle_get_target(cmp->noGCobject);*/
+}
+
+void ChangeSceneCS(MonoString* scenePath)
+{
+	char* _name = mono_string_to_utf8(scenePath);
+	External->resourceManager->ImportFile(_name);
+	//TODO:
+	std::string name = PhysfsEncapsule::GetAssetName(_name);
+
+	External->scene->LoadSceneFromStart("Assets", name);
 }
 
 //---------- GLOBAL GETTERS ----------//

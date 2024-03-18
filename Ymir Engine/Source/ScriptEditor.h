@@ -28,6 +28,8 @@ public:
 	void DeleteScriptTXT(std::string fileName);
 	void LoadScriptTXT(std::string filePath);
 
+	void ShowNewScriptDialogue();
+
 
 	void SetTextFromFile(const char* path);
 

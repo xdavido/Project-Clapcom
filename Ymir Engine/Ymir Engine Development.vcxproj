@@ -146,6 +146,7 @@
     <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Audio_Bindings.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
     <ClInclude Include="Source\C_UI.h" />

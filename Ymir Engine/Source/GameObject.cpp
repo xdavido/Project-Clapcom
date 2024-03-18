@@ -259,6 +259,31 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 	return nullptr;
 }
+Component* GameObject::GetComponent(ComponentType ctype,char* scriptname)
+{
+	 // Suponiendo que ya tienes asignado un valor a scriptname
+	char* concatenatedName = new char[strlen(scriptname) + 4]; // +4 para ".cs" y el terminador nulo
+	strcpy(concatenatedName, scriptname);
+	strcat(concatenatedName, ".cs");
+	for (size_t i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i] && mComponents[i]->ctype == ctype)
+		{
+			if (ctype == ComponentType::SCRIPT)
+			{
+				CScript* a = dynamic_cast<CScript*>(mComponents[i]);
+				if (scriptname != nullptr && strcmp(a->name.c_str(), concatenatedName) == 0)
+					return mComponents[i];
+			}
+			else
+			{
+				return mComponents[i];
+			}
+		}
+	}
+
+	return nullptr;
+}
 
 void GameObject::RemoveComponent(Component* component)
 {

@@ -52,6 +52,9 @@ public:
 	void SetInputActive(std::string& strToStore, bool getInput = true);
 	void SetMaxChars(int limit);
 
+	KEY_STATE GetGamePadKey(int id) const {
+		return game_pad[id];
+	}
 
 	KEY_STATE GetKey(int id) const
 	{
@@ -161,6 +164,7 @@ public:
 
 private:
 
+	KEY_STATE game_pad[SDL_CONTROLLER_BUTTON_MAX];
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
@@ -169,6 +173,8 @@ private:
 	int mouse_x_motion;
 	int mouse_y_motion;
 	//int mouse_z_motion;
+
+	SDL_GameController* controller_player = nullptr;
 
 	int maxChars;
 	bool getInput_B;
