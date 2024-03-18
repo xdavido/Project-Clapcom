@@ -201,14 +201,17 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 
 		// Build vectors
 		ourAnimation->bones[i].positions.resize(boneHeader[0]);
+		ourAnimation->bones[i].numPositions = boneHeader[0];
 		// Position
 		for (int j = 0; j < posKey.size(); j++) {
+			
 			ourAnimation->bones[i].positions[j].timeStamp = posKey[j];
 			ourAnimation->bones[i].positions[j].position = posVal[j];
 		}
 
 		// Rotation
 		ourAnimation->bones[i].rotations.resize(boneHeader[1]);
+		ourAnimation->bones[i].numRotations = boneHeader[1];
 		for (int j = 0; j < rotKey.size(); j++) {
 			ourAnimation->bones[i].rotations[j].timeStamp = rotKey[j];
 			ourAnimation->bones[i].rotations[j].rotation = rotVal[j];
@@ -216,6 +219,7 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 
 		// Scale
 		ourAnimation->bones[i].scales.resize(boneHeader[2]);
+		ourAnimation->bones[i].numScales = boneHeader[2];
 		for (int j = 0; j < scaKey.size(); j++) {
 			ourAnimation->bones[i].scales[j].timeStamp = scaKey[j];
 			ourAnimation->bones[i].scales[j].scale = scaVal[j];
@@ -241,6 +245,12 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 		cursor += sizeof(BoneInfo);
 		ourAnimation->boneInfoMap[name] = BoneInfo(info);
 	}
+
+	// Assign id
+	for (uint i = 0; i < header[2]; i++) {
+		ourAnimation->bones[i].id = ourAnimation->boneInfoMap[ourAnimation->bones[i].name].id;
+	}
+
 	// Load AssimpNodeData
 
 	// Deallocate memory for file buffer
