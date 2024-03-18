@@ -131,7 +131,5 @@ private:
 
 public:
 	// DO NOT USE, Save/Load purposes only
-	std::vector<GameObject*> vTempReferences;
-	std::vector<Component*> vTempComponents;
-	std::vector<int> vTempGOid;
+
 };

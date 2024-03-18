@@ -247,20 +247,28 @@ void UI_Slider::OnPressed()
 
 void UI_Slider::OnSelected()
 {
-	//image->color = selectedColor;
-
-	if (fillImage != nullptr)
+	// TODO: Sara --> test this
+	if ((External->input->GetGamepadLeftJoystickPositionValueX() != 0) || External->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 	{
-
+		if (useFloat)
+		{
+			ValueCalculationsFromHandles(value.fValue, dragLimits.x + dragLimits.z);
+		}
+		else
+		{
+			ValueCalculationsFromHandles(value.iValue, dragLimits.x + dragLimits.z);
+		}
 	}
-
-	if (handleImage != nullptr)
+	else if ((External->input->GetGamepadLeftJoystickPositionValueY() != 0) || External->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
-		// if moving joystick --> drag true, else drag false
-		//if ()
-		//{
-			//handleImage->GetComponentUI(UI_TYPE::IMAGE)->isDragging = true;
-		//}
+		if (useFloat)
+		{
+			ValueCalculationsFromHandles(value.fValue, dragLimits.y + dragLimits.w);
+		}
+		else
+		{
+			ValueCalculationsFromHandles(value.iValue, dragLimits.y + dragLimits.w);
+		}
 	}
 }
 

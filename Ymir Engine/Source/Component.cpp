@@ -91,8 +91,14 @@ GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonCli
 	return go;
 }
 
-void Component::SetReference(GameObject& go)
+void Component::SetReference(GameObject& pointer, GameObject& newPointer)
 {
+	if (&pointer != nullptr)
+	{
+		pointer.RemoveReference(this);
+	}
+	pointer = newPointer;
+	pointer.vReferences.push_back(this);
 }
 
 void Component::OnReferenceDestroyed(void* ptr)
