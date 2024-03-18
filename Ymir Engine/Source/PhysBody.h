@@ -28,4 +28,5 @@ public:
 
 public:
 	bool is_sensor = false;
+	bool drawCollider = true;
 };

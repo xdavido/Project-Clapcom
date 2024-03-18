@@ -34,7 +34,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	debugDraw = new DebugDrawer();
 	debug = true;
 
-	//Colors
+	// Colors
 	colliderColor = Green;
 }
 
@@ -46,12 +46,6 @@ ModulePhysics::~ModulePhysics()
 	delete constraintSolver;
 
 	delete debugDraw;
-	
-	//for (int i = 0; i < bodiesList.size(); i++)	
-	//	RemoveBody(bodiesList[i]);
-
-	//for (int i = 0; i < collidersList.size(); i++) 
-	//	RemoveCollider(collidersList[i]);
 }
 
 // INIT ----------------------------------------------------------------------
@@ -129,41 +123,28 @@ update_status ModulePhysics::PostUpdate(float dt)
 {
 	beginPlay = false;
 	return UPDATE_CONTINUE;
+
+	for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	{
+		btRigidBody* b = (btRigidBody*)(*it)->body;
+		btTransform t;
+		b->getMotionState()->getWorldTransform(t);
+
+		//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	}
 }
 
 // CLEANUP -------------------------------------------------------------------
-bool ModulePhysics::CleanUp()												  
-{																			  
-	return true;															  
-}																			  
-																			  
-// Module Functions	----------------------------------------------------------
-//void ModulePhysics::AddBody(btRigidBody* b)
-//{
-//	bodiesList.push_back(b);
-//	world->addRigidBody(b);
-//}
-
-//void ModulePhysics::AddCollider(btCollisionShape* c)
-//{
-//	collidersList.push_back(c);
-//	//world->addCollisionObject(c);
-//}
-
-//void ModulePhysics::RemoveCollider(btCollisionShape* c)
-//{
-//	//world->removeCollisionObject(c);
-//
-//	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
-//	collidersList.shrink_to_fit();
-//}
+bool ModulePhysics::CleanUp()
+{
+	return true;
+}
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
@@ -191,7 +172,6 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(sphere.transform));
@@ -219,7 +199,6 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mas
 PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(capsule.transform));
@@ -247,8 +226,6 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
-
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setIdentity();
@@ -430,7 +407,191 @@ bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3&
 	return false;
 }
 
+// RENDER SHAPES ---------------------------------------------------------------
+void ModulePhysics::RenderBoxCollider(PhysBody* pbody, Color color)
+{
+	float mat[16];
+	pbody->GetTransform(mat);
 
+	btBoxShape* shape = (btBoxShape*)pbody->body->getCollisionShape();
+	btVector3 halfExtents = shape->getHalfExtentsWithoutMargin();
+
+	glColor3f(color.r, color.g, color.b);
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// TODO: render box
+	glBegin(GL_LINES);
+
+	// Aristas horizontales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	// Aristas verticales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	// Otras aristas
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glEnd();
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderSphereCollider(PhysBody* pbody, Color color)
+{
+	float mat[16];
+	pbody->GetTransform(mat);
+
+	float r = ((btSphereShape*)pbody->body->getCollisionShape())->getRadius();
+
+	glColor3f(color.r, color.g, color.b);
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// Dibujar la meridiana en el plano XY
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), r * sin(phi), 0);
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), 0, r * sin(phi));
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano YZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, r * cos(phi), r * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody, Color color)
+{
+	float mat[16];
+	pbody->GetTransform(mat);
+
+	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
+
+	glColor3f(color.r, color.g, color.b);
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(radius, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(-radius, halfHeight, 0); 
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, radius); 
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, -radius); 
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ (círculos completos)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	// Medio círculo superior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) + halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio círculo inferior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) - halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio círculo superior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) + halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+	// Medio círculo inferior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) - halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderMeshCollider(PhysBody* pbody, Color color)
+{
+	float mat[16];
+	pbody->GetTransform(mat);
+
+	// TODO: render mesh collider
+}
 
 // DEBUG DRAWER =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
@@ -480,4 +641,3 @@ btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 	}
 	return openGLMatrix;
 }
-

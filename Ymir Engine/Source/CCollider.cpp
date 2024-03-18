@@ -262,6 +262,11 @@ void CCollider::OnInspector()
 
 			}
 
+			if (ImGui::Checkbox("Draw Collider", &physBody->drawCollider))
+			{
+				!physBody->drawCollider;
+			}
+
 		}
 
 		// -----------------------------------------------------------------------------------------------------

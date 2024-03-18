@@ -59,9 +59,14 @@ public:
 
 	btScalar* getOpenGLMatrix(float4x4 matrix);
 
+	// Render functions
+	void RenderBoxCollider(PhysBody* pbody, Color color);
+	void RenderSphereCollider(PhysBody* pbody, Color color);
+	void RenderCapsuleCollider(PhysBody* pbody, Color color);
+	void RenderMeshCollider(PhysBody* pbody, Color color);
+
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	
-	std::vector<btCollisionShape*> collidersList;
 	std::vector<PhysBody*> bodiesList;
 	std::vector <btDefaultMotionState*> motions;
 
@@ -77,8 +82,11 @@ public:
 	btConstraintSolver* constraintSolver;
 
 	bool beginPlay;
-private:
+
 	Color colliderColor;
+
+private:
+
 };
 
 class DebugDrawer : public btIDebugDraw

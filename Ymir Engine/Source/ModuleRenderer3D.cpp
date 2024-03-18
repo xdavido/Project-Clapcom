@@ -646,12 +646,17 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr) {
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawCollider) {
 
-			App->physics->world->debugDrawWorld();
-			
+			//App->physics->world->debugDrawWorld()
+
+			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
+
+			if (shape->getShapeType() == BOX_SHAPE_PROXYTYPE) App->physics->RenderBoxCollider(colliderComponent->physBody, App->physics->colliderColor);
+			if (shape->getShapeType() == SPHERE_SHAPE_PROXYTYPE) App->physics->RenderSphereCollider(colliderComponent->physBody, App->physics->colliderColor);
+			if (shape->getShapeType() == CAPSULE_SHAPE_PROXYTYPE) App->physics->RenderCapsuleCollider(colliderComponent->physBody, App->physics->colliderColor);
+			if (shape->getShapeType() == TRIANGLE_MESH_SHAPE_PROXYTYPE) App->physics->RenderMeshCollider(colliderComponent->physBody, App->physics->colliderColor);
 		}
-
 	}
 }
 
