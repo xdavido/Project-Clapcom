@@ -642,22 +642,47 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
+	// Desactivar la iluminación
+
+	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se verán siempre sin importar la iluminacion
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr && colliderComponent->physBody->drawCollider) {
-
-			//App->physics->world->debugDrawWorld()
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
+		{
+			Color color;
+			if (colliderComponent->physBody->is_sensor) color = App->physics->sensorColor;
+			else color = App->physics->colliderColor;
 
 			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
 
-			if (shape->getShapeType() == BOX_SHAPE_PROXYTYPE) App->physics->RenderBoxCollider(colliderComponent->physBody, App->physics->colliderColor);
-			else if (shape->getShapeType() == SPHERE_SHAPE_PROXYTYPE) App->physics->RenderSphereCollider(colliderComponent->physBody, App->physics->colliderColor);
-			else if (shape->getShapeType() == CAPSULE_SHAPE_PROXYTYPE) App->physics->RenderCapsuleCollider(colliderComponent->physBody, App->physics->colliderColor);
-			else App->physics->RenderMeshCollider(colliderComponent->physBody, App->physics->colliderColor);
+			glColor3f(color.r, color.g, color.b); // Cambio aquí el color para tenerlo más controlado
+			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
+
+			switch (shape->getShapeType()) 
+			{
+			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
+				App->physics->RenderBoxCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::SPHERE_SHAPE_PROXYTYPE: // RENDER SPHERE ====================
+				App->physics->RenderSphereCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
+				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
+				App->physics->RenderMeshCollider(colliderComponent->physBody);
+				break;
+			} 
+
+			glColor3f(255.0f, 255.0f, 255.0f);
+			glLineWidth(1.f);
 		}
 	}
+
+	if (App->editor->gl_Lighting) glEnable(GL_LIGHTING);
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)

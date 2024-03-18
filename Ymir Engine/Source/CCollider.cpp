@@ -187,6 +187,16 @@ void CCollider::OnInspector()
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
+		if (ImGui::Checkbox("Is Sensor", &physBody->is_sensor))
+		{
+			!physBody->is_sensor;
+		}
+
+		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))
+		{
+			!physBody->drawShape;
+		}
+
 		ImGui::Text("Shape: "); ImGui::SameLine();
 		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles))) 
 		{
@@ -265,12 +275,6 @@ void CCollider::OnInspector()
 				}
 
 			}
-
-			if (ImGui::Checkbox("Draw Collider", &physBody->drawCollider))
-			{
-				!physBody->drawCollider;
-			}
-
 		}
 
 		// -----------------------------------------------------------------------------------------------------

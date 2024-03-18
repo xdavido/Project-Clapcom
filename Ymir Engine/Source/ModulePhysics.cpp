@@ -35,6 +35,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 
 	// Colors
 	colliderColor = Green;
+	sensorColor = Red;
 }
 
 ModulePhysics::~ModulePhysics() 
@@ -305,6 +306,16 @@ void ModulePhysics::SetColliderColor(Color col)
 	colliderColor = col;
 }
 
+void ModulePhysics::SetSensorColor(Color col)
+{
+	sensorColor = col;
+}
+
+void ModulePhysics::SetLineWidth(float w)
+{
+	shapeLineWidth = w;
+}
+
 void ModulePhysics::ResetGravity()
 {
 	LOG("Reseted Gravity");
@@ -402,15 +413,13 @@ bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3&
 }
 
 // RENDER SHAPES ---------------------------------------------------------------
-void ModulePhysics::RenderBoxCollider(PhysBody* pbody, Color color)
+void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 {
 	float mat[16];
 	pbody->GetTransform(mat);
 
 	btBoxShape* shape = (btBoxShape*)pbody->body->getCollisionShape();
 	btVector3 halfExtents = shape->getHalfExtentsWithoutMargin();
-
-	glColor3f(color.r, color.g, color.b);
 
 	glPushMatrix();
 	glMultMatrixf(mat); // translation and rotation
@@ -461,14 +470,12 @@ void ModulePhysics::RenderBoxCollider(PhysBody* pbody, Color color)
 
 	glPopMatrix();
 }
-void ModulePhysics::RenderSphereCollider(PhysBody* pbody, Color color)
+void ModulePhysics::RenderSphereCollider(PhysBody* pbody)
 {
 	float mat[16];
 	pbody->GetTransform(mat);
 
 	float r = ((btSphereShape*)pbody->body->getCollisionShape())->getRadius();
-
-	glColor3f(color.r, color.g, color.b);
 
 	glPushMatrix();
 	glMultMatrixf(mat); // translation and rotation
@@ -499,15 +506,13 @@ void ModulePhysics::RenderSphereCollider(PhysBody* pbody, Color color)
 
 	glPopMatrix();
 }
-void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody, Color color)
+void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 {
 	float mat[16];
 	pbody->GetTransform(mat);
 
 	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
 	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
-
-	glColor3f(color.r, color.g, color.b);
 
 	glPushMatrix();
 	glMultMatrixf(mat); // translation and rotation
@@ -579,7 +584,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody, Color color)
 
 	glPopMatrix();
 }
-void ModulePhysics::RenderMeshCollider(PhysBody* pbody, Color color)
+void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 {
 	float mat[16];
 	pbody->GetTransform(mat);
@@ -588,8 +593,6 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody, Color color)
 	btStridingMeshInterface* meshInterface = shape->getMeshInterface();
 
 	int numTriangles = meshInterface->getNumSubParts();
-
-	glColor3f(color.r, color.g, color.b);
 
 	glPushMatrix(); 
 	glMultMatrixf(mat); // translation and rotation 

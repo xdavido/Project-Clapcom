@@ -37,13 +37,15 @@ public:
 	void SetWorldGravity(btVector3 g);
 	void SetdebugDraw(bool d);
 	void SetColliderColor(Color col);
+	void SetSensorColor(Color col);
+	void SetLineWidth(float w);
 
 	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
 	// PhysBody related
 	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
 	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
-	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
+	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Capsule
 	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape);				 // Convex
 	void RemoveBody(PhysBody* b);
 
@@ -60,10 +62,10 @@ public:
 	btScalar* getOpenGLMatrix(float4x4 matrix);
 
 	// Render functions
-	void RenderBoxCollider(PhysBody* pbody, Color color);
-	void RenderSphereCollider(PhysBody* pbody, Color color);
-	void RenderCapsuleCollider(PhysBody* pbody, Color color);
-	void RenderMeshCollider(PhysBody* pbody, Color color);
+	void RenderBoxCollider(PhysBody* pbody);
+	void RenderSphereCollider(PhysBody* pbody);
+	void RenderCapsuleCollider(PhysBody* pbody);
+	void RenderMeshCollider(PhysBody* pbody);
 
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	
@@ -72,8 +74,6 @@ public:
 
 	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
 
-	bool debug = true; // If true, draws colliders
-
 	btDispatcher* dispatcher;
 	btCollisionConfiguration* collisionConfig;
 	btBroadphaseInterface* broadphase;
@@ -81,7 +81,12 @@ public:
 
 	bool beginPlay;
 
+	bool debug = true; // If true, draws physics stuff
+
+	// Shapes customization
 	Color colliderColor;
+	Color sensorColor;
+	int shapeLineWidth = 2;
 
 private:
 
