@@ -22,5 +22,7 @@ public:
 
 public:
 	CMaterial* mat;
+	ResourceTexture* selectedTexture;
+
 };
 #endif // __UI_IMAGE_H__

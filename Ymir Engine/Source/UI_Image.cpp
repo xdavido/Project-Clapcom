@@ -22,6 +22,36 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	rTexTemp->UID = Random::Generate();
 	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
+
+	// TODO: very ugly, provisional
+	std::string path = "Assets/InGameConeptPng.png";
+
+	ResourceTexture* rTexTemp1 = new ResourceTexture();
+	ImporterTexture::Import(path, rTexTemp1);
+	rTexTemp1->type = TextureType::DIFFUSE;
+	rTexTemp1->UID = Random::Generate();
+	mat->path = path;
+	mat->rTextures.push_back(rTexTemp1);
+
+	path = "Assets/pato.png";
+
+	ResourceTexture* rTexTemp2 = new ResourceTexture();
+	ImporterTexture::Import(path, rTexTemp2);
+	rTexTemp2->type = TextureType::DIFFUSE;
+	rTexTemp2->UID = Random::Generate();
+	mat->path = path;
+	mat->rTextures.push_back(rTexTemp2);
+
+	path = "Assets/Water.png";
+
+	ResourceTexture* rTexTemp3 = new ResourceTexture();
+	ImporterTexture::Import(path, rTexTemp3);
+	rTexTemp3->type = TextureType::DIFFUSE;
+	rTexTemp3->UID = Random::Generate();
+	mat->path = path;
+	mat->rTextures.push_back(rTexTemp3);
+
+	selectedTexture = mat->rTextures[0];
 }
 
 UI_Image::~UI_Image()
@@ -65,12 +95,32 @@ void UI_Image::OnInspector()
 		ImGui::SeparatorText("Image");
 
 		ImGui::Spacing();
-
 		ImGui::Text("Image Width: %d", width);
 		ImGui::Text("Image Height: %d", height);
 
 		ImGui::Spacing();
 
+		// Change Texture
+		if (ImGui::BeginCombo("##Texture", selectedTexture->GetAssetsFilePath().c_str()))
+		{
+			for (auto& textures : mat->rTextures)
+			{
+				const bool is_selected = (selectedTexture == textures);
+				if (ImGui::Selectable(textures->GetAssetsFilePath().c_str(), is_selected))
+				{
+					selectedTexture = textures;
+				}
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+				{
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::SameLine();
+	
 		if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
 		{
 			SetNativeSize();
@@ -317,11 +367,7 @@ void UI_Image::Draw(bool game)
 	UI_Bounds* boundsDrawn = nullptr;
 
 
-	for (auto& textures : mat->rTextures) {
-
-		textures->BindTexture(true);
-
-	}
+	selectedTexture->BindTexture(true);
 
 	mat->shader.UseShader(true);
 	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
@@ -355,12 +401,8 @@ void UI_Image::Draw(bool game)
 	boundsDrawn = nullptr;
 
 	mat->shader.UseShader(false);
+	selectedTexture->BindTexture(false);
 
-	for (auto& textures : mat->rTextures) {
-
-		textures->BindTexture(false);
-
-	}
 }
 
 update_status UI_Image::Update(float dt)
