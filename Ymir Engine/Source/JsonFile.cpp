@@ -1451,6 +1451,11 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 		External->scene->mRootNode = gameObjects[0];
 
 
+		auto it = External->scene->vTempComponents.begin();
+		for (auto it = External->scene->vTempComponents.begin(); it != External->scene->vTempComponents.end(); ++it)
+		{
+			(*it)->SetReference();
+		}
 
 		//auto it = External->scene->vTempReferences.begin();
 		//auto jt = External->scene->vTempComponents.begin();
@@ -2094,26 +2099,35 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			int id = json_object_get_number(componentObject, "Fill image");
 			if (id != -1)
 			{
-				GameObject* go = ui_comp->fillImage;
-				GameObject** a = &go;
-				External->scene->vTempReferences.push_back(a);
-				External->scene->vTempComponents.push_back(*ui_comp);
+				ui_comp->vTempReferences.insert(std::pair<std::string, int>("Fill image", id));
+				
+				//GameObject* go = ui_comp->fillImage;
+				//GameObject** a = &go;
+				//External->scene->vTempReferences.push_back(a);
+				//External->scene->vTempComponents.push_back(*ui_comp);
 
-				//
-				External->scene->vTempGO.push_back(gameObject);
+				////
+				//External->scene->vTempGO.push_back(gameObject);
 				//External->scene->vTempGOid.push_back(id);
 			}
 
-			id = json_object_get_number(componentObject, "Handle image");
-			if (id != -1)
+			int id2 = json_object_get_number(componentObject, "Handle image");
+			if (id2 != -1)
 			{
-				GameObject* go = ui_comp->handleImage;
-				GameObject** a = &go;
-				External->scene->vTempReferences.push_back(a);
-				External->scene->vTempComponents.push_back(*ui_comp);
+				ui_comp->vTempReferences.insert(std::pair<std::string, int>("Handle image", id2));
 
-				//
-				External->scene->vTempGO.push_back(gameObject);
+				if (id != -1)
+				{
+					External->scene->vTempComponents.push_back(ui_comp);
+				}
+
+				//GameObject* go = ui_comp->handleImage;
+				//GameObject** a = &go;
+				//External->scene->vTempReferences.push_back(a);
+				//External->scene->vTempComponents.push_back(*ui_comp);
+
+				////
+				//External->scene->vTempGO.push_back(gameObject);
 				//External->scene->vTempGOid.push_back(id);
 			}
 

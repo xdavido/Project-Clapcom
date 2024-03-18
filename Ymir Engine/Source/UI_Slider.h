@@ -35,6 +35,7 @@ public:
 	update_status Update(float dt);
 
 	void OnInspector();
+	void SetReference() override;
 	void OnReferenceDestroyed(void* ptr = nullptr);
 
 	//

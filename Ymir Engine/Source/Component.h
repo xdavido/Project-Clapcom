@@ -1,6 +1,9 @@
 #pragma once
 #include "Globals.h"
 
+#include <string>
+#include <map>
+
 class GameObject;
 
 enum ComponentType {
@@ -47,7 +50,7 @@ public:
 	/// <returns></returns>
 	GameObject* ImGui_GameObjectReference(GameObject* go, bool *buttonClicked = nullptr);
 
-	virtual void SetReference(GameObject& pointer, GameObject& newPointer);
+	virtual void SetReference();
 	virtual void OnReferenceDestroyed(void* ptr = nullptr);
 
 public:
@@ -56,6 +59,9 @@ public:
 
 	bool active;
 	ComponentType ctype;
+
+	// DO NOT USE, Save/Load purposes only
+	std::map<std::string, int> vTempReferences;
 
 protected:
 

@@ -131,5 +131,6 @@ private:
 
 public:
 	// DO NOT USE, Save/Load purposes only
+    std::vector<Component*> vTempComponents;
 
 };

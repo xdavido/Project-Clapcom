@@ -201,6 +201,25 @@ void UI_Slider::OnInspector()
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
+void UI_Slider::SetReference()
+{
+	std::map<std::string, int>::iterator it = vTempReferences.begin();
+
+	while (it != vTempReferences.end())
+	{
+		if (it->first == "Fill image")
+		{
+			fillImage = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+		}
+		else if (it->first == "Handle image")
+		{
+			handleImage = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+		}
+
+		++it;
+	}
+}
+
 void UI_Slider::OnReferenceDestroyed(void* ptr)
 {
 	if (fillImage == ptr)
