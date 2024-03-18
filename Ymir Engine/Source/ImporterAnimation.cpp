@@ -24,13 +24,13 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 		retSize += ourAnimation->bones[i].scales.size() * (sizeof(float) + sizeof(float3));
 	}
 	retSize += ourAnimation->boneInfoMap.size() * sizeof(BoneInfo) + ourAnimation->boneInfoMap.size() * sizeof(std::string);
-
+	
 	uint header[6] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size(), ourAnimation->name.size(), ourAnimation->boneInfoMap.size()};
 
-	//retSize = sizeof(header) + (sizeof(float) * header[0]) + (sizeof(float) + header[1]) + (boneMapTotalSize*header[2]) + (sizeof(char) * header[3]);
 	retSize += sizeof(header);
+	CalculateNodeSize(ourAnimation->rootNode, retSize);
 
-	// BoneInfoMap
+	// BoneInfoMap	
 	
 
 	char* fileBuffer = new char[retSize];
@@ -111,7 +111,7 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 	}
 
 	// Save assimp imported nodes
-	
+	SaveAssimpNode(ourAnimation->rootNode, cursor);
 
 	return fileBuffer;
 }
@@ -252,8 +252,70 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	}
 
 	// Load AssimpNodeData
-
+	ourAnimation->rootNode = LoadNode(cursor);
 	// Deallocate memory for file buffer
 	delete[] fileBuffer;
 	fileBuffer = nullptr;
+}
+
+void ImporterAnimation::SaveAssimpNode(const AssimpNodeData& node, char*& cursor) {
+	// Save matrix transform
+	memcpy(cursor, &node.transformation, sizeof(float4x4));
+	cursor += sizeof(float4x4);
+
+	// Save name
+	uint nameSize = node.name.size() + 1;
+	memcpy(cursor, &nameSize, sizeof(uint));
+	cursor += sizeof(uint);
+	memcpy(cursor, node.name.c_str(), nameSize);
+	cursor += nameSize; 
+
+	// Save child number
+	memcpy(cursor, &node.childrenCount, sizeof(int));
+	cursor += sizeof(int);
+
+	for (int i = 0; i < node.childrenCount; i++) {
+		SaveAssimpNode(node.children[i], cursor);
+	}
+}
+
+AssimpNodeData ImporterAnimation::LoadNode(char*& cursor)
+{
+	AssimpNodeData node; 
+
+	// Load transform
+	memcpy(&node.transformation, cursor, sizeof(float4x4));
+	cursor += sizeof(float4x4);
+
+	// Load name
+	uint nameSize;
+	memcpy(&nameSize, cursor, sizeof(uint));
+	cursor += sizeof(uint);
+	node.name.resize(nameSize);
+	memcpy(&node.name[0], cursor, nameSize);
+	cursor += nameSize;
+
+	// Load children
+	memcpy(&node.childrenCount, cursor, sizeof(int));
+	cursor += sizeof(int);
+
+	// Load children vector
+	for (int i = 0; i < node.childrenCount; i++) {
+		AssimpNodeData child = LoadNode(cursor);
+		node.children.push_back(child);
+	}
+	return node;
+}
+
+void ImporterAnimation::CalculateNodeSize(const AssimpNodeData& node, uint& size)
+{
+	size += sizeof(float4x4); 
+
+	size += sizeof(uint) + node.name.size() + 1; 
+
+	size += sizeof(int);
+
+	for (int i = 0; i < node.childrenCount; i++) {
+		CalculateNodeSize(node.children[i], size);
+	}
 }

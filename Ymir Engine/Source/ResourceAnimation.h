@@ -65,6 +65,8 @@ public:
 
 	std::map<std::string, BoneInfo> boneInfoMap;
 
+	AssimpNodeData rootNode; 
+
 private:
 
 	
