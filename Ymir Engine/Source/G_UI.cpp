@@ -296,10 +296,10 @@ bool G_UI::AddButton(GameObject* g, std::string text, float x, float y, std::str
 	comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
 	comp->displayText = aux;
 
-	comp->image->SetImg(imgPath);
+	//comp->image->SetImg(imgPath);
 
 	// States
-	comp->image->SetImg(imgPath);
+	//comp->image->SetImg(imgPath);
 	comp->image->SetImg("Assets/Lava.png");
 	comp->image->SetImg("Assets/pato.png");
 	comp->image->SetImg("Assets/Water.png");

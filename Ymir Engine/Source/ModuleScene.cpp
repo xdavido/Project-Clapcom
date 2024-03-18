@@ -76,8 +76,12 @@ bool ModuleScene::Start()
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
 
-	CreateGUI(UI_TYPE::SLIDER);
-	CreateGUI(UI_TYPE::TEXT);
+	CreateGUI(UI_TYPE::BUTTON);
+	CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
+	CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
+
+	//CreateGUI(UI_TYPE::SLIDER);
+	//CreateGUI(UI_TYPE::TEXT);
 
 	return false;
 }
@@ -156,7 +160,7 @@ update_status ModuleScene::Update(float dt)
 
 	// UI navigation
 	HandleUINavigation();
-	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -218,7 +222,7 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 {
-	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x, y);
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x , y);
 	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
@@ -708,7 +712,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+					listUI[0]->SetState(UI_STATE::SELECTED);
 
 					selectedUI = listUI.size() - 1;
 				}

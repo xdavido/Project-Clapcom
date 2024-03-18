@@ -2,6 +2,7 @@
 
 #include "UI_Canvas.h"
 #include "UI_Transform.h"
+#include "ModuleWindow.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
@@ -121,8 +122,16 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x,
 	isDragging = false;
 	isDraggeable = false;
 
-	// TODO: Sara --> adapt to standalone
+#ifndef _STANDALONE
+
 	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
+
+#else
+
+	dragLimits = { 0, 0, (float)External->window->width, (float)External->window->height };
+
+#endif // !_STANDALONE
+
 }
 
 C_UI::~C_UI()

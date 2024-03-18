@@ -292,7 +292,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
-		DrawUIElements(false);
+		DrawUIElements(false, false);
 
 		// Render Bounding Boxes
 
@@ -324,7 +324,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			DrawUIElements(true);
+			DrawUIElements(true, false);
 
 		}
 
@@ -348,7 +348,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			DrawUIElements(true);
+			DrawUIElements(true, true);
 
 		}
 
@@ -665,17 +665,14 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 	}
 }
 
-void ModuleRenderer3D::DrawUIElements(bool isGame)
+void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 {
 	if (isGame)
 	{
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
 
-		// TODO: Use this when crating the build
-		//glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
-
+		isBuild ? glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0) : glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();

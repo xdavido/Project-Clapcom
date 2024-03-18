@@ -1,6 +1,7 @@
 #include "UI_Canvas.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
+#include "ModuleWindow.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -64,8 +65,17 @@ void UI_Canvas::UpdateUITransform()
 {
 	mOwner->mTransform->SetTransform(float3(0, 0, 0), float3(0, 0, 0), float3(1, 1, 1));
 	
+#ifndef _STANDALONE
+
 	width = External->editor->gameViewSize.x;
-	height = External->editor->gameViewSize.y;
+	height = External->editor->gameViewSize.y; 
+
+#else
+
+	width = External->window->width;
+	height = External->window->height;
+
+#endif // !_STANDALONE
 
 	boundsEditor->vertices[0].position = float3(posX, posY, 0);
 	boundsEditor->vertices[1].position = float3(posX + width, posY, 0);
