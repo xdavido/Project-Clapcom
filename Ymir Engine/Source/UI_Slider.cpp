@@ -7,7 +7,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, float w, float h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
+UI_Slider::UI_Slider(GameObject* g, bool floats, float min, float max, float value, float x, float y, G_UI* fill, G_UI* handle, float w, float h) : C_UI(UI_TYPE::SLIDER, ComponentType::UI, g, "Slider", x, y, w, h)
 {
 	isInteractable = true;
 
@@ -29,11 +29,17 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 		handleImage->vReferences.push_back(this);
 	}
 
-	minValue.iValue = 0;
-	maxValue.iValue = 10;
-
-	value.iValue = 0;
-	useFloat = false;
+	useFloat = floats;
+	if (useFloat)
+	{
+		minValue.fValue = 0;
+		maxValue.fValue = 10;
+	}
+	else
+	{
+		minValue.iValue = 0;
+		maxValue.iValue = 10;
+	}
 
 	direction = SLIDER_DIRECTION::LEFT_TO_RIGHT;
 	usingBar = false;
@@ -44,6 +50,8 @@ UI_Slider::UI_Slider(GameObject* g, float x, float y, G_UI* fill, G_UI* handle, 
 	dragLimits.y = y;
 	dragLimits.z = w;
 	dragLimits.w = h;
+
+	SetValue(value);
 }
 
 UI_Slider::~UI_Slider()
@@ -307,7 +315,7 @@ void UI_Slider::SetValue(float val)
 {
 	if (useFloat)
 	{
-		if (value.fValue >= minValue.fValue && value.fValue <= maxValue.fValue)
+		if (val >= minValue.fValue && val <= maxValue.fValue)
 		{
 			value.fValue = std::round(val);
 
@@ -368,7 +376,7 @@ void UI_Slider::SetValue(float val)
 	}
 	else
 	{
-		if (value.iValue >= minValue.iValue && value.iValue <= maxValue.iValue)
+		if (val >= minValue.iValue && val <= maxValue.iValue)
 		{
 			value.iValue = std::round(val);
 

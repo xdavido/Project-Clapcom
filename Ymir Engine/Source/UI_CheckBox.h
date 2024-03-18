@@ -9,6 +9,8 @@
 #include "UI_Image.h"
 #include "UI_Text.h"
 
+class G_UI;
+
 class UI_Checkbox : public C_UI
 {
 public:
@@ -31,10 +33,10 @@ public:
 	bool isInteractable;
 	bool isChecked;
 
-	UI_Image* bgImg;
-	UI_Image* cmImg;
+	G_UI* bgImg;
+	G_UI* cmImg;
 
-	UI_Text* displayText;
+	G_UI* displayText;
 
 	// TODO: fix this
 	bool defaultFunction1;

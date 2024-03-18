@@ -11,13 +11,14 @@ class UI_Image : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 100, y = 100
-	UI_Image(GameObject* g, float x = 0, float y = 0, float w = 100, float h = 100, std::string shaderPath = "Assets/Shaders/UI Shader.glsl", std::string imgPath= "Assets/InGameConeptPng.png");
+	UI_Image(GameObject* g, float x = 0, float y = 0, float w = 100, float h = 100, std::string imgPath = "Assets/InGameConeptPng.png", std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
 	~UI_Image();
 
 	void OnInspector();
 	void Draw(bool game) override;
 	update_status Update(float dt);
 
+	void SetImg(std::string imgPath);
 	void SetNativeSize();
 
 public:

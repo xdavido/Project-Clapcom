@@ -1815,9 +1815,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 		case UI_TYPE::TEXT:
 		{
-			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, 200, 50, json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"));
+			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, json_object_get_number(componentObject, "Font size"),
+				json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"), 200, 50);
 			ui_comp->text = json_object_get_string(componentObject, "Text");
-			ui_comp->fontSize = json_object_get_number(componentObject, "Font size");
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");

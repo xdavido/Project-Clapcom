@@ -25,6 +25,14 @@ G_UI::G_UI(UI_TYPE t, GameObject* pParent, float x, float y) : GameObject("", pP
 	AddUIComponent(t, x, y, pParent);
 }
 
+G_UI::G_UI(GameObject* pParent, float x, float y) : GameObject("", pParent)
+{
+	//RemoveComponent(mTransform); // TODO: fer amb altre transform
+	canvas = nullptr;
+
+	mParent->AddChild(this);
+}
+
 G_UI::~G_UI()
 {
 	canvas = nullptr;
@@ -160,304 +168,292 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 	break;
 	case UI_TYPE::IMAGE:
 	{
-		UI_Image* comp = new UI_Image(this, x, y);
-		mComponents.push_back(comp);
-
-		name = "Image";
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		comp->transformUI = new UI_Transform(comp);
-		mComponents.push_back(comp->transformUI);
-
-		comp = nullptr;
+		AddImage(this, "Assets/InGameConeptPng.png", x, y);
 	}
 	break;
 	case UI_TYPE::TEXT:
 	{
-		UI_Text* comp = new UI_Text(this, x, y);
-		mComponents.push_back(comp);
-
-		name = "Text";
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		comp->transformUI = new UI_Transform(comp);
-		mComponents.push_back(comp->transformUI);
-
-		comp = nullptr;
+		AddText(this, "This is a text", x, y);
 	}
 	break;
 	case UI_TYPE::BUTTON:
 	{
-		float w = 300;
-		float h = 50;
-
-		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y);
-		GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		GetComponentUI(UI_TYPE::IMAGE)->height = h;
-
-		UI_Button* comp = new UI_Button(this, x, y);
-		mComponents.push_back(comp);
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
-		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
-		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-		aux->vReferences.push_back(comp);
-
-		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
-		comp->displayText = aux;
-
-		// TODO: very ugly, provisional
-		std::string path = "Assets/Lava.png";
-
-		ResourceTexture* rTexTemp1 = new ResourceTexture();
-		ImporterTexture::Import(path, rTexTemp1);
-		rTexTemp1->type = TextureType::DIFFUSE;
-		rTexTemp1->UID = Random::Generate();
-		comp->image->mat->path = path;
-		comp->image->mat->rTextures.push_back(rTexTemp1);
-
-		path = "Assets/pato.png";
-
-		ResourceTexture* rTexTemp2 = new ResourceTexture();
-		ImporterTexture::Import(path, rTexTemp2);
-		rTexTemp2->type = TextureType::DIFFUSE;
-		rTexTemp2->UID = Random::Generate();
-		comp->image->mat->path = path;
-		comp->image->mat->rTextures.push_back(rTexTemp2);
-
-		path = "Assets/Water.png";
-
-		ResourceTexture* rTexTemp3 = new ResourceTexture();
-		ImporterTexture::Import(path, rTexTemp3);
-		rTexTemp3->type = TextureType::DIFFUSE;
-		rTexTemp3->UID = Random::Generate();
-		comp->image->mat->path = path;
-		comp->image->mat->rTextures.push_back(rTexTemp3);
-
-		comp->transformUI = nullptr;
-
-		name = "Button";
-
-		comp = nullptr;
-		aux = nullptr;
+		AddButton(this, "Button", x, y);
 	}
 	break;
 	case UI_TYPE::INPUTBOX:
 	{
-		float w = 300;
-		float h = 50;
-
-		UI_InputBox* comp = new UI_InputBox(this, x, y);
-		mComponents.push_back(comp);
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		// Unity-like
-		AddUIComponent(UI_TYPE::IMAGE, x, y);
-		GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		GetComponentUI(UI_TYPE::IMAGE)->height = h;
-
-		G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, this, 20, h / 3);
-		aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
-		aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
-
-		//new G_UI(UI_TYPE::IMAGE, this);
-
-		//AddUIComponent(UI_TYPE::IMAGE);
-		//AddUIComponent(UI_TYPE::TEXT);
-
-		comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
-		comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
-
-		name = "Input Box";
-
-		comp->transformUI = new UI_Transform(comp);
-		mComponents.push_back(comp->transformUI);
-
-		comp = nullptr;
-		aux = nullptr;
+		AddInputBox(this, x, y);
 	}
 	break;
 	case UI_TYPE::CHECKBOX:
 	{
-		float w = 170;
-		float h = 20;
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		// TODO: Maybe put all this references to the other components in the constructor
-		// Unity-like
-		// Toggle background
-		G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
-		aux->name = "Background";
-
-		// Checkmark
-		G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
-		aux2->name = "Checkmark";
-
-		float widthCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->width;
-		float heightCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->height;
-
-		// Label
-		G_UI* aux3 = External->scene->CreateGUI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
-		aux3->GetComponentUI(UI_TYPE::TEXT)->width = w;
-		aux3->GetComponentUI(UI_TYPE::TEXT)->height = h;
-
-		UI_Checkbox* comp = new UI_Checkbox(this, x, y, widthCheck, heightCheck);
-		mComponents.push_back(comp);
-
-		name = "Checkbox";
-
-		comp->bgImg = static_cast<UI_Image*>(aux->GetComponentUI(UI_TYPE::IMAGE));
-		comp->cmImg = static_cast<UI_Image*>(aux2->GetComponentUI(UI_TYPE::IMAGE));
-		comp->cmImg->active = false;
-		comp->displayText = static_cast<UI_Text*>(aux3->GetComponentUI(UI_TYPE::TEXT));
-
-		comp->transformUI = new UI_Transform(comp);
-		mComponents.push_back(comp->transformUI);
-
-		comp = nullptr;
-		aux = nullptr;
-		aux2 = nullptr;
-		aux3 = nullptr;
+		AddCheckBox(this, false, x, y);
 	}
 	break;
 	case UI_TYPE::SLIDER:
 	{
-		float w = 300;
-		float h = 50;
-
-		if (External->scene->GetCanvas() == nullptr)
-		{
-			External->scene->CreateGUI(UI_TYPE::CANVAS);
-			ReParent(External->scene->GetCanvas());
-		}
-
-		if (parent == External->scene->mRootNode)
-		{
-			ReParent(External->scene->GetCanvas());
-		}
-		else
-		{
-			ReParent(parent);
-		}
-		canvas = static_cast<G_UI*>(mParent)->canvas;
-
-		// Background
-		G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
-		aux->GetComponentUI(UI_TYPE::IMAGE)->width = w;
-		aux->GetComponentUI(UI_TYPE::IMAGE)->height = h;
-		aux->name = "Background";
-
-		// Fill
-		G_UI* aux1 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, 20, h / 3);
-		aux1->GetComponentUI(UI_TYPE::IMAGE)->width = 0;
-		aux1->GetComponentUI(UI_TYPE::IMAGE)->height = 50;
-		aux1->name = "Fill";
-
-		// Handle
-		G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, -50, -18.3);
-		aux2->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
-		aux2->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
-		aux2->name = "Handle";
-
-		aux2->GetComponentUI(UI_TYPE::IMAGE)->dragLimits = { x, y, w, h };
-
-
-		UI_Slider* comp = new UI_Slider(this, x, y, static_cast<G_UI*>(GetChildByUID(aux1->UID)), static_cast<G_UI*>(GetChildByUID(aux2->UID)), w, h);
-		mComponents.push_back(comp);
-
-		name = "Slider";
-
-		comp->transformUI = new UI_Transform(comp);
-		mComponents.push_back(comp->transformUI);
-
-		comp = nullptr;
-		aux = nullptr;
-		aux1 = nullptr;
-		aux2 = nullptr;
+		AddSlider(this, false, 0, 10, 0, x, y);
 	}
 	case UI_TYPE::NONE:
 		break;
 	default:
 		break;
 	}
+
+	return ret;
+}
+
+bool G_UI::AddImage(GameObject* g, std::string imgPath, float x, float y, float w, float h, std::string shaderPath)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	UI_Image* comp = new UI_Image(g, x, y);
+	mComponents.push_back(comp);
+
+	name = "Image";
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
+	comp = nullptr;
+
+	return ret;
+}
+
+bool G_UI::AddText(GameObject* g, std::string text, float x, float y, float fontSize, std::string fontName, std::string fontPath)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	UI_Text* comp = new UI_Text(g, x, y, fontSize, fontName, fontPath);
+	mComponents.push_back(comp);
+
+	name = "Text";
+
+	comp->text = text;
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
+	comp = nullptr;
+
+	return ret;
+}
+
+bool G_UI::AddButton(GameObject* g, std::string text, float x, float y, std::string imgPath, float w, float h)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	// Unity-like
+	AddUIComponent(UI_TYPE::IMAGE, x, y);
+	GetComponentUI(UI_TYPE::IMAGE)->width = w;
+	GetComponentUI(UI_TYPE::IMAGE)->height = h;
+
+	UI_Button* comp = new UI_Button(g, x, y);
+	mComponents.push_back(comp);
+
+	name = "Button";
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, g, 20, h / 3);
+	aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
+	aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
+	static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT))->text = text;
+	aux->vReferences.push_back(comp);
+
+	comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
+	comp->displayText = aux;
+
+	comp->image->SetImg(imgPath);
+
+	// States
+	comp->image->SetImg(imgPath);
+	comp->image->SetImg("Assets/Lava.png");
+	comp->image->SetImg("Assets/pato.png");
+	comp->image->SetImg("Assets/Water.png");
+
+	comp->transformUI = nullptr;
+
+	comp = nullptr;
+	aux = nullptr;
+
+	return ret;
+}
+
+bool G_UI::AddInputBox(GameObject* g, float x, float y, float w, float h)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	UI_InputBox* comp = new UI_InputBox(this, x, y);
+	mComponents.push_back(comp);
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	// Unity-like
+	AddUIComponent(UI_TYPE::IMAGE, x, y);
+	GetComponentUI(UI_TYPE::IMAGE)->width = w;
+	GetComponentUI(UI_TYPE::IMAGE)->height = h;
+
+	G_UI* aux = External->scene->CreateGUI(UI_TYPE::TEXT, g, 20, h / 3);
+	aux->GetComponentUI(UI_TYPE::TEXT)->width = w;
+	aux->GetComponentUI(UI_TYPE::TEXT)->height = h;
+
+	comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
+	comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
+
+	name = "Input Box";
+
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
+	comp = nullptr;
+	aux = nullptr;
+
+	return ret;
+}
+
+bool G_UI::AddCheckBox(GameObject* g, bool checked, float x, float y, float w, float h)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
+	aux->name = "Background";
+
+	// Checkmark
+	G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this);
+	aux2->name = "Checkmark";
+
+	float widthCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->width;
+	float heightCheck = aux->GetComponentUI(UI_TYPE::IMAGE)->height;
+
+	// Label
+	G_UI* aux3 = External->scene->CreateGUI(UI_TYPE::TEXT, this, widthCheck * 1.2, heightCheck * 0.4);
+	aux3->GetComponentUI(UI_TYPE::TEXT)->width = w;
+	aux3->GetComponentUI(UI_TYPE::TEXT)->height = h;
+
+	UI_Checkbox* comp = new UI_Checkbox(this, x, y, widthCheck, heightCheck);
+	mComponents.push_back(comp);
+
+	name = "Checkbox";
+
+	comp->isChecked = checked;
+
+	comp->bgImg = aux;
+	comp->cmImg = aux2;
+	comp->cmImg->active = checked;
+	comp->displayText = aux3;
+
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
+	comp = nullptr;
+	aux = nullptr;
+	aux2 = nullptr;
+	aux3 = nullptr;
+
+	return ret;
+}
+
+bool G_UI::AddSlider(GameObject* g, bool floats, float min, float max, float value, float x, float y, float w, float h)
+{
+	bool ret = true;
+
+	if (External->scene->GetCanvas() == nullptr)
+	{
+		External->scene->CreateGUI(UI_TYPE::CANVAS);
+	}
+	if (g->mParent == External->scene->mRootNode)
+	{
+		ReParent(External->scene->GetCanvas());
+	}
+
+	canvas = static_cast<G_UI*>(mParent)->canvas;
+
+	// Background
+	G_UI* aux = External->scene->CreateGUI(UI_TYPE::IMAGE, this, x, h / 3);
+	aux->GetComponentUI(UI_TYPE::IMAGE)->width = w;
+	aux->GetComponentUI(UI_TYPE::IMAGE)->height = h;
+	aux->name = "Background";
+
+	// Fill
+	G_UI* aux1 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, x, h / 3);
+	aux1->GetComponentUI(UI_TYPE::IMAGE)->width = 0;
+	aux1->GetComponentUI(UI_TYPE::IMAGE)->height = 50;
+	aux1->name = "Fill";
+
+	// Handle
+	G_UI* aux2 = External->scene->CreateGUI(UI_TYPE::IMAGE, this, x - 70 / 2, y - 70 / 2);
+	aux2->GetComponentUI(UI_TYPE::IMAGE)->width = 70;
+	aux2->GetComponentUI(UI_TYPE::IMAGE)->height = 70;
+	aux2->name = "Handle";
+
+	aux2->GetComponentUI(UI_TYPE::IMAGE)->dragLimits = { x, y, w, h };
+
+
+	UI_Slider* comp = new UI_Slider(this, floats, min, max, value, x, y, static_cast<G_UI*>(GetChildByUID(aux1->UID)), static_cast<G_UI*>(GetChildByUID(aux2->UID)), w, h);
+	mComponents.push_back(comp);
+
+	name = "Slider";
+
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
+	comp = nullptr;
+	aux = nullptr;
+	aux1 = nullptr;
+	aux2 = nullptr;
 
 	return ret;
 }

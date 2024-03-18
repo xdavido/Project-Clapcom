@@ -9,9 +9,10 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Text::UI_Text(GameObject* g, float x, float y, float w, float h, std::string fontName, std::string fontPath, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, float x, float y, float fontSize, std::string fontName, std::string fontPath, float w, float h, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
 	text = "Hello World";
+	this->fontSize = fontSize;
 
 	if (fontName == "")
 	{

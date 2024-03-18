@@ -10,18 +10,13 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::string shaderPath, std::string imgPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
+UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::string imgPath, std::string shaderPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
 	mat = new CMaterial(g);
 	mat->shaderPath = shaderPath;
 	mat->shader.LoadShader(mat->shaderPath);
 
-	ResourceTexture* rTexTemp = new ResourceTexture();
-	ImporterTexture::Import(imgPath, rTexTemp);
-	rTexTemp->type = TextureType::DIFFUSE;
-	rTexTemp->UID = Random::Generate();
-	mat->path = imgPath;
-	mat->rTextures.push_back(rTexTemp);
+	SetImg(imgPath);
 
 	selectedTexture = mat->rTextures[0];
 }
@@ -379,6 +374,17 @@ void UI_Image::Draw(bool game)
 update_status UI_Image::Update(float dt)
 {
 	return update_status();
+}
+
+void UI_Image::SetImg(std::string imgPath)
+{
+	ResourceTexture* rTexTemp = new ResourceTexture();
+	ImporterTexture::Import(imgPath, rTexTemp);
+	rTexTemp->type = TextureType::DIFFUSE;
+	rTexTemp->UID = Random::Generate();
+
+	mat->path = imgPath;
+	mat->rTextures.push_back(rTexTemp);
 }
 
 void UI_Image::SetNativeSize()

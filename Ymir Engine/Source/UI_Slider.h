@@ -29,7 +29,7 @@ class UI_Slider : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 300, y = 50
-	UI_Slider(GameObject* g, float x = 0, float y = 0, G_UI* fill = nullptr, G_UI* handle = nullptr, float w = 300, float h = 50);
+	UI_Slider(GameObject* g, bool floats = false, float min = 0, float max = 10, float value = 0, float x = 0, float y = 0, G_UI* fill = nullptr, G_UI* handle = nullptr, float w = 300, float h = 50);
 	~UI_Slider();
 
 	update_status Update(float dt);
@@ -60,7 +60,7 @@ public:
 
 	uValue minValue, maxValue;
 	bool useFloat;
-	
+
 	uValue value;
 
 	//color

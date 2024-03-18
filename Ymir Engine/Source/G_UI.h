@@ -16,6 +16,7 @@ class G_UI : public GameObject
 {
 public:
 	G_UI(UI_TYPE t, GameObject* pParent = External->scene->mRootNode, float x = 0, float y = 0);
+	G_UI(GameObject* pParent = External->scene->mRootNode, float x = 0, float y = 0);
 	~G_UI();
 
 	update_status Update(float dt);
@@ -24,9 +25,17 @@ public:
 
 	bool AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent = External->scene->mRootNode);
 
+	/// <param name="g"> G_UI that has the component </param>
+	bool AddImage(GameObject* g, std::string imgPath = "Assets/InGameConeptPng.png", float x = 0, float y = 0, float w = 100, float h = 100, std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
+	bool AddText(GameObject* g, std::string text, float x = 0, float y = 0, float fontSize = 21, std::string fontName = "", std::string fontPath = "Assets\\Fonts");
+	bool AddButton(GameObject* g, std::string text, float x = 0, float y = 0, std::string imgPath = "Assets/InGameConeptPng.png", float w = 300, float h = 50);
+	bool AddInputBox(GameObject* g, float x = 0, float y = 0, float w = 300, float h = 50);
+	bool AddCheckBox(GameObject* g, bool checked = true, float x = 0, float y = 0, float w = 170, float h = 20);
+	bool AddSlider(GameObject* g, bool floats = false, float min = 0, float max = 10, float value = 0, float x = 0, float y = 0, float w = 300, float h = 50);
+
 public:
 	UI_Canvas* canvas;
-	
+
 	//CTransform rectTransform;
 };
 #endif // __G_UI_H__
