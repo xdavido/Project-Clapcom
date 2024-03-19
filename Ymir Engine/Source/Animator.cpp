@@ -10,7 +10,7 @@ Animator::Animator()
 	}
 }
 
-Animator::Animator(Animation* animation)
+Animator::Animator(ResourceAnimation* animation)
 {
 	finalBoneMatrices.reserve(100);
 	
@@ -37,7 +37,7 @@ void Animator::UpdateAnimation(float dt)
 
 }
 
-void Animator::UpdateCurrentTime(Animation* animation) {
+void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 	// Backwards
 	if (animation->backwards && !animation->pingPong && !animation->easeIn && !animation->easeOut) {
@@ -163,7 +163,7 @@ void Animator::UpdateCurrentTime(Animation* animation) {
 		
 }
 
-void Animator::PlayAnimation(Animation* animation)
+void Animator::PlayAnimation(ResourceAnimation* animation)
 {
 	if (!animation->isPlaying) {
 		animation->isPlaying = true;
@@ -173,19 +173,19 @@ void Animator::PlayAnimation(Animation* animation)
 
 
 
-void Animator::PauseAnimation(Animation* animation) {
+void Animator::PauseAnimation(ResourceAnimation* animation) {
 
 	if (animation->isPlaying)
 		animation->isPlaying = false;
 }
 
-void Animator::ResumeAnimation(Animation* animation)
+void Animator::ResumeAnimation(ResourceAnimation* animation)
 {
 	if (!animation->isPlaying)
 		animation->isPlaying = true;
 }
 
-void Animator::StopAnimation(Animation* animation)
+void Animator::StopAnimation(ResourceAnimation* animation)
 {
 	if (animation->isPlaying) {
 		animation->isPlaying = false;
@@ -193,7 +193,7 @@ void Animator::StopAnimation(Animation* animation)
 	}
 }
 
-void Animator::ResetAnimation(Animation* animation) {
+void Animator::ResetAnimation(ResourceAnimation* animation) {
 	animation->currentTime = 0.0f;
 	animation->backwardsAux = true;
 	animation->pingPongAux = true;
@@ -202,7 +202,7 @@ void Animator::ResetAnimation(Animation* animation) {
 	animation->easeOutSpeed = 1;
 }
 
-void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float transitionTime) {
+void Animator::TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime) {
 
 	float timeToTransition = lastAnimation->GetDuration() * transitionTime;
 	float transitionDuration = lastAnimation->GetDuration() - timeToTransition;
@@ -218,7 +218,7 @@ void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, 
 	}
 }
 
-void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation)
+void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, ResourceAnimation &animation)
 {
 	std::string nodeName = node->name;
 	float4x4 nodeTransform = node->transformation; 

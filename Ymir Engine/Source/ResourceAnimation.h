@@ -5,8 +5,7 @@
 #include "Globals.h"
 
 #include "Bone.h"
-#include "Model.h"
-
+#include "Animation.h"
 #include "Resources.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
@@ -16,12 +15,7 @@
 class Model;
 struct BoneInfo;
 
-//struct AssimpNodeData {
-//	float4x4 transformation;
-//	std::string name;
-//	int childrenCount;
-//	std::vector<AssimpNodeData> children;
-//};
+struct AssimpNodeData;
 
 class ResourceAnimation : public Resource {
 public:
@@ -30,7 +24,7 @@ public:
 
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
-
+	Bone* FindBone(std::string& name);
 	float GetSpeed() { return speed; }
 	void SetSpeed(float speed) { this->speed = speed; }
 	void SetDuration(float duration) { this->duration = duration; }
@@ -38,7 +32,8 @@ public:
 	inline float GetTickPerSecond() { return ticksPerSecond; }
 	inline float GetDuration() { return duration; }
 	inline const std::map<std::string, BoneInfo>& GetBoneIDMap() { return boneInfoMap; }
-
+	inline const AssimpNodeData& GetRootNode() { return rootNode; }
+	 
 public:
 
 	std::string name;
@@ -61,6 +56,19 @@ public:
 
 	float ticksPerSecond;
 
+	float intensity;
+
+	bool backwardsAux;
+	bool pingPongAux;
+	bool pingPongBackwardsAux;
+
+	float easeInSpeed;
+	float easeOutSpeed;
+	float easeInMultiplier;
+	float easeOutMultiplier;
+
+	float currentTime;
+
 	std::vector<Bone> bones;
 
 	std::map<std::string, BoneInfo> boneInfoMap;
@@ -68,10 +76,5 @@ public:
 	AssimpNodeData rootNode; 
 
 private:
-
-	
-
-
-
 
 };

@@ -1,6 +1,5 @@
 #include "Globals.h"
 
-#include "Animation.h"
 #include "ResourceAnimation.h"
 
 #include "External/Assimp/include/anim.h"

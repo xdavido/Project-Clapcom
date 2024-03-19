@@ -1,5 +1,4 @@
-#ifndef __ANIMATION__
-#define __ANIMATION__
+#pragma once
 
 #include <vector>
 #include <string>
@@ -32,10 +31,10 @@ public:
 	void SetSpeed(float speed) { this->speed = speed; }
 	void SetDuration(float duration) { this->duration = duration; }
 	void SetTickPerSecond(float ticksPerSecond) { this->ticksPerSecond = ticksPerSecond; }
-	inline float GetTickPerSecond() { return ticksPerSecond; }
-	inline float GetDuration() { return duration; }
-	inline const AssimpNodeData& GetRootNode() { return rootNode; }
-	inline const std::map<std::string, BoneInfo>& GetBoneIDMap(){ return boneInfoMap; }
+	float GetTickPerSecond() { return ticksPerSecond; }
+	float GetDuration() { return duration; }
+	const AssimpNodeData& GetRootNode() { return rootNode; }
+	const std::map<std::string, BoneInfo>& GetBoneIDMap(){ return boneInfoMap; }
 private:
 	void ReadMissingBones(const aiAnimation* animation, Model& model);
 
@@ -86,5 +85,3 @@ public:
 private:
 
 };
-
-#endif // __ANIMATION__

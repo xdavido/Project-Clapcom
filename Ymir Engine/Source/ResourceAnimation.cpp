@@ -16,6 +16,14 @@ ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANI
 	easeIn = false;
 	easeOut = false;
 	speed = 1;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
+	easeInSpeed = 1;
+	easeOutSpeed = 1;
+	easeInMultiplier = 1.025f;
+	easeOutMultiplier = 0.995f;
+	duration = 0;
 
 }
 
@@ -28,4 +36,19 @@ bool ResourceAnimation::LoadInMemory()
 bool ResourceAnimation::UnloadFromMemory()
 {
 	return false;
+}
+
+Bone* ResourceAnimation::FindBone(std::string& name)
+{
+	// iterator 
+	std::_Vector_iterator iter = std::find_if(bones.begin(), bones.end(),
+		[&](Bone& bone) {
+			return bone.GetName() == name;
+		});
+	if (iter == bones.end()) {
+		return nullptr;
+	}
+	else {
+		return &(*iter);
+	}
 }

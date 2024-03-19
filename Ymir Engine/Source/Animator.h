@@ -1,35 +1,36 @@
 #pragma once
 #include "Globals.h"
 
-#include "Animation.h"
+#include "ResourceAnimation.h"
 
 class Animation;
+class ResourceAnimation;
 
 struct AssimpNodeData;
 
 class Animator {
 public:
 	Animator();
-	Animator(Animation* animation);
+	Animator(ResourceAnimation* animation);
 	~Animator();
 
 	void UpdateAnimation(float dt);
 
-	void UpdateCurrentTime(Animation* animation);
+	void UpdateCurrentTime(ResourceAnimation* animation);
 	
-	void PlayAnimation(Animation* animation);
+	void PlayAnimation(ResourceAnimation* animation);
 
-	void PauseAnimation(Animation* animation);
+	void PauseAnimation(ResourceAnimation* animation);
 
-	void ResumeAnimation(Animation* animation);
+	void ResumeAnimation(ResourceAnimation* animation);
 
-	void StopAnimation(Animation* animation);
+	void StopAnimation(ResourceAnimation* animation);
 
-	void ResetAnimation(Animation* animation);
+	void ResetAnimation(ResourceAnimation* animation);
 
-	void TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float transitionTime);
+	void TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime);
 
-	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation);
+	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, ResourceAnimation&animation);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
@@ -42,6 +43,6 @@ private:
 
 public:
 
-	std::vector<Animation> animations;
+	std::vector<ResourceAnimation> animations;
 
 };

@@ -9,13 +9,12 @@
 #include <vector>
 #include <map>
 
-#include "Animation.h"
 #include "Animator.h"
 
 class GameObject;
 
 class Animator;
-class Animation;
+class ResourceAnimation; 
 
 class CAnimation : public Component {
 public:
@@ -27,7 +26,7 @@ public:
 	void OnInspector() override;
 	
 	// Add animation to animations list
-	void AddAnimation(Animation &newAnimation);
+	void AddAnimation(ResourceAnimation &newAnimation);
 
 	void RemoveAnimation(int ID);
 

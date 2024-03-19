@@ -38,7 +38,7 @@ void CAnimation::Update() {
 
 }
 
-void CAnimation::AddAnimation(Animation &newAnimation) {
+void CAnimation::AddAnimation(ResourceAnimation&newAnimation) {
     animator->animations.push_back(newAnimation);
 }
 
@@ -51,7 +51,7 @@ void CAnimation::RemoveAnimation(int ID) {
 
 void CAnimation::PlayAnimation(std::string animationName, bool overridePrev)
 {
-    Animation* animationToPlay = nullptr;
+    ResourceAnimation* animationToPlay = nullptr;
 
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
@@ -130,8 +130,8 @@ void CAnimation::StopAnimation(std::string animationName) {
 
 void CAnimation::TransitionTo(std::string animationName, float transitionTime) {
 
-    Animation* playingAnimation = nullptr;
-    Animation* nextAnimation = nullptr;
+    ResourceAnimation* playingAnimation = nullptr;
+    ResourceAnimation* nextAnimation = nullptr;
 
     for (int i = 0; i < animator->animations.size(); i++) {
 

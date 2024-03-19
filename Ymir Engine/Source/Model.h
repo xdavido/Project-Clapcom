@@ -5,8 +5,6 @@
 
 #include "Mesh.h"
 
-#include "CAnimation.h"
-
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
 #include "External/Assimp/include/postprocess.h"
