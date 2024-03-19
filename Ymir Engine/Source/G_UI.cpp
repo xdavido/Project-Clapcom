@@ -217,7 +217,7 @@ bool G_UI::AddImage(std::string imgPath, float x, float y, float w, float h, std
 		ReParent(External->scene->GetCanvas());
 	}
 
-	UI_Image* comp = new UI_Image(this, x, y);
+	UI_Image* comp = new UI_Image(this, x, y, w, h, imgPath, shaderPath);
 	mComponents.push_back(comp);
 
 	name = "Image";

@@ -415,10 +415,9 @@ void CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
 	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
 	std::string _newImage = mono_string_to_utf8(newImage);
 
+	G_UI* tempGameObject = new G_UI(External->scene->mRootNode, 0, 0);
 
-	G_UI* tempGameObject = new G_UI(ui_gameObject == nullptr ? External->scene->mRootNode : ui_gameObject, 0, 0);
-
-	tempGameObject->AddUIComponent(UI_TYPE::IMAGE, x, y);
+	tempGameObject->AddImage(_newImage, x, y, 100, 100);
 
 	External->scene->gameObjects.push_back(tempGameObject);
 }
