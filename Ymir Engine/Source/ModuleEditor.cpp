@@ -2973,6 +2973,11 @@ void ModuleEditor::DrawInspector()
 						script_name = "PlayerMovement";
 						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
 					}
+					if (ImGui::MenuItem("EnemyBehaviourTest"))
+					{
+						script_name = "EnemyBehaviourTest";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
 					/*if (ImGui::MenuItem("New")) {
 
 					 //Todo: Add NewScript
