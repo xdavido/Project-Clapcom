@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
 using YmirEngine;
-
 enum States
 {
     IDLE,
@@ -25,7 +25,7 @@ public class Player : YmirComponent
 
     // private double angle = 0.0f;
 
-    private int Hp;
+    //private int Hp;
 
     private States actualState;
 
@@ -33,7 +33,7 @@ public class Player : YmirComponent
     {
         Debug.Log("START!");
         actualState = States.IDLE;
-        Hp = 100;
+        //Hp = 100;
 
         //Vector3 vel = new Vector3(10, 0, 0);
         //gameObject.SetVelocity(vel);
@@ -92,10 +92,12 @@ public class Player : YmirComponent
 
     void HandleMovement()
     {
+        //Vector3 rightVector = gameObject.transform.GetRight();
+
         //--------------------- KeyBoard Movement ---------------------//
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
         {
-            Vector3 vel = new Vector3(0, 0, 1) * movementSpeed;
+            Vector3 vel = new Vector3(0,0,1) * movementSpeed;
 
             //Vector3 vel = new Vector3(0, 0, movementSpeed);
             gameObject.SetImpulse(vel);
