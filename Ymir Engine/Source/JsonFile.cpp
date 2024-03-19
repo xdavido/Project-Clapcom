@@ -835,19 +835,6 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	JSON_Value* hierarchyValue = json_value_init_array();
 	JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
-	//for (const auto& gameObject : gameObjects) {
-
-	//	JSON_Value* gameObjectValue = json_value_init_object();
-	//	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
-
-	//	// Call the existing SetGameObject function to set individual GameObject properties
-	//	SetGameObject(gameObjectObject, *gameObject);
-
-	//	// Add the GameObject to the hierarchy array
-	//	json_array_append_value(hierarchyArray, gameObjectValue);
-	//}
-
-
 	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
 	// Add the hierarchy array to the main object
@@ -889,21 +876,6 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 
 		//counter = GameObjectJSON(gameObject.mChildren[i], subInfo + ".Child " + std::to_string(counter), counter, subInfo);
 	}
-
-	//// Save component references
-
-	//json_object_set_number(gameObjectObject, "References num", gameObject.vReferences.size());
-
-	//JSON_Value* referencesValue = json_value_init_array();
-	//JSON_Array* referencesArray = json_value_get_array(referencesValue);
-
-	//for (auto jt = gameObject.vReferences.begin(); jt != gameObject.vReferences.end(); ++jt)
-	//{
-	//	json_array_append_number(referencesArray, (*jt)->GetUID());
-
-	//	// Add the Reference UID to the array
-	//	json_array_append_value(referencesArray, referencesValue);
-	//}
 
 	// Save Components Info
 
