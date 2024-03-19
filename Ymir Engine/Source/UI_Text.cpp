@@ -465,6 +465,12 @@ void UI_Text::Draw(bool game)
 			if (i != 0)
 			{
 				auto itr2 = font->mCharacters.find(text[i - 1]);
+
+				if (itr2 == font->mCharacters.end())
+				{
+					return;
+				}
+
 				space = space + itr2->second->size.x * (fs / 98) + (fs / 5);
 			}
 

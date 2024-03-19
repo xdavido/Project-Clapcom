@@ -419,7 +419,7 @@ void UI_Slider::SetValue(float val)
 				{
 					if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 					{
-						img.posX = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue) - (img.width * img.scaleBounds.x) / 2;
+						img.posX = dragLimits.x + ((dragLimits.x + dragLimits.z) * val / maxValue.iValue) - (img.width * img.scaleBounds.x) / 2;
 
 						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
 						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
