@@ -824,7 +824,7 @@ void ModuleRenderer3D::CleanUpAssimpDebugger()
 
 void ModuleRenderer3D::DrawParticles()
 {
-	if (particleEmitters.size() > 0)
+	if (particleEmitters.size() > 0 && initParticles)
 	{
 		for (int j = 0; j < particleEmitters.size(); j++)
 		{
@@ -874,6 +874,8 @@ void ModuleRenderer3D::DrawParticles()
 				// Esto iria bien
 				particleMaterial->shader.UseShader(true);
 				particleMaterial->shader.SetShaderUniforms(&m);
+
+				particleMaterial->rTextures;
 
 				//Drawing to tris in direct mode
 				glBegin(GL_TRIANGLES);

@@ -113,5 +113,6 @@ public:
 	Font* defaultFont;
 
 	std::vector<ParticleEmitter*> particleEmitters;
+	bool initParticles = false;
 
 };

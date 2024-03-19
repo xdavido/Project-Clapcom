@@ -147,7 +147,7 @@ void ParticleEmitter::Init(CParticleSystem* component)
 void ParticleEmitter::Update(float dt)
 {
 
-	//if (TimeManager::gameTimer.GetState() == TimerState::STOPPED)
+	//if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	//{
 		emitterTime += dt;
 
@@ -159,13 +159,13 @@ void ParticleEmitter::Update(float dt)
 	//}
 
 	//Llamamos a Draw particles para que printe todas las particulas con su info updateada
-	//DrawParticles();
+	DrawParticles();
 }
 
-//void ParticleEmitter::DrawParticles()
-//{
-//
-//}
+void ParticleEmitter::DrawParticles()
+{
+	External->renderer3D->initParticles = true;
+}
 
 void ParticleEmitter::Reset()
 {
