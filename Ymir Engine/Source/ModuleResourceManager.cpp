@@ -212,9 +212,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					{
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
-
-						/* FRANCESC: Bug Caso 2 es porque hacer el pushback del modelo y luego aun asi crea el resource,
-						tendria que ponerlo en un else todo. */
 					
 						ResourceMesh* rMesh = static_cast<ResourceMesh*>
 							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
@@ -236,9 +233,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
 
-						CMesh* cmesh = new CMesh(meshGO);
-
 						ResourceMesh* tmpMesh = static_cast<ResourceMesh*>(itr->second);
+
+						CMesh* cmesh = new CMesh(meshGO);
 
 						cmesh->rMeshReference = tmpMesh;
 						cmesh->nVertices = tmpMesh->vertices.size();
@@ -250,12 +247,12 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 						meshGO->AddComponent(cmat);
 
 						itr->second->IncreaseReferenceCount();
-
 					}
 
 				}
 
 				//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
+
 			}
 			break;
 

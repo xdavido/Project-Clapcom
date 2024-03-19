@@ -60,6 +60,8 @@ update_status ModuleFileSystem::Update(float dt)
 {
 	OPTICK_EVENT();
 
+	// Regenerate Library Logic when it's deleted on Runtime
+
 	if (!PhysfsEncapsule::FolderExists(libraryPath)) {
 
 		regenerateLibrary = true;
