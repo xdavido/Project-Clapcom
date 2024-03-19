@@ -190,6 +190,13 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			{
 				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
+				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
+
+					// Rework to ImporterModel::Import(path);
+					App->renderer3D->models.push_back(Model(path));
+					break;
+				}
+
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
 
@@ -208,14 +215,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 						/* FRANCESC: Bug Caso 2 es porque hacer el pushback del modelo y luego aun asi crea el resource,
 						tendria que ponerlo en un else todo. */
-
-						if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
-
-							// Rework to ImporterModel::Import(path);
-							App->renderer3D->models.push_back(Model(path));
-
-						}
-
+					
 						ResourceMesh* rMesh = static_cast<ResourceMesh*>
 							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
 
