@@ -1076,17 +1076,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
-
-		// Enable/Disable Frustum Culling
-
-		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
-
-		// Enable/Disable Bounding Boxes
-
-		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
-
-		//Is game camera
+		// Is game camera
 
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
@@ -1700,6 +1690,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
 		ccamera->framebuffer.Load();
+
+		ccamera->enableFrustumCulling = json_object_get_number(componentObject, "Frustum Culling");
+		ccamera->drawBoundingBoxes = json_object_get_number(componentObject, "Draw Bounding Boxes");
+		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
 
 		gameObject->AddComponent(ccamera);
 
