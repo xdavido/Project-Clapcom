@@ -27,7 +27,6 @@ void Animator::UpdateAnimation(float dt)
 {
 	deltaTime = dt; 
 	
-	
 	for (int i = 0; i < animations.size(); i++) {
 		if (animations[i].isPlaying) {
 			UpdateCurrentTime(&animations[i]);
@@ -153,7 +152,6 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 	if (stepTime > animation->GetDuration() && !animation->loop && !animation->pingPong) {
 		//Leave animation in its final state
 		animation->currentTime = animation->GetDuration() - 0.01f;
-		//CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity);
 
 		animation->currentTime = 0.0f;
 		StopAnimation(animation);
@@ -165,32 +163,27 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	if (!animation->isPlaying) {
-		animation->isPlaying = true;
-		animation->currentTime = 0.0f;
-	}
+	animation->isPlaying = true;
+	animation->currentTime = 0.0f;
 }
 
 
 
 void Animator::PauseAnimation(ResourceAnimation* animation) {
 
-	if (animation->isPlaying)
-		animation->isPlaying = false;
+	animation->isPlaying = false;
 }
 
 void Animator::ResumeAnimation(ResourceAnimation* animation)
 {
-	if (!animation->isPlaying)
-		animation->isPlaying = true;
+	animation->isPlaying = true;
 }
 
 void Animator::StopAnimation(ResourceAnimation* animation)
 {
-	if (animation->isPlaying) {
-		animation->isPlaying = false;
-		animation->currentTime = 0.0f;
-	}
+	animation->isPlaying = false;
+	animation->currentTime = 0.0f;
+	CalculateBoneTransform(&animation->GetRootNode(), identity.identity, *animation);
 }
 
 void Animator::ResetAnimation(ResourceAnimation* animation) {
@@ -211,8 +204,9 @@ void Animator::TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation*
 
 	if (lastAnimation->currentTime >= timeToTransition) {
 
-		PlayAnimation(nextAnimation);
-
+		if (!nextAnimation->isPlaying)
+			PlayAnimation(nextAnimation);
+		
 		lastAnimation->intensity = 1 - normalizedTime;
 		nextAnimation->intensity = normalizedTime;
 	}

@@ -313,6 +313,13 @@ void CAnimation::OnInspector() {
 
             ImGui::SameLine();
 
+            if (ImGui::Button("Pause")) {
+
+                animator->PauseAnimation(&animator->animations[selectedAnimation]);
+            }
+
+            ImGui::SameLine();
+
             if (ImGui::Button("Resume")) {
 
                 animator->ResumeAnimation(&animator->animations[selectedAnimation]);
@@ -322,7 +329,7 @@ void CAnimation::OnInspector() {
 
             if (ImGui::Button("Stop")) {
 
-                animator->PauseAnimation(&animator->animations[selectedAnimation]);
+                animator->StopAnimation(&animator->animations[selectedAnimation]);
             }
 
 
