@@ -132,12 +132,16 @@ public class Core : YmirComponent
         }
 
 
+        if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
+        {
+            UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
+        }
+
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
+
        
-
-
         gamepadInput = new Vector3(x, y, 0f);
 
         Debug.Log("[WARNING] InputX " + gamepadInput.x);

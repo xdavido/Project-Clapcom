@@ -79,8 +79,9 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
 
-	
-
+#pragma region UI
+	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
+#pragma endregion
 
 #pragma region GamePad
 

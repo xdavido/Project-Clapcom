@@ -15,6 +15,7 @@
 #include"ModuleResourceManager.h" 
 #include "ModuleInput.h"
 #include "Resources.h"
+#include "G_UI.h"
 
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
@@ -409,4 +410,16 @@ void GameControllerRumbleCS(int minrumble, int maxrumble, int time)
 	External->input->GetRumbleGamepad(External->input->sdl_controllers[0], minrumble, maxrumble, time);
 }
 
+void CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
+{
+	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
+	std::string _newImage = mono_string_to_utf8(newImage);
+
+
+	G_UI* tempGameObject = new G_UI(ui_gameObject == nullptr ? External->scene->mRootNode : ui_gameObject, 0, 0);
+
+	tempGameObject->AddUIComponent(UI_TYPE::IMAGE, x, y);
+
+	External->scene->gameObjects.push_back(tempGameObject);
+}
 #pragma endregion

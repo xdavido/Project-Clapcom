@@ -23,6 +23,13 @@ namespace YmirEngine
         public static extern GameObject GetGameObjectByName(string name);
 
     }
+
+    public class UI
+    {
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject CreateImageUI(object go, string name, int x, int y);
+
+    }
     public class Input
     {
         //Keyboard and mouse
