@@ -27,7 +27,6 @@ void Animator::UpdateAnimation(float dt)
 {
 	deltaTime = dt; 
 	
-	
 	for (int i = 0; i < animations.size(); i++) {
 		if (animations[i].isPlaying) {
 			UpdateCurrentTime(&animations[i]);
@@ -231,7 +230,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	if (boneInfoMap.find(nodeName) != boneInfoMap.end()) {
 		int index = boneInfoMap[nodeName].id;
 		float4x4 offset = boneInfoMap[nodeName].offset;
-		finalBoneMatrices[index] = globalTransform * offset * 0.5f; 
+		finalBoneMatrices[index] = globalTransform * offset; 
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
