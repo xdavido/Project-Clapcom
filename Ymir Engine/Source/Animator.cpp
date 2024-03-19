@@ -153,7 +153,6 @@ void Animator::UpdateCurrentTime(Animation* animation) {
 	if (stepTime > animation->GetDuration() && !animation->loop && !animation->pingPong) {
 		//Leave animation in its final state
 		animation->currentTime = animation->GetDuration() - 0.01f;
-		//CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity);
 
 		animation->currentTime = 0.0f;
 		StopAnimation(animation);
@@ -165,35 +164,31 @@ void Animator::UpdateCurrentTime(Animation* animation) {
 
 void Animator::PlayAnimation(Animation* animation)
 {
-	if (!animation->isPlaying) {
-		animation->isPlaying = true;
-		animation->currentTime = 0.0f;
-	}
+	animation->isPlaying = true;
+	animation->currentTime = 0.0f;
 }
 
 
 
 void Animator::PauseAnimation(Animation* animation) {
 
-	if (animation->isPlaying)
-		animation->isPlaying = false;
+	animation->isPlaying = false;
 }
 
 void Animator::ResumeAnimation(Animation* animation)
 {
-	if (!animation->isPlaying)
-		animation->isPlaying = true;
+	animation->isPlaying = true;
 }
 
 void Animator::StopAnimation(Animation* animation)
 {
-	if (animation->isPlaying) {
-		animation->isPlaying = false;
-		animation->currentTime = 0.0f;
-	}
+	animation->isPlaying = false;
+	animation->currentTime = 0.0f;
+	CalculateBoneTransform(&animation->GetRootNode(), identity.identity, *animation);
 }
 
 void Animator::ResetAnimation(Animation* animation) {
+
 	animation->currentTime = 0.0f;
 	animation->backwardsAux = true;
 	animation->pingPongAux = true;
@@ -211,8 +206,9 @@ void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, 
 
 	if (lastAnimation->currentTime >= timeToTransition) {
 
-		PlayAnimation(nextAnimation);
-
+		if (!nextAnimation->isPlaying)
+			PlayAnimation(nextAnimation);
+		
 		lastAnimation->intensity = 1 - normalizedTime;
 		nextAnimation->intensity = normalizedTime;
 	}
@@ -235,7 +231,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	if (boneInfoMap.find(nodeName) != boneInfoMap.end()) {
 		int index = boneInfoMap[nodeName].id;
 		float4x4 offset = boneInfoMap[nodeName].offset;
-		finalBoneMatrices[index] = globalTransform * offset; 
+		finalBoneMatrices[index] = globalTransform * offset * 0.5f; 
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
