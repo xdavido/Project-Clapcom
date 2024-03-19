@@ -378,20 +378,30 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	//Crea un game object temporal llamado "Bullet"
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
 
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->gravity = false;
+	//physBody->SetBoxCollider();
+	go->AddComponent(physBody);
+
+	//Hace unbox de los parametros de transform pasados
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
 	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
 
+	//Settea el transform a la bullet
 	go->mTransform->SetPosition(posVector);
 	go->mTransform->SetRotation(rotQuat);
 	go->mTransform->SetScale(scaleVector);
 
+	//Añade la mesh a la bullet
 	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Library/Meshes/1553236809.ymesh", ResourceType::MESH, 1553236809));
-	
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
 	go->AddComponent(cmesh);
-
+	
+	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
 	cmaterial->shaderPath = SHADER_VS_FS;
 	cmaterial->shader.LoadShader(cmaterial->shaderPath);

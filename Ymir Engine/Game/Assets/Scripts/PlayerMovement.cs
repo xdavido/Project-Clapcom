@@ -4,10 +4,8 @@ using YmirEngine;
 
 public class PlayerMovement : YmirComponent
 {
-
     Vector3 gamepadInput;
    
-        
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
@@ -57,7 +55,7 @@ public class PlayerMovement : YmirComponent
             Vector3 pos = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z);
 
             //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 rot = new Vector3(gameObject.transform.localRotation.x, 1, gameObject.transform.localRotation.z);
+            Vector3 rot = new Vector3(0, 1, 0);
 
             //Tamaño de la bala
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
