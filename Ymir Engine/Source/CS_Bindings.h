@@ -375,11 +375,8 @@ void AddMeshToGameObject()
 //TODO:
 void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) //TODO: We really need prefabs
 {
-	if (External == nullptr)
-		return /*nullptr*/;
-
+	//Crea un game object temporal llamado "Bullet"
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
-	////go->name = std::to_string(go->UID);
 
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
@@ -388,11 +385,8 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->mTransform->SetPosition(posVector);
 	go->mTransform->SetRotation(rotQuat);
 	go->mTransform->SetScale(scaleVector);
-	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
 
-	//External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
-
-	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Assets/863721484.ymesh", ResourceType::MESH, 863721484));
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Library/Meshes/1553236809.ymesh", ResourceType::MESH, 1553236809));
 	
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
@@ -404,20 +398,11 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
 
-	//go->AddComponent(ComponentType::MESH);
-	//meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
-
-	//Model("Assets/Primitives/Cube.fbx");
-	/*ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(1753294, "Library/Meshes/1753294.ymesh"));
-	meshRenderer->rMeshReference = test;*/
-
-	//Añade el componente Bullet al gameObject Bullet
+	//Añade el script Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
-
-	/*return mono_gchandle_get_target(cmp->noGCobject);*/
 }
 
 void ChangeSceneCS(MonoString* scenePath)

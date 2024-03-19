@@ -52,21 +52,25 @@ public class PlayerMovement : YmirComponent
         if (Input.GetKey(YmirKeyCode.E) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
-            Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
-            Vector3 rot = new Vector3(0, 1, 0);
+
+            //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+            Vector3 pos = new Vector3(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z);
+
+            //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
+            Vector3 rot = new Vector3(gameObject.transform.localRotation.x, 1, gameObject.transform.localRotation.z);
+
+            //Tamaño de la bala
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+
+            //Crea la bala
             InternalCalls.CreateBullet(pos, rot, scale);
         }
 
-
-        if(Input.GetKey(YmirKeyCode.SPACE)== KeyState.KEY_DOWN)
+        if(Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
         {
-
             Vector3 vel = new Vector3(0, 0, 10);
             gameObject.SetImpulse(vel);
         }
-
-
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
         {
