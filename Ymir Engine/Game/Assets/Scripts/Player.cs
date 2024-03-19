@@ -21,13 +21,24 @@ public class Player : YmirComponent
 {
     Vector3 gamepadInput;
 
-    public float movementSpeed = 5f;
+    //public float movementSpeed = 5f;
 
-    // private double angle = 0.0f;
+    //private double angle = 0.0f;
 
     //private int Hp;
 
     private States actualState;
+
+    private Vector3 aimVector = Vector3.forward;
+
+    //Susu goes Brrr
+    // Movement
+    public float rotationSpeed = 2.0f;
+    public float movementSpeed = 35.0f;
+    public float mouseSens = 1.0f;
+    private double angle = 0.0f;
+    private int deathZone = 15000;
+
 
     public void Start()
     {
@@ -41,8 +52,18 @@ public class Player : YmirComponent
 
     public void Update()
     {
+        UpdateControllerInputs();
+
         //HandleStates();
         HandleMovement();
+    }
+
+    private void UpdateControllerInputs()
+    {
+        float x = Input.GetLeftAxisX();
+        float y = Input.GetLeftAxisY();
+
+        gamepadInput = new Vector3(x, -y, 0f);
     }
 
     public void OnCollisionEnter()
@@ -92,63 +113,73 @@ public class Player : YmirComponent
 
     void HandleMovement()
     {
-        //Vector3 rightVector = gameObject.transform.GetRight();
+        ////--------------------- KeyBoard Movement ---------------------//
+        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        //{
+        //    Vector3 vel = gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
 
-        //--------------------- KeyBoard Movement ---------------------//
-        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
+        //{
+        //    Vector3 vel = gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+
+        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+        //{
+        //    Vector3 vel = gameObject.GetRight() * movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+
+        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+        //{
+        //    Vector3 vel = gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+
+
+        ////--------------------- Controller Movement ---------------------//
+
+        //float x = Input.GetLeftAxisX();
+        //float y = Input.GetLeftAxisY();
+
+        //gamepadInput = new Vector3(x, y, 0f);
+
+        //if (gamepadInput.x > 0)
+        //{
+        //    Vector3 vel = gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //    //gameObject.SetImpulse(vel);
+        //    gameObject.SetVelocity(vel);
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    Vector3 vel = gameObject.GetRight() * movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+        //if (gamepadInput.y > 0)
+        //{
+        //    Vector3 vel = gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+        //if (gamepadInput.y < 0)
+        //{
+        //    Vector3 vel = gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //    gameObject.SetImpulse(vel);
+        //}
+
+        if (gamepadInput.magnitude > deathZone)
         {
-            Vector3 vel = new Vector3(0,0,1) * movementSpeed;
-
-            //Vector3 vel = new Vector3(0, 0, movementSpeed);
-            gameObject.SetImpulse(vel);
+            HandleRotation();
+            gameObject.SetVelocity(gameObject.GetForward() * movementSpeed * Time.deltaTime);
         }
+    }
 
-        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-        {
-            Vector3 vel = new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-
-        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-        {
-            Vector3 vel = new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-
-        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-        {
-            Vector3 vel = new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-
-
-        //--------------------- Controller Movement ---------------------//
-
-        float x = Input.GetLeftAxisX();
-        float y = Input.GetLeftAxisY();
-
-        gamepadInput = new Vector3(x, y, 0f);
-
-        if (gamepadInput.x > 0)
-        {
-            Vector3 vel = gameObject.transform.GetRight() * movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-        if (gamepadInput.x < 0)
-        {
-            Vector3 vel = gameObject.transform.GetRight() * -movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-        if (gamepadInput.y > 0)
-        {
-            Vector3 vel = gameObject.transform.GetForward() * -movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
-        if (gamepadInput.y < 0)
-        {
-            Vector3 vel = gameObject.transform.GetForward() * movementSpeed * Time.deltaTime;
-            gameObject.SetImpulse(vel);
-        }
+    //Susu goes brrrr
+    private void StopPlayer()
+    {
+        Debug.Log("Stoping");
+        gameObject.SetVelocity(new Vector3(0, 0, 0));
     }
 
     void Shoot()
@@ -159,6 +190,28 @@ public class Player : YmirComponent
         Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
         InternalCalls.CreateBullet(pos, rot, scale);
         //Input.GameControllerRumbleCS(3,32,100);
+    }
+
+    private void HandleRotation()
+    {
+        //Calculate player rotation
+        Vector3 aX = new Vector3(gamepadInput.x, 0, -gamepadInput.y - 1);
+        Vector3 aY = new Vector3(0, 0, 1);
+        aX = Vector3.Normalize(aX);
+
+        if (aX.x >= 0)
+        {
+            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+        }
+        else if (aX.x < 0)
+        {
+            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
+        }
+
+        //Convert angle from world view to orthogonal view
+        angle += 0.785398f; //Rotate 45 degrees to the right
+
+        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
     }
 
 }
