@@ -121,7 +121,7 @@ private:
 	G_UI* canvas;
 	int selectedUI;
 
-	std::vector<GameObject*> vSelectedGOs;
+	//std::vector<GameObject*> vSelectedGOs;
 
 	bool a = false;
 };
