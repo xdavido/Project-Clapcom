@@ -22,6 +22,8 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryTexturesPath = libraryPath + "Textures/";
 	librarySettingsPath = libraryPath + "Settings/";
 
+	regenerateLibrary = false;
+
 	LOG("Creating ModuleFileSystem");
 }
 
@@ -57,6 +59,22 @@ update_status ModuleFileSystem::PreUpdate(float dt)
 update_status ModuleFileSystem::Update(float dt)
 {
 	OPTICK_EVENT();
+
+	// Regenerate Library Logic when it's deleted on Runtime
+
+	if (!PhysfsEncapsule::FolderExists(libraryPath)) {
+
+		regenerateLibrary = true;
+
+	}
+
+	if (regenerateLibrary) {
+
+		CreateLibraryFolder();
+
+		regenerateLibrary = false;
+
+	}
 
 	return UPDATE_CONTINUE;
 }
