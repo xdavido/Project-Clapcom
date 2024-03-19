@@ -280,7 +280,7 @@ bool G_UI::AddButton(std::string text, float x, float y, std::string imgPath, fl
 	GetComponentUI(UI_TYPE::IMAGE)->width = w;
 	GetComponentUI(UI_TYPE::IMAGE)->height = h;
 
-	UI_Button* comp = new UI_Button(this, x, y);
+	UI_Button* comp = new UI_Button(this, x, y, w, h);
 	mComponents.push_back(comp);
 
 	name = "Button";
@@ -310,7 +310,7 @@ bool G_UI::AddButton(std::string text, float x, float y, std::string imgPath, fl
 	return ret;
 }
 
-bool G_UI::AddInputBox(float x, float y, float w, float h)
+bool G_UI::AddInputBox(float x, float y, std::string imgPath, float w, float h)
 {
 	bool ret = true;
 
@@ -339,6 +339,8 @@ bool G_UI::AddInputBox(float x, float y, float w, float h)
 
 	comp->displayText = static_cast<UI_Text*>(aux->GetComponentUI(UI_TYPE::TEXT));
 	comp->image = static_cast<UI_Image*>(GetComponentUI(UI_TYPE::IMAGE));
+
+	comp->image->SetImg(imgPath, UI_STATE::NORMAL);
 
 	name = "Input Box";
 
@@ -392,6 +394,9 @@ bool G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
 	comp->cmImg = aux2;
 	comp->cmImg->GetComponentUI(UI_TYPE::IMAGE)->active = checked;
 	comp->displayText = aux3;
+
+
+	static_cast<UI_Image*>(static_cast<G_UI*>(aux)->GetComponentUI(UI_TYPE::IMAGE));
 
 	comp->transformUI = new UI_Transform(comp);
 	mComponents.push_back(comp->transformUI);

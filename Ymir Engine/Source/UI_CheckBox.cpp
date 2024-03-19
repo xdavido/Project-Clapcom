@@ -21,9 +21,6 @@ UI_Checkbox::UI_Checkbox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TY
 	cmImg = nullptr;
 
 	displayText = nullptr;
-
-	defaultFunction1 = false;
-	defaultFunction2 = false;
 }
 
 UI_Checkbox::~UI_Checkbox()
@@ -75,19 +72,19 @@ void UI_Checkbox::OnInspector()
 		{
 			ImGui::Dummy(ImVec2(0, 10));
 			ImGui::Text("Funtion: "); ImGui::SameLine();
-			if (defaultFunction1)
-			{
-				ImGui::Text("void CheckVSync()");
-			}
-			else if (defaultFunction2)
-			{
-				// TODO: set draggeable
-				ImGui::Text("void FadeUI(float dtd)");
-			}
-			else
-			{
-				ImGui::Text("<null>");
-			}
+			//if (defaultFunction1)
+			//{
+			//	ImGui::Text("void CheckVSync()");
+			//}
+			//else if (defaultFunction2)
+			//{
+			//	// TODO: set draggeable
+			//	ImGui::Text("void FadeUI(float dtd)");
+			//}
+			//else
+			//{
+			//	ImGui::Text("<null>");
+			//}
 		}
 
 		if (!active) { ImGui::EndDisabled(); }

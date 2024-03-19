@@ -389,7 +389,6 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 	mat->rTextures.push_back(rTexTemp);
 
 	mapTextures.insert({ state, rTexTemp });
-
 }
 
 void UI_Image::SetNativeSize()

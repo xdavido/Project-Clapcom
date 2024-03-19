@@ -28,7 +28,7 @@ public:
 	bool AddImage(std::string imgPath = "Assets/InGameConeptPng.png", float x = 0, float y = 0, float w = 100, float h = 100, std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
 	bool AddText(std::string text, float x = 0, float y = 0, float fontSize = 21, std::string fontName = "", std::string fontPath = "Assets\\Fonts");
 	bool AddButton(std::string text, float x = 0, float y = 0, std::string imgPath = "Assets/InGameConeptPng.png", float w = 300, float h = 50);
-	bool AddInputBox(float x = 0, float y = 0, float w = 300, float h = 50);
+	bool AddInputBox(float x = 0, float y = 0, std::string imgPath = "Assets/InGameConeptPng.png", float w = 300, float h = 50);
 	bool AddCheckBox(bool checked = true, float x = 0, float y = 0, float w = 170, float h = 20);
 	bool AddSlider(bool floats = false, float min = 0, float max = 10, float value = 0, float x = 0, float y = 0, float w = 300, float h = 50, float hw = 70, float hh = 70);
 

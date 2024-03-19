@@ -38,10 +38,6 @@ public:
 
 	G_UI* displayText;
 
-	// TODO: fix this
-	bool defaultFunction1;
-	bool defaultFunction2;
-
 	//color
 	Color focusedColor;
 	Color pressedColor;
