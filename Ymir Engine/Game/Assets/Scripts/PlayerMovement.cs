@@ -61,7 +61,6 @@ public class PlayerMovement : YmirComponent
 
         if(Input.GetKey(YmirKeyCode.SPACE)== KeyState.KEY_DOWN)
         {
-
             Vector3 vel = new Vector3(0, 0, 10);
             gameObject.SetImpulse(vel);
         }
@@ -142,7 +141,7 @@ public class PlayerMovement : YmirComponent
             Vector3 rot = new Vector3(0, 1, 0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
             InternalCalls.CreateBullet(pos, rot, scale);
-            Input.GameControllerRumbleCS(3,32,100);
+            //Input.GameControllerRumbleCS(3,32,100);
         }
 
         if(Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
