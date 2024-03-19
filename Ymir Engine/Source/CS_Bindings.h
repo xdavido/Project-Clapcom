@@ -367,23 +367,10 @@ float GetDT()
 	return External->GetDT();
 }
 
-void AddMeshToGameObject()
-{
-
-}
-
-//TODO:
-void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) //TODO: We really need prefabs
+void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) 
 {
 	//Crea un game object temporal llamado "Bullet"
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
-
-	//Añade RigidBody a la bala
-	CCollider* physBody;
-	physBody = new CCollider(go);
-	physBody->gravity = false;
-	//physBody->SetBoxCollider();
-	go->AddComponent(physBody);
 
 	//Hace unbox de los parametros de transform pasados
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
@@ -407,6 +394,13 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	cmaterial->shader.LoadShader(cmaterial->shaderPath);
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
+
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->gravity = false;
+	physBody->size = scaleVector;
+	go->AddComponent(physBody);
 
 	//Añade el script Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";
