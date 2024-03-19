@@ -17,13 +17,11 @@ public class BH_Bullet : YmirComponent
 
     public void Update()
     {
-
         thisReference = gameObject;
-
         currentLifeTime += Time.deltaTime;
-
         thisReference.transform.localPosition += thisReference.GetForward() * (speed * Time.deltaTime);
 
+        ////Caida de bala
         yVel -= Time.deltaTime / 15.0f;
         thisReference.transform.localPosition += (Vector3.up * yVel);
 

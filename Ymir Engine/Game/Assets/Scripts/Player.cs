@@ -119,6 +119,7 @@ public class Player : YmirComponent
             gameObject.SetImpulse(vel);
         }
 
+
         //--------------------- Controller Movement ---------------------//
 
         float x = Input.GetLeftAxisX();
