@@ -206,6 +206,9 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
 
+						/* FRANCESC: Bug Caso 2 es porque hacer el pushback del modelo y luego aun asi crea el resource,
+						tendria que ponerlo en un else todo. */
+
 						if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
 
 							// Rework to ImporterModel::Import(path);
