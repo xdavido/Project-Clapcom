@@ -202,14 +202,19 @@ void Animator::ResetAnimation(Animation* animation) {
 	animation->easeOutSpeed = 1;
 }
 
-void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float fadeOutTime, float fadeInTime) {
+void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float transitionTime) {
 
-	float fadeOut = lastAnimation->GetDuration() * fadeOutTime;
-	float fadeIn = nextAnimation->GetDuration() * fadeInTime;
+	float timeToTransition = lastAnimation->GetDuration() * transitionTime;
+	float transitionDuration = lastAnimation->GetDuration() - timeToTransition;
 
-	if (lastAnimation->currentTime >= fadeOut) {
+	float normalizedTime = (lastAnimation->currentTime - timeToTransition) / (lastAnimation->GetDuration() - timeToTransition);
+
+	if (lastAnimation->currentTime >= timeToTransition) {
 
 		PlayAnimation(nextAnimation);
+
+		lastAnimation->intensity = 1 - normalizedTime;
+		nextAnimation->intensity = normalizedTime;
 	}
 }
 

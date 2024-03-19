@@ -44,7 +44,7 @@ public:
 	// Stop an animation. If not given a name stops all animations playing
 	void StopAnimation(std::string animationName = "");
 
-	void TransitionTo(std::string animationName, float fadeOutTime = 1.0f, float fadeInTime = 1.0f);
+	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
 
 
 private:

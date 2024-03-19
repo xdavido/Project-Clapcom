@@ -128,13 +128,34 @@ void CAnimation::StopAnimation(std::string animationName) {
     }
 }
 
-void CAnimation::TransitionTo(std::string animationName, float fadeOutTime, float fadeInTime) {
+void CAnimation::TransitionTo(std::string animationName, float transitionTime) {
+
+    Animation* playingAnimation = nullptr;
+    Animation* nextAnimation = nullptr;
 
     for (int i = 0; i < animator->animations.size(); i++) {
+
+        if (animator->animations[i].isPlaying)
+            playingAnimation = &animator->animations[i];
+
         if (animator->animations[i].name == animationName) {
-            
+            nextAnimation = &animator->animations[i];
         }
     }
+
+    if (playingAnimation == nullptr) {
+        LOG("No animation playing");
+        return;
+    }
+    if (nextAnimation == nullptr) {
+        LOG("Animation not found");
+        return;
+    }
+    if (playingAnimation == nextAnimation) {
+        return;
+    }
+
+    animator->TransitionTo(playingAnimation, nextAnimation, transitionTime);
 }
 
 void CAnimation::OnInspector() {

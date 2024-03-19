@@ -27,7 +27,7 @@ public:
 
 	void ResetAnimation(Animation* animation);
 
-	void TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float fadeOutTime, float fadeInTime);
+	void TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float transitionTime);
 
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation);
 
@@ -41,7 +41,7 @@ private:
 	float4x4 identity; 
 
 public:
-	// Change to Animation *
+
 	std::vector<Animation> animations;
 
 };
