@@ -409,7 +409,7 @@ void UI_Slider::SetValue(float val)
 					img.boundsGame->RegenerateVBO();
 				}
 			}
-
+			
 			// Handle
 			if (handleImage != nullptr)
 			{

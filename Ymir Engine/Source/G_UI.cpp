@@ -395,9 +395,6 @@ bool G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
 	comp->cmImg->GetComponentUI(UI_TYPE::IMAGE)->active = checked;
 	comp->displayText = aux3;
 
-
-	static_cast<UI_Image*>(static_cast<G_UI*>(aux)->GetComponentUI(UI_TYPE::IMAGE));
-
 	comp->transformUI = new UI_Transform(comp);
 	mComponents.push_back(comp->transformUI);
 

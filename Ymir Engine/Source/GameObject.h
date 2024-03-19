@@ -37,7 +37,7 @@ public:
 
 	//---Parent/Child---
 	// Return nullptr if gameobject not found. Recursive method
-	GameObject* FindChild(u32 idToFind, GameObject* go = nullptr);
+	GameObject* FindChild(uint UID_ToFind, GameObject* go = nullptr);
 	GameObject* GetChildByUID(const uint& UID);
 
 	void SetParent(GameObject* newParent);

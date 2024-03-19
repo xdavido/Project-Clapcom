@@ -97,7 +97,7 @@ void GameObject::Disable()
 	}
 }
 
-GameObject* GameObject::FindChild(u32 idToFind, GameObject* go)
+GameObject* GameObject::FindChild(uint UID_ToFind, GameObject* go)
 {
 	for (auto i = 0; i < mChildren.size(); i++)
 	{
@@ -107,9 +107,9 @@ GameObject* GameObject::FindChild(u32 idToFind, GameObject* go)
 		}
 		if (!mChildren[i]->mChildren.empty())
 		{
-			go = mChildren[i]->FindChild(idToFind, go);
+			go = mChildren[i]->FindChild(UID_ToFind, go);
 		}
-		if (idToFind == mChildren[i]->UID)
+		if (UID_ToFind == mChildren[i]->UID)
 		{
 			go = mChildren[i];
 			return go;
