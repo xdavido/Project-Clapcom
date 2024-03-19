@@ -165,8 +165,10 @@ void Animator::UpdateCurrentTime(Animation* animation) {
 
 void Animator::PlayAnimation(Animation* animation)
 {
-	animation->isPlaying = true;
-	animation->currentTime = 0.0f;
+	if (!animation->isPlaying) {
+		animation->isPlaying = true;
+		animation->currentTime = 0.0f;
+	}
 }
 
 
@@ -185,8 +187,10 @@ void Animator::ResumeAnimation(Animation* animation)
 
 void Animator::StopAnimation(Animation* animation)
 {
-	animation->isPlaying = false;
-	animation->currentTime = 0.0f;
+	if (animation->isPlaying) {
+		animation->isPlaying = false;
+		animation->currentTime = 0.0f;
+	}
 }
 
 void Animator::ResetAnimation(Animation* animation) {
@@ -196,6 +200,17 @@ void Animator::ResetAnimation(Animation* animation) {
 	animation->pingPongBackwardsAux = true;
 	animation->easeInSpeed = 1;
 	animation->easeOutSpeed = 1;
+}
+
+void Animator::TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float fadeOutTime, float fadeInTime) {
+
+	float fadeOut = lastAnimation->GetDuration() * fadeOutTime;
+	float fadeIn = nextAnimation->GetDuration() * fadeInTime;
+
+	if (lastAnimation->currentTime >= fadeOut) {
+
+		PlayAnimation(nextAnimation);
+	}
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation)

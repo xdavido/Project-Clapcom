@@ -61,6 +61,10 @@ public:
 
 	float speed;
 
+	// Dictates the strenght of the animation motion
+	// Value 0.0f-1.0f | 1.0f = full motion, 0.0f = no motion
+	float intensity;
+
 	float duration;
 	float ticksPerSecond;
 

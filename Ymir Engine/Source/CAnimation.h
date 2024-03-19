@@ -35,11 +35,16 @@ public:
 	// OverridePrev: Stops all playing animations if true
 	void PlayAnimation(std::string animationName = "", bool overridePrev = true);
 
+	// Resumes an animation. If not given a name pauses all playing animations
+	void PauseAnimation(std::string animationName = "");
+
 	// Resumes an animation. If not given a name resumes all playing animations
 	void ResumeAnimation(std::string animationName = "");
 
 	// Stop an animation. If not given a name stops all animations playing
 	void StopAnimation(std::string animationName = "");
+
+	void TransitionTo(std::string animationName, float fadeOutTime = 1.0f, float fadeInTime = 1.0f);
 
 
 private:

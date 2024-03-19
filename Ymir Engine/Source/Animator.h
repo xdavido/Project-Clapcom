@@ -27,6 +27,8 @@ public:
 
 	void ResetAnimation(Animation* animation);
 
+	void TransitionTo(Animation* lastAnimation, Animation* nextAnimation, float fadeOutTime, float fadeInTime);
+
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, Animation &animation);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }

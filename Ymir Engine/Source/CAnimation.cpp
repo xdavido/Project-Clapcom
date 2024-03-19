@@ -77,7 +77,25 @@ void CAnimation::PlayAnimation(std::string animationName, bool overridePrev)
     
 }
 
+void CAnimation::PauseAnimation(std::string animationName) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->PauseAnimation(&animator->animations[i]);
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->PauseAnimation(&animator->animations[i]);
+        }
+    }
+}
+
 void CAnimation::ResumeAnimation(std::string animationName) {
+
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].name == animationName) {
@@ -106,6 +124,15 @@ void CAnimation::StopAnimation(std::string animationName) {
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
             animator->StopAnimation(&animator->animations[i]);
+        }
+    }
+}
+
+void CAnimation::TransitionTo(std::string animationName, float fadeOutTime, float fadeInTime) {
+
+    for (int i = 0; i < animator->animations.size(); i++) {
+        if (animator->animations[i].name == animationName) {
+            
         }
     }
 }
