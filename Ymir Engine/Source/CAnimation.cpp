@@ -49,24 +49,64 @@ void CAnimation::RemoveAnimation(int ID) {
     selectedAnimation = -1;
 }
 
-void CAnimation::PlayAnimation(std::string animationName)
+void CAnimation::PlayAnimation(std::string animationName, bool overridePrev)
 {
-    Animation* animationToPLay = nullptr;
+    Animation* animationToPlay = nullptr;
 
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].name == animationName) {
-                animationToPLay = &animator->animations[i];
+                animationToPlay = &animator->animations[i];
                 break;
             }
         }
     }
 
-    if (animationToPLay != nullptr) {
-        animator->PlayAnimation(animationToPLay);
+    // Clear animations if override
+    if (overridePrev) {
+        StopAnimation();
+    }
+
+    if (animationToPlay != nullptr) {
+        animator->PlayAnimation(animationToPlay);
     }
     else {
         LOG("Animation not found");
+    }
+
+    
+}
+
+void CAnimation::ResumeAnimation(std::string animationName) {
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->ResumeAnimation(&animator->animations[i]);
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->ResumeAnimation(&animator->animations[i]);
+        }
+    }
+}
+
+void CAnimation::StopAnimation(std::string animationName) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->StopAnimation(&animator->animations[i]);
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->StopAnimation(&animator->animations[i]);
+        }
     }
 }
 

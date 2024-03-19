@@ -172,12 +172,15 @@ void Animator::PlayAnimation(Animation* animation)
 
 
 void Animator::PauseAnimation(Animation* animation) {
-	animation->isPlaying = false;
+
+	if (animation->isPlaying)
+		animation->isPlaying = false;
 }
 
 void Animator::ResumeAnimation(Animation* animation)
 {
-	animation->isPlaying = true;
+	if (!animation->isPlaying)
+		animation->isPlaying = true;
 }
 
 void Animator::StopAnimation(Animation* animation)
