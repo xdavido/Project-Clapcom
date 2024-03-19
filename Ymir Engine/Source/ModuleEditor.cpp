@@ -3315,6 +3315,15 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::TEXTURE:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+						
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
 					}
 					break;
 					case ResourceType::MESH:

@@ -47,8 +47,7 @@ void UI_Button::OnInspector()
 		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		// Image reference
-		ImGui::Text("Image: ");	ImGui::SameLine();
-		
+		ImGui::Text(("Image: " + (image == nullptr ? "<null>" : image->mat->path)).c_str());	ImGui::SameLine();
 
 		ImGui::Dummy(ImVec2(0, 10));
 
@@ -58,13 +57,20 @@ void UI_Button::OnInspector()
 
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::SeparatorText("States");
+		SetStateImg("Normal", UI_STATE::NORMAL); ImGui::SameLine();
+		SetStateImg("Focused", UI_STATE::FOCUSED); ImGui::SameLine();
+		SetStateImg("Pressed", UI_STATE::PRESSED); 
+		SetStateImg("Selected", UI_STATE::SELECTED); ImGui::SameLine();
+		SetStateImg("Disabled", UI_STATE::DISABLED); ImGui::SameLine();
+
 		// Colors
-		ImGui::SeparatorText("Colors");
-		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
-		ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
-		ImGui::ColorEdit4("Pressed color", (float*)&pressedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
-		ImGui::ColorEdit4("Selected color", (float*)&selectedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
-		ImGui::ColorEdit4("Disabled color", (float*)&disabledColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		//ImGui::SeparatorText("Colors");
+		//ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		//ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		//ImGui::ColorEdit4("Pressed color", (float*)&pressedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		//ImGui::ColorEdit4("Selected color", (float*)&selectedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		//ImGui::ColorEdit4("Disabled color", (float*)&disabledColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 
 		{
 			ImGui::Dummy(ImVec2(0, 10));
@@ -129,4 +135,20 @@ void UI_Button::OnSelected()
 void UI_Button::OnRelease()
 {
 	image->selectedTexture = image->mapTextures.find(state)->second;
+}
+
+void UI_Button::SetStateImg(const char* label, UI_STATE s)
+{
+	ImGui::Button(label, ImVec2(70, 30));
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
+		{
+			const char* path = (const char*)payload->Data;
+			image->SetImg(path, s);
+		}
+
+		ImGui::EndDragDropTarget();
+	}
 }

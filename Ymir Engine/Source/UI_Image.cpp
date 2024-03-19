@@ -385,6 +385,16 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
 
+
+	auto itr = mapTextures.find(state);
+	if (itr != mapTextures.end())
+	{
+		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
+		mat->rTextures.shrink_to_fit();
+
+		mapTextures.erase(state);
+	}
+
 	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 
