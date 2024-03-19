@@ -236,7 +236,8 @@ void ModuleScene::ClearScene()
 
 	SetSelected();
 
-	RELEASE(mRootNode);
+	// FRANCESC: Doing this RELEASE here makes the meshes disappear
+	// RELEASE(mRootNode); 
 
 	External->lightManager->lights.clear();
 	gameObjects.clear();
@@ -287,9 +288,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	//ClearScene();
-	SetSelected();
-	External->lightManager->lights.clear();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
