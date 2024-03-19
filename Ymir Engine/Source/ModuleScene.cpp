@@ -65,6 +65,12 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
+#ifdef _STANDALONE
+
+	LoadSceneFromStart("Assets", "MAPA_FINAL");
+
+#endif // _STANDALONE
+
 	// Test for Physics
 	// LoadSceneFromStart("Assets", "PhysicsTest"); 
 
