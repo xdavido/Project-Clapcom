@@ -11,14 +11,14 @@ public class BH_Plane : YmirComponent
 
     public void Update()
     {
-       
+
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT && cSpeed < 0.18f)
             cSpeed += speedIncrement * Time.deltaTime;
 
         if ((Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT || Input.GetKey(YmirKeyCode.W) == KeyState.KEY_IDLE) && cSpeed > 0.05f)
         {
             cSpeed -= speedIncrement * Time.deltaTime;
-            if(cSpeed < 0.05f)
+            if (cSpeed < 0.05f)
                 cSpeed = 0.05f;
         }
 
@@ -40,7 +40,7 @@ public class BH_Plane : YmirComponent
         if (Input.GetMouseY() < 0)
             thisReference.transform.localRotation = thisReference.transform.localRotation * Quaternion.RotateAroundAxis(Vector3.right, -Input.GetMouseY() * 0.1f * Time.deltaTime);
 
-        thisReference.transform.localPosition += thisReference.GetForward() * cSpeed;
+        //thisReference.transform.localPosition += thisReference.GetForward() * cSpeed;
     }
 
 

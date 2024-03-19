@@ -5,7 +5,7 @@ using YmirEngine;
 public class PlayerMovement : YmirComponent
 {
     Vector3 gamepadInput;
-   
+
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
@@ -64,7 +64,7 @@ public class PlayerMovement : YmirComponent
             InternalCalls.CreateBullet(pos, rot, scale);
         }
 
-        if(Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
+        if (Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
         {
             Vector3 vel = new Vector3(0, 0, 10);
             gameObject.SetImpulse(vel);
@@ -122,7 +122,7 @@ public class PlayerMovement : YmirComponent
 
         if (gamepadInput.x > 0)
         {
-            gameObject.transform.localPosition += new Vector3(1,0,0) * -movementSpeed * Time.deltaTime;
+            gameObject.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.x < 0)
         {
@@ -147,7 +147,7 @@ public class PlayerMovement : YmirComponent
             //Input.GameControllerRumbleCS(3,32,100);
         }
 
-        if(Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             Debug.Log("Pause!");
             Audio.PauseAllAudios();
@@ -166,7 +166,7 @@ public class PlayerMovement : YmirComponent
         //    script = false;
         //}
 
-           
+
 
         //En un futuro proximo para hace bien el movimiento
         //RotatePlayer();
@@ -184,7 +184,7 @@ public class PlayerMovement : YmirComponent
         {
             PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
 
-              player.movementSpeed = 10f;
+            player.movementSpeed = 10f;
 
             Debug.Log("MovmentSpeed= " + movementSpeed);
 

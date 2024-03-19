@@ -22,7 +22,7 @@
 #include"MathGeoLib/include/Math/float3.h"
 
 template<typename T>
-T DECS_CompToComp(MonoObject* obj)
+T CS_CompToComp(MonoObject* obj)
 {
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_object_get_class(obj);
@@ -44,7 +44,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 	const char* name = mono_class_get_name(mono_object_get_class(obj));
 
 	float3 value;
-	CTransform* workTrans = DECS_CompToComp<CTransform*>(obj);
+	CTransform* workTrans = CS_CompToComp<CTransform*>(obj);
 
 	if (strcmp(type, "POSITION") == 0)
 	{
@@ -273,7 +273,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(secObj);
-	CTransform* workTrans = DECS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	CTransform* workTrans = CS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 	if (workTrans)
 	{
 		workTrans->SetPosition(omgItWorks);
@@ -281,26 +281,25 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	}
 }
 
-MonoObject* GetForward(MonoObject* go)	
+MonoObject* GetForward(MonoObject* go)
 {
-	if (External == nullptr || CScript::runningScript == nullptr)
+	if (External == nullptr)
 		return nullptr;
 
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	
+	return External->moduleMono->Float3ToCS(trans->GetForward());
 }
 MonoObject* GetRight(MonoObject* go)
 {
 	if (External == nullptr)
 		return nullptr;
 
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	
+	return External->moduleMono->Float3ToCS(trans->GetRight());
 }
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
@@ -314,12 +313,16 @@ void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float
 		return;
 
 	Quat omgItWorks = External->moduleMono->UnboxQuat(secObj);
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	CTransform* transform = CS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 
-	if (workGO->mTransform)
+	if (transform)
 	{
-		//workGO->mTransform->SetPosition(workGO->mTransform->translation, omgItWorks, workGO->mTransform->localScale);
-		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
+		//workGO->transform->SetTransformMatrix(workGO->transform->position, omgItWorks, workGO->transform->localScale);
+
+		transform->rotation = omgItWorks.Normalized();
+		transform->eulerRot = omgItWorks.ToEulerXYZ() * RADTODEG;
+
+		transform->dirty_ = true;
 	}
 }
 

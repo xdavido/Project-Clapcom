@@ -1,0 +1,192 @@
+{
+    "Editor Camera Position": [
+        1.6150854825973511,
+        5.1024861335754395,
+        -15.555390357971191
+    ],
+    "Editor Camera Right (X)": [
+        -0.99820876121520996,
+        2.7939677238464355e-08,
+        0.060051355510950089
+    ],
+    "Editor Camera Up (Y)": [
+        0.01699918694794178,
+        0.95910406112670898,
+        0.28256997466087341
+    ],
+    "Editor Camera Front (Z)": [
+        0.057594574987888336,
+        -0.28308203816413879,
+        0.9573708176612854
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1799560933,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                1716086043,
+                1009784856
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1716086043,
+            "Element_Type": "None",
+            "Parent UID": 1799560933,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        180,
+                        40.000007629394531,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        -6.696972576492044e-08,
+                        1,
+                        -1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        -6.696972576492044e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 0,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1009784856,
+            "Element_Type": "Model",
+            "Parent UID": 1799560933,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1553236809,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Radius": 0.86602538824081421,
+                    "Height": 1,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Gravity": false
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "Player.cs",
+                    "UID": 0,
+                    "rotationSpeed": 2,
+                    "movementSpeed": 35,
+                    "mouseSens": 1
+                }
+            ]
+        }
+    ]
+}

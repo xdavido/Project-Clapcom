@@ -22,10 +22,10 @@ public class BH_Bullet : YmirComponent
         //thisReference.transform.localPosition += thisReference.GetForward() * (speed * Time.deltaTime);
 
         //Velocidad a la que se dispara la bala en el eje Z positivo (hacia delante)
-        Vector3 vectorSpeed = thisReference.GetForward() * speed;
+        //Vector3 vectorSpeed = thisReference.GetForward() * speed;
 
         //Se añade la velocidad al game object
-        thisReference.SetVelocity(vectorSpeed);
+        //thisReference.SetVelocity(vectorSpeed);
 
         ////Caida de bala (no hace falta si la bala tiene rigidbody)
         //yVel -= Time.deltaTime / 15.0f;
