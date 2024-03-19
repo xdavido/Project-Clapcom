@@ -419,6 +419,24 @@ void CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
 
 	tempGameObject->AddImage(_newImage, x, y, 100, 100);
 
-	External->scene->gameObjects.push_back(tempGameObject);
+	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
+}
+
+void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
+{
+	//Falta meter automaticamente que haga el change de Image
+	GameObject* go_image_to_change = External->moduleMono->GameObject_From_CSGO(pParent);
+	std::string _newImage = mono_string_to_utf8(newImage);
+	std::string _findbyname = mono_string_to_utf8(imageToChange);
+
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
+	{
+		if ((*it)->name == _findbyname)
+		{
+			UI_Image* image_to_change = static_cast<UI_Image*>(static_cast<G_UI*>((*it))->GetComponentUI(UI_TYPE::IMAGE));
+
+			image_to_change->SetImg(_newImage, UI_STATE::NORMAL);
+		}
+	}
 }
 #pragma endregion

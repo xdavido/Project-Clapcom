@@ -224,6 +224,11 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	return tempGameObject;
 }
 
+void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)
+{
+	pendingToAdd.push_back(go);
+}
+
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 {
 	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x , y);

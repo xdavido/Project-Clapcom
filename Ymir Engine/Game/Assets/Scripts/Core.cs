@@ -137,6 +137,11 @@ public class Core : YmirComponent
             UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
         }
 
+        if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
+        {
+            UI.ChangeImageUI(gameObject, "Assets/juan.png", "Image", 1, 1);
+        }
+
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
