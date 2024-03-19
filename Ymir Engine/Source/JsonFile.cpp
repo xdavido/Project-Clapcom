@@ -843,7 +843,6 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	//	// Add the GameObject to the hierarchy array
 	//	json_array_append_value(hierarchyArray, gameObjectValue);
 	//}
-
 	
 	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
