@@ -1,0 +1,314 @@
+{
+    "Editor Camera Position": [
+        11.653637886047363,
+        8.9459590911865234,
+        10.335564613342285
+    ],
+    "Editor Camera Right (X)": [
+        0.68601351976394653,
+        -1.9371509552001953e-07,
+        -0.72758549451828003
+    ],
+    "Editor Camera Up (Y)": [
+        -0.34746849536895752,
+        0.87859594821929932,
+        -0.32761546969413757
+    ],
+    "Editor Camera Front (Z)": [
+        -0.63925564289093018,
+        -0.47756293416023254,
+        -0.60273045301437378
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 531788471,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                752753698,
+                935998235,
+                266476021,
+                1009784856
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 752753698,
+            "Element_Type": "None",
+            "Parent UID": 531788471,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        180,
+                        40.000007629394531,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        -6.6969732870347798e-08,
+                        1,
+                        -1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        -6.6969732870347798e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Plane",
+            "UID": 935998235,
+            "Element_Type": "Model",
+            "Parent UID": 531788471,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1482273603
+            ]
+        },
+        {
+            "Name": "Plane",
+            "UID": 1482273603,
+            "Element_Type": "None",
+            "Parent UID": 935998235,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        34.927314758300781,
+                        10.929999351501465,
+                        44.475772857666016
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/DefaultShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 121,
+                    "Index Count": 600
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        34.927314758300781,
+                        0.10000000149011612,
+                        44.475772857666016
+                    ],
+                    "Radius": 28.275482177734375,
+                    "Height": 0,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Gravity": true
+                }
+            ]
+        },
+        {
+            "Name": "Empty",
+            "UID": 266476021,
+            "Element_Type": "None",
+            "Parent UID": 531788471,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        1.6000000238418579,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        10,
+                        1,
+                        10
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        10,
+                        1,
+                        10
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Gravity": true
+                }
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1009784856,
+            "Element_Type": "Model",
+            "Parent UID": 531788471,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1553236809,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        9.644160270690918,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Radius": 0.86602538824081421,
+                    "Height": 1,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Gravity": true
+                }
+            ]
+        }
+    ]
+}
