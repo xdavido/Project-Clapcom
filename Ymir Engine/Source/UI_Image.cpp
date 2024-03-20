@@ -75,7 +75,7 @@ void UI_Image::OnInspector()
 			for (auto& textures : mat->rTextures)
 			{
 				const bool is_selected = (textures == selectedTexture);
-				if (ImGui::Selectable(textures->GetAssetsFilePath().c_str(), is_selected))
+				if (ImGui::Selectable((textures->GetAssetsFilePath() + "##" + std::to_string(textures->GetUID())).c_str(), is_selected))
 				{
 					selectedTexture = textures;
 				}
