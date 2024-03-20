@@ -486,10 +486,10 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	// Create the mesh
 
-	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh";
+	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
 
-	JsonFile ymeshFile(libraryPath, std::to_string(linkGO->UID) + ".ymesh");
-	External->fileSystem->SaveMeshToFile(vertices, indices, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+	External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
 
 	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
