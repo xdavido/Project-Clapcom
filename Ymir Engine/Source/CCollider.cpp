@@ -125,13 +125,18 @@ void CCollider::Update()
 
 		if (componentMesh != nullptr && physBody != nullptr) {
 
-			if (collType != ColliderType::MESH_COLLIDER)
-			{
-				float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
-				physBody->SetPosition(pos);
-			}
-			physBody->SetRotation(componentTransform->GetLocalRotation());
+			float3 pos;
 
+			if (collType != ColliderType::MESH_COLLIDER)
+				pos = componentMesh->rMeshReference->obb.CenterPoint();
+			else
+				pos = componentTransform->GetGlobalPosition();
+
+			physBody->SetPosition(pos);
+			physBody->SetRotation(componentTransform->GetLocalRotation());
+			
+			//physBody->SetScale(componentTransform->scale);
+			/*physBody->SetScale*/
 			if (ImGuizmo::IsUsing()) {
 
 				size = componentMesh->rMeshReference->obb.Size();
@@ -148,7 +153,7 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) {
 
 				size = componentTransform->GetGlobalTransform().GetScale();
-
+				
 			}
 
 		}
@@ -161,7 +166,6 @@ void CCollider::Update()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
-
 }
 
 void CCollider::OnInspector()
