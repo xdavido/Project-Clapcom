@@ -18,6 +18,7 @@
 
 class GameObject;
 class Component;
+class G_UI;
 
 class JsonFile {
 public:
@@ -100,8 +101,8 @@ public:
     // ---------- Load Scene
 
     std::vector<GameObject*> GetHierarchy(const char* key) const;
-    void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const;
-    void GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const;
+    void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const;
+    void GetComponent(const JSON_Object* componentObject, G_UI* gameObject) const;
 
     // Use "push" only the first time in each component
     int GetReference(const JSON_Object* componentObject, Component& comp, const char* name, bool push = false) const;

@@ -1,4 +1,5 @@
 #include "G_UI.h"
+
 #include "UI_Canvas.h"
 #include "UI_Image.h"
 #include "UI_Text.h"
@@ -6,7 +7,9 @@
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
 #include "UI_Slider.h"
+
 #include "UI_Transform.h"
+
 #include "ImporterTexture.h"
 
 #include "External/ImGui/imgui.h"
@@ -86,7 +89,10 @@ update_status G_UI::Update(float dt)
 						static_cast<C_UI*>(mComponents[i])->StateLogic();
 					}
 
-					static_cast<C_UI*>(mComponents[i])->Update(dt);
+					if (mComponents[i]->active)
+					{
+						static_cast<C_UI*>(mComponents[i])->Update(dt);
+					}
 
 					if (static_cast<C_UI*>(mComponents[i])->dirty_)
 					{
@@ -146,6 +152,8 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 {
 	bool ret = true;
 
+	C_UI* component;
+
 	switch (type)
 	{
 	case UI_TYPE::CANVAS:
@@ -155,12 +163,7 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 			UI_Canvas* comp = new UI_Canvas(this);
 			mComponents.push_back(comp);
 
-			comp->transformUI = new UI_Transform(comp);
-			mComponents.push_back(comp->transformUI);
-
-			canvas = comp;
-
-			comp = nullptr;
+			component = comp;
 		}
 
 		name = "Canvas";
@@ -168,32 +171,32 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 	break;
 	case UI_TYPE::IMAGE:
 	{
-		AddImage("Assets/InGameConeptPng.png", x, y);
+		component = AddImage("Assets/InGameConeptPng.png", x, y);
 	}
 	break;
 	case UI_TYPE::TEXT:
 	{
-		AddText("This is a text", x, y);
+		component = AddText("This is a text", x, y);
 	}
 	break;
 	case UI_TYPE::BUTTON:
 	{
-		AddButton("Button", x, y);
+		component = AddButton("Button", x, y);
 	}
 	break;
 	case UI_TYPE::INPUTBOX:
 	{
-		AddInputBox(x, y);
+		component = AddInputBox(x, y);
 	}
 	break;
 	case UI_TYPE::CHECKBOX:
 	{
-		AddCheckBox(false, x, y);
+		component = AddCheckBox(false, x, y);
 	}
 	break;
 	case UI_TYPE::SLIDER:
 	{
-		AddSlider(false, 0, 10, 0, x, y);
+		component = AddSlider(false, 0, 10, 0, x, y);
 	}
 	case UI_TYPE::NONE:
 		break;
@@ -201,13 +204,14 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		break;
 	}
 
+	component->transformUI = new UI_Transform(component);
+	mComponents.push_back(component->transformUI);
+
 	return ret;
 }
 
-bool G_UI::AddImage(std::string imgPath, float x, float y, float w, float h, std::string shaderPath)
+UI_Image* G_UI::AddImage(std::string imgPath, float x, float y, float w, float h, std::string shaderPath)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -224,18 +228,11 @@ bool G_UI::AddImage(std::string imgPath, float x, float y, float w, float h, std
 
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
-	comp->transformUI = new UI_Transform(comp);
-	mComponents.push_back(comp->transformUI);
-
-	comp = nullptr;
-
-	return ret;
+	return comp;
 }
 
-bool G_UI::AddText(const char* text, float x, float y, float fontSize, float lineSpacing, std::string fontName, std::string fontPath)
+UI_Text* G_UI::AddText(const char* text, float x, float y, float fontSize, float lineSpacing, std::string fontName, std::string fontPath)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -252,18 +249,11 @@ bool G_UI::AddText(const char* text, float x, float y, float fontSize, float lin
 
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
-	comp->transformUI = new UI_Transform(comp);
-	mComponents.push_back(comp->transformUI);
-
-	comp = nullptr;
-
-	return ret;
+	return comp;
 }
 
-bool G_UI::AddButton(const char* text, float x, float y, std::string imgPath, float w, float h)
+UI_Button* G_UI::AddButton(const char* text, float x, float y, std::string imgPath, float w, float h)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -300,18 +290,13 @@ bool G_UI::AddButton(const char* text, float x, float y, std::string imgPath, fl
 	comp->image->SetImg("Assets/Baker_house.png", UI_STATE::RELEASE);
 	comp->image->SetImg("Assets/Water.png", UI_STATE::SELECTED);
 
-	comp->transformUI = nullptr;
-
-	comp = nullptr;
 	aux = nullptr;
 
-	return ret;
+	return comp;
 }
 
-bool G_UI::AddInputBox(float x, float y, std::string imgPath, float w, float h)
+UI_InputBox* G_UI::AddInputBox(float x, float y, std::string imgPath, float w, float h)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -345,16 +330,13 @@ bool G_UI::AddInputBox(float x, float y, std::string imgPath, float w, float h)
 	comp->transformUI = new UI_Transform(comp);
 	mComponents.push_back(comp->transformUI);
 
-	comp = nullptr;
 	aux = nullptr;
 
-	return ret;
+	return comp;
 }
 
-bool G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
+UI_Checkbox* G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -396,18 +378,15 @@ bool G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
 	comp->transformUI = new UI_Transform(comp);
 	mComponents.push_back(comp->transformUI);
 
-	comp = nullptr;
 	aux = nullptr;
 	aux2 = nullptr;
 	aux3 = nullptr;
 
-	return ret;
+	return comp;
 }
 
-bool G_UI::AddSlider(bool floats, float min, float max, float value, float x, float y, float w, float h, float hw, float hh)
+UI_Slider* G_UI::AddSlider(bool floats, float min, float max, float value, float x, float y, float w, float h, float hw, float hh)
 {
-	bool ret = true;
-
 	if (External->scene->GetCanvas() == nullptr)
 	{
 		External->scene->CreateGUI(UI_TYPE::CANVAS);
@@ -448,10 +427,9 @@ bool G_UI::AddSlider(bool floats, float min, float max, float value, float x, fl
 	comp->transformUI = new UI_Transform(comp);
 	mComponents.push_back(comp->transformUI);
 
-	comp = nullptr;
 	aux = nullptr;
 	aux1 = nullptr;
 	aux2 = nullptr;
 
-	return ret;
+	return comp;
 }
