@@ -1,0 +1,23 @@
+{
+    "Name": "CHAR_Raisen_A_Pose",
+    "Assets Path": "Assets\/CHAR_Raisen_A_Pose.fbx",
+    "Library Path": ".\/Library\/Models\/54252483.ymodel",
+    "UID": 54252483,
+    "Type": "Model",
+    "Meshes num": 13,
+    "Meshes Embedded UID": [
+        656607813,
+        559628394,
+        1604762569,
+        1763232724,
+        2060019513,
+        759558207,
+        1549687417,
+        433615717,
+        1039616752,
+        455992928,
+        1270211183,
+        1379925622,
+        1733409884
+    ]
+}

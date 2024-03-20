@@ -43,10 +43,10 @@ public class Player : YmirComponent
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
     private double angle = 0.0f;
-    //private int deathZone = 15000;
+    private float deathZone = 2.5f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 1000f;
+    public float dashforce = 0.1f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
@@ -54,13 +54,13 @@ public class Player : YmirComponent
     public float dashDuration = 0.25f;
     public float dashDistance = 1.0f;
     private float dashSpeed = 0.0f;
-    private float dashStartYPos = 0.0f;
+    //private float dashStartYPos = 0.0f;
 
     //--------------------- Controller var ---------------------\\
     float x = 0;
     float y = 0;
     Vector3 gamepadInput;
-    bool isMoving = false;
+    //bool isMoving = false;
 
     //--------------------- Shoot var ---------------------\\
     public float fireRate = 0.2f;
@@ -93,13 +93,13 @@ public class Player : YmirComponent
     public void Update()
     {
         // New Things WIP
-        //UpdateControllerInputs();
+        UpdateControllerInputs();
 
-        //ProcessInternalInput();
-        //ProcessExternalInput();
-        //ProcessState();
+        ProcessInternalInput();
+        ProcessExternalInput();
+        ProcessState();
 
-        //UpdateState();
+        UpdateState();
 
 
 
@@ -107,7 +107,7 @@ public class Player : YmirComponent
 
 
         //Old things
-        UpdateControllerInputs();
+        //UpdateControllerInputs();
 
         ////HandleStates();
 
@@ -378,7 +378,7 @@ public class Player : YmirComponent
     private void StartDash()
     {
         dashTimer = dashDuration;
-        dashStartYPos = gameObject.transform.localPosition.y;
+        //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
@@ -388,14 +388,14 @@ public class Player : YmirComponent
     private void EndDash()
     {
         StopPlayer();
-        gameObject.transform.localPosition.y = dashStartYPos;
+        //gameObject.transform.localPosition.y = dashStartYPos;
     }
     #endregion
 
     #region Joystick
     private bool JoystickMoving()
     {
-        return gamepadInput.magnitude > 0;
+        return gamepadInput.magnitude > deathZone;
     }
 
     private void UpdateControllerInputs()
