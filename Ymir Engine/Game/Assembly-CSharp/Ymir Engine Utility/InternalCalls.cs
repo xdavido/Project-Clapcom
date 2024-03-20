@@ -22,7 +22,11 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject GetGameObjectByName(string name);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject LoadScene(string name);
+
     }
+
     public class UI
     {
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -35,6 +39,7 @@ namespace YmirEngine
         public static extern GameObject HideImageUI(string hideGo);
 
     }
+
     public class Input
     {
         //Keyboard and mouse
@@ -52,6 +57,8 @@ namespace YmirEngine
 
         //Gamepad
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern KeyState GetGamepadButton(object keyPressed);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetLeftAxisX();
@@ -398,6 +405,26 @@ namespace YmirEngine
             this[(y * 4) + x] = value;
         }
     }
+}
+public enum GamePadButton
+{
+    INVALID = -1,
+    A,
+    B,
+    X,
+    Y,
+    BACK,
+    GUIDE,
+    START,
+    LEFTSTICK,
+    RIGHTSTICK,
+    LEFTSHOULDER,
+    RIGHTSHOULDER,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT,
+    MAX
 }
 
 public enum YmirKeyCode //This is a mirror from the SDL scancode enum to allow C# to C++ compatibility

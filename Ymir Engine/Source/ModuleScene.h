@@ -130,7 +130,8 @@ private:
 
 	// Limit tab navigation with controller
 	bool canTab;
-
+	
+	GameObject* audiosource;	
 public:
 	// DO NOT USE, Save/Load purposes only
     std::vector<Component*> vTempComponents;

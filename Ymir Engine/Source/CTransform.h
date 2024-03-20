@@ -8,6 +8,8 @@
 #include "External/MathGeoLib/include/Math/Quat.h"
 #include "External/MathGeoLib/include/Math/float4x4.h"
 
+class btQuaternion;
+
 class CTransform : public Component {
 public:
 
@@ -28,6 +30,7 @@ public:
 	void CalculateMatrix();
 	void SetPosition(float3 vec = float3(0, 0, 0));
 	void SetRotation(float3 vec = float3(0, 0, 0));
+	void SetOrientation(btQuaternion bulletQuat);
 	void SetScale(float3 vec = float3(0, 0, 0));
 
 	float4x4 GetGlobalTransform() const;

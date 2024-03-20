@@ -16,6 +16,7 @@
 #include "CScript.h"
 #include "CS_Bindings.h"
 #include "CS_Input_Bindings.h"
+#include "CS_Audio_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -52,13 +53,16 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.YmirComponent::get_gameObject", CS_Component_Get_GO);
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
+	mono_add_internal_call("YmirEngine.GameObject::TryGetComponent", CS_GetComponent);
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
 
 
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 	mono_add_internal_call("YmirEngine.InternalCalls::AddMeshToGameObject", AddMeshToGameObject);
 
-	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando estï¿½ el CreateBullet()
+
+	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);
 
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
@@ -76,6 +80,14 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Transform::set_localScale", RecieveScale);
 #pragma endregion
 
+#pragma region Physics
+
+	mono_add_internal_call("YmirEngine.GameObject::SetVelocity", SetVelocity);
+	mono_add_internal_call("YmirEngine.GameObject::SetImpulse", SetImpulse);
+
+#pragma endregion
+
+#pragma region Tag
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
 
@@ -84,9 +96,30 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI); 
 	mono_add_internal_call("YmirEngine.UI::HideImageUI", HideImageUI);
 #pragma endregion
+#pragma endregion
+
+#pragma region Audio
+	mono_add_internal_call("YmirEngine.Audio::PlayAudio", PlayAudio);
+	mono_add_internal_call("YmirEngine.Audio::StopAudio", StopAudio);
+	mono_add_internal_call("YmirEngine.Audio::StopOneAudio", StopOneAudio);
+	mono_add_internal_call("YmirEngine.Audio::ResumeAudio", ResumeAudio);
+	mono_add_internal_call("YmirEngine.Audio::PauseAudio", PauseAudio);
+	mono_add_internal_call("YmirEngine.Audio::GetVolume", GetVolume);
+	mono_add_internal_call("YmirEngine.Audio::SetVolume", SetVolume);
+	mono_add_internal_call("YmirEngine.Audio::GetPitch", GetPitch);
+	mono_add_internal_call("YmirEngine.Audio::SetPitch", SetPitch);
+	mono_add_internal_call("YmirEngine.Audio::GetMuted", GetMuted);
+	mono_add_internal_call("YmirEngine.Audio::SetMuted", SetMuted);
+	mono_add_internal_call("YmirEngine.Audio::SetState", SetState);
+	mono_add_internal_call("YmirEngine.Audio::SetSwitch", SetSwitch);
+	mono_add_internal_call("YmirEngine.Audio::PauseAllAudios", PauseAllAudios);
+	mono_add_internal_call("YmirEngine.Audio::ResumeAllAudios", ResumeAllAudios);
+#pragma endregion
+
 
 #pragma region GamePad
 
+	mono_add_internal_call("YmirEngine.Input::GetGamepadButton", GetGamepadButton);
 	mono_add_internal_call("YmirEngine.Input::GetLeftAxisY", GetLeftAxisY);
 	mono_add_internal_call("YmirEngine.Input::GetLeftAxisX", GetLeftAxisX);
 	mono_add_internal_call("YmirEngine.Input::GetRightAxisY", GetRightAxisY);
@@ -165,7 +198,7 @@ void ModuleMonoManager::ReCompileCS()
 	//App->scene->LoadScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
 	
 	//App->scene->LoadScene();
-	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta función no existe
+	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta funciï¿½n no existe
 
 
 	
@@ -371,19 +404,42 @@ SerializedField::SerializedField(MonoClassField* _field, MonoObject* _object, CS
 
 void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 {
-	std::string unnormalizedPath("Assets/");
-	unnormalizedPath += localPath;
+	std::string unnormalizedPath = localPath;
 	unnormalizedPath = PhysfsEncapsule::UnNormalizePath(unnormalizedPath.c_str());
 
 	std::ofstream outfile(unnormalizedPath.c_str());
 
 	std::string className("Assets/");
+	std::string startScript = "HelloWorld";
 	className += localPath;
 	className = className.substr(className.find_last_of("/") + 1);
 	className = className.substr(0, className.find_last_of("."));
 
-	outfile << "using System;" << std::endl << "using YmirEngine;" << std::endl << std::endl << "public class " << className.c_str() << " : YmirComponent" << std::endl << "{" << std::endl <<
-		"	public void Update()" << std::endl << "	{" << std::endl << std::endl << "	}" << std::endl << std::endl << "}";
+	//Default Script Text
+	outfile << "using System;"
+		<< std::endl << "using System.Collections.Generic;"
+		<< std::endl << "using System.Reflection;"
+		<< std::endl << "using System.Runtime.CompilerServices;"
+		<< std::endl << "using System.Runtime.InteropServices;"
+		<< std::endl << ""
+		<< std::endl << "using YmirEngine;"
+		<< std::endl << ""
+		<< std::endl <<	"public class " << className.c_str() << " : YmirComponent" 
+		<< std::endl <<	"{" 
+		<< std::endl << "bool start = true;"
+		<< std::endl << ""
+		<< std::endl <<	"	public void Update()"
+		<< std::endl << "	{" 
+		<< std::endl << "		if(start) {" 
+		<< std::endl << ""
+		<< std::endl << "			Debug.Log(\"" + startScript + "\"); "
+		<< std::endl << ""
+		<< std::endl << "			start = false;"
+		<< std::endl <<	"		}" 
+		<< std::endl << ""
+		<< std::endl << "		return;"
+		<< std::endl << "	}" 
+		<< std::endl << "}";
 
 	outfile.close();
 
@@ -402,7 +458,8 @@ void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 
 	std::string path; // Should be like ../Assets/Scripts/Hola.cs
 	path += scriptLocalPath;
-	std::string name = path.substr(path.find_last_of("\\"));
+	std::string name = path.substr(path.find_last_of("/\\") + 1);
+	std::string unnormalizedPath = PhysfsEncapsule::UnNormalizePath(path.c_str());
 
 	pugi::xml_node whereToAdd = doc.child("Project");
 	for (pugi::xml_node panel = whereToAdd.first_child(); panel != nullptr; panel = panel.next_sibling())
@@ -412,7 +469,7 @@ void ModuleMonoManager::AddScriptToSLN(const char* scriptLocalPath)
 			panel = panel.append_child();
 			panel.set_name("Compile");
 			pugi::xml_attribute att = panel.append_attribute("Include");
-			att.set_value(path.c_str());
+			att.set_value(unnormalizedPath.c_str());
 
 			break;
 		}

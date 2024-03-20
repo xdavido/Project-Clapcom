@@ -4,7 +4,7 @@
 #include "External/mmgr/mmgr.h"
 
 // =================================================
-PhysBody::PhysBody(btRigidBody* body) : body(body)
+PhysBody::PhysBody(btRigidBody* body) : body(body), owner(nullptr)
 {}
 
 // ---------------------------------------------------------
@@ -62,6 +62,16 @@ void PhysBody::SetRotation(Quat q)
 	t.setRotation(rotationQuat);
 	body->setWorldTransform(t);
 }
+
+
+GameObject* PhysBody::SetGameObject(GameObject* _owner)
+{
+
+	owner = _owner;
+
+	return nullptr;
+}
+
 
 // ---------------------------------------------------------
 void PhysBody::SetAsSensor(bool is_sensor)
