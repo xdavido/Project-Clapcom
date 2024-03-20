@@ -9,21 +9,22 @@ public class BH_Bullet : YmirComponent
     public float yVel = 0.0f;
 
     private bool destroyed = false;
-    private Vector3 vSpeed;
     public void Start()
     {
-        vSpeed = GetDirection();
+        
     }
 
     public void Update()
     {
         currentLifeTime += Time.deltaTime;
 
+        Vector3 vSpeed = GetDirection() * speed;
+
         //Para mover la bala sin rigidbody
         //thisReference.transform.localPosition += thisReference.transform.GetForward() * (speed * Time.deltaTime);
 
         //Velocidad a la que se dispara la bala hacia delante
-        vSpeed *= speed;
+        //vSpeed *= speed;
 
         //Se añade la velocidad al game object
         gameObject.SetVelocity(vSpeed);

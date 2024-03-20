@@ -10,68 +10,34 @@ using YmirEngine;
 public class CameraRot : YmirComponent
 {
     //--------------------- Controller var ---------------------\\
-    float x = 0;
-    float y = 0;
-    Vector3 gamepadInput;
 
-    private double angle = 0.0f;
+    //position difference between camera and player
+    //public Vector3 difPos = new Vector3(-15, 20, -15);
+    public Vector3 difPos = new Vector3(0, 20, -30);
+
+    //camera velocity
+    private float followStrenght;
+
+    private GameObject _gameObject;
 
     public void Start()
     {
-        Debug.Log("START!");
+        _gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (_gameObject != null)
+        {
+            followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
+        }
     }
 
+    // Update is called once per frame
     public void Update()
     {
-        UpdateControllerInputs();
+       
+        Vector3 newpos = _gameObject.transform.globalPosition + difPos;
 
-        ////HandleStates();
+        float dis = Vector3.Distance(gameObject.transform.globalPosition, newpos);
 
-        if (JoystickMoving())
-        {
-            HandleRotation();
-        }
-    }
-
-    private bool JoystickMoving()
-    {
-        return gamepadInput.magnitude > 0;
-    }
-
-    private void UpdateControllerInputs()
-    {
-        x = Input.GetLeftAxisX();
-        y = Input.GetLeftAxisY();
-
-        gamepadInput = new Vector3(x, -y, 0f);
-
-        Debug.Log("sdsad" + x);
-    }
-    private void HandleRotation()
-    {
-        //Debug.Log("Hola");
-        //Calculate player rotation
-        Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y - 1);
-        Vector3 aY = new Vector3(0, 0, 1);
-        //Debug.Log(gamepadInput.x);
-        //Debug.Log(gamepadInput.y);
-        aX = Vector3.Normalize(aX);
-
-        if (aX.x >= 0)
-        {
-            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
-        else if (aX.x < 0)
-        {
-            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
-
-        //Convert angle from world view to orthogonal view
-        angle += 0.785398f; //Rotate 45 degrees to the right
-
-        //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
-
-        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
+        gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.globalPosition, newpos, Time.deltaTime * followStrenght * dis);
     }
 }
 

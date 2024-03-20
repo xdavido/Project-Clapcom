@@ -10,6 +10,7 @@ public class PlayerMovement : YmirComponent
 
     public float movementSpeed = 5f;
     public Vector3 direccion;
+    public float fireRate = 0.5f;
 
     private double angle = 0.0f;
     //private bool script = true;
@@ -27,16 +28,6 @@ public class PlayerMovement : YmirComponent
         thisReference = gameObject;
 
         //-------------- Keyboard --------------//
-
-        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
-        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
-
-        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
-        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
