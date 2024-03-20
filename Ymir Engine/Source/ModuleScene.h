@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -113,17 +114,12 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
-	//Hardcodeado para la VS1
-	GameObject* MainCharacter;
-
 private:
 
 	G_UI* canvas;
 	int selectedUI;
 
 	std::vector<GameObject*> vSelectedGOs;
-
-	GameObject* audiosource;
 
 	bool a = false;
 };

@@ -1,53 +1,54 @@
 {
     "Editor Camera Position": [
-        20.74736213684082,
-        17.647432327270508,
-        12.60097599029541
+        9.5721073150634766,
+        11.631120681762695,
+        12.091706275939941
     ],
     "Editor Camera Right (X)": [
-        0.43505376577377319,
-        2.9802322387695312e-08,
-        -0.90040409564971924
+        0.6819300651550293,
+        5.9604644775390625e-08,
+        -0.73141723871231079
     ],
     "Editor Camera Up (Y)": [
-        -0.56338369846343994,
-        0.78006315231323242,
-        -0.27221351861953735
+        -0.45544850826263428,
+        0.78246623277664185,
+        -0.42463311553001404
     ],
     "Editor Camera Front (Z)": [
-        -0.70237201452255249,
-        -0.62570071220397949,
-        -0.33936941623687744
+        -0.57230919599533081,
+        -0.62269306182861328,
+        -0.53358721733093262
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1699750989,
+            "UID": 1024762323,
             "Element_Type": "None",
+            "Components": [],
             "Children UID": [
-                710452876,
-                621490133
-            ],
-            "Components": []
+                165387296,
+                1853232964,
+                2030522025
+            ]
         },
         {
-            "Name": "Main Camera",
-            "UID": 710452876,
+            "Name": "Point Light",
+            "UID": 165387296,
             "Element_Type": "None",
-            "Parent UID": 1699750989,
+            "Parent UID": 1024762323,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -40,
-                        29,
-                        54
+                        -3.0577392578125,
+                        -2.7900991439819336,
+                        -9.6635208129882812
                     ],
                     "Rotation": [
-                        -180,
-                        40.000007629394531,
-                        -180
+                        -0,
+                        0,
+                        -0
                     ],
                     "Scale": [
                         1,
@@ -56,34 +57,62 @@
                     ]
                 },
                 {
-                    "Type": "Audio listener",
+                    "Type": "Light",
                     "Active": 1,
-                    "Default Listener": 1
-                },
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "Intensity": 1.6000000238418579,
+                    "Light Type": 0,
+                    "Radius": 4.9000000953674316
+                }
+            ]
+        },
+        {
+            "Name": "Camera",
+            "UID": 1853232964,
+            "Element_Type": "None",
+            "Parent UID": 1024762323,
+            "Components": [
                 {
-                    "Type": "Audio source",
+                    "Type": "Transform",
                     "Active": 1,
-                    "Bank Name": "",
-                    "Event Name": "",
-                    "Event ID": 0
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
                 },
                 {
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        0.76604485511779785,
-                        -1.4361712885602174e-07,
-                        0.64278769493103027
+                        -1,
+                        0,
+                        0
                     ],
                     "Up": [
-                        6.6969747081202513e-08,
+                        0,
                         1,
-                        1.4361708622345759e-07
+                        0
                     ],
                     "Front": [
-                        0.64278769493103027,
-                        6.6969747081202513e-08,
-                        -0.76604485511779785
+                        0,
+                        0,
+                        1
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
@@ -96,13 +125,9 @@
         },
         {
             "Name": "BakerHouse",
-            "UID": 621490133,
+            "UID": 2030522025,
             "Element_Type": "Model",
-            "Parent UID": 1699750989,
-            "Children UID": [
-                873568128,
-                424387937
-            ],
+            "Parent UID": 1024762323,
             "Components": [
                 {
                     "Type": "Transform",
@@ -123,13 +148,17 @@
                         1
                     ]
                 }
+            ],
+            "Children UID": [
+                1649475905,
+                523181212
             ]
         },
         {
             "Name": "Chimney",
-            "UID": 873568128,
+            "UID": 1649475905,
             "Element_Type": "None",
-            "Parent UID": 621490133,
+            "Parent UID": 2030522025,
             "Components": [
                 {
                     "Type": "Transform",
@@ -155,8 +184,8 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
-                    "UID": 1286923052
+                    "Diffuse": ".\/Library\/Textures\/2029863724.dds",
+                    "UID": 2029863724
                 },
                 {
                     "Type": "Mesh",
@@ -168,9 +197,9 @@
         },
         {
             "Name": "Baker_house",
-            "UID": 424387937,
+            "UID": 523181212,
             "Element_Type": "None",
-            "Parent UID": 621490133,
+            "Parent UID": 2030522025,
             "Components": [
                 {
                     "Type": "Transform",
@@ -178,7 +207,7 @@
                     "Translation": [
                         0,
                         0,
-                        0
+                        7.8293023109436035
                     ],
                     "Rotation": [
                         -0,
@@ -194,10 +223,10 @@
                 {
                     "Type": "Material",
                     "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Shader": "Assets\/Shaders\/Lighting Shader.glsl",
                     "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
-                    "UID": 1286923052
+                    "Diffuse": ".\/Library\/Textures\/2029863724.dds",
+                    "UID": 2029863724
                 },
                 {
                     "Type": "Mesh",

@@ -12,6 +12,7 @@
 #include "ModuleMonoManager.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
+#include "ModuleLightManager.h"
 
 #include "Log.h"
 
@@ -36,6 +37,7 @@ Application::Application()
 	moduleMono = new ModuleMonoManager(this);
 	audio = new ModuleAudio(this);
 	physics = new ModulePhysics(this);
+	lightManager = new ModuleLightManager(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -55,6 +57,7 @@ Application::Application()
 	AddModule(resourceManager);
 	AddModule(moduleMono);
 	AddModule(scene);
+	AddModule(lightManager);
 
 	// Renderer last, and then editor!
 	AddModule(renderer3D);
