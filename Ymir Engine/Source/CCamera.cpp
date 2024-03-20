@@ -25,7 +25,7 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	frustum.verticalFov = 60.0f * DEGTORAD;
 	frustum.horizontalFov = 2.0f * atanf(tanf(frustum.verticalFov / 2.0f) * 1.3f);
 
-	drawBoundingBoxes = false;
+	drawBoundingBoxes = true;
 	enableFrustumCulling = true;
 
 	isGameCam = isGame;
