@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        -6.2634849548339844,
-        6.6441822052001953,
-        -11.798854827880859
+        -24.927095413208008,
+        32.654075622558594,
+        -23.712671279907227
     ],
     "Editor Camera Right (X)": [
-        -0.70893245935440063,
-        -4.4703483581542969e-08,
-        0.70530992746353149
+        -0.53662341833114624,
+        -1.6391277313232422e-07,
+        0.84386056661605835
     ],
     "Editor Camera Up (Y)": [
-        0.19444173574447632,
-        0.96125936508178711,
-        0.19544047117233276
+        0.33381631970405579,
+        0.91844332218170166,
+        0.21227890253067017
     ],
     "Editor Camera Front (Z)": [
-        0.67796909809112549,
-        -0.27569073438644409,
-        0.68145120143890381
+        0.77501159906387329,
+        -0.39559590816497803,
+        0.49284124374389648
     ],
     "Hierarchy": [
         {
@@ -26,7 +26,9 @@
             "Element_Type": "None",
             "Components": [],
             "Children UID": [
-                1009784856
+                1009784856,
+                1741438873,
+                1716086043
             ]
         },
         {
@@ -40,7 +42,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        0,
+                        16.824951171875,
                         0
                     ],
                     "Rotation": [
@@ -53,6 +55,33 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Gravity": true
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "Player.cs",
+                    "UID": 0,
+                    "movementSpeed": 35,
+                    "dashforce": 1000,
+                    "dashCD": 0.33000001311302185,
+                    "dashDuration": 0.25,
+                    "dashDistance": 1,
+                    "fireRate": 0.20000000298023224,
+                    "secondaryRate": 0.20000000298023224
                 }
             ],
             "Children UID": [
@@ -97,51 +126,107 @@
                     "Active": 1,
                     "Vertex Count": 24,
                     "Index Count": 36
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Radius": 0.86602538824081421,
-                    "Height": 1,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "Gravity": true
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "Player.cs",
-                    "UID": 0,
-                    "movementSpeed": 35,
-                    "dashforce": 0,
-                    "dashCD": 0,
-                    "dashDuration": 0,
-                    "dashDistance": 0,
-                    "fireRate": 0,
-                    "secondaryRate": 0
                 }
-            ],
-            "Children UID": [
-                1716086043
             ]
         },
         {
-            "Name": "Main Camera",
-            "UID": 1716086043,
-            "Element_Type": "None",
-            "Parent UID": 1553236809,
+            "Name": "Pyramid",
+            "UID": 1741438873,
+            "Element_Type": "Model",
+            "Parent UID": 1799560933,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
                         0,
-                        3.2630839347839355,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1047.33203125,
+                        1,
+                        1092.1466064453125
+                    ]
+                }
+            ],
+            "Children UID": [
+                312671090
+            ]
+        },
+        {
+            "Name": "Pyramid",
+            "UID": 312671090,
+            "Element_Type": "None",
+            "Parent UID": 1741438873,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 16,
+                    "Index Count": 18
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1047.33203125,
+                        0.70710676908493042,
+                        1092.1466064453125
+                    ],
+                    "Radius": 756.5859375,
+                    "Height": 0.70710676908493042,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Gravity": true
+                }
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1716086043,
+            "Element_Type": "None",
+            "Parent UID": 1799560933,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        20.088035583496094,
                         -8.5628747940063477
                     ],
                     "Rotation": [
