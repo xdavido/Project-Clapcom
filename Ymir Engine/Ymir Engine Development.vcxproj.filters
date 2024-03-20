@@ -1552,7 +1552,7 @@
     </ClCompile>
     <ClCompile Include="Source\UI_Transform.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
-    </ClInclude>
+    </ClCompile>
     <ClCompile Include="Source\PointLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
