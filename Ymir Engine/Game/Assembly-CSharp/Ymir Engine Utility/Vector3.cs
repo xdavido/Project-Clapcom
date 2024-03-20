@@ -57,6 +57,7 @@ namespace YmirEngine
         public static Vector3 operator +(Vector3 a, Vector3 b) { return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
         public static Vector3 operator /(Vector3 a, float d) { return new Vector3(a.x / d, a.y / d, a.z / d); }
         public static Vector3 operator -(Vector3 a, float d) { return new Vector3(a.x - d, a.y - d, a.z - d); }
+        public static Vector3 operator -(Vector3 a, Vector3 b) { return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z); }
 
         static readonly Vector3 zeroVector = new Vector3(0F, 0F, 0F);
         static readonly Vector3 oneVector = new Vector3(1F, 1F, 1F);
@@ -107,5 +108,17 @@ namespace YmirEngine
         {
             return (this.x.ToString() + ", " + this.y.ToString() + ", " + this.z.ToString());
         }
+
+        public static float Distance(Vector3 a, Vector3 b)
+        {
+            return (a - b).magnitude;
+        }
+
+        public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
+        {
+            t = (t < 0f) ? 0f : (t > 1f) ? 1f : t;
+            return a * (1 - t) + b * t;
+        }
+
     }
 }
