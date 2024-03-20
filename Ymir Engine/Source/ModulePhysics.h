@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
@@ -18,7 +18,7 @@ class ModulePhysics : public Module
 {
 public:
 
-	ModulePhysics(Application* app, bool start_enabled = true);
+	ModulePhysics(Application* app, bool start_enabled = true); 
 	~ModulePhysics();
 
 	bool Init();
@@ -30,12 +30,12 @@ public:
 
 	//Getters
 	btVector3 GetWorldGravity();
-	bool GetDebugDraw();
 	Color GetColliderColor();
 
 	//Setters
 	void SetWorldGravity(btVector3 g);
-	void SetdebugDraw(bool d);
+	void SetDrawScene(bool d);
+	void SetDrawGame(bool d);
 	void SetColliderColor(Color col);
 	void SetSensorColor(Color col);
 	void SetLineWidth(float w);
@@ -81,7 +81,8 @@ public:
 
 	bool beginPlay;
 
-	bool debug = true; // If true, draws physics stuff
+	bool debugScene = true; // If true, draws physics stuff in SCENE
+	bool debugGame = false; // If true, draws physics stuff in GAME
 
 	// Shapes customization
 	Color colliderColor;

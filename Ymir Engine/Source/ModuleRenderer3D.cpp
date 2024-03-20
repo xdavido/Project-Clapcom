@@ -318,13 +318,11 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawBoundingBoxes();
 		}
 
-		// Render Physics Colliders
-
-		if (App->physics->GetDebugDraw())
+		// Render Physics Stuff
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
-
 	}
 
 	App->camera->editorCamera->framebuffer.Render(false);
@@ -360,6 +358,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			//		if (i == 0) { break; }
 			//	}
 			//}
+
+			// Render Physics Stuff
+			if (App->physics->debugGame)
+			{
+				DrawPhysicsColliders();
+			}
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
@@ -642,8 +646,6 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
-	// Desactivar la iluminación
-
 	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se verán siempre sin importar la iluminacion
 
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)

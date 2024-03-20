@@ -806,7 +806,8 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
-				bool auxDebugDraw = App->physics->GetDebugDraw();
+				bool auxDebugDrawScene = App->physics->debugScene;
+				bool auxDebugDrawGame = App->physics->debugGame;
 				int auxLineWidth = App->physics->shapeLineWidth;
 
 				ImVec4 auxColliderColor = ImVec4(
@@ -841,10 +842,16 @@ void ModuleEditor::DrawEditor()
 				ImGui::Indent();
 
 
-				ImGui::Text("Draw Colliders and Sensors"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+				ImGui::Text("Draw Scene"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDrawScene))
 				{
-					App->physics->SetdebugDraw(auxDebugDraw);
+					App->physics->debugScene = auxDebugDrawScene;
+				}
+
+				ImGui::Text("Draw Game"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDrawGame))
+				{
+					App->physics->debugGame = auxDebugDrawGame;
 				}
 
 				ImGui::Unindent();
@@ -1259,10 +1266,8 @@ void ModuleEditor::DrawEditor()
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
 			}
-
 			ImGui::End();
 		}
-
 	}
 
 	if (showScene) {

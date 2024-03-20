@@ -31,7 +31,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 
 	// Debug drawer	
-	debug = true;
+	debugScene = true;
 
 	// Colors
 	colliderColor = Green;
@@ -277,11 +277,6 @@ btVector3 ModulePhysics::GetWorldGravity()
 	return world->getGravity();
 }
 
-bool ModulePhysics::GetDebugDraw()
-{
-	return debug;
-}
-
 Color ModulePhysics::GetColliderColor()
 {
 	return colliderColor;
@@ -293,12 +288,20 @@ void ModulePhysics::SetWorldGravity(btVector3 g)
 	world->setGravity(g);
 }
 
-void ModulePhysics::SetdebugDraw(bool d)
+void ModulePhysics::SetDrawScene(bool d)
 {
-	debug = d;
+	debugScene = d;
 
-	if (debug) LOG("DebugDrawer On");
-	else LOG("DebugDrawer Off");
+	if (debugScene) LOG("Draw Scene Colliders On");
+	else LOG("Draw Scene Colliders Off");
+}
+
+void ModulePhysics::SetDrawGame(bool d)
+{
+	debugGame = d;
+
+	if (debugScene) LOG("Draw Game Colliders On");
+	else LOG("Draw Game Colliders Off");
 }
 
 void ModulePhysics::SetColliderColor(Color col) 
