@@ -1744,8 +1744,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		{
 		case UI_TYPE::CANVAS:
 		{
-			gameObject->AddComponent(new UI_Canvas(gameObject));
-
+			UI_Canvas* ui_comp = new UI_Canvas(gameObject);
+			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
 			break;
 		}
 		case UI_TYPE::IMAGE:
