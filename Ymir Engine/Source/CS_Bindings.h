@@ -60,8 +60,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotaci�n del objeto
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
-	return nullptr;
-
+	
 	if (External == nullptr)
 		return nullptr;
 
@@ -390,16 +389,17 @@ float GetDT()
 void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) 
 {
 	//Crea un game object temporal llamado "Bullet"
+	if (External == nullptr) return;
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
 
 	//Hace unbox de los parametros de transform pasados
-	float3 posVector = ModuleMonoManager::UnboxVector(position);
-	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
-	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
+	float3 posVector = External->moduleMono->UnboxVector(position);
+	Quat rotVector = External->moduleMono->UnboxQuat(rotation);
+	float3 scaleVector = External->moduleMono->UnboxVector(scale);
 	
 	//Settea el transform a la bullet
 	go->mTransform->SetPosition(posVector);
-	go->mTransform->SetRotation(rotQuat);
+	go->mTransform->rotation = rotVector.Normalized();                                             
 	go->mTransform->SetScale(scaleVector);
 
 	//Añade la mesh a la bullet

@@ -46,8 +46,8 @@ public class BH_Bullet : YmirComponent
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
         if (gameObject != null)
         {
-            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
-            return player.GetPlayerDirection();
+            Player player = gameObject.GetComponent<Player>();
+            return player.gameObject.transform.GetForward();
         }
         else return new Vector3(0, 0, 0);
     }

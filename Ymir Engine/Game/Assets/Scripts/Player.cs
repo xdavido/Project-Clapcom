@@ -121,6 +121,17 @@ public class Player : YmirComponent
             isMoving = false;
             StopPlayer();
         }
+
+        if (Input.GetGamepadRightTrigger() > 0)
+        {
+            StartShooting();
+            Debug.Log("Shoot");
+            inputsList.Add(INPUT.I_SHOOTING);
+        }
+        else
+        {
+            inputsList.Add(INPUT.I_SHOOTING_END);
+        }
         //Debug.Log(gameObject.transform.GetRight());
     }
 
@@ -332,7 +343,24 @@ public class Player : YmirComponent
         // Añadir coidgo de instanciar el prefab de disparo
         // Añadir efecto de sonido
 
-        inputsList.Add(INPUT.I_SHOOT_END);
+        Debug.Log("Shoot!");
+
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.GetForward();
+        Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
+        Debug.Log("Spawn pos: " + pos);
+
+        //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
+        Quaternion rot = gameObject.transform.globalRotation;
+
+        //Tamaño de la bala
+        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+
+        //Crea la bala
+        Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
+        InternalCalls.CreateBullet(pos, rot, scale);
+
+        //inputsList.Add(INPUT.I_SHOOT_END);
     }
     private void UpdateShooting()
     {
