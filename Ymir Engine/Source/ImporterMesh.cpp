@@ -9,10 +9,10 @@ void ImporterMesh::Import(const aiMesh* mesh, Mesh* ourMesh)
 }
 
 // Function to save mesh data into a file buffer
-const char* ImporterMesh::Save(const Mesh* ourMesh, uint& retSize)
+const char* ImporterMesh::Save(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, uint& retSize)
 {
     // Array to store counts of indices and vertices
-    uint aCounts[2] = { ourMesh->indices.size(), ourMesh->vertices.size() };
+    uint aCounts[2] = { indices.size(), vertices.size() };
 
     // Calculate total size required for file buffer
     retSize = sizeof(aCounts) + (sizeof(uint) * aCounts[0]) + (sizeof(Vertex) * aCounts[1]);
@@ -29,12 +29,12 @@ const char* ImporterMesh::Save(const Mesh* ourMesh, uint& retSize)
 
     // Copy indices data to the file buffer
     bytes = sizeof(uint) * aCounts[0];
-    memcpy(cursor, ourMesh->indices.data(), bytes);
+    memcpy(cursor, indices.data(), bytes);
     cursor += bytes;
 
     // Copy vertices data to the file buffer
     bytes = sizeof(Vertex) * aCounts[1];
-    memcpy(cursor, ourMesh->vertices.data(), bytes);
+    memcpy(cursor, vertices.data(), bytes);
     cursor += bytes;
 
     // Return the file buffer

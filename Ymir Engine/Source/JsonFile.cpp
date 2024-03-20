@@ -843,7 +843,6 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	//	// Add the GameObject to the hierarchy array
 	//	json_array_append_value(hierarchyArray, gameObjectValue);
 	//}
-
 	
 	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
@@ -1077,17 +1076,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
-
-		// Enable/Disable Frustum Culling
-
-		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
-
-		// Enable/Disable Bounding Boxes
-
-		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
-
-		//Is game camera
+		// Is game camera
 
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
@@ -1551,7 +1540,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 	gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
 
-	// Re import if necessary
+	// Re import if necessary (needs an improvement in the future)
 
 	if (gameObject.type == "Model") {
 
@@ -1706,14 +1695,24 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		cmaterial->ID = ID;
 
 		const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
+
 		cmaterial->path = diffusePath;
 
 		uint UID = json_object_get_number(componentObject, "UID");
 		cmaterial->UID = UID;
 
+		// FRANCESC: BUG WITH THE RESOURCETEXTURES HAVING UID 0, IT BREAKS THE MAP IF SOLVED
+		
+		//if (UID != 0) {
+
+		//	ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+		//	cmaterial->rTextures.push_back(rTex);
+
+		//}
+
 		ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
 		cmaterial->rTextures.push_back(rTex);
-
+	
 		gameObject->AddComponent(cmaterial);
 
 	}
@@ -1721,6 +1720,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
 		ccamera->framebuffer.Load();
+
+		ccamera->enableFrustumCulling = json_object_get_number(componentObject, "Frustum Culling");
+		ccamera->drawBoundingBoxes = json_object_get_number(componentObject, "Draw Bounding Boxes");
+		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
 
 		gameObject->AddComponent(ccamera);
 

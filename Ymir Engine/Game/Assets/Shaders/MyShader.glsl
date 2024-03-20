@@ -70,7 +70,7 @@ vec4 AddOutline(vec4 mainTexture, vec4 color, float outlineWidth) {
 
 void main()
 {   
-    if (!displayNormalMap) {
+    if (displayNormalMap) {
     
         FragColor = DisplayNormalMap();
 
@@ -90,3 +90,4 @@ void main()
 }
 
 #endif
+

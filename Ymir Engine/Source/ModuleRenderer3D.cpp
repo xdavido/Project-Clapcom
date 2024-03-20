@@ -266,6 +266,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	// Clear color buffer and depth buffer before each PostUpdate call
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	// Your rendering code here
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
@@ -274,12 +278,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	App->camera->editorCamera->framebuffer.Render(true);
 
-	App->camera->editorCamera->Update();
-
 	// Render Grid
 
-	if (showGrid) {
+	App->camera->editorCamera->Update();
 
+	if (showGrid) {
+		
 		Grid.Render();
 
 	}
@@ -294,8 +298,16 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		// Render Physics Stuff
-		if (App->physics->debugScene)
+		// Render Bounding Boxes
+
+		if (External->scene->gameCameraComponent->drawBoundingBoxes)
+		{
+			DrawBoundingBoxes();
+		}
+
+		// Render Physics Colliders
+
+		if (App->physics->GetDebugDraw())
 		{
 			DrawPhysicsColliders();
 		}
@@ -306,12 +318,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawUIElements(false);
 
-		// Render Bounding Boxes
-
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
-		{
-			DrawBoundingBoxes();
-		}
 	}
 
 	App->camera->editorCamera->framebuffer.Render(false);
@@ -388,10 +394,8 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
-	App->scene->gameCameraComponent->framebuffer.Delete();
 
 	// Detach Assimp Log Stream
 	CleanUpAssimpDebugger();
@@ -827,7 +831,6 @@ void ModuleRenderer3D::DrawGameObjects()
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
 
