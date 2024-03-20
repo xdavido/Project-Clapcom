@@ -415,18 +415,20 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
 
-	//Añade RigidBody a la bala
-	CCollider* physBody;
+	//Añade RigidBody a la bala (Sin rigidBody el disparo funciona bien)
+	/*CCollider* physBody;
 	physBody = new CCollider(go);
 	physBody->gravity = false;
 	physBody->size = scaleVector;
-	go->AddComponent(physBody);
+	physBody->transform->SetPosition(posVector);
+	go->AddComponent(physBody);*/
 
 	//Añade el script Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
+
 }
 
 void ChangeSceneCS(MonoString* scenePath)
