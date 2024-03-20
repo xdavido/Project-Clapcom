@@ -167,15 +167,13 @@ void Animator::PlayAnimation(ResourceAnimation* animation)
 	animation->currentTime = 0.0f;
 }
 
-
-
 void Animator::PauseAnimation(ResourceAnimation* animation) {
 
 	animation->isPlaying = false;
 }
 
-void Animator::ResumeAnimation(ResourceAnimation* animation)
-{
+void Animator::ResumeAnimation(ResourceAnimation* animation) {
+
 	animation->isPlaying = true;
 }
 

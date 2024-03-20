@@ -12,6 +12,9 @@
 
 #include "External/mmgr/mmgr.h"
 
+#include "ModuleFileSystem.h"
+#include "ModuleResourceManager.h"
+
 CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIMATION)
 {
     //Initializing animator with an empty animation
@@ -158,6 +161,22 @@ void CAnimation::TransitionTo(std::string animationName, float transitionTime) {
     animator->TransitionTo(playingAnimation, nextAnimation, transitionTime);
 }
 
+void CAnimation::YAnimDragDropTarget() {
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("yanim"))
+        {
+            std::string* libraryFilePathDrop = (std::string*)payload->Data;
+
+            ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(*libraryFilePathDrop + std::to_string(mOwner->UID) + ".yanim", ResourceType::ANIMATION, mOwner->UID);
+            
+            AddAnimation(*rAnim);
+        }
+        ImGui::EndDragDropTarget();
+    }
+}
+
 void CAnimation::OnInspector() {
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -169,6 +188,9 @@ void CAnimation::OnInspector() {
         std::string animationName;
 
         animationName = (selectedAnimation == -1) ? "None (Select animation)" : animator->animations[selectedAnimation].name;
+
+        ImGui::Button("Drop .yanim to Add animation", ImVec2(200, 50));
+        YAnimDragDropTarget();
 
         if (ImGui::BeginCombo("Animations", animationName.c_str())) {
             for (int i = 0; i < animator->animations.size(); i++) {

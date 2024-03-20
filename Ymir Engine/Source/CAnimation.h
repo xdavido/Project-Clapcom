@@ -48,6 +48,8 @@ public:
 
 private:
 
+	void YAnimDragDropTarget();
+
 public:
 
 	Animator* animator;
