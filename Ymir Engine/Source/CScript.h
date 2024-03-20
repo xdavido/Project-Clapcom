@@ -33,6 +33,8 @@ public:
 
 	void CollisionCallback(bool isTrigger, GameObject* collidedGameObject);
 
+	void ExecuteButton();
+
 public:
 
 	std::vector<std::string> methods;
@@ -45,6 +47,7 @@ public:
 	MonoMethod* onCollisionExitMethod;
 	MonoMethod* onTriggerEnterMethod;
 	MonoMethod* onTriggerExitMethod;
+	MonoMethod* onExecuteButtonMethod;
 
 	uint32_t noGCobject;
 	std::string name;

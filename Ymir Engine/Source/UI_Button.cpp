@@ -135,6 +135,15 @@ void UI_Button::OnSelected()
 void UI_Button::OnRelease()
 {
 	image->selectedTexture = image->mapTextures.find(state)->second;
+
+	if (mOwner != nullptr) {
+		CScript* aux = dynamic_cast<CScript*>(mOwner->GetComponent(ComponentType::SCRIPT));
+
+		if (aux != nullptr) {
+			aux->ExecuteButton();
+		}
+	}
+
 }
 
 void UI_Button::SetStateImg(const char* label, UI_STATE s)

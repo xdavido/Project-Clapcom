@@ -61,7 +61,7 @@ public class Player : YmirComponent
         }
         else
         {
-            Debug.Log("Stopped");
+            //Debug.Log("Stopped");
             StopPlayer();
         }
         //Debug.Log(gameObject.transform.GetRight());
@@ -82,6 +82,13 @@ public class Player : YmirComponent
         Debug.Log("OnCollisionEnter!!!!");
     }
 
+    public void OnExecuteButton()
+    {
+
+        Debug.Log("CLICK");
+
+
+    }
     void HandleStates()
     {
         float x = Input.GetLeftAxisX();

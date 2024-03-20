@@ -52,6 +52,7 @@
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Vector3.cs" />
     <Compile Include="Assets\Scripts\BH_Bullet.cs" />
     <Compile Include="Assets\Scripts\BH_Plane.cs" />
+    <Compile Include="Assets\Scripts\Button.cs" />
     <Compile Include="Assets\Scripts\Core.cs" />
     <Compile Include="Assets\Scripts\main.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
