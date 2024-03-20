@@ -415,13 +415,12 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
 
-	//Añade RigidBody a la bala (Sin rigidBody el disparo funciona bien)
+	//Añade RigidBody a la bala
 	CCollider* physBody;
 	physBody = new CCollider(go);
 	physBody->gravity = false;
 	physBody->size = scaleVector;
 	physBody->physBody->SetPosition(posVector);
-	//physBody->physBody->SetRotation(rotQuater);
 	go->AddComponent(physBody);
 
 	//Añade el script Bullet al gameObject Bullet

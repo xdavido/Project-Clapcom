@@ -12,7 +12,7 @@ public class BH_Bullet : YmirComponent
     public float yVel = 0.0f;
 
     private bool destroyed = false;
-
+    PlayerMovement joselito;
     public void Update()
     {
         thisReference = gameObject;
@@ -22,7 +22,7 @@ public class BH_Bullet : YmirComponent
         //thisReference.transform.localPosition += thisReference.transform.GetForward() * (speed * Time.deltaTime);
 
         //Velocidad a la que se dispara la bala hacia delante
-        Vector3 vectorSpeed = thisReference.transform.GetForward() * speed;
+        Vector3 vectorSpeed = joselito.direccion * speed;
 
         //Se añade la velocidad al game object
         thisReference.SetVelocity(vectorSpeed);
