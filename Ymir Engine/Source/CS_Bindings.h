@@ -396,12 +396,12 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
 	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
-
+	
 	//Settea el transform a la bullet
 	go->mTransform->SetPosition(posVector);
 	go->mTransform->SetRotation(rotQuat);
 	go->mTransform->SetScale(scaleVector);
-
+	
 	//Añade la mesh a la bullet
 	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Library/Meshes/1553236809.ymesh", ResourceType::MESH, 1553236809));
 	CMesh* cmesh = new CMesh(go);
@@ -416,12 +416,13 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->AddComponent(cmaterial);
 
 	//Añade RigidBody a la bala (Sin rigidBody el disparo funciona bien)
-	/*CCollider* physBody;
+	CCollider* physBody;
 	physBody = new CCollider(go);
 	physBody->gravity = false;
 	physBody->size = scaleVector;
-	physBody->transform->SetPosition(posVector);
-	go->AddComponent(physBody);*/
+	physBody->physBody->SetPosition(posVector);
+	//physBody->physBody->SetRotation(rotQuater);
+	go->AddComponent(physBody);
 
 	//Añade el script Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";

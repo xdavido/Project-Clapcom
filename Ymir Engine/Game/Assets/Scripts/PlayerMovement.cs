@@ -52,7 +52,7 @@ public class PlayerMovement : YmirComponent
             Debug.Log("Shoot!");
 
             //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 pos = new Vector3(thisReference.transform.localPosition.x, thisReference.transform.globalPosition.y, thisReference.transform.globalPosition.z);
+            Vector3 pos = thisReference.transform.localPosition;
 
             //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
             Vector3 rot = new Vector3(0, 1, 0);
