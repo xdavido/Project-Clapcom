@@ -9,7 +9,7 @@ public class PlayerMovement : YmirComponent
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
-    public Vector3 direccion = new Vector3(0, 1, 0);
+    public Vector3 direccion;
 
     private double angle = 0.0f;
     //private bool script = true;
@@ -191,8 +191,12 @@ public class PlayerMovement : YmirComponent
             Debug.Log("MovmentSpeed= " + movementSpeed);
 
         }
+    }
 
-
+    public Vector3 GetPlayerDirection()
+    {
+        direccion = gameObject.transform.GetForward();
+        return direccion;
     }
 
     private void RotatePlayer()
