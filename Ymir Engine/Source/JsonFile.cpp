@@ -1139,7 +1139,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Gravity
 
-		json_object_set_boolean(componentObject, "Gravity", ccollider->gravity);
+		json_object_set_boolean(componentObject, "Gravity", ccollider->useGravity);
 
 		break;
 	}
@@ -1727,6 +1727,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Physics") {
 
+		External->physics->bodiesList.clear();
+
 		// Collider Type
 
 		ColliderType collider = static_cast<ColliderType>(json_object_get_number(componentObject, "Collider Type"));
@@ -1775,7 +1777,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		// Gravity
 
-		ccollider->gravity = json_object_get_boolean(componentObject, "Gravity");
+		ccollider->useGravity = json_object_get_boolean(componentObject, "Gravity");
 
 	}
 	else if (type == "Script") {

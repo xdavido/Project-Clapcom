@@ -71,7 +71,7 @@ public:
 	float height;
 
 	float mass;
-	bool gravity;
+	bool useGravity;
 
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;

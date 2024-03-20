@@ -164,7 +164,7 @@ bool ModulePhysics::CleanUp()
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
 
@@ -191,7 +191,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 }
 
 // Sphere ---------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
 
@@ -218,7 +218,7 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mas
 }
 
 // Capsule --------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
 
@@ -245,7 +245,7 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 }
 
 // Mesh Collider ----------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
@@ -279,14 +279,14 @@ void ModulePhysics::RemoveBody(PhysBody* b)
 	bodiesList.shrink_to_fit();
 }
 
-void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool gravity)
+void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool useGravity)
 {
 	if (pbody && pbody->body)
 	{
 		btCollisionShape* colShape = pbody->body->getCollisionShape();
 		btVector3 localInertia(0, 0, 0);
 
-		if (!gravity)
+		if (!useGravity)
 			pbody->body->setGravity(btVector3(0, 0, 0));
 		else
 			pbody->body->setGravity(GRAVITY);

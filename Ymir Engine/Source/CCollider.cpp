@@ -74,7 +74,7 @@ CCollider::~CCollider()
 void CCollider::Update()
 {
 	if (External->physics->beginPlay)
-		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, gravity);
+		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, useGravity);
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
@@ -201,7 +201,7 @@ void CCollider::OnInspector()
 			{
 				physType = PhysicsType::STATIC; 
 				SetDefaultValues(physType); 
-				External->physics->RecalculateInertia(physBody, mass, gravity); 
+				External->physics->RecalculateInertia(physBody, mass, useGravity); 
 			}
 		}
 
@@ -311,7 +311,7 @@ void CCollider::OnInspector()
 		{
 			physType = static_cast<PhysicsType>(currentItem);
 			SetDefaultValues(physType);
-			External->physics->RecalculateInertia(physBody, mass, gravity);
+			External->physics->RecalculateInertia(physBody, mass, useGravity);
 		}
 
 		switch (physType) 
@@ -319,9 +319,9 @@ void CCollider::OnInspector()
 		case PhysicsType::DYNAMIC:
 			ImGui::Text("Mass: "); ImGui::SameLine();
 			if (ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 1000.0f))
-				External->physics->RecalculateInertia(physBody, mass, gravity);
-			if (ImGui::Checkbox("Use gravity\t", &gravity))
-				External->physics->RecalculateInertia(physBody, mass, gravity);
+				External->physics->RecalculateInertia(physBody, mass, useGravity);
+			if (ImGui::Checkbox("Use gravity\t", &useGravity))
+				External->physics->RecalculateInertia(physBody, mass, useGravity);
 
             break;
 
@@ -427,19 +427,19 @@ void CCollider::SetDefaultValues(PhysicsType type)
 	{
 	case PhysicsType::DYNAMIC:
 		mass = 1;
-		gravity = true;
+		useGravity = true;
 		break;
 	case PhysicsType::KINEMATIC:
 		mass = 1;
-		gravity = false;
+		useGravity = false;
 		break;
 	case PhysicsType::STATIC:
 		mass = 0;
-		gravity = false;
+		useGravity = false;
 		break;
 	default:
 		mass = 0;
-		gravity = false;
+		useGravity = false;
 		break;
 	}
 }
