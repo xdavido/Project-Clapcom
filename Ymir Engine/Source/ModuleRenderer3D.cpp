@@ -294,6 +294,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
+		// Render Physics Stuff
+		if (App->physics->debugScene)
+		{
+			DrawPhysicsColliders();
+		}
+
 		DrawGameObjects();
 
 		DrawLightsDebug();
@@ -305,12 +311,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
 		{
 			DrawBoundingBoxes();
-		}
-
-		// Render Physics Stuff
-		if (App->physics->debugScene)
-		{
-			DrawPhysicsColliders();
 		}
 	}
 
@@ -615,10 +615,10 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 
 			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
 
-			glColor3f(color.r, color.g, color.b); // Cambio aqu� el color para tenerlo m�s controlado
+			glColor3f(color.r, color.g, color.b); // Cambio aqui el color para tenerlo m�s controlado
 			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
 
-			switch (shape->getShapeType()) 
+			switch (shape->getShapeType())
 			{
 			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
 				App->physics->RenderBoxCollider(colliderComponent->physBody);

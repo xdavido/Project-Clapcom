@@ -846,13 +846,13 @@ void ModuleEditor::DrawEditor()
 
 
 				ImGui::Text("Draw Scene"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDrawScene))
+				if (ImGui::Checkbox("##DrawScene", &auxDebugDrawScene))
 				{
 					App->physics->debugScene = auxDebugDrawScene;
 				}
 
 				ImGui::Text("Draw Game"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDrawGame))
+				if (ImGui::Checkbox("##DrawGame", &auxDebugDrawGame))
 				{
 					App->physics->debugGame = auxDebugDrawGame;
 				}
