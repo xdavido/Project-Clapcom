@@ -48,7 +48,7 @@ public class Core : YmirComponent
     public GameObject reference = null;
     public GameObject turret = null;
     public GameObject shootPoint = null;
-
+    public GameObject referenceUI = null;
 
     public float mouseSens = 5.0f;
 
@@ -139,12 +139,12 @@ public class Core : YmirComponent
 
         if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
         {
-            UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
+            referenceUI = UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
         }
 
         if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
         {
-            UI.HideImageUI("Image");
+            InternalCalls.Destroy(referenceUI);
         }
 
         float x = Input.GetLeftAxisX();

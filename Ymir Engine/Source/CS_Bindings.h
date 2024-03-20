@@ -494,7 +494,7 @@ void GameControllerRumbleCS(int minrumble, int maxrumble, int time)
 	External->input->GetRumbleGamepad(External->input->sdl_controllers[0], minrumble, maxrumble, time);
 }
 
-void CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
+MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
 {
 	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
 	std::string _newImage = mono_string_to_utf8(newImage);
@@ -504,6 +504,8 @@ void CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
 	tempGameObject->AddImage(_newImage, x, y, 100, 100);
 
 	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
+	
+	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 
 void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
@@ -522,19 +524,5 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 			image_to_change->SetImg(_newImage, UI_STATE::NORMAL);
 		}
 	}
-}
-void HideImageUI(MonoString* imageToCHide)
-{
-	//Quitar el active y meter un erase
-	std::string _findbyname = mono_string_to_utf8(imageToCHide);
-
-	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
-	{
-		if ((*it)->name == _findbyname)
-		{
-			(*it)->DestroyGameObject();
-		}
-	}
-
 }
 #pragma endregion

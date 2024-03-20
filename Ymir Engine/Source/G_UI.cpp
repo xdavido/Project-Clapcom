@@ -226,6 +226,9 @@ UI_Image* G_UI::AddImage(std::string imgPath, float x, float y, float w, float h
 
 	name = "Image";
 
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
 	return comp;
