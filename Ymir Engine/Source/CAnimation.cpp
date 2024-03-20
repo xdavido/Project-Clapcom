@@ -92,7 +92,8 @@ void CAnimation::PauseAnimation(std::string animationName) {
     }
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
-            animator->PauseAnimation(&animator->animations[i]);
+            if (animator->animations[i].isPlaying)
+                animator->PauseAnimation(&animator->animations[i]);
         }
     }
 }
@@ -126,7 +127,8 @@ void CAnimation::StopAnimation(std::string animationName) {
     }
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
-            animator->StopAnimation(&animator->animations[i]);
+            if (animator->animations[i].isPlaying)
+                animator->StopAnimation(&animator->animations[i]);
         }
     }
 }

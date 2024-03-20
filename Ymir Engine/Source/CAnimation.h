@@ -45,13 +45,17 @@ public:
 
 	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
 
-	void SetLoop(std::string animationName = "", bool loop);
+	// Set animation to loop. If not given a name it applies to all animations
+	void SetLoop(std::string animationName = "", bool loop = true);
 
-	void SetBackwards(std::string animationName = "", bool backwards);
+	// Set animation to go backwards. If not given a name it applies to all animations
+	void SetBackwards(std::string animationName = "", bool backwards = true);
 
-	void SetPingPong(std::string animationName = "", bool pingPong);
+	// Set animation to pingpong. If not given a name it applies to all animations
+	void SetPingPong(std::string animationName = "", bool pingPong = true);
 
-	void SetSpeed(std::string animationName = "", float loop);
+	// Set animation speed. If not given a name it applies to all animations
+	void SetSpeed(std::string animationName = "", float loop = true);
 
 
 private:
