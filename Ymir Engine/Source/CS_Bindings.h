@@ -177,7 +177,7 @@ MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
 
 	return ret;
 }
-GameObject* DECS_Comp_To_GameObject(MonoObject* component)
+GameObject* CS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_object_get_class(component);
@@ -188,7 +188,7 @@ GameObject* DECS_Comp_To_GameObject(MonoObject* component)
 }
 MonoObject* CS_Component_Get_GO(MonoObject* thisRef)
 {	
-	return External->moduleMono->GoToCSGO(DECS_Comp_To_GameObject(thisRef));
+	return External->moduleMono->GoToCSGO(CS_Comp_To_GameObject(thisRef));
 }
 MonoString* Get_GO_Name(MonoObject* go)
 {
