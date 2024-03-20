@@ -188,9 +188,17 @@ void CCollider::OnInspector()
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
-		if (ImGui::Checkbox("Is Sensor", &physBody->is_sensor))
+
+		bool auxIsSensor = physBody->isSensor;
+		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
-			!physBody->is_sensor;
+			physBody->SetAsSensor(auxIsSensor);
+			if (auxIsSensor)
+			{
+				physType = PhysicsType::STATIC; 
+				SetDefaultValues(physType); 
+				External->physics->RecalculateInertia(physBody, mass, gravity); 
+			}
 		}
 
 		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))

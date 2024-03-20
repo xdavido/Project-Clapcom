@@ -653,7 +653,7 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
 		{
 			Color color;
-			if (colliderComponent->physBody->is_sensor) color = App->physics->sensorColor;
+			if (colliderComponent->physBody->isSensor) color = App->physics->sensorColor;
 			else color = App->physics->colliderColor;
 
 			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();

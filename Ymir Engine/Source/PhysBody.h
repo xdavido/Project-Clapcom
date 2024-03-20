@@ -28,7 +28,6 @@ public:
 
 public:
 
-	bool is_sensor = false;
+	bool isSensor = false;
 	bool drawShape = true;
-
 };
