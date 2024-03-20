@@ -145,8 +145,11 @@ void UI_Button::SetStateImg(const char* label, UI_STATE s)
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
 		{
-			//const char* path = (const char*)payload->Data;
-			const char* path = reinterpret_cast<const char*>(payload->Data);
+			std::string path = (const char*)payload->Data;
+
+			// Fix ImGui problems with big sized strings. Modify if enine supports other type of imgs.
+			path.erase(path.find(".png") + 4);
+
 			image->SetImg(path, s);
 		}
 
