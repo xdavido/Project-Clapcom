@@ -33,11 +33,11 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 
 	// Debug drawer	
-	debugDraw = new DebugDrawer();
-	debug = true;
+	debugScene = true;
 
-	//Colors
+	// Colors
 	colliderColor = Green;
+	sensorColor = Red;
 }
 
 ModulePhysics::~ModulePhysics() 
@@ -46,21 +46,11 @@ ModulePhysics::~ModulePhysics()
 	delete collisionConfig;
 	delete broadphase;
 	delete constraintSolver;
-
-	delete debugDraw;
-	
-	//for (int i = 0; i < bodiesList.size(); i++)	
-	//	RemoveBody(bodiesList[i]);
-
-	//for (int i = 0; i < collidersList.size(); i++) 
-	//	RemoveCollider(collidersList[i]);
 }
 
 // INIT ----------------------------------------------------------------------
 bool ModulePhysics::Init() 
 {
-	debugDraw->setDebugMode(1);
-
 	return true;
 }
 
@@ -69,7 +59,6 @@ bool ModulePhysics::Start()
 {
 	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
 	world->setGravity(GRAVITY);
-	world->setDebugDrawer(debugDraw);
 
 	return true;
 }
@@ -167,41 +156,28 @@ update_status ModulePhysics::PostUpdate(float dt)
 {
 	beginPlay = false;
 	return UPDATE_CONTINUE;
+
+	for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	{
+		btRigidBody* b = (btRigidBody*)(*it)->body;
+		btTransform t;
+		b->getMotionState()->getWorldTransform(t);
+
+		//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	}
 }
 
 // CLEANUP -------------------------------------------------------------------
-bool ModulePhysics::CleanUp()												  
-{																			  
-	return true;															  
-}																			  
-																			  
-// Module Functions	----------------------------------------------------------
-//void ModulePhysics::AddBody(btRigidBody* b)
-//{
-//	bodiesList.push_back(b);
-//	world->addRigidBody(b);
-//}
-
-//void ModulePhysics::AddCollider(btCollisionShape* c)
-//{
-//	collidersList.push_back(c);
-//	//world->addCollisionObject(c);
-//}
-
-//void ModulePhysics::RemoveCollider(btCollisionShape* c)
-//{
-//	//world->removeCollisionObject(c);
-//
-//	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
-//	collidersList.shrink_to_fit();
-//}
+bool ModulePhysics::CleanUp()
+{
+	return true;
+}
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
@@ -229,7 +205,6 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(sphere.transform));
@@ -257,7 +232,6 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mas
 PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(capsule.transform));
@@ -285,8 +259,6 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape)
 {
 	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
-
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
 	startTransform.setIdentity();
@@ -343,11 +315,6 @@ btVector3 ModulePhysics::GetWorldGravity()
 	return world->getGravity();
 }
 
-bool ModulePhysics::GetDebugDraw()
-{
-	return debug;
-}
-
 Color ModulePhysics::GetColliderColor()
 {
 	return colliderColor;
@@ -359,17 +326,35 @@ void ModulePhysics::SetWorldGravity(btVector3 g)
 	world->setGravity(g);
 }
 
-void ModulePhysics::SetdebugDraw(bool d)
+void ModulePhysics::SetDrawScene(bool d)
 {
-	debug = d;
+	debugScene = d;
 
-	if (debug) LOG("DebugDrawer On");
-	else LOG("DebugDrawer Off");
+	if (debugScene) LOG("Draw Scene Colliders On");
+	else LOG("Draw Scene Colliders Off");
+}
+
+void ModulePhysics::SetDrawGame(bool d)
+{
+	debugGame = d;
+
+	if (debugScene) LOG("Draw Game Colliders On");
+	else LOG("Draw Game Colliders Off");
 }
 
 void ModulePhysics::SetColliderColor(Color col) 
 {
 	colliderColor = col;
+}
+
+void ModulePhysics::SetSensorColor(Color col)
+{
+	sensorColor = col;
+}
+
+void ModulePhysics::SetLineWidth(float w)
+{
+	shapeLineWidth = w;
 }
 
 void ModulePhysics::ResetGravity()
@@ -468,43 +453,220 @@ bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3&
 	return false;
 }
 
-
-
-// DEBUG DRAWER =============================================
-void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+// RENDER SHAPES ---------------------------------------------------------------
+void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 {
-	line.origin.Set(from.getX(), from.getY(), from.getZ());
-	line.destination.Set(to.getX(), to.getY(), to.getZ());
-	line.color.Set(color.getX(), color.getY(), color.getZ());
+	float mat[16];
+	pbody->GetTransform(mat);
 
-	line.Render(External->physics->GetColliderColor()); // Custom color yey
+	btBoxShape* shape = (btBoxShape*)pbody->body->getCollisionShape();
+	btVector3 halfExtents = shape->getHalfExtentsWithoutMargin();
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// TODO: render box
+	glBegin(GL_LINES);
+
+	// Aristas horizontales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	// Aristas verticales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	// Otras aristas
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glEnd();
+
+	glPopMatrix();
 }
-
-void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+void ModulePhysics::RenderSphereCollider(PhysBody* pbody)
 {
-	point.transform.Translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
-	point.color.Set(color.getX(), color.getY(), color.getZ());
-	point.Render();
+	float mat[16];
+	pbody->GetTransform(mat);
+
+	float r = ((btSphereShape*)pbody->body->getCollisionShape())->getRadius();
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// Dibujar la meridiana en el plano XY
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), r * sin(phi), 0);
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), 0, r * sin(phi));
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano YZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, r * cos(phi), r * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
 }
-
-void DebugDrawer::reportErrorWarning(const char* warningString)
+void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 {
-	LOG("Bullet warning: %s", warningString);
+	float mat[16];
+	pbody->GetTransform(mat);
+
+	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
+
+	glPushMatrix();
+	glMultMatrixf(mat); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(radius, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(-radius, halfHeight, 0); 
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, radius); 
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, -radius); 
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ (círculos completos)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	// Medio círculo superior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) + halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio círculo inferior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) - halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio círculo superior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) + halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+	// Medio círculo inferior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) - halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+
+	glPopMatrix();
 }
-
-void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
+void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 {
-	LOG("Bullet draw text: %s", textString);
-}
+	float mat[16];
+	pbody->GetTransform(mat);
 
-void DebugDrawer::setDebugMode(int debugMode)
-{
-	mode = (DebugDrawModes)debugMode;
-}
+	btConvexTriangleMeshShape* shape = (btConvexTriangleMeshShape*)pbody->body->getCollisionShape();
+	btStridingMeshInterface* meshInterface = shape->getMeshInterface();
 
-int	 DebugDrawer::getDebugMode() const
-{
-	return mode;
+	int numTriangles = meshInterface->getNumSubParts();
+
+	glPushMatrix(); 
+	glMultMatrixf(mat); // translation and rotation 
+
+	// TODO: render mesh collider
+	for (int part = 0; part < numTriangles; ++part) {
+		const unsigned char* vertexBase;
+		int numVerts, vertexStride;
+		const unsigned char* indexBase;
+		int indexStride, numFaces;
+		PHY_ScalarType indexType, vertexType;
+
+		meshInterface->getLockedReadOnlyVertexIndexBase(&vertexBase, numVerts, vertexType, vertexStride, &indexBase, indexStride, numFaces, indexType, part);
+
+		glBegin(GL_LINES);
+		for (int f = 0; f < numFaces; ++f) {
+			unsigned int* index = (unsigned int*)(indexBase + f * indexStride);
+
+			for (int i = 0; i < 3; ++i) {
+				btVector3* vertex1 = (btVector3*)(vertexBase + index[i] * vertexStride);
+				btVector3* vertex2 = (btVector3*)(vertexBase + index[(i + 1) % 3] * vertexStride);
+
+				glVertex3f(vertex1->x(), vertex1->y(), vertex1->z());
+				glVertex3f(vertex2->x(), vertex2->y(), vertex2->z());
+			}
+		}
+
+		glEnd();
+
+		meshInterface->unLockReadOnlyVertexBase(part);
+	}
+
+	glPopMatrix();
 }
 
 btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
@@ -518,4 +680,3 @@ btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)
 	}
 	return openGLMatrix;
 }
-

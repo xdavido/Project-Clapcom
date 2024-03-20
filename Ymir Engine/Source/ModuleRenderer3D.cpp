@@ -305,9 +305,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawBoundingBoxes();
 		}
 
-		// Render Physics Colliders
-
-		if (App->physics->GetDebugDraw())
+		// Render Physics Stuff
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
@@ -333,6 +332,39 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (App->scene->gameCameraObject->active) {
 
 			DrawGameObjects();
+
+			//if (External->scene->gameCameraComponent->drawBoundingBoxes) {
+
+			//	DrawBoundingBoxes();
+
+			//}
+
+			// TODO: preguntar porque el out of range este raro
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
+
+			//		if (i == 0) { break; }
+			//	}
+			//}
+
+			// Render Physics Stuff
+			if (App->physics->debugGame)
+			{
+				DrawPhysicsColliders();
+			}
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
 
 			DrawUIElements(true);
 
@@ -599,17 +631,45 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
+	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se ver�n siempre sin importar la iluminacion
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr) {
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
+		{
+			Color color;
+			if (colliderComponent->physBody->isSensor) color = App->physics->sensorColor;
+			else color = App->physics->colliderColor;
 
-			App->physics->world->debugDrawWorld();
-			
+			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
+
+			glColor3f(color.r, color.g, color.b); // Cambio aqu� el color para tenerlo m�s controlado
+			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
+
+			switch (shape->getShapeType()) 
+			{
+			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
+				App->physics->RenderBoxCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::SPHERE_SHAPE_PROXYTYPE: // RENDER SPHERE ====================
+				App->physics->RenderSphereCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
+				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
+				App->physics->RenderMeshCollider(colliderComponent->physBody);
+				break;
+			} 
+
+			glColor3f(255.0f, 255.0f, 255.0f);
+			glLineWidth(1.f);
 		}
-
 	}
+
+	if (App->editor->gl_Lighting) glEnable(GL_LIGHTING);
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
