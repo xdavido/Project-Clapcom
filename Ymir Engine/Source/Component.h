@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 
 class GameObject;
 
@@ -17,6 +18,7 @@ enum ComponentType {
 	PHYSICS,
 	ANIMATION,
 	UI,
+	LIGHT,
 
 	ALL_TYPES
 
@@ -42,4 +44,7 @@ public:
 	bool active;
 	ComponentType ctype;
 
+protected:
+
+	uint UID;
 };

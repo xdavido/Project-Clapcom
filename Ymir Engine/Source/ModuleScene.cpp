@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ResourceMesh.h"
 
 #include "GameObject.h"
 #include "Log.h"
@@ -25,21 +26,15 @@
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	// UID regenerated = duplication (This will be fixed with scene serialization)
+	LOG("Creating ModuleScene");
 
 	mRootNode = CreateGameObject("Scene", nullptr);
-	mRootNode->UID = Random::Generate();
 
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
-	gameCameraObject->UID = Random::Generate();
 	tags = { "Untagged" };
-	//audiosource = CreateGameObject("AudioSource", mRootNode);
-	//audiosource->UID = Random::Generate();
 
 	gameCameraComponent = nullptr;
 	canvas = nullptr;
-
-	LOG("Creating ModuleScene");
 }
 
 ModuleScene::~ModuleScene()
@@ -57,49 +52,10 @@ bool ModuleScene::Init()
 	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
 	audioListenerComponent->SetAsDefaultListener();
 	gameCameraObject->AddComponent(audioListenerComponent);
+
 	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
 	gameCameraObject->AddComponent(audioSourceComponent);
 
-	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
-	//gameCameraObject->AddComponent(audioSourceComponent);
-
-	// yscene file creation
-
-	// You shouldn't save from default
-
-	//ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
-	//ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
-	//ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
-	//ysceneFile.SetFloat3("Editor Camera Front (Z)", App->camera->editorCamera->GetFront());
-	//ysceneFile.SetHierarchy("Hierarchy", gameObjects);
-
-
-	//App->fileSystem->LoadMeshToFile("Library/Meshes/1072689781.ymesh", ourMesh);
-
-	//char* buffer = nullptr;
-	//if (PhysfsEncapsule::LoadFile("Library/Meshes/1072689781.ymesh", &buf) != 0)
-	//{
-	//	ImporterMesh::Load(buffer, &mymesh);
-	//}
-
-	//mymesh.LoadInMemory();
-	for (int i = 0; i < 1; i++)
-	{
-		const char* n = "Test";
-		std::string numStr = std::to_string(i);
-		std::string name = n + numStr;
-
-		GameObject* goTest = CreateGameObject(name, mRootNode);
-		const char* t = "Core";
-
-		Component* c = nullptr;
-
-		c = new CScript(goTest, t);
-
-		goTest->AddComponent(c);
-	}
-	
-	//ysceneFile.CreateJSON(External->fileSystem->libraryScenesPath, std::to_string(mRootNode->UID) + ".yscene");
 	selectedGO = nullptr;
 
 	return ret;
@@ -108,6 +64,12 @@ bool ModuleScene::Init()
 bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
+
+#ifdef _STANDALONE
+
+	LoadSceneFromStart("Assets", "MAPA_FINAL");
+
+#endif // _STANDALONE
 
 	// Test for Physics
 	// LoadSceneFromStart("Assets", "PhysicsTest"); 
@@ -218,8 +180,10 @@ bool ModuleScene::CleanUp()
 
 GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 {
+	std::string newName = GetUniqueName(name);
+
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
-	GameObject* tempGameObject = new GameObject(name, parent);
+	GameObject* tempGameObject = new GameObject(newName, parent);
 
 	if (parent != nullptr) {
 
@@ -227,11 +191,42 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	}
 
+	gameObjects.push_back(tempGameObject);
 	
-		gameObjects.push_back(tempGameObject);
-	
-
 	return tempGameObject;
+}
+
+std::string ModuleScene::GetUniqueName(std::string name)
+{
+	//Check if a Game Object with same name exists
+	bool exists = false;
+	int counter = 0;
+	if (gameObjects.size() > 0)
+	{
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			if (name == gameObjects[i]->name)    //If the name exists, add 1 to counter
+			{
+				counter++;
+				name = ReName(name, counter);
+			}
+		}
+		return name;
+	}
+	else return name;
+}
+
+std::string ModuleScene::ReName(std::string name, uint counter)
+{
+	std::string uniqueName = name + " (" + std::to_string(counter) + ")";
+	std::string newName;
+
+	size_t first = uniqueName.find_first_of("(");
+
+	newName = uniqueName.erase(first - 1);
+	newName = uniqueName + " (" + std::to_string(counter) + ")";
+
+	return newName;
 }
 
 GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
@@ -280,8 +275,12 @@ void ModuleScene::ClearScene()
 	delete mRootNode;
 	mRootNode = nullptr;*/
 
-	RELEASE(mRootNode);
+	SetSelected();
 
+	// FRANCESC: Doing this RELEASE here makes the meshes disappear
+	// RELEASE(mRootNode); 
+
+	External->lightManager->lights.clear();
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
@@ -335,6 +334,8 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
+	LoadScriptsData();
+
 	RELEASE(sceneToLoad);
 }
 
@@ -354,7 +355,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	// ClearScene();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
@@ -424,6 +425,12 @@ void ModuleScene::SetSelected(GameObject* go)
 	else
 	{
 		selectedGO = nullptr;
+
+		for (auto i = 0; i < vSelectedGOs.size(); i++)
+		{
+			SetSelectedState(vSelectedGOs[i], false);
+		}
+
 		ClearVec(vSelectedGOs);
 	}
 }
@@ -495,15 +502,15 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 	}
 
 	// Set all meshes to unselected initially.
-	for (CMesh* mesh : meshesSorted) {
+	/*for (CMesh* mesh : meshesSorted) {
 
 		if (mesh != nullptr && mesh->mOwner != nullptr) {
 
-			mesh->mOwner->selected = false;
+			SetSelected();
 
 		}
 
-	}
+	}*/
 
 	// Iterate through the sorted meshes to find the first intersection with the ray.
 	for (CMesh* mesh : meshesSorted) {
@@ -535,19 +542,19 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 					// Intersection found, set the selected object.
 					if (mesh->mOwner != nullptr) {
 
-						mesh->mOwner->selected = true;
+						App->scene->SetSelected(mesh->mOwner);
 
-						// Iterate through all game objects in the scene.
-						for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+						//// Iterate through all game objects in the scene.
+						//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-							// Unselect other game objects.
-							if ((*it) != mesh->mOwner) {
+						//	// Unselect other game objects.
+						//	if ((*it) != mesh->mOwner) {
 
-								(*it)->selected = false;
+						//		(*it)->selected = false;
 
-							}
+						//	}
 
-						}
+						//}
 
 					}
 
@@ -562,12 +569,14 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 
 	}
 
-	// No intersection found, clear the selection for all meshes.
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	SetSelected();
 
-		(*it)->selected = false;
+	//// No intersection found, clear the selection for all meshes.
+	//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
 
-	}
+	//	(*it)->selected = false;
+
+	//}
 
 }
 
@@ -591,3 +600,89 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
+{
+	if (n->UID == sUID)
+		return n;
+
+	GameObject* ret = nullptr;
+	for (size_t i = 0; i < n->mChildren.size(); i++)
+	{
+		ret = GetGOFromUID(n->mChildren[i], sUID);
+		if (ret != nullptr)
+			return ret;
+	}
+
+	return nullptr;
+}
+
+void ModuleScene::ReplaceScriptsReferences(uint oldUID, uint newUID)
+{
+	std::multimap<uint, SerializedField*>::iterator referenceIt = referenceMap.find(oldUID);
+
+	if (referenceIt != referenceMap.end())
+	{
+		AddToReferenceMap(newUID, referenceIt->second);
+		referenceMap.erase(oldUID);
+	}
+}
+
+void ModuleScene::AddToReferenceMap(uint UID, SerializedField* fieldToAdd)
+{
+	referenceMap.emplace(UID, fieldToAdd);
+}
+
+void ModuleScene::LoadScriptsData(GameObject* rootObject)
+{
+	std::multimap<uint, SerializedField*> referenceMapCopy;
+	for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	{
+		// Get the range of the current key
+		auto range = referenceMap.equal_range(i->first);
+
+		// Now render out that whole range
+		for (auto d = range.first; d != range.second; ++d)
+		{
+			//if (d->second->fiValue.goValue != nullptr)
+				//continue;
+
+			if (rootObject != nullptr)
+			{
+				GameObject* gameObject = GetGOFromUID(rootObject, d->first);
+
+				if (gameObject != nullptr)
+					d->second->fiValue.goValue = gameObject;
+				else
+					d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+			else
+			{
+				d->second->fiValue.goValue = GetGOFromUID(External->scene->mRootNode, d->first);
+			}
+
+			if (d->second->fiValue.goValue != nullptr)
+			{
+				//d->second->goUID = d->first;
+
+				if (std::find(d->second->fiValue.goValue->csReferences.begin(), d->second->fiValue.goValue->csReferences.end(), d->second) == d->second->fiValue.goValue->csReferences.end())
+					d->second->fiValue.goValue->csReferences.push_back(d->second);
+
+				d->second->parentSC->SetField(d->second->field, d->second->fiValue.goValue);
+
+				//d->second = nullptr;
+			}
+		}
+	}
+
+	//for (auto i = referenceMap.begin(); i != referenceMap.end(); ++i)
+	//{
+	//	if (i->second != nullptr)
+	//	{
+	//		referenceMapCopy.emplace(i->first, i->second);
+	//	}
+	//}
+
+	//referenceMap = referenceMapCopy;
+
+	referenceMap.clear();
+}

@@ -1,40 +1,40 @@
 {
     "Editor Camera Position": [
-        1.0563284158706665,
-        9.4867925643920898,
-        16.719850540161133
+        4.7566347122192383,
+        5.7736492156982422,
+        6.6561079025268555
     ],
     "Editor Camera Right (X)": [
-        0.99935412406921387,
-        1.3969838619232178e-08,
-        -0.035936687141656876
+        0.8065827488899231,
+        -1.4901161193847656e-08,
+        -0.5911211371421814
     ],
     "Editor Camera Up (Y)": [
-        -0.012852933257818222,
-        0.93385398387908936,
-        -0.3574235737323761
+        -0.30881008505821228,
+        0.85269194841384888,
+        -0.42137029767036438
     ],
     "Editor Camera Front (Z)": [
-        -0.033559609204530716,
-        -0.35765469074249268,
-        -0.93325072526931763
+        -0.50404417514801025,
+        -0.52241408824920654,
+        -0.68776649236679077
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1858055310,
+            "UID": 380115096,
             "Element_Type": "None",
+            "Components": [],
             "Children UID": [
-                118372093,
-                621490133
-            ],
-            "Components": []
+                1996310303,
+                1602141460
+            ]
         },
         {
             "Name": "Main Camera",
-            "UID": 118372093,
+            "UID": 1996310303,
             "Element_Type": "None",
-            "Parent UID": 1858055310,
+            "Parent UID": 380115096,
             "Components": [
                 {
                     "Type": "Transform",
@@ -56,47 +56,49 @@
                     ]
                 },
                 {
-                    "Type": "Audio listener"
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
                 },
                 {
-                    "Type": "Audio source"
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
                 },
                 {
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        0.76604485511779785,
-                        -1.4361712885602174e-07,
+                        0.76604437828063965,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.6969747081202513e-08,
+                        6.6969732870347798e-08,
                         1,
-                        1.4361708622345759e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.6969747081202513e-08,
-                        -0.76604485511779785
+                        6.6969732870347798e-08,
+                        -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
                     "Far Plane": 1000,
                     "Frustum Culling": 1,
-                    "Draw Bounding Boxes": 0,
+                    "Draw Bounding Boxes": 1,
                     "Game Camera": true
                 }
             ]
         },
         {
             "Name": "BakerHouse",
-            "UID": 621490133,
+            "UID": 1602141460,
             "Element_Type": "None",
-            "Parent UID": 1858055310,
-            "Children UID": [
-                873568128,
-                1697058290
-            ],
+            "Parent UID": 380115096,
             "Components": [
                 {
                     "Type": "Transform",
@@ -117,13 +119,17 @@
                         1
                     ]
                 }
+            ],
+            "Children UID": [
+                1258072102,
+                1044719150
             ]
         },
         {
-            "Name": "873568128",
-            "UID": 873568128,
+            "Name": "1258072102",
+            "UID": 1258072102,
             "Element_Type": "None",
-            "Parent UID": 621490133,
+            "Parent UID": 1602141460,
             "Components": [
                 {
                     "Type": "Transform",
@@ -153,18 +159,18 @@
                 {
                     "Type": "Material",
                     "Active": 1,
-                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/Baker_house.png",
                     "UID": 0
                 }
             ]
         },
         {
-            "Name": "1697058290",
-            "UID": 1697058290,
+            "Name": "1044719150",
+            "UID": 1044719150,
             "Element_Type": "None",
-            "Parent UID": 621490133,
+            "Parent UID": 1602141460,
             "Components": [
                 {
                     "Type": "Transform",
@@ -194,9 +200,9 @@
                 {
                     "Type": "Material",
                     "Active": 1,
-                    "Shader": "Assets\/Shaders\/RainbowShader.glsl",
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/Baker_house.png",
                     "UID": 0
                 }
             ]

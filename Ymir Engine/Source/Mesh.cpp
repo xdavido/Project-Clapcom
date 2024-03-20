@@ -18,61 +18,48 @@
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
-	VBO = 0;
-	EBO = 0;
-    VAO = 0;
+	//VBO = 0;
+	//EBO = 0;
+    //VAO = 0;
 
-	this->vertices = vertices;
-	this->indices = indices;
-    this->textures = textures;
+	//this->vertices = vertices;
+	//this->indices = indices;
+    //this->textures = textures;
 
-    meshGO = linkGO;
+    //meshGO = linkGO;
 
-    enableVertexNormals = false;
-    enableFaceNormals = false;
-    loadedTextures = false;
-    loadedShader = false;
-    applyCheckerTexture = false;
-    addedMaterialComponent = false;
+    //enableVertexNormals = false;
+    //enableFaceNormals = false;
+    //loadedTextures = false;
+    //loadedShader = false;
+    //applyCheckerTexture = false;
+    //addedMaterialComponent = false;
 
-    previousModelMatrix = meshShader.model;
+    //previousModelMatrix = meshShader.model;
 
-	LoadMesh();
+	//LoadMesh();
 
-    InitBoundingBoxes();
+    //InitBoundingBoxes();
 
-    // Load transformation from Assimp
-
-    //this->meshShader.translation = transform->translation;
-    //this->meshShader.rotation = transform->rotation * RADTODEG;
-    //this->meshShader.scale = transform->scale;
-
-    // TODO: While load doesn't work, load transform info here. When load works, add this info in the component transform with the large constructor: CTransform(GameObject* g, float3 pos, Quat rot, float3 sc, bool start_enabled)
-    static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(transform->translation, transform->rotation * RADTODEG, transform->scale);
-    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->translation = transform->translation;
-    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->eulerRot = transform->rotation * RADTODEG;
-    //static_cast<CTransform*>(meshGO->GetComponent(ComponentType::TRANSFORM))->scale = transform->scale;
-
-
-    this->shaderPath = shaderPath;
+    //this->shaderPath = shaderPath;
 }
 
 Mesh::~Mesh()
 {
-	if (VBO != 0) {
-		glDeleteBuffers(1, &VBO);
-		VBO = 0;
-	}
+	//if (VBO != 0) {
+	//	glDeleteBuffers(1, &VBO);
+	//	VBO = 0;
+	//}
 
-	if (EBO != 0) {
-		glDeleteBuffers(1, &EBO);
-		EBO = 0;
-	}
+	//if (EBO != 0) {
+	//	glDeleteBuffers(1, &EBO);
+	//	EBO = 0;
+	//}
 
-    if (VAO != 0) {
-        glDeleteBuffers(1, &VAO);
-        VAO = 0;
-    }
+ //   if (VAO != 0) {
+ //       glDeleteBuffers(1, &VAO);
+ //       VAO = 0;
+ //   }
 
 }
 

@@ -21,19 +21,19 @@
 
 Model::Model()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active) {
+	//		if ((*it).meshGO->active) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
+	//		}
 
-		}
+	//	}
 
-	}
+	//}
 }
 
 Model::Model(const std::string& path, const std::string& shaderPath)
@@ -48,19 +48,19 @@ Model::~Model()
 
 void Model::DrawModel()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
+	//		if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
-			
-		}
+	//		}
+	//		
+	//	}
 
-	}
+	//}
 	
 }
 
@@ -96,8 +96,6 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 	}
 
-	LOG("");
-
 	// Import the model using Assimp
 
 	const aiScene* scene = aiImportFile(path.c_str(), ASSIMP_LOAD_FLAGS);
@@ -123,102 +121,111 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration)
 {
-	// Retrieve transformation from Assimp
+	const char* mNameStr = node->mName.C_Str();
+	std::string mName(mNameStr);
 
-	aiVector3D translation, scaling;
-	aiQuaternion rotation;
-
-	node->mTransformation.Decompose(scaling, rotation, translation);
-
-	NodeTransform tmpNodeTransform;
-
-	tmpNodeTransform.translation = { translation.x, translation.y, translation.z };
-
-	Quat rotQ(rotation.x, rotation.y, rotation.z, rotation.w);
-	tmpNodeTransform.rotation = rotQ.ToEulerXYZ();
-
-	tmpNodeTransform.scale = { scaling.x, scaling.y, scaling.z };
+	// Check if mName contains the substring "$AssimpFbx$" or "mixamorig:"
+	bool shouldSkip = (mName.find("$AssimpFbx$") != std::string::npos) ||	
+					  (mName.find("mixamorig:") != std::string::npos);
 
 	// Link Assimp to GameObjects Hierarchy
+	GameObject* currentNodeGO = nullptr;
 
-	GameObject* currentNodeGO;
+	// If the current node is not to be skipped, proceed with processing it.
+	if (!shouldSkip) {
 
-	if (parentGO == nullptr) {
+		// Retrieve transformation from Assimp
+		aiVector3D translation, scaling;
+		aiQuaternion rotation;
 
-		// If the current node is the root node, create here the model GameObject, parented to scene GameObject
-		currentNodeGO = External->scene->CreateGameObject(name, External->scene->mRootNode);
-		modelGO = currentNodeGO;
+		node->mTransformation.Decompose(scaling, rotation, translation);
 
-		JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+		NodeTransform tmpNodeTransform;
 
-		if (tmpMetaFile) {
+		tmpNodeTransform.translation = { translation.x, translation.y, translation.z };
+		Quat rotQ(rotation.x, rotation.y, rotation.z, rotation.w);
+		tmpNodeTransform.rotation = rotQ.ToEulerXYZ();
+		tmpNodeTransform.scale = { scaling.x, scaling.y, scaling.z };
 
-			// The meta file exists; it's not the first time we load the texture.
-			modelGO->UID = tmpMetaFile->GetInt("UID");
+		if (parentGO == nullptr) {
+
+			// If the current node is the root node, create here the model GameObject, parented to scene GameObject
+			currentNodeGO = External->scene->CreateGameObject(name, External->scene->mRootNode);
+			modelGO = currentNodeGO;
+
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+			if (tmpMetaFile) {
+
+				// The meta file exists; it's not the first time we load the model.
+				modelGO->UID = tmpMetaFile->GetInt("UID");
+				delete tmpMetaFile;
+
+			}
+			else {
+
+				// The meta file doesn't exists; first time loading the model.
+				modelGO->UID = Random::Generate();
+
+			}
+
+			modelGO->type = "Model";
+
+		}
+		else {
+
+			// Create the game object since the substring "$AssimpFbx$" doesn't exist in mName
+			currentNodeGO = External->scene->CreateGameObject(mNameStr, parentGO);
+
+			// Model Meta File and Library File Creation
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+			if (tmpMetaFile) {
+
+				// The meta file exists; it's not the first time we load the model.
+				currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+				iteration++;
+
+			}
+			else {
+
+				// The meta file doesn't exists; first time loading the model.
+				currentNodeGO->UID = Random::Generate();
+
+			}
+
+			embeddedMeshesUID.push_back(currentNodeGO->UID);
 
 			delete tmpMetaFile;
 
 		}
-		else {
 
-			// The meta file doesn't exists; first time loading the texture.
-			modelGO->UID = Random::Generate();
+		// Process all the node's meshes (if any)
+		for (uint i = 0; i < node->mNumMeshes; i++) {
 
-		}
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-		modelGO->type = "Model";
-
-	}
-	else {
-
-		// Create a GameObject for the current node and set it as a child of the parent GameObject
-		currentNodeGO = External->scene->CreateGameObject(node->mName.C_Str(), parentGO);
-
-		// Model Meta File and Library File Creation
-
-		JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
-
-		if (tmpMetaFile) {
-
-			// The meta file exists; it's not the first time we load the model.
-			currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
-			iteration++;
-
-		}
-		else {
-
-			// The meta file doesn't exists; first time loading the model.
-			currentNodeGO->UID = Random::Generate();
+			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
 
 		}
 
-		embeddedMeshesUID.push_back(currentNodeGO->UID);
+		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
 
-		delete tmpMetaFile;
+		// Load Transform From Assimp
+		static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
 
 	}
 
-	// Process all the node's meshes (if any)
+	// Process children of the current node
+	for (uint i = 0; i < node->mNumChildren; i++) {
 
-	for (uint i = 0; i < node->mNumMeshes; i++)
-	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		ProcessNode(node->mChildren[i], scene, shouldSkip ? parentGO : currentNodeGO, shaderPath, iteration);
 
-		meshes.push_back(*ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));// TODO: mem leak
 	}
-
-	// Then do the same for each of its children
-
-	for (uint i = 0; i < node->mNumChildren; i++)
-	{
-		ProcessNode(node->mChildren[i], scene, currentNodeGO, shaderPath, iteration);
-	}
-
-	GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
 
 }
 
-Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -489,25 +496,23 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 	// Create the mesh
 
-	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
+	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
 
-	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh";
-
-	JsonFile ymeshFile(libraryPath, std::to_string(linkGO->UID) + ".ymesh");
-	External->fileSystem->SaveMeshToFile(tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+	External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
 
 	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
 	CMesh* cmesh = new CMesh(linkGO);
 
+	cmesh->rMeshReference = rMesh;
+
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
 
-	cmesh->rMeshReference = rMesh;
-
 	linkGO->AddComponent(cmesh);
 
-	return tmpMesh; // Retrieve the Mesh with all the necessary data to draw
+	// Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
 }
 
 void Model::GenerateModelMetaFile()

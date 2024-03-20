@@ -122,8 +122,11 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
 				}
+
 			}
+
 		}
+
 	}
 	else
 	{
@@ -190,8 +193,16 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			{
 				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
+				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
+
+					// Rework to ImporterModel::Import(path);
+					App->renderer3D->models.push_back(Model(path));
+					break;
+				}
+
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
+				modelGO->type = "Model";
 
 				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
 
@@ -205,39 +216,35 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 					{
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
-
-						if (!PhysfsEncapsule::FileExists(".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh")) {
-
-							// Rework to ImporterModel::Import(path);
-							App->renderer3D->models.push_back(Model(path));
-
-						}
-
+					
 						ResourceMesh* rMesh = static_cast<ResourceMesh*>
 							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
 
 						CMesh* cmesh = new CMesh(meshGO);
 
 						cmesh->rMeshReference = rMesh;
-						cmesh->nIndices = 0;
-						cmesh->nVertices = 0;
+						cmesh->nVertices = rMesh->vertices.size();
+						cmesh->nIndices = rMesh->indices.size();
 
 						meshGO->AddComponent(cmesh);
 
 						CMaterial* cmat = new CMaterial(meshGO);
 						meshGO->AddComponent(cmat);
+
 					}
 					else
 					{
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
 
+						ResourceMesh* tmpMesh = static_cast<ResourceMesh*>(itr->second);
+
 						CMesh* cmesh = new CMesh(meshGO);
 
-						cmesh->rMeshReference = (ResourceMesh*)itr->second;
-						cmesh->nIndices = 0;
-						cmesh->nVertices = 0;
-
+						cmesh->rMeshReference = tmpMesh;
+						cmesh->nVertices = tmpMesh->vertices.size();
+						cmesh->nIndices = tmpMesh->indices.size();
+			
 						meshGO->AddComponent(cmesh);
 
 						CMaterial* cmat = new CMaterial(meshGO);
@@ -249,6 +256,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				}
 
 				//ImporterModel::Import(assetsFilePath.c_str(), (ResourceModel*)resource);
+
 			}
 			break;
 
@@ -273,6 +281,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				break;
 			case ResourceType::ANIMATION:
 				break;
+				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+
 
 			}
 

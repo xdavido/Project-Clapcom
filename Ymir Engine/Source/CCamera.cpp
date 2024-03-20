@@ -25,7 +25,7 @@ CCamera::CCamera(GameObject* owner, bool isGame) : Component(owner, ComponentTyp
 	frustum.verticalFov = 60.0f * DEGTORAD;
 	frustum.horizontalFov = 2.0f * atanf(tanf(frustum.verticalFov / 2.0f) * 1.3f);
 
-	drawBoundingBoxes = false;
+	drawBoundingBoxes = true;
 	enableFrustumCulling = true;
 
 	isGameCam = isGame;
@@ -71,12 +71,12 @@ void CCamera::OnInspector()
 {
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
-	ImGui::SameLine();
-
 	bool exists = true;
 
-	if (ImGui::CollapsingHeader("Camera", &exists, flags))
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader(("Camera##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
 		ImGui::Indent();
 

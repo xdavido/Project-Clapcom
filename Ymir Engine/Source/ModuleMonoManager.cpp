@@ -56,10 +56,9 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
-	//mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
+	mono_add_internal_call("YmirEngine.InternalCalls::AddMeshToGameObject", AddMeshToGameObject);
 
-
-
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
 
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
@@ -68,7 +67,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Transform::get_localPosition", SendPosition);
 	mono_add_internal_call("YmirEngine.Transform::get_globalPosition", SendGlobalPosition);
 	mono_add_internal_call("YmirEngine.Transform::set_localPosition", RecievePosition);
-	mono_add_internal_call("YmirEngine.Transform::get_localRotation", SendRotation);
+	mono_add_internal_call("YmirEngine.Transform::get_localRotation", SendRotation); 
 	mono_add_internal_call("YmirEngine.Transform::get_globalRotation", SendGlobalRotation);
 	mono_add_internal_call("YmirEngine.Transform::set_localRotation", RecieveRotation);
 
@@ -92,9 +91,12 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetGamepadLeftTrigger", GetGamepadLeftTrigger);
 	mono_add_internal_call("YmirEngine.Input::GetGamepadRightTrigger", GetGamepadRightTrigger);
 	mono_add_internal_call("YmirEngine.Input::GetKey", GetKey);
+	mono_add_internal_call("YmirEngine.Input::IsGamepadButtonAPressedCS", IsGamepadButtonAPressedCS);
+	mono_add_internal_call("YmirEngine.Input::IsGamepadButtonBPressedCS", IsGamepadButtonBPressedCS);
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
+	mono_add_internal_call("YmirEngine.Input::GameControllerRumbleCS", GameControllerRumbleCS);
 
 #pragma endregion
 
@@ -215,7 +217,7 @@ void ModuleMonoManager::DebugAllFields(const char* className, std::vector<Serial
 		{
 			SerializedField pushField = SerializedField(field, obj, script);
 
-			if ( pushField.displayName != "##type" && pushField.displayName != "##componentTable")
+			if (pushField.displayName != "##pointer" && pushField.displayName != "##type" && pushField.displayName != "##componentTable")
 				_data.push_back(pushField);
 			//LOG(LogType::L_NORMAL, mono_field_full_name(method2));
 		}

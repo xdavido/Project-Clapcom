@@ -22,7 +22,7 @@ void Primitive::Render(Color col) const
 	glPushMatrix();
 	glMultMatrixf(transform.ptr());
 
-	if(axis == true)
+	if (axis == true)
 	{
 		// Draw Axis Grid
 		glLineWidth(2.0f);
@@ -115,6 +115,7 @@ void CCube::InnerRender() const
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
+	glLineWidth(3.0f);
 	glBegin(GL_QUADS);
 
 	glNormal3f(0.0f, 0.0f, 1.0f);
@@ -154,6 +155,7 @@ void CCube::InnerRender() const
 	glVertex3f(-sx, -sy,  sz);
 
 	glEnd();
+	glLineWidth(1.0f);
 }
 
 // SPHERE ============================================
@@ -183,6 +185,7 @@ void CSphere::InnerRender() const
 
 	const float TWO_PI = 2.0f * PI;
 
+	glLineWidth(3.0f);
 	glBegin(GL_TRIANGLES);
 
 	for (int i = 0; i < nF; i++) {
@@ -233,6 +236,7 @@ void CSphere::InnerRender() const
 	}
 
 	glEnd();
+	glLineWidth(1.0f);
 
 }
 
@@ -253,6 +257,7 @@ void CPyramid::InnerRender() const
 	float sy = size.y * 0.5f;
 	float sz = size.z * 0.5f;
 
+	glLineWidth(3.0f);
 	glBegin(GL_QUADS);
 
 	// Bottom face
@@ -291,6 +296,7 @@ void CPyramid::InnerRender() const
 	glVertex3f(-sx, -sy, sz);
 
 	glEnd();
+	glLineWidth(1.0f);
 
 }
 
@@ -309,6 +315,7 @@ void CCylinder::InnerRender() const
 {
 	int n = 30;
 
+	glLineWidth(3.0f);
 	// Cylinder Bottom
 	glBegin(GL_POLYGON);
 	
@@ -339,6 +346,7 @@ void CCylinder::InnerRender() const
 		glVertex3f(-height*0.5f, radius * cos(a), radius * sin(a) );
 	}
 	glEnd();
+	glLineWidth(1.0f);
 }
 
 // POINT ==================================================
@@ -354,11 +362,13 @@ CPoint::CPoint(float x, float y, float z) : Primitive(), position(x, y, z)
 
 void CPoint::InnerRender() const
 {
+	glLineWidth(3.0f);
 	glBegin(GL_POINTS);
 
 	glVertex3f(position.x, position.y, position.z);
 
 	glEnd();
+	glLineWidth(1.0f);
 }
 
 // LINE ==================================================
@@ -374,7 +384,7 @@ CLine::CLine(float x, float y, float z) : Primitive(), origin(0, 0, 0), destinat
 
 void CLine::InnerRender() const
 {
-	glLineWidth(2.0f);
+	glLineWidth(3.0f);
 
 	glBegin(GL_LINES);
 
@@ -399,7 +409,7 @@ CPlane::CPlane(float x, float y, float z, float d) : Primitive(), normal(x, y, z
 
 void CPlane::InnerRender() const
 {
-	glLineWidth(1.0f);
+	glLineWidth(2.0f);
 
 	glBegin(GL_LINES);
 
@@ -414,6 +424,8 @@ void CPlane::InnerRender() const
 	}
 
 	glEnd();
+
+	glLineWidth(1.0f);
 }
 
 // CONE ==================================================
@@ -443,11 +455,11 @@ void CCone::InnerRender() const
 
 	const float TWO_PI = 2.0f * PI;
 
+	glLineWidth(3.0f);
 	glBegin(GL_TRIANGLES);
 
 	// Base
 	for (int i = 0; i < nF; i++) {
-
 		float theta1 = i * TWO_PI / nF;
 		float theta2 = (i + 1) * TWO_PI / nF;
 
@@ -457,16 +469,20 @@ void CCone::InnerRender() const
 		float x2 = radius * cos(theta2);
 		float z2 = radius * sin(theta2);
 
-		glNormal3f(0.0f, -1.0f, 0.0f);
-		glVertex3f(0.0f, 0.0f, 0.0f);
-		glVertex3f(x1, 0.0f, z1);
-		glVertex3f(x2, 0.0f, z2);
+		//glNormal3f(0.0f, 1.0f, 0.0f); // Reverse normal direction
+		//glVertex3f(0.0f, height, 0.0f); // Base at height
+		//glVertex3f(x2, height, z2);
+		//glVertex3f(x1, height, z1);
+
+		glNormal3f(1.0f, 0.0f, 0.0f); // Reverse normal direction
+		glVertex3f(height, x1, z1);
+		glVertex3f(height, x2, z2);
+		glVertex3f(height, 0.0f, 0.0f); // Base at height
 
 	}
 
 	// Side
 	for (int i = 0; i < nF; i++) {
-
 		float theta1 = i * TWO_PI / nF;
 		float theta2 = (i + 1) * TWO_PI / nF;
 
@@ -476,14 +492,20 @@ void CCone::InnerRender() const
 		float x2 = radius * cos(theta2);
 		float z2 = radius * sin(theta2);
 
-		glNormal3f(x1, radius / sqrt(radius * radius + height * height), z1);
-		glVertex3f(x1, 0.0f, z1);
-		glVertex3f(0.0f, height, 0.0f);
-		glVertex3f(x2, 0.0f, z2);
+		//glNormal3f(x1, -radius / sqrt(radius * radius + height), z1); // Reverse normal direction
+		//glVertex3f(x1, height, z1); // Peak at the base
+		//glVertex3f(x2, height, z2);
+		//glVertex3f(0.0f, 0.0f, 0.0f); // Base at height
 
+		glNormal3f(-radius / sqrt(radius * radius + height), x1, z1); // Reverse normal direction
+		glVertex3f(0.0f, 0.0f, 0.0f); // Base at height
+		glVertex3f(height, x2, z2);
+		glVertex3f(height, x1, z1); // Peak at the base
+		
 	}
 
 	glEnd();
+	glLineWidth(1.0f);
 
 }
 
@@ -525,6 +547,7 @@ void CTorus::InnerRender() const
 
 	const float TWO_PI = 2.0f * 3.14159265359f;
 
+	glLineWidth(3.0f);
 	glBegin(GL_TRIANGLES);
 
 	for (int i = 0; i < nFO; i++) {
@@ -591,6 +614,7 @@ void CTorus::InnerRender() const
 	}
 
 	glEnd();
+	glLineWidth(1.0f);
 
 }
 
@@ -607,6 +631,7 @@ CCapsule::CCapsule(float radius, float height, int numSegments) : Primitive(), r
 
 void CCapsule::InnerRender() const
 {
+	glLineWidth(3.0f);
 	glBegin(GL_TRIANGLES);
 
 	// Renderizar la mitad superior de la cápsula (semiesfera)
@@ -659,4 +684,5 @@ void CCapsule::InnerRender() const
 	}
 
 	glEnd();
+	glLineWidth(1.0f);
 }

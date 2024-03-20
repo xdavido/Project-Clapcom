@@ -126,11 +126,11 @@ bool ModuleRenderer3D::Init()
 		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
-		lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
-		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
-		lights[0].SetPos(0.0f, 0.0f, 2.5f);
-		lights[0].Init();
+		gl_lights[0].ref = GL_LIGHT0;
+		gl_lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+		gl_lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
+		gl_lights[0].SetPos(0.0f, 0.0f, 2.5f);
+		gl_lights[0].Init();
 
 		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
@@ -142,7 +142,7 @@ bool ModuleRenderer3D::Init()
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		lights[0].Active(true);
+		gl_lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
@@ -213,6 +213,10 @@ bool ModuleRenderer3D::Init()
 	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
 	delete animationShader; 
 
+	Shader* lightingShader = new Shader;
+	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
+	delete lightingShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
@@ -223,13 +227,8 @@ bool ModuleRenderer3D::Init()
 	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
 	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
 
-	//gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
-	//gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
 	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-	
 	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
-	
-	//App->scene->App->scene->gameCameraComponent->framebuffer.Load();
 
 	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
 
@@ -248,10 +247,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->editorCamera->GetViewMatrix().ptr());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
+	gl_lights[0].SetPos(App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
 
-	for (uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
+	for (uint i = 0; i < MAX_GL_LIGHTS; ++i) 
+	{
+		gl_lights[i].Render();
+	}
 
 	App->editor->AddFPS(App->GetFPS());
 	App->editor->AddDT(App->GetDT());
@@ -265,6 +266,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	// Clear color buffer and depth buffer before each PostUpdate call
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	// Your rendering code here
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
@@ -273,12 +278,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	App->camera->editorCamera->framebuffer.Render(true);
 
-	App->camera->editorCamera->Update();
-
 	// Render Grid
 
-	if (showGrid) {
+	App->camera->editorCamera->Update();
 
+	if (showGrid) {
+		
 		Grid.Render();
 
 	}
@@ -293,25 +298,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		DrawGameObjects();
-
-		//listUI.clear(); // Cutre, I know
-		// Get UI elements to draw
-		//GetUIGOs(App->scene->mRootNode, listUI);
-
-		//for (auto i = 0; i < listUI.size(); i++)
-		//{
-		//	if (listUI[i]->mOwner->active && listUI[i]->active)
-		//	{
-		//		listUI[i]->Draw(false);
-		//	}
-		//}
-
-		DrawUIElements(false);
-
 		// Render Bounding Boxes
 
-		if (External->scene->gameCameraComponent->drawBoundingBoxes) 
+		if (External->scene->gameCameraComponent->drawBoundingBoxes)
 		{
 			DrawBoundingBoxes();
 		}
@@ -322,6 +311,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		{
 			DrawPhysicsColliders();
 		}
+
+		DrawGameObjects();
+
+		DrawLightsDebug();
+
+		DrawUIElements(false);
 
 	}
 
@@ -338,33 +333,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (App->scene->gameCameraObject->active) {
 
 			DrawGameObjects();
-
-			//if (External->scene->gameCameraComponent->drawBoundingBoxes) {
-
-			//	DrawBoundingBoxes();
-
-			//}
-
-			// TODO: preguntar porque el out of range este raro
-			//if (!listUI.empty())
-			//{
-			//	for (auto i = listUI.size() - 1; i >= 0; i--)
-			//	{
-			//		if (listUI[i]->mOwner->active && listUI[i]->active)
-			//		{
-			//			listUI[i]->Draw(true);
-			//		}
-
-			//		if (i == 0) { break; }
-			//	}
-			//}
-
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
-
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
 
 			DrawUIElements(true);
 
@@ -390,14 +358,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
-
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-
 			DrawUIElements(true);
+
 		}
 
 		App->scene->gameCameraComponent->framebuffer.Render(false);
@@ -420,10 +382,8 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
-	App->scene->gameCameraComponent->framebuffer.Delete();
 
 	// Detach Assimp Log Stream
 	CleanUpAssimpDebugger();
@@ -715,6 +675,13 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 
 void ModuleRenderer3D::DrawUIElements(bool isGame)
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
@@ -792,6 +759,27 @@ void ModuleRenderer3D::DrawUIElements(bool isGame)
 
 }
 
+void ModuleRenderer3D::DrawLightsDebug()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	if (App->lightManager->IsLightDebugEnabled()) {
+
+		for (auto& it = App->lightManager->lights.begin(); it != App->lightManager->lights.end(); ++it) {
+
+			if ((*it)->debug && (*it)->lightGO->active && (*it)->lightGO->GetComponent(ComponentType::LIGHT)->active) {
+
+				(*it)->Render();
+
+			}	
+
+		}
+
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
@@ -803,7 +791,6 @@ void ModuleRenderer3D::DrawGameObjects()
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
 

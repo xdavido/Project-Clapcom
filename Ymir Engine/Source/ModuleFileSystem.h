@@ -29,7 +29,7 @@ public:
 	void CreateLibraryFolder();
 
 	// Save
-	bool SaveMeshToFile(Mesh* ourMesh, const std::string& filename);
+	bool SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename);
 	bool SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename);
 	bool SaveAnimationToFile(Animation* animation, const std::string& filename);
 
@@ -53,5 +53,7 @@ public:
 	std::string libraryAnimationsPath; 
 
 	JsonFile outputFile;
+
+	bool regenerateLibrary;
 
 };

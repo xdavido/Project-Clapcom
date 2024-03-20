@@ -14,6 +14,8 @@
 
 struct Character
 {
+	// Rework this to have material, able to use the shader
+
 	GLuint textureID;
 	float2  size;
 	float2  bearing;

@@ -41,7 +41,7 @@ public:
 
     virtual ~Model();
 
-    void LoadModel(const std::string& path, const std::string& shaderPath);
+    void LoadModel(const std::string& path, const std::string& shaderPath = SHADER_VS_FS);
     void DrawModel();
 
     std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }
@@ -50,7 +50,7 @@ public:
 private:
 
     void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration);
-    Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath);
+    void ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath);
 
     void GenerateModelMetaFile();
     void GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale);
@@ -59,7 +59,6 @@ private:
     void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
 
     void ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
-    
 
 public:
 

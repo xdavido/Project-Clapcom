@@ -484,7 +484,7 @@ void ModuleAudio::UpdateWwiseListener()
 	}
 	else
 	{
-		LOG("[WARNING]There is no audio listener component active. Sounds won't be heard");
+		LOG("[WARNING] There is no audio listener component active. Sounds won't be heard");
 	}
 
 	// Set one listener as the default.

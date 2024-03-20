@@ -19,13 +19,11 @@ CAudioSource::CAudioSource(GameObject* owner) : Component(owner, ComponentType::
 	External->audio->RegisterNewAudioObject(id);
 	External->audio->AddAudioSource(this);
 
-	External->audio->LoadBank(std::string("Music"));
+	//External->audio->LoadBank(std::string("Music"));
+	//External->audio->PlayEvent(this->id, std::string("Music"));
 
-#ifdef _STANDALONE
 
-	External->audio->PlayEvent(this->id, std::string("Music"));
-
-#endif // STANDALONE
+	evID = 0;
 }
 
 CAudioSource::~CAudioSource()
@@ -50,92 +48,105 @@ CAudioSource::~CAudioSource()
 #ifndef STANDALONE
 void CAudioSource::OnInspector()
 {
-	ImGui::Separator();
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader(("Audio Source##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
-		std::vector<AudioBank*>::const_iterator it;
-		for (it = External->audio->banks.begin(); it != External->audio->banks.end(); ++it)
+		if (!active) { ImGui::BeginDisabled(); }
+
+		if (ImGui::BeginCombo("Audio Bank", audBankName.c_str()))
 		{
-			bool isSelected = (audBankName == (*it)->bank_name);
-			if (ImGui::Selectable((*it)->bank_name.c_str()))
+			std::vector<AudioBank*>::const_iterator it;
+			for (it = External->audio->banks.begin(); it != External->audio->banks.end(); ++it)
 			{
-				audBankReference = (*it);
-				audBankName = (*it)->bank_name;
-				if (!(*it)->loaded_in_heap)
+				bool isSelected = (audBankName == (*it)->bank_name);
+				if (ImGui::Selectable((*it)->bank_name.c_str()))
 				{
-					(*it)->loaded_in_heap = External->audio->LoadBank(audBankReference->bank_name);
+					audBankReference = (*it);
+					audBankName = (*it)->bank_name;
+					if (!(*it)->loaded_in_heap)
+					{
+						(*it)->loaded_in_heap = External->audio->LoadBank(audBankReference->bank_name);
+					}
 				}
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
 			}
-			if (isSelected)
-				ImGui::SetItemDefaultFocus();
+			ImGui::EndCombo();
 		}
-		ImGui::EndCombo();
-	}
 
-	
-	if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
-	{
-		std::map<uint64, std::string>::const_iterator ev_it;
-		for (ev_it = audBankReference->actions.begin(); ev_it != audBankReference->actions.end(); ++ev_it)
+		if (audBankReference != nullptr && ImGui::BeginCombo("Audio to Play", evName.c_str()))
 		{
-			bool isSelected = (evName == (*ev_it).second);
-			if (ImGui::Selectable((*ev_it).second.c_str()))
+			std::map<uint64, std::string>::const_iterator ev_it;
+			for (ev_it = audBankReference->actions.begin(); ev_it != audBankReference->actions.end(); ++ev_it)
 			{
-				evName = (*ev_it).second;
+				bool isSelected = (evName == (*ev_it).second);
+				if (ImGui::Selectable((*ev_it).second.c_str()))
+				{
+					evName = (*ev_it).second;
+					evID = (*ev_it).first;
+				}
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
 			}
-			if (isSelected)
-				ImGui::SetItemDefaultFocus();
+			ImGui::EndCombo();
 		}
-		ImGui::EndCombo();
-	}
 
-	if (ImGui::Button("Play"))
-	{
-		PlayEvent();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Stop"))
-	{
-		StopEvent(evName);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Stop All"))
-	{
-		StopEvent();
-	}
-
-	ImGui::Checkbox("Play on Awake", &playOnAwake);
-
-	if (ImGui::Checkbox("Music", &isMusic)) {
-		if (isMusic) {
-			External->audio->musicSource.push_back(this);
+		if (ImGui::Button("Play"))
+		{
+			PlayEvent();
 		}
-		else {
-			for (std::vector<CAudioSource*>::iterator it = External->audio->musicSource.begin(); it != External->audio->musicSource.end(); ++it) {
-				if ((*it) == this) {
-					External->audio->musicSource.erase(it);
-					break;
+		ImGui::SameLine();
+		if (ImGui::Button("Stop"))
+		{
+			StopEvent(evName);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Stop All"))
+		{
+			StopEvent();
+		}
+
+		ImGui::Checkbox("Play on Awake", &playOnAwake);
+
+		if (ImGui::Checkbox("Music", &isMusic)) {
+			if (isMusic) {
+				External->audio->musicSource.push_back(this);
+			}
+			else {
+				for (std::vector<CAudioSource*>::iterator it = External->audio->musicSource.begin(); it != External->audio->musicSource.end(); ++it) {
+					if ((*it) == this) {
+						External->audio->musicSource.erase(it);
+						break;
+					}
 				}
 			}
 		}
+
+		if (ImGui::SliderFloat("Volume", &volume, 0.0f, 99.99f))
+		{
+			SetVolume(volume);
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Mute", &isMuted))
+		{
+			SetMuted(isMuted);
+		}
+
+		if (ImGui::SliderFloat("Pitch", &pitch, 0.0f, 100.0f))
+		{
+			SetPitch(pitch);
+		}
+
+		if (!active) { ImGui::EndDisabled(); }
 	}
 
-	if (ImGui::SliderFloat("Volume", &volume, 0.0f, 99.99f))
-	{
-		SetVolume(volume);
-	}
-	ImGui::SameLine();
-	if (ImGui::Checkbox("Mute", &isMuted))
-	{
-		SetMuted(isMuted);
-	}
-
-	if (ImGui::SliderFloat("Pitch", &pitch, 0.0f, 100.0f))
-	{
-		SetPitch(pitch);
-	}
-
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 #endif // !STANDALONE
 
@@ -144,14 +155,14 @@ void CAudioSource::Update()
 	float3 pos = gameObjectTransform->mGlobalMatrix.TranslatePart();
 	External->audio->SetAudioObjTransform(this->id, pos, gameObjectTransform->GetForward(), gameObjectTransform->GetUp());
 
-	if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-	{
-		External->audio->PlayEvent(this->id, std::string("Music"));
-	}
-	if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-	{
-		External->audio->StopEvent(this->id, std::string("Music"));
-	}
+	//if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	//{
+	//	External->audio->PlayEvent(this->id, std::string("Music"));
+	//}
+	//if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	//{
+	//	External->audio->StopEvent(this->id, std::string("Music"));
+	//}
 }
 
 //void CAudioSource::SaveData(JSON_Object* nObj)
