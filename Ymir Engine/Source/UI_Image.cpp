@@ -402,8 +402,8 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 
 void UI_Image::SetNativeSize()
 {
-	width = mat->rTextures[0]->GetWidth();
-	height = mat->rTextures[0]->GetHeight();
+	width = selectedTexture->GetWidth();
+	height = selectedTexture->GetHeight();
 
 	dirty_ = true;
 }
