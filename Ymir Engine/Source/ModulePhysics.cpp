@@ -108,7 +108,7 @@ update_status ModulePhysics::Update(float dt)
 					CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
 
 					if (aux != nullptr) {
-						aux->CollisionCallback(false, pbodyA->owner);
+						aux->CollisionCallback(false, pbodyB->owner);
 					}
 				}
 
@@ -118,7 +118,7 @@ update_status ModulePhysics::Update(float dt)
 					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
 					if (aux != nullptr) {
-						aux->CollisionCallback(false, pbodyB->owner);
+						aux->CollisionCallback(false, pbodyA->owner);
 					}
 				}
 				

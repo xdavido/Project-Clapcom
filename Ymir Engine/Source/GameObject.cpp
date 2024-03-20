@@ -362,9 +362,7 @@ void GameObject::CollectChilds(std::vector<GameObject*>& vector)
 
 void GameObject::DestroyGameObject()
 {
-
 	pendingToDelete = true;
-
 }
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
