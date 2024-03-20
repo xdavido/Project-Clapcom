@@ -6,6 +6,7 @@
 #include "PhysfsEncapsule.h"
 #include "ImporterMesh.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -144,6 +145,29 @@ bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename
 	delete[] fileBuffer;
 
 	return true;
+}
+
+bool ModuleFileSystem::SaveAnimationToFile(Animation* anim, const std::string& filename) {
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
+
+	std::ofstream outFile(filename, std::ios::binary);
+
+	if (!outFile.is_open()) {
+
+		LOG("[ERROR] Unable to open the file for writing: %s", filename);
+
+		return false;
+	}
+
+	// Write the buffer to the file
+	outFile.write(fileBuffer, bufferSize);
+
+	// Close the file
+	outFile.close();
+
+	// Free the allocated memory for the buffer
+	delete[] fileBuffer;
 }
 
 bool ModuleFileSystem::SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename)
