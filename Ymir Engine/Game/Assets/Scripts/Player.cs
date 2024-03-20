@@ -6,22 +6,61 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using YmirEngine;
-enum States
-{
-    IDLE,
-    RUNNING,
-    SHOOT,
-    HIT,
-    DEAD,
-
-    All_TYPES
-};
 
 public class Player : YmirComponent
 {
+    enum STATE : int
+    {
+        NONE = -1,
+
+        IDLE,
+        MOVE,
+        DASH,
+        SHOOTING,
+        SHOOT,
+        DEAD,
+
+        All_TYPES
+    }
+    enum INPUT : int
+    {
+        I_IDLE,
+        I_MOVE,
+        I_DASH,
+        I_DASH_END,
+        I_SHOOTING,
+        I_SHOOTING_END,
+        I_SHOOT,
+        I_SHOOT_END,
+        I_DEAD
+    }
+
+    //--------------------- State ---------------------\\
+    private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
+    private List<INPUT> inputsList = new List<INPUT>();
+
+    //--------------------- Movement ---------------------\\
+    //public float rotationSpeed = 2.0f;
+    public float movementSpeed = 35.0f;
+    private double angle = 0.0f;
+    private int deathZone = 15000;
+
+    //--------------------- Dash ---------------------\\
+    public float dashforce = 1000f;
+    private float dashTimer = 0.0f;
+
+    //--------------------- Controller var ---------------------\\
     float x = 0;
     float y = 0;
     Vector3 gamepadInput;
+
+    //--------------------- Shoot var ---------------------\\
+    public float fireRate = 0.2f;
+    private float shootingTimer = 0.0f;
+    public float secondaryRate = 0.2f;
+
+
+    //Old Things
 
     //public float movementSpeed = 5f;
 
@@ -29,28 +68,28 @@ public class Player : YmirComponent
 
     //private int Hp;
 
-    private States actualState;
-
-    private Vector3 aimVector = Vector3.forward;
-
-    //Susu goes Brrr
-    // Movement
-    public float rotationSpeed = 2.0f;
-    public float movementSpeed = 35.0f;
-    public float mouseSens = 1.0f;
-    private double angle = 0.0f;
-    //private int deathZone = 15000;
-
-
     public void Start()
     {
         Debug.Log("START!");
-        actualState = States.IDLE;
+        currentState = STATE.IDLE;
         //Hp = 100;
     }
 
     public void Update()
     {
+        // New Things WIP
+        //ProcessInternalInput();
+        //ProcessExternalInput();
+        //ProcessState();
+
+        //UpdateState();
+
+
+
+
+
+
+        //Old things
         UpdateControllerInputs();
 
         //HandleStates();
@@ -66,6 +105,208 @@ public class Player : YmirComponent
         //Debug.Log(gameObject.transform.GetRight());
     }
 
+    private void ProcessInternalInput()
+    {
+        if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+
+            if (dashTimer <= 0)
+                inputsList.Add(INPUT.I_DASH_END);
+        }
+
+        if (shootingTimer > 0)
+        {
+            shootingTimer -= Time.deltaTime;
+
+            if (shootingTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_SHOOT);
+                Debug.Log("In shoot");
+            }
+        }
+    }
+    private void ProcessExternalInput()
+    {
+        //----------------- Joystic -----------------\\
+        if (JoystickMoving() == true)
+        {
+            inputsList.Add(INPUT.I_MOVE);
+        }
+        else if (currentState == STATE.MOVE && JoystickMoving() == false)
+        {
+            inputsList.Add(INPUT.I_IDLE);
+        }
+
+        //----------------- Shoot -----------------\\
+        if (Input.GetGamepadRightTrigger() > 0)
+        {
+            inputsList.Add(INPUT.I_SHOOTING);
+        }
+        else
+        {
+            inputsList.Add(INPUT.I_SHOOTING_END);
+        }
+
+        //----------------- Dash -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        {
+            inputsList.Add(INPUT.I_DASH);
+        }
+    }
+    private void ProcessState()
+    {
+        //while (inputsList.Count > 0)
+        //{
+        //    INPUT input = inputsList[0];
+
+        //    switch (currentState)
+        //    {
+        //        case STATE.NONE:
+        //            Debug.Log("ERROR STATE");
+        //            break;
+
+        //        case STATE.IDLE:
+        //            switch (input)
+        //            {
+        //                case INPUT.I_MOVE:
+        //                    currentState = STATE.MOVE;
+        //                    HandleMovement();
+        //                    break;
+
+        //                case INPUT.I_DASH:
+        //                    currentState = STATE.DASH;
+        //                    Dash();
+        //                    break;
+
+        //                case INPUT.I_SHOOTING:
+        //                    currentState = STATE.SHOOTING;
+        //                    Shoot();
+        //                    break;
+
+        //                case INPUT.I_DEAD:
+        //                    break;
+        //            }
+        //            break;
+
+
+        //        case STATE.MOVE:
+        //            switch (input)
+        //            {
+        //                case INPUT.I_IDLE:
+        //                    currentState = STATE.IDLE;
+        //                    StartIdle();
+        //                    break;
+
+        //                case INPUT.I_DASH:
+        //                    currentState = STATE.DASH;
+        //                    Dash();
+        //                    break;
+
+        //                case INPUT.I_SHOOTING:
+        //                    currentState = STATE.SHOOTING;
+        //                    Shoot();
+        //                    break;
+
+        //                case INPUT.I_DEAD:
+        //                    break;
+        //            }
+        //            break;
+
+
+        //        case STATE.DASH:
+        //            switch (input)
+        //            {
+        //                case INPUT.I_DASH_END:
+        //                    currentState = STATE.IDLE;
+        //                    EndDash();
+        //                    break;
+
+        //                case INPUT.I_DEAD:
+        //                    break;
+        //            }
+        //            break;
+
+
+        //        case STATE.SHOOTING:
+        //            switch (input)
+        //            {
+        //                case INPUT.I_DASH:
+        //                    currentState = STATE.DASH;
+        //                    StartDash();
+        //                    break;
+
+        //                case INPUT.I_SHOOTING_END:
+        //                    currentState = STATE.IDLE;
+        //                    EndShooting();
+        //                    StartIdle();
+        //                    break;
+
+        //                case INPUT.I_SHOOT:
+        //                    currentState = STATE.SHOOT;
+        //                    Shoot();
+        //                    break;
+
+        //                case INPUT.I_DEAD:
+        //                    break;
+        //            }
+        //            break;
+
+        //        case STATE.SHOOT:
+        //            switch (input)
+        //            {
+        //                case INPUT.IN_SHOOT_END:
+        //                    currentState = STATE.SHOOTING;
+        //                    StartShooting();
+        //                    break;
+
+        //                case INPUT.IN_DEAD:
+        //                    break;
+        //            }
+        //            break;
+
+        //        case STATE.SECONDARY_SHOOT:
+        //            break;
+
+        //        default:
+        //            Debug.Log("NEED TO ADD STATE TO CORE SWITCH");
+        //            break;
+        //    }
+        //    inputsList.RemoveAt(0);
+        //}
+    }
+    private void UpdateState()
+    {
+        //switch (currentState)
+        //{
+        //    case STATE.NONE:
+        //        break;
+        //    case STATE.IDLE:
+        //        break;
+        //    case STATE.MOVE:
+        //        HandleMovement();
+        //        break;
+        //    case STATE.DASH:
+        //        UpdateDash();
+        //        break;
+        //    case STATE.SHOOTING:
+        //        UpdateShooting();
+        //        break;
+        //    case STATE.SHOOT:
+        //        break;
+        //    case STATE.SECONDARY_SHOOT:
+        //        break;
+        //    case STATE.DEAD:
+        //        break;
+        //    default:
+        //        Debug.Log("No State? :(");
+        //        break;
+        //}
+    }
+    private void Dash()
+    {
+
+    }
     private void UpdateControllerInputs()
     {
          x = Input.GetLeftAxisX();
@@ -74,6 +315,11 @@ public class Player : YmirComponent
         gamepadInput = new Vector3(x, -y, 0f);
 
         Debug.Log("sdsad"+x);
+    }
+
+    private bool JoystickMoving()
+    {
+        return gamepadInput.magnitude > 0;
     }
 
     public void OnCollisionEnter()
@@ -86,39 +332,39 @@ public class Player : YmirComponent
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
 
-        switch (actualState)
-        {
-            case States.IDLE:
+        //switch (actualState)
+        //{
+        //    case States.IDLE:
 
-                //Play Idle animation
+        //        //Play Idle animation
 
-                if (x > 0 || y > 0)
-                {
-                    actualState = States.RUNNING;
-                }
+        //        if (x > 0 || y > 0)
+        //        {
+        //            actualState = States.RUNNING;
+        //        }
 
-                if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
-                {
-                    actualState = States.SHOOT;
-                }
+        //        if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
+        //        {
+        //            actualState = States.SHOOT;
+        //        }
 
-                    break;
+        //            break;
 
-            case States.RUNNING:
+        //    case States.RUNNING:
 
-                //Play Run animation
+        //        //Play Run animation
 
-                HandleMovement();
+        //        HandleMovement();
 
-                break;
-            case States.SHOOT:
+        //        break;
+        //    case States.SHOOT:
 
-                //Play Shoot animation
+        //        //Play Shoot animation
 
-                Shoot();
+        //        Shoot();
 
-                break;
-        }
+        //        break;
+        //}
     }
 
     void HandleMovement()
