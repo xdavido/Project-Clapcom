@@ -36,7 +36,7 @@ namespace YmirEngine
         public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject SliderEdit(object go, string name, string findGo, int x, int y);
+        public static extern GameObject SliderEdit(object go, double value);
 
     }
 

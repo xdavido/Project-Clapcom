@@ -3,24 +3,29 @@
 #include "Globals.h"
 #include "Application.h"
 
-#include"GameObject.h"
-#include"ResourceMesh.h"
+#include "GameObject.h"
+#include "ResourceMesh.h"
 
-#include"CMesh.h"
-#include"CScript.h"
-#include"CTransform.h"
+#include "CMesh.h"
+#include "CScript.h"
+#include "CTransform.h"
 
-#include"ModuleInput.h"
-#include"ModuleScene.h"
-#include"ModuleResourceManager.h" 
-#include "ModuleMonoManager.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "ModuleResourceManager.h" 
+#include "ModuleMonoManager.h"
 #include "Resources.h"
-#include "G_UI.h"
 #include "PhysfsEncapsule.h"
 
-#include"GameObject.h"
-#include"MathGeoLib/include/Math/float3.h"
+#include "G_UI.h"
+#include "UI_Image.h"
+#include "UI_Text.h"
+#include "UI_Button.h"
+#include "UI_InputBox.h"
+#include "UI_CheckBox.h"
+#include "UI_Slider.h"
+
+#include "MathGeoLib/include/Math/float3.h"
 
 template<typename T>
 T CS_CompToComp(MonoObject* obj)
@@ -526,8 +531,9 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 	}
 }
 
-void SliderEdit(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
+void SliderEdit(MonoObject* object, double value)
 {
-
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->SetValue(value);
 }
 #pragma endregion

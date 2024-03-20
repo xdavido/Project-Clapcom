@@ -50,6 +50,8 @@ public class Core : YmirComponent
     public GameObject shootPoint = null;
     public GameObject referenceUI = null;
 
+    public GameObject slider = null;
+
     public float mouseSens = 5.0f;
 
     public bool testBool = true;
@@ -57,6 +59,11 @@ public class Core : YmirComponent
     public bool start = true;
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
+
+    public void Start()
+    {
+        slider = InternalCalls.GetGameObjectByName("Slider");
+    }
 
     public void Update(/*int x*/)
     {
@@ -145,6 +152,11 @@ public class Core : YmirComponent
         if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
         {
             InternalCalls.Destroy(referenceUI);
+        } 
+        
+        if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
+        {
+            UI.SliderEdit(slider, 7);
         }
 
         float x = Input.GetLeftAxisX();

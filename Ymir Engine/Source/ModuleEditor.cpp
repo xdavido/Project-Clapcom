@@ -440,6 +440,7 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::OpenPopup("New Script");
 
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f), ImGuiCond_Appearing);
 		if (ImGui::BeginPopupModal("New Script")) {
 
 			scriptEditor->ShowNewScriptDialogue();
@@ -3012,6 +3013,9 @@ void ModuleEditor::DrawInspector()
 						showNewScriptPopUp = true;
 
 					}
+
+					ImGui::Separator();
+
 					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
 
 						if (!entry.is_directory()) {
