@@ -1086,83 +1086,81 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	}
 	case ANIMATION:
 	{
-		/*// Save component animation
-		json_object_set_string(componentObject, "Type", "Animation");
 
-		CAnimation* cAnimation = (CAnimation*)&component;
+		//json_object_set_string(componentObject, "Type", "Animation");
 
-		json_object_set_number(componentObject, "Active", cAnimation->active);
+		//// Save component animation
+		//CAnimation* cAnimation = (CAnimation*)&component;
+		//
+		//json_object_set_number(componentObject, "Active", cAnimation->active);
 
+		//json_object_set_string(componentObject, "Type", "Animation");
+		//
+		//json_object_set_number(componentObject, "Selected animation", cAnimation->selectedAnimation);
 
-		json_object_set_number(componentObject, "Selected animation", cAnimation->selectedAnimation);
+		//json_object_set_string(componentObject, "ModelPath", cAnimation->modelPath.c_str());
+		//
+		//// Save animator 
+		//JSON_Value* animatorValue = json_value_init_object();
+		//JSON_Object* animatorObject = json_value_get_object(animatorValue);
 
-		json_object_set_string(componentObject, "ModelPath", cAnimation->modelPath.c_str());
-		
-		// Save animator 
-		JSON_Value* animatorValue = json_value_init_object();
-		JSON_Object* animatorObject = json_value_get_object(animatorValue);
-
-		json_object_set_number(animatorObject, "Current animation time", cAnimation->animator->GetCurrentAnimationTime());
-
-		json_object_set_value(componentObject, "Animator", animatorValue);
+		//json_object_set_value(componentObject, "Animator", animatorValue);
 
 		
 		// When animation is saved, save the list of animations
 
-		// Save animation
-		JSON_Value* animationValue = json_value_init_object();
-		JSON_Object* animationObject = json_value_get_object(animationValue);
+		//// Save animation
+		//JSON_Value* animationValue = json_value_init_object();
+		//JSON_Object* animationObject = json_value_get_object(animationValue);
 
-		json_object_set_string(animationObject, "Name", cAnimation->animator->GetCurrentAnimation()->name.c_str());
+		//json_object_set_string(animationObject, "Name", cAnimation->animator->GetCurrentAnimation()->name.c_str());
 
-		json_object_set_boolean(animationObject, "IsPlaying", cAnimation->animator->GetCurrentAnimation()->isPlaying);
+		//json_object_set_boolean(animationObject, "IsPlaying", cAnimation->animator->GetCurrentAnimation()->isPlaying);
 
-		json_object_set_boolean(animationObject, "Loop", cAnimation->animator->GetCurrentAnimation()->loop);
-		json_object_set_boolean(animationObject, "PingPong", cAnimation->animator->GetCurrentAnimation()->pingPong);
-		json_object_set_boolean(animationObject, "Backwards", cAnimation->animator->GetCurrentAnimation()->backwards);
-		json_object_set_boolean(animationObject, "EaseIn", cAnimation->animator->GetCurrentAnimation()->easeIn);
-		json_object_set_boolean(animationObject, "EaseOut", cAnimation->animator->GetCurrentAnimation()->easeOut);
-		json_object_set_number(animationObject, "Speed", cAnimation->animator->GetCurrentAnimation()->speed);
+		//json_object_set_boolean(animationObject, "Loop", cAnimation->animator->GetCurrentAnimation()->loop);
+		//json_object_set_boolean(animationObject, "PingPong", cAnimation->animator->GetCurrentAnimation()->pingPong);
+		//json_object_set_boolean(animationObject, "Backwards", cAnimation->animator->GetCurrentAnimation()->backwards);
+		//json_object_set_boolean(animationObject, "EaseIn", cAnimation->animator->GetCurrentAnimation()->easeIn);
+		//json_object_set_boolean(animationObject, "EaseOut", cAnimation->animator->GetCurrentAnimation()->easeOut);
+		//json_object_set_number(animationObject, "Speed", cAnimation->animator->GetCurrentAnimation()->speed);
 
-		json_object_set_number(animationObject, "Duration", cAnimation->animator->GetCurrentAnimation()->GetDuration());
-		json_object_set_number(animationObject, "TicksPerSecond", cAnimation->animator->GetCurrentAnimation()->GetTickPerSecond());
+		//json_object_set_number(animationObject, "Duration", cAnimation->animator->GetCurrentAnimation()->GetDuration());
+		//json_object_set_number(animationObject, "TicksPerSecond", cAnimation->animator->GetCurrentAnimation()->GetTickPerSecond());
 
-		// Bone info
-		JSON_Value* boneInfoMapValue = json_value_init_object();
-		JSON_Object* boneInfoMapObject = json_value_get_object(boneInfoMapValue);
+		//// Bone info
+		//JSON_Value* boneInfoMapValue = json_value_init_object();
+		//JSON_Object* boneInfoMapObject = json_value_get_object(boneInfoMapValue);
 
-		for (const auto& pair : cAnimation->animator->GetCurrentAnimation()->GetBoneIDMap()) {
-			const std::string& boneName = pair.first; 
-			const BoneInfo& boneInfo = pair.second;
+		//for (const auto& pair : cAnimation->animator->GetCurrentAnimation()->GetBoneIDMap()) {
+		//	const std::string& boneName = pair.first; 
+		//	const BoneInfo& boneInfo = pair.second;
 
-			JSON_Value* boneInfoValue = json_value_init_object();
-			JSON_Object* boneInfoObject = json_value_get_object(boneInfoValue);
+		//	JSON_Value* boneInfoValue = json_value_init_object();
+		//	JSON_Object* boneInfoObject = json_value_get_object(boneInfoValue);
 
-			json_object_set_number(boneInfoObject, "id", boneInfo.id);
+		//	json_object_set_number(boneInfoObject, "id", boneInfo.id);
 
-			JSON_Value* offsetArrayValue = json_value_init_array();
-			JSON_Array* offsetArray = json_value_get_array(offsetArrayValue);
+		//	JSON_Value* offsetArrayValue = json_value_init_array();
+		//	JSON_Array* offsetArray = json_value_get_array(offsetArrayValue);
 
-			for (int i = 0; i < 4; i++) {
-				JSON_Value* rowArrayValue = json_value_init_array();
-				JSON_Array* rowArray = json_value_get_array(rowArrayValue);
-				for (int j = 0; j < 4; j++) {
-					json_array_append_number(rowArray, boneInfo.offset[i][j]);
-				}
-				json_array_append_value(offsetArray, rowArrayValue);
-			}
-			json_object_set_value(boneInfoObject, "offset", offsetArrayValue);
+		//	for (int i = 0; i < 4; i++) {
+		//		JSON_Value* rowArrayValue = json_value_init_array();
+		//		JSON_Array* rowArray = json_value_get_array(rowArrayValue);
+		//		for (int j = 0; j < 4; j++) {
+		//			json_array_append_number(rowArray, boneInfo.offset[i][j]);
+		//		}
+		//		json_array_append_value(offsetArray, rowArrayValue);
+		//	}
+		//	json_object_set_value(boneInfoObject, "offset", offsetArrayValue);
 
-			json_object_set_value(boneInfoMapObject, boneName.c_str(), boneInfoValue);
+		//	json_object_set_value(boneInfoMapObject, boneName.c_str(), boneInfoValue);
 
-		}
+		//}
 
-		json_object_set_value(animationObject, "BoneInfoMap", boneInfoMapValue);
+		//json_object_set_value(animationObject, "BoneInfoMap", boneInfoMapValue);
 
-		json_object_set_value(animatorObject, "Animation", animationValue);
+		//json_object_set_value(animatorObject, "Animation", animationValue);
 
-		break;*/
-		json_object_set_string(componentObject, "Type", "Animation");
 		break;
 	}
 	case PHYSICS:
