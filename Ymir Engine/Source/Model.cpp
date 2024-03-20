@@ -472,7 +472,7 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 			uint bufferSize = 0;
 			char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
 
-			JsonFile yanimFile(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", std::to_string(linkGO->UID) + ".yanim");
+			JsonFile yanimFile(External->fileSystem->libraryAnimationsPath, std::to_string(linkGO->UID) + ".yanim");
 			std::ofstream outFile(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim" , std::ios::binary);
 
 			if (!outFile.is_open()) {
