@@ -327,7 +327,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawLightsDebug();
 
-		DrawUIElements(false);
+		DrawUIElements(false,false);
 
 	}
 
@@ -378,7 +378,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
 
-			DrawUIElements(true);
+			DrawUIElements(true,false);
 
 		}
 

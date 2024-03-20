@@ -532,7 +532,7 @@ void HideImageUI(MonoString* imageToCHide)
 	{
 		if ((*it)->name == _findbyname)
 		{
-			(*it)->active = false;
+			(*it)->DestroyGameObject();
 		}
 	}
 

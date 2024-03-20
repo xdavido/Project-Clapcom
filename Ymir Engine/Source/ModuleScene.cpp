@@ -95,7 +95,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	OPTICK_EVENT();
 
 	/*Destroy gameobjects inside the destroy queue*/
-	if (destroyList.empty())
+	if (destroyList.size() > 0)
 	{
 		for (size_t i = 0; i < destroyList.size(); ++i)
 		{
