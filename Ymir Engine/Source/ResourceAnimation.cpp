@@ -9,6 +9,7 @@
 ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANIMATION) {
 	
 	name = "";
+
 	isPlaying = false;
 	loop = false;
 	pingPong = false;
@@ -16,6 +17,10 @@ ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANI
 	easeIn = false;
 	easeOut = false;
 	speed = 1;
+
+	currentTime = 0.0f;
+	intensity = 1.0f;
+
 	backwardsAux = true;
 	pingPongAux = true;
 	pingPongBackwardsAux = true;
@@ -45,6 +50,7 @@ Bone* ResourceAnimation::FindBone(std::string& name)
 		[&](Bone& bone) {
 			return bone.GetName() == name;
 		});
+
 	if (iter == bones.end()) {
 		return nullptr;
 	}

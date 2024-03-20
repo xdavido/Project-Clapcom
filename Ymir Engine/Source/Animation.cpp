@@ -48,6 +48,7 @@ Bone* Animation::FindBone(std::string& name)
 	// iterator 
 	std::_Vector_iterator iter = std::find_if(bones.begin(), bones.end(),
 		[&](Bone& bone) {
+			
 			return bone.GetName() == name;
 		});
 	if(iter == bones.end()){

@@ -264,7 +264,7 @@ void ImporterAnimation::SaveAssimpNode(const AssimpNodeData& node, char*& cursor
 	cursor += sizeof(float4x4);
 
 	// Save name
-	uint nameSize = node.name.size() + 1;
+	uint nameSize = node.name.size();
 	memcpy(cursor, &nameSize, sizeof(uint));
 	cursor += sizeof(uint);
 	memcpy(cursor, node.name.c_str(), nameSize);
