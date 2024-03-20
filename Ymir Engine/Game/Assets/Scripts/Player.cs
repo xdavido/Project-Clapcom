@@ -51,7 +51,7 @@ public class Player : YmirComponent
 
     public void Update()
     {
-        UpdateControllerInputs();
+        UpdateControllerInputs(); 
 
         //HandleStates();
 
@@ -61,6 +61,7 @@ public class Player : YmirComponent
         }
         else
         {
+            Debug.Log("Stopped");
             StopPlayer();
         }
         //Debug.Log(gameObject.transform.GetRight());
@@ -73,7 +74,7 @@ public class Player : YmirComponent
 
         gamepadInput = new Vector3(x, -y, 0f);
 
-        Debug.Log("sdsad"+x);
+        //Debug.Log("sdsad" + x);
     }
 
     public void OnCollisionEnter()
@@ -165,9 +166,9 @@ public class Player : YmirComponent
         //}
 
 
-
+            
         HandleRotation();
-        //Debug.Log("Vel:"+gameObject.GetForward() * movementSpeed);
+        Debug.Log("Vel:"+ gameObject.transform.GetForward() * movementSpeed);
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
 
@@ -175,7 +176,7 @@ public class Player : YmirComponent
     private void StopPlayer()
     {
         //Debug.Log("Stoping");
-        gameObject.SetVelocity(new Vector3(0, 0, 0));
+       
     }
 
     private void HandleRotation()
