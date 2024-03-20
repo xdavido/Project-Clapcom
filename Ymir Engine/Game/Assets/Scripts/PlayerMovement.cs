@@ -53,11 +53,11 @@ public class PlayerMovement : YmirComponent
             Debug.Log("Shoot!");
 
             //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-            //Se le añade un offset en Z para que no colisione el player con la bala
-            Vector3 pos = new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.globalPosition.z + 2);
-
+            Vector3 pos = new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.globalPosition.z);
+            pos += GetPlayerDirection();
+            Debug.Log("Spawn pos: " + pos);
             //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 rot = new Vector3(0, 10, 0);
+            Vector3 rot = new Vector3(0, 0, 0);
 
             //Tamaño de la bala
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
