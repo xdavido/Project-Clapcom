@@ -1506,7 +1506,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
 				// Create a new GameObject
-				GameObject* gameObject = new GameObject();
+				G_UI* gameObject = new G_UI();
 
 				// Call a function to extract individual GameObject properties
 				GetGameObject(gameObjects, gameObjectObject, *gameObject);
@@ -1533,7 +1533,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 	return gameObjects;
 }
 
-void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const
+void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const
 {
 	// Get Name
 
@@ -1602,7 +1602,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 }
 
-void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const {
+void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject) const {
 
 	// Get common properties
 	std::string type = json_object_get_string(componentObject, "Type");
@@ -1869,22 +1869,23 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 		case UI_TYPE::IMAGE:
 		{
-			UI_Image* ui_comp = new UI_Image(gameObject);
-			ui_comp->width = json_object_get_number(componentObject, "Width");
-			ui_comp->height = json_object_get_number(componentObject, "Height");
+			UI_Image* ui_comp = gameObject->AddImage(json_object_get_string(componentObject, "Path"));
 
-			// TODO: import img
-			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
+			//UI_Image* ui_comp = new UI_Image(gameObject);
+			//ui_comp->width = json_object_get_number(componentObject, "Width");
+			//ui_comp->height = json_object_get_number(componentObject, "Height");
 
-			ResourceTexture* rTexTemp = new ResourceTexture();
-			ImporterTexture::Import(ui_comp->mat->path, rTexTemp);
-			rTexTemp->type = TextureType::DIFFUSE;
-			rTexTemp->UID = Random::Generate();
-			ui_comp->mat->path = ui_comp->mat->path;
-			ui_comp->mat->rTextures.push_back(rTexTemp);
+			//// TODO: import img
+			//ui_comp->mat->path = json_object_get_string(componentObject, "Path");
+
+			//ResourceTexture* rTexTemp = new ResourceTexture();
+			//ImporterTexture::Import(ui_comp->mat->path, rTexTemp);
+			//rTexTemp->type = TextureType::DIFFUSE;
+			//rTexTemp->UID = Random::Generate();
+			//ui_comp->mat->path = ui_comp->mat->path;
+			//ui_comp->mat->rTextures.push_back(rTexTemp);
 
 			// Colors
-
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
 
 			if (jsonUIValue == nullptr || json_value_get_type(jsonUIValue) != JSONArray) {
@@ -1899,7 +1900,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.b = static_cast<float>(json_array_get_number(jsonUIArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
-			gameObject->AddComponent(ui_comp);
+			//gameObject->AddComponent(ui_comp);
 			comp = ui_comp;
 
 			break;
