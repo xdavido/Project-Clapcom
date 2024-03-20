@@ -156,7 +156,8 @@ public class Core : YmirComponent
         
         if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
         {
-            UI.TextEdit(slider, "slider, 7");
+            gameObject.SetActive(false);
+            //UI.TextEdit(slider, "slider, 7");
             //UI.SliderEdit(slider, 7);
         }
 

@@ -2820,7 +2820,11 @@ void ModuleEditor::DrawInspector()
 
 		if (App->scene->selectedGO->selected) {
 
-			ImGui::Checkbox("##Active", &App->scene->selectedGO->active);
+			if (ImGui::Checkbox("##Active", &App->scene->selectedGO->active))
+			{
+				App->scene->SetActiveState(App->scene->selectedGO, App->scene->selectedGO->active);
+			}
+
 			ImGui::SameLine();
 			char nameBuffer[256]; // You can adjust the buffer size as needed
 

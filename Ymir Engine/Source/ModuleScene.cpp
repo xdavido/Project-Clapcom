@@ -395,6 +395,19 @@ void ModuleScene::Destroy(GameObject* gm)
 	gm = nullptr;
 }
 
+void ModuleScene::SetActiveState(GameObject* go, bool isActive)
+{
+	for (auto i = 0; i < go->mChildren.size(); i++)
+	{
+		if (!go->mChildren.empty())
+		{
+			SetActiveState(go->mChildren[i], isActive);
+		}
+
+		go->mChildren[i]->active = isActive;
+	}
+}
+
 //
 std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 {

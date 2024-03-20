@@ -59,6 +59,12 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 
+#pragma region GameObject
+
+	mono_add_internal_call("YmirEngine.GameObject::SetActive", SetActive);
+	
+#pragma endregion
+
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando est� el CreateBullet()
 
 	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);

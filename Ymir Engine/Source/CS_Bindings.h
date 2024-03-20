@@ -42,8 +42,8 @@ T CS_CompToComp(MonoObject* obj)
 MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posici�n del objeto
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
-	
-		
+
+
 	if (External == nullptr)
 		return nullptr;
 
@@ -73,7 +73,7 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 	const char* name = mono_class_get_name(mono_object_get_class(obj));
 
-	Quat value	;
+	Quat value;
 	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj);
 
 	Quat qTmp = Quat::FromEulerXYZ(workGO->mTransform->rotation.x * DEGTORAD, workGO->mTransform->rotation.y * DEGTORAD, workGO->mTransform->rotation.z * DEGTORAD);
@@ -86,7 +86,7 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 #pragma region Internals
 //-------------------------------------------- Internals -----------------------------------------------//
-void CSLog(MonoString* x)	
+void CSLog(MonoString* x)
 {
 	if (x == NULL)
 		return;
@@ -187,12 +187,12 @@ GameObject* CS_Comp_To_GameObject(MonoObject* component)
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_object_get_class(component);
 
-		mono_field_get_value(component, mono_class_get_field_from_name(goClass, "pointer"), &ptr);
+	mono_field_get_value(component, mono_class_get_field_from_name(goClass, "pointer"), &ptr);
 
 	return reinterpret_cast<Component*>(ptr)->mOwner;
 }
 MonoObject* CS_Component_Get_GO(MonoObject* thisRef)
-{	
+{
 	return External->moduleMono->GoToCSGO(CS_Comp_To_GameObject(thisRef));
 }
 MonoString* Get_GO_Name(MonoObject* go)
@@ -235,19 +235,19 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
-	if (External == nullptr)				
+	if (External == nullptr)
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
 	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
 	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
-	  
+
 	if (rigidbody)
 	{
 		rigidbody->physBody->body->applyCentralImpulse({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
 
 	}
-	 
+
 }
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
@@ -300,7 +300,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	if (workTrans)
 	{
 		workTrans->SetPosition(omgItWorks);
-	
+
 	}
 }
 
@@ -369,6 +369,16 @@ void RecieveScale(MonoObject* obj, MonoObject* secObj)
 	}
 }
 
+void SetActive(MonoObject* obj, bool active)
+{
+	if (External == nullptr)
+		return;
+
+	GameObject* go = External->moduleMono->GameObject_From_CSGO(obj);
+	go->active = active;
+	External->scene->SetActiveState(go, active);
+}
+
 void Destroy(MonoObject* go)
 {
 	if (go == NULL)
@@ -393,7 +403,7 @@ float GetDT()
 	return External->GetDT();
 }
 
-void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) 
+void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 {
 	//Crea un game object temporal llamado "Bullet"
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
@@ -413,7 +423,7 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
 	go->AddComponent(cmesh);
-	
+
 	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
 	cmaterial->shaderPath = SHADER_VS_FS;
@@ -509,7 +519,7 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 	tempGameObject->AddImage(_newImage, x, y, 100, 100);
 
 	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
-	
+
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 

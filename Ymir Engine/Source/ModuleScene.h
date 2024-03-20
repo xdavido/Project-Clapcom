@@ -64,6 +64,8 @@ public:
 	
 	void Destroy(GameObject* gm);
 
+	void SetActiveState(GameObject* go, bool isActive = true);
+
 	// Select GameObjects
 	std::vector<GameObject*>& GetSelectedGOs();
 
