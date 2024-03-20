@@ -1415,7 +1415,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
 				// Create a new GameObject
-				GameObject* gameObject = new GameObject();
+				G_UI* gameObject = new G_UI();
 
 				// Call a function to extract individual GameObject properties
 				GetGameObject(gameObjects, gameObjectObject, *gameObject);
@@ -1442,7 +1442,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 	return gameObjects;
 }
 
-void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const
+void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const
 {
 	// Get Name
 
@@ -1511,7 +1511,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 }
 
-void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const {
+void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject) const {
 
 	// Get common properties
 	std::string type = json_object_get_string(componentObject, "Type");
