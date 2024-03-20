@@ -65,7 +65,8 @@ public:
 
 	void Draw(bool game) override;
 
-	void ChangeFontSize();
+	void SetText(const char* t);
+	void ChangeFontSize(float size);
 
 public:
 	std::string text;

@@ -531,10 +531,10 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 	}
 }
 
-void TextEdit(MonoObject* object, double value)
+void TextEdit(MonoObject* object, MonoString* text)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
-	static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->SetValue(value);
+	static_cast<UI_Text*>(go->GetComponentUI(UI_TYPE::TEXT))->SetText(mono_string_to_utf8(text));
 }
 
 void SliderEdit(MonoObject* object, double value)

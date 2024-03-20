@@ -552,46 +552,14 @@ void UI_Text::Draw(bool game)
 	boundsDrawn = nullptr;
 }
 
-void UI_Text::ChangeFontSize()
+void UI_Text::SetText(const char* t)
 {
-	UI_Bounds* boundsDrawn = nullptr;
-	space = 0;
+	text = t;
+}
 
-	for (size_t i = 0; i < text.length(); i++)
-	{
-		float3 position = mOwner->mTransform->translation;
-
-		auto itr = font->mCharacters.find(text[i]);
-
-		if (itr != font->mCharacters.end())
-		{
-			if (i != 0)
-			{
-				auto itr2 = font->mCharacters.find(text[i - 1]);
-				space += itr2->second->size.x;
-			}
-
-			if (itr->first == ' ')
-			{
-				space += fontSize;
-			}
-
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
-			boundsEditor->vertices[3].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y, 0);
-
-			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY, 0);
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
-		}
-	}
-
-	boundsDrawn = nullptr;
+void UI_Text::ChangeFontSize(float size)
+{
+	fontSize = size;
 }
 
 Font::Font(std::string name, std::string fontPath)

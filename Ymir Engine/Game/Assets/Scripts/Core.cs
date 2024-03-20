@@ -62,7 +62,7 @@ public class Core : YmirComponent
 
     public void Start()
     {
-        slider = InternalCalls.GetGameObjectByName("Slider");
+        slider = InternalCalls.GetGameObjectByName("Text");
     }
 
     public void Update(/*int x*/)
@@ -156,7 +156,8 @@ public class Core : YmirComponent
         
         if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
         {
-            UI.SliderEdit(slider, 7);
+            UI.TextEdit(slider, "slider, 7");
+            //UI.SliderEdit(slider, 7);
         }
 
         float x = Input.GetLeftAxisX();
