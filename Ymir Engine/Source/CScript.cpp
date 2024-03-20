@@ -17,7 +17,7 @@
 #include "External/mmgr/mmgr.h"
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr),startMethod(nullptr), isStarting(true)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr),startMethod(nullptr), onExecuteButtonMethod(nullptr), isStarting(true)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
@@ -359,6 +359,10 @@ void CScript::LoadScriptData(std::string scriptName)
 	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
+	MonoMethodDesc* oncBut = mono_method_desc_new(":OnExecuteButton", false);
+	onExecuteButtonMethod = mono_method_desc_search_in_class(oncBut, klass);
+	mono_method_desc_free(oncBut);
+
 	oncDesc = mono_method_desc_new(":Start", false);
 	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
@@ -388,6 +392,14 @@ void CScript::CollisionCallback(bool isTrigger, GameObject* collidedGameObject)
 			if (onTriggerEnterMethod != nullptr)
 				mono_runtime_invoke(onTriggerEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
 		}
+	}
+}
+
+void CScript::ExecuteButton() {
+
+	if (onExecuteButtonMethod != nullptr) {
+
+		mono_runtime_invoke(onExecuteButtonMethod, mono_gchandle_get_target(noGCobject), NULL, NULL);
 	}
 }
 
