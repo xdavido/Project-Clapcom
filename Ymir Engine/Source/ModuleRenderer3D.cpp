@@ -358,6 +358,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
+			// Render Physics Stuff
+			if (App->physics->debugScene)
+			{
+				DrawPhysicsColliders();
+			}
+
 			DrawUIElements(true);
 
 		}
