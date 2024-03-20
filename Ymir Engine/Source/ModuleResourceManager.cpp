@@ -278,12 +278,11 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			case ResourceType::SHADER:
 
 				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
-				//break;
-			//case ResourceType::ANIMATION:
-				//break;
-		//		//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
-		//		break;
 				break;
+			case ResourceType::ANIMATION:
+				break;
+				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+
 
 			}
 

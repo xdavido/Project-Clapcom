@@ -486,7 +486,7 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				LOG("[ERROR] Unable to open the file for writing: %s", External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim");
 
-				return false;
+				return;
 			}
 
 			// Write the buffer to the file
