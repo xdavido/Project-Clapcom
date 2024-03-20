@@ -341,8 +341,8 @@ void C_UI::UpdateUITransform()
 {
 	dragLimits.x = posX + mOwner->mTransform->GetGlobalPosition().x;
 	dragLimits.y = posY + mOwner->mTransform->GetGlobalPosition().y;
-	//dragLimits.z = posX + (width * scaleBounds.x);
-	//dragLimits.w = posY + (height * scaleBounds.y);
+	dragLimits.z = (width * scaleBounds.x);
+	dragLimits.w = (height * scaleBounds.y);
 
 	boundsEditor->vertices[0].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y * mOwner->mTransform->scale.y)) + mOwner->mTransform->GetGlobalPosition().y, 0);
 	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y) * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
