@@ -1775,7 +1775,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		// Gravity
 
-		ccollider->gravity = json_object_get_boolean(componentObject, "gravity");
+		ccollider->gravity = json_object_get_boolean(componentObject, "Gravity");
 
 	}
 	else if (type == "Script") {
