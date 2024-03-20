@@ -45,6 +45,14 @@ public:
 
 	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
 
+	void SetLoop(std::string animationName = "", bool loop);
+
+	void SetBackwards(std::string animationName = "", bool backwards);
+
+	void SetPingPong(std::string animationName = "", bool pingPong);
+
+	void SetSpeed(std::string animationName = "", float loop);
+
 
 private:
 

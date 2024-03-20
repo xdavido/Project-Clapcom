@@ -161,6 +161,74 @@ void CAnimation::TransitionTo(std::string animationName, float transitionTime) {
     animator->TransitionTo(playingAnimation, nextAnimation, transitionTime);
 }
 
+void CAnimation::SetLoop(std::string animationName, bool loop) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].loop = loop;
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].loop = loop;
+        }
+    }
+}
+
+void CAnimation::SetBackwards(std::string animationName, bool backwards) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].backwards = backwards;
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].backwards = backwards;
+        }
+    }
+}
+
+void CAnimation::SetPingPong(std::string animationName, bool pingPong) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].pingPong = pingPong;
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].pingPong = pingPong;
+        }
+    }
+}
+
+void CAnimation::SetSpeed(std::string animationName, float speed) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].speed = speed;
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].speed = speed;
+        }
+    }
+}
+
 void CAnimation::YAnimDragDropTarget() {
 
     if (ImGui::BeginDragDropTarget())
