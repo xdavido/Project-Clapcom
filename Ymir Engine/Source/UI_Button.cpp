@@ -145,7 +145,8 @@ void UI_Button::SetStateImg(const char* label, UI_STATE s)
 	{
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
 		{
-			const char* path = (const char*)payload->Data;
+			//const char* path = (const char*)payload->Data;
+			const char* path = reinterpret_cast<const char*>(payload->Data);
 			image->SetImg(path, s);
 		}
 

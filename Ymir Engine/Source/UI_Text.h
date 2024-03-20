@@ -57,7 +57,8 @@ class UI_Text : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 200, y = 50
-	UI_Text(GameObject* g, float x = 0, float y = 0, float fontSize = 21, std::string fontName = "", std::string fontPath = "Assets\\Fonts", float w = 200, float h = 50, std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
+	// t --> text / fs --> font size / ls --> line spacing
+	UI_Text(GameObject* g, float x = 0, float y = 0, const char* t = "Hello World", float fs = 21, float ls = 0.5f, std::string fontName = "", std::string fontPath = "Assets\\Fonts", float w = 200, float h = 50, std::string shaderPath = "Assets/Shaders/UI Shader.glsl");
 	~UI_Text();
 
 	void OnInspector();
@@ -71,6 +72,7 @@ public:
 	Font* font;
 
 	float fontSize;
+	float lineSpacing;
 
 	UI_Bounds* boundsEditor;
 	UI_Bounds* boundsGame;

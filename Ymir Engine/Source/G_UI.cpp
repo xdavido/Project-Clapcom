@@ -232,7 +232,7 @@ bool G_UI::AddImage(std::string imgPath, float x, float y, float w, float h, std
 	return ret;
 }
 
-bool G_UI::AddText(std::string text, float x, float y, float fontSize, std::string fontName, std::string fontPath)
+bool G_UI::AddText(const char* text, float x, float y, float fontSize, float lineSpacing, std::string fontName, std::string fontPath)
 {
 	bool ret = true;
 
@@ -245,12 +245,10 @@ bool G_UI::AddText(std::string text, float x, float y, float fontSize, std::stri
 		ReParent(External->scene->GetCanvas());
 	}
 
-	UI_Text* comp = new UI_Text(this, x, y, fontSize, fontName, fontPath);
+	UI_Text* comp = new UI_Text(this, x, y, text, fontSize, lineSpacing, fontName, fontPath);
 	mComponents.push_back(comp);
 
 	name = "Text";
-
-	comp->text = text;
 
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -262,7 +260,7 @@ bool G_UI::AddText(std::string text, float x, float y, float fontSize, std::stri
 	return ret;
 }
 
-bool G_UI::AddButton(std::string text, float x, float y, std::string imgPath, float w, float h)
+bool G_UI::AddButton(const char* text, float x, float y, std::string imgPath, float w, float h)
 {
 	bool ret = true;
 

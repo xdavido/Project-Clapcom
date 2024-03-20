@@ -1214,6 +1214,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_string(componentObject, "Font name", static_cast<const UI_Text&>(component).font->name.c_str());
 			json_object_set_string(componentObject, "Font path", static_cast<const UI_Text&>(component).font->path.c_str());
 			json_object_set_number(componentObject, "Font size", static_cast<const UI_Text&>(component).fontSize);
+			json_object_set_number(componentObject, "Line Spacing", static_cast<const UI_Text&>(component).lineSpacing);
 
 			// Colors
 			JSON_Value* colorArrayValue = json_value_init_array();
@@ -1393,6 +1394,7 @@ void JsonFile::SetReference(JSON_Object* componentObject, GameObject& pointer, c
 std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 {
 	std::vector<GameObject*> gameObjects;
+	ClearVec(External->scene->vTempComponents);
 
 	JSON_Value* hierarchyValue = json_object_get_value(rootObject, key);
 
@@ -1787,9 +1789,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		}
 		case UI_TYPE::TEXT:
 		{
-			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, json_object_get_number(componentObject, "Font size"),
+			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, json_object_get_string(componentObject, "Text"), json_object_get_number(componentObject, "Font size"), json_object_get_number(componentObject, "Line Spacing"),
 				json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"), 200, 50);
-			ui_comp->text = json_object_get_string(componentObject, "Text");
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
