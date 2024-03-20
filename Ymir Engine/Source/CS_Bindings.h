@@ -525,4 +525,9 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 		}
 	}
 }
+
+void SliderEdit(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
+{
+
+}
 #pragma endregion
