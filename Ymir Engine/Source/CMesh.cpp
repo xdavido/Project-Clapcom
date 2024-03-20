@@ -32,10 +32,12 @@ void CMesh::OnInspector()
 {
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
 	ImGui::SameLine();
 
-	if (ImGui::CollapsingHeader("Mesh", flags))
+	if (ImGui::CollapsingHeader(("Mesh##" + std::to_string(UID)).c_str(), flags))
 	{
 		ImGui::Indent();
 

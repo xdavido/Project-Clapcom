@@ -44,6 +44,8 @@ public:
 	void PrimitivesMenu();
 	void CreateCameraMenu();
 	void UIMenu();
+	void LightsMenu();
+
 	void SaveAs();
 
 	// Manages the docking functionality with the main window
@@ -277,6 +279,9 @@ public:
 	ImVec2 gameViewSize;
 	float2 mouse;
 	ImGuiContext* g;
+
+	//Name Script
+	std::string script_name;
 };
 
 #endif // MODULE_EDITOR

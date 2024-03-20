@@ -1,11 +1,13 @@
-	#include "GameObject.h"
+#include "GameObject.h"
 
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
+#include "CScript.h"
 #include "Random.h"
+#include "ModuleEditor.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -33,7 +35,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	selected = false;
 	pendingToDelet = false;
 	hidden = false;
-	
+
 	mTransform = nullptr;
 	UID = Random::Generate();
 
@@ -54,7 +56,13 @@ GameObject::~GameObject()
 	{
 		ClearVecPtr(mChildren);
 	}
-	
+	for (size_t i = 0; i < csReferences.size(); i++)
+	{
+		mono_field_set_value(mono_gchandle_get_target(csReferences[i]->parentSC->noGCobject), csReferences[i]->field, NULL);
+		csReferences[i]->fiValue.goValue = nullptr;
+	}
+	csReferences.clear();
+
 }
 
 update_status GameObject::Update(float dt)
@@ -206,6 +214,29 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+	case ComponentType::SCRIPT:
+	{
+		temp = new CScript(this, External->editor->script_name.c_str());
+		mComponents.push_back(temp);
+	}
+	break;
+
+	case ComponentType::AUDIO_SOURCE:
+		if (GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
+		{
+			temp = new CAudioSource(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
+	case ComponentType::AUDIO_LISTENER:
+		if (GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
+		{
+			temp = new CAudioListener(this);
+			mComponents.push_back(temp);
+		}
+		else { ret = false; }
+		break;
 	default:
 		break;
 	}
@@ -231,11 +262,10 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 void GameObject::RemoveComponent(Component* component)
 {
-	// TODO: Sara --> test if it needs something else
 	if (!mComponents.empty() && component != nullptr)
 	{
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
-		
+
 		RELEASE(component);
 	}
 }

@@ -23,9 +23,6 @@ CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  Comp
 
 	/*External->moduleMono->DebugAllMethods(YMIR_SCRIPTS_NAMESPACE, "GameObject", methods);*/
 	LoadScriptData(name.c_str());
-
-
-
 }
 
 CScript::~CScript()
@@ -35,7 +32,16 @@ CScript::~CScript()
 
 	mono_gchandle_free(noGCobject);
 
+	for (unsigned int i = 0; i < fields.size(); i++)
+	{
+		if (fields[i].type == MonoTypeEnum::MONO_TYPE_CLASS && fields[i].fiValue.goValue != nullptr && fields[i].fiValue.goValue->csReferences.size() != 0)
+		{
+			std::vector<SerializedField*>::iterator ptr = std::find(fields[i].fiValue.goValue->csReferences.begin(), fields[i].fiValue.goValue->csReferences.end(), &fields[i]);
+			if (ptr != fields[i].fiValue.goValue->csReferences.end())
+				fields[i].fiValue.goValue->csReferences.erase(ptr);
 
+		}
+	}
 
 	methods.clear();
 	fields.clear();
@@ -69,30 +75,64 @@ void CScript::Update()
 
 void CScript::ReloadComponent() {
 
-
 	LoadScriptData(name.c_str());
 
+}	
 
+void CScript::OnRecursiveUIDChange(std::map<uint, GameObject*> gameObjects)
+{
+	for (size_t i = 0; i < fields.size(); i++)
+	{
+		if (fields[i].type == MonoTypeEnum::MONO_TYPE_CLASS && strcmp(mono_type_get_name(mono_field_get_type(fields[i].field)), "YmirEngine.GameObject") == 0)
+		{
+			std::map<uint, GameObject*>::iterator gameObjectIt = gameObjects.find(fields[i].goUID);
+
+			if (gameObjectIt != gameObjects.end())
+			{
+				if (External->scene->referenceMap.size() > 0)
+					External->scene->referenceMap.erase(gameObjectIt->first);
+
+				External->scene->AddToReferenceMap((uint)gameObjectIt->second->UID, &fields[i]);
+
+				fields[i].fiValue.goValue = gameObjectIt->second;
+				fields[i].goUID = (uint)gameObjectIt->second->UID;
+			}
+		}
+	}
 }
 
 void CScript::OnInspector()
 {
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	if (ImGui::CollapsingHeader("Script", flags))
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader(("Script##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
+		ImGui::Text("Script name: %s", name.c_str());
+		if (!active) { ImGui::BeginDisabled(); }
+
 		ImGui::Text("Scripting things");
+
 		for (int i = 0; i < fields.size(); i++)
 		{
 			DropField(fields[i], "_GAMEOBJECT");
 		}
+
 		ImGui::Separator();
+
 		for (int i = 0; i < methods.size(); i++)
 		{
 			ImGui::Text(methods[i].c_str());
 		}
+
+		if (!active) { ImGui::EndDisabled(); }
 	}
 
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 //

@@ -61,12 +61,12 @@ void CMaterial::OnInspector()
 
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
-    ImGui::SameLine();
-
     bool exists = true;
 
-    if (ImGui::CollapsingHeader("Material", &exists, flags))
+    ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+    ImGui::SameLine();
+
+    if (ImGui::CollapsingHeader(("Material##" + std::to_string(UID)).c_str(), &exists, flags))
     {
         ImGui::Indent();
 

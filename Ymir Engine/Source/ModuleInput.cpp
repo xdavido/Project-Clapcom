@@ -8,6 +8,7 @@
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
 #include "External/ImGui/backends/imgui_impl_sdl2.h"
+#include "External/SDL/include/SDL_gamecontroller.h"
 
 #include "External/Optick/include/optick.h"
 
@@ -606,6 +607,17 @@ float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
 	}
 
 }
+
+void ModuleInput::GetRumbleGamepad(_SDL_GameController* gameController, Uint16 _leftRumble, Uint16 _rightRumble, Uint32 _timer)
+{
+	if (!gameController || !SDL_GameControllerGetAttached(gameController)) {
+		return;
+	}
+
+	SDL_GameControllerRumble(gameController, _leftRumble, _rightRumble, _timer);
+}
+
+
 
 // ---------------- New Gamepad Management ----------------
 

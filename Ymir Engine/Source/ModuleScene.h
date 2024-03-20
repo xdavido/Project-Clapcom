@@ -5,6 +5,8 @@
 
 #include "Module.h"
 #include "ModuleFileSystem.h"
+#include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -19,6 +21,8 @@
 #include "ResourceMesh.h"
 
 #include "UI_Image.h"
+
+#include <map>
 
 class GameObject;
 class CCamera;
@@ -59,6 +63,8 @@ public:
 
 	// Select GameObjects
 	std::vector<GameObject*>& GetSelectedGOs();
+
+	// If no parameter --> deselect everything
 	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
 	
@@ -72,6 +78,14 @@ public:
 	void SetCanvas(G_UI* newCanvas = nullptr);
 	
 	G_UI* ModuleScene::GetCanvas();
+
+	void ReplaceScriptsReferences(uint oldUID, uint newUID);
+
+	void AddToReferenceMap(uint UID, SerializedField* fieldToAdd);
+
+	GameObject* GetGOFromUID(GameObject* n, uint sUID);
+
+	void LoadScriptsData(GameObject* rootObject = nullptr);
 
 
 public:
@@ -98,14 +112,14 @@ public:
 	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
 
+	std::multimap<uint, SerializedField*> referenceMap;
+
 private:
 
 	G_UI* canvas;
 	int selectedUI;
 
 	std::vector<GameObject*> vSelectedGOs;
-
-	GameObject* audiosource;
 
 	bool a = false;
 };

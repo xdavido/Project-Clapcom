@@ -30,7 +30,7 @@ public:
 
 	void RemoveAnimation(int ID);
 
-	// Plays an animation. ¡Must give name!
+	// Plays an animation. ï¿½Must give name!
 	// OverridePrev: Stops all playing animations if true
 	void PlayAnimation(std::string animationName = "", bool overridePrev = true);
 

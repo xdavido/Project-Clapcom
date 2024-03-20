@@ -9,6 +9,8 @@ Component::Component()
 	ctype = ComponentType::NONE;
 
 	active = true;
+
+	UID = Random::Generate();
 }
 
 Component::Component(GameObject* owner, ComponentType type)
@@ -17,6 +19,8 @@ Component::Component(GameObject* owner, ComponentType type)
 	ctype = type;
 
 	active = true;
+
+	UID = Random::Generate();
 }
 
 Component::~Component()

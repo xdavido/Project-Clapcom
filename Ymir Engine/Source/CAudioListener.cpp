@@ -27,22 +27,37 @@ CAudioListener::~CAudioListener()
 
 void CAudioListener::OnInspector()
 {
-	//if (ImGui::CollapsingHeader("Audio Listener"))
-	//{
-	//	ImGui::Text("AudioClip");
-	//	ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
-	//	bool deflistener = isDefaultListener;
-	//	ImGui::Checkbox("##AudioClip", &deflistener);
-	//	ImGui::SameLine();
-	//	ImGui::Text("Listen");
-	//}
-	ImGui::Separator();
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	bool listenerAux = isDefaultListener;
-	if (ImGui::Checkbox("Default Listener", &listenerAux))
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+
+	if (ImGui::CollapsingHeader(("Audio Listener##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
-		SetAsDefaultListener(listenerAux);
+		if (!active) { ImGui::BeginDisabled(); }
+
+		/*ImGui::Text("AudioClip");
+		ImGui::SameLine(ImGui::GetWindowWidth() * 0.65f);
+		bool deflistener = isDefaultListener;
+		ImGui::Checkbox("##AudioClip", &deflistener);
+		ImGui::SameLine();
+		ImGui::Text("Listen"); 
+		
+		ImGui::Separator();*/
+
+		bool listenerAux = isDefaultListener;
+		if (ImGui::Checkbox("Default Listener", &listenerAux))
+		{
+			SetAsDefaultListener(listenerAux);
+		}
+
+		if (!active) { ImGui::EndDisabled(); }
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void CAudioListener::Update()

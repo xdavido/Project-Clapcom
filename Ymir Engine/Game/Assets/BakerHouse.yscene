@@ -1,0 +1,211 @@
+{
+    "Editor Camera Position": [
+        3.9766817092895508,
+        4.7544922828674316,
+        5.3185677528381348
+    ],
+    "Editor Camera Right (X)": [
+        0.79934293031692505,
+        -1.3411045074462891e-07,
+        -0.60087370872497559
+    ],
+    "Editor Camera Up (Y)": [
+        -0.26122674345970154,
+        0.90055334568023682,
+        -0.34751039743423462
+    ],
+    "Editor Camera Front (Z)": [
+        -0.54111915826797485,
+        -0.43474516272544861,
+        -0.71985125541687012
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 306007605,
+            "Element_Type": "None",
+            "Children UID": [
+                2044374242,
+                246315976
+            ],
+            "Components": []
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 2044374242,
+            "Element_Type": "None",
+            "Parent UID": 306007605,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        180,
+                        40.000007629394531,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "Music",
+                    "Event Name": "Music",
+                    "Event ID": 3991942870
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        -6.6969732870347798e-08,
+                        1,
+                        -1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        -6.6969732870347798e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 246315976,
+            "Element_Type": "Model",
+            "Parent UID": 306007605,
+            "Children UID": [
+                1743589259,
+                1379521798
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Chimney",
+            "UID": 1743589259,
+            "Element_Type": "None",
+            "Parent UID": 246315976,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "UID": 1379521798,
+            "Element_Type": "None",
+            "Parent UID": 246315976,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/1286923052.dds",
+                    "UID": 1286923052
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                }
+            ]
+        }
+    ]
+}

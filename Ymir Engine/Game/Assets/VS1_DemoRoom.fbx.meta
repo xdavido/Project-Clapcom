@@ -1,0 +1,15 @@
+{
+    "Name": "VS1_DemoRoom",
+    "Assets Path": "Assets\/VS1_DemoRoom.fbx",
+    "Library Path": ".\/Library\/Models\/1077389653.ymodel",
+    "UID": 1077389653,
+    "Type": "Model",
+    "Meshes num": 5,
+    "Meshes Embedded UID": [
+        1140283760,
+        1903208129,
+        863420602,
+        704438145,
+        739010400
+    ]
+}

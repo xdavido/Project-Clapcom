@@ -19,7 +19,7 @@ enum ColliderType
 	SPHERE,
 	CAPSULE,
 	CONVEX_HULL,
-	MESH_COLLIDER
+	//MESH_COLLIDER
 };
 
 enum physicsType {

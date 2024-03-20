@@ -112,6 +112,7 @@ void CCollider::Update()
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr && physBody != nullptr) {
+
 			if (collType != ColliderType::CONVEX_HULL)
 			{
 				float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
@@ -126,6 +127,18 @@ void CCollider::Update()
 			}
 
 		}
+		else {
+
+			physBody->SetPosition(componentTransform->GetLocalTransform().TranslatePart());
+			physBody->SetRotation(componentTransform->GetLocalRotation());
+
+			if (ImGuizmo::IsUsing()) {
+
+				size = componentTransform->GetGlobalTransform().GetScale();
+
+			}
+
+		}
 
 	}	
 
@@ -136,17 +149,17 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Capsule", "Convex (needs a component mesh) (UNSTABLE)", "Mesh (not implemented)"};
+	char* titles[]{ "Box", "Sphere", "Capsule", "Convex (needs a component mesh) (UNSTABLE)" };
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
-	ImGui::SameLine();
-
 	bool exists = true;
 
-	if (ImGui::CollapsingHeader(headerLabel.c_str(), &exists, flags))
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader((headerLabel + "##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
 		ImGui::Indent();
 
@@ -178,10 +191,10 @@ void CCollider::OnInspector()
 				RemovePhysbody();
 				SetConvexCollider();
 				break;
-			case ColliderType::MESH_COLLIDER:
-				RemovePhysbody();
-				SetMeshCollider();
-				break;
+			//case ColliderType::MESH_COLLIDER:
+			//	RemovePhysbody();
+			//	SetMeshCollider();
+			//	break;
 			}
 		}
 
@@ -387,7 +400,7 @@ void CCollider::SetConvexCollider()
 
 void CCollider::SetMeshCollider()
 {
-
+	// We decided not to implement this one bc convex hull is pretty similar to mesh collider
 }
 
 void CCollider::SetDefaultValues(physicsType type)

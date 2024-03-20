@@ -13,6 +13,7 @@
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -256,7 +257,6 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::MenuItem("Empty")) {
 
 				GameObject* empty = App->scene->CreateGameObject("Empty", App->scene->mRootNode);
-				empty->UID = Random::Generate();
 
 			}
 
@@ -265,6 +265,8 @@ void ModuleEditor::DrawEditor()
 			CreateCameraMenu();
 
 			UIMenu();
+
+			LightsMenu();
 
 			ImGui::Separator();
 
@@ -1214,24 +1216,34 @@ void ModuleEditor::DrawEditor()
 
 	}
 
-	if (showGame) {
+	if (showNodeEditor) {
 
-		if (ImGui::Begin("Game", &showGame), true) {
+		if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
-
-			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
-			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
-
-			if (App->scene->gameCameraComponent != nullptr)
-			{
-				// Display the contents of the framebuffer texture
-				gameViewSize = ImGui::GetContentRegionAvail();
-				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
-				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
-			}
+			nodeEditor.Update();
 
 			ImGui::End();
+		}
+
+	}
+
+	if (showShaderEditor) {
+
+		if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
+
+			shaderEditor.Update();
+
+			ImGui::End();
+		}
+	}
+	if (showScriptingEditor) {
+
+		if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
+
+			scriptEditor->Draw();
+
+			ImGui::End();
+
 		}
 
 	}
@@ -1283,44 +1295,31 @@ void ModuleEditor::DrawEditor()
 
 	}
 
-	if (showNodeEditor) {
+	if (showGame) {
 
-		if (ImGui::Begin("Node Editor", &showNodeEditor), true) {
+		if (ImGui::Begin("Game", &showGame), true) {
 
-			nodeEditor.Update();
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
 
 			ImGui::End();
 		}
 
 	}
 
-	if (showShaderEditor) {
+	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
-		if (ImGui::Begin("Shader Editor", &showShaderEditor), true) {
-
-			shaderEditor.Update();
-
-			ImGui::End();
-		}
-	}
-	if (showScriptingEditor) {
-
-		if (ImGui::Begin("Script Editor", &showScriptingEditor), true) {
-
-			scriptEditor->Draw();
-
-			ImGui::End();
-
-		}
-
-
-
-		// --------------------------------- Here finishes the code for the editor ----------------------------------------
-
-		// Rendering
-
-
-	}
+	// Rendering
 
 
 	ImGui::Render();
@@ -1492,6 +1491,34 @@ void ModuleEditor::CreateCameraMenu()
 
 		empty->AddComponent(ComponentType::CAMERA);
 	}
+}
+
+void ModuleEditor::LightsMenu()
+{
+	if (ImGui::BeginMenu("Light"))
+	{
+
+		if (ImGui::MenuItem("Point Light")) 
+		{
+			App->lightManager->CreateLight(LightType::POINT_LIGHT);
+		}
+		if (ImGui::MenuItem("Directional Light")) 
+		{
+			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
+		}
+		if (ImGui::MenuItem("Spot Light")) 
+		{
+			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
+		}
+		if (ImGui::MenuItem("Area Light")) 
+		{
+			App->lightManager->CreateLight(LightType::AREA_LIGHT);
+		}
+
+		ImGui::EndMenu();
+
+	}
+
 }
 
 void ModuleEditor::UIMenu()
@@ -2589,6 +2616,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 	if (node != nullptr) {
 
 		// Set flags to open the tree nodes
+
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | (node->selected ? ImGuiTreeNodeFlags_Selected : 0) | (node->mChildren.size() ? 0 : ImGuiTreeNodeFlags_Leaf);
 
 		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
@@ -2633,7 +2661,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
 
-				draggedGO->SetParent(hoveredGO);
+				draggedGO->ReParent(hoveredGO);
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -2907,16 +2935,57 @@ void ModuleEditor::DrawInspector()
 					}
 				}
 
-				//delete physics;
+				if ((CAudioSource*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
+				{
+					if (ImGui::MenuItem("Audio_Source"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_SOURCE);
+					}
+				}
 
+				if ((CAudioListener*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
+				{
+					if (ImGui::MenuItem("Audio_Listener"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_LISTENER);
+					}
+				}
+
+				if (ImGui::BeginMenu("Script"))
+				{
+					if (ImGui::MenuItem("Core"))
+					{
+						script_name = "Core";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					if (ImGui::MenuItem("BH_Plane"))
+					{
+						script_name = "BH_Plane";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					if (ImGui::MenuItem("BH_Bullet"))
+					{
+						script_name = "BH_Bullet";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					if (ImGui::MenuItem("PlayerMovement"))
+					{
+						script_name = "PlayerMovement";
+						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+					}
+					/*if (ImGui::MenuItem("New")) {
+
+					 //Todo: Add NewScript
+
+					}*/
+					ImGui::EndMenu();
+				}
+
+				//delete physics;
 				ImGui::EndPopup();
 			}
-
-
 			if (!App->scene->selectedGO->active) { ImGui::EndDisabled(); }
-
 		}
-
 	}
 }
 
@@ -2925,112 +2994,109 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 	// Begin the ImGuizmo frame.
 	ImGuizmo::BeginFrame();
 
-	// Iterate through all game objects in the scene.
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
+	// Check if the current game object is selected.
+	if (App->scene->selectedGO != nullptr) {
 
-		// Check if the current game object is selected.
-		if ((*it)->selected) {
+		ImGuizmo::SetDrawlist();
+		// Set the rectangle for ImGuizmo in the editor window.
+		ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
 
-			ImGuizmo::SetDrawlist();
-			// Set the rectangle for ImGuizmo in the editor window.
-			ImGuizmo::SetRect(sceneWindowPos.x, sceneWindowPos.y + sceneFrameHeightOffset, sceneContentRegionMax.x, sceneContentRegionMax.y);
+		if (App->camera->hoveringEditor)
+		{
+			// Check for key presses to set the gizmo operation and mode.
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 
-			if (App->camera->hoveringEditor)
+				gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
+
+				gizmoOperation = ImGuizmo::OPERATION::ROTATE;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
+
+				gizmoOperation = ImGuizmo::OPERATION::SCALE;
+
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+
+				gizmoMode = ImGuizmo::MODE::WORLD;
+
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+				gizmoMode = ImGuizmo::MODE::LOCAL;
+
+			}
+
+		}
+
+		ImGuizmo::MODE modeApplied;
+
+		// Hardcoded local mode to prevent Scale from Reseting the Rotation.
+		if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
+
+			modeApplied = ImGuizmo::MODE::LOCAL;
+		}
+		else {
+
+			modeApplied = gizmoMode;
+
+		}
+
+		// Get the view and projection matrices from the editor camera.
+		float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
+		float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
+
+		// Get the transform component of the current game object.
+		CTransform* ctransform = (CTransform*)App->scene->selectedGO->GetComponent(ComponentType::TRANSFORM);
+
+		modelMatrix = ctransform->mGlobalMatrix.Transposed();
+
+		//// Copy the model matrix to a float array for ImGuizmo.
+		//float modelPtr[16];
+		//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
+
+		//Snap
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+		{
+			snapValue = 1.0f; // Snap to 1.0m for translation/scale
+
+			if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
 			{
-				// Check for key presses to set the gizmo operation and mode.
-				if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::TRANSLATE;
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::ROTATE;
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN) {
-
-					gizmoOperation = ImGuizmo::OPERATION::SCALE;
-
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-
-					gizmoMode = ImGuizmo::MODE::WORLD;
-
-				}
-
-				if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-
-					gizmoMode = ImGuizmo::MODE::LOCAL;
-
-				}
-
-			}
-
-			ImGuizmo::MODE modeApplied;
-
-			// Hardcoded local mode to prevent Scale from Reseting the Rotation.
-			if (gizmoOperation == ImGuizmo::OPERATION::SCALE) {
-
-				modeApplied = ImGuizmo::MODE::LOCAL;
-			}
-			else {
-
-				modeApplied = gizmoMode;
-
-			}
-
-			// Get the view and projection matrices from the editor camera.
-			float4x4 viewMatrix = App->camera->editorCamera->GetViewMatrix();
-			float4x4 projectionMatrix = App->camera->editorCamera->GetProjectionMatrix();
-
-			// Get the transform component of the current game object.
-			CTransform* ctransform = (CTransform*)(*it)->GetComponent(ComponentType::TRANSFORM);
-
-			modelMatrix = ctransform->mGlobalMatrix.Transposed();
-
-			//// Copy the model matrix to a float array for ImGuizmo.
-			//float modelPtr[16];
-			//memcpy(modelPtr, modelMatrix.ptr(), 16 * sizeof(float));
-
-			//Snap
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-			{
-				snapValue = 1.0f; // Snap to 1.0m for translation/scale
-
-				if (gizmoOperation == ImGuizmo::OPERATION::ROTATE)
-				{
-					// Snap to 45 degrees for rotation
-					snapValue = 45.0f;
-				}
-			}
-
-			else
-			{
-				snapValue = 0.0f;
-			}
-
-			float snapValues[3] = { snapValue, snapValue, snapValue };
-
-			// Use ImGuizmo to manipulate the object in the scene.
-			ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
-
-			// Check if the gizmo is being used.
-			if (ImGuizmo::IsUsing())
-			{
-				float4x4 matrix = modelMatrix.Transposed();
-				(*it)->mTransform->UpdateTransformGuizmo(matrix);
-			}
-
-			// Check if the reset button is pressed, and reset the model matrix.
-			if (ctransform->resetPressed) {
-
-				modelMatrix = float4x4::identity;
-				ctransform->resetPressed = false;
+				// Snap to 45 degrees for rotation
+				snapValue = 45.0f;
 			}
 		}
+
+		else
+		{
+			snapValue = 0.0f;
+		}
+
+		float snapValues[3] = { snapValue, snapValue, snapValue };
+
+		// Use ImGuizmo to manipulate the object in the scene.
+		ImGuizmo::Manipulate(viewMatrix.ptr(), projectionMatrix.ptr(), gizmoOperation, modeApplied, modelMatrix.ptr(), nullptr, snapValues);
+
+		// Check if the gizmo is being used.
+		if (ImGuizmo::IsUsing())
+		{
+			float4x4 matrix = modelMatrix.Transposed();
+			App->scene->selectedGO->mTransform->UpdateTransformGuizmo(matrix);
+		}
+
+		// Check if the reset button is pressed, and reset the model matrix.
+		if (ctransform->resetPressed) {
+
+			modelMatrix = float4x4::identity;
+			ctransform->resetPressed = false;
+		}
 	}
+
 }
 
 // TODO: Sara
@@ -3046,8 +3112,13 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			// TODO: Sara -> borrar library file from meta
-			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta"); 
+
+			if (tmpMetaFile) 
+			{
+				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
+			}
+
 			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 
@@ -3056,8 +3127,20 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			// TODO: Sara -> borrar library file from meta
-			//App->parson->DeleteLibDirs((path + ".meta").c_str());
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
+
+			if (tmpMetaFile)
+			{
+				int* ids = tmpMetaFile->GetIntArray("Meshes Embedded UID");
+
+				for (int i = 0; i < tmpMetaFile->GetInt("Meshes num"); i++)
+				{
+					PhysfsEncapsule::DeleteFS((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str());
+				}
+
+				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
+			}
+
 			PhysfsEncapsule::DeleteFS((path + ".meta").c_str());
 		}
 
