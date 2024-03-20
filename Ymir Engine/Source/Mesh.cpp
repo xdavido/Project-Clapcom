@@ -18,48 +18,48 @@
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
-	VBO = 0;
-	EBO = 0;
-    VAO = 0;
+	//VBO = 0;
+	//EBO = 0;
+    //VAO = 0;
 
-	this->vertices = vertices;
-	this->indices = indices;
-    this->textures = textures;
+	//this->vertices = vertices;
+	//this->indices = indices;
+    //this->textures = textures;
 
-    meshGO = linkGO;
+    //meshGO = linkGO;
 
-    enableVertexNormals = false;
-    enableFaceNormals = false;
-    loadedTextures = false;
-    loadedShader = false;
-    applyCheckerTexture = false;
-    addedMaterialComponent = false;
+    //enableVertexNormals = false;
+    //enableFaceNormals = false;
+    //loadedTextures = false;
+    //loadedShader = false;
+    //applyCheckerTexture = false;
+    //addedMaterialComponent = false;
 
-    previousModelMatrix = meshShader.model;
+    //previousModelMatrix = meshShader.model;
 
-	LoadMesh();
+	//LoadMesh();
 
-    InitBoundingBoxes();
+    //InitBoundingBoxes();
 
-    this->shaderPath = shaderPath;
+    //this->shaderPath = shaderPath;
 }
 
 Mesh::~Mesh()
 {
-	if (VBO != 0) {
-		glDeleteBuffers(1, &VBO);
-		VBO = 0;
-	}
+	//if (VBO != 0) {
+	//	glDeleteBuffers(1, &VBO);
+	//	VBO = 0;
+	//}
 
-	if (EBO != 0) {
-		glDeleteBuffers(1, &EBO);
-		EBO = 0;
-	}
+	//if (EBO != 0) {
+	//	glDeleteBuffers(1, &EBO);
+	//	EBO = 0;
+	//}
 
-    if (VAO != 0) {
-        glDeleteBuffers(1, &VAO);
-        VAO = 0;
-    }
+ //   if (VAO != 0) {
+ //       glDeleteBuffers(1, &VAO);
+ //       VAO = 0;
+ //   }
 
 }
 

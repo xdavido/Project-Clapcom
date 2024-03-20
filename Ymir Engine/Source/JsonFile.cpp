@@ -1568,7 +1568,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 	gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
 
-	// Re import if necessary
+	// Re import if necessary (needs an improvement in the future)
 
 	if (gameObject.type == "Model") {
 
@@ -1723,14 +1723,24 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		cmaterial->ID = ID;
 
 		const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
+
 		cmaterial->path = diffusePath;
 
 		uint UID = json_object_get_number(componentObject, "UID");
 		cmaterial->UID = UID;
 
+		// FRANCESC: BUG WITH THE RESOURCETEXTURES HAVING UID 0, IT BREAKS THE MAP IF SOLVED
+		
+		//if (UID != 0) {
+
+		//	ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+		//	cmaterial->rTextures.push_back(rTex);
+
+		//}
+
 		ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
 		cmaterial->rTextures.push_back(rTex);
-
+	
 		gameObject->AddComponent(cmaterial);
 
 	}

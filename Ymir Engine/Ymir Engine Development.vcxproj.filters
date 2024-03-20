@@ -732,9 +732,6 @@
     <ClInclude Include="Source\ImporterSettings.h">
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Material.h">
-      <Filter>Sources\Features\3D Model Loading</Filter>
-    </ClInclude>
     <ClInclude Include="Source\JsonFile.h">
       <Filter>Sources\Features\Serialization</Filter>
     </ClInclude>
@@ -1375,9 +1372,6 @@
     </ClCompile>
     <ClCompile Include="Source\ImporterSettings.cpp">
       <Filter>Sources\Features\Custom File Format</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Material.cpp">
-      <Filter>Sources\Features\3D Model Loading</Filter>
     </ClCompile>
     <ClCompile Include="Source\JsonFile.cpp">
       <Filter>Sources\Features\Serialization</Filter>

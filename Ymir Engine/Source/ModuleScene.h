@@ -48,6 +48,8 @@ public:
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
 
 	void PostUpdateCreateGameObject_UI(GameObject* go);
+	std::string GetUniqueName(std::string name);
+	std::string ReName(std::string name, uint counter);
 
 	G_UI* CreateGUI(UI_TYPE t, GameObject* pParent = nullptr, int x = 0, int y = 0);
 	//void DestroyGameObject(GameObject* toDestroy);
