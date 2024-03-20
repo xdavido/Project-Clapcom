@@ -58,23 +58,23 @@ void CMesh::OnInspector()
 
 		ImGui::Spacing();
 
-		for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
+		//for (auto it = External->renderer3D->models.begin(); it != External->renderer3D->models.end(); ++it) {
 
-			for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
+		//	for (auto jt = (*it).meshes.begin(); jt != (*it).meshes.end(); ++jt) {
 
-				if ((*jt).meshGO->selected || (*it).modelGO->selected) {
+		//		if ((*jt).meshGO->selected || (*it).modelGO->selected) {
 
-					ImGui::Checkbox("Show Vertex Normals", &(*jt).enableVertexNormals);
-					ImGui::Spacing();
+		//			ImGui::Checkbox("Show Vertex Normals", &(*jt).enableVertexNormals);
+		//			ImGui::Spacing();
 
-					ImGui::Checkbox("Show Face Normals", &(*jt).enableFaceNormals);
-					ImGui::Spacing();
+		//			ImGui::Checkbox("Show Face Normals", &(*jt).enableFaceNormals);
+		//			ImGui::Spacing();
 
-				}
+		//		}
 
-			}
+		//	}
 
-		}
+		//}
 
 		if (!active) { ImGui::EndDisabled(); }
 
