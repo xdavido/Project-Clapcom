@@ -9,6 +9,8 @@
 #include "UI_Image.h"
 #include "UI_Text.h"
 
+#include "Delegate.h"
+
 class UI_Button : public C_UI
 {
 public:
@@ -39,5 +41,8 @@ public:
 	Color pressedColor;
 	Color selectedColor;
 	Color disabledColor;
+
+private:
+	Delegate onClick;
 };
 #endif // __UI_BUTTON_H__

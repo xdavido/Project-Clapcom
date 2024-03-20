@@ -324,6 +324,7 @@ void ModuleInput::SetMaxChars(int limit)
 {
 	maxChars = limit;
 }
+
 bool ModuleInput::AreGamepadButtonsIdle()
 {
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {

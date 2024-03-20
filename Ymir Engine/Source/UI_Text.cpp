@@ -450,6 +450,7 @@ void UI_Text::Draw(bool game)
 	space = 0;
 
 	float fs = fontSize * 1.5;
+	uint newLines = 0;
 
 	for (size_t i = 0; i < text.length(); i++)
 	{
@@ -478,54 +479,61 @@ void UI_Text::Draw(bool game)
 			{
 				space += (fs / 2);
 			}
-
-			boundsEditor->vertices[0].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsEditor->vertices[2].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
-
-			// Bot left - Bot right - Top left - Top right
-			boundsGame->vertices[0].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsGame->vertices[2].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
-
-			if (game)
+			
+			if (itr->first == '\n')
 			{
-				boundsDrawn = boundsGame;
+				++newLines;
 			}
-
 			else
 			{
-				boundsDrawn = boundsEditor;
+				boundsEditor->vertices[0].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsEditor->vertices[2].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y, 0);
 
-				//glPushMatrix();
-				//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
-			}
+				// Bot left - Bot right - Top left - Top right
+				boundsGame->vertices[0].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsGame->vertices[2].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
+				boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
-			// Render
+				boundsEditor->RegenerateVBO();
+				boundsGame->RegenerateVBO();
 
-			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+				if (game)
+				{
+					boundsDrawn = boundsGame;
+				}
 
-			mat->shader.UseShader(true);
-			mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
+				else
+				{
+					boundsDrawn = boundsEditor;
 
-			glBindVertexArray(boundsDrawn->VAO);
+					//glPushMatrix();
+					//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+				}
 
-			glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
+				// Render
 
-			glBindVertexArray(0);
+				glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
-			mat->shader.UseShader(false);
+				mat->shader.UseShader(true);
+				mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
 
-			glBindTexture(GL_TEXTURE_2D, 0);
+				glBindVertexArray(boundsDrawn->VAO);
 
-			if (!game)
-			{
-				//glPopMatrix();
+				glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
+
+				glBindVertexArray(0);
+
+				mat->shader.UseShader(false);
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				if (!game)
+				{
+					//glPopMatrix();
+				}
 			}
 		}
 	}
