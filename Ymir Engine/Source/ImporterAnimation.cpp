@@ -243,7 +243,7 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 		BoneInfo info; 
 		memcpy(&info, cursor, sizeof(BoneInfo));
 		cursor += sizeof(BoneInfo);
-		ourAnimation->boneInfoMap[name] = BoneInfo(info);
+		ourAnimation->boneInfoMap[name] = info;
 	}
 
 	// Assign id

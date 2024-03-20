@@ -240,14 +240,17 @@ void CAnimation::YAnimDragDropTarget() {
             std::string libraryFilePathDrop = (const char*)payload->Data;
 
             libraryFilePathDrop.erase(libraryFilePathDrop.find(".yanim") + 6);
+            //libraryFilePathDrop = "./" + libraryFilePathDrop;
+            /*for (char& c : libraryFilePathDrop) {
+                if (c == '\\') {
+                    c = '/';
+                }
+            }*/
+            //libraryFilePathDrop.replace(libraryFilePathDrop.begin(), libraryFilePathDrop.end(), 'e', '/');
 
-            LOG("library string: %s", libraryFilePathDrop.c_str());
-            //LOG("Library path: %s", libraryFilePathDrop->c_str());
+            LOG("File path: %s", libraryFilePathDrop.c_str());
 
             ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryFilePathDrop, ResourceType::ANIMATION, mOwner->UID);
-            
-
-         
             AddAnimation(*rAnim);
         }
         ImGui::EndDragDropTarget();
