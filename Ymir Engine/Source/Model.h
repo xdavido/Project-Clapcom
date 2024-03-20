@@ -43,7 +43,7 @@ public:
 
     virtual ~Model();
 
-    void LoadModel(const std::string& path, const std::string& shaderPath);
+    void LoadModel(const std::string& path, const std::string& shaderPath = SHADER_VS_FS);
     void DrawModel();
 
     std::map<std::string, BoneInfo> GetBoneInfoMap() { return boneInfoMap; }

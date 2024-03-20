@@ -20,19 +20,19 @@
 
 Model::Model()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active) {
+	//		if ((*it).meshGO->active) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
+	//		}
 
-		}
+	//	}
 
-	}
+	//}
 }
 
 Model::Model(const std::string& path, const std::string& shaderPath)
@@ -47,19 +47,19 @@ Model::~Model()
 
 void Model::DrawModel()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
+	//		if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
-			
-		}
+	//		}
+	//		
+	//	}
 
-	}
+	//}
 	
 }
 
@@ -94,8 +94,6 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 		name = path.substr(lastSlash, lastDot - lastSlash);
 
 	}
-
-	LOG("");
 
 	// Import the model using Assimp
 
