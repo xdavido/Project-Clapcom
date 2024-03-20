@@ -74,7 +74,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
-	
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
 		// Enable/disable collision logic in God Mode
@@ -84,7 +84,7 @@ update_status ModulePhysics::Update(float dt)
 			{
 				for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
 				{
-					if (*(it) != NULL)
+					if ((*it)->body != NULL)
 					{
 						if ((*it)->body->getCollisionFlags() == btCollisionObject::CF_NO_CONTACT_RESPONSE)
 						{
