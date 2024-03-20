@@ -181,6 +181,15 @@ Quat CTransform::GetLocalRotation() const
 	return rotation;
 }
 
+Quat CTransform::GetGlobalRotation() const
+{
+	float3 pos, sc;
+	Quat rot;
+	mGlobalMatrix.Decompose(pos, rot, sc);
+
+	return rot;
+}
+
 void CTransform::UpdateTransformsChilds()
 {
 	UpdateGlobalMatrix();

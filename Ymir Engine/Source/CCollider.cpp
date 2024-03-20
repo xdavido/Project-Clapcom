@@ -147,8 +147,8 @@ void CCollider::Update()
 		}
 		else {
 
-			physBody->SetPosition(componentTransform->GetLocalTransform().TranslatePart());
-			physBody->SetRotation(componentTransform->GetLocalRotation());
+			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
+			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
 			if (ImGuizmo::IsUsing()) {
 
