@@ -23,7 +23,7 @@
 #include"MathGeoLib/include/Math/float3.h"
 
 template<typename T>
-T DECS_CompToComp(MonoObject* obj)
+T CS_CompToComp(MonoObject* obj)
 {
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_object_get_class(obj);
@@ -45,7 +45,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 	const char* name = mono_class_get_name(mono_object_get_class(obj));
 
 	float3 value;
-	CTransform* workTrans = DECS_CompToComp<CTransform*>(obj);
+	CTransform* workTrans = CS_CompToComp<CTransform*>(obj);
 
 	if (strcmp(type, "POSITION") == 0)
 	{
@@ -262,6 +262,23 @@ void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
 }
 
+void SetRotation(MonoObject* obj, MonoObject* vel) {
+
+	if (External == nullptr)
+		return;
+
+	Quat omgItWorks = External->moduleMono->UnboxQuat(vel);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+
+	if (rigidbody)
+	{
+		rigidbody->physBody->SetRotation(omgItWorks);
+
+	}
+
+}
+
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types
@@ -274,7 +291,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(secObj);
-	CTransform* workTrans = DECS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	CTransform* workTrans = CS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 	if (workTrans)
 	{
 		workTrans->SetPosition(omgItWorks);
@@ -282,26 +299,25 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	}
 }
 
-MonoObject* GetForward(MonoObject* go)	
+MonoObject* GetForward(MonoObject* go)
 {
-	if (External == nullptr || CScript::runningScript == nullptr)
+	if (External == nullptr)
 		return nullptr;
 
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetForward());	
+	return External->moduleMono->Float3ToCS(trans->GetForward());
 }
 MonoObject* GetRight(MonoObject* go)
 {
 	if (External == nullptr)
 		return nullptr;
 
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(go);
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
 
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
-	return External->moduleMono->Float3ToCS(workGO->mTransform->GetRight());	
+	return External->moduleMono->Float3ToCS(trans->GetRight());
 }
 
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
@@ -315,12 +331,16 @@ void RecieveRotation(MonoObject* obj, MonoObject* secObj) //Allows to send float
 		return;
 
 	Quat omgItWorks = External->moduleMono->UnboxQuat(secObj);
-	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
+	CTransform* transform = CS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 
-	if (workGO->mTransform)
+	if (transform)
 	{
-		//workGO->mTransform->SetPosition(workGO->mTransform->translation, omgItWorks, workGO->mTransform->localScale);
-		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
+		//workGO->transform->SetTransformMatrix(workGO->transform->position, omgItWorks, workGO->transform->localScale);
+
+		transform->rotation = omgItWorks.Normalized();
+		transform->eulerRot = omgItWorks.ToEulerXYZ() * RADTODEG;
+
+		transform->dirty_ = true;
 	}
 }
 
@@ -368,57 +388,46 @@ float GetDT()
 	return External->GetDT();
 }
 
-void AddMeshToGameObject()
+void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) 
 {
-
-}
-
-//TODO:
-void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) //TODO: We really need prefabs
-{
-	if (External == nullptr)
-		return /*nullptr*/;
-
+	//Crea un game object temporal llamado "Bullet"
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
-	////go->name = std::to_string(go->UID);
 
+	//Hace unbox de los parametros de transform pasados
 	float3 posVector = ModuleMonoManager::UnboxVector(position);
 	float3 rotQuat = ModuleMonoManager::UnboxVector(rotation);
 	float3 scaleVector = ModuleMonoManager::UnboxVector(scale);
 
+	//Settea el transform a la bullet
 	go->mTransform->SetPosition(posVector);
 	go->mTransform->SetRotation(rotQuat);
 	go->mTransform->SetScale(scaleVector);
-	//go->mTransform->updateTransform = true; //TODO: No temenos esta variable "updateTransform"
 
-	//External->resourceManager->ImportFile("Game/Assets/BakerHouse.fbx");
-
-	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Assets/863721484.ymesh", ResourceType::MESH, 863721484));
-	
+	//Añade la mesh a la bullet
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Library/Meshes/1553236809.ymesh", ResourceType::MESH, 1553236809));
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
 	go->AddComponent(cmesh);
-
+	
+	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
 	cmaterial->shaderPath = SHADER_VS_FS;
 	cmaterial->shader.LoadShader(cmaterial->shaderPath);
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
 
-	//go->AddComponent(ComponentType::MESH);
-	//meshRenderer = dynamic_cast<CMesh*>(go->GetComponent(ComponentType::MESH));
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->gravity = false;
+	physBody->size = scaleVector;
+	go->AddComponent(physBody);
 
-	//Model("Assets/Primitives/Cube.fbx");
-	/*ResourceMesh* test = dynamic_cast<ResourceMesh*>(External->resourceManager->RequestResource(1753294, "Library/Meshes/1753294.ymesh"));
-	meshRenderer->rMeshReference = test;*/
-
-	//Añade el componente Bullet al gameObject Bullet
+	//Añade el script Bullet al gameObject Bullet
 	const char* t = "BH_Bullet";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
-
-	/*return mono_gchandle_get_target(cmp->noGCobject);*/
 }
 
 void ChangeSceneCS(MonoString* scenePath)

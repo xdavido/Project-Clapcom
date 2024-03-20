@@ -195,8 +195,6 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	GameObject* tempGameObject = new GameObject(name, parent);
 
-	tempGameObject->UID = Random::Generate();
-
 	if (parent != nullptr) {
 
 		parent->AddChild(tempGameObject);
@@ -246,8 +244,10 @@ void ModuleScene::ClearScene()
 	isLocked = false;
 	SetSelected();
 
-	RELEASE(mRootNode);
+	// FRANCESC: Doing this RELEASE here makes the meshes disappear
+	// RELEASE(mRootNode); 
 
+	External->lightManager->lights.clear();
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
@@ -301,6 +301,10 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	ClearScene();
 	sceneToLoad->GetHierarchy("Hierarchy");
+
+	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
+	mRootNode = gameObjects[0];
+
 	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
@@ -322,7 +326,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	// ClearScene();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];

@@ -155,6 +155,10 @@ void CCollider::Update()
 
 	}	
 
+	if (size.x == 0) size.x = 0.1;
+	if (size.y == 0) size.y = 0.1;
+	if (size.z == 0) size.z = 0.1;
+
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
 
@@ -162,7 +166,8 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Capsule", "Mesh (needs a component mesh!)" };
+	char* titles[]	{ "Box", "Sphere", "Capsule", "Mesh" };
+
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -183,10 +188,32 @@ void CCollider::OnInspector()
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
-		ImGui::Text("Shape: "); ImGui::SameLine();
-		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles))) 
+
+		bool auxIsSensor = physBody->isSensor;
+		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
-			switch (collType)
+			physBody->SetAsSensor(auxIsSensor);
+			if (auxIsSensor)
+			{
+				physType = PhysicsType::STATIC; 
+				SetDefaultValues(physType); 
+				External->physics->RecalculateInertia(physBody, mass, gravity); 
+			}
+		}
+
+		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))
+		{
+			!physBody->drawShape;
+		}
+
+		ImGui::Text("Shape: "); ImGui::SameLine();
+		
+		int hasNotMesh = 0;
+		if (mOwner->GetComponent(ComponentType::MESH) == nullptr) hasNotMesh = 1; // if mesh = false -> value = 1
+
+		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles) - hasNotMesh)) 
+		{
+			switch (collType)	
 			{
 			case ColliderType::BOX:
 				RemovePhysbody();
@@ -261,7 +288,6 @@ void CCollider::OnInspector()
 				}
 
 			}
-
 		}
 
 		// -----------------------------------------------------------------------------------------------------

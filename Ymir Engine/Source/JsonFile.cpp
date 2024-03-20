@@ -835,6 +835,18 @@ void JsonFile::SetHierarchy(const char* key, const std::vector<GameObject*>& gam
 	JSON_Value* hierarchyValue = json_value_init_array();
 	JSON_Array* hierarchyArray = json_value_get_array(hierarchyValue);
 
+	//for (const auto& gameObject : gameObjects) {
+
+	//	JSON_Value* gameObjectValue = json_value_init_object();
+	//	JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
+
+	//	// Call the existing SetGameObject function to set individual GameObject properties
+	//	SetGameObject(gameObjectObject, *gameObject);
+
+	//	// Add the GameObject to the hierarchy array
+	//	json_array_append_value(hierarchyArray, gameObjectValue);
+	//}
+	
 	SetGameObject(hierarchyArray, *External->scene->mRootNode);
 
 	// Add the hierarchy array to the main object
@@ -1067,17 +1079,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
 
-		json_object_set_number(componentObject, "Far Plane", ccamera->GetFarPlane());
-
-		// Enable/Disable Frustum Culling
-
-		json_object_set_number(componentObject, "Frustum Culling", ccamera->enableFrustumCulling);
-
-		// Enable/Disable Bounding Boxes
-
-		json_object_set_number(componentObject, "Draw Bounding Boxes", ccamera->drawBoundingBoxes);
-
-		//Is game camera
+		// Is game camera
 
 		json_object_set_boolean(componentObject, "Game Camera", ccamera->isGameCam);
 
@@ -1349,6 +1351,75 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Active", caudiolistener->active);
 		json_object_set_number(componentObject, "Default Listener", caudiolistener->isDefaultListener);
+	}
+	break;
+	case LIGHT:
+	{
+		json_object_set_string(componentObject, "Type", "Light");
+
+		CLight* clight = (CLight*)&component;
+
+		json_object_set_number(componentObject, "Active", clight->active);
+
+		json_object_set_number(componentObject, "Debug", clight->lightReference->debug);
+
+		JSON_Value* colorArrayValue = json_value_init_array();
+		JSON_Array* colorArray = json_value_get_array(colorArrayValue);
+
+		json_array_append_number(colorArray, clight->lightReference->GetColor().x);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().y);
+		json_array_append_number(colorArray, clight->lightReference->GetColor().z);
+
+		json_object_set_value(componentObject, "Color", colorArrayValue);
+
+		json_object_set_number(componentObject, "Intensity", clight->lightReference->GetIntensity());
+
+		switch (clight->lightReference->GetType()) 
+		{
+			case LightType::POINT_LIGHT: 
+			{
+				json_object_set_number(componentObject, "Light Type", (uint)LightType::POINT_LIGHT);
+
+				PointLight* pointLight = static_cast<PointLight*>(clight->lightReference);
+				
+				json_object_set_number(componentObject, "Radius", pointLight->GetRadius());
+
+				break;
+			}
+			case LightType::DIRECTIONAL_LIGHT:
+			{
+				json_object_set_number(componentObject, "Light Type", (uint)LightType::DIRECTIONAL_LIGHT);
+
+				// DirectionalLight* directionalLight = static_cast<DirectionalLight*>(clight->lightReference);
+
+				break;
+			}
+			case LightType::SPOT_LIGHT:
+			{
+				json_object_set_number(componentObject, "Light Type", (uint)LightType::SPOT_LIGHT);
+
+				SpotLight* spotLight = static_cast<SpotLight*>(clight->lightReference);
+
+				json_object_set_number(componentObject, "Range", spotLight->GetRange());
+				json_object_set_number(componentObject, "Radius", spotLight->GetRadius());
+
+				break;
+			}
+			case LightType::AREA_LIGHT:
+			{
+				json_object_set_number(componentObject, "Light Type", (uint)LightType::AREA_LIGHT);
+
+				AreaLight* areaLight = static_cast<AreaLight*>(clight->lightReference);
+
+				json_object_set_number(componentObject, "Width", areaLight->GetWidth());
+				json_object_set_number(componentObject, "Height", areaLight->GetHeight());
+				json_object_set_number(componentObject, "Range", areaLight->GetRange());
+				
+				break;
+			}
+
+		}
+
 	}
 	break;
 	default:
@@ -1649,6 +1720,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
 		ccamera->framebuffer.Load();
+
+		ccamera->enableFrustumCulling = json_object_get_number(componentObject, "Frustum Culling");
+		ccamera->drawBoundingBoxes = json_object_get_number(componentObject, "Draw Bounding Boxes");
+		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
 
 		gameObject->AddComponent(ccamera);
 
@@ -2236,6 +2311,180 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 #endif // STANDALONE
 
 		gameObject->AddComponent(caudiosource);
+
+	}
+	else if (type == "Light")
+	{
+		switch ((LightType)json_object_get_number(componentObject, "Light Type"))
+		{
+			case LightType::POINT_LIGHT:
+			{
+				PointLight* pLight = new PointLight();
+
+				pLight->lightGO = gameObject;
+				pLight->debug = json_object_get_number(componentObject, "Debug");
+
+				// Color
+
+				JSON_Value* jsonColorValue = json_object_get_value(componentObject, "Color");
+
+				if (jsonColorValue == nullptr || json_value_get_type(jsonColorValue) != JSONArray) {
+
+					return;
+				}
+
+				JSON_Array* jsonColorArray = json_value_get_array(jsonColorValue);
+
+				float3 color;
+
+				color.x = static_cast<float>(json_array_get_number(jsonColorArray, 0));
+				color.y = static_cast<float>(json_array_get_number(jsonColorArray, 1));
+				color.z = static_cast<float>(json_array_get_number(jsonColorArray, 2));
+
+				pLight->SetColor(color);
+
+				float intensity = json_object_get_number(componentObject, "Intensity");
+				pLight->SetIntensity(intensity);
+
+				float radius = json_object_get_number(componentObject, "Radius");
+				pLight->SetRadius(radius);
+
+				CLight* componentLight = new CLight(gameObject, pLight);
+
+				gameObject->AddComponent(componentLight);
+
+				External->lightManager->lights.push_back(pLight);
+
+				break;
+			}
+			case LightType::DIRECTIONAL_LIGHT:
+			{
+				DirectionalLight* dLight = new DirectionalLight();
+
+				dLight->lightGO = gameObject;
+				dLight->debug = json_object_get_number(componentObject, "Debug");
+
+				// Color
+
+				JSON_Value* jsonColorValue = json_object_get_value(componentObject, "Color");
+
+				if (jsonColorValue == nullptr || json_value_get_type(jsonColorValue) != JSONArray) {
+
+					return;
+				}
+
+				JSON_Array* jsonColorArray = json_value_get_array(jsonColorValue);
+
+				float3 color;
+
+				color.x = static_cast<float>(json_array_get_number(jsonColorArray, 0));
+				color.y = static_cast<float>(json_array_get_number(jsonColorArray, 1));
+				color.z = static_cast<float>(json_array_get_number(jsonColorArray, 2));
+
+				dLight->SetColor(color);
+
+				float intensity = json_object_get_number(componentObject, "Intensity");
+				dLight->SetIntensity(intensity);
+
+				CLight* componentLight = new CLight(gameObject, dLight);
+
+				gameObject->AddComponent(componentLight);
+
+				External->lightManager->lights.push_back(dLight);
+
+				break;
+			}
+			case LightType::SPOT_LIGHT:
+			{
+				SpotLight* sLight = new SpotLight();
+
+				sLight->lightGO = gameObject;
+				sLight->debug = json_object_get_number(componentObject, "Debug");
+
+				// Color
+
+				JSON_Value* jsonColorValue = json_object_get_value(componentObject, "Color");
+
+				if (jsonColorValue == nullptr || json_value_get_type(jsonColorValue) != JSONArray) {
+
+					return;
+				}
+
+				JSON_Array* jsonColorArray = json_value_get_array(jsonColorValue);
+
+				float3 color;
+
+				color.x = static_cast<float>(json_array_get_number(jsonColorArray, 0));
+				color.y = static_cast<float>(json_array_get_number(jsonColorArray, 1));
+				color.z = static_cast<float>(json_array_get_number(jsonColorArray, 2));
+
+				sLight->SetColor(color);
+
+				float intensity = json_object_get_number(componentObject, "Intensity");
+				sLight->SetIntensity(intensity);
+
+				float range = json_object_get_number(componentObject, "Range");
+				sLight->SetRange(range);
+
+				float radius = json_object_get_number(componentObject, "Radius");
+				sLight->SetRadius(radius);
+
+				CLight* componentLight = new CLight(gameObject, sLight);
+
+				gameObject->AddComponent(componentLight);
+
+				External->lightManager->lights.push_back(sLight);
+
+				break;
+			}
+			case LightType::AREA_LIGHT:
+			{
+				AreaLight* aLight = new AreaLight();
+
+				aLight->lightGO = gameObject;
+				aLight->debug = json_object_get_number(componentObject, "Debug");
+
+				// Color
+
+				JSON_Value* jsonColorValue = json_object_get_value(componentObject, "Color");
+
+				if (jsonColorValue == nullptr || json_value_get_type(jsonColorValue) != JSONArray) {
+
+					return;
+				}
+
+				JSON_Array* jsonColorArray = json_value_get_array(jsonColorValue);
+
+				float3 color;
+
+				color.x = static_cast<float>(json_array_get_number(jsonColorArray, 0));
+				color.y = static_cast<float>(json_array_get_number(jsonColorArray, 1));
+				color.z = static_cast<float>(json_array_get_number(jsonColorArray, 2));
+
+				aLight->SetColor(color);
+
+				float intensity = json_object_get_number(componentObject, "Intensity");
+				aLight->SetIntensity(intensity);
+
+				float range = json_object_get_number(componentObject, "Range");
+				aLight->SetRange(range);
+
+				float width = json_object_get_number(componentObject, "Width");
+				aLight->SetWidth(width);
+
+				float height = json_object_get_number(componentObject, "Height");
+				aLight->SetHeight(height);
+
+				CLight* componentLight = new CLight(gameObject, aLight);
+
+				gameObject->AddComponent(componentLight);
+
+				External->lightManager->lights.push_back(aLight);
+
+				break;
+			}
+
+		}
 
 	}
 

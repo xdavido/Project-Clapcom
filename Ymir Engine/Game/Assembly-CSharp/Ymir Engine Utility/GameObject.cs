@@ -71,12 +71,12 @@ namespace YmirEngine
             return this.GetHashCode();
         }
 
+        // Try to fix duplicated methods
+        //[MethodImplAttribute(MethodImplOptions.InternalCall)]
+        //public extern Vector3 GetForward();
 
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern Vector3 GetForward();
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public extern Vector3 GetRight();
+        //[MethodImplAttribute(MethodImplOptions.InternalCall)]
+        //public extern Vector3 GetRight();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void SetVelocity(Vector3 velocity);
@@ -87,6 +87,9 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void AddComponent(int componentType);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetRotation(Quaternion rot);
 
     }
 }

@@ -127,6 +127,9 @@
     <Filter Include="Sources\Features\Scripting">
       <UniqueIdentifier>{b9c65e46-6107-4b22-a29c-0c20a3e7f504}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Features\Lighting System">
+      <UniqueIdentifier>{5306c3a7-4d09-4e89-88dd-224d560e9d5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Module.h">
@@ -145,9 +148,6 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Source\Primitive.h">
-      <Filter>Sources\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Light.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\External\MathGeoLib\include\MathBuildConfig.h">
@@ -1107,6 +1107,30 @@
     <ClInclude Include="Source\UI_Transform.h">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PointLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectionalLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpotLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleLightManager.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GL_Light.h">
+      <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AreaLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CLight.h">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClInclude>
     <ClInclude Include="Source\CS_Audio_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
@@ -1125,9 +1149,6 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Source\Primitive.cpp">
-      <Filter>Sources\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Light.cpp">
       <Filter>Sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\External\MathGeoLib\include\Geometry\AABB.cpp">
@@ -1531,6 +1552,30 @@
     </ClCompile>
     <ClCompile Include="Source\UI_Transform.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClCompile Include="Source\PointLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectionalLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpotLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleLightManager.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GL_Light.cpp">
+      <Filter>Sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AreaLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CLight.cpp">
+      <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1580,6 +1625,12 @@
       <Filter>Externals\Wwise</Filter>
     </None>
     <None Include="Game\Assets\Shaders\AnimationShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\DefaultShader.glsl">
+      <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
+    </None>
+    <None Include="Game\Assets\Shaders\Lighting Shader.glsl">
       <Filter>Sources\Features\Shader Pipeline\GLSL</Filter>
     </None>
     <None Include="Game\Assets\Shaders\UI Shader.glsl">

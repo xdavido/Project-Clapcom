@@ -49,4 +49,6 @@ public:
 
 	JsonFile outputFile;
 
+	bool regenerateLibrary;
+
 };

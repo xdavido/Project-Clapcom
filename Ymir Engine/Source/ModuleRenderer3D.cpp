@@ -128,11 +128,11 @@ bool ModuleRenderer3D::Init()
 		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
-		lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
-		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
-		lights[0].SetPos(0.0f, 0.0f, 2.5f);
-		lights[0].Init();
+		gl_lights[0].ref = GL_LIGHT0;
+		gl_lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+		gl_lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
+		gl_lights[0].SetPos(0.0f, 0.0f, 2.5f);
+		gl_lights[0].Init();
 
 		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
@@ -144,7 +144,7 @@ bool ModuleRenderer3D::Init()
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		lights[0].Active(true);
+		gl_lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
@@ -215,11 +215,14 @@ bool ModuleRenderer3D::Init()
 	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
 	delete animationShader;
 
+	Shader* lightingShader = new Shader;
+	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
+	delete lightingShader;
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
 
-	//Hardcodeado para la VS1
 	App->scene->gameCameraComponent = new CCamera(App->scene->gameCameraObject);
 
 	// TODO: remove and do with proper constructor
@@ -252,10 +255,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->editorCamera->GetViewMatrix().ptr());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
+	gl_lights[0].SetPos(App->camera->editorCamera->GetPos().x, App->camera->editorCamera->GetPos().y, App->camera->editorCamera->GetPos().z);
 
-	for (uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
+	for (uint i = 0; i < MAX_GL_LIGHTS; ++i) 
+	{
+		gl_lights[i].Render();
+	}
 
 	App->editor->AddFPS(App->GetFPS());
 	App->editor->AddDT(App->GetDT());
@@ -269,6 +274,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	// Clear color buffer and depth buffer before each PostUpdate call
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	// Your rendering code here
 
 	// --------------------------- Editor Camera FrameBuffer -----------------------------------
@@ -277,12 +286,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	App->camera->editorCamera->framebuffer.Render(true);
 
-	App->camera->editorCamera->Update();
-
 	// Render Grid
 
-	if (showGrid) {
+	App->camera->editorCamera->Update();
 
+	if (showGrid) {
+		
 		Grid.Render();
 
 	}
@@ -308,12 +317,17 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawBoundingBoxes();
 		}
 
-		// Render Physics Colliders
-
-		if (App->physics->GetDebugDraw())
+		// Render Physics Stuff
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
+
+		DrawGameObjects();
+
+		DrawLightsDebug();
+
+		DrawUIElements(false);
 
 	}
 
@@ -331,7 +345,40 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			DrawUIElements(true, false);
+			//if (External->scene->gameCameraComponent->drawBoundingBoxes) {
+
+			//	DrawBoundingBoxes();
+
+			//}
+
+			// TODO: preguntar porque el out of range este raro
+			//if (!listUI.empty())
+			//{
+			//	for (auto i = listUI.size() - 1; i >= 0; i--)
+			//	{
+			//		if (listUI[i]->mOwner->active && listUI[i]->active)
+			//		{
+			//			listUI[i]->Draw(true);
+			//		}
+
+			//		if (i == 0) { break; }
+			//	}
+			//}
+
+			// Render Physics Stuff
+			if (App->physics->debugGame)
+			{
+				DrawPhysicsColliders();
+			}
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true);
 
 		}
 
@@ -379,10 +426,8 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-
 	// Clean Framebuffers
 	App->camera->editorCamera->framebuffer.Delete();
-	App->scene->gameCameraComponent->framebuffer.Delete();
 
 	// Detach Assimp Log Stream
 	CleanUpAssimpDebugger();
@@ -598,17 +643,47 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
+	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se ver�n siempre sin importar la iluminacion
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr) {
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
+		{
+			Color color;
+			if (colliderComponent->physBody->isSensor) color = App->physics->sensorColor;
+			else color = App->physics->colliderColor;
 
 			App->physics->world->debugDrawWorld();
 
-		}
+			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
 
+			glColor3f(color.r, color.g, color.b); // Cambio aqu� el color para tenerlo m�s controlado
+			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
+
+			switch (shape->getShapeType()) 
+			{
+			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
+				App->physics->RenderBoxCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::SPHERE_SHAPE_PROXYTYPE: // RENDER SPHERE ====================
+				App->physics->RenderSphereCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
+				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
+				App->physics->RenderMeshCollider(colliderComponent->physBody);
+				break;
+			} 
+
+			glColor3f(255.0f, 255.0f, 255.0f);
+			glLineWidth(1.f);
+		}
 	}
+
+	if (App->editor->gl_Lighting) glEnable(GL_LIGHTING);
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
@@ -714,6 +789,27 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 
 }
 
+void ModuleRenderer3D::DrawLightsDebug()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	if (App->lightManager->IsLightDebugEnabled()) {
+
+		for (auto& it = App->lightManager->lights.begin(); it != App->lightManager->lights.end(); ++it) {
+
+			if ((*it)->debug && (*it)->lightGO->active && (*it)->lightGO->GetComponent(ComponentType::LIGHT)->active) {
+
+				(*it)->Render();
+
+			}	
+
+		}
+
+	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
@@ -725,7 +821,6 @@ void ModuleRenderer3D::DrawGameObjects()
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
 

@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -44,7 +45,6 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	//TODO:
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
 
 	void PostUpdateCreateGameObject_UI(GameObject* go);

@@ -134,16 +134,6 @@ void GameObject::SetParent(GameObject* newParent)
 	mParent = newParent;
 	mParent->AddChild(this);
 
-	// Update transform values, there is a bug where if the parent has a different scale it changes the scale of the children
-	if (mParent->mTransform != nullptr)
-	{
-		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
-	}
-
-	else
-	{
-		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
-	}
 }
 
 void GameObject::ReParent(GameObject* newParent)
