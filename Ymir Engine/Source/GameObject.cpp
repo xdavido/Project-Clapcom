@@ -69,15 +69,15 @@ update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
 
-	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
+	//for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
 
-		if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
+	//	if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
 
-			this->UID = Random::Generate();
+	//		this->UID = Random::Generate();
 
-		}
+	//	}
 
-	}
+	//}
 
 	return update_status::UPDATE_CONTINUE;
 }
