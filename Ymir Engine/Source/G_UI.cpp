@@ -204,8 +204,8 @@ bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 		break;
 	}
 
-	component->transformUI = new UI_Transform(component);
-	mComponents.push_back(component->transformUI);
+	/*component->transformUI = new UI_Transform(component);
+	mComponents.push_back(component->transformUI);*/
 
 	return ret;
 }
@@ -250,6 +250,9 @@ UI_Text* G_UI::AddText(const char* text, float x, float y, float fontSize, float
 
 	name = "Text";
 
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
 	return comp;
@@ -274,7 +277,8 @@ UI_Button* G_UI::AddButton(const char* text, float x, float y, std::string imgPa
 	UI_Button* comp = new UI_Button(this, x, y, w, h);
 	mComponents.push_back(comp);
 
-	name = "Button";
+	/*comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);*/
 
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
@@ -292,6 +296,8 @@ UI_Button* G_UI::AddButton(const char* text, float x, float y, std::string imgPa
 	comp->image->SetImg("Assets/pato.png", UI_STATE::PRESSED);
 	comp->image->SetImg("Assets/Baker_house.png", UI_STATE::RELEASE);
 	comp->image->SetImg("Assets/Water.png", UI_STATE::SELECTED);
+
+	name = "Button";
 
 	aux = nullptr;
 
@@ -312,6 +318,9 @@ UI_InputBox* G_UI::AddInputBox(float x, float y, std::string imgPath, float w, f
 	UI_InputBox* comp = new UI_InputBox(this, x, y);
 	mComponents.push_back(comp);
 
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
 	canvas = static_cast<G_UI*>(mParent)->canvas;
 
 	// Unity-like
@@ -329,9 +338,6 @@ UI_InputBox* G_UI::AddInputBox(float x, float y, std::string imgPath, float w, f
 	comp->image->SetImg(imgPath, UI_STATE::NORMAL);
 
 	name = "Input Box";
-
-	comp->transformUI = new UI_Transform(comp);
-	mComponents.push_back(comp->transformUI);
 
 	aux = nullptr;
 
@@ -371,15 +377,15 @@ UI_Checkbox* G_UI::AddCheckBox(bool checked, float x, float y, float w, float h)
 
 	name = "Checkbox";
 
+	comp->transformUI = new UI_Transform(comp);
+	mComponents.push_back(comp->transformUI);
+
 	comp->isChecked = checked;
 
 	comp->bgImg = aux;
 	comp->cmImg = aux2;
 	comp->cmImg->GetComponentUI(UI_TYPE::IMAGE)->active = checked;
 	comp->displayText = aux3;
-
-	comp->transformUI = new UI_Transform(comp);
-	mComponents.push_back(comp->transformUI);
 
 	aux = nullptr;
 	aux2 = nullptr;

@@ -531,6 +531,12 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 	}
 }
 
+void TextEdit(MonoObject* object, double value)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->SetValue(value);
+}
+
 void SliderEdit(MonoObject* object, double value)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);

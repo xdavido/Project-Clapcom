@@ -19,6 +19,7 @@ public:
 	~UI_Button();
 
 	void OnInspector();
+	void SetReference() override;
 	void OnReferenceDestroyed(void* ptr = nullptr);
 
 	void OnNormal();
@@ -35,6 +36,8 @@ public:
 	UI_Image* image;
 
 	GameObject* displayText;
+
+	std::map<UI_STATE, std::string> mPaths;
 
 	//color
 	Color focusedColor;

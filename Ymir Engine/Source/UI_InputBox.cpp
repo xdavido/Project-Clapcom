@@ -45,7 +45,8 @@ update_status UI_InputBox::Update(float dt)
 		External->input->SetInputActive(text, false);
 	}
 	
-	if (text != displayText->text) { displayText->text = text; }
+	if (displayText != nullptr && text != displayText->text) { displayText->text = text; }
+
 	return ret;
 }
 

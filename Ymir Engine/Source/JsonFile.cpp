@@ -1255,6 +1255,24 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		{
 			json_object_set_boolean(componentObject, "Is interactable", static_cast<const UI_Button&>(component).isInteractable);
 
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Button&>(component).displayText), "Text");
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Button&>(component).image->mOwner), "Image");
+
+			json_object_set_string(componentObject, "Normal", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::NORMAL]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Focused", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::FOCUSED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Pressed", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::PRESSED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Selected", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::SELECTED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Release", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::RELEASE]->GetAssetsFilePath().c_str());
+
 			// Colors
 			SetColor(componentObject, component);
 		}
@@ -1869,21 +1887,26 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		}
 		case UI_TYPE::IMAGE:
 		{
-			UI_Image* ui_comp = gameObject->AddImage(json_object_get_string(componentObject, "Path"));
+			//UI_Image* ui_comp = gameObject->AddImage(json_object_get_string(componentObject, "Path"));
 
-			//UI_Image* ui_comp = new UI_Image(gameObject);
-			//ui_comp->width = json_object_get_number(componentObject, "Width");
-			//ui_comp->height = json_object_get_number(componentObject, "Height");
+			UI_Image* ui_comp = new UI_Image(gameObject);
+			ui_comp->width = json_object_get_number(componentObject, "Width");
+			ui_comp->height = json_object_get_number(componentObject, "Height");
 
-			//// TODO: import img
-			//ui_comp->mat->path = json_object_get_string(componentObject, "Path");
+			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
 
-			//ResourceTexture* rTexTemp = new ResourceTexture();
-			//ImporterTexture::Import(ui_comp->mat->path, rTexTemp);
-			//rTexTemp->type = TextureType::DIFFUSE;
-			//rTexTemp->UID = Random::Generate();
-			//ui_comp->mat->path = ui_comp->mat->path;
-			//ui_comp->mat->rTextures.push_back(rTexTemp);
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+			ui_comp->SetImg(ui_comp->mat->path, UI_STATE::NORMAL);
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
@@ -1900,7 +1923,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			ui_comp->color.b = static_cast<float>(json_array_get_number(jsonUIArray, 2));
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
-			//gameObject->AddComponent(ui_comp);
+			gameObject->AddComponent(ui_comp);
 			comp = ui_comp;
 
 			break;
@@ -1909,6 +1932,18 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		{
 			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, json_object_get_string(componentObject, "Text"), json_object_get_number(componentObject, "Font size"), json_object_get_number(componentObject, "Line Spacing"),
 				json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"), 200, 50);
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
@@ -1934,6 +1969,26 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		{
 			UI_Button* ui_comp = new UI_Button(gameObject);
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
+
+			int ret = GetReference(componentObject, *ui_comp, "Text", true);
+			GetReference(componentObject, *ui_comp, "Image", (ret == -1 ? true : false));
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::NORMAL, json_object_get_string(componentObject, "Normal")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::FOCUSED, json_object_get_string(componentObject, "Focused")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::PRESSED, json_object_get_string(componentObject, "Pressed")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::SELECTED, json_object_get_string(componentObject, "Selected")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::RELEASE, json_object_get_string(componentObject, "Release")));
 
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
@@ -2006,6 +2061,18 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			ui_comp->text = json_object_get_string(componentObject, "Text");
 			ui_comp->maxChars = json_object_get_number(componentObject, "Max characters");
 
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
 
@@ -2076,6 +2143,17 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			UI_Checkbox* ui_comp = new UI_Checkbox(gameObject);
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
 			ui_comp->isChecked = json_object_get_boolean(componentObject, "Is checked");
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
 
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
@@ -2150,6 +2228,17 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			// Get references UIDs for later
 			int ret = GetReference(componentObject, *ui_comp, "Fill image", true);
 			GetReference(componentObject, *ui_comp, "Handle image", (ret == -1 ? true : false));
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
 
 			// Values
 			ui_comp->useFloat = json_object_get_boolean(componentObject, "Use Floats");
@@ -2274,10 +2363,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 	}
 	else if (type == "UI Transform")
 	{
-		C_UI& ui = *static_cast<G_UI*>(gameObject)->GetComponentUI((UI_TYPE)json_object_get_number(componentObject, "Component reference"));
-		ui.transformUI = new UI_Transform(&ui);
+		C_UI* ui = static_cast<G_UI*>(gameObject)->GetComponentUI((UI_TYPE)json_object_get_number(componentObject, "Component reference"));
+		
+		if (ui != nullptr)
+		{
+			ui->transformUI = new UI_Transform(ui);
 
-		gameObject->AddComponent(ui.transformUI);
+			gameObject->AddComponent(ui->transformUI);
+		}
 
 	}
 	else if (type == "Audio listener")

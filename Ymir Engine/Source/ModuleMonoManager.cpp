@@ -97,8 +97,14 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 #pragma region UI
 
+	// Image
 	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
-	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI); 
+	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI);
+
+	// Text
+	mono_add_internal_call("YmirEngine.UI::TextEdit", TextEdit);
+
+	// Slider
 	mono_add_internal_call("YmirEngine.UI::SliderEdit", SliderEdit);
 
 #pragma endregion

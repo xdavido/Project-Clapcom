@@ -86,6 +86,31 @@ void UI_Button::OnInspector()
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
+void UI_Button::SetReference()
+{
+	std::map<std::string, int>::iterator it = vTempReferences.begin();
+
+	while (it != vTempReferences.end())
+	{
+		if (it->first == "Text")
+		{
+			displayText = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+		}
+		else if (it->first == "Image")
+		{
+			image = (UI_Image*)static_cast<G_UI*>(External->scene->mRootNode->FindChild(it->second))->GetComponentUI(UI_TYPE::IMAGE);
+
+			image->SetImg(mPaths[UI_STATE::NORMAL], UI_STATE::NORMAL);
+			image->SetImg(mPaths[UI_STATE::FOCUSED], UI_STATE::FOCUSED);
+			image->SetImg(mPaths[UI_STATE::PRESSED], UI_STATE::PRESSED);
+			image->SetImg(mPaths[UI_STATE::SELECTED], UI_STATE::SELECTED);
+			image->SetImg(mPaths[UI_STATE::RELEASE], UI_STATE::RELEASE);
+		}
+
+		++it;
+	}
+}
+
 void UI_Button::OnReferenceDestroyed(void* ptr)
 {
 	if (image->mOwner == ptr)
