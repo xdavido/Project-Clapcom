@@ -261,6 +261,23 @@ void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
 }
 
+void SetRotation(MonoObject* obj, MonoObject* vel) {
+
+	if (External == nullptr)
+		return;
+
+	Quat omgItWorks = External->moduleMono->UnboxQuat(vel);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+
+	if (rigidbody)
+	{
+		rigidbody->physBody->SetRotation(omgItWorks);
+
+	}
+
+}
+
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types

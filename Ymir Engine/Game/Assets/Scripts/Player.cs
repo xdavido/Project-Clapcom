@@ -126,26 +126,22 @@ public class Player : YmirComponent
         //--------------------- KeyBoard Movement ---------------------//
         //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetForward() * movementSpeed;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetForward() * -movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetRight() * movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetRight() * movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetRight() * -movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetRight() * -movementSpeed);
         //}
 
 
@@ -186,7 +182,7 @@ public class Player : YmirComponent
     {
         //Debug.Log("Hola");
         //Calculate player rotation
-        Vector3 aX = new Vector3(gamepadInput.x, 0, -gamepadInput.y - 1);
+        Vector3 aX = new Vector3(gamepadInput.x, 0, -gamepadInput.y);
         Vector3 aY = new Vector3(0, 0, 1);
         //Debug.Log(gamepadInput.x);
         //Debug.Log(gamepadInput.y);
@@ -206,7 +202,7 @@ public class Player : YmirComponent
 
         //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
 
-        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
+        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
     }
 
     void Shoot()

@@ -88,5 +88,8 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void AddComponent(int componentType);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetRotation(Quaternion rot);
+
     }
 }
