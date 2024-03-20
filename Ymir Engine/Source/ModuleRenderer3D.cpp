@@ -36,7 +36,7 @@ bool ModuleRenderer3D::Init()
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
-
+	
 	// Stream Assimp Log messages to Debug window
 	EnableAssimpDebugger();
 
@@ -329,7 +329,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawGameObjects();
 
 			// Render Physics Stuff
-			if (App->physics->debugGame)
+			if (App->physics->debugGame || App->scene->godMode)
 			{
 				DrawPhysicsColliders();
 			}
@@ -359,7 +359,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawGameObjects();
 
 			// Render Physics Stuff
-			if (App->physics->debugScene)
+			if (App->physics->debugScene || App->scene->godMode)
 			{
 				DrawPhysicsColliders();
 			}

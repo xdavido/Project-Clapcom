@@ -57,6 +57,7 @@ bool ModuleScene::Init()
 	gameCameraObject->AddComponent(audioSourceComponent);
 
 	selectedGO = nullptr;
+	godMode = false;
 
 	return ret;
 }
@@ -111,6 +112,11 @@ update_status ModuleScene::Update(float dt)
 
 		}
 
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		godMode = !godMode;
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {

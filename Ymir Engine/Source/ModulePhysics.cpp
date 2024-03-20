@@ -4,20 +4,22 @@
 #include "ModuleInput.h"
 #include "PhysBody.h"
 
+#include "ModuleScene.h"
+
 #include "Log.h"
 
 #include <vector>
 
 #ifdef _DEBUG
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics_debug.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision_debug.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath_debug.lib")
 #else					   
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath.lib")
 #endif
- 
+
 #include "External/mmgr/mmgr.h"
 
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -38,7 +40,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	sensorColor = Red;
 }
 
-ModulePhysics::~ModulePhysics() 
+ModulePhysics::~ModulePhysics()
 {
 	delete dispatcher;
 	delete collisionConfig;
@@ -47,7 +49,7 @@ ModulePhysics::~ModulePhysics()
 }
 
 // INIT ----------------------------------------------------------------------
-bool ModulePhysics::Init() 
+bool ModulePhysics::Init()
 {
 	return true;
 }
@@ -72,8 +74,33 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
+	
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
+		// Enable/disable collision logic in God Mode
+		if (App->scene->godMode)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+			{
+				for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+				{
+					if (*(it) != NULL)
+					{
+						if ((*it)->body->getCollisionFlags() == btCollisionObject::CF_NO_CONTACT_RESPONSE)
+						{
+							(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+						}
+						else
+						{
+							(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+						}
+					}
+				}
+			}
+		}
+
 		world->stepSimulation(dt, 15);
 
 		int numManifolds = world->getDispatcher()->getNumManifolds();
@@ -145,7 +172,7 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
 
 	btVector3 localInertia(0, 0, 0);
-	
+
 	if (mass != 0.f)
 		shape->calculateLocalInertia(mass, localInertia);
 
@@ -304,7 +331,7 @@ void ModulePhysics::SetDrawGame(bool d)
 	else LOG("Draw Game Colliders Off");
 }
 
-void ModulePhysics::SetColliderColor(Color col) 
+void ModulePhysics::SetColliderColor(Color col)
 {
 	colliderColor = col;
 }
@@ -331,10 +358,10 @@ btCollisionShape* ModulePhysics::CreateCollisionShape(const std::vector<Vertex>&
 	btTriangleMesh* triangleMesh = new btTriangleMesh();
 
 	// Add vertices to the triangle mesh
-    for (const Vertex& vertex : vertices) {
-        btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-        triangleMesh->findOrAddVertex(btVertex, 1);
-    }
+	for (const Vertex& vertex : vertices) {
+		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
+		triangleMesh->findOrAddVertex(btVertex, 1);
+	}
 
 	// Add triangles to the triangle mesh
 	for (size_t i = 0; i < indices.size(); i += 3) {
@@ -350,7 +377,7 @@ btCollisionShape* ModulePhysics::CreateCollisionShape(const std::vector<Vertex>&
 	}
 
 	btCollisionShape* collisionShape = new btConvexTriangleMeshShape(triangleMesh);
-	
+
 	return collisionShape;
 }
 
@@ -375,7 +402,7 @@ bool ModulePhysics::VolumetricRayCast(const btVector3& origin, const btVector3& 
 {
 
 	btVector3 step = direction.normalized() * (rayLength / numRays);
-	
+
 	btVector3 start = origin - direction.normalized() * (rayLength / 2);
 
 	hitPoints.clear();
@@ -392,7 +419,7 @@ bool ModulePhysics::VolumetricRayCast(const btVector3& origin, const btVector3& 
 			hitPoints.push_back(rayCallback.m_hitPointWorld);
 		}
 
-		
+
 		start += step;
 	}
 
@@ -431,8 +458,8 @@ void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 	glBegin(GL_LINES);
 
 	// Aristas horizontales
-	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
-	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z()); 
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
 
 	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
 	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
@@ -526,13 +553,13 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 	glVertex3f(radius, halfHeight, 0);
 	glVertex3f(radius, -halfHeight, 0);
 
-	glVertex3f(-radius, halfHeight, 0); 
+	glVertex3f(-radius, halfHeight, 0);
 	glVertex3f(-radius, -halfHeight, 0);
 
-	glVertex3f(0, halfHeight, radius); 
+	glVertex3f(0, halfHeight, radius);
 	glVertex3f(0, -halfHeight, radius);
 
-	glVertex3f(0, halfHeight, -radius); 
+	glVertex3f(0, halfHeight, -radius);
 	glVertex3f(0, -halfHeight, -radius);
 
 	glEnd();
@@ -597,7 +624,7 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 
 	int numTriangles = meshInterface->getNumSubParts();
 
-	glPushMatrix(); 
+	glPushMatrix();
 	glMultMatrixf(mat); // translation and rotation 
 
 	// TODO: render mesh collider

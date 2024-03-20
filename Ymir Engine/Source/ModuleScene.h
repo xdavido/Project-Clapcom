@@ -114,6 +114,9 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
+	// God mode
+	bool godMode;
+
 private:
 
 	G_UI* canvas;
