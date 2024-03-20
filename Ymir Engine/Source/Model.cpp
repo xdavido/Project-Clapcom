@@ -206,7 +206,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-			meshes.push_back(*ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));
+			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
 
 		}
 
@@ -226,7 +226,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 }
 
-Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -486,25 +486,23 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 	// Create the mesh
 
-	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
-
 	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh";
 
 	JsonFile ymeshFile(libraryPath, std::to_string(linkGO->UID) + ".ymesh");
-	External->fileSystem->SaveMeshToFile(tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+	External->fileSystem->SaveMeshToFile(vertices, indices, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
 
 	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
 	CMesh* cmesh = new CMesh(linkGO);
 
+	cmesh->rMeshReference = rMesh;
+
 	cmesh->nVertices = vertices.size();
 	cmesh->nIndices = indices.size();
 
-	cmesh->rMeshReference = rMesh;
-
 	linkGO->AddComponent(cmesh);
 
-	return tmpMesh; // Retrieve the Mesh with all the necessary data to draw
+	// Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
 }
 
 void Model::GenerateModelMetaFile()

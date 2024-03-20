@@ -136,10 +136,10 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
 }
 
-bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {
+bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename) {
 
 	uint bufferSize = 0;
-	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);
+	char* fileBuffer = (char*)ImporterMesh::Save(vertices, indices, bufferSize);
 
 	std::ofstream outFile(filename, std::ios::binary);
 
