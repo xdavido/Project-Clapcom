@@ -439,4 +439,18 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 		}
 	}
 }
+void HideImageUI(MonoString* imageToCHide)
+{
+	//Quitar el active y meter un erase
+	std::string _findbyname = mono_string_to_utf8(imageToCHide);
+
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
+	{
+		if ((*it)->name == _findbyname)
+		{
+			(*it)->active = false;
+		}
+	}
+
+}
 #pragma endregion

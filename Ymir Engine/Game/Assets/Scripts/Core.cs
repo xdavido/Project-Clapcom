@@ -139,7 +139,7 @@ public class Core : YmirComponent
 
         if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
         {
-            UI.ChangeImageUI(gameObject, "Assets/juan.png", "Image", 1, 1);
+            UI.HideImageUI("Image");
         }
 
         float x = Input.GetLeftAxisX();

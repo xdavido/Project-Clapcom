@@ -31,6 +31,9 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject HideImageUI(string hideGo);
+
     }
     public class Input
     {

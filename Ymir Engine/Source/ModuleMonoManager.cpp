@@ -81,7 +81,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 #pragma region UI
 	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
-	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI);
+	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI); 
+	mono_add_internal_call("YmirEngine.UI::HideImageUI", HideImageUI);
 #pragma endregion
 
 #pragma region GamePad
