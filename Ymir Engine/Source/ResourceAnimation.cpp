@@ -35,6 +35,7 @@ ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANI
 bool ResourceAnimation::LoadInMemory()
 {
 	ImporterAnimation::Load(this->GetLibraryFilePath().c_str(), this);
+	LOG("Loaded Animation %s succesfully", name.c_str());
 	for (auto it = boneInfoMap.cbegin(); it != boneInfoMap.cend(); it++) {
 		LOG("%s", it->first.c_str());
 		LOG("%d", it->second.id);
