@@ -14,6 +14,7 @@
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
 #include "ModuleLightManager.h"
+#include "ModuleAudio.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -982,13 +983,13 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::Button("Stop")) {
 
+				App->audio->StopAllSounds();
 				TimeManager::gameTimer.Stop();
 
 				isPlaying = false;
 				isPaused = false;
 
 				App->scene->LoadScene();
-
 			}
 
 		}

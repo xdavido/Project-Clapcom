@@ -13,14 +13,14 @@ public class CameraRot : YmirComponent
 
     //position difference between camera and player
     //public Vector3 difPos = new Vector3(-15, 20, -15);
-    public Vector3 difPos = new Vector3(0, 25, -30);
+    public Vector3 difPos = new Vector3(0, 90, -70);
 
     //camera velocity
     private float followStrenght;
 
     private GameObject _gameObject;
 
-    private bool scriptStart = true;
+    //private bool scriptStart = true;
 
     public void Start()
     {
@@ -29,25 +29,27 @@ public class CameraRot : YmirComponent
         {
             followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
         }
+
+        Audio.PlayAudio(gameObject, "LV2_Inter");
     }
 
-    private void StartFake()
-    {
-        _gameObject = InternalCalls.GetGameObjectByName("Player");
-        if (_gameObject != null)
-        {
-            followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
-        }
-    }
+    //private void StartFake()
+    //{
+    //    _gameObject = InternalCalls.GetGameObjectByName("Player");
+    //    if (_gameObject != null)
+    //    {
+    //        followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
+    //    }
+    //}
 
     // Update is called once per frame
     public void Update()
     {
-        if (scriptStart == true)
-        {
-            StartFake();
-            scriptStart = false;
-        }
+        //if (scriptStart == true)
+        //{
+        //    StartFake();
+        //    scriptStart = false;
+        //}
         Vector3 newpos = _gameObject.transform.globalPosition + difPos;
 
         float dis = Vector3.Distance(gameObject.transform.globalPosition, newpos);

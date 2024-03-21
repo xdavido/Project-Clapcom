@@ -232,6 +232,7 @@ public class Player : YmirComponent
 
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
+            Audio.PlayAudio(gameObject, "P_PredRush");
             isReloading = true;
             reloadTimer = reloadCD;
         }
@@ -431,16 +432,14 @@ public class Player : YmirComponent
     #region DASH
     private void StartDash()
     {
+        Audio.PlayAudio(gameObject, "P_Dash");
+        //Audio.PlayAudio(gameObject, "P_Relief");
         StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        //Audio.PlayAudio(gameObject, "P_Dash");
-        Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        //gameObject.SetImpulse(gameObject.transform.GetForward().normalized); //Arreglar esto
-        //gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
         gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
     }
     private void EndDash()
