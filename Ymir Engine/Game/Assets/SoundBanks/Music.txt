@@ -1,7 +1,0 @@
-Event	ID	Name			Wwise Object Path	Notes
-	3991942870	Music			\Default Work Unit\Music	
-
-In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	107121754	LV2_PROVISIONAL	C:\Users\Mario\Documents\WwiseProjects\Funciona Porfa\.cache\Windows\SFX\LV2_PROVISIONAL_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\Playlist\LV2_PROVISIONAL\LV2_PROVISIONAL		28401984
-	1062417392	LV2_PROVISIONAL_PART2	C:\Users\Mario\Documents\WwiseProjects\Funciona Porfa\.cache\Windows\SFX\LV2_PROVISIONAL_PART2_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\Playlist\LV2_PROVISIONAL_PART2\LV2_PROVISIONAL_PART2		22053696
-

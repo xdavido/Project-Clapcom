@@ -1,0 +1,14 @@
+Event	ID	Name			Wwise Object Path	Notes
+	19031741	P_PredRush			\Default Work Unit\Characters\Player\P_PredRush	
+	947529532	P_Death			\Default Work Unit\Characters\Player\P_Death	
+	1073763149	P_Hit			\Default Work Unit\Characters\Player\P_Hit	
+	1348116050	P_AcidSpitHit			\Default Work Unit\Characters\Player\P_AcidSpitHit	
+	2157893143	P_Whine			\Default Work Unit\Characters\Player\P_Whine	
+	2290830213	P_Relief			\Default Work Unit\Characters\Player\P_Relief	
+	2881165168	P_TailSweep			\Default Work Unit\Characters\Player\P_TailSweep	
+	2936341071	P_AcidSpitPuddle			\Default Work Unit\Characters\Player\P_AcidSpitPuddle	
+	3396224688	P_Talk			\Default Work Unit\Characters\Player\P_Talk	
+	3633830695	P_TailSweepHit			\Default Work Unit\Characters\Player\P_TailSweepHit	
+	3919743498	P_Dash			\Default Work Unit\Characters\Player\P_Dash	
+	4041423483	P_AcidSpit			\Default Work Unit\Characters\Player\P_AcidSpit	
+
