@@ -38,6 +38,8 @@ public:
 
 	btCollisionShape* GetShape();
 
+	void UpdateLockRotation();
+
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
 	void SetBoxCollider();
 	void SetSphereCollider();
@@ -72,6 +74,9 @@ public:
 
 	float mass;
 	bool gravity;
+	bool lockX;
+	bool lockZ;
+	bool lockY;
 
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;
