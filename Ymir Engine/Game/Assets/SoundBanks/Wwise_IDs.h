@@ -90,6 +90,7 @@ namespace AK
         static const AkUniqueID P_HIT = 1073763149U;
         static const AkUniqueID P_PREDRUSH = 19031741U;
         static const AkUniqueID P_RELIEF = 2290830213U;
+        static const AkUniqueID P_SHOOT = 1216763735U;
         static const AkUniqueID P_TAILSWEEP = 2881165168U;
         static const AkUniqueID P_TAILSWEEPHIT = 3633830695U;
         static const AkUniqueID P_TALK = 3396224688U;

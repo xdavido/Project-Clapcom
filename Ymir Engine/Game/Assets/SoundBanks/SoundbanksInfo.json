@@ -412,7 +412,7 @@
    {
     "Id": "1069431850",
     "Language": "SFX",
-    "Hash": "2403535758",
+    "Hash": "2378403288",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Player",
     "ShortName": "Player",
     "Path": "Player.bnk",
@@ -542,6 +542,22 @@
         "Language": "SFX",
         "ShortName": "Relief.wav",
         "Path": "SFX\\Relief_10C4C929.wem"
+       }
+      ]
+     },
+     {
+      "Id": "1216763735",
+      "Name": "P_Shoot",
+      "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Shoot",
+      "DurationType": "OneShot",
+      "DurationMin": "0.458912",
+      "DurationMax": "0.458912",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "583374193",
+        "Language": "SFX",
+        "ShortName": "FirearmShot.wav",
+        "Path": "SFX\\FirearmShot_10C4C929.wem"
        }
       ]
      },

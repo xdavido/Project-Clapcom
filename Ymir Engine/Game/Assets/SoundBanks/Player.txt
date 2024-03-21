@@ -2,6 +2,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	19031741	P_PredRush			\Default Work Unit\Characters\Player\P_PredRush	
 	947529532	P_Death			\Default Work Unit\Characters\Player\P_Death	
 	1073763149	P_Hit			\Default Work Unit\Characters\Player\P_Hit	
+	1216763735	P_Shoot			\Default Work Unit\Characters\Player\P_Shoot	
 	1348116050	P_AcidSpitHit			\Default Work Unit\Characters\Player\P_AcidSpitHit	
 	2157893143	P_Whine			\Default Work Unit\Characters\Player\P_Whine	
 	2290830213	P_Relief			\Default Work Unit\Characters\Player\P_Relief	
@@ -19,6 +20,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	326843485	P_PredRush	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\PredRush_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_PredRush		101044
 	329198443	P_Whine	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Whine_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Whine		671270
 	516417712	P_Death	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\P_Death_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Death		86080
+	583374193	P_Shoot	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FirearmShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Shoot		81016
 	645100761	P_Relief	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Relief_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Relief		108740
 	767211440	P_TailSweep	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\P_TailSweep_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_TailSweep		70960
 	776615821	P_AcidSpitPuddle	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\AcidSpitPuddle_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_AcidSpitPuddle		129004
