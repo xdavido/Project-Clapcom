@@ -34,8 +34,10 @@ void Animator::UpdateAnimation(float dt)
 		}
 	}
 
-	if (currentAnimation->isPlaying)
-		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+	if (currentAnimation) {
+		if (currentAnimation->isPlaying)
+			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+	}
 
 }
 
