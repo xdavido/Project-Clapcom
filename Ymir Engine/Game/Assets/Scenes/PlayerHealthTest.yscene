@@ -413,65 +413,66 @@
                 }
             ]
         },
-        {
-            "Name": "Player",
-            "UID": 1009784856,
-            "Element_Type": "Model",
-            "Parent UID": 177412668,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        31.817245483398438,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        3.4850001335144043,
-                        3.4850001335144043,
-                        3.4850001335144043
-                    ]
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        5,
-                        5,
-                        5
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "Gravity": true
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "PlayerMovement.cs",
-                    "UID": 0,
-                    "movementSpeed": 5
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "Health.cs",
-                    "UID": 0,
-                    "currentHealth": 0,
-                    "maxHealth": 7,
-                    "debugDmg": 1
-                }
+      {
+        "Name": "Player",
+        "UID": 1009784856,
+        "Element_Type": "Model",
+        "Origin_Path": "Assets/Primitives/Cube.fbx",
+        "Parent UID": 177412668,
+        "Components": [
+          {
+            "Type": "Transform",
+            "Active": 1,
+            "Translation": [
+              0,
+              31.817245483398438,
+              0
             ],
-            "Children UID": [
-                1553236809
+            "Rotation": [
+              -0,
+              0,
+              -0
+            ],
+            "Scale": [
+              3.4850001335144043,
+              3.4850001335144043,
+              3.4850001335144043
             ]
-        },
+          },
+          {
+            "Type": "Physics",
+            "Active": 1,
+            "Collider Type": 0,
+            "Size": [
+              5,
+              5,
+              5
+            ],
+            "Radius": 5,
+            "Height": 10,
+            "Physics Type": 0,
+            "Mass": 1,
+            "Gravity": true
+          },
+          {
+            "Type": "Script",
+            "ScriptName": "PlayerMovement.cs",
+            "UID": 0,
+            "movementSpeed": 5
+          },
+          {
+            "Type": "Script",
+            "ScriptName": "Health.cs",
+            "UID": 0,
+            "currentHealth": 0,
+            "maxHealth": 7,
+            "debugDmg": 1
+          }
+        ],
+        "Children UID": [
+          1553236809
+        ]
+      },
         {
             "Name": "Cube (1)",
             "UID": 1553236809,
@@ -513,36 +514,37 @@
                 }
             ]
         },
-        {
-            "Name": "Plane",
-            "UID": 935998235,
-            "Element_Type": "Model",
-            "Parent UID": 177412668,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        -8.2560214996337891,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        132.04579162597656,
-                        132.04579162597656,
-                        132.04579162597656
-                    ]
-                }
+      {
+        "Name": "Plane",
+        "UID": 935998235,
+        "Element_Type": "Model",
+        "Origin_Path": "Assets/Primitives/Plane.fbx",
+        "Parent UID": 177412668,
+        "Components": [
+          {
+            "Type": "Transform",
+            "Active": 1,
+            "Translation": [
+              0,
+              -8.2560214996337891,
+              0
             ],
-            "Children UID": [
-                1482273603
+            "Rotation": [
+              -0,
+              0,
+              -0
+            ],
+            "Scale": [
+              132.04579162597656,
+              132.04579162597656,
+              132.04579162597656
             ]
-        },
+          }
+        ],
+        "Children UID": [
+          1482273603
+        ]
+      },
         {
             "Name": "Plane (1)",
             "UID": 1482273603,
