@@ -18,7 +18,6 @@
    {
     "Id": "209385238",
     "Language": "SFX",
-    "Hash": "2496613464",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Caius",
     "ShortName": "Caius",
     "Path": "Caius.bnk",
@@ -60,7 +59,6 @@
    {
     "Id": "265111208",
     "Language": "SFX",
-    "Hash": "1427811770",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level3\\AmbientLV3",
     "ShortName": "AmbientLV3",
     "Path": "AmbientLV3.bnk",
@@ -166,7 +164,6 @@
    {
     "Id": "265111209",
     "Language": "SFX",
-    "Hash": "812632268",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level2\\AmbientLV2",
     "ShortName": "AmbientLV2",
     "Path": "AmbientLV2.bnk",
@@ -272,7 +269,6 @@
    {
     "Id": "265111210",
     "Language": "SFX",
-    "Hash": "2400875734",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level1\\AmbientLV1",
     "ShortName": "AmbientLV1",
     "Path": "AmbientLV1.bnk",
@@ -378,6 +374,7 @@
    {
     "Id": "357189188",
     "Language": "SFX",
+    "Hash": "2574216612",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\LV2Music",
     "ShortName": "LV2Music",
     "Path": "LV2Music.bnk",
@@ -419,7 +416,6 @@
    {
     "Id": "542436681",
     "Language": "SFX",
-    "Hash": "4143389248",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Firearm",
     "ShortName": "Firearm",
     "Path": "Firearm.bnk",
@@ -575,7 +571,6 @@
    {
     "Id": "1000644167",
     "Language": "SFX",
-    "Hash": "551106268",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Plasma",
     "ShortName": "Plasma",
     "Path": "Plasma.bnk",
@@ -649,7 +644,6 @@
    {
     "Id": "1069431850",
     "Language": "SFX",
-    "Hash": "3290174",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Player",
     "ShortName": "Player",
     "Path": "Player.bnk",
@@ -867,7 +861,6 @@
    {
     "Id": "1161361818",
     "Language": "SFX",
-    "Hash": "1466421761",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\DronXenomorph",
     "ShortName": "DronXenomorph",
     "Path": "DronXenomorph.bnk",
@@ -957,7 +950,6 @@
    {
     "Id": "1301294111",
     "Language": "SFX",
-    "Hash": "3092871733",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Base\\MapInteractionB",
     "ShortName": "MapInteractionB",
     "Path": "MapInteractionB.bnk",
@@ -1023,7 +1015,6 @@
    {
     "Id": "1430525660",
     "Language": "SFX",
-    "Hash": "2199627985",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level3\\MapInteractionLV3",
     "ShortName": "MapInteractionLV3",
     "Path": "MapInteractionLV3.bnk",
@@ -1145,7 +1136,6 @@
    {
     "Id": "1430525661",
     "Language": "SFX",
-    "Hash": "1182971629",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level2\\MapInteractionLV2",
     "ShortName": "MapInteractionLV2",
     "Path": "MapInteractionLV2.bnk",
@@ -1267,7 +1257,6 @@
    {
     "Id": "1430525662",
     "Language": "SFX",
-    "Hash": "3554471707",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level1\\MapInteractionLV1",
     "ShortName": "MapInteractionLV1",
     "Path": "MapInteractionLV1.bnk",
@@ -1389,7 +1378,6 @@
    {
     "Id": "2315910343",
     "Language": "SFX",
-    "Hash": "3992308475",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Iscariot",
     "ShortName": "Iscariot",
     "Path": "Iscariot.bnk",
@@ -1472,7 +1460,6 @@
    {
     "Id": "2692855564",
     "Language": "SFX",
-    "Hash": "165755169",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\XenoSpitter",
     "ShortName": "XenoSpitter",
     "Path": "XenoSpitter.bnk",
@@ -1530,7 +1517,6 @@
    {
     "Id": "2982135181",
     "Language": "SFX",
-    "Hash": "2165875730",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\QueenXenomorph",
     "ShortName": "QueenXenomorph",
     "Path": "QueenXenomorph.bnk",
@@ -1604,7 +1590,6 @@
    {
     "Id": "3063191711",
     "Language": "SFX",
-    "Hash": "371059348",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\FSAD",
     "ShortName": "FSAD",
     "Path": "FSAD.bnk",
@@ -1694,7 +1679,6 @@
    {
     "Id": "3213291899",
     "Language": "SFX",
-    "Hash": "1794616298",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Consumables",
     "ShortName": "Consumables",
     "Path": "Consumables.bnk",
@@ -1777,7 +1761,6 @@
    {
     "Id": "3563481019",
     "Language": "SFX",
-    "Hash": "1096276270",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\UI\\UI_Sfx",
     "ShortName": "UI_Sfx",
     "Path": "UI_Sfx.bnk",
@@ -2035,7 +2018,6 @@
    {
     "Id": "4095160059",
     "Language": "SFX",
-    "Hash": "665799726",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Base\\AmbientB",
     "ShortName": "AmbientB",
     "Path": "AmbientB.bnk",
@@ -2109,7 +2091,6 @@
    {
     "Id": "4095621880",
     "Language": "SFX",
-    "Hash": "3477694633",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\Facehugger",
     "ShortName": "Facehugger",
     "Path": "Facehugger.bnk",
