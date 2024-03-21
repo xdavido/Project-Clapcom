@@ -88,6 +88,8 @@ void CCollider::Update()
 			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 			CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
+			CTransform* parentTransform = (CTransform*)mOwner->mParent->GetComponent(ComponentType::TRANSFORM);
+
 			float offsetX = 0;
 			float offsetY = 0;
 			float offsetZ = 0;
@@ -105,10 +107,27 @@ void CCollider::Update()
 			newMat.SetCol(0, float4(matrix[0], matrix[1], matrix[2], matrix[3]));
 			newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 			newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
-			if (collType != ColliderType::MESH_COLLIDER)
-				newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+
+			if (mOwner->mParent == nullptr)
+			{
+				if (collType != ColliderType::MESH_COLLIDER)
+					newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+				else
+					newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
+			}
 			else
-				newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
+			{
+				if (collType != ColliderType::MESH_COLLIDER)
+					newMat.SetCol(3, float4(matrix[12] - offsetX - parentTransform->GetGlobalPosition().x, 
+											matrix[13] - offsetY - parentTransform->GetGlobalPosition().y, 
+											matrix[14] - offsetZ - parentTransform->GetGlobalPosition().z,  
+											matrix[15]));
+				else
+					newMat.SetCol(3, float4(matrix[12] - parentTransform->GetGlobalPosition().x, 
+											matrix[13] - parentTransform->GetGlobalPosition().y, 
+											matrix[14] - parentTransform->GetGlobalPosition().z, 
+											matrix[15]));
+			}
 
 			mOwner->mTransform->SetPosition(newMat.TranslatePart());
 			mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
@@ -117,7 +136,7 @@ void CCollider::Update()
 			mOwner->mTransform->UpdateTransformsChilds();
 
 		}
-		
+
 	}
 
 	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active) {
@@ -136,7 +155,7 @@ void CCollider::Update()
 
 			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetLocalRotation());
-			
+
 			//physBody->SetScale(componentTransform->scale);
 			/*physBody->SetScale*/
 			if (ImGuizmo::IsUsing()) {
@@ -155,12 +174,12 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) {
 
 				size = componentTransform->GetGlobalTransform().GetScale();
-				
+
 			}
 
 		}
 
-	}	
+	}
 
 	if (size.x == 0) size.x = 0.1;
 	if (size.y == 0) size.y = 0.1;
@@ -168,6 +187,24 @@ void CCollider::Update()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	//LOG("PhysBody position: (%f, %f, %f)",
+	//	physBody->body->getCenterOfMassPosition().x(),
+	//	physBody->body->getCenterOfMassPosition().y(),
+	//	physBody->body->getCenterOfMassPosition().z()
+	//);
+
+	//LOG("GameObject position: (%f, %f, %f)",
+	//	mOwner->mTransform->GetGlobalPosition().x,
+	//	mOwner->mTransform->GetGlobalPosition().y,
+	//	mOwner->mTransform->GetGlobalPosition().z
+	//);
+
+	//LOG("Parent position: (%f, %f, %f)",
+	//	mOwner->mParent->mTransform->GetGlobalPosition().x,
+	//	mOwner->mParent->mTransform->GetGlobalPosition().y,
+	//	mOwner->mParent->mTransform->GetGlobalPosition().z
+	//);
 }
 
 void CCollider::OnInspector()

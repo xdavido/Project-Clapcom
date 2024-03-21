@@ -74,8 +74,8 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
-	LOG("Bodies in list: %d", bodiesList.size());
-	LOG("Bodies in world: %d", world->getNumCollisionObjects());
+	//LOG("Bodies in list: %d", bodiesList.size());
+	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
