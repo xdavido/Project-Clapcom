@@ -67,6 +67,13 @@ public class Player : YmirComponent
     private float shootingTimer = 0.0f;
     public float secondaryRate = 0.2f;
 
+    private bool isReloading= false;
+    private float reloadTimer = 0.0f;
+    private float reloadCD = 1.0f;
+
+    private int ammo = 0;
+    private int magsize = 5;
+
     //--------------------- Fake Start ---------------------\\
     //private bool scriptStart = true;
 
@@ -88,6 +95,9 @@ public class Player : YmirComponent
         dashTimer = 0f;
         dashSpeed = dashDistance / dashDuration;
 
+        //--------------------- Shoot ---------------------\\
+        ammo = magsize;
+        reloadTimer = reloadCD;
 
         currentState = STATE.IDLE;
         Debug.Log("START!");
@@ -122,9 +132,6 @@ public class Player : YmirComponent
         ProcessState();
 
         UpdateState();
-
-
-
 
 
 
@@ -176,6 +183,19 @@ public class Player : YmirComponent
                 Debug.Log("In shoot");
             }
         }
+        if (isReloading)
+        {
+            if (reloadTimer > 0)
+            {
+                reloadTimer -= Time.deltaTime;
+
+                if (reloadTimer <= 0)
+                {
+                    ammo = magsize;
+                    isReloading = false;    
+                }
+            }
+        }
     }
     private void ProcessExternalInput()
     {
@@ -191,7 +211,7 @@ public class Player : YmirComponent
         }
 
         //----------------- Shoot -----------------\\
-        if (Input.GetGamepadRightTrigger() > 0)
+        if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
         {
             inputsList.Add(INPUT.I_SHOOTING);
         }
@@ -204,6 +224,12 @@ public class Player : YmirComponent
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
+        }
+
+        if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
+        {
+            isReloading = true;
+            reloadTimer = reloadCD;
         }
     }
     private void ProcessState()
@@ -364,6 +390,9 @@ public class Player : YmirComponent
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
         Debug.Log("Shoot!");
+
+        --ammo;
+        Debug.Log("Ammo:" + ammo);
 
         StopPlayer();
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
