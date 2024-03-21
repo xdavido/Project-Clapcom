@@ -781,7 +781,7 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 			if (listUI[i]->mOwner->active && listUI[i]->active)
 			{
 				listUI[i]->Draw(isGame);
-				listUI[i]->DebugDraw();
+				//listUI[i]->DebugDraw();
 
 			}
 		}

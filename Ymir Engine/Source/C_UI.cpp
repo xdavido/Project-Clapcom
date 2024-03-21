@@ -209,11 +209,11 @@ void C_UI::DebugDraw()
 
 void C_UI::StateLogic()
 {
-	if (External->editor->g->HoveredWindow != nullptr)
-	{
-		std::string name = External->editor->g->HoveredWindow->Name;
-		if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
-		{
+	//if (External->editor->g->HoveredWindow != nullptr)
+	//{
+		//std::string name = External->editor->g->HoveredWindow->Name;
+		//if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
+		//{
 			float2 mousePos = float2(External->editor->mouse.x, External->editor->mouse.y);
 
 			switch (state)
@@ -291,8 +291,8 @@ void C_UI::StateLogic()
 			default:
 				break;
 			}
-		}
-	}
+		//}
+	//}
 }
 
 void C_UI::OnNormal()
