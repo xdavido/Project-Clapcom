@@ -33,6 +33,8 @@ public:
 
 	void CollisionCallback(bool isTrigger, GameObject* collidedGameObject);
 
+	void CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject);
+
 	void ExecuteButton();
 
 public:

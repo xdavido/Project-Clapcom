@@ -98,20 +98,19 @@ update_status ModulePhysics::Update(float dt)
 
 					if (aux != nullptr) {
 						aux->CollisionCallback(false, pbodyB->owner);
+						onexitcollision = true;
 					}
 				}
-
-
 
 				if (pbodyB->owner != nullptr) {
 					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
 					if (aux != nullptr) {
 						aux->CollisionCallback(false, pbodyA->owner);
+						onexitcollision = true;
 					}
 				}
 				
-
 				if (pbodyA && pbodyB)
 				{
 					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
@@ -119,14 +118,6 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyA, pbodyB);
 						item = item->next;
-
-						if (pbodyA->owner != nullptr) {
-							CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
-
-							if (aux != nullptr) {
-								aux->CollisionCallback(false, pbodyA->owner);
-							}
-						}
 					}
 
 					item = pbodyB->collision_listeners.getFirst();
@@ -134,15 +125,32 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyB, pbodyA);
 						item = item->next;
-
-						if (pbodyB->owner != nullptr) {
-							CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
-
-							if (aux != nullptr) {
-								aux->CollisionCallback(false, pbodyB->owner);
-							}
-						}
 					}
+				}
+			}
+			else if (numContacts == 0 && onexitcollision == true)
+			{
+				// Manejar salida de colisiones
+				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
+				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
+
+				// Verificar que los objetos de colisión sean válidos
+				if (pbodyA && pbodyB)
+				{
+					// Obtener los scripts asociados a los objetos
+					CScript* scriptA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+					CScript* scriptB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
+
+					// Llamar a la función adecuada para manejar la salida de la colisión
+					if (scriptA)
+					{
+						scriptA->CollisionExitCallback(false, pbodyB->owner);
+					}
+					if (scriptB)
+					{
+						scriptB->CollisionExitCallback(false, pbodyA->owner);
+					}
+					onexitcollision == false;
 				}
 			}
 		}
