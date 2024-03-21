@@ -288,6 +288,9 @@ void ModuleScene::ClearScene()
 
 	External->lightManager->lights.clear();
 	gameObjects.clear();
+	External->physics->bodiesList.clear();
+	External->physics->motions.clear();
+	External->physics->world->clearForces();
 	destroyList.clear();
 	App->renderer3D->models.clear();
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
