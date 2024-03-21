@@ -1085,7 +1085,7 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::Button("Regenerate Library"))
 			{
-				DeleteFileAndRefs("Library");
+				DeleteAssetConfirmationPopup("Library");
 			}
 
 			ImGui::EndMenuBar();
@@ -3480,13 +3480,32 @@ void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
 
 	if (showDeleteAssetPopup) {
 
-		ImGui::OpenPopup("Delete Asset Confirmation");
+		if (assetToDelete == "Library") {
+
+			ImGui::OpenPopup("Delete Library Confirmation");
+
+		}
+		else {
+
+			ImGui::OpenPopup("Delete Asset Confirmation");
+
+		}
 
 		// Display the confirmation popup
-		if (ImGui::BeginPopupModal("Delete Asset Confirmation", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		if (ImGui::BeginPopupModal((assetToDelete == "Library" ? "Delete Library Confirmation" : "Delete Asset Confirmation"), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 
-			ImGui::Text("Are you sure you want to delete this asset?");
-			ImGui::TextWrapped("%s", assetToDelete.c_str());
+			if (assetToDelete == "Library") {
+
+				ImGui::Text("Are you sure you want to regenerate library?");
+
+			}
+			else {
+
+				ImGui::Text("Are you sure you want to delete this asset?");
+				ImGui::TextWrapped("%s", assetToDelete.c_str());
+
+			}
+			
 			ImGui::Separator();
 
 			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
