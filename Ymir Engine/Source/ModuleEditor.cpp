@@ -1080,6 +1080,14 @@ void ModuleEditor::DrawEditor()
 
 			static ImGuiTextFilter filter;
 			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
+
+			ImGui::Dummy(ImVec2(10, 0));
+
+			if (ImGui::Button("Delete Library"))
+			{
+				DeleteFileAndRefs("Library");
+			}
+
 			ImGui::EndMenuBar();
 
 			DrawAssetsWindow((currentDir + "/").c_str());
