@@ -1,0 +1,4 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1343835049	C_Talk			\Default Work Unit\Characters\Caius\C_Talk	
+	4124650545	C_Confirm			\Default Work Unit\Characters\Caius\C_Confirm	
+
