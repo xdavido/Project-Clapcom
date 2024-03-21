@@ -286,6 +286,9 @@ public:
 
 	//Name Script
 	std::string script_name;
+
+	//Ignore Meta Files
+	bool shouldIgnoreMeta = true;
 };
 
 #endif // MODULE_EDITOR

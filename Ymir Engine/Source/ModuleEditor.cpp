@@ -727,6 +727,9 @@ void ModuleEditor::DrawEditor()
 				// World Grid Checkbox
 				if (ImGui::Checkbox("Show Grid", &App->renderer3D->showGrid));
 
+				// ImGui checkbox to manage whether to ignore .meta files or not
+				if (ImGui::Checkbox("Ignore .meta files", &shouldIgnoreMeta));
+
 				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
 			}
@@ -3341,7 +3344,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				std::string entryName = entry.path().filename().string();
 
-				if (entryName != "." && entryName != "..") {
+				if (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) {
 
 					ImGui::TableNextColumn();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
