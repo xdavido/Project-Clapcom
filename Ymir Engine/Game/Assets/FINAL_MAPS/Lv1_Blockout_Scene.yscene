@@ -98,6 +98,7 @@
             "Name": "LV1_BLOCKOUT",
             "UID": 374486811,
             "Element_Type": "Model",
+            "Origin_Path": "Assets\/LV1_BLOCKOUT.fbx",
             "Parent UID": 1820615205,
             "Components": [
                 {

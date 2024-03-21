@@ -98,6 +98,7 @@
             "Name": "Map_combined",
             "UID": 1135693741,
             "Element_Type": "Model",
+            "Origin_Path": "Assets\/Map_combined.fbx",
             "Parent UID": 381266425,
             "Components": [
                 {
