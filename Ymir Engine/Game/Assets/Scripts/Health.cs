@@ -12,7 +12,7 @@ public class Health : YmirComponent
     public GameObject healthBar = null;
 
     public float currentHealth = 0;
-    public float maxHealth = 3;
+    public float maxHealth = 7;
 
     public float debugDmg = 1;
 
@@ -44,10 +44,6 @@ public class Health : YmirComponent
         {
             currentHealth -= dmg;
 
-            int paco = (int)currentHealth;
-
-            Debug.Log(paco);
-
             UI.SliderEdit(healthBar, currentHealth);
 
             if (currentHealth <= 0)
@@ -61,7 +57,7 @@ public class Health : YmirComponent
     private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-       
+
         if (gameObject != null)
         {
             PlayerMovement player = gameObject.GetComponent<PlayerMovement>();

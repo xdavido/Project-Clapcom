@@ -10,7 +10,6 @@ enum ComponentType {
 
 	NONE = -1,
 
-	UI_TRAMSFORM,
 	TRANSFORM,
 	MESH,
 	MATERIAL,
@@ -21,6 +20,7 @@ enum ComponentType {
 	RIGIDBODY,
 	PHYSICS,
 	ANIMATION,
+	UI_TRAMSFORM,
 	UI,
 	LIGHT,
 

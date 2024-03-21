@@ -10,6 +10,9 @@ public class Ui : YmirComponent
 {
     public GameObject referenceUI = null;
     public bool start = true;
+
+    public int stop = 2;
+
     public void Start()
     { 
 

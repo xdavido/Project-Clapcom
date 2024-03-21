@@ -8,13 +8,20 @@ namespace YmirEngine
     public enum ComponentType
     {
         NONE = -1,
+
         TRANSFORM,
         MESH,
         MATERIAL,
         SCRIPT,
-        CAMERA,
         AUDIO_SOURCE,
-        AUDIO_LISTENER
+        AUDIO_LISTENER,
+        CAMERA,
+        RIGIDBODY,
+        PHYSICS,
+        ANIMATION,
+        UI_TRAMSFORM,
+        UI,
+        LIGHT
     }
     public class YmirComponent
     {       

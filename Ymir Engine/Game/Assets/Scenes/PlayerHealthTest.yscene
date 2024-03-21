@@ -147,7 +147,7 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 396,
+                    "Width": 558,
                     "Height": 306,
                     "UI Type": 0,
                     "UI State": 1,
@@ -213,28 +213,28 @@
                     "Value max": 10,
                     "Direction": 2,
                     "Focused color": [
+                        -1.5816255460782938e+38,
+                        1.4012984643248171e-44,
+                        -1.5816255460782938e+38,
+                        1.4012984643248171e-44
+                    ],
+                    "Pressed color": [
                         1.4012984643248171e-44,
                         2.8025969286496341e-45,
                         -1.5816255460782938e+38,
                         2.8025969286496341e-45
                     ],
-                    "Pressed color": [
+                    "Selected color": [
                         -1.5816255460782938e+38,
                         0,
                         -1.5816255460782938e+38,
                         0
                     ],
-                    "Selected color": [
+                    "Disabled color": [
                         -1.5816255460782938e+38,
                         0,
                         0,
                         1
-                    ],
-                    "Disabled color": [
-                        0,
-                        1,
-                        1,
-                        0
                     ]
                 },
                 {
@@ -340,7 +340,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         9,
-                        136.39999389648438,
+                        54,
                         126,
                         103
                     ],
@@ -395,7 +395,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         -26,
-                        38.599998474121094,
+                        121,
                         70,
                         70
                     ],
@@ -464,7 +464,7 @@
                     "ScriptName": "Health.cs",
                     "UID": 0,
                     "currentHealth": 0,
-                    "maxHealth": 3,
+                    "maxHealth": 7,
                     "debugDmg": 1
                 }
             ],

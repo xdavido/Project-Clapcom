@@ -190,12 +190,10 @@ public class PlayerMovement : YmirComponent
     private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-        Debug.Log("123124: ");
+
         if (gameObject != null)
         {
-            Debug.Log("coso: ");
             Health player = gameObject.GetComponent<Health>();
-
             player.TakeDmg(3);
         }
     }
