@@ -118,7 +118,8 @@ namespace YmirEngine
 
         public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
         {
-            return (a + (b - a) * t);
+            t = (t < 0f) ? 0f : (t > 1f) ? 1f : t;
+            return a * (1 - t) + b * t;
         }
 
         public static Vector3 SmoothDamp(Vector3 current, Vector3 target, ref Vector3 currentVelocity, float smoothTime, float maxSpeed = float.PositiveInfinity, float deltaTime = 0.02f)
