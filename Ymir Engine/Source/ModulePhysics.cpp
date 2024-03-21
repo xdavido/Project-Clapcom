@@ -654,15 +654,18 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 	float mat[16];
 	pbody->GetTransform(mat);
 
+	// Get Scale
+	btVector3 scaling = pbody->body->getCollisionShape()->getLocalScaling();
+
 	btConvexTriangleMeshShape* shape = (btConvexTriangleMeshShape*)pbody->body->getCollisionShape();
 	btStridingMeshInterface* meshInterface = shape->getMeshInterface();
 
 	int numTriangles = meshInterface->getNumSubParts();
 
-	glPushMatrix();
-	glMultMatrixf(mat); // translation and rotation 
+	// Render mesh 
+	glPushMatrix(); 
+	glMultMatrixf(mat); // translation and rotation  
 
-	// TODO: render mesh collider
 	for (int part = 0; part < numTriangles; ++part) {
 		const unsigned char* vertexBase;
 		int numVerts, vertexStride;
@@ -680,8 +683,12 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 				btVector3* vertex1 = (btVector3*)(vertexBase + index[i] * vertexStride);
 				btVector3* vertex2 = (btVector3*)(vertexBase + index[(i + 1) % 3] * vertexStride);
 
-				glVertex3f(vertex1->x(), vertex1->y(), vertex1->z());
-				glVertex3f(vertex2->x(), vertex2->y(), vertex2->z());
+				// Apply scale
+				btVector3 scaledVertex1 = (*vertex1) * scaling;
+				btVector3 scaledVertex2 = (*vertex2) * scaling;
+
+				glVertex3f(scaledVertex1.x(), scaledVertex1.y(), scaledVertex1.z());
+				glVertex3f(scaledVertex2.x(), scaledVertex2.y(), scaledVertex2.z());
 			}
 		}
 
