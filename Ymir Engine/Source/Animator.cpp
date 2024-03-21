@@ -166,8 +166,11 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	currentAnimation = animation;
-
+	if (animation != currentAnimation) {
+		previousAnimation = currentAnimation;
+		currentAnimation = animation;
+	}
+	
 	currentAnimation->isPlaying = true;
 	currentAnimation->currentTime = 0.0f;
 }
@@ -257,9 +260,6 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform.Scale(scale);
 	}
 
-	
-
-
 	float4x4 globalTransform = parentTransform * nodeTransform;
 	
 	
@@ -272,6 +272,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
+
 		CalculateBoneTransform(&node->children[i], globalTransform);
 	}
 }
