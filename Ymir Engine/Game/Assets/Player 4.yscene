@@ -237,6 +237,13 @@
                     "dashDistance": 1,
                     "fireRate": 0.20000000298023224,
                     "secondaryRate": 0.20000000298023224
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "Facehugger",
+                    "Event Name": "FH_Cry",
+                    "Event ID": 1698885162
                 }
             ],
             "Children UID": [

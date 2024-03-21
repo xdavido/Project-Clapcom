@@ -19,8 +19,9 @@ void PlayAudio(MonoObject* go, MonoString* eventAudio)
 	CAudioSource* audSource = dynamic_cast<CAudioSource*>(GO->GetComponent(ComponentType::AUDIO_SOURCE));
 	if (audSource != nullptr)
 	{
-		audSource->SetEventName(ev);
-		audSource->PlayEvent();
+		External->audio->PlayEvent(audSource->id, ev);
+		/*audSource->SetEventName(ev);
+		audSource->PlayEvent();*/
 	}
 	else
 	{
