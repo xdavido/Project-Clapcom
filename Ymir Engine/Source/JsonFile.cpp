@@ -866,6 +866,9 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
+	// Set Active
+	json_object_set_boolean(gameObjectObject, "Active", gameObject.active);
+
 	// Set Type 
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
@@ -1569,6 +1572,10 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	// Get UID
 
 	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
+
+	// Get UID
+
+	gameObject.active = json_object_get_boolean(gameObjectObject, "Active");
 
 	// Get Type
 
