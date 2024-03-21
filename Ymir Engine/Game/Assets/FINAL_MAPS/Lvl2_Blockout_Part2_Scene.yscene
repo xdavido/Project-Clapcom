@@ -98,6 +98,7 @@
             "Name": "LVL2_BLOCKOUT_PART2",
             "UID": 1031520831,
             "Element_Type": "Model",
+            "Origin_Path": "Assets\/LVL2_BLOCKOUT_PART2.fbx",
             "Parent UID": 873416165,
             "Components": [
                 {

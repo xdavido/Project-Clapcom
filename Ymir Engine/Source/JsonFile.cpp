@@ -867,8 +867,14 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
 	// Set Type 
-
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
+
+	if (gameObject.type == "Model") {
+
+		// Set Origin Path
+		json_object_set_string(gameObjectObject, "Origin_Path", gameObject.originPath.c_str());
+
+	}
 
 	// Set Parent UID
 	if (gameObject.mParent != nullptr) {
@@ -1572,9 +1578,12 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 	if (gameObject.type == "Model") {
 
-		if (!PhysfsEncapsule::FileExists("Library/Models/" + std::to_string(gameObject.UID) + ".ymodel")) {
+		// Get Origin Path
+		gameObject.originPath = json_object_get_string(gameObjectObject, "Origin_Path");
 
-			External->resourceManager->ImportFile("Assets/" + gameObject.name + ".fbx");
+		if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryModelsPath + std::to_string(gameObject.UID) + ".ymodel")) {
+
+			External->resourceManager->ImportFile(gameObject.originPath);
 
 		}
 
