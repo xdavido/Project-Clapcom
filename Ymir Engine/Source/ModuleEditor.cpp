@@ -3432,6 +3432,14 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							}
 						}
 
+						if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
+						{
+							if (ImGui::MenuItem("Delete Metadata"))
+							{
+								DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
+							}
+						}
+
 						if (ImGui::MenuItem("Delete File"))
 						{
 							DeleteAssetConfirmationPopup(entry.path().string().c_str());
