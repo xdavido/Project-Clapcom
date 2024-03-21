@@ -1627,7 +1627,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 	if (type == "Transform") {
 
-		gameObject->mTransform = new CTransform(gameObject);
+		//gameObject->mTransform = new CTransform(gameObject);
 
 		// Translation
 
@@ -1692,7 +1692,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		gameObject->mTransform->mGlobalMatrix = math::float4x4::FromTRS(gameObject->mTransform->translation, gameObject->mTransform->rotation, gameObject->mTransform->scale);
 		gameObject->mTransform->mLocalMatrix = math::float4x4::identity;
 
-		gameObject->AddComponent(gameObject->mTransform);
+		//gameObject->AddComponent(gameObject->mTransform);
 
 	}
 	else if (type == "Mesh") {
