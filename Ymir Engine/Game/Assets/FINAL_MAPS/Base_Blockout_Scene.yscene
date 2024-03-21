@@ -98,6 +98,7 @@
             "Name": "BASE_BLOCKOUT",
             "UID": 1074490990,
             "Element_Type": "Model",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
             "Parent UID": 824627786,
             "Components": [
                 {
