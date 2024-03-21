@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using YmirEngine;
 
 
-    public class Button : YmirComponent
-    {
+public class Button : YmirComponent
+{
     public void OnExecuteButton()
     {
         Debug.Log("CLICK");
     }
-    }
+}
 

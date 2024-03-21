@@ -10,6 +10,8 @@ public class PlayerMovement : YmirComponent
 
     public float movementSpeed = 5f;
 
+    bool a = false;
+
     private double angle = 0.0f;
     //private bool script = true;
     public void Start()
@@ -174,23 +176,28 @@ public class PlayerMovement : YmirComponent
 
     public void OnCollisionEnter()
     {
-        Debug.Log("OnCollisionEnter!!!!");
+        if (!a)
+        {
+            Debug.Log("OnCollisionEnter!!!!");
+
+            GetAnotherScript();
+
+            Debug.Log("coso2345678 ");
+            a = true;
+        }
     }
 
     private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        Debug.Log("123124: ");
         if (gameObject != null)
         {
-            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
+            Debug.Log("coso: ");
+            Health player = gameObject.GetComponent<Health>();
 
-            player.movementSpeed = 10f;
-
-            Debug.Log("MovmentSpeed= " + movementSpeed);
-
+            player.TakeDmg(3);
         }
-
-
     }
 
     private void RotatePlayer()

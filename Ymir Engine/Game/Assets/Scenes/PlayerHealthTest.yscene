@@ -1,40 +1,62 @@
 {
     "Editor Camera Position": [
-        -36,
-        48,
-        100
+        12.618690490722656,
+        44.435993194580078,
+        12.618690490722656
     ],
     "Editor Camera Right (X)": [
-        0.94088733196258545,
+        0.70710676908493042,
         0,
-        0.33871945738792419
+        -0.70710676908493042
     ],
     "Editor Camera Up (Y)": [
-        0.13941577076911926,
-        0.91136610507965088,
-        -0.38726601004600525
+        -0.40824830532073975,
+        0.81649655103683472,
+        -0.40824830532073975
     ],
     "Editor Camera Front (Z)": [
-        0.30869746208190918,
-        -0.41159659624099731,
-        -0.85749292373657227
+        -0.57735025882720947,
+        -0.57735031843185425,
+        -0.57735025882720947
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1066715064,
+            "UID": 177412668,
             "Element_Type": "None",
-            "Components": [],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
             "Children UID": [
-                387406692,
-                1848299779
+                1800274780,
+                1544598118,
+                1009784856,
+                935998235
             ]
         },
         {
             "Name": "Main Camera",
-            "UID": 387406692,
+            "UID": 1800274780,
             "Element_Type": "None",
-            "Parent UID": 1066715064,
+            "Parent UID": 177412668,
             "Components": [
                 {
                     "Type": "Transform",
@@ -45,9 +67,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -71,19 +93,19 @@
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        0.76604485511779785,
-                        -1.4361712885602174e-07,
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.6969747081202513e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361708622345759e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.6969747081202513e-08,
-                        -0.76604485511779785
+                        -6.696972576492044e-08,
+                        -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
@@ -96,9 +118,9 @@
         },
         {
             "Name": "Canvas",
-            "UID": 1848299779,
+            "UID": 1544598118,
             "Element_Type": "None",
-            "Parent UID": 1066715064,
+            "Parent UID": 177412668,
             "Components": [
                 {
                     "Type": "Transform",
@@ -125,8 +147,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 0,
-                    "Height": 0,
+                    "Width": 396,
+                    "Height": 306,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -135,28 +157,17 @@
                         0,
                         0
                     ]
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "Core.cs",
-                    "UID": 0,
-                    "movementSpeed": 20,
-                    "mouseSens": 5,
-                    "testBool": true,
-                    "testString": "Juan",
-                    "start": true
                 }
             ],
             "Children UID": [
-                538647062,
-                1172462681
+                1350213342
             ]
         },
         {
-            "Name": "Slider",
-            "UID": 538647062,
+            "Name": "Health Bar",
+            "UID": 1350213342,
             "Element_Type": "None",
-            "Parent UID": 1848299779,
+            "Parent UID": 1544598118,
             "Components": [
                 {
                     "Type": "Transform",
@@ -181,49 +192,49 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 100,
-                    "Position Y": 100,
-                    "Width": 300,
-                    "Height": 50,
+                    "Position X": 9,
+                    "Position Y": 53,
+                    "Width": 126,
+                    "Height": 103,
                     "UI Type": 6,
                     "UI State": 1,
                     "Drag Limits": [
-                        100,
-                        100,
-                        300,
-                        50
+                        9,
+                        53,
+                        126,
+                        103
                     ],
                     "Is interactable": true,
-                    "Fill image": 48251841,
-                    "Handle image": 1947742053,
+                    "Fill image": 724616552,
+                    "Handle image": 1676886862,
                     "Use Floats": false,
-                    "Value": 0,
+                    "Value": 10,
                     "Value min": 0,
                     "Value max": 10,
-                    "Direction": 0,
+                    "Direction": 2,
                     "Focused color": [
+                        1.4012984643248171e-44,
+                        2.8025969286496341e-45,
+                        -1.5816255460782938e+38,
+                        2.8025969286496341e-45
+                    ],
+                    "Pressed color": [
+                        -1.5816255460782938e+38,
+                        0,
+                        -1.5816255460782938e+38,
+                        0
+                    ],
+                    "Selected color": [
                         -1.5816255460782938e+38,
                         0,
                         0,
                         1
                     ],
-                    "Pressed color": [
-                        0,
-                        1,
-                        1,
-                        0
-                    ],
-                    "Selected color": [
-                        1,
-                        1,
-                        0,
-                        0
-                    ],
                     "Disabled color": [
+                        0,
                         1,
                         1,
-                        1,
-                        1
+                        0
                     ]
                 },
                 {
@@ -232,16 +243,16 @@
                 }
             ],
             "Children UID": [
-                299910750,
-                48251841,
-                1947742053
+                1880090921,
+                724616552,
+                1676886862
             ]
         },
         {
-            "Name": "Background",
-            "UID": 299910750,
+            "Name": "coso",
+            "UID": 1880090921,
             "Element_Type": "None",
-            "Parent UID": 538647062,
+            "Parent UID": 1350213342,
             "Components": [
                 {
                     "Type": "Transform",
@@ -264,21 +275,21 @@
                 },
                 {
                     "Type": "UI",
-                    "Active": 1,
+                    "Active": 0,
                     "Draggeable": false,
-                    "Position X": 100,
-                    "Position Y": 100,
+                    "Position X": 9,
+                    "Position Y": 53,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        100,
-                        100,
+                        9,
+                        53,
                         300,
                         50
                     ],
-                    "Path": "Assets\/InGameConeptPng.png",
+                    "Path": "Assets\/pato.png",
                     "Color": [
                         1,
                         1,
@@ -294,9 +305,9 @@
         },
         {
             "Name": "Fill",
-            "UID": 48251841,
+            "UID": 724616552,
             "Element_Type": "None",
-            "Parent UID": 538647062,
+            "Parent UID": 1350213342,
             "Components": [
                 {
                     "Type": "Transform",
@@ -321,19 +332,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 100,
-                    "Position Y": 100,
-                    "Width": 0,
-                    "Height": 50,
+                    "Position X": 9,
+                    "Position Y": 54,
+                    "Width": 126,
+                    "Height": 103,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        100,
-                        100,
-                        0,
-                        50
+                        9,
+                        136.39999389648438,
+                        126,
+                        103
                     ],
-                    "Path": "Assets\/InGameConeptPng.png",
+                    "Path": "Assets\/juan.png",
                     "Color": [
                         1,
                         1,
@@ -349,9 +360,9 @@
         },
         {
             "Name": "Handle",
-            "UID": 1947742053,
+            "UID": 1676886862,
             "Element_Type": "None",
-            "Parent UID": 538647062,
+            "Parent UID": 1350213342,
             "Components": [
                 {
                     "Type": "Transform",
@@ -374,21 +385,21 @@
                 },
                 {
                     "Type": "UI",
-                    "Active": 1,
+                    "Active": 0,
                     "Draggeable": false,
-                    "Position X": 65,
-                    "Position Y": 90,
+                    "Position X": -26,
+                    "Position Y": 121,
                     "Width": 70,
                     "Height": 70,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        65,
-                        90,
+                        -26,
+                        38.599998474121094,
                         70,
                         70
                     ],
-                    "Path": "Assets\/InGameConeptPng.png",
+                    "Path": "Assets\/pato.png",
                     "Color": [
                         1,
                         1,
@@ -403,17 +414,76 @@
             ]
         },
         {
-            "Name": "Text",
-            "UID": 1172462681,
-            "Element_Type": "None",
-            "Parent UID": 1848299779,
+            "Name": "Player",
+            "UID": 1009784856,
+            "Element_Type": "Model",
+            "Parent UID": 177412668,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
                         0,
-                        57.715408325195312,
+                        31.817245483398438,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        3.4850001335144043,
+                        3.4850001335144043,
+                        3.4850001335144043
+                    ]
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        5,
+                        5,
+                        5
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Gravity": true
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "PlayerMovement.cs",
+                    "UID": 0,
+                    "movementSpeed": 5
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "Health.cs",
+                    "UID": 0,
+                    "currentHealth": 0,
+                    "maxHealth": 3,
+                    "debugDmg": 1
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Cube (1)",
+            "UID": 1553236809,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -428,36 +498,104 @@
                     ]
                 },
                 {
-                    "Type": "UI",
+                    "Type": "Material",
                     "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                }
+            ]
+        },
+        {
+            "Name": "Plane",
+            "UID": 935998235,
+            "Element_Type": "Model",
+            "Parent UID": 177412668,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
                         0,
-                        57.715408325195312,
-                        200,
-                        50
+                        -8.2560214996337891,
+                        0
                     ],
-                    "Text": "This is a text",
-                    "Font name": "default_consola.ttf",
-                    "Font path": "Assets\\Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        132.04579162597656,
+                        132.04579162597656,
+                        132.04579162597656
+                    ]
+                }
+            ],
+            "Children UID": [
+                1482273603
+            ]
+        },
+        {
+            "Name": "Plane (1)",
+            "UID": 1482273603,
+            "Element_Type": "None",
+            "Parent UID": 935998235,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
                         1,
                         1,
                         1
                     ]
                 },
                 {
-                    "Type": "UI Transform",
-                    "Component reference": 2
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 121,
+                    "Index Count": 600
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        129.94599914550781,
+                        0.10000000149011612,
+                        132.04579162597656
+                    ],
+                    "Radius": 93.370475769042969,
+                    "Height": 0,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Gravity": true
                 }
             ]
         }
