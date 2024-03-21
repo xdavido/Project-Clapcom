@@ -26,10 +26,6 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	btSize = float3_to_btVector3(size);
 	radius = 1;
 
-	lockX = false;
-	lockY = false;
-	lockZ = false;
-
 	switch (collType)
 	{
 	case BOX:
@@ -65,8 +61,9 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		height = 10;
 	}
 
-	//shape->setLocalScaling(btSize);
-	
+	lockX = false;
+	lockY = false;
+	lockZ = false;
 }
 
 CCollider::~CCollider()

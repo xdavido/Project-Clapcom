@@ -1147,6 +1147,12 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_boolean(componentObject, "IsSensor", ccollider->isSensor);
 
+		// Lock axis rotation
+
+		json_object_set_boolean(componentObject, "LockX", ccollider->lockX);
+		json_object_set_boolean(componentObject, "LockY", ccollider->lockY);
+		json_object_set_boolean(componentObject, "LockZ", ccollider->lockZ);
+
 		break;
 	}
 	case SCRIPT:
@@ -1810,8 +1816,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
 
-		gameObject->AddComponent(ccollider);
-
 		// Gravity
 
 		ccollider->useGravity = json_object_get_boolean(componentObject, "UseGravity");
@@ -1820,6 +1824,13 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		ccollider->SetAsSensor(json_object_get_boolean(componentObject, "IsSensor"));
 
+		// Lock axis rotation
+
+		ccollider->lockX = json_object_get_boolean(componentObject, "LockX");
+		ccollider->lockY = json_object_get_boolean(componentObject, "LockY");
+		ccollider->lockZ = json_object_get_boolean(componentObject, "LockZ");
+
+		gameObject->AddComponent(ccollider);
 	}
 	else if (type == "Script") {
 

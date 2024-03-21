@@ -182,7 +182,7 @@
                         0
                     ],
                     "Rotation": [
-                        34.665725708007812,
+                        34.665733337402344,
                         23.633947372436523,
                         -15.495283126831055
                     ],
@@ -225,7 +225,10 @@
                     "Physics Type": 0,
                     "Mass": 1,
                     "UseGravity": true,
-                    "IsSensor": false
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
                 }
             ]
         },
@@ -317,7 +320,10 @@
                     "Physics Type": 2,
                     "Mass": 0,
                     "UseGravity": false,
-                    "IsSensor": false
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": true,
+                    "LockZ": true
                 }
             ]
         }
