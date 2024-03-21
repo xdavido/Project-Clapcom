@@ -62,14 +62,3 @@ void PhysBody::SetRotation(Quat q)
 	t.setRotation(rotationQuat);
 	body->setWorldTransform(t);
 }
-
-// ---------------------------------------------------------
-void PhysBody::SetAsSensor(bool is_sensor)
-{
-	isSensor = is_sensor;
-
-	if (isSensor == true)
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-	else
-		body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
-}

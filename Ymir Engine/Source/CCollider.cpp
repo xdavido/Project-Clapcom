@@ -193,11 +193,11 @@ void CCollider::OnInspector()
 		ImGui::Spacing();
 
 
-		bool auxIsSensor = physBody->isSensor;
-		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
+		//bool auxIsSensor = physBody->isSensor;
+		if (ImGui::Checkbox("Is Sensor", &isSensor))
 		{
-			physBody->SetAsSensor(auxIsSensor);
-			if (auxIsSensor)
+			SetAsSensor(isSensor);
+			if (isSensor)
 			{
 				physType = PhysicsType::STATIC; 
 				SetDefaultValues(physType); 
@@ -451,4 +451,14 @@ void CCollider::RemovePhysbody()
 		physBody = nullptr;
 	}
 
+}
+
+void CCollider::SetAsSensor(bool is_sensor)
+{
+	isSensor = is_sensor;
+
+	if (isSensor == true)
+		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	else
+		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
 }

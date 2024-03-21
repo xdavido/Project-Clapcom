@@ -46,6 +46,8 @@ public:
 
 	void RemovePhysbody();
 
+	void SetAsSensor(bool is_sensor);
+
 	void SetDefaultValues(PhysicsType type);
 
 	// Conversion function from btVector3 to float3
@@ -72,6 +74,7 @@ public:
 
 	float mass;
 	bool useGravity;
+	bool isSensor;
 
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;

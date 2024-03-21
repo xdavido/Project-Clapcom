@@ -22,12 +22,10 @@ public:
 	void SetPosition(float3 pos);
 	void SetRotation(Quat q);
 
-	void SetAsSensor(bool is_sensor);
 	btRigidBody* body = nullptr;
 	p2List<Module*> collision_listeners;
 
 public:
 
-	bool isSensor = false;
 	bool drawShape = true;
 };
