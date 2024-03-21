@@ -189,24 +189,6 @@ void CCollider::Update()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
-
-	//LOG("PhysBody position: (%f, %f, %f)",
-	//	physBody->body->getCenterOfMassPosition().x(),
-	//	physBody->body->getCenterOfMassPosition().y(),
-	//	physBody->body->getCenterOfMassPosition().z()
-	//);
-
-	//LOG("GameObject position: (%f, %f, %f)",
-	//	mOwner->mTransform->GetGlobalPosition().x,
-	//	mOwner->mTransform->GetGlobalPosition().y,
-	//	mOwner->mTransform->GetGlobalPosition().z
-	//);
-
-	//LOG("Parent position: (%f, %f, %f)",
-	//	mOwner->mParent->mTransform->GetGlobalPosition().x,
-	//	mOwner->mParent->mTransform->GetGlobalPosition().y,
-	//	mOwner->mParent->mTransform->GetGlobalPosition().z
-	//);
 }
 
 void CCollider::OnInspector()
@@ -360,9 +342,17 @@ void CCollider::OnInspector()
 
 			ImGui::Spacing();
 			ImGui::Text("Lock rotation");
-			if (ImGui::Checkbox("Lock x\t", &lockX)); ImGui::SameLine();
-			if (ImGui::Checkbox("Lock y\t", &lockY)); ImGui::SameLine();
-			if (ImGui::Checkbox("Lock z\t", &lockZ));
+
+			if (ImGui::Checkbox("Lock x\t", &lockX))
+				UpdateLockRotation();
+
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Lock y\t", &lockY))
+				UpdateLockRotation();
+				
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Lock z\t", &lockZ))
+				UpdateLockRotation();
 
             break;
 
@@ -483,6 +473,23 @@ void CCollider::SetDefaultValues(PhysicsType type)
 		useGravity = false;
 		break;
 	}
+}
+
+void CCollider::UpdateLockRotation()
+{
+	btVector3 rot;
+
+	if (lockX) rot.setX(0);
+	else rot.setX(1);
+
+	if (lockY) rot.setY(0);
+	else rot.setY(1);
+
+	if (lockZ) rot.setZ(0);
+	else rot.setZ(1);
+
+	physBody->body->setAngularFactor(rot);
+
 }
 
 void CCollider::RemovePhysbody()
