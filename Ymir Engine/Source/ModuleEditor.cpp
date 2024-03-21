@@ -1083,7 +1083,7 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::Dummy(ImVec2(10, 0));
 
-			if (ImGui::Button("Delete Library"))
+			if (ImGui::Button("Regenerate Library"))
 			{
 				DeleteFileAndRefs("Library");
 			}
