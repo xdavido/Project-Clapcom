@@ -1,0 +1,15 @@
+{
+    "Name": "New_CHAR_Raisen",
+    "Assets Path": "Assets\/New_CHAR_Raisen.fbx",
+    "Library Path": ".\/Library\/Models\/31980902.ymodel",
+    "UID": 31980902,
+    "Type": "Model",
+    "Meshes num": 5,
+    "Meshes Embedded UID": [
+        299688995,
+        664080027,
+        2070095951,
+        1123781015,
+        673677844
+    ]
+}

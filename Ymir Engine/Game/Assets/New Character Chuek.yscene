@@ -1,60 +1,58 @@
 {
     "Editor Camera Position": [
-        -7.0313057899475098,
-        11.034378051757812,
-        -4.0333070755004883
+        36.734855651855469,
+        45.47418212890625,
+        0.82265490293502808
     ],
     "Editor Camera Right (X)": [
-        -0.51743209362030029,
-        -2.2351741790771484e-07,
-        0.85572081804275513
+        -0.0010671094059944153,
+        1.7415732145309448e-07,
+        -1.0000022649765015
     ],
     "Editor Camera Up (Y)": [
-        0.42600756883621216,
-        0.86727064847946167,
-        0.25759589672088623
+        -0.72192662954330444,
+        0.69196784496307373,
+        0.00077049341052770615
     ],
     "Editor Camera Front (Z)": [
-        0.74214428663253784,
-        -0.4978334903717041,
-        0.44875520467758179
+        -0.69197368621826172,
+        -0.72192758321762085,
+        0.00073828420136123896
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1478475285,
+            "UID": 1808671306,
             "Element_Type": "None",
             "Components": [],
             "Children UID": [
-                708538362,
-                1741438873,
-                1009784856,
-                54252483
+                2074261655,
+                1741325106
             ]
         },
         {
             "Name": "Main Camera",
-            "UID": 708538362,
+            "UID": 2074261655,
             "Element_Type": "None",
-            "Parent UID": 1478475285,
+            "Parent UID": 1808671306,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        5.0937809944152832,
-                        17.690994262695312,
-                        -47.631275177001953
+                        31.466949462890625,
+                        32.136081695556641,
+                        0
                     ],
                     "Rotation": [
-                        15.953246116638184,
-                        0,
-                        -0
+                        90.000411987304688,
+                        -57.733669281005859,
+                        90.000419616699219
                     ],
                     "Scale": [
-                        1.0000211000442505,
-                        0.99999767541885376,
-                        1.0000208616256714
+                        0.99997490644454956,
+                        0.9999997615814209,
+                        0.99997425079345703
                     ]
                 },
                 {
@@ -73,223 +71,34 @@
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
-                        -0.99999994039535522,
-                        0,
-                        0
+                        3.909751285391394e-06,
+                        9.5289215096272528e-07,
+                        -1
                     ],
                     "Up": [
-                        0,
-                        0.96148627996444702,
-                        0.27485284209251404
+                        -0.53385555744171143,
+                        0.84557569026947021,
+                        -1.2814998626708984e-06
                     ],
                     "Front": [
-                        0,
-                        -0.27485284209251404,
-                        0.96148627996444702
+                        -0.84557569026947021,
+                        -0.53385555744171143,
+                        -3.814697265625e-06
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
                     "Far Plane": 1000,
-                    "Frustum Culling": 0,
+                    "Frustum Culling": 1,
                     "Draw Bounding Boxes": 1,
                     "Game Camera": true
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "CameraRot.cs",
-                    "UID": 0
-                }
-            ]
-        },
-        {
-            "Name": "Pyramid",
-            "UID": 1741438873,
-            "Element_Type": "Model",
-            "Parent UID": 1478475285,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                312671090
-            ]
-        },
-        {
-            "Name": "Pyramid",
-            "UID": 312671090,
-            "Element_Type": "None",
-            "Parent UID": 1741438873,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        5.9602470397949219,
-                        0,
-                        -3.9880151748657227
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        140.09123229980469,
-                        0.081116050481796265,
-                        129.59776306152344
-                    ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "ID": 0,
-                    "Diffuse": "",
-                    "UID": 0
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 16,
-                    "Index Count": 18
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        140.09123229980469,
-                        0.057357709854841232,
-                        129.59776306152344
-                    ],
-                    "Radius": 95.421615600585938,
-                    "Height": 0.057357709854841232,
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "Gravity": true
-                }
-            ]
-        },
-        {
-            "Name": "Player",
-            "UID": 1009784856,
-            "Element_Type": "Model",
-            "Parent UID": 1478475285,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -0.48824596405029297,
-                        1.660345196723938,
-                        -1.8069692850112915
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "Gravity": true
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "Player.cs",
-                    "UID": 0,
-                    "movementSpeed": 35,
-                    "dashforce": 1000,
-                    "dashCD": 0.33000001311302185,
-                    "dashDuration": 0.25,
-                    "dashDistance": 1,
-                    "fireRate": 0.20000000298023224,
-                    "secondaryRate": 0.20000000298023224
-                }
-            ],
-            "Children UID": [
-                1553236809
-            ]
-        },
-        {
-            "Name": "Cube",
-            "UID": 1553236809,
-            "Element_Type": "None",
-            "Parent UID": 1009784856,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "ID": 0,
-                    "Diffuse": "",
-                    "UID": 0
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 24,
-                    "Index Count": 36
                 }
             ]
         },
         {
             "Name": "CHAR_Raisen_A_Pose",
-            "UID": 54252483,
+            "UID": 1741325106,
             "Element_Type": "Model",
-            "Parent UID": 1478475285,
+            "Parent UID": 1808671306,
             "Components": [
                 {
                     "Type": "Transform",
@@ -305,33 +114,33 @@
                         -0
                     ],
                     "Scale": [
-                        0.044800005853176117,
-                        0.044800005853176117,
-                        0.044800005853176117
+                        0.060000002384185791,
+                        0.060000002384185791,
+                        0.060000002384185791
                     ]
                 }
             ],
             "Children UID": [
-                656607813,
-                559628394,
-                1604762569,
-                1763232724,
-                2060019513,
-                759558207,
-                1549687417,
-                433615717,
-                1039616752,
-                455992928,
-                1270211183,
-                1379925622,
-                1733409884
+                1922501567,
+                682845481,
+                580856856,
+                552354992,
+                257380814,
+                730223748,
+                1193146830,
+                1165312007,
+                7331360,
+                285407470,
+                1865638916,
+                1359280562,
+                1388703625
             ]
         },
         {
             "Name": "Tail",
-            "UID": 656607813,
+            "UID": 1922501567,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -370,9 +179,9 @@
         },
         {
             "Name": "cinto_Lowpoly",
-            "UID": 559628394,
+            "UID": 682845481,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -398,7 +207,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_CHAR_Body_DBC.png",
                     "UID": 0
                 },
                 {
@@ -411,9 +220,9 @@
         },
         {
             "Name": "Bolsillo_Lowpoly",
-            "UID": 1604762569,
+            "UID": 580856856,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -439,7 +248,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_CHAR_Body_DBC.png",
                     "UID": 0
                 },
                 {
@@ -452,9 +261,9 @@
         },
         {
             "Name": "backpack",
-            "UID": 1763232724,
+            "UID": 552354992,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -493,9 +302,9 @@
         },
         {
             "Name": "beltD",
-            "UID": 2060019513,
+            "UID": 257380814,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -534,9 +343,9 @@
         },
         {
             "Name": "beltI.001",
-            "UID": 759558207,
+            "UID": 730223748,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -562,7 +371,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -575,9 +384,9 @@
         },
         {
             "Name": "lightD",
-            "UID": 1549687417,
+            "UID": 1193146830,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -603,7 +412,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -616,9 +425,9 @@
         },
         {
             "Name": "lightI",
-            "UID": 433615717,
+            "UID": 1165312007,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -644,7 +453,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -657,9 +466,9 @@
         },
         {
             "Name": "metalD",
-            "UID": 1039616752,
+            "UID": 7331360,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -685,7 +494,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -698,9 +507,9 @@
         },
         {
             "Name": "metalI",
-            "UID": 455992928,
+            "UID": 285407470,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -726,7 +535,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -739,9 +548,9 @@
         },
         {
             "Name": "radio",
-            "UID": 1270211183,
+            "UID": 1865638916,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -767,7 +576,7 @@
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
                     "ID": 0,
-                    "Diffuse": "",
+                    "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
                 },
                 {
@@ -780,9 +589,9 @@
         },
         {
             "Name": "Eyes",
-            "UID": 1379925622,
+            "UID": 1359280562,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",
@@ -835,9 +644,9 @@
         },
         {
             "Name": "Body",
-            "UID": 1733409884,
+            "UID": 1388703625,
             "Element_Type": "None",
-            "Parent UID": 54252483,
+            "Parent UID": 1741325106,
             "Components": [
                 {
                     "Type": "Transform",

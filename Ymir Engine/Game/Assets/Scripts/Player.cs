@@ -43,10 +43,10 @@ public class Player : YmirComponent
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
     private double angle = 0.0f;
-    private float deathZone = 2.5f;
+    private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 0.1f;
+    public float dashforce = 1000.0f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
@@ -54,7 +54,7 @@ public class Player : YmirComponent
     public float dashDuration = 0.25f;
     public float dashDistance = 1.0f;
     private float dashSpeed = 0.0f;
-    //private float dashStartYPos = 0.0f;
+    private float dashStartYPos = 0.0f;
 
     //--------------------- Controller var ---------------------\\
     float x = 0;
@@ -109,29 +109,27 @@ public class Player : YmirComponent
         //Old things
         //UpdateControllerInputs();
 
-        ////HandleStates();
+        //if (gamepadInput.magnitude > 0)
+        //{
+        //    isMoving = true;
+        //    HandleMovement();
+        //}
+        //else if (isMoving)
+        //{
+        //    isMoving = false;
+        //    StopPlayer();
+        //}
 
-        if (gamepadInput.magnitude > 0)
-        {
-            isMoving = true;
-            HandleMovement();
-        }
-        else if (isMoving)
-        {
-            isMoving = false;
-            StopPlayer();
-        }
-
-        if (Input.GetGamepadRightTrigger() > 0)
-        {
-            StartShooting();
-            Debug.Log("Shoot");
-            inputsList.Add(INPUT.I_SHOOTING);
-        }
-        else
-        {
-            inputsList.Add(INPUT.I_SHOOTING_END);
-        }
+        //if (Input.GetGamepadRightTrigger() > 0)
+        //{
+        //    StartShooting();
+        //    Debug.Log("Shoot");
+        //    inputsList.Add(INPUT.I_SHOOTING);
+        //}
+        //else
+        //{
+        //    inputsList.Add(INPUT.I_SHOOTING_END);
+        //}
         //Debug.Log(gameObject.transform.GetRight());
     }
 
@@ -167,6 +165,7 @@ public class Player : YmirComponent
         else if (currentState == STATE.MOVE && JoystickMoving() == false)
         {
             inputsList.Add(INPUT.I_IDLE);
+            StopPlayer();
         }
 
         //----------------- Shoot -----------------\\
@@ -226,7 +225,7 @@ public class Player : YmirComponent
                     {
                         case INPUT.I_IDLE:
                             currentState = STATE.IDLE;
-                            //StartIdle(); //Trigger de la animacion
+                            //StartIdle(); //Trigger de la animacion //Arreglar esto
                             break;
 
                         case INPUT.I_DASH:
@@ -378,23 +377,25 @@ public class Player : YmirComponent
     private void StartDash()
     {
         dashTimer = dashDuration;
-        //dashStartYPos = gameObject.transform.localPosition.y;
+        dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
         StopPlayer();
-        gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce);
+        //Debug.Log("Fuersa:" + gameObject.transform.GetForward() * dashforce);
+        gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
     }
     private void EndDash()
     {
         StopPlayer();
-        //gameObject.transform.localPosition.y = dashStartYPos;
+        gameObject.transform.localPosition.y = dashStartYPos;
     }
     #endregion
 
     #region Joystick
     private bool JoystickMoving()
     {
+        //Debug.Log("Magnitude:" + gamepadInput.magnitude);
         return gamepadInput.magnitude > deathZone;
     }
 
@@ -405,14 +406,14 @@ public class Player : YmirComponent
 
         gamepadInput = new Vector3(x, -y, 0f);
 
-        Debug.Log("sdsad" + x);
+        //Debug.Log("sdsad" + x);
     }
     #endregion
 
     #region COLLISION
     public void OnCollisionEnter(GameObject other)
     {
-        Debug.Log("OnCollisionEnter!!!!");
+        //Debug.Log("OnCollisionEnter!!!!");
         //gameObject.SetVelocity(up * movementSpeed);
     }
     #endregion
@@ -485,12 +486,9 @@ public class Player : YmirComponent
     }
     private void HandleRotation()
     {
-        //Debug.Log("Hola");
         //Calculate player rotation
         Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y - 1);
         Vector3 aY = new Vector3(0, 0, 1);
-        //Debug.Log(gamepadInput.x);
-        //Debug.Log(gamepadInput.y);
         aX = Vector3.Normalize(aX);
 
         if (aX.x >= 0)
