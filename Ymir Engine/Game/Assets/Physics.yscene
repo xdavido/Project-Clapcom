@@ -99,6 +99,7 @@
             "Name": "BakerHouse",
             "UID": 246315976,
             "Element_Type": "Model",
+            "Origin_Path": "Assets/BakerHouse.fbx",
             "Parent UID": 306007605,
             "Components": [
                 {
@@ -236,6 +237,7 @@
             "Name": "Plane",
             "UID": 935998235,
             "Element_Type": "Model",
+            "Origin_Path": "Assets/Primitives/Plane.fbx",
             "Parent UID": 306007605,
             "Components": [
                 {
