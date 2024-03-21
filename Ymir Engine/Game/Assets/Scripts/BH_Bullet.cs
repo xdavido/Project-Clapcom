@@ -9,16 +9,29 @@ public class BH_Bullet : YmirComponent
     public float yVel = 0.0f;
 
     private bool destroyed = false;
+
+    private bool scriptStart = true;
+
+    Vector3 vSpeed = Vector3.zero;
     public void Start()
     {
         
     }
 
+    private void StartFake()
+    {
+        vSpeed = GetDirection() * speed;
+    }
+
     public void Update()
     {
-        currentLifeTime += Time.deltaTime;
+         if (scriptStart == true)
+         {
+            StartFake();
+            scriptStart = false;
+         }
 
-        Vector3 vSpeed = GetDirection() * speed;
+        currentLifeTime += Time.deltaTime;
 
         //Para mover la bala sin rigidbody
         //thisReference.transform.localPosition += thisReference.transform.GetForward() * (speed * Time.deltaTime);
@@ -44,10 +57,11 @@ public class BH_Bullet : YmirComponent
     private Vector3 GetDirection()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        //Debug.Log(gameObject);
         if (gameObject != null)
         {
-            Player player = gameObject.GetComponent<Player>();
-            return player.gameObject.transform.GetForward();
+            //Player player = gameObject.GetComponent<Player>();
+            return gameObject.transform.GetForward();
         }
         else return new Vector3(0, 0, 0);
     }

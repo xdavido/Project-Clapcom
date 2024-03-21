@@ -67,6 +67,9 @@ public class Player : YmirComponent
     private float shootingTimer = 0.0f;
     public float secondaryRate = 0.2f;
 
+    //--------------------- Fake Start ---------------------\\
+    private bool scriptStart = true;
+
     //Vector3 up = new Vector3(0, 1, 0);
 
     //Old Things
@@ -90,8 +93,27 @@ public class Player : YmirComponent
         Debug.Log("START!");
     }
 
+    private void StartFake()
+    {
+        //Hp = 100;
+
+        //--------------------- Dash ---------------------\\
+        dashTimer = 0f;
+        dashSpeed = dashDistance / dashDuration;
+
+
+        currentState = STATE.IDLE;
+        Debug.Log("START!");
+    }
+
     public void Update()
     {
+        if (scriptStart == true)
+        {
+            StartFake();
+            scriptStart = false;
+        }
+
         // New Things WIP
         UpdateControllerInputs();
 
@@ -345,7 +367,7 @@ public class Player : YmirComponent
         Debug.Log("Shoot!");
 
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-        Vector3 pos = gameObject.transform.GetForward();
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
         Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
         Debug.Log("Spawn pos: " + pos);
 
