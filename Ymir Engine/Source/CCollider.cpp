@@ -19,6 +19,8 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	collType = collider;
 	physType = physics;
 
+	isSensor = false;
+
 	mass = 1;
 	size = float3{ 1,1,1 };
 	btSize = float3_to_btVector3(size);
@@ -193,16 +195,10 @@ void CCollider::OnInspector()
 		ImGui::Spacing();
 
 
-		//bool auxIsSensor = physBody->isSensor;
-		if (ImGui::Checkbox("Is Sensor", &isSensor))
+		bool auxIsSensor = isSensor;
+		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
-			SetAsSensor(isSensor);
-			if (isSensor)
-			{
-				physType = PhysicsType::STATIC; 
-				SetDefaultValues(physType); 
-				External->physics->RecalculateInertia(physBody, mass, useGravity); 
-			}
+			SetAsSensor(auxIsSensor);
 		}
 
 		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))
@@ -423,7 +419,6 @@ void CCollider::SetMeshCollider()
 
 void CCollider::SetDefaultValues(PhysicsType type)
 {
-	isSensor = false;
 	switch (physType)
 	{
 	case PhysicsType::DYNAMIC:
@@ -459,7 +454,13 @@ void CCollider::SetAsSensor(bool is_sensor)
 	isSensor = is_sensor;
 
 	if (isSensor == true)
+	{
 		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+		physType = PhysicsType::STATIC;
+		SetDefaultValues(physType);
+		External->physics->RecalculateInertia(physBody, mass, useGravity);
+	}
 	else
 		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
 }

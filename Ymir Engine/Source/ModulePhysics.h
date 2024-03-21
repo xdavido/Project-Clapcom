@@ -51,6 +51,8 @@ public:
 	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape);				 // Mesh
 	void RemoveBody(PhysBody* b);
 
+	void ClearBodiesList();
+
 	void RecalculateInertia(PhysBody* pbody, float mass, bool useGravity);
 
 	// Collision Shape

@@ -74,6 +74,8 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
+	LOG("Bodies in list: %d", bodiesList.size());
+	LOG("Bodies in world: %d", world->getNumCollisionObjects());
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{
@@ -271,12 +273,23 @@ PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool useG
 	return pbody;
 }
 
+// Destroy things (yey)
 void ModulePhysics::RemoveBody(PhysBody* b)
 {
-	world->removeRigidBody(b->body);
+	world->removeCollisionObject(b->body);
 
 	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
 	bodiesList.shrink_to_fit();
+}
+
+void ModulePhysics::ClearBodiesList()
+{
+	for (int i = 0; i < bodiesList.size(); i++)
+	{
+		RemoveBody(bodiesList[i]);
+	}
+
+	bodiesList.clear();
 }
 
 void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool useGravity)

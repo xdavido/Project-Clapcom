@@ -10,7 +10,7 @@ PhysBody::PhysBody(btRigidBody* body) : body(body)
 // ---------------------------------------------------------
 PhysBody::~PhysBody()
 {
-	//delete body;
+	delete body;
 }
 
 // ---------------------------------------------------------
