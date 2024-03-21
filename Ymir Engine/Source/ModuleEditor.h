@@ -137,6 +137,10 @@ public:
 	void CreateNewFolder();
 	void DrawAssetsWindow(const std::string& assetsFolder);
 
+	// Function to draw Delete Asset Popup
+	void DeleteAssetConfirmationPopup(const char* filePath);
+	void RenderDeleteAssetConfirmationPopup();
+
 	// Function to draw Library Window
 	void DrawLibraryWindow(const std::string& libraryFolder);
 

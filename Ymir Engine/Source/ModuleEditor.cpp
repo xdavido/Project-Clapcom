@@ -1317,6 +1317,8 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+	RenderDeleteAssetConfirmationPopup();
+
 	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
 	// Rendering
@@ -3301,7 +3303,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							if (ImGui::MenuItem("Delete Folder"))
 							{
-								DeleteFileAndRefs(entry.path().string().c_str());
+								DeleteAssetConfirmationPopup(entry.path().string().c_str());
 							}
 
 							ImGui::EndPopup();
@@ -3421,7 +3423,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						if (ImGui::MenuItem("Delete File"))
 						{
-							DeleteFileAndRefs(entry.path().string().c_str());
+							DeleteAssetConfirmationPopup(entry.path().string().c_str());
 						}
 
 						ImGui::EndPopup();
@@ -3440,6 +3442,59 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 		}
 
 		ImGui::EndTable();
+
+	}
+
+}
+
+static bool showDeleteAssetPopup = false;
+static std::string assetToDelete;
+
+void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
+
+	showDeleteAssetPopup = true;
+	assetToDelete = filePath;
+
+}
+
+void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
+
+	if (showDeleteAssetPopup) {
+
+		ImGui::OpenPopup("Delete Asset Confirmation");
+
+		// Display the confirmation popup
+		if (ImGui::BeginPopupModal("Delete Asset Confirmation", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			ImGui::Text("Are you sure you want to delete this asset?");
+			ImGui::TextWrapped("%s", assetToDelete.c_str());
+			ImGui::Separator();
+
+			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
+
+				// Call your delete function
+				DeleteFileAndRefs(assetToDelete.c_str());
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::EndPopup();
+		}
 
 	}
 
