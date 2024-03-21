@@ -49,6 +49,9 @@ void CAnimation::AddAnimation(ResourceAnimation&newAnimation) {
     }
 
     animator->animations.push_back(newAnimation);
+
+    if (animator->GetCurrentAnimation() == nullptr)
+        animator->SetCurrentAnimation(&newAnimation);
 }
 
 void CAnimation::RemoveAnimation(int ID) {
@@ -91,7 +94,7 @@ void CAnimation::PauseAnimation(std::string animationName) {
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].name == animationName) {
-                animator->PauseAnimation(&animator->animations[i]);
+                animator->PauseAnimation();
                 return;
             }
         }
@@ -99,7 +102,7 @@ void CAnimation::PauseAnimation(std::string animationName) {
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].isPlaying)
-                animator->PauseAnimation(&animator->animations[i]);
+                animator->PauseAnimation();
         }
     }
 }
@@ -109,14 +112,14 @@ void CAnimation::ResumeAnimation(std::string animationName) {
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].name == animationName) {
-                animator->ResumeAnimation(&animator->animations[i]);
+                animator->ResumeAnimation();
                 return;
             }
         }
     }
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
-            animator->ResumeAnimation(&animator->animations[i]);
+            animator->ResumeAnimation();
         }
     }
 }
@@ -126,7 +129,7 @@ void CAnimation::StopAnimation(std::string animationName) {
     if (animationName != "") {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].name == animationName) {
-                animator->StopAnimation(&animator->animations[i]);
+                animator->StopAnimation();
                 return;
             }
         }
@@ -134,7 +137,7 @@ void CAnimation::StopAnimation(std::string animationName) {
     else {
         for (int i = 0; i < animator->animations.size(); i++) {
             if (animator->animations[i].isPlaying)
-                animator->StopAnimation(&animator->animations[i]);
+                animator->StopAnimation();
         }
     }
 }
@@ -431,21 +434,21 @@ void CAnimation::OnInspector() {
 
             if (ImGui::Button("Pause")) {
 
-                animator->PauseAnimation(&animator->animations[selectedAnimation]);
+                animator->PauseAnimation();
             }
 
             ImGui::SameLine();
 
             if (ImGui::Button("Resume")) {
 
-                animator->ResumeAnimation(&animator->animations[selectedAnimation]);
+                animator->ResumeAnimation();
             }
 
             ImGui::SameLine();
 
             if (ImGui::Button("Stop")) {
 
-                animator->StopAnimation(&animator->animations[selectedAnimation]);
+                animator->StopAnimation();
             }
 
         }

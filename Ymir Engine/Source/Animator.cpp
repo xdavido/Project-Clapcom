@@ -30,9 +30,12 @@ void Animator::UpdateAnimation(float dt)
 	for (int i = 0; i < animations.size(); i++) {
 		if (animations[i].isPlaying) {
 			UpdateCurrentTime(&animations[i]);
-			CalculateBoneTransform(&animations[i].GetRootNode(), identity.identity, animations[i]);
+			
 		}
 	}
+
+	if (currentAnimation->isPlaying)
+		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 
 }
 
@@ -53,7 +56,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 			}
 			else {
 				if (!animation->backwardsAux) {
-					StopAnimation(animation);
+					StopAnimation();
 					ResetAnimation(animation);
 					animation->backwardsAux = true;
 				}
@@ -83,7 +86,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 				if (!animation->loop && animation->backwards) {
 					animation->pingPongBackwardsAux = true;
 					animation->pingPongAux = true;
-					StopAnimation(animation);
+					StopAnimation();
 					ResetAnimation(animation);
 				}
 			}
@@ -95,7 +98,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 				animation->currentTime = 0.0f;
 				animation->pingPongAux = true;
 				if (!animation->loop && !animation->backwards) {
-					StopAnimation(animation);
+					StopAnimation();
 					ResetAnimation(animation);
 				}
 			}
@@ -110,7 +113,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 			animation->easeInSpeed = 1;
 			animation->currentTime = 0.0f;
 			if (!animation->loop) {
-				StopAnimation(animation);
+				StopAnimation();
 				ResetAnimation(animation);
 			}
 		}
@@ -124,7 +127,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 			animation->easeOutSpeed = 1;
 			animation->currentTime = 0.0f;
 			if (!animation->loop) {
-				StopAnimation(animation);
+				StopAnimation();
 				ResetAnimation(animation);
 			}
 		}
@@ -154,7 +157,7 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 		animation->currentTime = animation->GetDuration() - 0.01f;
 
 		animation->currentTime = 0.0f;
-		StopAnimation(animation);
+		StopAnimation();
 		ResetAnimation(animation);
 	}
 		
@@ -163,28 +166,31 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	animation->isPlaying = true;
-	animation->currentTime = 0.0f;
+	currentAnimation = animation;
+
+	currentAnimation->isPlaying = true;
+	currentAnimation->currentTime = 0.0f;
 }
 
-void Animator::PauseAnimation(ResourceAnimation* animation) {
+void Animator::PauseAnimation() {
 
-	animation->isPlaying = false;
+	currentAnimation->isPlaying = false;
 }
 
-void Animator::ResumeAnimation(ResourceAnimation* animation) {
+void Animator::ResumeAnimation() {
 
-	animation->isPlaying = true;
+	currentAnimation->isPlaying = true;
 }
 
-void Animator::StopAnimation(ResourceAnimation* animation)
-{
-	animation->isPlaying = false;
-	animation->currentTime = 0.0f;
-	CalculateBoneTransform(&animation->GetRootNode(), identity.identity, *animation);
+void Animator::StopAnimation() {
+
+	currentAnimation->isPlaying = false;
+	currentAnimation->currentTime = 0.0f;
+	CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 }
 
 void Animator::ResetAnimation(ResourceAnimation* animation) {
+
 	animation->currentTime = 0.0f;
 	animation->backwardsAux = true;
 	animation->pingPongAux = true;
@@ -210,16 +216,49 @@ void Animator::TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation*
 	}
 }
 
-void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, ResourceAnimation &animation)
+void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
 {
 	std::string nodeName = node->name;
 	float4x4 nodeTransform = node->transformation; 
 
-	Bone* bone = animation.FindBone(nodeName);
+	Bone* bone = currentAnimation->FindBone(nodeName);
 	if (bone) {
-		bone->Update(animation.currentTime);
+		bone->Update(currentAnimation->currentTime);
 		nodeTransform = bone->GetLocalTransform();
 	}
+
+	if (blend && previousAnimation != nullptr) {
+
+		float4x4 prevTransform = node->transformation;
+
+		Bone* prevBone = previousAnimation->FindBone(nodeName);
+		if (prevBone) {
+			prevBone->Update(previousAnimation->currentTime);
+			prevTransform = prevBone->GetLocalTransform();
+		}
+
+		float3 translate;
+		Quat rotation;
+		float3 scale;
+
+		float3 prevTranslate;
+		Quat prevRotation;
+		float3 prevScale;
+
+		nodeTransform.Decompose(translate, rotation, scale);
+		prevTransform.Decompose(prevTranslate, prevRotation, prevScale);
+
+		translate.Lerp(prevTranslate, 0.5f);
+		rotation.Lerp(prevRotation, 0.5f);
+		scale.Lerp(prevScale, 0.5f);
+
+		nodeTransform.Translate(translate);
+		nodeTransform.SetRotatePart(rotation.ToFloat3x3());
+		nodeTransform.Scale(scale);
+	}
+
+	
+
 
 	float4x4 globalTransform = parentTransform * nodeTransform;
 	
@@ -230,9 +269,8 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		LOG("%f %f %f %f", globalTransform.At(2, 0), globalTransform.At(2, 1), globalTransform.At(2, 2), globalTransform.At(2, 3));
 		LOG("%f %f %f %f", globalTransform.At(3, 0), globalTransform.At(3, 1), globalTransform.At(3, 2), globalTransform.At(3, 3));
 	}
-	
 
-	std::map<std::string, BoneInfo> boneInfoMap = animation.GetBoneIDMap();
+	std::map<std::string, BoneInfo> boneInfoMap = currentAnimation->GetBoneIDMap();
 	if (boneInfoMap.find(nodeName) != boneInfoMap.end()) {
 		int index = boneInfoMap[nodeName].id;
 		float4x4 offset = boneInfoMap[nodeName].offset;
@@ -240,6 +278,6 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
-		CalculateBoneTransform(&node->children[i], globalTransform, animation);
+		CalculateBoneTransform(&node->children[i], globalTransform);
 	}
 }

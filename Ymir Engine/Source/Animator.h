@@ -20,19 +20,25 @@ public:
 	
 	void PlayAnimation(ResourceAnimation* animation);
 
-	void PauseAnimation(ResourceAnimation* animation);
+	void PauseAnimation();
 
-	void ResumeAnimation(ResourceAnimation* animation);
+	void ResumeAnimation();
 
-	void StopAnimation(ResourceAnimation* animation);
+	void StopAnimation();
 
 	void ResetAnimation(ResourceAnimation* animation);
 
 	void TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime);
 
-	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform, ResourceAnimation&animation);
+	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
+
+	void SetCurrentAnimation(ResourceAnimation* animation) { currentAnimation = animation; }
+	ResourceAnimation* GetCurrentAnimation() { return currentAnimation; }
+
+	void SetPreviousAnimation(ResourceAnimation* animation) { previousAnimation = animation; }
+	ResourceAnimation* GetPreviousAnimation() { return previousAnimation; }
 
 private:
 	std::vector<float4x4> finalBoneMatrices;
@@ -41,8 +47,14 @@ private:
 
 	float4x4 identity; 
 
+	bool blend = false;
+
 public:
 
+	// List of animations
 	std::vector<ResourceAnimation> animations;
+
+	ResourceAnimation* currentAnimation = nullptr;
+	ResourceAnimation* previousAnimation = nullptr;
 
 };
