@@ -47,7 +47,7 @@ private:
 
 	float4x4 identity; 
 
-	bool blend = false;
+	bool blend = true;
 
 public:
 

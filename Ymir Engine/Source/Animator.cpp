@@ -166,8 +166,11 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	currentAnimation = animation;
-
+	if (animation != currentAnimation) {
+		previousAnimation = currentAnimation;
+		currentAnimation = animation;
+	}
+	
 	currentAnimation->isPlaying = true;
 	currentAnimation->currentTime = 0.0f;
 }
@@ -257,19 +260,8 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform.Scale(scale);
 	}
 
-	
-
-
 	float4x4 globalTransform = parentTransform * nodeTransform;
 	
-	if (bone) {
-		LOG(" ------- %s ------ ", bone->name.c_str());
-		LOG("%f %f %f %f", globalTransform.At(0, 0), globalTransform.At(0, 1), globalTransform.At(0, 2), globalTransform.At(0, 3));
-		LOG("%f %f %f %f", globalTransform.At(1, 0), globalTransform.At(1, 1), globalTransform.At(1, 2), globalTransform.At(1, 3));
-		LOG("%f %f %f %f", globalTransform.At(2, 0), globalTransform.At(2, 1), globalTransform.At(2, 2), globalTransform.At(2, 3));
-		LOG("%f %f %f %f", globalTransform.At(3, 0), globalTransform.At(3, 1), globalTransform.At(3, 2), globalTransform.At(3, 3));
-	}
-
 	std::map<std::string, BoneInfo> boneInfoMap = currentAnimation->GetBoneIDMap();
 	if (boneInfoMap.find(nodeName) != boneInfoMap.end()) {
 		int index = boneInfoMap[nodeName].id;
@@ -278,6 +270,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 	}
 
 	for (int i = 0; i < node->childrenCount; i++) {
+
 		CalculateBoneTransform(&node->children[i], globalTransform);
 	}
 }
