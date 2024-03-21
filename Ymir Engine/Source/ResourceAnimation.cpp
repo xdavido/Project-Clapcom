@@ -35,6 +35,15 @@ ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANI
 bool ResourceAnimation::LoadInMemory()
 {
 	ImporterAnimation::Load(this->GetLibraryFilePath().c_str(), this);
+	for (auto it = boneInfoMap.cbegin(); it != boneInfoMap.cend(); it++) {
+		LOG("%s", it->first.c_str());
+		LOG("%d", it->second.id);
+		LOG("%f %f %f %f", it->second.offset.At(0, 0), it->second.offset.At(0, 1), it->second.offset.At(0, 2), it->second.offset.At(0, 3));
+		LOG("%f %f %f %f", it->second.offset.At(1, 0), it->second.offset.At(1, 1), it->second.offset.At(1, 2), it->second.offset.At(1, 3));
+		LOG("%f %f %f %f", it->second.offset.At(2, 0), it->second.offset.At(2, 1), it->second.offset.At(2, 2), it->second.offset.At(2, 3));
+		LOG("%f %f %f %f", it->second.offset.At(3, 0), it->second.offset.At(3, 1), it->second.offset.At(3, 2), it->second.offset.At(3, 3));
+	}
+	
 	return false;
 }
 
