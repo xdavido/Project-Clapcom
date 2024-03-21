@@ -6,3 +6,10 @@ Event	ID	Name			Wwise Object Path	Notes
 	3785941297	LV3_Flesh			\Default Work Unit\Level3\AmbientLV3\LV3_Flesh	
 	4273619196	LV3_Stone			\Default Work Unit\Level3\AmbientLV3\LV3_Stone	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	159787685	Veins	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Veins_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level3\AmbientLV3\Veins		5720016
+	298139976	Bone1	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Bone1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level3\AmbientLV3\Bone1		82832
+	334855856	Flesh2	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Flesh2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level3\AmbientLV3\Flesh2		25258
+	979533529	Heartbeat	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Heartbeat_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level3\AmbientLV3\Heartbeat		4732480
+	1009183910	Cry	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Cry_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level3\AmbientLV3\Cry		1039520
+
