@@ -46,15 +46,15 @@ public class Player : YmirComponent
     private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 1000.0f;
+    public float dashforce = 0.1f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
-    public float dashCD = 0.33f;
+    public float dashCD = 0.1f;
     public float dashDuration = 0.25f;
     public float dashDistance = 1.0f;
     private float dashSpeed = 0.0f;
-    private float dashStartYPos = 0.0f;
+    //private float dashStartYPos = 0.0f;
 
     //--------------------- Controller var ---------------------\\
     float x = 0;
@@ -165,11 +165,13 @@ public class Player : YmirComponent
     #region FSM
     private void ProcessInternalInput()
     {
+         
         if (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
 
             if (dashTimer <= 0)
+                StopPlayer();
                 inputsList.Add(INPUT.I_DASH_END);
         }
 
@@ -223,6 +225,7 @@ public class Player : YmirComponent
         //----------------- Dash -----------------\\
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
+            dashTimer = dashCD;
             inputsList.Add(INPUT.I_DASH);
         }
 
@@ -428,19 +431,21 @@ public class Player : YmirComponent
     private void StartDash()
     {
         dashTimer = dashDuration;
-        dashStartYPos = gameObject.transform.localPosition.y;
+        //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        Audio.PlayAudio(gameObject, "P_Dash");
+        //Audio.PlayAudio(gameObject, "P_Dash");
         StopPlayer();
-        //Debug.Log("Fuersa:" + gameObject.transform.GetForward() * dashforce);
-        gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
+        Debug.Log("Fuersa:" + gameObject.transform.GetForward());
+        //gameObject.SetImpulse(gameObject.transform.GetForward().normalized); //Arreglar esto
+        //gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
+        gameObject.SetVelocity(gameObject.transform.GetForward() * dashforce);
     }
     private void EndDash()
     {
         StopPlayer();
-        gameObject.transform.localPosition.y = dashStartYPos;
+        //gameObject.transform.localPosition.y = dashStartYPos;
     }
     #endregion
 
