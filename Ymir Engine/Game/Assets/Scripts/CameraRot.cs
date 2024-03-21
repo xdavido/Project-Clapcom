@@ -20,7 +20,18 @@ public class CameraRot : YmirComponent
 
     private GameObject _gameObject;
 
+    private bool scriptStart = true;
+
     public void Start()
+    {
+        _gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (_gameObject != null)
+        {
+            followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
+        }
+    }
+
+    private void StartFake()
     {
         _gameObject = InternalCalls.GetGameObjectByName("Player");
         if (_gameObject != null)
@@ -32,7 +43,11 @@ public class CameraRot : YmirComponent
     // Update is called once per frame
     public void Update()
     {
-       
+        if (scriptStart == true)
+        {
+            StartFake();
+            scriptStart = false;
+        }
         Vector3 newpos = _gameObject.transform.globalPosition + difPos;
 
         float dis = Vector3.Distance(gameObject.transform.globalPosition, newpos);

@@ -381,7 +381,7 @@ public class Player : YmirComponent
         Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
         InternalCalls.CreateBullet(pos, rot, scale);
 
-        //inputsList.Add(INPUT.I_SHOOT_END);
+        inputsList.Add(INPUT.I_SHOOT_END);
     }
     private void UpdateShooting()
     {
