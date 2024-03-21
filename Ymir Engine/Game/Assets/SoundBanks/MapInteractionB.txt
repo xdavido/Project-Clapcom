@@ -1,0 +1,5 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1237118816	B_OpenDoor			\Default Work Unit\Base\MapInteractionB\B_OpenDoor	
+	3258831073	B_Teleport			\Default Work Unit\Base\MapInteractionB\B_Teleport	
+	3305540428	B_CloseDoor			\Default Work Unit\Base\MapInteractionB\B_CloseDoor	
+

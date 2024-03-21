@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1423113456	LV1_Metal			\Default Work Unit\Level1\AmbientLV1\LV1_Metal	
+	2203822039	LV1_Fire			\Default Work Unit\Level1\AmbientLV1\LV1_Fire	
+	2482357211	LV1_CablesSpurt			\Default Work Unit\Level1\AmbientLV1\LV1_CablesSpurt	
+	3137796001	LV1_Machinery			\Default Work Unit\Level1\AmbientLV1\LV1_Machinery	
+	3849438701	LV1_LeakPipes			\Default Work Unit\Level1\AmbientLV1\LV1_LeakPipes	
+	3867000129	LV1_Ashes			\Default Work Unit\Level1\AmbientLV1\LV1_Ashes	
+

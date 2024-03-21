@@ -1,0 +1,5 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1712983321	B_Caius			\Default Work Unit\Music\BaseMusic\B_Caius	
+	1841822454	B_Departing			\Default Work Unit\Music\BaseMusic\B_Departing	
+	3279702346	B_Basic			\Default Work Unit\Music\BaseMusic\B_Basic	
+

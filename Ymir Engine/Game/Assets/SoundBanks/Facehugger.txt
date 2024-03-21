@@ -1,0 +1,12 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1698885162	FH_Cry			\Default Work Unit\Enemies\Facehugger\FH_Cry	
+	1939824144	FH_Death			\Default Work Unit\Enemies\Facehugger\FH_Death	
+	2148321349	FH_Move			\Default Work Unit\Enemies\Facehugger\FH_Move	
+	2363156028	FH_Tail			\Default Work Unit\Enemies\Facehugger\FH_Tail	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	239025717	FH_Move2	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FH_Move2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\Facehugger\FH_Move2		97366
+	536389018	FH_Cry1	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FH_Cry1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\Facehugger\FH_Cry1		155282
+	696003831	FH_Tail	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FH_Tail_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\Facehugger\FH_Tail		97736
+	858432502	FH_Death	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FH_Death_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\Facehugger\FH_Death		264224
+

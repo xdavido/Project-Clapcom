@@ -1,0 +1,5 @@
+Event	ID	Name			Wwise Object Path	Notes
+	424608496	UI_Credits			\Default Work Unit\Music\UIMisuc\UI_Credits	
+	2511555531	UI_Menu			\Default Work Unit\Music\UIMisuc\UI_Menu	
+	2766683758	UI_Inventory			\Default Work Unit\Music\UIMisuc\UI_Inventory	
+

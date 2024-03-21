@@ -1,0 +1,9 @@
+Event	ID	Name			Wwise Object Path	Notes
+	269349380	LV3_CollectItem			\Default Work Unit\Level3\MapInteractionLV3\LV3_CollectItem	
+	861924392	LV3_OpenChest			\Default Work Unit\Level3\MapInteractionLV3\LV3_OpenChest	
+	1633402355	LV3_CloseDoor			\Default Work Unit\Level3\MapInteractionLV3\LV3_CloseDoor	
+	1880536425	LV3_Beacon			\Default Work Unit\Level3\MapInteractionLV3\LV3_Beacon	
+	2654175985	LV3_OpenDoor			\Default Work Unit\Level3\MapInteractionLV3\LV3_OpenDoor	
+	2705516844	LV3_GrabKey			\Default Work Unit\Level3\MapInteractionLV3\LV3_GrabKey	
+	3605471807	LV3_UseKey			\Default Work Unit\Level3\MapInteractionLV3\LV3_UseKey	
+

@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2811600803	W_FirearmShot			\Default Work Unit\Weapons\Firearm\W_FirearmShot	
+	2893664607	W_FirearmSurf			\Default Work Unit\Weapons\Firearm\W_FirearmSurf	
+	3437299232	W_FirearmReload			\Default Work Unit\Weapons\Firearm\W_FirearmReload	
+	3833394957	W_FirearmEnemy			\Default Work Unit\Weapons\Firearm\W_FirearmEnemy	
+

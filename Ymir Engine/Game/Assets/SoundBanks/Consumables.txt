@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	9152236	W_GrenadeExpl			\Default Work Unit\Weapons\Consumables\W_GrenadeExpl	
+	258259792	W_MolotovExpl			\Default Work Unit\Weapons\Consumables\W_MolotovExpl	
+	1353162901	W_Throw			\Default Work Unit\Weapons\Consumables\W_Throw	
+	1725482239	W_MolotovFire			\Default Work Unit\Weapons\Consumables\W_MolotovFire	
+

@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1253762097	B_Metal			\Default Work Unit\Base\AmbientB\B_Metal	
+	1321898274	B_Consoles			\Default Work Unit\Base\AmbientB\B_Consoles	
+	3589440314	B_CablesSpurt			\Default Work Unit\Base\AmbientB\B_CablesSpurt	
+	3898569340	B_AirCond			\Default Work Unit\Base\AmbientB\B_AirCond	
+

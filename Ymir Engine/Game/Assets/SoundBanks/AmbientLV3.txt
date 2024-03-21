@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2040334075	LV3_Organs			\Default Work Unit\Level3\AmbientLV3\LV3_Organs	
+	2317714342	LV3_HeartBeats			\Default Work Unit\Level3\AmbientLV3\LV3_HeartBeats	
+	2858739430	LV3_Veins			\Default Work Unit\Level3\AmbientLV3\LV3_Veins	
+	3203011774	LV3_DistAlienCry			\Default Work Unit\Level3\AmbientLV3\LV3_DistAlienCry	
+	3785941297	LV3_Flesh			\Default Work Unit\Level3\AmbientLV3\LV3_Flesh	
+	4273619196	LV3_Stone			\Default Work Unit\Level3\AmbientLV3\LV3_Stone	
+

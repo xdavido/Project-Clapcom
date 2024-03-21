@@ -1,0 +1,7 @@
+Event	ID	Name			Wwise Object Path	Notes
+	779644395	W_FSADEnemy			\Default Work Unit\Weapons\FSAD\W_FSADEnemy	
+	1530428297	W_FSADShot			\Default Work Unit\Weapons\FSAD\W_FSADShot	
+	1753215977	W_FSADSurf			\Default Work Unit\Weapons\FSAD\W_FSADSurf	
+	2959608070	W_FSADReload			\Default Work Unit\Weapons\FSAD\W_FSADReload	
+	3715232504	W_FSADCapRel			\Default Work Unit\Weapons\FSAD\W_FSADCapRel	
+

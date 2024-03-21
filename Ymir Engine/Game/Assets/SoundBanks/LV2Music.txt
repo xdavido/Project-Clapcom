@@ -1,0 +1,5 @@
+Event	ID	Name			Wwise Object Path	Notes
+	386801804	LV2_Basic			\Default Work Unit\Music\LV2Music\LV2_Basic	
+	3026565220	LV2_Inter			\Default Work Unit\Music\LV2Music\LV2_Inter	
+	3491575422	LV2_Combat			\Default Work Unit\Music\LV2Music\LV2_Combat	
+

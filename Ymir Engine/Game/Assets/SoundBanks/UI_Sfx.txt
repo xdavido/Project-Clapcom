@@ -1,0 +1,35 @@
+Event	ID	Name			Wwise Object Path	Notes
+	369096855	UI_SkillOnCD			\Default Work Unit\UI\UI_SkillOnCD	
+	919962612	UI_EquipChip			\Default Work Unit\UI\UI_EquipChip	
+	923653598	UI_PlaceItem			\Default Work Unit\UI\UI_PlaceItem	
+	1009189048	UI_Error			\Default Work Unit\UI\UI_Error	
+	1157348174	UI_OpenInventory			\Default Work Unit\UI\UI_OpenInventory	
+	1187363912	UI_OpenMap			\Default Work Unit\UI\UI_OpenMap	
+	1219048826	UI_Start			\Default Work Unit\UI\UI_Start	
+	1838463399	UI_SelectItem			\Default Work Unit\UI\UI_SelectItem	
+	2024222415	UI_Back			\Default Work Unit\UI\UI_Back	
+	2121868466	UI_SelectSomething			\Default Work Unit\UI\UI_SelectSomething	
+	2294718101	UI_SwapConsumables			\Default Work Unit\UI\UI_SwapConsumables	
+	2545285754	UI_WeaponUpgrade			\Default Work Unit\UI\UI_WeaponUpgrade	
+	2672940587	UI_OpenMenu			\Default Work Unit\UI\UI_OpenMenu	
+	3152746076	UI_CloseMap			\Default Work Unit\UI\UI_CloseMap	
+	3300279817	UI_MoveHover			\Default Work Unit\UI\UI_MoveHover	
+	3368728976	UI_Craft			\Default Work Unit\UI\UI_Craft	
+	4033614823	UI_EquipArmor			\Default Work Unit\UI\UI_EquipArmor	
+	4038071479	UI_EquipConsumable			\Default Work Unit\UI\UI_EquipConsumable	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	11349164	EquipChip	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\EquipChip_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\EquipChip		125544
+	195200180	Select	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Select_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Select		9856
+	411433337	Start	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Start_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Start		275312
+	447263752	OpenMenu	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\OpenMenu_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\OpenMenu		59624
+	452643621	EquipArmor	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\EquipArmor_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\EquipArmor		144008
+	633248729	Error	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Error_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Error		54036
+	656630710	CloseMap	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\CloseMap_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\CloseMap		42970
+	793778003	OpenInventory	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\OpenInventory_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\OpenInventory		170428
+	849971514	SelectItem	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\SelectItem_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\SelectItem		231916
+	893934429	OpenMap	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\OpenMap_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\OpenMap		47926
+	984566369	Craft	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Craft_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Craft		128108
+	1065587514	Move	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Move_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Move		6856
+	1066747481	Back	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Back_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\Back		31272
+
