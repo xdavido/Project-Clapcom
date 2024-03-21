@@ -291,7 +291,8 @@ PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool useG
 // Destroy things (yey)
 void ModulePhysics::RemoveBody(PhysBody* b)
 {
-	world->removeCollisionObject(b->body);
+	if (b->body != nullptr)
+		world->removeCollisionObject(b->body);
 
 	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
 	bodiesList.shrink_to_fit();

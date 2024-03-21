@@ -67,7 +67,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 CCollider::~CCollider()
 {
-	External->physics->world->removeRigidBody(physBody->body);
+	RemovePhysbody();
 
 	delete physBody;
 	delete shape;
@@ -446,7 +446,6 @@ void CCollider::RemovePhysbody()
 		External->physics->RemoveBody(physBody);
 		physBody = nullptr;
 	}
-
 }
 
 void CCollider::SetAsSensor(bool is_sensor)
