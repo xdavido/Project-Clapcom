@@ -42,6 +42,12 @@ void CAnimation::Update() {
 }
 
 void CAnimation::AddAnimation(ResourceAnimation&newAnimation) {
+    for (int i = 0; i < animator->animations.size(); i++) {
+        if (newAnimation.name == animator->animations[i].name) {
+            newAnimation.name.append("_Copy");
+        }
+    }
+
     animator->animations.push_back(newAnimation);
 }
 

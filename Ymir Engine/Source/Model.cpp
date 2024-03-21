@@ -477,12 +477,13 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 		for (int i = 0; i < scene->mNumAnimations; i++) {
 			Animation* anim = new Animation(path, this, i);
 
-			std::string libraryPath = External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim";
+			std::string filename = std::to_string(linkGO->UID) + ".yanim";
+			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
 
-			JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
-			External->fileSystem->SaveAnimationToFile(anim, External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim");
+			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
 
-			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(External->fileSystem->libraryAnimationsPath + std::to_string(linkGO->UID) + ".yanim", ResourceType::ANIMATION, linkGO->UID);
+			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
 			cAnim->AddAnimation(*rAnim);
 		}
 		LOG("Model has animations");
