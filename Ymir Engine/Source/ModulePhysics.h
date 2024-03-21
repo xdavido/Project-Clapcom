@@ -40,6 +40,8 @@ public:
 	void SetSensorColor(Color col);
 	void SetLineWidth(float w);
 
+	bool GetDebugDraw();
+
 	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
 	// PhysBody related

@@ -346,6 +346,11 @@ void ModulePhysics::SetLineWidth(float w)
 	shapeLineWidth = w;
 }
 
+bool ModulePhysics::GetDebugDraw()
+{
+	return true;
+}
+
 void ModulePhysics::ResetGravity()
 {
 	LOG("Reseted Gravity");
