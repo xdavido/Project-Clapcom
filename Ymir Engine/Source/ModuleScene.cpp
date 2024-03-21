@@ -286,13 +286,14 @@ void ModuleScene::ClearScene()
 	SetSelected();
 
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
-	// RELEASE(mRootNode); 
+	//RELEASE(mRootNode);
 
 	External->lightManager->lights.clear();
-	gameObjects.clear();
-	destroyList.clear();
+	ClearVec(gameObjects);
+	ClearVec(destroyList);
 	App->renderer3D->models.clear();
 
+	ClearVec(vTempComponents);
 	ClearVec(vCanvas);
 
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
@@ -343,7 +344,6 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
-	mRootNode = gameObjects[0];
 
 	LoadScriptsData();
 
@@ -369,7 +369,6 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
-	mRootNode = gameObjects[0];
 
 	delete sceneToLoad;
 }

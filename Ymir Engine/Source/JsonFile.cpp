@@ -1503,7 +1503,6 @@ void JsonFile::SetReference(JSON_Object* componentObject, GameObject& pointer, c
 std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 {
 	std::vector<GameObject*> gameObjects;
-	ClearVec(External->scene->vTempComponents);
 
 	JSON_Value* hierarchyValue = json_object_get_value(rootObject, key);
 
@@ -1524,6 +1523,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
 				// Create a new GameObject
+				// TODO: Preguntar monica
 				G_UI* gameObject = new G_UI();
 
 				// Call a function to extract individual GameObject properties
@@ -1538,7 +1538,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 
 		External->scene->gameObjects = gameObjects;
 		External->scene->mRootNode = gameObjects[0];
-
+		External->scene->mRootNode->mParent = nullptr;
 
 		auto it = External->scene->vTempComponents.begin();
 		for (auto it = External->scene->vTempComponents.begin(); it != External->scene->vTempComponents.end(); ++it)
