@@ -34,6 +34,7 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 
 	// Debug drawer	
 	debugScene = true;
+	debugGame = false;
 
 	// Colors
 	colliderColor = Green;
@@ -598,7 +599,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 
 	glEnd();
 
-	// Dibujar la meridiana en el plano XZ (círculos completos)
+	// Dibujar la meridiana en el plano XZ (circulos completos)
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= 360; i += 10) {
 		float phi = i * DEGTORAD;
@@ -613,7 +614,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 	}
 	glEnd();
 
-	// Medio círculo superior (XY)
+	// Medio circulo superior (XY)
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= 180; i += 10) {
 		float phi = i * DEGTORAD;
@@ -621,7 +622,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 	}
 	glEnd();
 
-	// Medio círculo inferior (XY)
+	// Medio circulo inferior (XY)
 	glBegin(GL_LINE_STRIP);
 	for (int i = 180; i <= 360; i += 10) {
 		float phi = i * DEGTORAD;
@@ -629,7 +630,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 	}
 	glEnd();
 
-	// Medio círculo superior (ZY)
+	// Medio circulo superior (ZY)
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i <= 180; i += 10) {
 		float phi = i * DEGTORAD;
@@ -637,7 +638,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 	}
 	glEnd();
 
-	// Medio círculo inferior (ZY)
+	// Medio circulo inferior (ZY)
 	glBegin(GL_LINE_STRIP);
 	for (int i = 180; i <= 360; i += 10) {
 		float phi = i * DEGTORAD;

@@ -160,9 +160,11 @@ void CCollider::Update()
 
 			//physBody->SetScale(componentTransform->scale);
 			/*physBody->SetScale*/
-			if (ImGuizmo::IsUsing()) {
+			if (ImGuizmo::IsUsing()) 
+			{
+				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z }; 
+				else size = componentMesh->rMeshReference->obb.Size();
 
-				size = componentMesh->rMeshReference->obb.Size();
 				radius = size.Length() / 2;
 				height = size.y;
 			}
@@ -173,14 +175,12 @@ void CCollider::Update()
 			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
 			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
-			if (ImGuizmo::IsUsing()) {
-
-				size = componentTransform->GetGlobalTransform().GetScale();
-
+			if (ImGuizmo::IsUsing()) 
+			{
+				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+				else size = componentMesh->rMeshReference->obb.Size();
 			}
-
 		}
-
 	}
 
 	if (size.x == 0) size.x = 0.1;
@@ -303,7 +303,9 @@ void CCollider::OnInspector()
 
 				if (componentMesh != nullptr) {
 
-					size = componentMesh->rMeshReference->obb.Size();
+					if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+					else size = componentMesh->rMeshReference->obb.Size();
+
 					radius = size.Length();
 					height = size.y;
 				}
@@ -433,17 +435,13 @@ void CCollider::SetCapsuleCollider()
 
 void CCollider::SetMeshCollider()
 {
-	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-	if (auxMesh == nullptr)
-	{
-		LOG("Mesh collider needs a ComponentMesh!");
-		SetBoxCollider();
-		return;
-	}
 
 	LOG("Set Mesh Collider");
 	collType = ColliderType::MESH_COLLIDER;
+	
+	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
+	size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 
 	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
 

@@ -307,7 +307,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		// Render Physics Colliders
 
-		if (App->physics->GetDebugDraw())
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
