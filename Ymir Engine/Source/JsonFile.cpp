@@ -1089,6 +1089,19 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	}
 	case PHYSICS:
 	{
+		// World gravity
+
+		JSON_Value* gravityArrayValue = json_value_init_array();
+		JSON_Array* gravityArray = json_value_get_array(gravityArrayValue);
+
+		json_array_append_number(gravityArray, External->physics->btVector3_to_float3(External->physics->GetWorldGravity()).x);
+		json_array_append_number(gravityArray, External->physics->btVector3_to_float3(External->physics->GetWorldGravity()).y);
+		json_array_append_number(gravityArray, External->physics->btVector3_to_float3(External->physics->GetWorldGravity()).z);
+
+		json_object_set_value(componentObject, "World gravity", gravityArrayValue);
+
+		// Component Collider
+
 		json_object_set_string(componentObject, "Type", "Physics");
 
 		CCollider* ccollider = (CCollider*)&component;
@@ -1128,7 +1141,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Gravity
 
-		json_object_set_boolean(componentObject, "Gravity", ccollider->useGravity);
+		json_object_set_boolean(componentObject, "UseGravity", ccollider->useGravity);
 
 		// IsSensor
 
@@ -1734,6 +1747,25 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	}
 	else if (type == "Physics") {
 
+		// World Gravity
+		
+		JSON_Value* jsonGravityValue = json_object_get_value(componentObject, "World gravity");
+
+		if (jsonGravityValue == nullptr || json_value_get_type(jsonGravityValue) != JSONArray) {
+
+			return;
+		}
+
+		JSON_Array* jsonGravityArray = json_value_get_array(jsonGravityValue);
+
+		float3 gravity;
+
+		gravity.x = static_cast<float>(json_array_get_number(jsonGravityArray, 0));
+		gravity.y = static_cast<float>(json_array_get_number(jsonGravityArray, 1));
+		gravity.z = static_cast<float>(json_array_get_number(jsonGravityArray, 2));
+
+		External->physics->SetWorldGravity(External->physics->float3_to_btVector3(gravity));
+
 		// Collider Type
 
 		ColliderType collider = static_cast<ColliderType>(json_object_get_number(componentObject, "Collider Type"));
@@ -1782,7 +1814,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		// Gravity
 
-		ccollider->useGravity = json_object_get_boolean(componentObject, "Gravity");
+		ccollider->useGravity = json_object_get_boolean(componentObject, "UseGravity");
 
 		// IsSensor
 

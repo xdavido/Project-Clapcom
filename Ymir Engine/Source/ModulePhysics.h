@@ -69,6 +69,16 @@ public:
 	void RenderCapsuleCollider(PhysBody* pbody);
 	void RenderMeshCollider(PhysBody* pbody);
 
+	// Conversion function from btVector3 to float3
+	float3 btVector3_to_float3(const btVector3& v) {
+		return { v.x(), v.y(), v.z() };
+	}
+
+	// Conversion function from float3 to btVector3
+	btVector3 float3_to_btVector3(const float3& v) {
+		return btVector3(v.x, v.y, v.z);
+	}
+
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	
 	std::vector<PhysBody*> bodiesList;

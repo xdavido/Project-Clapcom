@@ -423,6 +423,7 @@ void CCollider::SetMeshCollider()
 
 void CCollider::SetDefaultValues(PhysicsType type)
 {
+	isSensor = false;
 	switch (physType)
 	{
 	case PhysicsType::DYNAMIC:
