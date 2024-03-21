@@ -1932,7 +1932,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
 
-			ui_comp->SetImg(ui_comp->mat->path, UI_STATE::NORMAL);
+			ui_comp->SetImg(ui_comp->mat->path, UI_STATE::NORMAL); 
+			ui_comp->selectedTexture = ui_comp->mapTextures.find(ui_comp->state)->second;
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
