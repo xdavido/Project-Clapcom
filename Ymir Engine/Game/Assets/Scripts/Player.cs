@@ -46,7 +46,7 @@ public class Player : YmirComponent
     private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 0.1f;
+    public float dashforce = 10.0f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
@@ -171,8 +171,10 @@ public class Player : YmirComponent
             dashTimer -= Time.deltaTime;
 
             if (dashTimer <= 0)
-                StopPlayer();
+            {  
                 inputsList.Add(INPUT.I_DASH_END);
+                StopPlayer();
+            }
         }
 
         if (shootingTimer > 0)
@@ -225,7 +227,6 @@ public class Player : YmirComponent
         //----------------- Dash -----------------\\
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
-            dashTimer = dashCD;
             inputsList.Add(INPUT.I_DASH);
         }
 
@@ -430,17 +431,17 @@ public class Player : YmirComponent
     #region DASH
     private void StartDash()
     {
+        StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
         //Audio.PlayAudio(gameObject, "P_Dash");
-        StopPlayer();
         Debug.Log("Fuersa:" + gameObject.transform.GetForward());
         //gameObject.SetImpulse(gameObject.transform.GetForward().normalized); //Arreglar esto
         //gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
-        gameObject.SetVelocity(gameObject.transform.GetForward() * dashforce);
+        gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
     }
     private void EndDash()
     {
@@ -485,6 +486,7 @@ public class Player : YmirComponent
     private void UpdateMove()
     {
         HandleRotation();
+        //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
     private void StopPlayer()
