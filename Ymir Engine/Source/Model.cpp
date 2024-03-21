@@ -170,6 +170,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 			}
 
 			modelGO->type = "Model";
+			modelGO->originPath = path;
 
 		}
 		else {

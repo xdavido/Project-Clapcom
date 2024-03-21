@@ -203,6 +203,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
 				modelGO->type = "Model";
+				modelGO->originPath = assetsFilePath;
 
 				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
 
