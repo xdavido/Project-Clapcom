@@ -6,3 +6,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	3705695092	LV2_CablesSpurt			\Default Work Unit\Level2\AmbientLV2\LV2_CablesSpurt	
 	4165634540	LV2_BioticLT			\Default Work Unit\Level2\AmbientLV2\LV2_BioticLT	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	174388518	Siren	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Siren_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\Siren		1152064
+	241251232	BioticLT	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\BioticLT_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\BioticLT		656704
+	406328741	Metal1	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Metal1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\Metal1		70904
+	523726778	Reactor	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Reactor_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\Reactor		9686080
+	573979148	Cables	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Cables_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\Cables		1396288
+	964017897	Monitors	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Monitors_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\AmbientLV2\Monitors		3118984
+

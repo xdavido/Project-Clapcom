@@ -6,3 +6,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	3849438701	LV1_LeakPipes			\Default Work Unit\Level1\AmbientLV1\LV1_LeakPipes	
 	3867000129	LV1_Ashes			\Default Work Unit\Level1\AmbientLV1\LV1_Ashes	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	188865373	Fire	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Fire_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\Fire		2919092
+	400531513	LeakingPipe	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\LeakingPipe_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\LeakingPipe		612928
+	573979148	Cables	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Cables_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\Cables		1396288
+	591689307	Ashes2	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Ashes2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\Ashes2		96064
+	658400398	Metal2	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Metal2_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\Metal2		69608
+	999858796	Machinery	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Machinery_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level1\AmbientLV1\Machinery		11119168
+

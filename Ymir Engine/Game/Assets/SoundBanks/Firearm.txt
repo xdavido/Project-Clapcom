@@ -4,3 +4,9 @@ Event	ID	Name			Wwise Object Path	Notes
 	3437299232	W_FirearmReload			\Default Work Unit\Weapons\Firearm\W_FirearmReload	
 	3833394957	W_FirearmEnemy			\Default Work Unit\Weapons\Firearm\W_FirearmEnemy	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	303306215	FirearmReload	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FirearmReload_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Firearm\FirearmReload		186344
+	316221824	SurfaceHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\SurfaceHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Firearm\SurfaceHit		417308
+	486821775	EnemyHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\EnemyHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Firearm\EnemyHit		112096
+	583374193	FirearmShot	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FirearmShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Firearm\FirearmShot		81016
+

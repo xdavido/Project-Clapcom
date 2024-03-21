@@ -36,7 +36,6 @@ namespace AK
         static const AkUniqueID FH_TAIL = 2363156028U;
         static const AkUniqueID I_TALK = 836712503U;
         static const AkUniqueID LV1_ASHES = 3867000129U;
-        static const AkUniqueID LV1_BASIC = 3687702475U;
         static const AkUniqueID LV1_BEACON = 60316943U;
         static const AkUniqueID LV1_CABLESSPURT = 2482357211U;
         static const AkUniqueID LV1_CLOSEDOOR = 2671563405U;
@@ -50,7 +49,6 @@ namespace AK
         static const AkUniqueID LV1_OPENCHEST = 2450396122U;
         static const AkUniqueID LV1_OPENDOOR = 346664603U;
         static const AkUniqueID LV1_USEKEY = 3616258525U;
-        static const AkUniqueID LV2_BASIC = 386801804U;
         static const AkUniqueID LV2_BEACON = 3551652262U;
         static const AkUniqueID LV2_BIOTICLT = 4165634540U;
         static const AkUniqueID LV2_CABLESSPURT = 3705695092U;
@@ -134,8 +132,6 @@ namespace AK
         static const AkUniqueID W_FSADSHOT = 1530428297U;
         static const AkUniqueID W_FSADSURF = 1753215977U;
         static const AkUniqueID W_GRENADEEXPL = 9152236U;
-        static const AkUniqueID W_MOLOTOVEXPL = 258259792U;
-        static const AkUniqueID W_MOLOTOVFIRE = 1725482239U;
         static const AkUniqueID W_PLASMAENEMY = 2025074351U;
         static const AkUniqueID W_PLASMARELOAD = 2182280754U;
         static const AkUniqueID W_PLASMASHOT = 3750281125U;

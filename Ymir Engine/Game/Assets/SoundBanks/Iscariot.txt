@@ -1,3 +1,6 @@
 Event	ID	Name			Wwise Object Path	Notes
 	836712503	I_Talk			\Default Work Unit\Characters\Iscariot\I_Talk	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	472464657	I_Talk	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\I_Talk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Iscariot\I_Talk		1253210
+
