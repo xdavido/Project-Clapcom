@@ -287,12 +287,14 @@ void ModuleScene::ClearScene()
 	// RELEASE(mRootNode); 
 
 	External->lightManager->lights.clear();
-	External->physics->ClearBodiesList();
-	External->physics->motions.clear();
-	External->physics->world->clearForces();
+
+	External->physics->DeleteWorld(); // It was this or nothing :(
+
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
+
+	External->physics->CreateWorld();
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
 }

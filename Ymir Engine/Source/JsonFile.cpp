@@ -1818,7 +1818,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		// IsSensor
 
-		ccollider->isSensor = json_object_get_boolean(componentObject, "IsSensor");
+		ccollider->SetAsSensor(json_object_get_boolean(componentObject, "IsSensor"));
 
 	}
 	else if (type == "Script") {

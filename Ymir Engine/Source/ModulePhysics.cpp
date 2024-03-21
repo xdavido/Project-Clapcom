@@ -57,7 +57,7 @@ bool ModulePhysics::Init()
 // START ---------------------------------------------------------------------
 bool ModulePhysics::Start()
 {
-	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
+	CreateWorld();
 	world->setGravity(GRAVITY);
 
 	return true;
@@ -162,6 +162,21 @@ update_status ModulePhysics::PostUpdate(float dt)
 bool ModulePhysics::CleanUp()
 {
 	return true;
+}
+
+// CREATE / DELETE WORLD --------------------------------------------------------------
+void ModulePhysics::CreateWorld()
+{
+	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
+}
+
+void ModulePhysics::DeleteWorld()
+{
+	External->physics->ClearBodiesList();
+	External->physics->motions.clear();
+	External->physics->world->clearForces();
+
+	delete world;
 }
 
 // ADDBODY ============================================================================================================

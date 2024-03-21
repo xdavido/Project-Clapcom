@@ -28,6 +28,9 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	void CreateWorld();
+	void DeleteWorld();
+
 	//Getters
 	btVector3 GetWorldGravity();
 	Color GetColliderColor();
