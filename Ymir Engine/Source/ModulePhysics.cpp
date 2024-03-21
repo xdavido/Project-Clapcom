@@ -98,6 +98,7 @@ update_status ModulePhysics::Update(float dt)
 
 					if (aux != nullptr) {
 						aux->CollisionCallback(false, pbodyB->owner);
+						onexitcollision = true;
 					}
 				}
 
@@ -106,6 +107,7 @@ update_status ModulePhysics::Update(float dt)
 
 					if (aux != nullptr) {
 						aux->CollisionCallback(false, pbodyA->owner);
+						onexitcollision = true;
 					}
 				}
 				
@@ -116,14 +118,6 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyA, pbodyB);
 						item = item->next;
-
-						if (pbodyA->owner != nullptr) {
-							CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
-
-							if (aux != nullptr) {
-								aux->CollisionCallback(false, pbodyA->owner);
-							}
-						}
 					}
 
 					item = pbodyB->collision_listeners.getFirst();
@@ -131,18 +125,10 @@ update_status ModulePhysics::Update(float dt)
 					{
 						item->data->OnCollision(pbodyB, pbodyA);
 						item = item->next;
-
-						if (pbodyB->owner != nullptr) {
-							CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
-
-							if (aux != nullptr) {
-								aux->CollisionCallback(false, pbodyB->owner);
-							}
-						}
 					}
 				}
 			}
-			else if (numContacts == 0)
+			else if (numContacts == 0 && onexitcollision == true)
 			{
 				// Manejar salida de colisiones
 				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
@@ -164,6 +150,7 @@ update_status ModulePhysics::Update(float dt)
 					{
 						scriptB->CollisionExitCallback(false, pbodyA->owner);
 					}
+					onexitcollision == false;
 				}
 			}
 		}
