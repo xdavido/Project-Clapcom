@@ -2,3 +2,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1343835049	C_Talk			\Default Work Unit\Characters\Caius\C_Talk	
 	4124650545	C_Confirm			\Default Work Unit\Characters\Caius\C_Confirm	
 
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	342077064	C_Talk	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\C_Talk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Caius\C_Talk		4271768
+	801376391	C_Confirm	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\C_Confirm_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Caius\C_Confirm		901820
+

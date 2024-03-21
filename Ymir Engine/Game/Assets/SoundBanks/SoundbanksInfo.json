@@ -18,7 +18,7 @@
    {
     "Id": "209385238",
     "Language": "SFX",
-    "Hash": "1823088145",
+    "Hash": "2496613464",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Caius",
     "ShortName": "Caius",
     "Path": "Caius.bnk",
@@ -28,16 +28,32 @@
       "Name": "C_Confirm",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Caius\\C_Confirm",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "5.111996",
+      "DurationMax": "5.111996",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "801376391",
+        "Language": "SFX",
+        "ShortName": "C_Confirm.wav",
+        "Path": "SFX\\C_Confirm_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1343835049",
       "Name": "C_Talk",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Caius\\C_Talk",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "24.216009",
+      "DurationMax": "24.216009",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "342077064",
+        "Language": "SFX",
+        "ShortName": "C_Talk.wav",
+        "Path": "SFX\\C_Talk_10C4C929.wem"
+       }
+      ]
      }
     ]
    },
@@ -396,7 +412,7 @@
    {
     "Id": "1069431850",
     "Language": "SFX",
-    "Hash": "1150705314",
+    "Hash": "2403535758",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Player",
     "ShortName": "Player",
     "Path": "Player.bnk",
@@ -406,96 +422,192 @@
       "Name": "P_AcidSpit",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_AcidSpit",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.117729",
+      "DurationMax": "0.117729",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "314735228",
+        "Language": "SFX",
+        "ShortName": "AcidSpit.wav",
+        "Path": "SFX\\AcidSpit_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1348116050",
       "Name": "P_AcidSpitHit",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_AcidSpitHit",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.603708",
+      "DurationMax": "0.603708",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "812826936",
+        "Language": "SFX",
+        "ShortName": "AcidHit.wav",
+        "Path": "SFX\\AcidHit_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "2936341071",
       "Name": "P_AcidSpitPuddle",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_AcidSpitPuddle",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.671562",
+      "DurationMax": "0.671562",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "776615821",
+        "Language": "SFX",
+        "ShortName": "AcidSpitPuddle.wav",
+        "Path": "SFX\\AcidSpitPuddle_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "3919743498",
       "Name": "P_Dash",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Dash",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.511958",
+      "DurationMax": "0.511958",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "263789084",
+        "Language": "SFX",
+        "ShortName": "Dash.wav",
+        "Path": "SFX\\Dash_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "947529532",
       "Name": "P_Death",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Death",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.896",
+      "DurationMax": "0.896",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "516417712",
+        "Language": "SFX",
+        "ShortName": "P_Death.wav",
+        "Path": "SFX\\P_Death_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1073763149",
       "Name": "P_Hit",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Hit",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.768005",
+      "DurationMax": "0.768005",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "842039477",
+        "Language": "SFX",
+        "ShortName": "HitTaken.wav",
+        "Path": "SFX\\HitTaken_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "19031741",
       "Name": "P_PredRush",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_PredRush",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "1.051875",
+      "DurationMax": "1.051875",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "326843485",
+        "Language": "SFX",
+        "ShortName": "PredRush.wav",
+        "Path": "SFX\\PredRush_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "2290830213",
       "Name": "P_Relief",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Relief",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.566021",
+      "DurationMax": "0.566021",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "645100761",
+        "Language": "SFX",
+        "ShortName": "Relief.wav",
+        "Path": "SFX\\Relief_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "2881165168",
       "Name": "P_TailSweep",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_TailSweep",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.7385",
+      "DurationMax": "0.7385",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "767211440",
+        "Language": "SFX",
+        "ShortName": "P_TailSweep.wav",
+        "Path": "SFX\\P_TailSweep_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "3633830695",
       "Name": "P_TailSweepHit",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_TailSweepHit",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.570271",
+      "DurationMax": "0.570271",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "904719139",
+        "Language": "SFX",
+        "ShortName": "TailSweepHit.wav",
+        "Path": "SFX\\TailSweepHit_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "3396224688",
       "Name": "P_Talk",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Talk",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "2.533062",
+      "DurationMax": "2.533062",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "222019397",
+        "Language": "SFX",
+        "ShortName": "P_Talk.wav",
+        "Path": "SFX\\P_Talk_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "2157893143",
       "Name": "P_Whine",
       "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Whine",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "6.991729",
+      "DurationMax": "6.991729",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "329198443",
+        "Language": "SFX",
+        "ShortName": "Whine.wav",
+        "Path": "SFX\\Whine_10C4C929.wem"
+       }
+      ]
      }
     ]
    },
@@ -1442,7 +1554,7 @@
    {
     "Id": "4095621880",
     "Language": "SFX",
-    "Hash": "1263997145",
+    "Hash": "3477694633",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\Facehugger",
     "ShortName": "Facehugger",
     "Path": "Facehugger.bnk",
