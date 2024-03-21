@@ -10,27 +10,14 @@ public class BH_Bullet : YmirComponent
 
     private bool destroyed = false;
 
-    private bool scriptStart = true;
-
     Vector3 vSpeed = Vector3.zero;
     public void Start()
-    {
-        
-    }
-
-    private void StartFake()
     {
         vSpeed = GetDirection() * speed;
     }
 
     public void Update()
     {
-         if (scriptStart == true)
-         {
-            StartFake();
-            scriptStart = false;
-         }
-
         currentLifeTime += Time.deltaTime;
 
         //Para mover la bala sin rigidbody

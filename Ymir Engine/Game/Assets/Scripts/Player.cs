@@ -68,7 +68,7 @@ public class Player : YmirComponent
     public float secondaryRate = 0.2f;
 
     //--------------------- Fake Start ---------------------\\
-    private bool scriptStart = true;
+    //private bool scriptStart = true;
 
     //Vector3 up = new Vector3(0, 1, 0);
 
@@ -93,26 +93,26 @@ public class Player : YmirComponent
         Debug.Log("START!");
     }
 
-    private void StartFake()
-    {
-        //Hp = 100;
+    //private void StartFake()
+    //{
+    //    //Hp = 100;
 
-        //--------------------- Dash ---------------------\\
-        dashTimer = 0f;
-        dashSpeed = dashDistance / dashDuration;
+    //    //--------------------- Dash ---------------------\\
+    //    dashTimer = 0f;
+    //    dashSpeed = dashDistance / dashDuration;
 
 
-        currentState = STATE.IDLE;
-        Debug.Log("START!");
-    }
+    //    currentState = STATE.IDLE;
+    //    Debug.Log("START!");
+    //}
 
     public void Update()
     {
-        if (scriptStart == true)
-        {
-            StartFake();
-            scriptStart = false;
-        }
+        //if (scriptStart == true)
+        //{
+        //    StartFake();
+        //    scriptStart = false;
+        //}
 
         // New Things WIP
         UpdateControllerInputs();
@@ -361,15 +361,15 @@ public class Player : YmirComponent
     }
     private void StartShooting()
     {
-        // Añadir coidgo de instanciar el prefab de disparo
         // Añadir efecto de sonido
-
+        Audio.PlayAudio(gameObject,"P_Shoot");
         Debug.Log("Shoot!");
 
+        StopPlayer();
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
         Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
-        Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
-        Debug.Log("Spawn pos: " + pos);
+        //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
+        //Debug.Log("Spawn pos: " + pos);
 
         //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
         Quaternion rot = gameObject.transform.globalRotation;
@@ -378,7 +378,7 @@ public class Player : YmirComponent
         Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
 
         //Crea la bala
-        Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
+        //Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
         InternalCalls.CreateBullet(pos, rot, scale);
 
         inputsList.Add(INPUT.I_SHOOT_END);
@@ -403,6 +403,7 @@ public class Player : YmirComponent
     }
     private void UpdateDash()
     {
+        Audio.PlayAudio(gameObject, "P_Dash");
         StopPlayer();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward() * dashforce);
         gameObject.SetImpulse(gameObject.transform.GetForward().normalized * dashforce); //Arreglar esto
