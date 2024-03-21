@@ -13,7 +13,7 @@ public class CameraRot : YmirComponent
 
     //position difference between camera and player
     //public Vector3 difPos = new Vector3(-15, 20, -15);
-    public Vector3 difPos = new Vector3(0, 20, -30);
+    public Vector3 difPos = new Vector3(0, 25, -30);
 
     //camera velocity
     private float followStrenght;
