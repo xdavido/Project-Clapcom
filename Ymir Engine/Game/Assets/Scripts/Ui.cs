@@ -32,4 +32,8 @@ public class Ui : YmirComponent
         }
        
     }
+    public void OnCollisionExit(GameObject _other)
+    {
+        Debug.Log("Josemaria");
+    }
 }

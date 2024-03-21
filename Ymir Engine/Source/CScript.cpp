@@ -359,6 +359,10 @@ void CScript::LoadScriptData(std::string scriptName)
 	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
+	oncDesc = mono_method_desc_new(":OnCollisionExit", false);
+	onCollisionExitMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
 	MonoMethodDesc* oncBut = mono_method_desc_new(":OnExecuteButton", false);
 	onExecuteButtonMethod = mono_method_desc_search_in_class(oncBut, klass);
 	mono_method_desc_free(oncBut);
@@ -395,6 +399,15 @@ void CScript::CollisionCallback(bool isTrigger, GameObject* collidedGameObject)
 	}
 }
 
+void CScript::CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+	params[0] = collidedGameObject;
+
+	if (onCollisionExitMethod != nullptr) {
+		mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+	}
+}
 void CScript::ExecuteButton() {
 
 	if (onExecuteButtonMethod != nullptr) {
