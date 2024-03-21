@@ -26,6 +26,10 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	btSize = float3_to_btVector3(size);
 	radius = 1;
 
+	lockX = false;
+	lockY = false;
+	lockZ = false;
+
 	switch (collType)
 	{
 	case BOX:
@@ -95,11 +99,9 @@ void CCollider::Update()
 			float offsetZ = 0;
 
 			if (componentMesh != nullptr) {
-
 				offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
 				offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
 				offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
-
 			}
 
 			float4x4 newMat;
@@ -355,6 +357,12 @@ void CCollider::OnInspector()
 				External->physics->RecalculateInertia(physBody, mass, useGravity);
 			if (ImGui::Checkbox("Use gravity\t", &useGravity))
 				External->physics->RecalculateInertia(physBody, mass, useGravity);
+
+			ImGui::Spacing();
+			ImGui::Text("Lock rotation");
+			if (ImGui::Checkbox("Lock x\t", &lockX)); ImGui::SameLine();
+			if (ImGui::Checkbox("Lock y\t", &lockY)); ImGui::SameLine();
+			if (ImGui::Checkbox("Lock z\t", &lockZ));
 
             break;
 

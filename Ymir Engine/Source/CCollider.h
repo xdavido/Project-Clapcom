@@ -76,6 +76,8 @@ public:
 	bool useGravity;
 	bool isSensor;
 
+	bool lockX, lockY, lockZ;
+
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;
 
