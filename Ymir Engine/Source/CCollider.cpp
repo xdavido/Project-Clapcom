@@ -95,7 +95,8 @@ void CCollider::Update()
 			float offsetY = 0;
 			float offsetZ = 0;
 
-			if (componentMesh != nullptr) {
+			if (componentMesh != nullptr) 
+			{
 				offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
 				offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
 				offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
@@ -107,7 +108,7 @@ void CCollider::Update()
 			newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 			newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
 
-			if (mOwner->mParent == nullptr)
+			if (parentTransform == nullptr)
 			{
 				if (collType != ColliderType::MESH_COLLIDER)
 					newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
@@ -159,7 +160,7 @@ void CCollider::Update()
 			/*physBody->SetScale*/
 			if (ImGuizmo::IsUsing()) 
 			{
-				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z }; 
+				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 				else size = componentMesh->rMeshReference->obb.Size();
 
 				radius = size.Length() / 2;
@@ -174,8 +175,7 @@ void CCollider::Update()
 
 			if (ImGuizmo::IsUsing()) 
 			{
-				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-				else size = componentMesh->rMeshReference->obb.Size();
+				size = componentTransform->GetGlobalTransform().GetScale();
 			}
 		}
 	}
