@@ -65,6 +65,12 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
+#ifdef _STANDALONE
+
+	LoadSceneFromStart("Assets", "MAPA_FINAL");
+
+#endif // _STANDALONE
+
 	// Test for Physics
 	// LoadSceneFromStart("Assets", "PhysicsTest"); 
 
@@ -174,10 +180,10 @@ bool ModuleScene::CleanUp()
 
 GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 {
-	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
-	GameObject* tempGameObject = new GameObject(name, parent);
+	std::string newName = GetUniqueName(name);
 
-	tempGameObject->UID = Random::Generate();
+	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
+	GameObject* tempGameObject = new GameObject(newName, parent);
 
 	if (parent != nullptr) {
 
@@ -188,6 +194,39 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	gameObjects.push_back(tempGameObject);
 	
 	return tempGameObject;
+}
+
+std::string ModuleScene::GetUniqueName(std::string name)
+{
+	//Check if a Game Object with same name exists
+	bool exists = false;
+	int counter = 0;
+	if (gameObjects.size() > 0)
+	{
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			if (name == gameObjects[i]->name)    //If the name exists, add 1 to counter
+			{
+				counter++;
+				name = ReName(name, counter);
+			}
+		}
+		return name;
+	}
+	else return name;
+}
+
+std::string ModuleScene::ReName(std::string name, uint counter)
+{
+	std::string uniqueName = name + " (" + std::to_string(counter) + ")";
+	std::string newName;
+
+	size_t first = uniqueName.find_first_of("(");
+
+	newName = uniqueName.erase(first - 1);
+	newName = uniqueName + " (" + std::to_string(counter) + ")";
+
+	return newName;
 }
 
 GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
@@ -238,8 +277,10 @@ void ModuleScene::ClearScene()
 
 	SetSelected();
 
-	RELEASE(mRootNode);
+	// FRANCESC: Doing this RELEASE here makes the meshes disappear
+	// RELEASE(mRootNode); 
 
+	External->lightManager->lights.clear();
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
@@ -292,6 +333,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+
 	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
@@ -313,7 +355,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	// ClearScene();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];

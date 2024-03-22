@@ -13,6 +13,7 @@
 #include "ModuleResourceManager.h"
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -264,6 +265,8 @@ void ModuleEditor::DrawEditor()
 			CreateCameraMenu();
 
 			UIMenu();
+
+			LightsMenu();
 
 			ImGui::Separator();
 
@@ -724,6 +727,9 @@ void ModuleEditor::DrawEditor()
 				// World Grid Checkbox
 				if (ImGui::Checkbox("Show Grid", &App->renderer3D->showGrid));
 
+				// ImGui checkbox to manage whether to ignore .meta files or not
+				if (ImGui::Checkbox("Ignore .meta files", &shouldIgnoreMeta));
+
 				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
 			}
@@ -1074,6 +1080,14 @@ void ModuleEditor::DrawEditor()
 
 			static ImGuiTextFilter filter;
 			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
+
+			ImGui::Dummy(ImVec2(10, 0));
+
+			if (ImGui::Button("Regenerate Library"))
+			{
+				DeleteAssetConfirmationPopup("Library");
+			}
+
 			ImGui::EndMenuBar();
 
 			DrawAssetsWindow((currentDir + "/").c_str());
@@ -1314,6 +1328,8 @@ void ModuleEditor::DrawEditor()
 
 	}
 
+	RenderDeleteAssetConfirmationPopup();
+
 	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
 	// Rendering
@@ -1488,6 +1504,34 @@ void ModuleEditor::CreateCameraMenu()
 
 		empty->AddComponent(ComponentType::CAMERA);
 	}
+}
+
+void ModuleEditor::LightsMenu()
+{
+	if (ImGui::BeginMenu("Light"))
+	{
+
+		if (ImGui::MenuItem("Point Light")) 
+		{
+			App->lightManager->CreateLight(LightType::POINT_LIGHT);
+		}
+		if (ImGui::MenuItem("Directional Light")) 
+		{
+			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
+		}
+		if (ImGui::MenuItem("Spot Light")) 
+		{
+			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
+		}
+		if (ImGui::MenuItem("Area Light")) 
+		{
+			App->lightManager->CreateLight(LightType::AREA_LIGHT);
+		}
+
+		ImGui::EndMenu();
+
+	}
+
 }
 
 void ModuleEditor::UIMenu()
@@ -3280,7 +3324,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							if (ImGui::MenuItem("Delete Folder"))
 							{
-								DeleteFileAndRefs(entry.path().string().c_str());
+								DeleteAssetConfirmationPopup(entry.path().string().c_str());
 							}
 
 							ImGui::EndPopup();
@@ -3318,7 +3362,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				std::string entryName = entry.path().filename().string();
 
-				if (entryName != "." && entryName != "..") {
+				if (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) {
 
 					ImGui::TableNextColumn();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
@@ -3398,9 +3442,17 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							}
 						}
 
+						if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
+						{
+							if (ImGui::MenuItem("Delete Metadata"))
+							{
+								DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
+							}
+						}
+
 						if (ImGui::MenuItem("Delete File"))
 						{
-							DeleteFileAndRefs(entry.path().string().c_str());
+							DeleteAssetConfirmationPopup(entry.path().string().c_str());
 						}
 
 						ImGui::EndPopup();
@@ -3419,6 +3471,78 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 		}
 
 		ImGui::EndTable();
+
+	}
+
+}
+
+static bool showDeleteAssetPopup = false;
+static std::string assetToDelete;
+
+void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
+
+	showDeleteAssetPopup = true;
+	assetToDelete = filePath;
+
+}
+
+void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
+
+	if (showDeleteAssetPopup) {
+
+		if (assetToDelete == "Library") {
+
+			ImGui::OpenPopup("Delete Library Confirmation");
+
+		}
+		else {
+
+			ImGui::OpenPopup("Delete Asset Confirmation");
+
+		}
+
+		// Display the confirmation popup
+		if (ImGui::BeginPopupModal((assetToDelete == "Library" ? "Delete Library Confirmation" : "Delete Asset Confirmation"), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			if (assetToDelete == "Library") {
+
+				ImGui::Text("Are you sure you want to regenerate library?");
+
+			}
+			else {
+
+				ImGui::Text("Are you sure you want to delete this asset?");
+				ImGui::TextWrapped("%s", assetToDelete.c_str());
+
+			}
+			
+			ImGui::Separator();
+
+			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
+
+				// Call your delete function
+				DeleteFileAndRefs(assetToDelete.c_str());
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::EndPopup();
+		}
 
 	}
 

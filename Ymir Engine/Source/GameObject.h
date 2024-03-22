@@ -66,6 +66,7 @@ public:
 	uint UID;
 
 	std::string type = "None";
+	std::string originPath;
 
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;

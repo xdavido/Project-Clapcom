@@ -155,14 +155,14 @@ void CAudioSource::Update()
 	float3 pos = gameObjectTransform->mGlobalMatrix.TranslatePart();
 	External->audio->SetAudioObjTransform(this->id, pos, gameObjectTransform->GetForward(), gameObjectTransform->GetUp());
 
-	if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-	{
-		External->audio->PlayEvent(this->id, std::string("Music"));
-	}
-	if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-	{
-		External->audio->StopEvent(this->id, std::string("Music"));
-	}
+	//if (External->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	//{
+	//	External->audio->PlayEvent(this->id, std::string("Music"));
+	//}
+	//if (External->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	//{
+	//	External->audio->StopEvent(this->id, std::string("Music"));
+	//}
 }
 
 //void CAudioSource::SaveData(JSON_Object* nObj)

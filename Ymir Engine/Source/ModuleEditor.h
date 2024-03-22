@@ -44,6 +44,8 @@ public:
 	void PrimitivesMenu();
 	void CreateCameraMenu();
 	void UIMenu();
+	void LightsMenu();
+
 	void SaveAs();
 
 	// Manages the docking functionality with the main window
@@ -134,6 +136,10 @@ public:
 	// Function to draw Assets Window
 	void CreateNewFolder();
 	void DrawAssetsWindow(const std::string& assetsFolder);
+
+	// Function to draw Delete Asset Popup
+	void DeleteAssetConfirmationPopup(const char* filePath);
+	void RenderDeleteAssetConfirmationPopup();
 
 	// Function to draw Library Window
 	void DrawLibraryWindow(const std::string& libraryFolder);
@@ -280,6 +286,9 @@ public:
 
 	//Name Script
 	std::string script_name;
+
+	//Ignore Meta Files
+	bool shouldIgnoreMeta = true;
 };
 
 #endif // MODULE_EDITOR

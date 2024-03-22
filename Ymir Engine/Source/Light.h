@@ -1,21 +1,57 @@
-
 #pragma once
-#include "Color.h"
-#include "External/MathGeoLib/include/Math/float3.h"
 
-struct Light
-{
-	Light();
+#ifndef __LIGHT__
+#define __LIGHT__
 
-	void Init();
-	void SetPos(float x, float y, float z);
-	void Active(bool active);
-	void Render();
+#include "GameObject.h"
+#include "Primitive.h"
 
-	Color ambient;
-	Color diffuse;
-	float3 position;
+enum class LightType {
 
-	int ref;
-	bool on;
+	UNKNOWN = -1,
+
+	POINT_LIGHT,
+	DIRECTIONAL_LIGHT,
+	SPOT_LIGHT,
+	AREA_LIGHT,
+
+	ALL_TYPES
+
 };
+
+class Light {
+public:
+
+	Light();
+	Light(LightType type, float3 color, float intensity);
+
+	virtual ~Light();
+
+	virtual void Update();
+	virtual void Render();
+
+	const LightType& GetType() const;
+	void SetType(const LightType& type);
+
+	const float3& GetColor() const;
+	void SetColor(const float3& color);
+
+	float GetIntensity() const;
+	void SetIntensity(float intensity);
+
+public:
+
+	GameObject* lightGO;
+
+	bool debug = true;
+
+private:
+
+	LightType type;
+
+	float3 color;
+	float intensity;
+
+};
+
+#endif // __LIGHT__
