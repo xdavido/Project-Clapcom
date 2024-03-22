@@ -82,4 +82,6 @@ public:
     std::map<std::string, BoneInfo> boneInfoMap;
     int boneCounter;
 
+    int processedMeshes; 
+
 };
