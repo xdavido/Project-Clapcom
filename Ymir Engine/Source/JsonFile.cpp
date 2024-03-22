@@ -2087,7 +2087,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 		gameObject->AddComponent(caudiosource);
 
-
 	}
 	else if (type == "Light")
 	{
@@ -2264,4 +2263,15 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 	}
 
+}
+
+void JsonFile::SetPrefab(const char* key, const GameObject& gameObject)
+{
+	JSON_Value* prefabValue = json_value_init_array();
+	JSON_Array* prefabArray = json_value_get_array(prefabValue);
+
+	SetGameObject(prefabArray, gameObject);
+
+	// Add the hierarchy array to the main object
+	json_object_set_value(rootObject, key, prefabValue);
 }

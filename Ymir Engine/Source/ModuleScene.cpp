@@ -339,6 +339,17 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	RELEASE(sceneToLoad);
 }
 
+void ModuleScene::SavePrefab(GameObject* prefab, const std::string& dir, const std::string& fileName)
+{
+	JsonFile* prefabFile = new JsonFile;
+
+	prefabFile->SetPrefab("Prefab", *prefab);
+
+	prefabFile->CreateJSON(dir + "/", fileName + ".yfab");
+
+	LOG("Prefab '%s' saved to %s", fileName.c_str(), dir.c_str());
+}
+
 void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& fileName)
 {
 	if (dir != External->fileSystem->libraryScenesPath)

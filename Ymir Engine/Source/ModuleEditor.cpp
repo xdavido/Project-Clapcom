@@ -129,7 +129,7 @@ bool ModuleEditor::Init()
 	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
-
+	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
@@ -413,6 +413,7 @@ void ModuleEditor::DrawEditor()
 	}
 
 	SaveAs();
+	RenderSaveAsPrefabPopUp();
 
 	if (showAboutPopUp) {
 
@@ -1593,6 +1594,63 @@ void ModuleEditor::SaveAs()
 	}
 }
 
+static bool showSaveAsPrefabPopup = false;
+static GameObject* prefabToSave;
+
+void ModuleEditor::SaveAsPrefabPopUp(GameObject* prefab) {
+
+	showSaveAsPrefabPopup = true;
+	prefabToSave = prefab;
+
+}
+
+void ModuleEditor::RenderSaveAsPrefabPopUp()
+{
+	if (showSaveAsPrefabPopup) {
+
+		ImGui::OpenPopup("Save As Prefab");
+
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+		if (ImGui::BeginPopupModal("Save As Prefab", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static std::string prefabName_saveAS = "New Prefab";
+
+			ImGui::Text("Prefab will be saved in %s as '%s'", currentDir.c_str(), prefabName_saveAS.c_str());
+			ImGui::Separator();
+
+			ImGui::InputText("File Name", &prefabName_saveAS);
+
+			if (ImGui::Button("OK", ImVec2(120, 0)))
+			{
+				App->scene->SavePrefab(prefabToSave, currentDir, prefabName_saveAS);
+
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::SetItemDefaultFocus();
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
+	}
+
+}
+
 void ModuleEditor::WindowDockSpaceManagement()
 {
 	// Set DockSpace Invisible Window Flags
@@ -2727,6 +2785,12 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 			}
 
+			if (ImGui::MenuItem("Save Prefab")) {
+
+				SaveAsPrefabPopUp(node);
+
+			}
+
 			if (ImGui::MenuItem("Create Empty Children")) {
 
 				GameObject* empty = App->scene->CreateGameObject("Empty", node);
@@ -3380,7 +3444,12 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
 
-						break;
+					break;
+					case ResourceType::PREFAB:
+
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
+
+					break;
 					case ResourceType::SHADER:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));

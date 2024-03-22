@@ -47,6 +47,8 @@ public:
 	void LightsMenu();
 
 	void SaveAs();
+	void SaveAsPrefabPopUp(GameObject* prefab);
+	void RenderSaveAsPrefabPopUp();
 
 	// Manages the docking functionality with the main window
 	void WindowDockSpaceManagement();
@@ -273,6 +275,7 @@ public:
 	Texture modelIcon;
 	Texture shaderIcon;
 	Texture sceneIcon;
+	Texture prefabIcon;
 
 	//New Component
 	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider

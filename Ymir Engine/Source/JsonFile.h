@@ -101,6 +101,10 @@ public:
     void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const;
     void GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const;
 
+    // ---------- Save/Load Prefabs 
+
+    void SetPrefab(const char* key, const GameObject& gameObject);
+
 private:
 
     JSON_Value* rootValue; // Private member to store JSON value

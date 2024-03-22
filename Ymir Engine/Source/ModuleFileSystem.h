@@ -46,6 +46,8 @@ public:
 	std::string libraryShadersPath;
 	std::string libraryTexturesPath;
 	std::string librarySettingsPath;
+	std::string libraryScriptsPath;
+	std::string libraryPrefabsPath;
 
 	JsonFile outputFile;
 

@@ -704,5 +704,10 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 		return ResourceType::SHADER;
 	}
 
+	if (PhysfsEncapsule::HasExtension(fileDir, "yfab"))
+	{
+		return ResourceType::PREFAB;
+	}
+
 	return ResourceType::UNKNOWN;
 }

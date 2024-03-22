@@ -13,7 +13,7 @@ enum class ResourceType {
 	SCENE,
 	SHADER,
 	MATERIAL,
-
+	PREFAB,
 	META,
 
 	ALL_TYPES

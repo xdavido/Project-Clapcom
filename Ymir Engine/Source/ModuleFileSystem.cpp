@@ -21,6 +21,8 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryShadersPath = libraryPath + "Shaders/";
 	libraryTexturesPath = libraryPath + "Textures/";
 	librarySettingsPath = libraryPath + "Settings/";
+	libraryScriptsPath = libraryPath + "Scripts/";
+	libraryPrefabsPath = libraryPath + "Prefabs/";
 
 	regenerateLibrary = false;
 
@@ -134,6 +136,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Textures"); // DDS 
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
+	PhysfsEncapsule::CreateFolder(libraryPath, "Prefabs"); // Prefabs
 }
 
 bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename) {
