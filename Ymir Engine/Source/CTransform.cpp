@@ -153,6 +153,15 @@ void CTransform::SetOrientation(btQuaternion bulletQuat)
 
 void CTransform::SetScale(float3 vec)
 {
+	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS);
+	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH);
+
+	if (col != nullptr && mesh != nullptr)
+	{
+		if (col->collType == ColliderType::MESH_COLLIDER) col->size = { vec.x, vec.y, vec.z };
+		else col->size = mesh->rMeshReference->obb.Size(); 
+	}
+
 	scale = float3(vec);
 	dirty_ = true;
 }
