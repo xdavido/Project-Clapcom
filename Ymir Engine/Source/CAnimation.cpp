@@ -20,9 +20,9 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     //Initializing animator with an empty animation
     //Animation  test2, test3, test4;
     animator = new Animator();
-  /*  CMaterial* cMat = (CMaterial*)owner->GetComponent(MATERIAL);
+    CMaterial* cMat = (CMaterial*)owner->GetComponent(MATERIAL);
     cMat->shaderPath = SHADER_ANIMATION;
-    cMat->shader.LoadShader(cMat->shaderPath);*/
+    cMat->shader.LoadShader(cMat->shaderPath);
 
     active = true;
 
@@ -61,22 +61,15 @@ void CAnimation::RemoveAnimation(int ID) {
     selectedAnimation = -1;
 }
 
-void CAnimation::PlayAnimation(std::string animationName, bool overridePrev)
+void CAnimation::PlayAnimation(std::string animationName)
 {
     ResourceAnimation* animationToPlay = nullptr;
 
-    if (animationName != "") {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].name == animationName) {
-                animationToPlay = &animator->animations[i];
-                break;
-            }
+    for (int i = 0; i < animator->animations.size(); i++) {
+        if (animator->animations[i].name == animationName) {
+            animationToPlay = &animator->animations[i];
+            break;
         }
-    }
-
-    // Clear animations if override
-    if (overridePrev) {
-        StopAnimation();
     }
 
     if (animationToPlay != nullptr) {
@@ -85,61 +78,21 @@ void CAnimation::PlayAnimation(std::string animationName, bool overridePrev)
     else {
         LOG("Animation not found");
     }
-
-    
 }
 
-void CAnimation::PauseAnimation(std::string animationName) {
+void CAnimation::PauseAnimation() {
 
-    if (animationName != "") {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].name == animationName) {
-                animator->PauseAnimation();
-                return;
-            }
-        }
-    }
-    else {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].isPlaying)
-                animator->PauseAnimation();
-        }
-    }
+    animator->PauseAnimation();
 }
 
-void CAnimation::ResumeAnimation(std::string animationName) {
+void CAnimation::ResumeAnimation() {
 
-    if (animationName != "") {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].name == animationName) {
-                animator->ResumeAnimation();
-                return;
-            }
-        }
-    }
-    else {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            animator->ResumeAnimation();
-        }
-    }
+    animator->ResumeAnimation();
 }
 
-void CAnimation::StopAnimation(std::string animationName) {
+void CAnimation::StopAnimation() {
 
-    if (animationName != "") {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].name == animationName) {
-                animator->StopAnimation();
-                return;
-            }
-        }
-    }
-    else {
-        for (int i = 0; i < animator->animations.size(); i++) {
-            if (animator->animations[i].isPlaying)
-                animator->StopAnimation();
-        }
-    }
+    animator->StopAnimation();
 }
 
 void CAnimation::TransitionTo(std::string animationName, float transitionTime) {

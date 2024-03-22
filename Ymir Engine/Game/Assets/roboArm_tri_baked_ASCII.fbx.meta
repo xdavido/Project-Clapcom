@@ -1,17 +1,17 @@
 {
     "Name": "roboArm_tri_baked_ASCII",
     "Assets Path": "Assets\/roboArm_tri_baked_ASCII.fbx",
-    "Library Path": ".\/Library\/Models\/1008883445.ymodel",
-    "UID": 1008883445,
+    "Library Path": ".\/Library\/Models\/1497491129.ymodel",
+    "UID": 1497491129,
     "Type": "Model",
     "Meshes num": 7,
     "Meshes Embedded UID": [
-        1679185457,
-        1703246917,
-        2109675511,
-        1624357792,
-        1198663434,
-        1698468203,
-        75288729
+        1736748930,
+        1783427418,
+        13760991,
+        1103738470,
+        852934066,
+        776005734,
+        205127970
     ]
 }

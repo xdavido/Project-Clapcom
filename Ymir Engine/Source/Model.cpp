@@ -217,38 +217,38 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
 
 		// Check if all the bone meshes have been processed ---> when all meshes processed, process if have animations
-		if (scene->mNumMeshes == processedMeshes) {
-			if (scene->HasAnimations()) {
-				if (modelGO->GetComponent(ANIMATION) == nullptr) {
-					CAnimation* animationComponent = new CAnimation(modelGO);
-					modelGO->AddComponent(animationComponent);
-					CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
-					cAnim->modelPath = path;
+		//if (scene->mNumMeshes == processedMeshes) {
+		//	if (scene->HasAnimations()) {
+		//		if (modelGO->GetComponent(ANIMATION) == nullptr) {
+		//			CAnimation* animationComponent = new CAnimation(modelGO);
+		//			modelGO->AddComponent(animationComponent);
+		//			CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
+		//			cAnim->modelPath = path;
 
-					for (int i = 0; i < scene->mNumAnimations; i++) {
-						Animation* anim = new Animation(path, this, i);
+		//			for (int i = 0; i < scene->mNumAnimations; i++) {
+		//				Animation* anim = new Animation(path, this, i);
 
-						std::string filename = std::to_string(modelGO->UID) + ".yanim";
-						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+		//				std::string filename = std::to_string(modelGO->UID) + ".yanim";
+		//				std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
 
-						//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
-						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+		//				//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+		//				External->fileSystem->SaveAnimationToFile(anim, libraryPath);
 
-						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
-						cAnim->AddAnimation(*rAnim);
-					}
-					LOG("Model has animations");
-				}
-			}
-			else {
+		//				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
+		//				cAnim->AddAnimation(*rAnim);
+		//			}
+		//			LOG("Model has animations");
+		//		}
+		//	}
+		//	else {
 
-				//animator = nullptr;
+		//		//animator = nullptr;
 
-				LOG("Model doesn't have animations");
-			}
+		//		LOG("Model doesn't have animations");
+		//	}
 
-		}
-		}
+		//}
+	}
 		
 
 	// Process children of the current node
@@ -498,35 +498,35 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	// Load animations
 
-	//if (scene->HasAnimations()) {
+	if (scene->HasAnimations()) {
 
-	//	if (linkGO->GetComponent(ANIMATION) == nullptr) {
-	//		CAnimation* animationComponent = new CAnimation(linkGO);
-	//		linkGO->AddComponent(animationComponent);
-	//		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-	//		cAnim->modelPath = path;
+		if (linkGO->GetComponent(ANIMATION) == nullptr) {
+			CAnimation* animationComponent = new CAnimation(linkGO);
+			linkGO->AddComponent(animationComponent);
+			CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+			cAnim->modelPath = path;
 
-	//		for (int i = 0; i < scene->mNumAnimations; i++) {
-	//			Animation* anim = new Animation(path, this, i);
+			for (int i = 0; i < scene->mNumAnimations; i++) {
+				Animation* anim = new Animation(path, this, i);
 
-	//			std::string filename = std::to_string(linkGO->UID) + ".yanim";
-	//			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+				std::string filename = std::to_string(linkGO->UID) + ".yanim";
+				std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
 
-	//			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
-	//			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+				//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+				External->fileSystem->SaveAnimationToFile(anim, libraryPath);
 
-	//			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
-	//			cAnim->AddAnimation(*rAnim);
-	//		}
-	//		LOG("Model has animations");
-	//	}
-	//}
-	//else {
+				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
+				cAnim->AddAnimation(*rAnim);
+			}
+			LOG("Model has animations");
+		}
+	}
+	else {
 
-	//	//animator = nullptr;
+		//animator = nullptr;
 
-	//	LOG("Model doesn't have animations");
-	//}
+		LOG("Model doesn't have animations");
+	}
 
 	// Create the mesh
 

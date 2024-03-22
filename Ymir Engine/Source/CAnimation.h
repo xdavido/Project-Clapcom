@@ -30,18 +30,17 @@ public:
 
 	void RemoveAnimation(int ID);
 
-	// Plays an animation. �Must give name!
-	// OverridePrev: Stops all playing animations if true
-	void PlayAnimation(std::string animationName = "", bool overridePrev = true);
+	// Plays an animation. !!Must give name!!
+	void PlayAnimation(std::string animationName);
 
-	// Resumes an animation. If not given a name pauses all playing animations
-	void PauseAnimation(std::string animationName = "");
+	// Resumes current playing animation.
+	void PauseAnimation();
 
-	// Resumes an animation. If not given a name resumes all playing animations
-	void ResumeAnimation(std::string animationName = "");
+	// Resumes current playing animation.
+	void ResumeAnimation();
 
-	// Stop an animation. If not given a name stops all animations playing
-	void StopAnimation(std::string animationName = "");
+	// Stop current playing animation.
+	void StopAnimation();
 
 	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
 

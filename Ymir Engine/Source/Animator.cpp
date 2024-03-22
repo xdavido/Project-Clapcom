@@ -27,18 +27,10 @@ void Animator::UpdateAnimation(float dt)
 {
 	deltaTime = dt; 
 	
-	for (int i = 0; i < animations.size(); i++) {
-		if (animations[i].isPlaying) {
-			UpdateCurrentTime(&animations[i]);
-			
-		}
+	if (currentAnimation && currentAnimation->isPlaying) {
+		UpdateCurrentTime(currentAnimation);
+		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 	}
-
-	if (currentAnimation) {
-		if (currentAnimation->isPlaying)
-			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
-	}
-
 }
 
 void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
