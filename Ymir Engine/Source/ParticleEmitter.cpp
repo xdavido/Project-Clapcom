@@ -5,11 +5,26 @@
 #include "CTransform.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
+#include "ImporterTexture.h"
 
-ParticleEmitter::ParticleEmitter()
+ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent, std::string path)
 {
 	//Quiza haya que meterle alguna info? IDK
 	name = "";
+
+	/*mat = new CMaterial(owner->mOwner);
+	mat->shaderPath = shaderPath;*/
+
+	mat = (CMaterial*)cParticleParent->mOwner->GetComponent(ComponentType::MATERIAL);
+	mat->shader.LoadShader(mat->shaderPath);
+
+	ResourceTexture* rTexTemp = new ResourceTexture();
+	ImporterTexture::Import(path, rTexTemp);
+	rTexTemp->type = TextureType::DIFFUSE;
+	rTexTemp->UID = Random::Generate();
+	mat->path = path;
+	mat->rTextures.push_back(rTexTemp);
+
 
 }
 
@@ -180,7 +195,7 @@ void ParticleEmitter::SpawnParticle(uint particlesToAdd)
 	{
 		for (int i = 0; i < particlesToAdd; i++)
 		{
-			Particle* particula = new Particle();
+			Particle* particula = new Particle(mat);
 			for (int m = 0; m < modules.size(); ++m)
 			{
 				modules.at(m)->Spawn(this, particula);

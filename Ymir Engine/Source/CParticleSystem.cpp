@@ -21,7 +21,7 @@ CParticleSystem::CParticleSystem()
 	Enable();
 }
 
-CParticleSystem::CParticleSystem(GameObject* own, std::string shaderPath)
+CParticleSystem::CParticleSystem(GameObject* own)
 {
 	mOwner = own;
 	UID = External->resourceManager->GenerateNewUID();
@@ -75,7 +75,7 @@ bool CParticleSystem::GetActive()
 ParticleEmitter* CParticleSystem::CreateEmitter()
 {
 	//Creamos un nuevo emisor
-	ParticleEmitter* emisor = new ParticleEmitter;
+	ParticleEmitter* emisor = new ParticleEmitter(this);
 	allEmitters.push_back(emisor);
 	External->renderer3D->particleEmitters = allEmitters;
 	emisor->Init(this);
@@ -172,40 +172,40 @@ void CParticleSystem::OnInspector()
 							break;
 						}
 						case SPAWN:
-						{	ImGui::Text(particleModule.append("Spawn ##").append(std::to_string(j)).c_str());
-						ImGui::SameLine();
-						deleteButton.append("Delete ##").append(std::to_string(j));
-						if (ImGui::SmallButton(deleteButton.c_str()))
-						{
-							securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
-						}
-						deleteButton.clear();
+						{	
+							ImGui::Text(particleModule.append("Spawn ##").append(std::to_string(j)).c_str());
+							ImGui::SameLine();
+							deleteButton.append("Delete ##").append(std::to_string(j));
+							if (ImGui::SmallButton(deleteButton.c_str()))
+							{
+								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
+							}
+							deleteButton.clear();
 
-						int numParticles;
-						std::string numParticlesWithID = "Particles ##";
+							int numParticles;
+							std::string numParticlesWithID = "Particles ##";
 
-						EmitterSpawner* eSpawner = (EmitterSpawner*)listModule.at(j);
-						numParticles = eSpawner->numParticlesToSpawn;
-						//Numero particulas que libera el 
+							EmitterSpawner* eSpawner = (EmitterSpawner*)listModule.at(j);
+							numParticles = eSpawner->numParticlesToSpawn;
 
-						ImGui::Checkbox("(Time / Num) Spawn ", &(eSpawner->basedTimeSpawn));
-						if (eSpawner->basedTimeSpawn)
-						{
+							ImGui::Checkbox("(Time / Num) Spawn ", &(eSpawner->basedTimeSpawn));
 
-							if (ImGui::SliderFloat("Delay ##SPAWN", &(eSpawner->spawnRatio), 0.1f, 1.0f))
+							if (eSpawner->basedTimeSpawn)
 							{
 
-							}
-						}
-						else
-						{
-							if (ImGui::SliderInt(numParticlesWithID.append(std::to_string(i)).c_str(), &numParticles, 0, MAXPARTICLES))
-							{
-								eSpawner->numParticlesToSpawn = numParticles;
-							}
-						}
+								if (ImGui::SliderFloat("Delay ##SPAWN", &(eSpawner->spawnRatio), 0.1f, 1.0f))
+								{
 
-						break;
+								}
+							}
+							else
+							{
+								if (ImGui::SliderInt(numParticlesWithID.append(std::to_string(i)).c_str(), &numParticles, 0, MAXPARTICLES))
+								{
+									eSpawner->numParticlesToSpawn = numParticles;
+								}
+							}
+							break;
 						}
 						case POSITION:
 						{
@@ -634,7 +634,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 {
-	ParticleEmitter* pE = new ParticleEmitter;
+	ParticleEmitter* pE = new ParticleEmitter(this);
 	pE->owner = this;
 	JSON_Value* root_value = json_parse_file(pathMeta);
 	JSON_Object* root_object = json_value_get_object(root_value);

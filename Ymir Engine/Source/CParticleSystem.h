@@ -27,7 +27,7 @@ public:
 	bool active = true;
 
 	CParticleSystem();
-	CParticleSystem(GameObject* own, std::string shaderPath = "Assets/Shaders/MyShader.glsl"); //TODO TONI: CAMBIAR EL SHADER POR UNO PROPIO 
+	CParticleSystem(GameObject* own); //TODO TONI: CAMBIAR EL SHADER POR UNO PROPIO 
 
 	~CParticleSystem();
 

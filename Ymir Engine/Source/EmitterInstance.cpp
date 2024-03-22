@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ImporterTexture.h"
 
 EmitterInstance::EmitterInstance()
 {
@@ -170,6 +171,7 @@ EmitterSpawner::EmitterSpawner()
 	spawnRatio = 0.2f; //Dividir en current time por cuantas se spawnean 
 	currentTimer = 0.0f;
 	numParticlesToSpawn = 5;
+
 }
 
 void EmitterSpawner::Spawn(ParticleEmitter* emitter, Particle* particle)

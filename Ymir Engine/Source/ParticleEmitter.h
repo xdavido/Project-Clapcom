@@ -16,7 +16,7 @@ class EmitterInstance;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter();
+	ParticleEmitter(CParticleSystem* cParticleParent, std::string imgPath = "Assets/InGameConeptPng.png");
 	~ParticleEmitter();
 
 	std::vector<Particle*> listParticles;
@@ -42,6 +42,8 @@ private:
 	void KillDeadParticles();
 	void KillAllParticles();
 	void UpdateModules(float dt);
+
+	CMaterial* mat;
 
 };
 #endif //__PARTICLE_EMITTER_H__

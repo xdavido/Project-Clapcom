@@ -844,14 +844,11 @@ void ModuleRenderer3D::DrawParticles()
 				glAlphaFunc(GL_GREATER, 0.0f);
 
 				//Binding particle Texture
-				if (/*particle.mat*/ true)
+				if (par->mat)
 				{
-					if (/*ResourceTexture* rTex = particle.mat->hTexture.Get()*/ true)
-					{
-						if (/*rTex && rTex->buffer != 0*/ true)
-						{
-							glBindTexture(GL_TEXTURE_2D, /*rTex->buffer*/ 0);
-						}
+					for (auto& textures : par->mat->rTextures) {
+
+						textures->BindTexture(true);
 					}
 				}
 
@@ -875,8 +872,6 @@ void ModuleRenderer3D::DrawParticles()
 				particleMaterial->shader.UseShader(true);
 				particleMaterial->shader.SetShaderUniforms(&m);
 
-				particleMaterial->rTextures;
-
 				//Drawing to tris in direct mode
 				glBegin(GL_TRIANGLES);
 
@@ -896,6 +891,7 @@ void ModuleRenderer3D::DrawParticles()
 
 				// Esto iria bien
 				particleMaterial->shader.UseShader(false);
+
 
 				glEnd();
 				glPopMatrix();
