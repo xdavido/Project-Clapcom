@@ -1533,6 +1533,7 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 
 				// Create a new GameObject
 				// TODO: Preguntar monica
+				//GameObject* gameObject = new GameObject();	// asi deberia estar
 				G_UI* gameObject = new G_UI();
 
 				// Call a function to extract individual GameObject properties
