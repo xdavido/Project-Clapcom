@@ -153,15 +153,6 @@ void CTransform::SetOrientation(btQuaternion bulletQuat)
 
 void CTransform::SetScale(float3 vec)
 {
-	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS);
-	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH);
-
-	if (col != nullptr)
-	{
-		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { vec.x, vec.y, vec.z };
-		else col->size = mesh->rMeshReference->obb.Size(); 
-	}
-
 	scale = float3(vec);
 	dirty_ = true;
 }
@@ -229,6 +220,20 @@ void CTransform::UpdateGlobalMatrix()
 	}
 
 	UpdateBoundingBoxes();
+
+	// Update collider scale
+	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS);
+	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH);
+
+	if (col != nullptr)
+	{
+		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
+		else col->size = mesh->rMeshReference->obb.Size();
+
+		LOG("Transform Scale: (%f, %f, %f)", scale.x, scale.y, scale.z);
+		LOG("Collider  Scale: (%f, %f, %f)", col->size.x, col->size.y, col->size.z);
+	}
+
 }
 
 void CTransform::UpdateLocalMatrix()
