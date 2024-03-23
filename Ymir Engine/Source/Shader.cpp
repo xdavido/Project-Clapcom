@@ -398,9 +398,15 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 
 	if (!External->lightManager->lights.empty()) 
 	{
+		this->SetInt("numLights", External->lightManager->lights.size());
 		this->SetUniformValue("lightDir", External->lightManager->lights[0]->lightGO->mTransform->GetGlobalPosition().ptr());
 		this->SetFloat("lightInt", External->lightManager->lights[0]->GetIntensity());
 		this->SetUniformValue("lightColor", External->lightManager->lights[0]->GetColor().ptr());
+	}
+	else {
+
+		this->SetInt("numLights", 0);
+
 	}
 	
 }
@@ -682,8 +688,8 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 					name.pop_back();
 				}
 
-				// Ignore "time" and "selected" uniforms because they are managed internally
-				if (name == "time" || name == "selected") {
+				// Ignore some uniforms because they are managed internally
+				if (std::find(uniformNamesToIgnore.begin(), uniformNamesToIgnore.end(), name) != uniformNamesToIgnore.end()) {
 					continue;
 				}
 
