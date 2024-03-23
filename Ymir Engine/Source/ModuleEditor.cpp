@@ -1611,7 +1611,6 @@ void ModuleEditor::RenderSaveAsPrefabPopUp()
 		ImGui::OpenPopup("Save As Prefab");
 
 		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-
 		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
 		if (ImGui::BeginPopupModal("Save As Prefab", NULL, ImGuiWindowFlags_AlwaysAutoResize))
@@ -3484,7 +3483,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
 						ImGui::Separator();
 
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE)
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::PREFAB)
 						{
 							if (ImGui::MenuItem("Import to Scene"))
 							{
@@ -3498,6 +3497,16 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							{
 								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
 								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
+							}
+						}
+
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::PREFAB)
+						{
+							if (ImGui::MenuItem("Load Prefab"))
+							{
+								std::string fileName;
+								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &fileName, nullptr);
+								App->scene->LoadPrefab(currentDir, fileName);
 							}
 						}
 
@@ -3546,6 +3555,9 @@ void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
 }
 
 void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
+	
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
 	if (showDeleteAssetPopup) {
 

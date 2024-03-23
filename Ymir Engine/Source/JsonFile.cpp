@@ -1573,7 +1573,17 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 			// and set it to gameObject.mParent.
 
 			GameObject* parent = GameObject::GetGameObjectFromUID(gameObjects, parentUID);
-			gameObject.SetParent(parent);
+
+			if (parent) {
+
+				gameObject.SetParent(parent);
+
+			}
+			else {
+
+				gameObject.SetParent(External->scene->mRootNode);
+
+			}
 
 		}
 

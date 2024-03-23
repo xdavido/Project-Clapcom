@@ -350,6 +350,24 @@ void ModuleScene::SavePrefab(GameObject* prefab, const std::string& dir, const s
 	LOG("Prefab '%s' saved to %s", fileName.c_str(), dir.c_str());
 }
 
+void ModuleScene::LoadPrefab(const std::string& dir, const std::string& fileName)
+{
+	JsonFile* prefabToLoad = JsonFile::GetJSON(dir + "/" + fileName + ".yfab");
+
+	// FRANCESC: Bug Hierarchy reimported GO when loading in Case 2
+	std::vector<GameObject*> prefab = prefabToLoad->GetHierarchy("Prefab");
+
+	// Add the loaded prefab objects to the existing gameObjects vector
+	gameObjects.insert(gameObjects.begin(), prefab.begin(), prefab.end());
+
+	LoadScriptsData();
+
+	LOG("Prefab '%s' loaded", fileName.c_str());
+
+	ClearVec(prefab);
+	RELEASE(prefabToLoad);
+}
+
 void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& fileName)
 {
 	if (dir != External->fileSystem->libraryScenesPath)
