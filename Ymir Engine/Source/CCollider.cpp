@@ -79,7 +79,7 @@ void CCollider::Update()
 	if (External->physics->beginPlay)
 		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, useGravity);
 
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING && !ImGuizmo::IsUsing())
 	{
 		if (physBody != nullptr) {
 
@@ -148,7 +148,7 @@ void CCollider::Update()
 
 	}
 
-	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active) {
+	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active || ImGuizmo::IsUsing()) {
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
