@@ -1,0 +1,30 @@
+Event	ID	Name			Wwise Object Path	Notes
+	19031741	P_PredRush			\Default Work Unit\Characters\Player\P_PredRush	
+	947529532	P_Death			\Default Work Unit\Characters\Player\P_Death	
+	1073763149	P_Hit			\Default Work Unit\Characters\Player\P_Hit	
+	1216763735	P_Shoot			\Default Work Unit\Characters\Player\P_Shoot	
+	1348116050	P_AcidSpitHit			\Default Work Unit\Characters\Player\P_AcidSpitHit	
+	2157893143	P_Whine			\Default Work Unit\Characters\Player\P_Whine	
+	2290830213	P_Relief			\Default Work Unit\Characters\Player\P_Relief	
+	2881165168	P_TailSweep			\Default Work Unit\Characters\Player\P_TailSweep	
+	2936341071	P_AcidSpitPuddle			\Default Work Unit\Characters\Player\P_AcidSpitPuddle	
+	3396224688	P_Talk			\Default Work Unit\Characters\Player\P_Talk	
+	3633830695	P_TailSweepHit			\Default Work Unit\Characters\Player\P_TailSweepHit	
+	3919743498	P_Dash			\Default Work Unit\Characters\Player\P_Dash	
+	4041423483	P_AcidSpit			\Default Work Unit\Characters\Player\P_AcidSpit	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	222019397	P_Talk	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\P_Talk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Talk		486412
+	263789084	P_Dash	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Dash_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Dash		98360
+	314735228	P_AcidSpit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\AcidSpit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_AcidSpit		22668
+	326843485	P_PredRush	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\PredRush_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_PredRush		101044
+	329198443	P_Whine	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Whine_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Whine		671270
+	516417712	P_Death	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\P_Death_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Death		86080
+	583374193	P_Shoot	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FirearmShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Shoot		81016
+	645100761	P_Relief	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Relief_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Relief		108740
+	767211440	P_TailSweep	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\P_TailSweep_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_TailSweep		70960
+	776615821	P_AcidSpitPuddle	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\AcidSpitPuddle_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_AcidSpitPuddle		129004
+	812826936	P_AcidSpitHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\AcidHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_AcidSpitHit		115976
+	842039477	P_Hit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\HitTaken_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_Hit		135540
+	904719139	P_TailSweepHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\TailSweepHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Characters\Player\P_TailSweepHit		109556
+

@@ -10,7 +10,7 @@
 //{
 //	this->mOwner = owner;
 //
-//	physType = physicsType::DYNAMIC;
+//	physType = PhysicsType::DYNAMIC;
 //	mass = 1;
 //}
 //
@@ -36,11 +36,11 @@
 //		int currentItem = static_cast<int>(physType);
 //
 //		ImGui::Combo("Physics Type\t", &currentItem, items, IM_ARRAYSIZE(items));
-//		physType = static_cast<physicsType>(currentItem);
+//		physType = static_cast<PhysicsType>(currentItem);
 //
-//		if (physType != physicsType::STATIC)
+//		if (physType != PhysicsType::STATIC)
 //			ImGui::DragFloat("Mass\t", &mass);
-//		if (physType == physicsType::DYNAMIC)
+//		if (physType == PhysicsType::DYNAMIC)
 //			ImGui::Checkbox("Use gravity\t", &gravity);
 //	}
 //}

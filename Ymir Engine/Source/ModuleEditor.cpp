@@ -14,6 +14,7 @@
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
 #include "ModuleLightManager.h"
+#include "ModuleAudio.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -422,6 +423,20 @@ void ModuleEditor::DrawEditor()
 		if (ImGui::BeginPopupModal("About")) {
 
 			AboutModalWindowContent();
+
+			ImGui::EndPopup();
+
+		}
+
+	}
+
+	if (showNewScriptPopUp) {
+
+		ImGui::OpenPopup("New Script");
+
+		if (ImGui::BeginPopupModal("New Script")) {
+
+			scriptEditor->ShowNewScriptDialogue();
 
 			ImGui::EndPopup();
 
@@ -969,26 +984,26 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::Button("Stop")) {
 
+				App->audio->StopAllSounds();
 				TimeManager::gameTimer.Stop();
 
 				isPlaying = false;
 				isPaused = false;
 
 				App->scene->LoadScene();
-
 			}
 
 		}
 		else {
 
 			if (ImGui::Button("Play")) {
-
 				TimeManager::gameTimer.Start();
 
 				isPlaying = true;
 
-				App->scene->SaveScene();
+				App->physics->beginPlay = true;
 
+				App->scene->SaveScene();
 			}
 
 		}
@@ -3034,31 +3049,26 @@ void ModuleEditor::DrawInspector()
 
 				if (ImGui::BeginMenu("Script"))
 				{
-					if (ImGui::MenuItem("Core"))
-					{
-						script_name = "Core";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Plane"))
-					{
-						script_name = "BH_Plane";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Bullet"))
-					{
-						script_name = "BH_Bullet";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("PlayerMovement"))
-					{
-						script_name = "PlayerMovement";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					/*if (ImGui::MenuItem("New")) {
+					if (ImGui::MenuItem("Add New Script")) {
 
-					 //Todo: Add NewScript
+						//Todo: Add NewScript
+						showNewScriptPopUp = true;
 
-					}*/
+					}
+					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
+
+						if (!entry.is_directory()) {
+
+							std::string entryName = entry.path().filename().string();
+							if (ImGui::MenuItem(entryName.c_str()))
+							{
+								script_name = entryName.c_str();
+								App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+							}
+
+						}
+					}
+
 					ImGui::EndMenu();
 				}
 

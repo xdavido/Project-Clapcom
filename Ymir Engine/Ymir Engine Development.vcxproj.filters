@@ -1122,6 +1122,9 @@
     <ClInclude Include="Source\CLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CS_Audio_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">

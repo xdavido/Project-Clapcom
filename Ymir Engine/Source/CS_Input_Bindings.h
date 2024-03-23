@@ -17,14 +17,16 @@
 #include"GameObject.h"
 #include"MathGeoLib/include/Math/float3.h"
 
-//int GetGamepadButton(MonoObject* x)
-//{ 
-//	if (External != nullptr)
-//		return External->input->GetGamePadKey(*(int*)mono_object_unbox(x));
-//
-//	return 0;
-//}
 
+
+
+int GetGamepadButton(MonoObject* x)
+{
+	if (External != nullptr)
+		return External->input->GetGamePadKey(*(int*)mono_object_unbox(x));
+
+	return 0;
+}
 float GetLeftAxisY()
 {
 	return External->input->GetGamepadLeftJoystickPositionValueY();

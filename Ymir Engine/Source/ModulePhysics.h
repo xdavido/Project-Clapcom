@@ -6,13 +6,14 @@
 #include "CMesh.h"
 
 #include "External/Bullet/include/btBulletDynamicsCommon.h"
+#include "External/Bullet/include/BulletCollision/CollisionShapes/btTriangleMesh.h"
 //#include "External/glmath.h"
 
 #include <vector>
 
 class DebugDrawer;
 struct PhysBody;
-enum physicsType;
+enum PhysicsType;
 class ModulePhysics : public Module 
 {
 public:
@@ -39,22 +40,22 @@ public:
 
 	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
-	// TODO: LLUC i MARC
 	// PhysBody related
-	PhysBody* AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
-	PhysBody* AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
-	PhysBody* AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
-	PhysBody* AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape);				 // Convex
+	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
+	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
+	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
+	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape);				 // Convex
 	void RemoveBody(PhysBody* b);
 
 	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
 
 	// Collision Shape
-	btConvexHullShape* CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
+	btCollisionShape* CreateCollisionShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
-	// TODO: NIXON
 	// RayCast functions
 	bool RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint);
+	bool VolumetricRayCast(const btVector3& origin, const btVector3& direction, int numRays, float rayLength, std::vector<btVector3>& hitPoints);
+	bool DirectionalRayCast(const btVector3& origin, const btVector3& direction, float rayLength, btVector3& hitPoint);
 
 	btScalar* getOpenGLMatrix(float4x4 matrix);
 
@@ -75,6 +76,7 @@ public:
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
 
+	bool beginPlay;
 private:
 	Color colliderColor;
 };

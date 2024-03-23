@@ -81,5 +81,4 @@ public:
 	MonoThread* domainThread;
 
 	std::vector<MonoClass*> userScripts;
-
 };

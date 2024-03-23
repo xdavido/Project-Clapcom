@@ -1,0 +1,11 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2025074351	W_PlasmaEnemy			\Default Work Unit\Weapons\Plasma\W_PlasmaEnemy	
+	2182280754	W_PlasmaReload			\Default Work Unit\Weapons\Plasma\W_PlasmaReload	
+	3750281125	W_PlasmaShot			\Default Work Unit\Weapons\Plasma\W_PlasmaShot	
+	3835007941	W_PlasmaSurf			\Default Work Unit\Weapons\Plasma\W_PlasmaSurf	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	100427288	PlasmaSurface&Enemy	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\PlasmaSurface&Enemy_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Plasma\PlasmaSurface&Enemy		317584
+	655425766	PlasmaReload	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\PlasmaReload_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Plasma\PlasmaReload		607180
+	952771836	PlasmaShot	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\PlasmaShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Plasma\PlasmaShot		362832
+

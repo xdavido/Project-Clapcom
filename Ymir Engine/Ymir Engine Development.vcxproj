@@ -24,8 +24,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -146,6 +146,7 @@
     <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Audio_Bindings.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
     <ClInclude Include="Source\C_UI.h" />

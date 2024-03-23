@@ -229,6 +229,9 @@ public:
 	bool showAboutPopUp = false;
 	std::string licenseFileContents;
 
+	// Script select name modal window
+	bool showNewScriptPopUp = false;
+
 	// Memory Leaks file
 	std::string memleaksFileContents;
 
@@ -279,6 +282,7 @@ public:
 
 	//New Component
 	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider
+
 	//Script Editor
 	ScriptEditor* scriptEditor;
 
