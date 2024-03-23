@@ -1720,8 +1720,22 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		CCamera* ccamera = new CCamera(gameObject, json_object_get_boolean(componentObject, "Game Camera"));
 		ccamera->framebuffer.Load();
 
+		// FOV
+		ccamera->SetVerticalFOV(json_object_get_number(componentObject, "FOV"));
+
+		// Near Plane
+		ccamera->SetNearPlane(json_object_get_number(componentObject, "Near Plane"));
+
+		// Far Plane
+		ccamera->SetFarPlane(json_object_get_number(componentObject, "Far Plane"));
+
+		// Frustum Culling
 		ccamera->enableFrustumCulling = json_object_get_number(componentObject, "Frustum Culling");
+
+		// Draw Bounding Boxes
 		ccamera->drawBoundingBoxes = json_object_get_number(componentObject, "Draw Bounding Boxes");
+
+		// Game Camera
 		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
 
 		gameObject->AddComponent(ccamera);
