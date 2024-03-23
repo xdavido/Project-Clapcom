@@ -2844,11 +2844,7 @@ void ModuleEditor::DrawInspector()
 
 			if (ImGui::Checkbox("##Active", &App->scene->selectedGO->active)) {
 
-				for (auto& it = App->scene->selectedGO->mChildren.begin(); it != App->scene->selectedGO->mChildren.end(); ++it) {
-
-					(*it)->active = App->scene->selectedGO->active;
-
-				}
+				App->scene->SetActiveRecursively(App->scene->selectedGO, App->scene->selectedGO->active);
 
 			}
 

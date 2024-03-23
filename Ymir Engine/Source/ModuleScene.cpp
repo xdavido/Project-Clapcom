@@ -489,6 +489,17 @@ void ModuleScene::SetSelectedState(GameObject* go, bool selected)
 	}
 }
 
+void ModuleScene::SetActiveRecursively(GameObject* gameObject, bool active) 
+{
+	gameObject->active = active;
+
+	for (auto& child : gameObject->mChildren) {
+
+		SetActiveRecursively(child, active);
+
+	}
+}
+
 // Function to handle GameObject selection by Mouse Picking
 void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 {

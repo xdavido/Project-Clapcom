@@ -72,6 +72,7 @@ public:
 	// If no parameter --> deselect everything
 	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
+	void SetActiveRecursively(GameObject* gameObject, bool active);
 	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
