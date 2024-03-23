@@ -82,7 +82,7 @@ void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
 	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
-void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
+void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool onlyReimport)
 {
 	// Create Meta
 
@@ -148,7 +148,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			case ResourceType::MESH:
 			{
 				// Rework to ImporterModel::Import(path);
-				App->renderer3D->models.push_back(Model(path));
+				ReImportModel(path, onlyReimport);
 			}
 			break;
 			case ResourceType::SCENE:
@@ -193,7 +193,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
 
 					// Rework to ImporterModel::Import(path);
-					App->renderer3D->models.push_back(Model(path));
+					ReImportModel(path, onlyReimport);
+
 					break;
 				}
 
@@ -371,6 +372,27 @@ void ModuleResourceManager::ReleaseResource(Resource* resource)
 	resources.erase(resource->GetUID());
 
 	delete resource;
+}
+
+void ModuleResourceManager::ReImportModel(const std::string& modelPath, bool onlyReimport)
+{
+	Model* model = new Model(modelPath, onlyReimport);
+
+	if (onlyReimport) {
+
+		App->scene->SetSelected();
+		model->modelGO->mParent->DeleteChild(model->modelGO);
+
+		App->scene->gameObjects.erase(
+			std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
+				[](const GameObject* obj) { return obj->selected; }
+			),
+			App->scene->gameObjects.end()
+		);
+
+	}
+
+	delete model;
 }
 
 bool ModuleResourceManager::IsResourceLoaded(const uint& UID)

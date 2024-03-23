@@ -1535,7 +1535,7 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 		if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryModelsPath + std::to_string(gameObject.UID) + ".ymodel")) {
 
-			External->resourceManager->ImportFile(gameObject.originPath);
+			External->resourceManager->ImportFile(gameObject.originPath, true);
 
 		}
 

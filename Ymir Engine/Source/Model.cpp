@@ -35,8 +35,9 @@ Model::Model()
 	//}
 }
 
-Model::Model(const std::string& path, const std::string& shaderPath)
+Model::Model(const std::string& path, bool onlyReimport, const std::string& shaderPath)
 {
+	this->onlyReimport = onlyReimport;
 	LoadModel(path, shaderPath);
 }
 
@@ -490,18 +491,21 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
 
-	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
+	if (!onlyReimport) {
 
-	CMesh* cmesh = new CMesh(linkGO);
+		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
-	cmesh->rMeshReference = rMesh;
+		CMesh* cmesh = new CMesh(linkGO);
 
-	cmesh->nVertices = vertices.size();
-	cmesh->nIndices = indices.size();
+		cmesh->rMeshReference = rMesh;
 
-	linkGO->AddComponent(cmesh);
+		cmesh->nVertices = vertices.size();
+		cmesh->nIndices = indices.size();
 
-	// Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
+		linkGO->AddComponent(cmesh);
+
+	}
+
 }
 
 void Model::GenerateModelMetaFile()
