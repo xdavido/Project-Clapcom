@@ -68,6 +68,9 @@ GameObject::~GameObject()
 update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
+	
+	// FRANCESC: This shouldn't be commented, but it would need a rework in the future 
+	// (separate gameobject and resourcemesh UID)
 
 	//for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
 
