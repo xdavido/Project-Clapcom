@@ -114,6 +114,7 @@ public:
 
 	std::string currentSceneDir;
 	std::string currentSceneFile;
+	std::string pendingToAddScene;
 
 	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;

@@ -139,7 +139,8 @@ update_status ModuleScene::Update(float dt)
 
 		if (currentSceneFile != "")
 		{
-			LoadScene(currentSceneDir, currentSceneFile);
+			//LoadScene(currentSceneDir, currentSceneFile);
+			pendingToAddScene = currentSceneDir + "/" + currentSceneFile + ".yscene";
 		}
 
 	}
@@ -160,9 +161,33 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	if (!pendingToAddScene.empty())
+	{
+		// Obtener el nombre del archivo sin la extensión
+		std::string name;
+		PhysfsEncapsule::SplitFilePath(pendingToAddScene.c_str(), nullptr, &name, nullptr);
+
+		// Encontrar la posición del último separador de directorio
+		size_t lastSlashPos = pendingToAddScene.find_last_of("/\\");
+
+		// Si se encontró el separador de directorio
+		if (lastSlashPos != std::string::npos) {
+			// Eliminar el nombre del archivo y su extensión
+			pendingToAddScene = pendingToAddScene.substr(0, lastSlashPos);
+		}
+
+		// Ahora path contiene el directorio sin el nombre del archivo y su extensión
+		std::string sceneFileName = name + ".yscene";
+		// Eliminar el nombre del archivo de la ruta completa
+		pendingToAddScene = pendingToAddScene.substr(0, pendingToAddScene.length() - sceneFileName.length());
+
+		LoadScene(pendingToAddScene, name);
+
+		pendingToAddScene.clear();
+	}
+
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
 	pendingToAdd.clear();
-	
 
 	return UPDATE_CONTINUE;
 }
