@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        81.206901550292969,
-        184.82136535644531,
-        -206.19853210449219
+        161.97348022460938,
+        153.89022827148438,
+        40.798458099365234
     ],
     "Editor Camera Right (X)": [
-        -0.96596300601959229,
-        7.0780515670776367e-07,
-        -0.093824803829193115
+        -0.014700597152113914,
+        -6.9849193096160889e-09,
+        -0.99989783763885498
     ],
     "Editor Camera Up (Y)": [
-        -0.055679794400930405,
-        0.78111225366592407,
-        0.57325112819671631
+        -0.64241224527359009,
+        0.76630449295043945,
+        0.00944480299949646
     ],
     "Editor Camera Front (Z)": [
-        -0.077813468873500824,
-        -0.59346026182174683,
-        0.80111557245254517
+        -0.76622259616851807,
+        -0.64248156547546387,
+        0.011265085078775883
     ],
     "Hierarchy": [
         {
@@ -26,79 +26,10 @@
             "Element_Type": "None",
             "Components": [],
             "Children UID": [
-                1270585162,
                 1135693741,
                 1009784856,
-                1589760253
-            ]
-        },
-        {
-            "Name": "Main Camera",
-            "UID": 1270585162,
-            "Element_Type": "None",
-            "Parent UID": 381266425,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -66,
-                        139,
-                        72
-                    ],
-                    "Rotation": [
-                        120.00007629394531,
-                        25.000019073486328,
-                        -142
-                    ],
-                    "Scale": [
-                        0.99999845027923584,
-                        0.99999797344207764,
-                        0.99999797344207764
-                    ]
-                },
-                {
-                    "Type": "Audio listener",
-                    "Active": 1,
-                    "Default Listener": 1
-                },
-                {
-                    "Type": "Audio source",
-                    "Active": 1,
-                    "Bank Name": "LV2Music",
-                    "Event Name": "LV2_Inter",
-                    "Event ID": 3026565220
-                },
-                {
-                    "Type": "Camera",
-                    "Active": 1,
-                    "Right": [
-                        0.7141801118850708,
-                        -0.019420921802520752,
-                        0.69969242811203003
-                    ],
-                    "Up": [
-                        0.55797868967056274,
-                        0.61933720111846924,
-                        -0.5523415207862854
-                    ],
-                    "Front": [
-                        0.422618567943573,
-                        -0.78488487005233765,
-                        -0.4531548023223877
-                    ],
-                    "FOV": 60.000003814697266,
-                    "Near Plane": 45.270000457763672,
-                    "Far Plane": 1000,
-                    "Frustum Culling": 1,
-                    "Draw Bounding Boxes": 0,
-                    "Game Camera": true
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "CameraRot.cs",
-                    "UID": 0
-                }
+                1858338460,
+                1058808307
             ]
         },
         {
@@ -4883,11 +4814,111 @@
             ]
         },
         {
+            "Name": "Player_Camera",
+            "UID": 1858338460,
+            "Element_Type": "None",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1270585162,
+                1589760253
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1270585162,
+            "Element_Type": "None",
+            "Parent UID": 1858338460,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -66,
+                        139,
+                        72
+                    ],
+                    "Rotation": [
+                        120.00007629394531,
+                        25.000019073486328,
+                        -142
+                    ],
+                    "Scale": [
+                        0.99999839067459106,
+                        0.99999797344207764,
+                        0.99999791383743286
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "LV2Music",
+                    "Event Name": "LV2_Inter",
+                    "Event ID": 3026565220
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.7141801118850708,
+                        -0.019420921802520752,
+                        0.69969242811203003
+                    ],
+                    "Up": [
+                        0.55797868967056274,
+                        0.61933720111846924,
+                        -0.5523415207862854
+                    ],
+                    "Front": [
+                        0.422618567943573,
+                        -0.78488487005233765,
+                        -0.4531548023223877
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 45.270000457763672,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "CameraRot.cs",
+                    "UID": 0
+                }
+            ]
+        },
+        {
             "Name": "Player",
             "UID": 1589760253,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Raisen_Mi_Amor.fbx",
-            "Parent UID": 381266425,
+            "Parent UID": 1858338460,
             "Components": [
                 {
                     "Type": "Transform",
@@ -5435,6 +5466,46 @@
                     "Active": 1,
                     "Vertex Count": 250,
                     "Index Count": 660
+                }
+            ]
+        },
+        {
+            "Name": "Point Light",
+            "UID": 1058808307,
+            "Element_Type": "None",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        10.563426971435547,
+                        112.62493896484375,
+                        138.20832824707031
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Light",
+                    "Active": 1,
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Intensity": 0.69999998807907104,
+                    "Light Type": 0,
+                    "Radius": 1
                 }
             ]
         }
