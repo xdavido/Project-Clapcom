@@ -129,9 +129,18 @@ void CCollider::Update()
 											matrix[15]));
 			}
 
-			mOwner->mTransform->SetPosition(newMat.TranslatePart());
+			float3 pos = newMat.TranslatePart();
+
+			if (parentTransform)
+			{
+				pos.x /= parentTransform->scale.x;
+				pos.y /= parentTransform->scale.y;
+				pos.z /= parentTransform->scale.z;
+			}
+
+			mOwner->mTransform->SetPosition(pos);
+
 			mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
-			//mOwner->mTransform->SetScale(newMat.GetScale());
 
 			mOwner->mTransform->UpdateTransformsChilds();
 
