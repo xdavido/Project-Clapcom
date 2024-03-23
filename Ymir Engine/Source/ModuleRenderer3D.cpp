@@ -789,6 +789,21 @@ void ModuleRenderer3D::DrawGameObjects()
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 		CAnimation* animationComponent = (CAnimation*)(*it)->GetComponent(ComponentType::ANIMATION);
 
+		if (animationComponent != nullptr && animationComponent->active) {
+			for (int i = 0; i < (*it)->mChildren.size(); i++) {
+				if ((*it)->mChildren[i]->GetComponent(MATERIAL)) {
+					CMaterial* cmat = (CMaterial*)(*it)->mChildren[i]->GetComponent(MATERIAL);
+					CTransform* ctrans = (CTransform*)(*it)->mChildren[i]->GetComponent(TRANSFORM);
+					cmat->shader.UseShader(true);
+					std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
+					for (int i = 0; i < transforms.size(); i++) {
+						cmat->shader.SetMatrix4x4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+						cmat->shader.SetShaderUniforms(&ctrans->mGlobalMatrix, (*it)->selected);
+					}
+				}
+			}
+		}
+
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))

@@ -20,9 +20,14 @@ CAnimation::CAnimation(GameObject* owner) : Component(owner, ComponentType::ANIM
     //Initializing animator with an empty animation
     //Animation  test2, test3, test4;
     animator = new Animator();
-    CMaterial* cMat = (CMaterial*)owner->GetComponent(MATERIAL);
-    cMat->shaderPath = SHADER_ANIMATION;
-    cMat->shader.LoadShader(cMat->shaderPath);
+    for (int i = 0; i < owner->mChildren.size(); i++) {
+        if (owner->mChildren[i]->GetComponent(MATERIAL)) {
+            CMaterial* cMat = (CMaterial*)owner->mChildren[i]->GetComponent(MATERIAL);
+            cMat->shaderPath = SHADER_ANIMATION;
+            cMat->shader.LoadShader(cMat->shaderPath);
+        }
+    }
+    
 
     active = true;
 
