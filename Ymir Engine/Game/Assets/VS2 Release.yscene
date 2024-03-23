@@ -27,9 +27,8 @@
             "Components": [],
             "Children UID": [
                 1135693741,
-                1009784856,
-                1858338460,
-                1058808307
+                1058808307,
+                1858338460
             ]
         },
         {
@@ -4727,19 +4726,18 @@
             ]
         },
         {
-            "Name": "Cube",
-            "UID": 1009784856,
-            "Element_Type": "Model",
-            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Name": "Point Light",
+            "UID": 1058808307,
+            "Element_Type": "None",
             "Parent UID": 381266425,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        0,
-                        1.4963855743408203,
-                        0
+                        10.563426971435547,
+                        112.62493896484375,
+                        138.20832824707031
                     ],
                     "Rotation": [
                         -0,
@@ -4747,74 +4745,28 @@
                         -0
                     ],
                     "Scale": [
-                        3934.874267578125,
                         1,
-                        683.68170166015625
-                    ]
-                }
-            ],
-            "Children UID": [
-                1553236809
-            ]
-        },
-        {
-            "Name": "Cube (1)",
-            "UID": 1553236809,
-            "Element_Type": "None",
-            "Parent UID": 1009784856,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        0.35802248120307922,
                         1,
                         1
                     ]
                 },
                 {
-                    "Type": "Material",
+                    "Type": "Light",
                     "Active": 1,
-                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
-                    "ID": 0,
-                    "Diffuse": "",
-                    "UID": 0
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 24,
-                    "Index Count": 36
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1408.7734375,
+                    "Debug": 1,
+                    "Color": [
                         1,
-                        683.68170166015625
+                        1,
+                        1
                     ],
-                    "Radius": 782.95343017578125,
-                    "Height": 1,
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "Gravity": true
+                    "Intensity": 0.69999998807907104,
+                    "Light Type": 0,
+                    "Radius": 1
                 }
             ]
         },
         {
-            "Name": "Player_Camera",
+            "Name": "Player_Camera_Suelo",
             "UID": 1858338460,
             "Element_Type": "None",
             "Parent UID": 381266425,
@@ -4841,7 +4793,8 @@
             ],
             "Children UID": [
                 1270585162,
-                1589760253
+                1589760253,
+                1009784856
             ]
         },
         {
@@ -5470,18 +5423,19 @@
             ]
         },
         {
-            "Name": "Point Light",
-            "UID": 1058808307,
-            "Element_Type": "None",
-            "Parent UID": 381266425,
+            "Name": "Suelo",
+            "UID": 1009784856,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 1858338460,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        10.563426971435547,
-                        112.62493896484375,
-                        138.20832824707031
+                        0,
+                        1.4963855743408203,
+                        0
                     ],
                     "Rotation": [
                         -0,
@@ -5489,23 +5443,69 @@
                         -0
                     ],
                     "Scale": [
+                        3934.874267578125,
                         1,
+                        683.68170166015625
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1553236809,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        0.35802248120307922,
                         1,
                         1
                     ]
                 },
                 {
-                    "Type": "Light",
+                    "Type": "Material",
                     "Active": 1,
-                    "Debug": 1,
-                    "Color": [
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1408.7734375,
                         1,
-                        1,
-                        1
+                        683.68170166015625
                     ],
-                    "Intensity": 0.69999998807907104,
-                    "Light Type": 0,
-                    "Radius": 1
+                    "Radius": 782.95343017578125,
+                    "Height": 1,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Gravity": true
                 }
             ]
         }
