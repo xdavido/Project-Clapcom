@@ -8,7 +8,6 @@ using YmirEngine;
 
 public class SceneManager : YmirComponent
 {
-
 	public void Update()
 	{
         if (Input.GetKey(YmirKeyCode.KP_1) == KeyState.KEY_DOWN)

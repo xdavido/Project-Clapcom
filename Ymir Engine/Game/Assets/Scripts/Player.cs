@@ -71,28 +71,15 @@ public class Player : YmirComponent
     private float reloadTimer = 0.0f;
     private float reloadCD = 1.0f;
 
-    private int ammo = 0;
-    private int magsize = 5;
-
-    //--------------------- Fake Start ---------------------\\
-    //private bool scriptStart = true;
-
-    //Vector3 up = new Vector3(0, 1, 0);
-
-    //Old Things
-
-    //public float movementSpeed = 5f;
-
-    //private double angle = 0.0f;
-
-    //private int Hp;
+    public int ammo = 0;
+    public int magsize = 5;
 
     private GameObject cameraObject;
+    private UI_Bullets csBullets;
+    private Health csBHealth;
 
     public void Start()
     {
-        //Hp = 100;
-
         //--------------------- Dash ---------------------\\
         dashTimer = 0f;
         dashSpeed = dashDistance / dashDuration;
@@ -100,37 +87,20 @@ public class Player : YmirComponent
         //--------------------- Shoot ---------------------\\
         ammo = magsize;
         reloadTimer = reloadCD;
+        GetBulletsScript();
+
+        cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
+        
+        //--------------------- Health ---------------------\\
+        GetHealthScript();
 
         currentState = STATE.IDLE;
 
-        cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
-
         Debug.Log("START!");
-
-
     }
-
-    //private void StartFake()
-    //{
-    //    //Hp = 100;
-
-    //    //--------------------- Dash ---------------------\\
-    //    dashTimer = 0f;
-    //    dashSpeed = dashDistance / dashDuration;
-
-
-    //    currentState = STATE.IDLE;
-    //    Debug.Log("START!");
-    //}
 
     public void Update()
     {
-        //if (scriptStart == true)
-        //{
-        //    StartFake();
-        //    scriptStart = false;
-        //}
-
         // New Things WIP
         UpdateControllerInputs();
 
@@ -172,7 +142,6 @@ public class Player : YmirComponent
     #region FSM
     private void ProcessInternalInput()
     {
-         
         if (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
@@ -202,7 +171,8 @@ public class Player : YmirComponent
 
                 if (reloadTimer <= 0)
                 {
-                    ammo = magsize;
+                    ammo = magsize; 
+                    csBullets.UseBullets(ammo);
                     isReloading = false;    
                 }
             }
@@ -405,6 +375,9 @@ public class Player : YmirComponent
         Debug.Log("Shoot!");
 
         --ammo;
+
+        csBullets.UseBullets(ammo);
+
         Debug.Log("Ammo:" + ammo);
 
         StopPlayer();
@@ -435,6 +408,28 @@ public class Player : YmirComponent
     {
         // Reset del futuro autoapuntado
     }
+
+    // TODO: use the generic functions
+    private void GetBulletsScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        if (gameObject != null)
+        {
+            csBullets = gameObject.GetComponent<UI_Bullets>();
+        }
+    }
+
+    private void GetHealthScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        if (gameObject != null)
+        {
+            csBHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
     #endregion
 
     #region DASH

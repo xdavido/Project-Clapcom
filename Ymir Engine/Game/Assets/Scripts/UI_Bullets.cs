@@ -11,20 +11,18 @@ public class UI_Bullets : YmirComponent
     //public GameObject player = null;
     public GameObject bulletsBar = null;
 
-    public int currentBullets = 0;
-    public int maxBullets = 7;
-
     public int debugShoot = 1;
 
+    Player player;
 
     public void Start()
     {
-        Debug.Log("HelloWorld"); 
-        
+        Debug.Log("HelloWorld");
+
+        GetAnotherScript();
         bulletsBar = InternalCalls.GetGameObjectByName("Bullets Text");
 
-        currentBullets = maxBullets;
-        UI.TextEdit(bulletsBar, currentBullets.ToString());
+        UI.TextEdit(bulletsBar, player.magsize.ToString());
     }
 
     public void Update()
@@ -38,20 +36,18 @@ public class UI_Bullets : YmirComponent
         return;
     }
 
-    public bool UseBullets(int bullet)
+    public void UseBullets(int bullet)
     {
-        if (/*godmode*/ true)
+        UI.TextEdit(bulletsBar, player.ammo.ToString());
+    }
+
+    private void GetAnotherScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        if (gameObject != null)
         {
-            currentBullets -= bullet;
-
-            UI.TextEdit(bulletsBar, currentBullets.ToString());
-
-            if (currentBullets <= 0)
-            {
-                return true;
-            }
+            player = gameObject.GetComponent<Player>();
         }
-
-        return false;
     }
 }
