@@ -47,6 +47,8 @@
 
     uniform bool displayNormalMap; // Boolean uniform to toggle between normal visualization and texture display
     uniform bool selected;
+    
+    uniform float transparency;
 
     vec4 DisplayNormalMap() {
 
@@ -56,7 +58,7 @@
         // Adjust the normalized normal to be in the range [0, 1] for visualization purposes
         vec3 color = 0.5 * (norm + vec3(1.0));
 
-        return vec4(color, 1.0);
+        return vec4(color, transparency);
 
     }
 
@@ -114,11 +116,11 @@
 		    finalColor *= lightColor;
 
 		    // Output the final color
-		    FragColor = vec4(finalColor, 1.0);
+		    FragColor = vec4(finalColor, transparency);
 
             if (selected) {
 
-                FragColor = AddOutline(vec4(finalColor, 1.0), vec4(1.0, 0.5, 0.0, 1.0), 0.1);
+                FragColor = AddOutline(vec4(finalColor, transparency), vec4(1.0, 0.5, 0.0, transparency), 0.1);
 
             }
 
@@ -126,11 +128,13 @@
         else {
 
             vec4 mainTexture = texture(texture_diffuse1, TexCoords);
+    		mainTexture.a *= transparency;
+    		
             FragColor = mainTexture;
 
             if (selected) {
 
-                FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, 1.0), 0.2);
+                FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
 
             }
 
@@ -138,6 +142,8 @@
     }
 
 #endif
+
+
 
 
 

@@ -702,7 +702,7 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				}
 				else if (type == "float") {
 
-					std::unique_ptr<float> value = std::make_unique<float>(0.5);
+					std::unique_ptr<float> value = std::make_unique<float>(1.0);
 					this->AddUniform(name, std::move(value), UniformType::f1, 1);
 
 				}
