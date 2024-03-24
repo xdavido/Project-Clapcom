@@ -199,7 +199,7 @@ update_status ModulePhysics::Update(float dt)
 					{
 						scriptB->CollisionExitCallback(false, pbodyA->owner);
 					}
-					onexitcollision = false;
+					onexitcollision == false;
 				}
 			}
 		}
