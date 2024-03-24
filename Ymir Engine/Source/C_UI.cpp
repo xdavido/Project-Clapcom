@@ -1,6 +1,8 @@
 #include "C_UI.h"
 
 #include "UI_Canvas.h"
+#include "UI_Transform.h"
+#include "ModuleWindow.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
@@ -8,7 +10,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, int y, int w, int h, Color c) : Component(g, t)
+C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, float x, float y, float w, float h, Color c) : Component(g, t)
 {
 	UI_type = ui_t;
 	state = UI_STATE::NORMAL;
@@ -17,32 +19,12 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 	height = h;
 	color = c;
 
-	isDragging = false;
-	isDraggable = false;
 	fade = false;
 
-	mOwner->mTransform->SetPosition(float3(x, y, 0));
-	mOwner->mTransform->UpdateGlobalMatrix();
-
-	float3 position = mOwner->mTransform->translation;
-
-	float3 globalPos;
-	Quat rot;
-	float3 scale;
-	mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
-
-	if (x != 0 || y != 0)
-	{
-		posX = x;
-		posY = y;
-	}
-	else
-	{
-		posX = globalPos.x;
-		posY = globalPos.y;
-	}
-
-	scaleBounds = scale;
+	float3 position = { x,y,0 };
+	posX = x;
+	posY = y;
+	scaleBounds = { 1,1,1 };
 
 	boundsEditor = new UI_Bounds;
 	boundsGame = new UI_Bounds;
@@ -77,7 +59,7 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 
 	Vertex editorVertex1;
 	editorVertex1.position = float3(position.x, position.y + (height * scaleBounds.y), 0);
-	editorVertex1.normal = float3(0,0,0);
+	editorVertex1.normal = float3(0, 0, 0);
 	editorVertex1.textureCoordinates = float2(0, 1);
 	boundsEditor->vertices.push_back(editorVertex1);
 
@@ -126,13 +108,30 @@ C_UI::C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n, int x, i
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
-	//Mouse pick
-	local_aabb.SetNegativeInfinity();
-	//local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
-	obb = local_aabb;
-	obb.Transform(mOwner->mTransform->GetGlobalTransform());
-	global_aabb.SetNegativeInfinity();
-	global_aabb.Enclose(obb);
+	dirty_ = true;
+
+	//// Mouse pick
+	//local_aabb.SetNegativeInfinity();
+	////local_aabb.Enclose((float3*)boundsEditor->vertex, 4);
+	//obb = local_aabb;
+	//obb.Transform(mOwner->mTransform->GetGlobalTransform());
+	//global_aabb.SetNegativeInfinity();
+	//global_aabb.Enclose(obb);
+
+	// Drag
+	isDragging = false;
+	isDraggeable = false;
+
+#ifndef _STANDALONE
+
+	dragLimits = { 0, 0, External->editor->gameViewSize.x, External->editor->gameViewSize.y };
+
+#else
+
+	dragLimits = { 0, 0, (float)External->window->width, (float)External->window->height };
+
+#endif // !_STANDALONE
+
 }
 
 C_UI::~C_UI()
@@ -172,8 +171,8 @@ void C_UI::Draw(bool game)
 	{
 		boundsDrawn = boundsEditor;
 
-		glPushMatrix();
-		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+		/*glPushMatrix();
+		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());*/
 	}
 
 	glBindVertexArray(boundsDrawn->VAO);
@@ -181,10 +180,10 @@ void C_UI::Draw(bool game)
 	glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
-	
+
 	if (!game)
 	{
-		glPopMatrix();
+		//glPopMatrix();
 	}
 
 	boundsDrawn = nullptr;
@@ -195,12 +194,10 @@ void C_UI::DebugDraw()
 	glBegin(GL_LINE_LOOP);
 	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 
-	float3 position = mOwner->mTransform->translation;
-
-	float3 v1 = float3(position.x, position.y, position.z);
-	float3 v2 = float3(position.x + (width * scaleBounds.x), position.y, position.z);
-	float3 v3 = float3(position.x, position.y + (height * scaleBounds.y), position.z);
-	float3 v4 = float3(position.x + (width * scaleBounds.x), position.y + (height * scaleBounds.y), position.z);
+	float3 v1 = boundsGame->vertices[0].position;
+	float3 v2 = boundsGame->vertices[1].position;
+	float3 v3 = boundsGame->vertices[2].position;
+	float3 v4 = boundsGame->vertices[3].position;
 
 	glVertex3f(v1.x, v1.y, v1.z);
 	glVertex3f(v2.x, v2.y, v2.z);
@@ -212,11 +209,11 @@ void C_UI::DebugDraw()
 
 void C_UI::StateLogic()
 {
-	if (External->editor->g->HoveredWindow != nullptr)
-	{
-		std::string name = External->editor->g->HoveredWindow->Name;
-		if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
-		{
+	//if (External->editor->g->HoveredWindow != nullptr)
+	//{
+		//std::string name = External->editor->g->HoveredWindow->Name;
+		//if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
+		//{
 			float2 mousePos = float2(External->editor->mouse.x, External->editor->mouse.y);
 
 			switch (state)
@@ -225,15 +222,18 @@ void C_UI::StateLogic()
 				break;
 			case UI_STATE::NORMAL:
 			{
+				//LOG("NORMAL");
 				OnNormal();
 				if (MouseCheck(mousePos))
 				{
 					state = UI_STATE::FOCUSED;
 				}
 			}
-				break;
+			break;
 			case UI_STATE::FOCUSED:	// On hover
 			{
+				//LOG("FOCUSED");
+
 				OnFocused();
 				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
@@ -245,11 +245,13 @@ void C_UI::StateLogic()
 					state = UI_STATE::NORMAL;
 				}
 			}
-				break;
+			break;
 			case UI_STATE::PRESSED: // On hold
 			{
+				//LOG("PRESSED");
+
 				OnPressed();
-				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
+				if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_UP) || (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
 				{
 					state = UI_STATE::RELEASE;
@@ -259,17 +261,21 @@ void C_UI::StateLogic()
 					state = UI_STATE::NORMAL;
 				}
 			}
-				break;
+			break;
 			case UI_STATE::RELEASE:
 			{
+				LOG("RELEASE");
+
 				OnRelease();
 				state = UI_STATE::SELECTED;
 			}
-				break;
+			break;
 			case UI_STATE::SELECTED:
 			{
+				//LOG("SELECTED");
+
 				OnSelected();
-				if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
+				if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN) || External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
 					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
 				{
 					state = UI_STATE::PRESSED;
@@ -279,14 +285,14 @@ void C_UI::StateLogic()
 					state = UI_STATE::NORMAL;
 				}
 			}
-				break;
+			break;
 			case UI_STATE::NONE:
 				break;
 			default:
 				break;
 			}
-		}
-	}
+		//}
+	//}
 }
 
 void C_UI::OnNormal()
@@ -299,7 +305,7 @@ void C_UI::OnFocused()
 
 void C_UI::OnPressed()
 {
-	if (isDraggable)
+	if (isDraggeable)
 	{
 		isDragging = true;
 	}
@@ -321,37 +327,37 @@ void C_UI::SetState(UI_STATE uiState)
 
 bool C_UI::MouseCheck(float2 mouse)
 {
-	mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
+	//mouse.y = (External->editor->gameViewSize.y - (mouse.y * External->editor->gameViewSize.y)) / External->editor->gameViewSize.y;
+
+	//LOG("%f, %f, %f MOUSE X", mouse.x, posX / External->editor->gameViewSize.x, (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x);
+
+	//LOG("%f, %f, %f MOUSE Y", mouse.y, posY / External->editor->gameViewSize.y, (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 
 	return (mouse.x >= posX / External->editor->gameViewSize.x && mouse.x <= (posX + (width * scaleBounds.x)) / External->editor->gameViewSize.x
-		&& mouse.y >= (posY - 20) / External->editor->gameViewSize.y && mouse.y <= (posY - 20 + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
+		&& mouse.y >= posY / External->editor->gameViewSize.y && mouse.y <= (posY + (height * scaleBounds.y)) / External->editor->gameViewSize.y);
 }
 
 void C_UI::UpdateUITransform()
 {
-	float3 position = mOwner->mTransform->translation;
-	float3 globalPos;
-	Quat rot;
-	float3 scale;
+	dragLimits.x = posX + mOwner->mTransform->GetGlobalPosition().x;
+	dragLimits.y = posY + mOwner->mTransform->GetGlobalPosition().y;
+	dragLimits.z = (width * scaleBounds.x);
+	dragLimits.w = (height * scaleBounds.y);
 
-	mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+	boundsEditor->vertices[0].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y * mOwner->mTransform->scale.y)) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[1].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + ((height * scaleBounds.y) * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[2].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsEditor->vertices[3].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
-	posX = globalPos.x;//TODO: arreglar
-	posY = globalPos.y;
-	scaleBounds = scale;
-
-	boundsEditor->vertices[0].position = float3(position.x, position.y + ((height * scaleBounds.y) * scale.y), 0);
-	boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x), position.y + ((height * scaleBounds.y) * scale.y), 0);
-	boundsEditor->vertices[2].position = float3(position.x, position.y, 0);
-	boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x), position.y, 0);
-
-	boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[2].position = float3(posX, posY, 0);
-	boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+	boundsGame->vertices[0].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + (height * scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (height * scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[2].position = float3(posX + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
+	boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + mOwner->mTransform->GetGlobalPosition().y, 0);
 
 	boundsEditor->RegenerateVBO();
 	boundsGame->RegenerateVBO();
+
+	dirty_ = false;
 
 	/*if (!gameObject->vChildren.empty())
 	{
@@ -411,45 +417,50 @@ void C_UI::Drag(float dt)
 {
 	int movementX = External->input->GetMouseXMotion() * dt * 30;
 	int movementY = -External->input->GetMouseYMotion() * dt * 30;
-	posX += movementX;
-	posY += movementY;
+
+	if (posX + movementX >= dragLimits.x && posX + movementX <= dragLimits.x + dragLimits.z &&
+		posY + movementY >= dragLimits.y && posY + movementY <= dragLimits.y + dragLimits.w) {
+
+		posX += movementX;
+		posY += movementY;
 
 
-	float3 globalPos;
-	Quat rot;
-	float3 scale;
-	//TODO:MILAGRO
-	mOwner->mTransform->SetPosition(float3(mOwner->mTransform->translation.x + movementX, mOwner->mTransform->translation.y + movementY, 0));
-	mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
+		float3 globalPos;
+		Quat rot;
+		float3 scale;
 
-	scaleBounds = scale;
+		mOwner->mTransform->SetPosition(float3(mOwner->mTransform->GetGlobalPosition().x + movementX, mOwner->mTransform->GetGlobalPosition().y + movementY, 0));
+		mOwner->mTransform->mGlobalMatrix.Decompose(globalPos, rot, scale);
 
-	float3 position = mOwner->mTransform->translation;
+		scaleBounds = scale;
 
-	boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-	boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
-	boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
-	boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
+		float3 position = mOwner->mTransform->translation;
 
-	boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
-	boundsGame->vertices[2].position = float3(posX, posY, 0);
-	boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
+		boundsEditor->vertices[0].position = float3(position.x + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[1].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + (height * scaleBounds.y) + movementY, 0);
+		boundsEditor->vertices[2].position = float3(position.x + movementX, position.y + movementY, 0);
+		boundsEditor->vertices[3].position = float3(position.x + (width * scaleBounds.x) + movementX, position.y + movementY, 0);
+
+		boundsGame->vertices[0].position = float3(posX, posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[1].position = float3(posX + (width * scaleBounds.x), posY + (height * scaleBounds.y), 0);
+		boundsGame->vertices[2].position = float3(posX, posY, 0);
+		boundsGame->vertices[3].position = float3(posX + (width * scaleBounds.x), posY, 0);
 
 
-	boundsEditor->RegenerateVBO();
-	boundsGame->RegenerateVBO();
+		boundsEditor->RegenerateVBO();
+		boundsGame->RegenerateVBO();
 
-	//if (!gameObject->vChildren.empty())
-	//{
-	//	for (auto i = 0; i < gameObject->vChildren.size(); i++)
-	//	{
-	//		if (gameObject->vChildren[i]->GetComponentByType(C_TYPE::UI) != nullptr)
-	//		{
-	//			static_cast<C_UI*>(gameObject->vChildren[i]->GetComponentByType(C_TYPE::UI))->Drag(dt);
-	//		}
-	//	}
-	//}
+		//if (!gameObject->vChildren.empty())
+		//{
+		//	for (auto i = 0; i < gameObject->vChildren.size(); i++)
+		//	{
+		//		if (gameObject->vChildren[i]->GetComponentByType(C_TYPE::UI) != nullptr)
+		//		{
+		//			static_cast<C_UI*>(gameObject->vChildren[i]->GetComponentByType(C_TYPE::UI))->Drag(dt);
+		//		}
+		//	}
+		//}
+	}
 }
 
 void C_UI::FadeUI(float dt)

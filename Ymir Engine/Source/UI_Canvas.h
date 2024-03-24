@@ -8,7 +8,7 @@ class UI_Canvas : public C_UI
 {
 public:
 
-	UI_Canvas(GameObject* g, int w = 100, int h = 100);
+	UI_Canvas(GameObject* g, float w = 100, float h = 100);
 	~UI_Canvas();
 
 	void OnInspector();
@@ -17,7 +17,7 @@ public:
 
 public:
 
-	int canvasWidth, canvasHeight;
+	//int canvasWidth, canvasHeight;
 	//SDL_Rect bounds;        // Position and size
 	//SDL_Texture* texture;   // Texture atlas reference
 	//SDL_Rect section;       // Texture atlas base section

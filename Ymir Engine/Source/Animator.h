@@ -1,25 +1,24 @@
 #pragma once
 #include "Globals.h"
 
-#include "Animation.h"
+#include "ResourceAnimation.h"
 
 class Animation;
+class ResourceAnimation;
 
 struct AssimpNodeData;
 
 class Animator {
 public:
 	Animator();
-	Animator(Animation* animation);
+	Animator(ResourceAnimation* animation);
 	~Animator();
-	
-	Animation* GetCurrentAnimation() { return currentAnimation; }
-	float GetCurrentAnimationTime() { return currentTime; }
-	void SetCurrentAnimationTime(float ct) { currentTime = ct; }
 
 	void UpdateAnimation(float dt);
 
-	void PlayAnimation(Animation* animation);
+	void UpdateCurrentTime(ResourceAnimation* animation);
+	
+	void PlayAnimation(ResourceAnimation* animation);
 
 	void PauseAnimation();
 
@@ -27,23 +26,35 @@ public:
 
 	void StopAnimation();
 
+	void ResetAnimation(ResourceAnimation* animation);
+
+	void TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime);
+
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
+	void SetCurrentAnimation(ResourceAnimation* animation) { currentAnimation = animation; }
+	ResourceAnimation* GetCurrentAnimation() { return currentAnimation; }
+
+	void SetPreviousAnimation(ResourceAnimation* animation) { previousAnimation = animation; }
+	ResourceAnimation* GetPreviousAnimation() { return previousAnimation; }
+
 private:
 	std::vector<float4x4> finalBoneMatrices;
-	Animation* currentAnimation; 
-	float currentTime; 
+
 	float deltaTime; 
 
 	float4x4 identity; 
 
-	bool backwardsAux;
-	bool pingPongAux;
-	bool pingPongBackwardsAux;
+	bool blend = true;
 
 public:
-	std::vector<Animation> animations;
+
+	// List of animations
+	std::vector<ResourceAnimation> animations;
+
+	ResourceAnimation* currentAnimation = nullptr;
+	ResourceAnimation* previousAnimation = nullptr;
 
 };

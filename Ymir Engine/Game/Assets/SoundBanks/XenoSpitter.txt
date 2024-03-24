@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	79690026	XS_Move			\Default Work Unit\Enemies\XenoSpitter\XS_Move	
+	319049970	XS_Rebound			\Default Work Unit\Enemies\XenoSpitter\XS_Rebound	
+	545905731	XS_Cry			\Default Work Unit\Enemies\XenoSpitter\XS_Cry	
+	1073288803	XS_Spit			\Default Work Unit\Enemies\XenoSpitter\XS_Spit	
+	1167915841	XS_Jump			\Default Work Unit\Enemies\XenoSpitter\XS_Jump	
+	1795442505	XS_Death			\Default Work Unit\Enemies\XenoSpitter\XS_Death	
+

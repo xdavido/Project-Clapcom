@@ -1,0 +1,1098 @@
+{
+    "Editor Camera Position": [
+        178.91276550292969,
+        494.93936157226562,
+        502.78485107421875
+    ],
+    "Editor Camera Right (X)": [
+        0.9111485481262207,
+        0,
+        -0.41207811236381531
+    ],
+    "Editor Camera Up (Y)": [
+        -0.24966612458229065,
+        0.79556310176849365,
+        -0.55203831195831299
+    ],
+    "Editor Camera Front (Z)": [
+        -0.32783409953117371,
+        -0.60587078332901001,
+        -0.7248760461807251
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1547790601,
+            "Element_Type": "None",
+            "Children UID": [
+                1233976519,
+                2113011308,
+                1614085627
+            ],
+            "Components": []
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1233976519,
+            "Element_Type": "None",
+            "Parent UID": 1547790601,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        -180,
+                        40.000007629394531,
+                        -180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener"
+                },
+                {
+                    "Type": "Audio source"
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604485511779785,
+                        -1.4361712885602174e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        6.6969747081202513e-08,
+                        1,
+                        1.4361708622345759e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        6.6969747081202513e-08,
+                        -0.76604485511779785
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Test0",
+            "UID": 2113011308,
+            "Element_Type": "None",
+            "Parent UID": 1547790601,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {}
+            ]
+        },
+        {
+            "Name": "roboArm_tri_baked_ASCII",
+            "UID": 1614085627,
+            "Element_Type": "Model",
+            "Parent UID": 1547790601,
+            "Children UID": [
+                913573503,
+                636490366
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_RotationPivot",
+            "UID": 913573503,
+            "Element_Type": "None",
+            "Parent UID": 1614085627,
+            "Children UID": [
+                528399938
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_RotationPivotInverse",
+            "UID": 528399938,
+            "Element_Type": "None",
+            "Parent UID": 913573503,
+            "Children UID": [
+                638359447
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_ScalingPivot",
+            "UID": 638359447,
+            "Element_Type": "None",
+            "Parent UID": 528399938,
+            "Children UID": [
+                1732422147
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_ScalingPivotInverse",
+            "UID": 1732422147,
+            "Element_Type": "None",
+            "Parent UID": 638359447,
+            "Children UID": [
+                372554183
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm",
+            "UID": 372554183,
+            "Element_Type": "None",
+            "Parent UID": 1732422147,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Size": [
+                        1.0859953029710189e-28,
+                        0,
+                        1.5408934076734731e-27
+                    ],
+                    "Mass": 6.5861027823266402e-44
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1739,
+                    "Index Count": 3480
+                }
+            ]
+        },
+        {
+            "Name": "Parent",
+            "UID": 636490366,
+            "Element_Type": "None",
+            "Parent UID": 1614085627,
+            "Children UID": [
+                495861602
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Translation",
+            "UID": 495861602,
+            "Element_Type": "None",
+            "Parent UID": 636490366,
+            "Children UID": [
+                867961563
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_PreRotation",
+            "UID": 867961563,
+            "Element_Type": "None",
+            "Parent UID": 495861602,
+            "Children UID": [
+                900272594
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Rotation",
+            "UID": 900272594,
+            "Element_Type": "None",
+            "Parent UID": 867961563,
+            "Children UID": [
+                1090870415
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Scaling",
+            "UID": 1090870415,
+            "Element_Type": "None",
+            "Parent UID": 900272594,
+            "Children UID": [
+                1056780107
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm",
+            "UID": 1056780107,
+            "Element_Type": "None",
+            "Parent UID": 1090870415,
+            "Children UID": [
+                1059847837
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Translation",
+            "UID": 1059847837,
+            "Element_Type": "None",
+            "Parent UID": 1056780107,
+            "Children UID": [
+                617457514
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_PreRotation",
+            "UID": 617457514,
+            "Element_Type": "None",
+            "Parent UID": 1059847837,
+            "Children UID": [
+                131253531
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Rotation",
+            "UID": 131253531,
+            "Element_Type": "None",
+            "Parent UID": 617457514,
+            "Children UID": [
+                2106867912
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Scaling",
+            "UID": 2106867912,
+            "Element_Type": "None",
+            "Parent UID": 131253531,
+            "Children UID": [
+                1062762350
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1",
+            "UID": 1062762350,
+            "Element_Type": "None",
+            "Parent UID": 2106867912,
+            "Children UID": [
+                185878700
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Translation",
+            "UID": 185878700,
+            "Element_Type": "None",
+            "Parent UID": 1062762350,
+            "Children UID": [
+                1036476442
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_PreRotation",
+            "UID": 1036476442,
+            "Element_Type": "None",
+            "Parent UID": 185878700,
+            "Children UID": [
+                364437117
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Rotation",
+            "UID": 364437117,
+            "Element_Type": "None",
+            "Parent UID": 1036476442,
+            "Children UID": [
+                1843846161
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Scaling",
+            "UID": 1843846161,
+            "Element_Type": "None",
+            "Parent UID": 364437117,
+            "Children UID": [
+                158275990
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand",
+            "UID": 158275990,
+            "Element_Type": "None",
+            "Parent UID": 1843846161,
+            "Children UID": [
+                1840713358,
+                1771488402
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Translation",
+            "UID": 1840713358,
+            "Element_Type": "None",
+            "Parent UID": 158275990,
+            "Children UID": [
+                919193330
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_PreRotation",
+            "UID": 919193330,
+            "Element_Type": "None",
+            "Parent UID": 1840713358,
+            "Children UID": [
+                379772611
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Rotation",
+            "UID": 379772611,
+            "Element_Type": "None",
+            "Parent UID": 919193330,
+            "Children UID": [
+                773794236
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Scaling",
+            "UID": 773794236,
+            "Element_Type": "None",
+            "Parent UID": 379772611,
+            "Children UID": [
+                145984880
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger",
+            "UID": 145984880,
+            "Element_Type": "None",
+            "Parent UID": 773794236,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Translation",
+            "UID": 1771488402,
+            "Element_Type": "None",
+            "Parent UID": 158275990,
+            "Children UID": [
+                1708199506
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_PreRotation",
+            "UID": 1708199506,
+            "Element_Type": "None",
+            "Parent UID": 1771488402,
+            "Children UID": [
+                1058559358
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Rotation",
+            "UID": 1058559358,
+            "Element_Type": "None",
+            "Parent UID": 1708199506,
+            "Children UID": [
+                307649980
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Scaling",
+            "UID": 307649980,
+            "Element_Type": "None",
+            "Parent UID": 1058559358,
+            "Children UID": [
+                601799765
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1",
+            "UID": 601799765,
+            "Element_Type": "None",
+            "Parent UID": 307649980,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

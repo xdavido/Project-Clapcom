@@ -6,146 +6,528 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using YmirEngine;
-enum States
-{
-    IDLE,
-    RUNNING,
-    SHOOT,
-    HIT,
-    DEAD,
-
-    All_TYPES
-};
 
 public class Player : YmirComponent
 {
+    enum STATE : int
+    {
+        NONE = -1,
+
+        IDLE,
+        MOVE,
+        DASH,
+        SHOOTING,
+        SHOOT,
+        DEAD,
+
+        All_TYPES
+    }
+    enum INPUT : int
+    {
+        I_IDLE,
+        I_MOVE,
+        I_DASH,
+        I_DASH_END,
+        I_SHOOTING,
+        I_SHOOTING_END,
+        I_SHOOT,
+        I_SHOOT_END,
+        I_DEAD
+    }
+
+    //--------------------- State ---------------------\\
+    private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
+    private List<INPUT> inputsList = new List<INPUT>();
+
+    //--------------------- Movement ---------------------\\
+    //public float rotationSpeed = 2.0f;
+    public float movementSpeed = 35.0f;
+    private double angle = 0.0f;
+    private float deathZone = 0.3f;
+
+    //--------------------- Dash ---------------------\\
+    public float dashforce = 10.0f;
+    private float dashTimer = 0.0f;
+
+    //private float timeSinceLastDash = 0.0f;
+    public float dashCD = 0.1f;
+    public float dashDuration = 0.25f;
+    public float dashDistance = 1.0f;
+    private float dashSpeed = 0.0f;
+    //private float dashStartYPos = 0.0f;
+
+    //--------------------- Controller var ---------------------\\
     float x = 0;
     float y = 0;
     Vector3 gamepadInput;
+    //bool isMoving = false;
 
-    //public float movementSpeed = 5f;
+    //--------------------- Shoot var ---------------------\\
+    public float fireRate = 0.2f;
+    private float shootingTimer = 0.0f;
+    public float secondaryRate = 0.2f;
 
-    //private double angle = 0.0f;
+    private bool isReloading= false;
+    private float reloadTimer = 0.0f;
+    private float reloadCD = 1.0f;
 
-    //private int Hp;
+    public int ammo = 0;
+    public int magsize = 5;
 
-    private States actualState;
-
-    private Vector3 aimVector = Vector3.forward;
-
-    //Susu goes Brrr
-    // Movement
-    public float rotationSpeed = 2.0f;
-    public float movementSpeed = 35.0f;
-    public float mouseSens = 1.0f;
-    private double angle = 0.0f;
-    //private int deathZone = 15000;
-
+    private GameObject cameraObject;
+    private UI_Bullets csBullets;
+    private Health csBHealth;
 
     public void Start()
     {
+        //--------------------- Dash ---------------------\\
+        dashTimer = 0f;
+        dashSpeed = dashDistance / dashDuration;
+
+        //--------------------- Shoot ---------------------\\
+        ammo = magsize;
+        reloadTimer = reloadCD;
+        GetBulletsScript();
+
+        cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
+        
+        //--------------------- Health ---------------------\\
+        GetHealthScript();
+
+        currentState = STATE.IDLE;
+
         Debug.Log("START!");
-        actualState = States.IDLE;
-        //Hp = 100;
     }
 
     public void Update()
     {
+        // New Things WIP
         UpdateControllerInputs();
 
-        //HandleStates();
+        ProcessInternalInput();
+        ProcessExternalInput();
+        ProcessState();
 
-        if (gamepadInput.magnitude > 0)
+        UpdateState();
+
+
+
+        //Old things
+        //UpdateControllerInputs();
+
+        //if (gamepadInput.magnitude > 0)
+        //{
+        //    isMoving = true;
+        //    HandleMovement();
+        //}
+        //else if (isMoving)
+        //{
+        //    isMoving = false;
+        //    StopPlayer();
+        //}
+
+        //if (Input.GetGamepadRightTrigger() > 0)
+        //{
+        //    StartShooting();
+        //    Debug.Log("Shoot");
+        //    inputsList.Add(INPUT.I_SHOOTING);
+        //}
+        //else
+        //{
+        //    inputsList.Add(INPUT.I_SHOOTING_END);
+        //}
+        //Debug.Log(gameObject.transform.GetRight());
+    }
+
+    #region FSM
+    private void ProcessInternalInput()
+    {
+        if (dashTimer > 0)
         {
-            HandleMovement();
+            dashTimer -= Time.deltaTime;
+
+            if (dashTimer <= 0)
+            {  
+                inputsList.Add(INPUT.I_DASH_END);
+                StopPlayer();
+            }
+        }
+
+        if (shootingTimer > 0)
+        {
+            shootingTimer -= Time.deltaTime;
+
+            if (shootingTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_SHOOT);
+                Debug.Log("In shoot");
+            }
+        }
+        if (isReloading)
+        {
+            if (reloadTimer > 0)
+            {
+                reloadTimer -= Time.deltaTime;
+
+                if (reloadTimer <= 0)
+                {
+                    ammo = magsize; 
+                    csBullets.UseBullets(ammo);
+                    isReloading = false;    
+                }
+            }
+        }
+    }
+    private void ProcessExternalInput()
+    {
+        //----------------- Joystic -----------------\\
+        if (JoystickMoving() == true)
+        {
+            inputsList.Add(INPUT.I_MOVE);
+        }
+        else if (currentState == STATE.MOVE && JoystickMoving() == false)
+        {
+            inputsList.Add(INPUT.I_IDLE);
+            StopPlayer();
+        }
+
+        //----------------- Shoot -----------------\\
+        if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
+        {
+            inputsList.Add(INPUT.I_SHOOTING);
+            Input.Rumble_Controller(300);
         }
         else
         {
-            StopPlayer();
+            inputsList.Add(INPUT.I_SHOOTING_END);
         }
-        //Debug.Log(gameObject.transform.GetRight());
+
+        //----------------- Dash -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        {
+            inputsList.Add(INPUT.I_DASH);
+        }
+
+        if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
+        {
+            Audio.PlayAudio(gameObject, "P_PredRush");
+            isReloading = true;
+            reloadTimer = reloadCD;
+        }
+    }
+    private void ProcessState()
+    {
+        while (inputsList.Count > 0)
+        {
+            INPUT input = inputsList[0];
+
+            switch (currentState)
+            {
+                case STATE.NONE:
+                    Debug.Log("ERROR STATE");
+                    break;
+
+                case STATE.IDLE:
+                    switch (input)
+                    {
+                        case INPUT.I_MOVE:
+                            currentState = STATE.MOVE;
+                            StartMove();
+                            break;
+
+                        case INPUT.I_DASH:
+                            currentState = STATE.DASH;
+                            StartDash();
+                            break;
+
+                        case INPUT.I_SHOOTING:
+                            currentState = STATE.SHOOTING;
+                            StartShooting();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
+
+                case STATE.MOVE:
+                    switch (input)
+                    {
+                        case INPUT.I_IDLE:
+                            currentState = STATE.IDLE;
+                            //StartIdle(); //Trigger de la animacion //Arreglar esto
+                            break;
+
+                        case INPUT.I_DASH:
+                            currentState = STATE.DASH;
+                            StartDash();
+                            break;
+
+                        case INPUT.I_SHOOTING:
+                            currentState = STATE.SHOOTING;
+                            StartShooting();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
+
+                case STATE.DASH:
+                    switch (input)
+                    {
+                        case INPUT.I_DASH_END:
+                            currentState = STATE.IDLE;
+                            EndDash();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
+
+                case STATE.SHOOTING:
+                    switch (input)
+                    {
+                        case INPUT.I_DASH:
+                            currentState = STATE.DASH;
+                            StartDash();
+                            break;
+
+                        case INPUT.I_SHOOTING_END:
+                            currentState = STATE.IDLE;
+                            EndShooting();
+                            //StartIdle(); //Trigger de la animacion
+                            break;
+
+                        case INPUT.I_SHOOT:
+                            currentState = STATE.SHOOT;
+                            StartShoot();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
+                case STATE.SHOOT:
+                    switch (input)
+                    {
+                        case INPUT.I_SHOOT_END:
+                            currentState = STATE.SHOOTING;
+                            StartShooting();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
+                default:
+                    Debug.Log("No State? :(");
+                    break;
+            }
+            inputsList.RemoveAt(0);
+        }
+    }
+    private void UpdateState()
+    {
+        switch (currentState)
+        {
+            case STATE.NONE:
+                break;
+            case STATE.IDLE:
+                break;
+            case STATE.MOVE:
+                UpdateMove();
+                break;
+            case STATE.DASH:
+                UpdateDash();
+                break;
+            case STATE.SHOOTING:
+                UpdateShooting();
+                break;
+            case STATE.SHOOT:
+                break;
+            case STATE.DEAD:
+                break;
+            default:
+                Debug.Log("No State? :(");
+                break;
+        }
+    }
+    #endregion
+
+    #region SHOOT
+
+    private void StartShoot()
+    {
+        // Trigger animacion disparar
+        // Futuro autoapuntado
+    }
+    private void StartShooting()
+    {
+        // Añadir efecto de sonido
+        Audio.PlayAudio(gameObject,"P_Shoot");
+        Debug.Log("Shoot!");
+
+        --ammo;
+
+        csBullets.UseBullets(ammo);
+
+        Debug.Log("Ammo:" + ammo);
+
+        StopPlayer();
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
+        //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
+        //Debug.Log("Spawn pos: " + pos);
+
+        //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
+        Quaternion rot = gameObject.transform.globalRotation;
+
+        //Tamaño de la bala
+        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+
+        //Crea la bala
+        //Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
+        InternalCalls.CreateBullet(pos, rot, scale);
+
+        inputsList.Add(INPUT.I_SHOOT_END);
+    }
+    private void UpdateShooting()
+    {
+        if (JoystickMoving() == true)
+            HandleRotation();
+    }
+
+    private void EndShooting()
+    {
+        // Reset del futuro autoapuntado
+    }
+
+    // TODO: use the generic functions
+    private void GetBulletsScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        if (gameObject != null)
+        {
+            csBullets = gameObject.GetComponent<UI_Bullets>();
+        }
+    }
+
+    private void GetHealthScript()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        if (gameObject != null)
+        {
+            csBHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
+    #endregion
+
+    #region DASH
+    private void StartDash()
+    {
+        Audio.PlayAudio(gameObject, "P_Dash");
+        //Audio.PlayAudio(gameObject, "P_Relief");
+        StopPlayer();
+        dashTimer = dashDuration;
+        //dashStartYPos = gameObject.transform.localPosition.y;
+    }
+    private void UpdateDash()
+    {
+        gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
+    }
+    private void EndDash()
+    {
+        StopPlayer();
+        //gameObject.transform.localPosition.y = dashStartYPos;
+    }
+    #endregion
+
+    #region Joystick
+    private bool JoystickMoving()
+    {
+        //Debug.Log("Magnitude:" + gamepadInput.magnitude);
+        return gamepadInput.magnitude > deathZone;
     }
 
     private void UpdateControllerInputs()
     {
-         x = Input.GetLeftAxisX();
-         y = Input.GetLeftAxisY();
+        x = Input.GetLeftAxisX();
+        y = Input.GetLeftAxisY();
 
         gamepadInput = new Vector3(x, -y, 0f);
 
-        Debug.Log("sdsad"+x);
+        //Debug.Log("sdsad" + x);
     }
+    #endregion
 
-    public void OnCollisionEnter()
+    #region COLLISION
+    public void OnCollisionEnter(GameObject other)
     {
-        Debug.Log("OnCollisionEnter!!!!");
+        //Debug.Log("OnCollisionEnter!!!!");
+        //gameObject.SetVelocity(up * movementSpeed);
     }
+    #endregion
 
-    void HandleStates()
+    #region PLAYER
+
+    private void StartMove()
     {
-        float x = Input.GetLeftAxisX();
-        float y = Input.GetLeftAxisY();
-
-        switch (actualState)
-        {
-            case States.IDLE:
-
-                //Play Idle animation
-
-                if (x > 0 || y > 0)
-                {
-                    actualState = States.RUNNING;
-                }
-
-                if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
-                {
-                    actualState = States.SHOOT;
-                }
-
-                    break;
-
-            case States.RUNNING:
-
-                //Play Run animation
-
-                HandleMovement();
-
-                break;
-            case States.SHOOT:
-
-                //Play Shoot animation
-
-                Shoot();
-
-                break;
-        }
+        //Trigger de la animacion
+        //Trigger del SFX de caminar
     }
+    private void UpdateMove()
+    {
+        HandleRotation();
+        //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
+        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
+        //if (gamepadInput.x > 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        //}
+
+
+    }
+    private void StopPlayer()
+    {
+        //Debug.Log("Stoping");
+        gameObject.SetVelocity(new Vector3(0, 0, 0));
+    }
     void HandleMovement()
     {
         //--------------------- KeyBoard Movement ---------------------//
         //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetForward() * movementSpeed;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetForward() * -movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetRight() * movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetRight() * movementSpeed);
         //}
 
         //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
         //{
-        //    Vector3 vel = gameObject.transform.GetRight() * -movementSpeed * Time.deltaTime;
-        //    gameObject.SetVelocity(vel);
+        //    gameObject.SetVelocity(gameObject.transform.GetRight() * -movementSpeed);
         //}
 
 
@@ -174,22 +556,11 @@ public class Player : YmirComponent
         //Debug.Log("Vel:"+gameObject.GetForward() * movementSpeed);
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
-
-    //Susu goes brrrr
-    private void StopPlayer()
-    {
-        //Debug.Log("Stoping");
-        gameObject.SetVelocity(new Vector3(0, 0, 0));
-    }
-
     private void HandleRotation()
     {
-        //Debug.Log("Hola");
         //Calculate player rotation
-        Vector3 aX = new Vector3(gamepadInput.x, 0, -gamepadInput.y - 1);
+        Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
         Vector3 aY = new Vector3(0, 0, 1);
-        //Debug.Log(gamepadInput.x);
-        //Debug.Log(gamepadInput.y);
         aX = Vector3.Normalize(aX);
 
         if (aX.x >= 0)
@@ -206,17 +577,7 @@ public class Player : YmirComponent
 
         //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
 
-        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
+        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
     }
-
-    void Shoot()
-    {
-        Debug.Log("Shoot!");
-        Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
-        Vector3 rot = new Vector3(0, 1, 0);
-        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
-        InternalCalls.CreateBullet(pos, rot, scale);
-        //Input.GameControllerRumbleCS(3,32,100);
-    }
-
+    #endregion
 }

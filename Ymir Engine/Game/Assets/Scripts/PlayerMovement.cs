@@ -9,6 +9,10 @@ public class PlayerMovement : YmirComponent
     public GameObject thisReference = null;
 
     public float movementSpeed = 5f;
+    public Vector3 direccion;
+    public float fireRate = 0.5f;
+
+    bool a = false;
 
     private double angle = 0.0f;
     //private bool script = true;
@@ -27,16 +31,6 @@ public class PlayerMovement : YmirComponent
 
         //-------------- Keyboard --------------//
 
-        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
-        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
-
-        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
-        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
-
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
@@ -52,10 +46,11 @@ public class PlayerMovement : YmirComponent
             Debug.Log("Shoot!");
 
             //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 pos = new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.globalPosition.z + 10);
-
+            Vector3 pos = new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.globalPosition.z);
+            pos += GetPlayerDirection();
+            Debug.Log("Spawn pos: " + pos);
             //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 rot = new Vector3(0, 1, 0);
+            Vector3 rot = new Vector3(0, 0, 0);
 
             //Tamaño de la bala
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -174,23 +169,40 @@ public class PlayerMovement : YmirComponent
 
     public void OnCollisionEnter()
     {
-        Debug.Log("OnCollisionEnter!!!!");
+        if (!a)
+        {
+            Debug.Log("OnCollisionEnter!!!!");
+
+            GetAnotherScript();
+
+            Debug.Log("coso2345678 ");
+            a = true;
+        }
     }
 
     private void GetAnotherScript()
     {
+        //GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        //if (gameObject != null)
+        //{
+        //    Health player = gameObject.GetComponent<Health>();
+        //    player.TakeDmg(3);
+        //}
+
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
         if (gameObject != null)
         {
-            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
-
-            player.movementSpeed = 10f;
-
-            Debug.Log("MovmentSpeed= " + movementSpeed);
-
+            UI_Bullets player = gameObject.GetComponent<UI_Bullets>();
+            player.UseBullets(2);
         }
+    }
 
-
+    public Vector3 GetPlayerDirection()
+    {
+        direccion = gameObject.transform.GetForward();
+        return direccion;
     }
 
     private void RotatePlayer()

@@ -449,51 +449,6 @@
 //    }
 //    #endregion
 
-//    /* #region SPECIAL SHOOT
-//     private void SecondaryShootInput()
-//     {
-
-
-
-//     }
-
-//     private void HandleSecondaryShoot()
-//     {
-//         Audio.StopAudio(gameObject);
-//         Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
-//         Vector3 rot = new Vector3(0f, 1f, 0f);
-//         Quaternion rotation = Quaternion.RotateAroundAxis(rot, 0.383972f);
-
-//         Audio.PlayAudio(shootPoint, "Play_Weapon_Shoot_Mando");
-//         InternalCalls.CreatePrefab("Library/Prefabs/142833782.prefab", shootPoint.transform.globalPosition, shootPoint.transform.globalRotation * rotation, scale);
-//         rotation = Quaternion.RotateAroundAxis(rot, -0.383972f);
-//         InternalCalls.CreatePrefab("Library/Prefabs/142833782.prefab", shootPoint.transform.globalPosition, shootPoint.transform.globalRotation * rotation, scale);
-
-//         grenadesTimer = 0.0f;
-
-//         Input.PlayHaptic(2f, 30);
-
-//         if (fireButtonPressed == true)
-//         {
-//             ChangeState(State.Shoot);
-//         }
-//         else
-//         {
-//             if (IsJoystickMoving())
-//             {
-//                 ChangeState(State.Run);
-//             }
-//             else
-//             {
-//                 ChangeState(State.Idle);
-
-//             }
-//         }
-
-//     }
-
-//     #endregion*/
-
 //    #region DASH
 //    private void StartDash()
 //    {

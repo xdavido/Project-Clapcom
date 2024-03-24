@@ -60,6 +60,10 @@ enum update_status
 #define VSYNC true
 #define TITLE "Ymir Engine"
 
+// Engine UI
+#define ENGINE_COLOR ImVec4(1, 0.5, 0.5, 1)
+#define WARNING_COLOR ImVec4(0.9882, 0.7294, 0.0118, 1)
+
 // Physics
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 

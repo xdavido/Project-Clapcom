@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	9152236	W_GrenadeExpl			\Default Work Unit\Weapons\Consumables\W_GrenadeExpl	
+	1353162901	W_Throw			\Default Work Unit\Weapons\Consumables\W_Throw	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	729796354	Throw	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Throw_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Consumables\Throw		139376
+	1031933365	GranadeExpl	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\GranadeExpl_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\Consumables\GranadeExpl		347220
+

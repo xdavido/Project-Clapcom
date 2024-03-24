@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include "ModuleAudio.h"
 
+#include "External/ImGuizmo/include/ImGuizmo.h"
+
 #include "External/MathGeoLib/include/Math/Quat.h"
 
 #include "External/Optick/include/optick.h"
@@ -112,6 +114,19 @@ update_status ModuleCamera3D::Update(float dt)
 
 	//}
 
+
+	// Orbit Camera around selectedGO
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && !ImGuizmo::IsUsing())
+	{
+		if (App->scene->selectedGO != nullptr)
+		{
+			float distToRef = float3(App->scene->selectedGO->mTransform->GetGlobalPosition() - editorCamera->frustum.pos).Length();
+
+			editorCamera->RotationHandling(speed, App->GetDT());
+			editorCamera->frustum.pos = App->scene->selectedGO->mTransform->GetGlobalPosition() + (editorCamera->frustum.front * -distToRef);
+		}
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -166,7 +181,7 @@ void ModuleCamera3D::Focus()
 
 void ModuleCamera3D::CameraInput()
 {
-	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) 
+	if ((App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE)
 	{
 		Focus();
 	}

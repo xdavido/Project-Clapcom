@@ -19,7 +19,7 @@ void Delegate::Invoke() {
     }
     else {
 
-        LOG("Delegate: Callback function not set!");
+        LOG("[WARNING] Delegate: Callback function not set!");
 
     }
 

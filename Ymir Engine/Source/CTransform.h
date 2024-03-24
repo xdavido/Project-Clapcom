@@ -37,6 +37,8 @@ public:
 	float4x4 GetLocalTransform() const;
 	float3 GetGlobalPosition() const;
 	Quat GetLocalRotation() const;
+	Quat GetGlobalRotation() const;
+
 
 	void UpdateTransformsChilds();
 	void UpdateGlobalMatrix();
@@ -52,7 +54,12 @@ public:
 	float3 GetUp();
 	float3 GetRight();
 
+	float3 GetLocalForward();
+	float3 GetLocalUp();
+	float3 GetLocalRight();
+
 	float3 GetNormalizeAxis(int i);
+	float3 GetNormalizeLocalAxis(int i);
 
 public:
 

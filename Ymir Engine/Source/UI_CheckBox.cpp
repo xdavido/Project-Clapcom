@@ -21,9 +21,6 @@ UI_Checkbox::UI_Checkbox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TY
 	cmImg = nullptr;
 
 	displayText = nullptr;
-
-	defaultFunction1 = false;
-	defaultFunction2 = false;
 }
 
 UI_Checkbox::~UI_Checkbox()
@@ -48,22 +45,24 @@ void UI_Checkbox::OnInspector()
 		{
 			if (!isInteractable)
 			{
-				bgImg->color = disabledColor;
-				cmImg->color = disabledColor;
+				static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = disabledColor;
+				static_cast<UI_Image*>(cmImg->GetComponentUI(UI_TYPE::IMAGE))->color = disabledColor;
 			}
 		}	ImGui::SameLine();
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		if (ImGui::Checkbox("Checked##", &isChecked))
 		{
-			cmImg->active = isChecked;
+			static_cast<UI_Image*>(cmImg->GetComponentUI(UI_TYPE::IMAGE))->active = isChecked;
 		}
 
 		ImGui::Dummy(ImVec2(0, 10));
-		ImGui::Text("Text: %s", displayText->text.c_str());
+
+		(displayText != nullptr) ? ImGui::Text("Text: %s", static_cast<UI_Text*>(displayText->GetComponentUI(UI_TYPE::TEXT))->text.c_str()) : ImGui::Text("Text: <null>");
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::SeparatorText("Colors");
 		ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Focused color", (float*)&focusedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 		ImGui::ColorEdit4("Pressed color", (float*)&pressedColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
@@ -73,19 +72,19 @@ void UI_Checkbox::OnInspector()
 		{
 			ImGui::Dummy(ImVec2(0, 10));
 			ImGui::Text("Funtion: "); ImGui::SameLine();
-			if (defaultFunction1)
-			{
-				ImGui::Text("void CheckVSync()");
-			}
-			else if (defaultFunction2)
-			{
-				// TODO: set draggeable
-				ImGui::Text("void FadeUI(float dtd)");
-			}
-			else
-			{
-				ImGui::Text("<null>");
-			}
+			//if (defaultFunction1)
+			//{
+			//	ImGui::Text("void CheckVSync()");
+			//}
+			//else if (defaultFunction2)
+			//{
+			//	// TODO: set draggeable
+			//	ImGui::Text("void FadeUI(float dtd)");
+			//}
+			//else
+			//{
+			//	ImGui::Text("<null>");
+			//}
 		}
 
 		if (!active) { ImGui::EndDisabled(); }
@@ -99,29 +98,29 @@ void UI_Checkbox::OnNormal()
 {
 	if (isInteractable)
 	{
-		bgImg->color = color;
-		cmImg->color = color;
+		static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = color;
+		static_cast<UI_Image*>(cmImg->GetComponentUI(UI_TYPE::IMAGE))->color = color;
 	}
 	else
 	{
-		bgImg->color = disabledColor;
-		cmImg->color = disabledColor;
+		static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = disabledColor;
+		static_cast<UI_Image*>(cmImg->GetComponentUI(UI_TYPE::IMAGE))->color = disabledColor;
 	}
 }
 
 void UI_Checkbox::OnFocused()
 {
-	bgImg->color = focusedColor;
+	static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = focusedColor;
 }
 
 void UI_Checkbox::OnPressed()
 {
-	bgImg->color = pressedColor;
+	static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = pressedColor;
 }
 
 void UI_Checkbox::OnSelected()
 {
-	bgImg->color = selectedColor;
+	static_cast<UI_Image*>(bgImg->GetComponentUI(UI_TYPE::IMAGE))->color = selectedColor;
 }
 
 void UI_Checkbox::OnRelease()
@@ -129,7 +128,7 @@ void UI_Checkbox::OnRelease()
 	if (isInteractable)
 	{
 		isChecked = !isChecked;
-		cmImg->active = isChecked;
+		static_cast<UI_Image*>(cmImg->GetComponentUI(UI_TYPE::IMAGE))->active = isChecked;
 	}
 }
 
@@ -139,6 +138,6 @@ void UI_Checkbox::CheckDraggeable()
 
 	if (static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE) != nullptr)
 	{
-		static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE)->isDraggable = isChecked;
+		static_cast<G_UI*>(mOwner->mParent)->GetComponentUI(UI_TYPE::IMAGE)->isDraggeable = isChecked;
 	}
 }

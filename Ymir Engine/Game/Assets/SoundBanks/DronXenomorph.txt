@@ -1,0 +1,14 @@
+Event	ID	Name			Wwise Object Path	Notes
+	41230362	DX_Death			\Default Work Unit\Enemies\DroneXenomorph\DX_Death	
+	129776227	DX_Move			\Default Work Unit\Enemies\DroneXenomorph\DX_Move	
+	1160464164	DX_Cry			\Default Work Unit\Enemies\DroneXenomorph\DX_Cry	
+	3324362890	DX_Tail			\Default Work Unit\Enemies\DroneXenomorph\DX_Tail	
+	3945193905	DX_Claw			\Default Work Unit\Enemies\DroneXenomorph\DX_Claw	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	500714552	DX_Cry	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DX_Cry_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\DroneXenomorph\DX_Cry		576768
+	771037591	DX_Claw	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DX_Claw_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\DroneXenomorph\DX_Claw		118004
+	775749533	DX_Tail	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DX_Tail_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\DroneXenomorph\DX_Tail		91088
+	903344028	DX_Death	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DX_Death_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\DroneXenomorph\DX_Death		100890
+	985624011	DX_Move1	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DX_Move1_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Enemies\DroneXenomorph\DX_Move1		272556
+

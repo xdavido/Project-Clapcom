@@ -1,0 +1,333 @@
+{
+    "Editor Camera Position": [
+        10.109046936035156,
+        23.092971801757812,
+        13.714387893676758
+    ],
+    "Editor Camera Right (X)": [
+        0.86273729801177979,
+        1.4901161193847656e-08,
+        -0.50565999746322632
+    ],
+    "Editor Camera Up (Y)": [
+        -0.23202399909496307,
+        0.88851255178451538,
+        -0.39587023854255676
+    ],
+    "Editor Camera Front (Z)": [
+        -0.44928386807441711,
+        -0.45885610580444336,
+        -0.76655060052871704
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1969420291,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                1821566857,
+                935998235,
+                1621732659
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1821566857,
+            "Element_Type": "None",
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        -180,
+                        40.000007629394531,
+                        -180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        -1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        6.696972576492044e-08,
+                        1,
+                        1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        6.696972576492044e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Plane",
+            "UID": 935998235,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Plane.fbx",
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1482273603
+            ]
+        },
+        {
+            "Name": "Plane (1)",
+            "UID": 1482273603,
+            "Element_Type": "None",
+            "Parent UID": 935998235,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        168.36555480957031,
+                        168.36555480957031,
+                        168.36555480957031
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 121,
+                    "Index Count": 600
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        168.36555480957031,
+                        0.10000000149011612,
+                        168.36555480957031
+                    ],
+                    "Radius": 119.05242919921875,
+                    "Height": 0,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "UID": 1621732659,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        12.539802551269531,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        35.252700805664062,
+                        -0
+                    ],
+                    "Scale": [
+                        0.97000044584274292,
+                        0.97000002861022949,
+                        0.97000044584274292
+                    ]
+                }
+            ],
+            "Children UID": [
+                1602157225,
+                835802751
+            ]
+        },
+        {
+            "Name": "Chimney",
+            "UID": 1602157225,
+            "Element_Type": "None",
+            "Parent UID": 1621732659,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "UID": 835802751,
+            "Element_Type": "None",
+            "Parent UID": 1621732659,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        3.1173470020294189,
+                        3.4366867542266846,
+                        3.8482439517974854
+                    ],
+                    "Radius": 3.0140359401702881,
+                    "Height": 3.4366867542266846,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        }
+    ]
+}

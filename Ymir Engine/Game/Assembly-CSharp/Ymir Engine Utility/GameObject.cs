@@ -63,13 +63,14 @@ namespace YmirEngine
         }
 
 
-
-
-
         int GetHash()
         {
             return this.GetHashCode();
         }
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetActive(bool active);
 
         // Try to fix duplicated methods
         //[MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -87,6 +88,9 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void AddComponent(int componentType);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetRotation(Quaternion rot);
 
     }
 }

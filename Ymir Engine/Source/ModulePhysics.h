@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
@@ -18,7 +18,7 @@ class ModulePhysics : public Module
 {
 public:
 
-	ModulePhysics(Application* app, bool start_enabled = true);
+	ModulePhysics(Application* app, bool start_enabled = true); 
 	~ModulePhysics();
 
 	bool Init();
@@ -28,26 +28,35 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	void CreateWorld();
+	void DeleteWorld();
+
 	//Getters
 	btVector3 GetWorldGravity();
-	bool GetDebugDraw();
 	Color GetColliderColor();
 
 	//Setters
 	void SetWorldGravity(btVector3 g);
-	void SetdebugDraw(bool d);
+	void SetDrawScene(bool d);
+	void SetDrawGame(bool d);
 	void SetColliderColor(Color col);
+	void SetSensorColor(Color col);
+	void SetLineWidth(float w);
+
+	bool GetDebugDraw();
 
 	void ResetGravity(); // Sets the world gravity to GRAVITY from globals.h
 
 	// PhysBody related
-	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);		 // Box
-	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape);	 // Sphere
-	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool gravity, btCollisionShape*& shape); // Capsule
-	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool gravity, btCollisionShape*& shape);				 // Convex
+	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);		 // Box
+	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);	 // Sphere
+	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);	 // Capsule
+	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape);				 // Mesh
 	void RemoveBody(PhysBody* b);
 
-	void RecalculateInertia(PhysBody* pbody, float mass, bool gravity);
+	void ClearBodiesList();
+
+	void RecalculateInertia(PhysBody* pbody, float mass, bool useGravity);
 
 	// Collision Shape
 	btCollisionShape* CreateCollisionShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
@@ -59,17 +68,28 @@ public:
 
 	btScalar* getOpenGLMatrix(float4x4 matrix);
 
+	// Render functions
+	void RenderBoxCollider(PhysBody* pbody);
+	void RenderSphereCollider(PhysBody* pbody);
+	void RenderCapsuleCollider(PhysBody* pbody);
+	void RenderMeshCollider(PhysBody* pbody);
+
+	// Conversion function from btVector3 to float3
+	float3 btVector3_to_float3(const btVector3& v) {
+		return { v.x(), v.y(), v.z() };
+	}
+
+	// Conversion function from float3 to btVector3
+	btVector3 float3_to_btVector3(const float3& v) {
+		return btVector3(v.x, v.y, v.z);
+	}
+
 public:
 	// TODO: create 2 lists, one for rigidbodies and one for colliders	
-	std::vector<btCollisionShape*> collidersList;
 	std::vector<PhysBody*> bodiesList;
 	std::vector <btDefaultMotionState*> motions;
 
 	btDiscreteDynamicsWorld* world; // World se puede dejar en public si se requiere
-
-	bool debug = true; // If true, draws colliders
-
-	DebugDrawer* debugDraw;
 
 	btDispatcher* dispatcher;
 	btCollisionConfiguration* collisionConfig;
@@ -77,24 +97,17 @@ public:
 	btConstraintSolver* constraintSolver;
 
 	bool beginPlay;
-private:
+
+	bool debugScene = true; // If true, draws physics stuff in SCENE
+	bool debugGame = false; // If true, draws physics stuff in GAME
+
+	// Shapes customization
 	Color colliderColor;
-};
+	Color sensorColor;
+	int shapeLineWidth = 2;
 
-class DebugDrawer : public btIDebugDraw
-{
-public:
-	DebugDrawer() : line(0, 0, 0)
-	{}
+	bool onexitcollision;
 
-	void drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
-	void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color);
-	void reportErrorWarning(const char* warningString);
-	void draw3dText(const btVector3& location, const char* textString);
-	void setDebugMode(int debugMode);
-	int	 getDebugMode() const;
+private:
 
-	DebugDrawModes mode;
-	CLine line;
-	Primitive point;
 };

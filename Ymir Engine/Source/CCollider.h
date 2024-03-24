@@ -38,6 +38,8 @@ public:
 
 	btCollisionShape* GetShape();
 
+	void UpdateLockRotation();
+
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
 	void SetBoxCollider();
 	void SetSphereCollider();
@@ -45,6 +47,8 @@ public:
 	void SetMeshCollider();
 
 	void RemovePhysbody();
+
+	void SetAsSensor(bool is_sensor);
 
 	void SetDefaultValues(PhysicsType type);
 
@@ -71,7 +75,10 @@ public:
 	float height;
 
 	float mass;
-	bool gravity;
+	bool useGravity;
+	bool isSensor;
+
+	bool lockX, lockY, lockZ;
 
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;
@@ -84,6 +91,6 @@ public:
 
 	//btCollisionObject* collider;
 
-	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
+	//TODO: crear variables: hull, mesh, sensor, edit collider, transformï¿½?
 
 };

@@ -8,6 +8,7 @@
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "ModuleResourceManager.h"
 
@@ -20,23 +21,25 @@
 
 Model::Model()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active) {
+	//		if ((*it).meshGO->active) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
+	//		}
 
-		}
+	//	}
 
-	}
+	//}
 }
 
-Model::Model(const std::string& path, const std::string& shaderPath)
+Model::Model(const std::string& path, bool onlyReimport, const std::string& shaderPath)
 {
+	this->onlyReimport = onlyReimport;
+	processedMeshes = 0;
 	LoadModel(path, shaderPath);
 }
 
@@ -47,19 +50,19 @@ Model::~Model()
 
 void Model::DrawModel()
 {
-	if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
+	//if (modelGO->active && External->scene->mRootNode && External->scene->mRootNode->active) {
 
-		for (auto it = meshes.begin(); it != meshes.end(); ++it) {
+	//	for (auto it = meshes.begin(); it != meshes.end(); ++it) {
 
-			if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
+	//		if ((*it).meshGO->active && External->renderer3D->IsInsideFrustum(External->scene->gameCameraComponent, (*it).globalAABB)) {
 
-				(*it).DrawMesh();
+	//			(*it).DrawMesh();
 
-			}
-			
-		}
+	//		}
+	//		
+	//	}
 
-	}
+	//}
 	
 }
 
@@ -94,8 +97,6 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 		name = path.substr(lastSlash, lastDot - lastSlash);
 
 	}
-
-	LOG("");
 
 	// Import the model using Assimp
 
@@ -171,6 +172,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 			}
 
 			modelGO->type = "Model";
+			modelGO->originPath = path;
 
 		}
 		else {
@@ -206,8 +208,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-			meshes.push_back(*ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath));
-
+			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
+			processedMeshes++;
 		}
 
 		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
@@ -215,7 +217,40 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		// Load Transform From Assimp
 		static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
 
+		// Check if all the bone meshes have been processed ---> when all meshes processed, process if have animations
+		if (scene->mNumMeshes == processedMeshes) {
+			if (scene->HasAnimations()) {
+				if (modelGO->GetComponent(ANIMATION) == nullptr) {
+					CAnimation* animationComponent = new CAnimation(modelGO);
+					modelGO->AddComponent(animationComponent);
+					CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
+					cAnim->modelPath = path;
+
+					for (int i = 0; i < scene->mNumAnimations; i++) {
+						Animation* anim = new Animation(path, this, i);
+
+						std::string filename = std::to_string(modelGO->UID) + ".yanim";
+						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+
+						//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+
+						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
+						cAnim->AddAnimation(*rAnim);
+					}
+					LOG("Model has animations");
+				}
+			}
+			else {
+
+				//animator = nullptr;
+
+				LOG("Model doesn't have animations");
+			}
+
+		}
 	}
+		
 
 	// Process children of the current node
 	for (uint i = 0; i < node->mNumChildren; i++) {
@@ -226,7 +261,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 }
 
-Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -464,47 +499,58 @@ Mesh* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO,
 
 	// Load animations
 
-	if (scene->HasAnimations()) {
+	//if (scene->HasAnimations()) {
 
-		// Hardcoded for testing
-		CAnimation* animationComponent = new CAnimation(linkGO);
-		linkGO->AddComponent(animationComponent);
-		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-		//-------------------------
-		for (int i = 0; i < scene->mNumAnimations; i++) {
-			Animation* anim = new Animation(path, this, i);
-			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
-		}
-		LOG("Model has animations");
-	}
-	else {
+	//	if (linkGO->GetComponent(ANIMATION) == nullptr) {
+	//		CAnimation* animationComponent = new CAnimation(linkGO);
+	//		linkGO->AddComponent(animationComponent);
+	//		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+	//		cAnim->modelPath = path;
 
-		//animator = nullptr;
+	//		for (int i = 0; i < scene->mNumAnimations; i++) {
+	//			Animation* anim = new Animation(path, this, i);
 
-		LOG("Model doesn't have animations");
-	}
+	//			std::string filename = std::to_string(linkGO->UID) + ".yanim";
+	//			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+
+	//			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+	//			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+
+	//			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
+	//			cAnim->AddAnimation(*rAnim);
+	//		}
+	//		LOG("Model has animations");
+	//	}
+	//}
+	//else {
+
+	//	//animator = nullptr;
+
+	//	LOG("Model doesn't have animations");
+	//}
 
 	// Create the mesh
 
-	Mesh* tmpMesh = new Mesh(vertices, indices, textures, linkGO, transform, shaderPath);
+	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
 
-	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh";
+	External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
 
-	JsonFile ymeshFile(libraryPath, std::to_string(linkGO->UID) + ".ymesh");
-	External->fileSystem->SaveMeshToFile(tmpMesh, External->fileSystem->libraryMeshesPath + std::to_string(linkGO->UID) + ".ymesh");
+	if (!onlyReimport) {
 
-	ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
+		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
 
-	CMesh* cmesh = new CMesh(linkGO);
+		CMesh* cmesh = new CMesh(linkGO);
 
-	cmesh->nVertices = vertices.size();
-	cmesh->nIndices = indices.size();
+		cmesh->rMeshReference = rMesh;
 
-	cmesh->rMeshReference = rMesh;
+		cmesh->nVertices = vertices.size();
+		cmesh->nIndices = indices.size();
 
-	linkGO->AddComponent(cmesh);
+		linkGO->AddComponent(cmesh);
 
-	return tmpMesh; // Retrieve the Mesh with all the necessary data to draw
+	}
+
 }
 
 void Model::GenerateModelMetaFile()

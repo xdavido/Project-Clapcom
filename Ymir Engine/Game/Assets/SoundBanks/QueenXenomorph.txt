@@ -1,0 +1,10 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2111218363	QX_Tail			\Default Work Unit\Enemies\QueenXenomorph\QX_Tail	
+	2449904509	QX_Puddle			\Default Work Unit\Enemies\QueenXenomorph\QX_Puddle	
+	2475171950	QX_Acid			\Default Work Unit\Enemies\QueenXenomorph\QX_Acid	
+	3131630765	QX_Dash			\Default Work Unit\Enemies\QueenXenomorph\QX_Dash	
+	3729983792	QX_Claw			\Default Work Unit\Enemies\QueenXenomorph\QX_Claw	
+	3788417510	QX_Move			\Default Work Unit\Enemies\QueenXenomorph\QX_Move	
+	3895141477	QX_Death			\Default Work Unit\Enemies\QueenXenomorph\QX_Death	
+	4211173799	QX_Cry			\Default Work Unit\Enemies\QueenXenomorph\QX_Cry	
+

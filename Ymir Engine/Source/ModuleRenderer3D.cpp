@@ -6,10 +6,12 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModuleResourceManager.h"
+
 #include "Globals.h"
 #include "Log.h"
 #include "GameObject.h"
-#include "ModuleResourceManager.h"
+#include "G_UI.h"
 
 #include "DefaultShader.h"
 
@@ -36,7 +38,7 @@ bool ModuleRenderer3D::Init()
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
-
+	
 	// Stream Assimp Log messages to Debug window
 	EnableAssimpDebugger();
 
@@ -147,6 +149,7 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
+		glEnable(GL_ALPHA_TEST);
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
@@ -154,7 +157,6 @@ bool ModuleRenderer3D::Init()
 		glDisable(GL_MULTISAMPLE);
 		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
-		glDisable(GL_ALPHA_TEST);
 		glDisable(GL_POINT_SPRITE);
 		glDisable(GL_FOG);
 		glDisable(GL_POINT_SMOOTH);
@@ -208,10 +210,10 @@ bool ModuleRenderer3D::Init()
 	Shader* waterShader = new Shader;
 	waterShader->LoadShader("Assets/Shaders/WaterShader.glsl");
 	delete waterShader;
-	
-	Shader* animationShader = new Shader; 
+
+	Shader* animationShader = new Shader;
 	animationShader->LoadShader("Assets/Shaders/AnimationShader.glsl");
-	delete animationShader; 
+	delete animationShader;
 
 	Shader* lightingShader = new Shader;
 	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
@@ -227,8 +229,14 @@ bool ModuleRenderer3D::Init()
 	App->scene->gameCameraObject->mTransform->SetPosition(float3(-40.0f, 29.0f, 54.0f));
 	App->scene->gameCameraObject->mTransform->SetRotation(float3(180.0f, 40.0f, 180.0f));
 
+	//App->scene->gameCameraComponent->SetPos(-40.0f, 29.0f, 54.0f);
+	//App->scene->gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+
+	//Hardcodeado para la VS1
 	App->scene->gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 	App->scene->gameCameraObject->AddComponent(App->scene->gameCameraComponent);
+	
+	//App->scene->gameCameraComponent->framebuffer.Load();
 
 	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
 
@@ -260,11 +268,25 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	return UPDATE_CONTINUE;
 }
+static bool started = false; // Sorry
 
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
+
+#ifdef _STANDALONE // Sorry for doing this, it was necessary (Francesc) :(
+
+	if (!started) {
+
+		TimeManager::gameTimer.Start();
+		App->physics->beginPlay = true;
+
+		started = true;
+
+	}
+
+#endif // _STANDALONE
 
 	// Clear color buffer and depth buffer before each PostUpdate call
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -298,6 +320,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
+		DrawGameObjects();
+
+		DrawUIElements(false, false);
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes)
@@ -307,7 +333,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		// Render Physics Colliders
 
-		if (App->physics->GetDebugDraw())
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
@@ -316,7 +342,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawLightsDebug();
 
-		DrawUIElements(false);
+		DrawUIElements(false,false);
 
 	}
 
@@ -334,7 +360,20 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			DrawUIElements(true);
+			// Render Physics Stuff
+			if (App->physics->debugGame || App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			DrawUIElements(true,false);
 
 		}
 
@@ -358,7 +397,13 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			DrawUIElements(true);
+			// Render Physics Stuff
+			if (App->physics->debugScene || App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
+
+			DrawUIElements(true, true);
 
 		}
 
@@ -599,17 +644,47 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
+	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se ver�n siempre sin importar la iluminacion
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr) {
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
+		{
+			Color color;
+			if (colliderComponent->isSensor) color = App->physics->sensorColor;
+			else color = App->physics->colliderColor;
 
 			App->physics->world->debugDrawWorld();
-			
-		}
 
+			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
+
+			glColor3f(color.r, color.g, color.b); // Cambio aqu� el color para tenerlo m�s controlado
+			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
+
+			switch (shape->getShapeType())
+			{
+			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
+				App->physics->RenderBoxCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::SPHERE_SHAPE_PROXYTYPE: // RENDER SPHERE ====================
+				App->physics->RenderSphereCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
+				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
+				App->physics->RenderMeshCollider(colliderComponent->physBody);
+				break;
+			} 
+
+			glColor3f(255.0f, 255.0f, 255.0f);
+			glLineWidth(1.f);
+		}
 	}
+
+	if (App->editor->gl_Lighting) glEnable(GL_LIGHTING);
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
@@ -673,88 +748,44 @@ void ModuleRenderer3D::GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo)
 	}
 }
 
-void ModuleRenderer3D::DrawUIElements(bool isGame)
+void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
+	if (isGame)
 	{
-		C_UI* uiComponent = (C_UI*)(*it)->GetComponent(ComponentType::UI);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
 
-		if ((*it)->active && uiComponent != nullptr)
+		isBuild ? glOrtho(0.0, External->window->width, External->window->height, 0.0, 1.0, -1.0) : glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.0f);
+	}
+
+	//Get UI elements to draw
+	std::vector<C_UI*> listUI;
+
+	for (auto it = App->scene->vCanvas.begin(); it != App->scene->vCanvas.end(); ++it)
+	{
+		GetUIGOs(*it, listUI);
+
+	}
+
+	if (!listUI.empty())
+	{
+		for (auto i = listUI.size() - 1; i > 0; --i)
 		{
-			switch (uiComponent->UI_type)
+			if (listUI[i]->mOwner->active && listUI[i]->active)
 			{
-			case UI_TYPE::CANVAS:
-
-
-
-				break;
-
-			case UI_TYPE::IMAGE: {
-
-				UI_Image* uiImage = (UI_Image*)(*it)->GetComponent(ComponentType::UI);
-
-				for (auto& textures : uiImage->mat->rTextures) {
-
-					textures->BindTexture(true);
-
-				}
-
-				uiImage->mat->shader.UseShader(true);
-				uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
-
-				uiImage->Draw(isGame);
-
-				uiImage->mat->shader.UseShader(false);
-
-				for (auto& textures : uiImage->mat->rTextures) {
-
-					textures->BindTexture(false);
-
-				}
-
-				break;
-			}
-			case UI_TYPE::TEXT:
-
-
-
-				break;
-
-			case UI_TYPE::BUTTON:
-
-
-
-				break;
-
-			case UI_TYPE::INPUTBOX:
-
-
-
-				break;
-
-			case UI_TYPE::CHECKBOX:
-
-
-
-				break;
-
-			case UI_TYPE::NONE:
-
-
-
-				break;
+				listUI[i]->Draw(isGame);
+				//listUI[i]->DebugDraw();
 
 			}
-
 		}
-
 	}
 
 }
@@ -789,6 +820,21 @@ void ModuleRenderer3D::DrawGameObjects()
 		CMaterial* materialComponent = (CMaterial*)(*it)->GetComponent(ComponentType::MATERIAL);
 		CAnimation* animationComponent = (CAnimation*)(*it)->GetComponent(ComponentType::ANIMATION);
 
+		if (animationComponent != nullptr && animationComponent->active) {
+			for (int i = 0; i < (*it)->mChildren.size(); i++) {
+				if ((*it)->mChildren[i]->GetComponent(MATERIAL)) {
+					CMaterial* cmat = (CMaterial*)(*it)->mChildren[i]->GetComponent(MATERIAL);
+					CTransform* ctrans = (CTransform*)(*it)->mChildren[i]->GetComponent(TRANSFORM);
+					cmat->shader.UseShader(true);
+					std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
+					for (int i = 0; i < transforms.size(); i++) {
+						cmat->shader.SetMatrix4x4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+						cmat->shader.SetShaderUniforms(&ctrans->mGlobalMatrix, (*it)->selected);
+					}
+				}
+			}
+		}
+
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
@@ -803,7 +849,7 @@ void ModuleRenderer3D::DrawGameObjects()
 					}
 
 					materialComponent->shader.UseShader(true);
-					
+
 					if (animationComponent != nullptr && animationComponent->active) {
 						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
 						for (int i = 0; i < transforms.size(); i++) {

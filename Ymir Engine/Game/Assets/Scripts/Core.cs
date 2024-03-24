@@ -48,7 +48,9 @@ public class Core : YmirComponent
     public GameObject reference = null;
     public GameObject turret = null;
     public GameObject shootPoint = null;
+    public GameObject referenceUI = null;
 
+    public GameObject slider = null;
 
     public float mouseSens = 5.0f;
 
@@ -57,6 +59,11 @@ public class Core : YmirComponent
     public bool start = true;
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
+
+    public void Start()
+    {
+        slider = InternalCalls.GetGameObjectByName("Text");
+    }
 
     public void Update(/*int x*/)
     {
@@ -137,11 +144,25 @@ public class Core : YmirComponent
         }
 
 
+        if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
+        {
+            referenceUI = UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
+        }
+
+        if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.Destroy(referenceUI);
+        } 
+        
+        if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
+        {
+            gameObject.SetActive(false);
+            //UI.TextEdit(slider, "slider, 7");
+            //UI.SliderEdit(slider, 7);
+        }
+
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
-
-
-
 
         gamepadInput = new Vector3(x, y, 0f);
 

@@ -14,6 +14,7 @@
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
 #include "ModuleLightManager.h"
+#include "ModuleAudio.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -59,6 +60,7 @@ bool ModuleEditor::Init()
 	LOG("Initializing editor...");
 
 	bool ret = true;
+	exit = update_status::UPDATE_CONTINUE;
 
 	// Retrieving data from window initial status
 
@@ -129,18 +131,23 @@ bool ModuleEditor::Init()
 	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
-
+	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 
-#ifdef _STANDALONE
-
-	TimeManager::gameTimer.Start();
-
-#endif // _STANDALONE
+//#ifdef _STANDALONE
+//
+//	TimeManager::gameTimer.Start();
+//
+//#endif // _STANDALONE
 
 	return ret;
+}
+
+update_status ModuleEditor::Update(float dt)
+{
+	return exit;
 }
 
 void ModuleEditor::DrawEditor()
@@ -205,12 +212,14 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			/*ImGui::SeparatorText("Exit");
+			ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
+				// TODO: Sara --> make a popup to ask to save
+				exit = update_status::UPDATE_STOP;
 
-			}*/
+			}
 
 			ImGui::EndMenu();
 
@@ -413,6 +422,7 @@ void ModuleEditor::DrawEditor()
 	}
 
 	SaveAs();
+	RenderSaveAsPrefabPopUp();
 
 	if (showAboutPopUp) {
 
@@ -432,6 +442,7 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::OpenPopup("New Script");
 
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f), ImGuiCond_Appearing);
 		if (ImGui::BeginPopupModal("New Script")) {
 
 			scriptEditor->ShowNewScriptDialogue();
@@ -741,6 +752,9 @@ void ModuleEditor::DrawEditor()
 				// World Grid Checkbox
 				if (ImGui::Checkbox("Show Grid", &App->renderer3D->showGrid));
 
+				// ImGui checkbox to manage whether to ignore .meta files or not
+				if (ImGui::Checkbox("Ignore .meta files", &shouldIgnoreMeta));
+
 				ImGui::Unindent(); // Unindent to return to the previous level of indentation
 
 			}
@@ -823,9 +837,23 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
-				bool auxDebugDraw = App->physics->GetDebugDraw();
-				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g,
-					App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+				bool auxDebugDrawScene = App->physics->debugScene;
+				bool auxDebugDrawGame = App->physics->debugGame;
+				int auxLineWidth = App->physics->shapeLineWidth;
+
+				ImVec4 auxColliderColor = ImVec4(
+					App->physics->colliderColor.r, 
+					App->physics->colliderColor.g,
+					App->physics->colliderColor.b, 
+					App->physics->colliderColor.a
+				);
+
+				ImVec4 auxSensorColor = ImVec4(
+					App->physics->sensorColor.r,
+					App->physics->sensorColor.g,
+					App->physics->sensorColor.b,
+					App->physics->sensorColor.a
+				);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -841,37 +869,66 @@ void ModuleEditor::DrawEditor()
 				}
 
 				ImGui::Unindent();
-				ImGui::SeparatorText("Colliders");
+				ImGui::SeparatorText("Drawer");
 				ImGui::Indent();
 
-				ImGui::Text("Draw Colliders"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+
+				ImGui::Text("Draw Scene"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawScene", &auxDebugDrawScene))
 				{
-					App->physics->SetdebugDraw(auxDebugDraw);
+					App->physics->debugScene = auxDebugDrawScene;
 				}
+
+				ImGui::Text("Draw Game"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawGame", &auxDebugDrawGame))
+				{
+					App->physics->debugGame = auxDebugDrawGame;
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Customization");
+				ImGui::Indent();
 
 				ImGui::Text("Collider Color"); ImGui::SameLine();
 
-				// Mostrar el bot�n de color personalizado
-				if (ImGui::ColorButton("##ColorButton", auxColor))
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##ColliderColorButton", auxColliderColor))
 				{
-					ImGui::OpenPopup("ColorPickerPopup");
+					ImGui::OpenPopup("ColliderColorPicker");
 				}
 
-				if (ImGui::BeginPopup("ColorPickerPopup"))
+				if (ImGui::BeginPopup("ColliderColorPicker"))
 				{
-					ImGui::ColorPicker4("Color", (float*)&auxColor);
-					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::ColorPicker4("Color", (float*)&auxColliderColor);
+					App->physics->SetColliderColor(Color(auxColliderColor.x, auxColliderColor.y, auxColliderColor.z, auxColliderColor.w));
 					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Sensor Color"); ImGui::SameLine();
+
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor)) 
+				{ 
+					ImGui::OpenPopup("SensorColorPicker"); 
+				}
+
+				if (ImGui::BeginPopup("SensorColorPicker")) 
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxSensorColor);
+					App->physics->SetSensorColor(Color(auxSensorColor.x, auxSensorColor.y, auxSensorColor.z, auxSensorColor.w));
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Shape line width: "); ImGui::SameLine(); ImGui::SetNextItemWidth(100.0f);
+				if (ImGui::SliderInt("##Shape line width", &auxLineWidth, 0, 10))
+				{
+					App->physics->SetLineWidth(auxLineWidth);
 				}
 
 				ImGui::Unindent();
 			}
-
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showConsole) {
@@ -888,9 +945,7 @@ void ModuleEditor::DrawEditor()
 			MemoryLeaksOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showAssimpLog) {
@@ -902,9 +957,7 @@ void ModuleEditor::DrawEditor()
 			AssimpLogOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showHierarchy) {
@@ -916,14 +969,18 @@ void ModuleEditor::DrawEditor()
 			DrawHierarchy();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showInspector) {
 
-		if (ImGui::Begin("Inspector", &showInspector), true) {
+		if (ImGui::Begin("Inspector", &showInspector, ImGuiWindowFlags_MenuBar), true) {
+			
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Checkbox("Lock", &App->scene->isLocked);
+			}
+			ImGui::EndMenuBar();
 
 			// Show GameObject Inspector
 
@@ -979,19 +1036,20 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::Button("Stop")) {
 
+				App->audio->StopAllSounds();
 				TimeManager::gameTimer.Stop();
 
 				isPlaying = false;
 				isPaused = false;
 
 				App->scene->LoadScene();
-
 			}
 
 		}
 		else {
 
 			if (ImGui::Button("Play")) {
+
 				TimeManager::gameTimer.Start();
 
 				isPlaying = true;
@@ -1091,6 +1149,14 @@ void ModuleEditor::DrawEditor()
 
 			static ImGuiTextFilter filter;
 			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
+
+			ImGui::Dummy(ImVec2(10, 0));
+
+			if (ImGui::Button("Regenerate Library"))
+			{
+				DeleteAssetConfirmationPopup("Library");
+			}
+
 			ImGui::EndMenuBar();
 
 			DrawAssetsWindow((currentDir + "/").c_str());
@@ -1236,9 +1302,20 @@ void ModuleEditor::DrawEditor()
 
 			nodeEditor.Update();
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
 			ImGui::End();
 		}
-
 	}
 
 	if (showShaderEditor) {
@@ -1299,7 +1376,7 @@ void ModuleEditor::DrawEditor()
 
 			// Mouse Picking Management
 
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !ImGuizmo::IsUsing())
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
 			{
 				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
 			}
@@ -1313,7 +1390,7 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
+			gameViewPos = ImGui::GetWindowPos();
 
 			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
 			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
@@ -1321,6 +1398,7 @@ void ModuleEditor::DrawEditor()
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
+				gameViewPos =ImGui::GetWindowPos();
 				gameViewSize = ImGui::GetContentRegionAvail();
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
@@ -1330,6 +1408,8 @@ void ModuleEditor::DrawEditor()
 		}
 
 	}
+
+	RenderDeleteAssetConfirmationPopup();
 
 	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
@@ -1539,7 +1619,7 @@ void ModuleEditor::UIMenu()
 {
 	if (ImGui::BeginMenu("UI"))
 	{
-		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider"};
 
 		for (int i = 0; i < ui.size(); i++)
 		{
@@ -1592,6 +1672,62 @@ void ModuleEditor::SaveAs()
 		}
 		ImGui::EndPopup();
 	}
+}
+
+static bool showSaveAsPrefabPopup = false;
+static GameObject* prefabToSave;
+
+void ModuleEditor::SaveAsPrefabPopUp(GameObject* prefab) {
+
+	showSaveAsPrefabPopup = true;
+	prefabToSave = prefab;
+
+}
+
+void ModuleEditor::RenderSaveAsPrefabPopUp()
+{
+	if (showSaveAsPrefabPopup) {
+
+		ImGui::OpenPopup("Save As Prefab");
+
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+		if (ImGui::BeginPopupModal("Save As Prefab", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static std::string prefabName_saveAS = "New Prefab";
+
+			ImGui::Text("Prefab will be saved in %s as '%s'", currentDir.c_str(), prefabName_saveAS.c_str());
+			ImGui::Separator();
+
+			ImGui::InputText("File Name", &prefabName_saveAS);
+
+			if (ImGui::Button("OK", ImVec2(120, 0)))
+			{
+				App->scene->SavePrefab(prefabToSave, currentDir, prefabName_saveAS);
+
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::SetItemDefaultFocus();
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
+	}
+
 }
 
 void ModuleEditor::WindowDockSpaceManagement()
@@ -2639,22 +2775,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
-
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) 
+		{
 			App->scene->SetSelected(node);
-
-			//node->selected = true; // Toggle the selected state when clicked
-
-			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-			//	if ((*it) != node) {
-
-			//		(*it)->selected = false;
-
-			//	}
-
-			//}
-
 		}
 
 		if (ImGui::BeginDragDropSource())
@@ -2680,20 +2803,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget();
 		}
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
-
-			// TODO: Sara --> hacer bien esto
-			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-				if ((*it) != node) {
-
-					(*it)->selected = false;
-
-				}
-
-			}*/
-
-			//node->selected = true;
+		if (node != App->scene->mRootNode && ImGui::BeginPopupContextItem()) {
 
 			App->scene->SetSelected(node);
 
@@ -2701,7 +2811,6 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					App->scene->SetSelected();
 					node->mParent->DeleteChild(node);
 
 					App->scene->gameObjects.erase(
@@ -2710,6 +2819,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						),
 						App->scene->gameObjects.end()
 					);
+
+					App->scene->isLocked = false;
+					App->scene->SetSelected();
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -2725,6 +2837,12 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 					}
 
 				}
+
+			}
+
+			if (ImGui::MenuItem("Save Prefab")) {
+
+				SaveAsPrefabPopUp(node);
 
 			}
 
@@ -2780,7 +2898,12 @@ void ModuleEditor::DrawInspector()
 
 		if (App->scene->selectedGO->selected) {
 
-			ImGui::Checkbox("##Active", &App->scene->selectedGO->active);
+			if (ImGui::Checkbox("##Active", &App->scene->selectedGO->active)) {
+
+				App->scene->SetActiveRecursively(App->scene->selectedGO, App->scene->selectedGO->active);
+
+			}
+
 			ImGui::SameLine();
 			char nameBuffer[256]; // You can adjust the buffer size as needed
 
@@ -2973,6 +3096,9 @@ void ModuleEditor::DrawInspector()
 						showNewScriptPopUp = true;
 
 					}
+
+					ImGui::Separator();
+
 					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
 
 						if (!entry.is_directory()) {
@@ -3108,7 +3234,6 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 
 }
 
-// TODO: Sara
 void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 {
 	std::string path = filePath;
@@ -3310,7 +3435,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							if (ImGui::MenuItem("Delete Folder"))
 							{
-								DeleteFileAndRefs(entry.path().string().c_str());
+								DeleteAssetConfirmationPopup(entry.path().string().c_str());
 							}
 
 							ImGui::EndPopup();
@@ -3348,7 +3473,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				std::string entryName = entry.path().filename().string();
 
-				if (entryName != "." && entryName != "..") {
+				if (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) {
 
 					ImGui::TableNextColumn();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
@@ -3365,6 +3490,15 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::TEXTURE:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+						
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
 					}
 					break;
 					case ResourceType::MESH:
@@ -3376,7 +3510,12 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
 
-						break;
+					break;
+					case ResourceType::PREFAB:
+
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
+
+					break;
 					case ResourceType::SHADER:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
@@ -3411,7 +3550,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
 						ImGui::Separator();
 
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE)
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::PREFAB)
 						{
 							if (ImGui::MenuItem("Import to Scene"))
 							{
@@ -3428,9 +3567,27 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							}
 						}
 
+						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::PREFAB)
+						{
+							if (ImGui::MenuItem("Load Prefab"))
+							{
+								std::string fileName;
+								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &fileName, nullptr);
+								App->scene->LoadPrefab(currentDir, fileName);
+							}
+						}
+
+						if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
+						{
+							if (ImGui::MenuItem("Delete Metadata"))
+							{
+								DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
+							}
+						}
+
 						if (ImGui::MenuItem("Delete File"))
 						{
-							DeleteFileAndRefs(entry.path().string().c_str());
+							DeleteAssetConfirmationPopup(entry.path().string().c_str());
 						}
 
 						ImGui::EndPopup();
@@ -3449,6 +3606,81 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 		}
 
 		ImGui::EndTable();
+
+	}
+
+}
+
+static bool showDeleteAssetPopup = false;
+static std::string assetToDelete;
+
+void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
+
+	showDeleteAssetPopup = true;
+	assetToDelete = filePath;
+
+}
+
+void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
+	
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+	if (showDeleteAssetPopup) {
+
+		if (assetToDelete == "Library") {
+
+			ImGui::OpenPopup("Delete Library Confirmation");
+
+		}
+		else {
+
+			ImGui::OpenPopup("Delete Asset Confirmation");
+
+		}
+
+		// Display the confirmation popup
+		if (ImGui::BeginPopupModal((assetToDelete == "Library" ? "Delete Library Confirmation" : "Delete Asset Confirmation"), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+			if (assetToDelete == "Library") {
+
+				ImGui::Text("Are you sure you want to regenerate library?");
+
+			}
+			else {
+
+				ImGui::Text("Are you sure you want to delete this asset?");
+				ImGui::TextWrapped("%s", assetToDelete.c_str());
+
+			}
+			
+			ImGui::Separator();
+
+			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
+
+				// Call your delete function
+				DeleteFileAndRefs(assetToDelete.c_str());
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+
+				// Close the popup
+
+				ImGui::CloseCurrentPopup();
+				showDeleteAssetPopup = false;
+
+			}
+
+			ImGui::EndPopup();
+		}
 
 	}
 
@@ -3538,6 +3770,19 @@ void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 								ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
 
 								ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
+						if ((entryName.find(".yanim") != std::string::npos)) {
+
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
 
 								ImGui::EndDragDropSource();
 							}
