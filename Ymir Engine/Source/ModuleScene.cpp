@@ -33,6 +33,8 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
 	tags = { "Untagged" };
 
+	isLocked = false;
+
 	gameCameraComponent = nullptr;
 	canvas = nullptr;
 }
@@ -58,6 +60,9 @@ bool ModuleScene::Init()
 
 	selectedGO = nullptr;
 
+	selectedUI = 0;
+	canTab = true;
+
 	return ret;
 }
 
@@ -80,6 +85,17 @@ bool ModuleScene::Start()
 
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
+
+	//CreateGUI(UI_TYPE::BUTTON);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
+
+	//CreateGUI(UI_TYPE::SLIDER);
+
+	CreateGUI(UI_TYPE::SLIDER, nullptr, 100, 100);
+	//CreateGUI(UI_TYPE::CHECKBOX, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::INPUTBOX, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::TEXT);
 
 	return false;
 }
@@ -107,8 +123,7 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		
-		if ((*it)->pendingToDelet) {
+		if ((*it)->pendingToDelete) {
 			destroyList.push_back((*it));
 			continue;
 		}
@@ -158,6 +173,9 @@ update_status ModuleScene::Update(float dt)
 		//node->mParent->DeleteChild(node);
 	}
 
+	// UI navigation
+	HandleUINavigation();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -167,20 +185,20 @@ update_status ModuleScene::PostUpdate(float dt)
 
 	if (!pendingToAddScene.empty())
 	{
-		// Obtener el nombre del archivo sin la extensión
+		// Obtener el nombre del archivo sin la extensiï¿½n
 		std::string name;
 		PhysfsEncapsule::SplitFilePath(pendingToAddScene.c_str(), nullptr, &name, nullptr);
 
-		// Encontrar la posición del último separador de directorio
+		// Encontrar la posiciï¿½n del ï¿½ltimo separador de directorio
 		size_t lastSlashPos = pendingToAddScene.find_last_of("/\\");
 
-		// Si se encontró el separador de directorio
+		// Si se encontrï¿½ el separador de directorio
 		if (lastSlashPos != std::string::npos) {
-			// Eliminar el nombre del archivo y su extensión
+			// Eliminar el nombre del archivo y su extensiï¿½n
 			pendingToAddScene = pendingToAddScene.substr(0, lastSlashPos);
 		}
 
-		// Ahora path contiene el directorio sin el nombre del archivo y su extensión
+		// Ahora path contiene el directorio sin el nombre del archivo y su extensiï¿½n
 		std::string sceneFileName = name + ".yscene";
 		// Eliminar el nombre del archivo de la ruta completa
 		pendingToAddScene = pendingToAddScene.substr(0, pendingToAddScene.length() - sceneFileName.length());
@@ -221,7 +239,7 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 	}
 
 	gameObjects.push_back(tempGameObject);
-	
+
 	return tempGameObject;
 }
 
@@ -274,25 +292,18 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	return tempGameObject;
 }
 
+void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)
+{
+	pendingToAdd.push_back(go);
+}
+
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 {
-	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent);
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x , y);
 	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
 }
-
-
-
-//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-//{
-//	if (toDestroy) {
-
-//		toDestroy->DestroyGameObject();
-
-//	}
-
-//}
 
 void ModuleScene::ClearScene()
 {
@@ -300,19 +311,20 @@ void ModuleScene::ClearScene()
 
 	uint deletedSceneUID = mRootNode->UID;
 
-	/*App->editor->DestroyHierarchyTree(mRootNode);
-	delete mRootNode;
-	mRootNode = nullptr;*/
-
+	isLocked = false;
 	SetSelected();
 
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
-	// RELEASE(mRootNode); 
+	//RELEASE(mRootNode);
 
 	External->lightManager->lights.clear();
-	gameObjects.clear();
-	destroyList.clear();
+	ClearVec(gameObjects);
+	ClearVec(destroyList);
 	App->renderer3D->models.clear();
+
+	ClearVec(vTempComponents);
+	ClearVec(vCanvas);
+
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
 }
@@ -331,7 +343,7 @@ void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 		App->scene->currentSceneDir = dir;
 		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
 
-		ysceneFile.CreateJSON(dir +"/", App->scene->currentSceneFile + ".yscene");
+		ysceneFile.CreateJSON(dir + "/", App->scene->currentSceneFile + ".yscene");
 
 		LOG("Scene '%s' saved to %s", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
 	}
@@ -361,7 +373,6 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
-	mRootNode = gameObjects[0];
 
 	LoadScriptsData();
 
@@ -416,7 +427,6 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
-	mRootNode = gameObjects[0];
 
 	delete sceneToLoad;
 }
@@ -435,13 +445,27 @@ void ModuleScene::Destroy(GameObject* gm)
 
 	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
 	if (it != gameObjects.end()) {
-		delete* it; 
-		gameObjects.erase(it); 
+		delete* it;
+		gameObjects.erase(it);
 	}
 
 	gm = nullptr;
 }
 
+void ModuleScene::SetActiveState(GameObject* go, bool isActive)
+{
+	for (auto i = 0; i < go->mChildren.size(); i++)
+	{
+		if (!go->mChildren.empty())
+		{
+			SetActiveState(go->mChildren[i], isActive);
+		}
+
+		go->mChildren[i]->active = isActive;
+	}
+}
+
+//
 std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 {
 	return vSelectedGOs;
@@ -449,47 +473,50 @@ std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 
 void ModuleScene::SetSelected(GameObject* go)
 {
-	if (go != nullptr)
+	if (!isLocked)
 	{
-		// If ctrl not pressed, set everything to false clear and the selected go's vector 
-		if (!ImGui::GetIO().KeyCtrl)
+		if (go != nullptr)
 		{
+			// If ctrl not pressed, set everything to false clear and the selected go's vector 
+			if (!ImGui::GetIO().KeyCtrl)
+			{
+				for (auto i = 0; i < vSelectedGOs.size(); i++)
+				{
+					SetSelectedState(vSelectedGOs[i], false);
+				}
+				ClearVec(vSelectedGOs);
+			}
+
+			// On click select or deselect item
+			go->selected = !go->selected;
+
+			// If the item was selected, add it to the vec, otherwise remove it
+			if (go->selected)
+			{
+				selectedGO = go;
+
+				vSelectedGOs.push_back(go);
+
+				// Set selected go children to the same state as the clicked item
+				SetSelectedState(go, go->selected);
+			}
+			else if (!vSelectedGOs.empty())
+			{
+				SetSelectedState(go, false);
+				vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+			}
+		}
+		else
+		{
+			selectedGO = nullptr;
+
 			for (auto i = 0; i < vSelectedGOs.size(); i++)
 			{
 				SetSelectedState(vSelectedGOs[i], false);
 			}
+
 			ClearVec(vSelectedGOs);
 		}
-
-		// On click select or deselect item
-		go->selected = !go->selected;
-
-		// If the item was selected, add it to the vec, otherwise remove it
-		if (go->selected)
-		{
-			selectedGO = go;
-
-			vSelectedGOs.push_back(go);
-
-			// Set selected go children to the same state as the clicked item
-			SetSelectedState(go, go->selected);
-		}
-		else if (!vSelectedGOs.empty())
-		{
-			SetSelectedState(go, false);
-			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
-		}
-	}
-	else
-	{
-		selectedGO = nullptr;
-
-		for (auto i = 0; i < vSelectedGOs.size(); i++)
-		{
-			SetSelectedState(vSelectedGOs[i], false);
-		}
-
-		ClearVec(vSelectedGOs);
 	}
 }
 
@@ -659,6 +686,7 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z <= aabb.maxPoint.z;
 }
 
+// GUI
 void ModuleScene::SetCanvas(G_UI* newCanvas)
 {
 	canvas = newCanvas;
@@ -669,6 +697,7 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+//
 GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
 {
 	if (n->UID == sUID)
@@ -755,3 +784,104 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 
 	referenceMap.clear();
 }
+
+bool ModuleScene::TabNavigate(bool isForward)
+{
+	// Get UI elements to navigate
+	std::vector<C_UI*> listUI;
+
+	for (int i = 0; i < vCanvas.size(); ++i)
+	{
+		for (int k = 0; k < vCanvas[i]->mChildren.size(); ++k)
+		{
+			for (int j = 0; j < vCanvas[i]->mChildren[k]->mComponents.size(); ++j)
+			{
+				if (static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::BUTTON
+					|| static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::CHECKBOX ||
+					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::INPUTBOX /*||
+					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::SLIDER*/)
+				{
+					listUI.push_back(static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j]));
+				}
+			}
+		}
+	}
+
+	for (auto i = 0; i < listUI.size(); i++)
+	{
+		if (isForward)
+		{
+			if (selectedUI == listUI.size() - 1)
+			{
+				App->scene->SetSelected(listUI[0]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[0]->SetState(UI_STATE::SELECTED);
+
+				selectedUI = 0;
+			}
+
+			else
+			{
+				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
+
+				selectedUI += 1;
+			}
+		}
+
+		else
+		{
+			for (auto i = 0; i < listUI.size(); i++)
+			{
+				if (selectedUI == 0)
+				{
+					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI = listUI.size() - 1;
+				}
+
+				else
+				{
+					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI -= 1;
+				}
+				return true;
+			}
+		}
+
+		return true;
+	}
+
+	return true;
+}
+
+void ModuleScene::HandleUINavigation()
+{
+	if (!canTab && App->input->GetGamepadLeftJoystickPositionValueY() == 0)
+	{
+		canTab = true;
+	}
+
+	if ((App->input->GetGamepadLeftJoystickPositionValueY() < 0 && canTab) || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(false);
+	}
+
+	else if ((App->input->GetGamepadLeftJoystickPositionValueY() > 0 && canTab) || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(true);
+	}
+}
+

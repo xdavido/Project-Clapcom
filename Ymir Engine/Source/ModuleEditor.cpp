@@ -60,6 +60,7 @@ bool ModuleEditor::Init()
 	LOG("Initializing editor...");
 
 	bool ret = true;
+	exit = update_status::UPDATE_CONTINUE;
 
 	// Retrieving data from window initial status
 
@@ -144,6 +145,11 @@ bool ModuleEditor::Init()
 	return ret;
 }
 
+update_status ModuleEditor::Update(float dt)
+{
+	return exit;
+}
+
 void ModuleEditor::DrawEditor()
 {
 	OPTICK_EVENT();
@@ -206,12 +212,14 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			/*ImGui::SeparatorText("Exit");
+			ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
+				// TODO: Sara --> make a popup to ask to save
+				exit = update_status::UPDATE_STOP;
 
-			}*/
+			}
 
 			ImGui::EndMenu();
 
@@ -434,6 +442,7 @@ void ModuleEditor::DrawEditor()
 
 		ImGui::OpenPopup("New Script");
 
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f), ImGuiCond_Appearing);
 		if (ImGui::BeginPopupModal("New Script")) {
 
 			scriptEditor->ShowNewScriptDialogue();
@@ -828,9 +837,23 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
-				bool auxDebugDraw = App->physics->GetDebugDraw();
-				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g,
-					App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+				bool auxDebugDrawScene = App->physics->debugScene;
+				bool auxDebugDrawGame = App->physics->debugGame;
+				int auxLineWidth = App->physics->shapeLineWidth;
+
+				ImVec4 auxColliderColor = ImVec4(
+					App->physics->colliderColor.r, 
+					App->physics->colliderColor.g,
+					App->physics->colliderColor.b, 
+					App->physics->colliderColor.a
+				);
+
+				ImVec4 auxSensorColor = ImVec4(
+					App->physics->sensorColor.r,
+					App->physics->sensorColor.g,
+					App->physics->sensorColor.b,
+					App->physics->sensorColor.a
+				);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -846,37 +869,66 @@ void ModuleEditor::DrawEditor()
 				}
 
 				ImGui::Unindent();
-				ImGui::SeparatorText("Colliders");
+				ImGui::SeparatorText("Drawer");
 				ImGui::Indent();
 
-				ImGui::Text("Draw Colliders"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+
+				ImGui::Text("Draw Scene"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDrawScene))
 				{
-					App->physics->SetdebugDraw(auxDebugDraw);
+					App->physics->debugScene = auxDebugDrawScene;
 				}
+
+				ImGui::Text("Draw Game"); ImGui::SameLine();
+				if (ImGui::Checkbox("##Draw", &auxDebugDrawGame))
+				{
+					App->physics->debugGame = auxDebugDrawGame;
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Customization");
+				ImGui::Indent();
 
 				ImGui::Text("Collider Color"); ImGui::SameLine();
 
-				// Mostrar el bot�n de color personalizado
-				if (ImGui::ColorButton("##ColorButton", auxColor))
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##ColliderColorButton", auxColliderColor))
 				{
-					ImGui::OpenPopup("ColorPickerPopup");
+					ImGui::OpenPopup("ColliderColorPicker");
 				}
 
-				if (ImGui::BeginPopup("ColorPickerPopup"))
+				if (ImGui::BeginPopup("ColliderColorPicker"))
 				{
-					ImGui::ColorPicker4("Color", (float*)&auxColor);
-					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::ColorPicker4("Color", (float*)&auxColliderColor);
+					App->physics->SetColliderColor(Color(auxColliderColor.x, auxColliderColor.y, auxColliderColor.z, auxColliderColor.w));
 					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Sensor Color"); ImGui::SameLine();
+
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor)) 
+				{ 
+					ImGui::OpenPopup("SensorColorPicker"); 
+				}
+
+				if (ImGui::BeginPopup("SensorColorPicker")) 
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxSensorColor);
+					App->physics->SetSensorColor(Color(auxSensorColor.x, auxSensorColor.y, auxSensorColor.z, auxSensorColor.w));
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Shape line width: "); ImGui::SameLine(); ImGui::SetNextItemWidth(100.0f);
+				if (ImGui::SliderInt("##Shape line width", &auxLineWidth, 0, 10))
+				{
+					App->physics->SetLineWidth(auxLineWidth);
 				}
 
 				ImGui::Unindent();
 			}
-
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showConsole) {
@@ -893,9 +945,7 @@ void ModuleEditor::DrawEditor()
 			MemoryLeaksOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showAssimpLog) {
@@ -907,9 +957,7 @@ void ModuleEditor::DrawEditor()
 			AssimpLogOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showHierarchy) {
@@ -921,14 +969,18 @@ void ModuleEditor::DrawEditor()
 			DrawHierarchy();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showInspector) {
 
-		if (ImGui::Begin("Inspector", &showInspector), true) {
+		if (ImGui::Begin("Inspector", &showInspector, ImGuiWindowFlags_MenuBar), true) {
+			
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Checkbox("Lock", &App->scene->isLocked);
+			}
+			ImGui::EndMenuBar();
 
 			// Show GameObject Inspector
 
@@ -1249,9 +1301,20 @@ void ModuleEditor::DrawEditor()
 
 			nodeEditor.Update();
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
 			ImGui::End();
 		}
-
 	}
 
 	if (showShaderEditor) {
@@ -1326,7 +1389,7 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
+			gameViewPos = ImGui::GetWindowPos();
 
 			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
 			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
@@ -1334,6 +1397,7 @@ void ModuleEditor::DrawEditor()
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
+				gameViewPos =ImGui::GetWindowPos();
 				gameViewSize = ImGui::GetContentRegionAvail();
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
@@ -1554,7 +1618,7 @@ void ModuleEditor::UIMenu()
 {
 	if (ImGui::BeginMenu("UI"))
 	{
-		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider"};
 
 		for (int i = 0; i < ui.size(); i++)
 		{
@@ -2710,22 +2774,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
-
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) 
+		{
 			App->scene->SetSelected(node);
-
-			//node->selected = true; // Toggle the selected state when clicked
-
-			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-			//	if ((*it) != node) {
-
-			//		(*it)->selected = false;
-
-			//	}
-
-			//}
-
 		}
 
 		if (ImGui::BeginDragDropSource())
@@ -2751,20 +2802,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget();
 		}
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
-
-			// TODO: Sara --> hacer bien esto
-			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-				if ((*it) != node) {
-
-					(*it)->selected = false;
-
-				}
-
-			}*/
-
-			//node->selected = true;
+		if (node != App->scene->mRootNode && ImGui::BeginPopupContextItem()) {
 
 			App->scene->SetSelected(node);
 
@@ -2772,7 +2810,6 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					App->scene->SetSelected();
 					node->mParent->DeleteChild(node);
 
 					App->scene->gameObjects.erase(
@@ -2781,6 +2818,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 						),
 						App->scene->gameObjects.end()
 					);
+
+					App->scene->isLocked = false;
+					App->scene->SetSelected();
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -3055,6 +3095,9 @@ void ModuleEditor::DrawInspector()
 						showNewScriptPopUp = true;
 
 					}
+
+					ImGui::Separator();
+
 					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
 
 						if (!entry.is_directory()) {
@@ -3190,7 +3233,6 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 
 }
 
-// TODO: Sara
 void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 {
 	std::string path = filePath;
@@ -3447,6 +3489,15 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::TEXTURE:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+						
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
 					}
 					break;
 					case ResourceType::MESH:

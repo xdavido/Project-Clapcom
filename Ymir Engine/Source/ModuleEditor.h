@@ -37,6 +37,7 @@ public:
 
 	// Module functions
 	bool Init() override;
+	update_status Update(float dt) override;
 	bool CleanUp() override;
 
 	// Draws the editor on the window
@@ -156,6 +157,7 @@ public:
 	ImVec2 NormalizePoint(const float& x, const float& y, const float& w, const float& h, const ImVec2& originalPoint);
 
 public:
+	update_status exit;
 
 	// Enables ImGui to render additional data
 	bool UpdateAndRenderAdditionalPlatformWindows = false;
@@ -287,6 +289,7 @@ public:
 	ScriptEditor* scriptEditor;
 
 	// Stuff needed for UI, don't know if it is 100% needed
+	ImVec2 gameViewPos;
 	ImVec2 gameViewSize;
 	float2 mouse;
 	ImGuiContext* g;

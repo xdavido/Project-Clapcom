@@ -59,7 +59,13 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 
-	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando esté el CreateBullet()
+#pragma region GameObject
+
+	mono_add_internal_call("YmirEngine.GameObject::SetActive", SetActive);
+	
+#pragma endregion
+
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando estï¿½ el CreateBullet()
 
 	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);
 
@@ -91,8 +97,21 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma endregion
 
 #pragma region Tag
+
 	mono_add_internal_call("YmirEngine.GameObject::set_Tag", SetTag);
 	mono_add_internal_call("YmirEngine.GameObject::get_Tag", GetTag);
+
+#pragma region UI
+
+	// Image
+	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
+	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI);
+
+	// Text
+	mono_add_internal_call("YmirEngine.UI::TextEdit", TextEdit);
+
+	// Slider
+	mono_add_internal_call("YmirEngine.UI::SliderEdit", SliderEdit);
 
 #pragma endregion
 
@@ -196,7 +215,7 @@ void ModuleMonoManager::ReCompileCS()
 	//App->scene->LoadScene("Library/Scenes/tmp.des");	//El Miquel lo tiene q marca la ruta de salida
 	
 	//App->scene->LoadScene();
-	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta función no existe
+	//App->fileSystem->DeleteAssetFile("Library/Scenes/tmp.des"); //TODO: Esta funciï¿½n no existe
 
 
 	
@@ -426,15 +445,13 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 		<< std::endl <<	"{" 
 		<< std::endl << "bool start = true;"
 		<< std::endl << ""
+		<< std::endl << "	public void Start()"
+		<< std::endl << "	{"
+		<< std::endl << "			Debug.Log(\"" + startScript + "\"); "
+		<< std::endl << "	}"
+		<< std::endl << ""
 		<< std::endl <<	"	public void Update()"
 		<< std::endl << "	{" 
-		<< std::endl << "		if(start) {" 
-		<< std::endl << ""
-		<< std::endl << "			Debug.Log(\"" + startScript + "\"); "
-		<< std::endl << ""
-		<< std::endl << "			start = false;"
-		<< std::endl <<	"		}" 
-		<< std::endl << ""
 		<< std::endl << "		return;"
 		<< std::endl << "	}" 
 		<< std::endl << "}";

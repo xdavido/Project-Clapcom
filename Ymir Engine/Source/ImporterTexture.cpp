@@ -9,6 +9,10 @@
 
 void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 {
+
+	// Andreu: IDK if this should be here
+	ourTexture->SetAssetsFilePath(path);
+
 	// 0. Handle UID
 
 	JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");

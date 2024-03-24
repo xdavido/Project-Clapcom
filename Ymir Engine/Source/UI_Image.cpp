@@ -1,5 +1,6 @@
 #include "UI_Image.h"
 #include "GameObject.h"
+#include "UI_Transform.h"
 
 #include "Application.h"
 #include "ModuleEditor.h"
@@ -9,371 +10,367 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Image::UI_Image(GameObject* g, int x, int y, int w, int h, std::string shaderPath, std::string imgPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
+UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::string imgPath, std::string shaderPath) : C_UI(UI_TYPE::IMAGE, ComponentType::UI, g, "Image", x, y, w, h)
 {
-    mat = new CMaterial(g);
-    mat->shaderPath = shaderPath;
-    mat->shader.LoadShader(mat->shaderPath);
+	mat = new CMaterial(g);
+	mat->shaderPath = shaderPath;
+	mat->shader.LoadShader(mat->shaderPath);
 
-    ResourceTexture* rTexTemp = new ResourceTexture();
-    ImporterTexture::Import(imgPath, rTexTemp);
-    rTexTemp->type = TextureType::DIFFUSE;
-    rTexTemp->UID = Random::Generate();
-    mat->path = imgPath;
-    mat->rTextures.push_back(rTexTemp);
+	SetImg(imgPath, UI_STATE::NORMAL);
+
+	selectedTexture = mapTextures.find(state)->second;
 }
 
 UI_Image::~UI_Image()
 {
 	RELEASE(mat);
+	RELEASE(selectedTexture);
+	//RELEASE(mapTextures);
 }
 
 void UI_Image::OnInspector()
 {
-    // Vectors of shader paths and names
-    std::vector<const char*> listShaderPaths;
-    std::vector<const char*> listShaderNames;
+	// Vectors of shader paths and names
+	std::vector<const char*> listShaderPaths;
+	std::vector<const char*> listShaderNames;
 
-    // Manage loaded shaders
-    for (auto& it = Shader::loadedShaders.begin(); it != Shader::loadedShaders.end(); ++it) {
+	// Manage loaded shaders
+	for (auto& it = Shader::loadedShaders.begin(); it != Shader::loadedShaders.end(); ++it) {
 
-        listShaderPaths.push_back(it->first.c_str());
+		listShaderPaths.push_back(it->first.c_str());
 
-        std::string shaderFileName = std::filesystem::path(it->first).stem().string();
-        listShaderNames.push_back(strdup(shaderFileName.c_str())); // strdup to allocate new memory
+		std::string shaderFileName = std::filesystem::path(it->first).stem().string();
+		listShaderNames.push_back(strdup(shaderFileName.c_str())); // strdup to allocate new memory
 
-    }
+	}
 
-    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 
-    ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
-    ImGui::SameLine();
+	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
+	ImGui::SameLine();
 
-    bool exists = true;
+	bool exists = true;
 
-    if (ImGui::CollapsingHeader("Image", &exists, flags))
-    {
-        ImGui::Indent();
+	if (ImGui::CollapsingHeader("Image", &exists, flags))
+	{
+		ImGui::Indent();
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        if (!active) { ImGui::BeginDisabled(); }
+		if (!active) { ImGui::BeginDisabled(); }
 
-        // ------------------------------------ IMAGE ------------------------------------
+		// ------------------------------------ IMAGE ------------------------------------
 
-        ImGui::SeparatorText("Image");
+		ImGui::SeparatorText("Image");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Text("Image Width: %d", width);
+		ImGui::Text("Image Height: %d", height);
 
-        ImGui::Text("Image Width: %d", width);
-        ImGui::Text("Image Height: %d", height);
+		ImGui::Spacing();
 
-        ImGui::Spacing();
+		// Change Texture
+		if (ImGui::BeginCombo("##Texture", selectedTexture->GetAssetsFilePath().c_str()))
+		{
+			for (auto& textures : mat->rTextures)
+			{
+				const bool is_selected = (textures == selectedTexture);
+				if (ImGui::Selectable((textures->GetAssetsFilePath() + "##" + std::to_string(textures->GetUID())).c_str(), is_selected))
+				{
+					selectedTexture = textures;
+				}
 
-        if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
-        {
-            SetNativeSize();
-        }
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+				{
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+	
+		if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
+		{
+			SetNativeSize();
+		}
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        // ------------------------------------ SHADER ------------------------------------
+		// ------------------------------------ SHADER ------------------------------------
 
-        ImGui::SeparatorText("SHADER");
+		ImGui::SeparatorText("SHADER");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::Text("Shader: ");
-        ImGui::SameLine();
+		ImGui::Text("Shader: ");
+		ImGui::SameLine();
 
-        if (mOwner->selected) {
+		if (mOwner->selected) {
 
-            // Find the index of the current shader path in listShaderPaths
-            auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), mat->shaderPath);
+			// Find the index of the current shader path in listShaderPaths
+			auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), mat->shaderPath);
 
-            if (it != listShaderPaths.end()) {
+			if (it != listShaderPaths.end()) {
 
-                mat->selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
+				mat->selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
 
-            }
+			}
 
-        }
+		}
 
-        // Choose between the list of shaders
-        if (ImGui::Combo("##ChooseShader", &mat->selectedShader, listShaderNames.data(), listShaderNames.size())) {
+		// Choose between the list of shaders
+		if (ImGui::Combo("##ChooseShader", &mat->selectedShader, listShaderNames.data(), listShaderNames.size())) {
 
-            mat->shaderDirtyFlag = true;
+			mat->shaderDirtyFlag = true;
 
-        }
+		}
 
-        if (mat->shaderDirtyFlag) {
+		if (mat->shaderDirtyFlag) {
 
-            // When shader changes, update the shader path and recompile
-            mat->shaderPath = listShaderPaths[mat->selectedShader];
-            mat->shader.LoadShader(mat->shaderPath);
+			// When shader changes, update the shader path and recompile
+			mat->shaderPath = listShaderPaths[mat->selectedShader];
+			mat->shader.LoadShader(mat->shaderPath);
 
-            // Reset the dirty flag after handling the change
-            mat->shaderDirtyFlag = false;
+			// Reset the dirty flag after handling the change
+			mat->shaderDirtyFlag = false;
 
-        }
+		}
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        // Shader Uniforms Management
+		// Shader Uniforms Management
 
-        if (mOwner->selected) {
+		if (mOwner->selected) {
 
-            if (mat->shader.uniforms.size() == 0) {
+			if (mat->shader.uniforms.size() == 0) {
 
-                ImGui::Text("No editable uniforms.");
+				ImGui::Text("No editable uniforms.");
 
-            }
-            else {
+			}
+			else {
 
-                ImGui::Text("Uniforms:");
+				ImGui::Text("Uniforms:");
 
-            }
+			}
 
-            ImGui::Spacing();
+			ImGui::Spacing();
 
-            ImGui::Indent();
+			ImGui::Indent();
 
-            // In case the shader has editable uniforms:
-            for (auto kt = mat->shader.uniforms.begin(); kt != mat->shader.uniforms.end(); ++kt) {
+			// In case the shader has editable uniforms:
+			for (auto kt = mat->shader.uniforms.begin(); kt != mat->shader.uniforms.end(); ++kt) {
 
-                std::string label = "##" + kt->name;
+				std::string label = "##" + kt->name;
 
-                ImGui::Text("%s", kt->name.c_str());
-                ImGui::SameLine();
+				ImGui::Text("%s", kt->name.c_str());
+				ImGui::SameLine();
 
-                // Change display according to uniform type
-                switch (kt->type)
-                {
-                case UniformType::boolean:
+				// Change display according to uniform type
+				switch (kt->type)
+				{
+				case UniformType::boolean:
 
-                    ImGui::Checkbox(label.c_str(), (bool*)kt->value.get());
+					ImGui::Checkbox(label.c_str(), (bool*)kt->value.get());
 
-                    mat->shader.SetUniformValue(kt->name, (bool*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (bool*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::i1:
+				case UniformType::i1:
 
-                    ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::i2:
+				case UniformType::i2:
 
-                    ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::i3:
+				case UniformType::i3:
 
-                    ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::i4:
+				case UniformType::i4:
 
-                    ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.1f);
+					ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::f1:
+				case UniformType::f1:
 
-                    ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::f2:
+				case UniformType::f2:
 
-                    ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::f3:
+				case UniformType::f3:
 
-                    ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
-                    break;
+					break;
 
-                case UniformType::f4:
+				case UniformType::f4:
 
-                    ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.1f);
+					ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.1f);
 
-                    mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
-                    break;
+					break;
 
-                }
+				}
 
-            }
+			}
 
-            ImGui::Unindent();
+			ImGui::Unindent();
 
-        }
+		}
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        // ------------------------------------ TEXTURES ------------------------------------
+		// ------------------------------------ TEXTURES ------------------------------------
 
-        ImGui::SeparatorText("TEXTURES");
+		ImGui::SeparatorText("TEXTURES");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        // Display texture maps of the gameobject material
+		// Display texture maps of the gameobject material
 
-        ImVec2 textureMapSize(20, 20);
+		ImVec2 textureMapSize(20, 20);
 
-        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Diffuse");
-        ImGui::SameLine();
-        ImGui::Text("(%s)", mat->path.c_str());
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Diffuse");
+		ImGui::SameLine();
+		ImGui::Text("(%s)", mat->path.c_str());
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Specular");
+		ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Specular");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Normal");
+		ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Normal");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Height");
+		ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Height");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Ambient");
+		ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Ambient");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
-        mat->DdsDragDropTarget();
-        ImGui::SameLine();
-        ImGui::Text("Emissive");
+		ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Emissive");
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        // Utility buttons
+		// Utility buttons
 
-        if (ImGui::Button("Apply Checker Texture")) {
+		if (ImGui::Button("Apply Checker Texture")) {
 
-            External->renderer3D->ApplyCheckerTexture();
+			External->renderer3D->ApplyCheckerTexture();
 
-        }
+		}
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        if (ImGui::Button("Clear Actual Texture")) {
+		if (ImGui::Button("Clear Actual Texture")) {
 
-            External->renderer3D->ClearActualTexture();
+			External->renderer3D->ClearActualTexture();
 
-        }
+		}
 
-        if (!active) { ImGui::EndDisabled(); }
+		if (!active) { ImGui::EndDisabled(); }
 
-        ImGui::Spacing();
+		ImGui::Spacing();
 
-        ImGui::Unindent();
-    }
+		ImGui::Unindent();
+	}
 
-    if (!exists) { mOwner->RemoveComponent(this); }
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 void UI_Image::Draw(bool game)
 {
-//	if (mat != nullptr && mat->tex != nullptr)
-//	{
-		UI_Bounds* boundsDrawn = nullptr;
+	UI_Bounds* boundsDrawn = nullptr;
 
-		if (game)
-		{
-			boundsDrawn = boundsGame;
 
-			//glMatrixMode(GL_PROJECTION);
-			//glLoadIdentity();
-			//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
+	selectedTexture->BindTexture(true);
 
-			//glMatrixMode(GL_MODELVIEW);
-			//glLoadIdentity();
-		}
+	mat->shader.UseShader(true);
+	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
 
-		else
-		{
-			boundsDrawn = boundsEditor;
 
-			//glPushMatrix();
-			//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
-		}
+	if (game)
+	{
+		boundsDrawn = boundsGame;
+	}
 
-		//(!mat->checkered) ? glBindTexture(GL_TEXTURE_2D, (mat->tex->tex_id))
-		//	: glBindTexture(GL_TEXTURE_2D, App->renderer3D->texture_checker);
+	else
+	{
+		boundsDrawn = boundsEditor;
 
-		// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+		/*glPushMatrix();
+		glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());*/
+	}
 
-		//for (auto& textures : mat->rTextures) {
+	// Render
+	glBindVertexArray(boundsDrawn->VAO);
 
-		//	textures->BindTexture(true);
+	glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
-		//}
+	glBindVertexArray(0);
 
-		//mat->shader.UseShader(true);
-		//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix, false);
+	if (!game)
+	{
+		//glPopMatrix();
+	}
 
-		// Render
-		glBindVertexArray(boundsDrawn->VAO);
+	boundsDrawn = nullptr;
 
-		glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
+	mat->shader.UseShader(false);
+	selectedTexture->BindTexture(false);
 
-		glBindVertexArray(0);
-
-		//mat->shader.UseShader(false);
-
-		//for (auto& textures : mat->rTextures) {
-
-		//	textures->BindTexture(false);
-
-		//}
-
-		if (!game)
-		{
-			//glPopMatrix();
-		}
-
-		boundsDrawn = nullptr;
-
-	//}
 }
 
 update_status UI_Image::Update(float dt)
@@ -381,8 +378,32 @@ update_status UI_Image::Update(float dt)
 	return update_status();
 }
 
+void UI_Image::SetImg(std::string imgPath, UI_STATE state)
+{
+	ResourceTexture* rTexTemp = new ResourceTexture();
+	ImporterTexture::Import(imgPath, rTexTemp);
+	rTexTemp->type = TextureType::DIFFUSE;
+	rTexTemp->UID = Random::Generate();
+
+	auto itr = mapTextures.find(state);
+	if (itr != mapTextures.end())
+	{
+		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
+		mat->rTextures.shrink_to_fit();
+
+		mapTextures.erase(state);
+	}
+
+	mat->path = imgPath;
+	mat->rTextures.push_back(rTexTemp);
+
+	mapTextures.insert({ state, rTexTemp });
+}
+
 void UI_Image::SetNativeSize()
 {
-    width = mat->rTextures[0]->GetWidth();
-    height = mat->rTextures[0]->GetHeight();
+	width = selectedTexture->GetWidth();
+	height = selectedTexture->GetHeight();
+
+	dirty_ = true;
 }
