@@ -299,7 +299,7 @@ void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)
 
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 {
-	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x , y);
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x, y);
 	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
@@ -373,6 +373,7 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
+	mRootNode = gameObjects[0];
 
 	LoadScriptsData();
 
@@ -427,8 +428,11 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
+	mRootNode = gameObjects[0];
 
-	delete sceneToLoad;
+	LoadScriptsData();
+	
+	RELEASE(sceneToLoad);
 }
 
 void ModuleScene::Destroy(GameObject* gm)
@@ -450,19 +454,6 @@ void ModuleScene::Destroy(GameObject* gm)
 	}
 
 	gm = nullptr;
-}
-
-void ModuleScene::SetActiveState(GameObject* go, bool isActive)
-{
-	for (auto i = 0; i < go->mChildren.size(); i++)
-	{
-		if (!go->mChildren.empty())
-		{
-			SetActiveState(go->mChildren[i], isActive);
-		}
-
-		go->mChildren[i]->active = isActive;
-	}
 }
 
 //
@@ -545,7 +536,7 @@ void ModuleScene::SetSelectedState(GameObject* go, bool selected)
 	}
 }
 
-void ModuleScene::SetActiveRecursively(GameObject* gameObject, bool active) 
+void ModuleScene::SetActiveRecursively(GameObject* gameObject, bool active)
 {
 	gameObject->active = active;
 

@@ -67,15 +67,13 @@ public:
 	
 	void Destroy(GameObject* gm);
 
-	void SetActiveState(GameObject* go, bool isActive = true);
-
 	// Select GameObjects
 	std::vector<GameObject*>& GetSelectedGOs();
 
 	// If no parameter --> deselect everything
 	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
-	void SetActiveRecursively(GameObject* gameObject, bool active);
+	void SetActiveRecursively(GameObject* gameObject, bool active = true);
 	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);

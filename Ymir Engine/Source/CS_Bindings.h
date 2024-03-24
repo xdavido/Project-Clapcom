@@ -383,7 +383,7 @@ void SetActive(MonoObject* obj, bool active)
 
 	GameObject* go = External->moduleMono->GameObject_From_CSGO(obj);
 	go->active = active;
-	External->scene->SetActiveState(go, active);
+	External->scene->SetActiveRecursively(go, active);
 }
 
 void Destroy(MonoObject* go)
