@@ -60,6 +60,16 @@ bool ModuleInput::Init()
 		LOG("[ERROR] SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+	if (SDL_Init(SDL_INIT_HAPTIC) < 0)
+	{
+		LOG("[ERROR] SDL_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
+	}
+	if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
+	{
+		LOG("[ERROR] SDL_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
+	}
 
 	num_controllers = SDL_NumJoysticks();
 
@@ -70,7 +80,25 @@ bool ModuleInput::Init()
 			sdl_controllers[i] = SDL_GameControllerOpen(i);
 
 			activeControllers.push_back((GameController*)sdl_controllers[i]);
+		}
 
+	}
+	if (SDL_NumJoysticks() > 0) {
+		joystick = SDL_JoystickOpen(0);
+		if (joystick)
+			LOG("Opened Joystick 0");
+
+		//Check if is haptic
+		if (SDL_JoystickIsHaptic(joystick) == 1) {
+			LOG("Is Haptic");
+		}
+
+		//Open the device
+		haptic = SDL_HapticOpenFromJoystick(joystick);
+		if (haptic == nullptr) return ret;
+
+		if (SDL_HapticRumbleInit(haptic) == 0) {
+			LOG("Rumlbe Init Innit");
 		}
 
 	}
@@ -333,8 +361,12 @@ bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
 
+	SDL_JoystickClose(joystick);
+	SDL_HapticClose(haptic);
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
+
 
 	return true;
 }
@@ -678,17 +710,6 @@ float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
 	}
 
 }
-
-void ModuleInput::GetRumbleGamepad(_SDL_GameController* gameController, Uint16 _leftRumble, Uint16 _rightRumble, Uint32 _timer)
-{
-	if (!gameController || !SDL_GameControllerGetAttached(gameController)) {
-		return;
-	}
-
-	SDL_GameControllerRumble(gameController, _leftRumble, _rightRumble, _timer);
-}
-
-
 
 // ---------------- New Gamepad Management ----------------
 

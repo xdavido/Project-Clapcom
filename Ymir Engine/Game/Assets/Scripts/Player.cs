@@ -225,6 +225,7 @@ public class Player : YmirComponent
         if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
         {
             inputsList.Add(INPUT.I_SHOOTING);
+            Input.Rumble_Controller(1000);
         }
         else
         {

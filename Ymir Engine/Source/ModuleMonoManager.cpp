@@ -151,7 +151,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetMouseClick", GetMouseClick);
 	mono_add_internal_call("YmirEngine.Input::GetMouseX", MouseX);
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
-	mono_add_internal_call("YmirEngine.Input::GameControllerRumbleCS", GameControllerRumbleCS);
+	mono_add_internal_call("YmirEngine.Input::Rumble_Controller", Rumble_Controller);
 
 #pragma endregion
 

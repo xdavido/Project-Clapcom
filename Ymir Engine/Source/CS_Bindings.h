@@ -556,11 +556,6 @@ void SetTag(MonoObject* cs_Object, MonoString* string)
 	}
 	strcpy(cpp_gameObject->tag, newTag.c_str());
 }
-void GameControllerRumbleCS(int minrumble, int maxrumble, int time)
-{
-	LOG("JODEME MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS");
-	External->input->GetRumbleGamepad(External->input->sdl_controllers[0], minrumble, maxrumble, time);
-}
 
 MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
 {
@@ -576,6 +571,18 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 
+void Rumble_Controller(int time)
+{
+	if (External != nullptr) {
+		
+		if (SDL_JoystickRumble(External->input->joystick, 0xFFFF, 0xFFFF, time) == -1) {
+			printf("Rumble failed...?\n");
+		}
+		else {
+			printf("Rumble success!\n");
+		}
+	}
+}
 void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
 {
 	//Falta meter automaticamente que haga el change de Image
