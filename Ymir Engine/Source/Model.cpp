@@ -229,11 +229,15 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 					for (int i = 0; i < scene->mNumAnimations; i++) {
 						Animation* anim = new Animation(path, this, i);
 
-						std::string filename = std::to_string(modelGO->UID) + ".yanim";
-						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+						std::string filenameUID = std::to_string(modelGO->UID) + ".yanim";
+						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
 
-						//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
 						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+
+						std::string filename = anim->name + ".yanim";
+						std::string assetsPath = External->fileSystem->assetsPath + filename;
+
+						External->fileSystem->SaveAnimationToFile(anim, assetsPath);
 
 						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
 						cAnim->AddAnimation(*rAnim);

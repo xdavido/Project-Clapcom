@@ -281,6 +281,7 @@ public:
 	Texture shaderIcon;
 	Texture sceneIcon;
 	Texture prefabIcon;
+	Texture animIcon;
 
 	//New Component
 	int newComponent = 0; // 0 = default, 1 = RigidBody, 2 = Collider

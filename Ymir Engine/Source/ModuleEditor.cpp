@@ -132,6 +132,7 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
+	animIcon.LoadEngineIconTexture("Assets/Editor/animation.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
@@ -3531,6 +3532,25 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::META:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+					}
+					break;
+					case ResourceType::ANIMATION:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(animIcon.ID)), ImVec2(64, 64));
+
+						if ((entryName.find(".yanim") != std::string::npos)) {
+
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
 					}
 					break;
 					case ResourceType::ALL_TYPES:
