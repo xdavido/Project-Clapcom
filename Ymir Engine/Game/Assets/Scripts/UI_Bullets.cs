@@ -29,7 +29,7 @@ public class UI_Bullets : YmirComponent
 
     public void Update()
     {
-        if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
+        if (Input.GetKey(YmirKeyCode.Z) == KeyState.KEY_DOWN)
         {
             Debug.Log("Take debug dmg");
             UseBullets(debugShoot);
