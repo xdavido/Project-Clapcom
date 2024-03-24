@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        161.97348022460938,
-        153.89022827148438,
-        40.798458099365234
+        47.273868560791016,
+        49.224552154541016,
+        43.672695159912109
     ],
     "Editor Camera Right (X)": [
-        -0.014700597152113914,
-        -6.9849193096160889e-09,
-        -0.99989783763885498
+        0.74906414747238159,
+        -5.9604644775390625e-08,
+        -0.66249775886535645
     ],
     "Editor Camera Up (Y)": [
-        -0.64241224527359009,
-        0.76630449295043945,
-        0.00944480299949646
+        -0.38249322772026062,
+        0.81649661064147949,
+        -0.43247243762016296
     ],
     "Editor Camera Front (Z)": [
-        -0.76622259616851807,
-        -0.64248156547546387,
-        0.011265085078775883
+        -0.54092717170715332,
+        -0.5773501992225647,
+        -0.61160826683044434
     ],
     "Hierarchy": [
         {
@@ -4878,7 +4878,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        3.8908348083496094,
+                        4.4254260063171387,
                         0
                     ],
                     "Rotation": [
@@ -4891,21 +4891,6 @@
                         1,
                         1
                     ]
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "Gravity": true
                 },
                 {
                     "Type": "Script",
@@ -4925,6 +4910,30 @@
                     "Bank Name": "Player",
                     "Event Name": "P_Shoot",
                     "Event ID": 1216763735
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": false,
+                    "LockZ": true
                 }
             ],
             "Children UID": [
@@ -5493,6 +5502,11 @@
                     "Index Count": 36
                 },
                 {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
                     "Type": "Physics",
                     "Active": 1,
                     "Collider Type": 0,
@@ -5505,7 +5519,11 @@
                     "Height": 1,
                     "Physics Type": 2,
                     "Mass": 0,
-                    "Gravity": true
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
                 }
             ]
         }

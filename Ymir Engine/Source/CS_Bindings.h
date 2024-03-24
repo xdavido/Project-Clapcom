@@ -425,7 +425,7 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	//Añade RigidBody a la bala
 	CCollider* physBody;
 	physBody = new CCollider(go);
-	physBody->gravity = false;
+	physBody->useGravity = false;
 	physBody->size = scaleVector;
 	physBody->physBody->SetPosition(posVector);
 	go->AddComponent(physBody);

@@ -365,17 +365,6 @@ void CCollider::OnInspector()
 			if (ImGui::Checkbox("Lock z\t", &lockZ))
 				UpdateLockRotation();
 
-			if (ImGui::Checkbox("Lock x\t", &lockX))
-				UpdateLockRotation();
-
-			ImGui::SameLine();
-			if (ImGui::Checkbox("Lock y\t", &lockY))
-				UpdateLockRotation();
-
-			ImGui::SameLine();
-			if (ImGui::Checkbox("Lock z\t", &lockZ))
-				UpdateLockRotation();
-
             break;
 
         case PhysicsType::KINEMATIC:
@@ -405,22 +394,7 @@ btCollisionShape* CCollider::GetShape()
 {
 	return shape;
 }
-void CCollider::UpdateLockRotation()
-{
-	btVector3 rot;
 
-	if (lockX) rot.setX(0);
-	else rot.setX(1);
-
-	if (lockY) rot.setY(0);
-	else rot.setY(1);
-
-	if (lockZ) rot.setZ(0);
-	else rot.setZ(1);
-
-	physBody->body->setAngularFactor(rot);
-
-}
 // Setters ----------------------------------------------------------------------
 void CCollider::SetBoxCollider()
 {

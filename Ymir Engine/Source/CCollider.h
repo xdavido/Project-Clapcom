@@ -50,8 +50,6 @@ public:
 
 	void SetAsSensor(bool is_sensor);
 
-	void UpdateLockRotation();
-
 	void SetDefaultValues(PhysicsType type);
 
 	// Conversion function from btVector3 to float3
