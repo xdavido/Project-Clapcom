@@ -3775,6 +3775,19 @@ void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 
 						}
 
+						if ((entryName.find(".yanim") != std::string::npos)) {
+
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
 						ImGui::PopStyleColor();
 
 					}

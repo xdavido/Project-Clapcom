@@ -14,6 +14,8 @@ enum class ResourceType {
 	SHADER,
 	MATERIAL,
 	PREFAB,
+	ANIMATION,
+
 	META,
 
 	ALL_TYPES
