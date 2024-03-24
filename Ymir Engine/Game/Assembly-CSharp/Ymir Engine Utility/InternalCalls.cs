@@ -26,7 +26,25 @@ namespace YmirEngine
         public static extern GameObject LoadScene(string name);
 
     }
-   
+
+    public class UI
+    {
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject CreateImageUI(object go, string name, int x, int y);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject TextEdit(object go, string text);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderEdit(object go, double value);
+
+    }
+
     public class Input
     {
         //Keyboard and mouse

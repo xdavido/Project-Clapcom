@@ -12,6 +12,8 @@ public class PlayerMovement : YmirComponent
     public Vector3 direccion;
     public float fireRate = 0.5f;
 
+    bool a = false;
+
     private double angle = 0.0f;
     //private bool script = true;
     public void Start()
@@ -167,20 +169,33 @@ public class PlayerMovement : YmirComponent
 
     public void OnCollisionEnter()
     {
-        Debug.Log("OnCollisionEnter!!!!");
+        if (!a)
+        {
+            Debug.Log("OnCollisionEnter!!!!");
+
+            GetAnotherScript();
+
+            Debug.Log("coso2345678 ");
+            a = true;
+        }
     }
 
     private void GetAnotherScript()
     {
+        //GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        //if (gameObject != null)
+        //{
+        //    Health player = gameObject.GetComponent<Health>();
+        //    player.TakeDmg(3);
+        //}
+
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
         if (gameObject != null)
         {
-            PlayerMovement player = gameObject.GetComponent<PlayerMovement>();
-
-            player.movementSpeed = 10f;
-
-            Debug.Log("MovmentSpeed= " + movementSpeed);
-
+            UI_Bullets player = gameObject.GetComponent<UI_Bullets>();
+            player.UseBullets(2);
         }
     }
 

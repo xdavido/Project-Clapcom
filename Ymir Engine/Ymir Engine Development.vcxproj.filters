@@ -1098,6 +1098,12 @@
     <ClInclude Include="Source\CS_Input_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI_Slider.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI_Transform.h">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Source\PointLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
@@ -1534,6 +1540,12 @@
     </ClCompile>
     <ClCompile Include="Source\CAnimation.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Slider.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI_Transform.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\PointLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>

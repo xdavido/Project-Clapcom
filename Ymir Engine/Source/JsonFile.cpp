@@ -1,6 +1,7 @@
 #include "JsonFile.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "UI_Transform.h"
 
 #include "UI_Canvas.h"
 #include "UI_Image.h"
@@ -8,6 +9,7 @@
 #include "UI_Button.h"
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
+#include "UI_Slider.h"
 
 #include <vector>
 #include <filesystem>
@@ -25,6 +27,7 @@
 
 #include "External/mmgr/mmgr.h"
 #include "CScript.h"
+#include "ImporterTexture.h"
 
 JsonFile::JsonFile()
 {
@@ -863,6 +866,9 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
+	// Set Active
+	json_object_set_boolean(gameObjectObject, "Active", gameObject.active);
+
 	// Set Type 
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
@@ -1212,7 +1218,27 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	{
 		json_object_set_string(componentObject, "Type", "UI");
 
+		json_object_set_number(componentObject, "Active", component.active);
+		json_object_set_boolean(componentObject, "Draggeable", static_cast<const C_UI&>(component).isDraggeable);
+
+		json_object_set_number(componentObject, "Position X", (int)static_cast<const C_UI&>(component).posX);
+		json_object_set_number(componentObject, "Position Y", (int)static_cast<const C_UI&>(component).posY);
+		json_object_set_number(componentObject, "Width", (int)static_cast<const C_UI&>(component).width);
+		json_object_set_number(componentObject, "Height", (int)static_cast<const C_UI&>(component).height);
+
 		json_object_set_number(componentObject, "UI Type", (int)static_cast<const C_UI&>(component).UI_type);
+		json_object_set_number(componentObject, "UI State", (int)static_cast<const C_UI&>(component).state);
+
+		// Drag limits
+		JSON_Value* dragLimitsArrayValue = json_value_init_array();
+		JSON_Array* dragLimitsArray = json_value_get_array(dragLimitsArrayValue);
+
+		json_array_append_number(dragLimitsArray, static_cast<const UI_Image&>(component).dragLimits.x);
+		json_array_append_number(dragLimitsArray, static_cast<const UI_Image&>(component).dragLimits.y);
+		json_array_append_number(dragLimitsArray, static_cast<const UI_Image&>(component).dragLimits.z);
+		json_array_append_number(dragLimitsArray, static_cast<const UI_Image&>(component).dragLimits.w);
+
+		json_object_set_value(componentObject, "Drag Limits", dragLimitsArrayValue);
 
 		switch (static_cast<const C_UI&>(component).UI_type)
 		{
@@ -1244,6 +1270,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_string(componentObject, "Font name", static_cast<const UI_Text&>(component).font->name.c_str());
 			json_object_set_string(componentObject, "Font path", static_cast<const UI_Text&>(component).font->path.c_str());
 			json_object_set_number(componentObject, "Font size", static_cast<const UI_Text&>(component).fontSize);
+			json_object_set_number(componentObject, "Line Spacing", static_cast<const UI_Text&>(component).lineSpacing);
 
 			// Colors
 			JSON_Value* colorArrayValue = json_value_init_array();
@@ -1253,6 +1280,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.g);
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.b);
 			json_array_append_number(colorArray, static_cast<const UI_Text&>(component).color.a);
+
+			json_object_set_value(componentObject, "Color", colorArrayValue);
 		}
 
 		break;
@@ -1260,99 +1289,36 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		{
 			json_object_set_boolean(componentObject, "Is interactable", static_cast<const UI_Button&>(component).isInteractable);
 
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Button&>(component).displayText), "Text");
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Button&>(component).image->mOwner), "Image");
+
+			json_object_set_string(componentObject, "Normal", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::NORMAL]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Focused", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::FOCUSED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Pressed", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::PRESSED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Selected", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::SELECTED]->GetAssetsFilePath().c_str());
+
+			json_object_set_string(componentObject, "Release", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::RELEASE]->GetAssetsFilePath().c_str());
+
 			// Colors
-			JSON_Value* focusedColorArrayValue = json_value_init_array();
-			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
-
-			json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.r);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.g);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.b);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.a);
-
-			json_object_set_value(componentObject, "Focused color", focusedColorArrayValue);
-
-			//
-			JSON_Value* pressedColorArrayValue = json_value_init_array();
-			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
-
-			json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.r);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.g);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.b);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.a);
-
-			json_object_set_value(componentObject, "Pressed color", pressedColorArrayValue);
-
-			//
-			JSON_Value* selectedColorArrayValue = json_value_init_array();
-			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
-
-			json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.r);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.g);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.b);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.a);
-
-			json_object_set_value(componentObject, "Selected color", selectedColorArrayValue);
-
-			//
-			JSON_Value* disabledColorArrayValue = json_value_init_array();
-			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
-
-			json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.r);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.g);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.b);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.a);
-
-			json_object_set_value(componentObject, "Disabled color", disabledColorArrayValue);
+			SetColor(componentObject, component);
 		}
 
 		break;
 		case UI_TYPE::INPUTBOX:
 		{
 			json_object_set_number(componentObject, "Max characters", static_cast<const UI_InputBox&>(component).maxChars);
+			json_object_set_string(componentObject, "Text", static_cast<const UI_InputBox&>(component).text.c_str());
 
 			// Colors
-			JSON_Value* focusedColorArrayValue = json_value_init_array();
-			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
-
-			json_array_append_number(focusedColorArray, static_cast<const UI_InputBox&>(component).focusedColor.r);
-			json_array_append_number(focusedColorArray, static_cast<const UI_InputBox&>(component).focusedColor.g);
-			json_array_append_number(focusedColorArray, static_cast<const UI_InputBox&>(component).focusedColor.b);
-			json_array_append_number(focusedColorArray, static_cast<const UI_InputBox&>(component).focusedColor.a);
-
-			json_object_set_value(componentObject, "Focused color", focusedColorArrayValue);
-
-			//
-			JSON_Value* pressedColorArrayValue = json_value_init_array();
-			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
-
-			json_array_append_number(pressedColorArray, static_cast<const UI_InputBox&>(component).pressedColor.r);
-			json_array_append_number(pressedColorArray, static_cast<const UI_InputBox&>(component).pressedColor.g);
-			json_array_append_number(pressedColorArray, static_cast<const UI_InputBox&>(component).pressedColor.b);
-			json_array_append_number(pressedColorArray, static_cast<const UI_InputBox&>(component).pressedColor.a);
-
-			json_object_set_value(componentObject, "Pressed color", pressedColorArrayValue);
-
-			//
-			JSON_Value* selectedColorArrayValue = json_value_init_array();
-			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
-
-			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.r);
-			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.g);
-			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.b);
-			json_array_append_number(selectedColorArray, static_cast<const UI_InputBox&>(component).selectedColor.a);
-
-			json_object_set_value(componentObject, "Selected color", selectedColorArrayValue);
-
-			//
-			JSON_Value* disabledColorArrayValue = json_value_init_array();
-			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
-
-			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.r);
-			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.g);
-			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.b);
-			json_array_append_number(disabledColorArray, static_cast<const UI_InputBox&>(component).disabledColor.a);
-
-			json_object_set_value(componentObject, "Disabled color", disabledColorArrayValue);
+			SetColor(componentObject, component);
 		}
 
 		break;
@@ -1362,48 +1328,40 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_boolean(componentObject, "Is checked", static_cast<const UI_Checkbox&>(component).isChecked);
 
 			// Colors
-			JSON_Value* focusedColorArrayValue = json_value_init_array();
-			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
+			SetColor(componentObject, component);
+		}
 
-			json_array_append_number(focusedColorArray, static_cast<const UI_Checkbox&>(component).focusedColor.r);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Checkbox&>(component).focusedColor.g);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Checkbox&>(component).focusedColor.b);
-			json_array_append_number(focusedColorArray, static_cast<const UI_Checkbox&>(component).focusedColor.a);
+		break;
+		case UI_TYPE::SLIDER:
+		{
+			json_object_set_boolean(componentObject, "Is interactable", static_cast<const UI_Slider&>(component).isInteractable);
 
-			json_object_set_value(componentObject, "Focused color", focusedColorArrayValue);
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Slider&>(component).fillImage), "Fill image");
+			SetReference(componentObject, *(GameObject*)(static_cast<const UI_Slider&>(component).handleImage), "Handle image");
 
-			//
-			JSON_Value* pressedColorArrayValue = json_value_init_array();
-			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
+			/*json_object_set_number(componentObject, "Handle image", static_cast<const UI_Slider&>(component).handleImage == nullptr
+				? -1 : static_cast<const UI_Slider&>(component).handleImage->UID);*/
 
-			json_array_append_number(pressedColorArray, static_cast<const UI_Checkbox&>(component).pressedColor.r);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Checkbox&>(component).pressedColor.g);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Checkbox&>(component).pressedColor.b);
-			json_array_append_number(pressedColorArray, static_cast<const UI_Checkbox&>(component).pressedColor.a);
+				// Values
+			json_object_set_boolean(componentObject, "Use Floats", static_cast<const UI_Slider&>(component).useFloat);
 
-			json_object_set_value(componentObject, "Pressed color", pressedColorArrayValue);
+			if (static_cast<const UI_Slider&>(component).useFloat)
+			{
+				json_object_set_number(componentObject, "Value", static_cast<const UI_Slider&>(component).value.fValue);
+				json_object_set_number(componentObject, "Value min", static_cast<const UI_Slider&>(component).minValue.fValue);
+				json_object_set_number(componentObject, "Value max", static_cast<const UI_Slider&>(component).maxValue.fValue);
+			}
+			else
+			{
+				json_object_set_number(componentObject, "Value", static_cast<const UI_Slider&>(component).value.iValue);
+				json_object_set_number(componentObject, "Value min", static_cast<const UI_Slider&>(component).minValue.iValue);
+				json_object_set_number(componentObject, "Value max", static_cast<const UI_Slider&>(component).maxValue.iValue);
+			}
 
-			//
-			JSON_Value* selectedColorArrayValue = json_value_init_array();
-			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+			json_object_set_number(componentObject, "Direction", (int)static_cast<const UI_Slider&>(component).direction);
 
-			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.r);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.g);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.b);
-			json_array_append_number(selectedColorArray, static_cast<const UI_Checkbox&>(component).selectedColor.a);
-
-			json_object_set_value(componentObject, "Selected color", selectedColorArrayValue);
-
-			//
-			JSON_Value* disabledColorArrayValue = json_value_init_array();
-			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
-
-			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.r);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.g);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.b);
-			json_array_append_number(disabledColorArray, static_cast<const UI_Checkbox&>(component).disabledColor.a);
-
-			json_object_set_value(componentObject, "Disabled color", disabledColorArrayValue);
+			// Colors
+			SetColor(componentObject, component);
 		}
 
 		break;
@@ -1414,7 +1372,16 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		}
 	}
 	break;
-	// TODO: Audio save / load
+
+	case UI_TRAMSFORM:
+	{
+		json_object_set_string(componentObject, "Type", "UI Transform");
+
+		json_object_set_number(componentObject, "Component reference", (int)static_cast<const UI_Transform&>(component).componentReference->UI_type);
+
+	}
+	break;
+
 	case AUDIO_SOURCE:
 	{
 		json_object_set_string(componentObject, "Type", "Audio source");
@@ -1512,6 +1479,59 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 	}
 }
 
+void JsonFile::SetColor(JSON_Object* componentObject, const Component& component)
+{
+	// Colors
+	JSON_Value* focusedColorArrayValue = json_value_init_array();
+	JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
+
+	json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.r);
+	json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.g);
+	json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.b);
+	json_array_append_number(focusedColorArray, static_cast<const UI_Button&>(component).focusedColor.a);
+
+	json_object_set_value(componentObject, "Focused color", focusedColorArrayValue);
+
+	//
+	JSON_Value* pressedColorArrayValue = json_value_init_array();
+	JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
+
+	json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.r);
+	json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.g);
+	json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.b);
+	json_array_append_number(pressedColorArray, static_cast<const UI_Button&>(component).pressedColor.a);
+
+	json_object_set_value(componentObject, "Pressed color", pressedColorArrayValue);
+
+	//
+	JSON_Value* selectedColorArrayValue = json_value_init_array();
+	JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+
+	json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.r);
+	json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.g);
+	json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.b);
+	json_array_append_number(selectedColorArray, static_cast<const UI_Button&>(component).selectedColor.a);
+
+	json_object_set_value(componentObject, "Selected color", selectedColorArrayValue);
+
+	//
+	JSON_Value* disabledColorArrayValue = json_value_init_array();
+	JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
+
+	json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.r);
+	json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.g);
+	json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.b);
+	json_array_append_number(disabledColorArray, static_cast<const UI_Button&>(component).disabledColor.a);
+
+	json_object_set_value(componentObject, "Disabled color", disabledColorArrayValue);
+}
+
+void JsonFile::SetReference(JSON_Object* componentObject, GameObject& pointer, const char* name)
+{
+	json_object_set_number(componentObject, name, &pointer == nullptr
+		? -1 : pointer.UID);
+}
+
 // ---------- Load Scene
 
 std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
@@ -1537,7 +1557,9 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 				JSON_Object* gameObjectObject = json_value_get_object(gameObjectValue);
 
 				// Create a new GameObject
-				GameObject* gameObject = new GameObject();
+				// TODO: Preguntar monica
+				//GameObject* gameObject = new GameObject();	// asi deberia estar
+				G_UI* gameObject = new G_UI();
 
 				// Call a function to extract individual GameObject properties
 				GetGameObject(gameObjects, gameObjectObject, *gameObject);
@@ -1549,12 +1571,19 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 
 		}
 
+		External->scene->mRootNode->mParent = nullptr;
+
+		for (auto it = External->scene->vTempComponents.begin(); it != External->scene->vTempComponents.end(); ++it)
+		{
+			(*it)->SetReference();
+		}
+
 	}
 
 	return gameObjects;
 }
 
-void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, GameObject& gameObject) const
+void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const
 {
 	// Get Name
 
@@ -1566,6 +1595,10 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	// Get UID
 
 	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
+
+	// Get UID
+
+	gameObject.active = json_object_get_boolean(gameObjectObject, "Active");
 
 	// Get Type
 
@@ -1636,14 +1669,14 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 
 }
 
-void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* gameObject) const {
+void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject) const {
 
 	// Get common properties
 	std::string type = json_object_get_string(componentObject, "Type");
 
 	if (type == "Transform") {
 
-		gameObject->mTransform = new CTransform(gameObject);
+		//gameObject->mTransform = new CTransform(gameObject);
 
 		// Translation
 
@@ -1708,7 +1741,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 		gameObject->mTransform->mGlobalMatrix = math::float4x4::FromTRS(gameObject->mTransform->translation, gameObject->mTransform->rotation, gameObject->mTransform->scale);
 		gameObject->mTransform->mLocalMatrix = math::float4x4::identity;
 
-		gameObject->AddComponent(gameObject->mTransform);
+		//gameObject->AddComponent(gameObject->mTransform);
 
 	}
 	else if (type == "Mesh") {
@@ -1943,25 +1976,42 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 	{
 		gameObject = static_cast<G_UI*>(gameObject);
 
+		C_UI* comp = nullptr;
+
 		switch ((UI_TYPE)json_object_get_number(componentObject, "UI Type"))
 		{
 		case UI_TYPE::CANVAS:
 		{
-			gameObject->AddComponent(new UI_Canvas(gameObject));
-
+			UI_Canvas* ui_comp = new UI_Canvas(gameObject);
+			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
 			break;
 		}
 		case UI_TYPE::IMAGE:
 		{
+			//UI_Image* ui_comp = gameObject->AddImage(json_object_get_string(componentObject, "Path"));
+
 			UI_Image* ui_comp = new UI_Image(gameObject);
 			ui_comp->width = json_object_get_number(componentObject, "Width");
 			ui_comp->height = json_object_get_number(componentObject, "Height");
 
-			// TODO: import img
 			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
 
-			// Colors
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
 
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+			ui_comp->SetImg(ui_comp->mat->path, UI_STATE::NORMAL); 
+			ui_comp->selectedTexture = ui_comp->mapTextures.find(ui_comp->state)->second;
+
+			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
 
 			if (jsonUIValue == nullptr || json_value_get_type(jsonUIValue) != JSONArray) {
@@ -1977,14 +2027,26 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
 
 			break;
 		}
 		case UI_TYPE::TEXT:
 		{
-			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, 200, 50, json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"));
-			ui_comp->text = json_object_get_string(componentObject, "Text");
-			ui_comp->fontSize = json_object_get_number(componentObject, "Font size");
+			UI_Text* ui_comp = new UI_Text(gameObject, 0, 0, json_object_get_string(componentObject, "Text"), json_object_get_number(componentObject, "Font size"), json_object_get_number(componentObject, "Line Spacing"),
+				json_object_get_string(componentObject, "Font name"), json_object_get_string(componentObject, "Font path"), 200, 50);
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
 
 			// Colors
 			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Color");
@@ -2002,6 +2064,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->color.a = static_cast<float>(json_array_get_number(jsonUIArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
+
 			break;
 		}
 		case UI_TYPE::BUTTON:
@@ -2009,6 +2073,26 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			UI_Button* ui_comp = new UI_Button(gameObject);
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
 
+			int ret = GetReference(componentObject, *ui_comp, "Text", true);
+			GetReference(componentObject, *ui_comp, "Image", (ret == -1 ? true : false));
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::NORMAL, json_object_get_string(componentObject, "Normal")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::FOCUSED, json_object_get_string(componentObject, "Focused")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::PRESSED, json_object_get_string(componentObject, "Pressed")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::SELECTED, json_object_get_string(componentObject, "Selected")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::RELEASE, json_object_get_string(componentObject, "Release")));
+
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
 
@@ -2019,10 +2103,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
+			ui_comp->focusedColor.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
+			ui_comp->focusedColor.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
+			ui_comp->focusedColor.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
+			ui_comp->focusedColor.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
 
 			//
 			JSON_Value* pressedColorArrayValue = json_object_get_value(componentObject, "Pressed color");
@@ -2034,10 +2118,25 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+			ui_comp->pressedColor.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
+			ui_comp->pressedColor.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
+			ui_comp->pressedColor.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
+			ui_comp->pressedColor.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+
+			//
+			JSON_Value* selectedColorArrayValue = json_object_get_value(componentObject, "Selected color");
+
+			if (selectedColorArrayValue == nullptr || json_value_get_type(selectedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+
+			ui_comp->selectedColor.r = static_cast<float>(json_array_get_number(selectedColorArray, 0));
+			ui_comp->selectedColor.g = static_cast<float>(json_array_get_number(selectedColorArray, 1));
+			ui_comp->selectedColor.b = static_cast<float>(json_array_get_number(selectedColorArray, 2));
+			ui_comp->selectedColor.a = static_cast<float>(json_array_get_number(selectedColorArray, 3));
 
 			//
 			JSON_Value* disabledColorArrayValue = json_object_get_value(componentObject, "Disabled color");
@@ -2049,18 +2148,33 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+			ui_comp->disabledColor.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
+			ui_comp->disabledColor.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
+			ui_comp->disabledColor.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
+			ui_comp->disabledColor.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
+
 			break;
 		}
 		case UI_TYPE::INPUTBOX:
 		{
 			UI_InputBox* ui_comp = new UI_InputBox(gameObject);
+			ui_comp->text = json_object_get_string(componentObject, "Text");
 			ui_comp->maxChars = json_object_get_number(componentObject, "Max characters");
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
 
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
@@ -2072,10 +2186,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
+			ui_comp->focusedColor.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
+			ui_comp->focusedColor.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
+			ui_comp->focusedColor.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
+			ui_comp->focusedColor.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
 
 			//
 			JSON_Value* pressedColorArrayValue = json_object_get_value(componentObject, "Pressed color");
@@ -2087,10 +2201,25 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+			ui_comp->pressedColor.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
+			ui_comp->pressedColor.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
+			ui_comp->pressedColor.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
+			ui_comp->pressedColor.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+
+			//
+			JSON_Value* selectedColorArrayValue = json_object_get_value(componentObject, "Selected color");
+
+			if (selectedColorArrayValue == nullptr || json_value_get_type(selectedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+
+			ui_comp->selectedColor.r = static_cast<float>(json_array_get_number(selectedColorArray, 0));
+			ui_comp->selectedColor.g = static_cast<float>(json_array_get_number(selectedColorArray, 1));
+			ui_comp->selectedColor.b = static_cast<float>(json_array_get_number(selectedColorArray, 2));
+			ui_comp->selectedColor.a = static_cast<float>(json_array_get_number(selectedColorArray, 3));
 
 			//
 			JSON_Value* disabledColorArrayValue = json_object_get_value(componentObject, "Disabled color");
@@ -2102,12 +2231,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+			ui_comp->disabledColor.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
+			ui_comp->disabledColor.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
+			ui_comp->disabledColor.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
+			ui_comp->disabledColor.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
+
 			break;
 		}
 		case UI_TYPE::CHECKBOX:
@@ -2116,6 +2247,17 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
 			ui_comp->isChecked = json_object_get_boolean(componentObject, "Is checked");
 
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
 
@@ -2126,10 +2268,10 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
+			ui_comp->focusedColor.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
+			ui_comp->focusedColor.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
+			ui_comp->focusedColor.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
+			ui_comp->focusedColor.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
 
 			//
 			JSON_Value* pressedColorArrayValue = json_object_get_value(componentObject, "Pressed color");
@@ -2141,10 +2283,25 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+			ui_comp->pressedColor.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
+			ui_comp->pressedColor.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
+			ui_comp->pressedColor.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
+			ui_comp->pressedColor.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+
+			//
+			JSON_Value* selectedColorArrayValue = json_object_get_value(componentObject, "Selected color");
+
+			if (selectedColorArrayValue == nullptr || json_value_get_type(selectedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+
+			ui_comp->selectedColor.r = static_cast<float>(json_array_get_number(selectedColorArray, 0));
+			ui_comp->selectedColor.g = static_cast<float>(json_array_get_number(selectedColorArray, 1));
+			ui_comp->selectedColor.b = static_cast<float>(json_array_get_number(selectedColorArray, 2));
+			ui_comp->selectedColor.a = static_cast<float>(json_array_get_number(selectedColorArray, 3));
 
 			//
 			JSON_Value* disabledColorArrayValue = json_object_get_value(componentObject, "Disabled color");
@@ -2156,18 +2313,166 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, GameObject* game
 
 			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
 
-			ui_comp->color.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
-			ui_comp->color.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
-			ui_comp->color.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
-			ui_comp->color.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+			ui_comp->disabledColor.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
+			ui_comp->disabledColor.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
+			ui_comp->disabledColor.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
+			ui_comp->disabledColor.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
 
 			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
+
+			break;
+		}
+		case UI_TYPE::SLIDER:
+		{
+			UI_Slider* ui_comp = new UI_Slider(gameObject);
+			ui_comp->isInteractable = json_object_get_boolean(componentObject, "Is interactable");
+
+			// Get references UIDs for later
+			int ret = GetReference(componentObject, *ui_comp, "Fill image", true);
+			GetReference(componentObject, *ui_comp, "Handle image", (ret == -1 ? true : false));
+
+			if (External->scene->GetCanvas() == nullptr)
+			{
+				External->scene->CreateGUI(UI_TYPE::CANVAS);
+			}
+			if (gameObject->mParent == External->scene->mRootNode)
+			{
+				gameObject->ReParent(External->scene->GetCanvas());
+			}
+
+			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
+
+			// Values
+			ui_comp->useFloat = json_object_get_boolean(componentObject, "Use Floats");
+
+			if (ui_comp->useFloat)
+			{
+				ui_comp->value.fValue = json_object_get_number(componentObject, "Value");
+				ui_comp->minValue.fValue = json_object_get_number(componentObject, "Value min");
+				ui_comp->maxValue.fValue = json_object_get_number(componentObject, "Value max");
+			}
+			else
+			{
+				ui_comp->value.iValue = json_object_get_number(componentObject, "Value");
+				ui_comp->minValue.iValue = json_object_get_number(componentObject, "Value min");
+				ui_comp->maxValue.iValue = json_object_get_number(componentObject, "Value max");
+			}
+
+			ui_comp->direction = (SLIDER_DIRECTION)json_object_get_number(componentObject, "Direction");
+
+			// Colors
+			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");
+
+			if (focusedColorArrayValue == nullptr || json_value_get_type(focusedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* focusedColorArray = json_value_get_array(focusedColorArrayValue);
+
+			ui_comp->focusedColor.r = static_cast<float>(json_array_get_number(focusedColorArray, 0));
+			ui_comp->focusedColor.g = static_cast<float>(json_array_get_number(focusedColorArray, 1));
+			ui_comp->focusedColor.b = static_cast<float>(json_array_get_number(focusedColorArray, 2));
+			ui_comp->focusedColor.a = static_cast<float>(json_array_get_number(focusedColorArray, 3));
+
+			//
+			JSON_Value* pressedColorArrayValue = json_object_get_value(componentObject, "Pressed color");
+
+			if (pressedColorArrayValue == nullptr || json_value_get_type(pressedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* pressedColorArray = json_value_get_array(pressedColorArrayValue);
+
+			ui_comp->pressedColor.r = static_cast<float>(json_array_get_number(pressedColorArray, 0));
+			ui_comp->pressedColor.g = static_cast<float>(json_array_get_number(pressedColorArray, 1));
+			ui_comp->pressedColor.b = static_cast<float>(json_array_get_number(pressedColorArray, 2));
+			ui_comp->pressedColor.a = static_cast<float>(json_array_get_number(pressedColorArray, 3));
+
+			//
+			JSON_Value* selectedColorArrayValue = json_object_get_value(componentObject, "Selected color");
+
+			if (selectedColorArrayValue == nullptr || json_value_get_type(selectedColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* selectedColorArray = json_value_get_array(selectedColorArrayValue);
+
+			ui_comp->selectedColor.r = static_cast<float>(json_array_get_number(selectedColorArray, 0));
+			ui_comp->selectedColor.g = static_cast<float>(json_array_get_number(selectedColorArray, 1));
+			ui_comp->selectedColor.b = static_cast<float>(json_array_get_number(selectedColorArray, 2));
+			ui_comp->selectedColor.a = static_cast<float>(json_array_get_number(selectedColorArray, 3));
+
+			//
+			JSON_Value* disabledColorArrayValue = json_object_get_value(componentObject, "Disabled color");
+
+			if (disabledColorArrayValue == nullptr || json_value_get_type(disabledColorArrayValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* disabledColorArray = json_value_get_array(disabledColorArrayValue);
+
+			ui_comp->disabledColor.r = static_cast<float>(json_array_get_number(disabledColorArray, 0));
+			ui_comp->disabledColor.g = static_cast<float>(json_array_get_number(disabledColorArray, 1));
+			ui_comp->disabledColor.b = static_cast<float>(json_array_get_number(disabledColorArray, 2));
+			ui_comp->disabledColor.a = static_cast<float>(json_array_get_number(disabledColorArray, 3));
+
+			gameObject->AddComponent(ui_comp);
+			comp = ui_comp;
+
 			break;
 		}
 		case UI_TYPE::NONE:
 			break;
 		default:
 			break;
+		}
+
+		if (comp != nullptr)
+		{
+			comp->active = json_object_get_number(componentObject, "Active");
+			comp->isDraggeable = json_object_get_boolean(componentObject, "Draggeable");
+
+			comp->posX = json_object_get_number(componentObject, "Position X");
+			comp->posY = json_object_get_number(componentObject, "Position Y");
+			comp->width = json_object_get_number(componentObject, "Width");
+			comp->height = json_object_get_number(componentObject, "Height");
+
+			comp->UI_type = (UI_TYPE)json_object_get_number(componentObject, "UI Type");
+			comp->state = (UI_STATE)json_object_get_number(componentObject, "UI State");
+
+			// Drag limits
+			JSON_Value* jsonUIValue = json_object_get_value(componentObject, "Drag Limits");
+
+			if (jsonUIValue == nullptr || json_value_get_type(jsonUIValue) != JSONArray) {
+
+				return;
+			}
+
+			JSON_Array* jsonUIArray = json_value_get_array(jsonUIValue);
+
+			comp->dragLimits.x = static_cast<float>(json_array_get_number(jsonUIArray, 0));
+			comp->dragLimits.y = static_cast<float>(json_array_get_number(jsonUIArray, 1));
+			comp->dragLimits.z = static_cast<float>(json_array_get_number(jsonUIArray, 2));
+			comp->dragLimits.w = static_cast<float>(json_array_get_number(jsonUIArray, 3));
+		}
+
+		comp = nullptr;
+
+	}
+	else if (type == "UI Transform")
+	{
+		C_UI* ui = static_cast<G_UI*>(gameObject)->GetComponentUI((UI_TYPE)json_object_get_number(componentObject, "Component reference"));
+		
+		if (ui != nullptr)
+		{
+			ui->transformUI = new UI_Transform(ui);
+
+			gameObject->AddComponent(ui->transformUI);
 		}
 
 	}
@@ -2391,4 +2696,21 @@ void JsonFile::SetPrefab(const char* key, const GameObject& gameObject)
 
 	// Add the hierarchy array to the main object
 	json_object_set_value(rootObject, key, prefabValue);
+}
+
+int JsonFile::GetReference(const JSON_Object* componentObject, Component& comp, const char* name, bool push) const
+{
+	int id = json_object_get_number(componentObject, name);
+
+	if (id != -1)
+	{
+		comp.vTempReferences.insert(std::pair<std::string, int>(name, id));
+
+		if (push)
+		{
+			External->scene->vTempComponents.push_back(&comp);
+		}
+	}
+
+	return id;
 }

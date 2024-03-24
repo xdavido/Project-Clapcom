@@ -3,23 +3,29 @@
 #include "Globals.h"
 #include "Application.h"
 
-#include"GameObject.h"
-#include"ResourceMesh.h"
+#include "GameObject.h"
+#include "ResourceMesh.h"
 
-#include"CMesh.h"
-#include"CScript.h"
-#include"CTransform.h"
+#include "CMesh.h"
+#include "CScript.h"
+#include "CTransform.h"
 
-#include"ModuleInput.h"
-#include"ModuleScene.h"
-#include"ModuleResourceManager.h" 
-#include "ModuleMonoManager.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "ModuleResourceManager.h" 
+#include "ModuleMonoManager.h"
 #include "Resources.h"
 #include "PhysfsEncapsule.h"
 
-#include"GameObject.h"
-#include"MathGeoLib/include/Math/float3.h"
+#include "G_UI.h"
+#include "UI_Image.h"
+#include "UI_Text.h"
+#include "UI_Button.h"
+#include "UI_InputBox.h"
+#include "UI_CheckBox.h"
+#include "UI_Slider.h"
+
+#include "MathGeoLib/include/Math/float3.h"
 
 template<typename T>
 T CS_CompToComp(MonoObject* obj)
@@ -36,8 +42,8 @@ T CS_CompToComp(MonoObject* obj)
 MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posici�n del objeto
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
-	
-		
+
+
 	if (External == nullptr)
 		return nullptr;
 
@@ -66,7 +72,8 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 	const char* name = mono_class_get_name(mono_object_get_class(obj));
 
-	Quat value	;
+	Quat value;
+	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj);
 
 	CTransform* workTrans = CS_CompToComp<CTransform*>(obj);
 	if (global = true) {
@@ -86,7 +93,7 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 
 #pragma region Internals
 //-------------------------------------------- Internals -----------------------------------------------//
-void CSLog(MonoString* x)	
+void CSLog(MonoString* x)
 {
 	if (x == NULL)
 		return;
@@ -182,18 +189,18 @@ MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
 
 	return ret;
 }
-GameObject* DECS_Comp_To_GameObject(MonoObject* component)
+GameObject* CS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;
 	MonoClass* goClass = mono_object_get_class(component);
 
-		mono_field_get_value(component, mono_class_get_field_from_name(goClass, "pointer"), &ptr);
+	mono_field_get_value(component, mono_class_get_field_from_name(goClass, "pointer"), &ptr);
 
 	return reinterpret_cast<Component*>(ptr)->mOwner;
 }
 MonoObject* CS_Component_Get_GO(MonoObject* thisRef)
-{	
-	return External->moduleMono->GoToCSGO(DECS_Comp_To_GameObject(thisRef));
+{
+	return External->moduleMono->GoToCSGO(CS_Comp_To_GameObject(thisRef));
 }
 MonoString* Get_GO_Name(MonoObject* go)
 {
@@ -235,19 +242,19 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
-	if (External == nullptr)				
+	if (External == nullptr)
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
 	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
 	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
-	  
+
 	if (rigidbody)
 	{
 		rigidbody->physBody->body->applyCentralImpulse({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
 
 	}
-	 
+
 }
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
@@ -300,7 +307,7 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	if (workTrans)
 	{
 		workTrans->SetPosition(omgItWorks);
-	
+
 	}
 }
 
@@ -412,6 +419,16 @@ void RecieveScale(MonoObject* obj, MonoObject* secObj)
 	}
 }
 
+void SetActive(MonoObject* obj, bool active)
+{
+	if (External == nullptr)
+		return;
+
+	GameObject* go = External->moduleMono->GameObject_From_CSGO(obj);
+	go->active = active;
+	External->scene->SetActiveRecursively(go, active);
+}
+
 void Destroy(MonoObject* go)
 {
 	if (go == NULL)
@@ -436,7 +453,7 @@ float GetDT()
 	return External->GetDT();
 }
 
-void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale) 
+void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 {
 	//Crea un game object temporal llamado "Bullet"
 	if (External == nullptr) return;
@@ -457,7 +474,7 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
 	go->AddComponent(cmesh);
-	
+
 	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
 	cmaterial->shaderPath = SHADER_VS_FS;
@@ -545,4 +562,47 @@ void GameControllerRumbleCS(int minrumble, int maxrumble, int time)
 	External->input->GetRumbleGamepad(External->input->sdl_controllers[0], minrumble, maxrumble, time);
 }
 
+MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
+{
+	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
+	std::string _newImage = mono_string_to_utf8(newImage);
+
+	G_UI* tempGameObject = new G_UI(External->scene->mRootNode, 0, 0);
+
+	tempGameObject->AddImage(_newImage, x, y, 100, 100);
+
+	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
+
+	return External->moduleMono->GoToCSGO(tempGameObject);
+}
+
+void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
+{
+	//Falta meter automaticamente que haga el change de Image
+	GameObject* go_image_to_change = External->moduleMono->GameObject_From_CSGO(pParent);
+	std::string _newImage = mono_string_to_utf8(newImage);
+	std::string _findbyname = mono_string_to_utf8(imageToChange);
+
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
+	{
+		if ((*it)->name == _findbyname)
+		{
+			UI_Image* image_to_change = static_cast<UI_Image*>(static_cast<G_UI*>((*it))->GetComponentUI(UI_TYPE::IMAGE));
+
+			image_to_change->SetImg(_newImage, UI_STATE::NORMAL);
+		}
+	}
+}
+
+void TextEdit(MonoObject* object, MonoString* text)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	static_cast<UI_Text*>(go->GetComponentUI(UI_TYPE::TEXT))->SetText(mono_string_to_utf8(text));
+}
+
+void SliderEdit(MonoObject* object, double value)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->SetValue(value);
+}
 #pragma endregion

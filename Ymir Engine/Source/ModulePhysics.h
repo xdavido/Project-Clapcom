@@ -106,6 +106,8 @@ public:
 	Color sensorColor;
 	int shapeLineWidth = 2;
 
+	bool onexitcollision;
+
 private:
 
 };

@@ -9,14 +9,18 @@
 #include "UI_Image.h"
 #include "UI_Text.h"
 
+#include "Delegate.h"
+
 class UI_Button : public C_UI
 {
 public:
 	// x = 0, y = 0, w = 300, y = 50
-	UI_Button(GameObject* g, int x = 0, int y = 0, int w = 300, int h = 50);
+	UI_Button(GameObject* g, float x = 0, float y = 0, float w = 300, float h = 50);
 	~UI_Button();
 
 	void OnInspector();
+	void SetReference() override;
+	void OnReferenceDestroyed(void* ptr = nullptr);
 
 	void OnNormal();
 	void OnFocused();
@@ -24,19 +28,24 @@ public:
 	void OnSelected();
 	void OnRelease();
 
+	void SetStateImg(const char* label, UI_STATE s = UI_STATE::NONE);
+
 public:
 	bool isInteractable;
+
 	UI_Image* image;
 
-	UI_Text* displayText;
+	GameObject* displayText;
 
-	// TODO: fix this
-	bool defaultFunction;
+	std::map<UI_STATE, std::string> mPaths;
 
 	//color
 	Color focusedColor;
 	Color pressedColor;
 	Color selectedColor;
 	Color disabledColor;
+
+private:
+	Delegate onClick;
 };
 #endif // __UI_BUTTON_H__
