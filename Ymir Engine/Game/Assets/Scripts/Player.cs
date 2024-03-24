@@ -493,16 +493,16 @@ public class Player : YmirComponent
     {
         HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        if (gamepadInput.x > 0)
-        {
-            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
-        }
-        if (gamepadInput.x < 0)
-        {
-            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
-        }
+        //if (gamepadInput.x > 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        //}
 
 
     }
