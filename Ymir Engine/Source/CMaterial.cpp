@@ -188,7 +188,14 @@ void CMaterial::OnInspector()
 
                 case UniformType::f1:
 
-                    ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
+                    if (kt->name == "transparency")
+                    {
+                        ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.02f, 0.0f, 1.0f);
+                    }
+                    else 
+                    {
+                        ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.1f);
+                    }
 
                     shader.SetUniformValue(kt->name, (float*)kt->value.get());
 
