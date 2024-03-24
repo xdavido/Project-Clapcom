@@ -8,7 +8,6 @@ using YmirEngine;
 
 public class SceneManager : YmirComponent
 {
-bool start = true;
 
 	public void Update()
 	{
