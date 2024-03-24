@@ -54,6 +54,7 @@ public class Health : YmirComponent
 
         return false;
     }
+
     private void GetAnotherScript()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");

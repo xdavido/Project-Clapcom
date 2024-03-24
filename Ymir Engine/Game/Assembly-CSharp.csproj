@@ -60,6 +60,7 @@
 		<Compile Include="Assets\Scripts\Prueba.cs" />
 		<Compile Include="Assets\Scripts\Ui.cs" />
 		<Compile Include="Assets\Scripts\Health.cs" />
+		<Compile Include="Assets\Scripts\UI_Bullets.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

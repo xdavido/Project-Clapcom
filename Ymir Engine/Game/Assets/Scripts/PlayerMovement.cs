@@ -189,12 +189,20 @@ public class PlayerMovement : YmirComponent
 
     private void GetAnotherScript()
     {
+        //GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+
+        //if (gameObject != null)
+        //{
+        //    Health player = gameObject.GetComponent<Health>();
+        //    player.TakeDmg(3);
+        //}
+
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
 
         if (gameObject != null)
         {
-            Health player = gameObject.GetComponent<Health>();
-            player.TakeDmg(3);
+            UI_Bullets player = gameObject.GetComponent<UI_Bullets>();
+            player.UseBullets(2);
         }
     }
 
