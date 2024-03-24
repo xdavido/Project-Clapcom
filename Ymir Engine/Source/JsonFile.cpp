@@ -1550,7 +1550,6 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 
 		External->scene->mRootNode->mParent = nullptr;
 
-		auto it = External->scene->vTempComponents.begin();
 		for (auto it = External->scene->vTempComponents.begin(); it != External->scene->vTempComponents.end(); ++it)
 		{
 			(*it)->SetReference();
