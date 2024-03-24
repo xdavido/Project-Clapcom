@@ -1080,9 +1080,6 @@
     <ClInclude Include="Source\Animation.h">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Source\AnimationController.h">
-      <Filter>Sources\Features\Skeletal Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Animator.h">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClInclude>
@@ -1104,6 +1101,12 @@
     <ClInclude Include="Source\UI_Transform.h">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ResourceAnimation.h">
+      <Filter>Sources\Features\Resource Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ImporterAnimation.h">
+      <Filter>Sources\Features\Custom File Format</Filter>
+	</ClInclude>
     <ClInclude Include="Source\PointLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
@@ -1529,9 +1532,6 @@
     <ClCompile Include="Source\Animation.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AnimationController.cpp">
-      <Filter>Sources\Features\Skeletal Animation</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Animator.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
@@ -1546,6 +1546,12 @@
     </ClCompile>
     <ClCompile Include="Source\UI_Transform.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceAnimation.cpp">
+      <Filter>Sources\Features\Resource Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ImporterAnimation.cpp">
+      <Filter>Sources\Features\Custom File Format</Filter>
     </ClCompile>
     <ClCompile Include="Source\PointLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>

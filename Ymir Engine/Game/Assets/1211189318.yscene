@@ -1,0 +1,1630 @@
+{
+    "Editor Camera Position": [
+        178.91276550292969,
+        494.93936157226562,
+        502.78485107421875
+    ],
+    "Editor Camera Right (X)": [
+        0.9111485481262207,
+        0,
+        -0.41207811236381531
+    ],
+    "Editor Camera Up (Y)": [
+        -0.24966612458229065,
+        0.79556310176849365,
+        -0.55203831195831299
+    ],
+    "Editor Camera Front (Z)": [
+        -0.32783409953117371,
+        -0.60587078332901001,
+        -0.7248760461807251
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 1211189318,
+            "Element_Type": "None",
+            "Children UID": [
+                1803502202,
+                428572753
+            ],
+            "Components": []
+        },
+        {
+            "Name": "Main Camera",
+            "UID": 1803502202,
+            "Element_Type": "None",
+            "Parent UID": 1211189318,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        -180,
+                        40.000007629394531,
+                        -180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {},
+                {},
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604485511779785,
+                        -1.4361712885602174e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        6.6969747081202513e-08,
+                        1,
+                        1.4361708622345759e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        6.6969747081202513e-08,
+                        -0.76604485511779785
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "roboArm_tri_baked_ASCII",
+            "UID": 428572753,
+            "Element_Type": "Model",
+            "Parent UID": 1211189318,
+            "Children UID": [
+                1332381868,
+                1008437650
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_RotationPivot",
+            "UID": 1332381868,
+            "Element_Type": "None",
+            "Parent UID": 428572753,
+            "Children UID": [
+                1741388822
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_RotationPivotInverse",
+            "UID": 1741388822,
+            "Element_Type": "None",
+            "Parent UID": 1332381868,
+            "Children UID": [
+                432008794
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_ScalingPivot",
+            "UID": 432008794,
+            "Element_Type": "None",
+            "Parent UID": 1741388822,
+            "Children UID": [
+                233111721
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm_$AssimpFbx$_ScalingPivotInverse",
+            "UID": 233111721,
+            "Element_Type": "None",
+            "Parent UID": 432008794,
+            "Children UID": [
+                713872939
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "RoboArm",
+            "UID": 713872939,
+            "Element_Type": "None",
+            "Parent UID": 233111721,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Animation",
+                    "Active": 1,
+                    "Selected animation": 0,
+                    "Total Animations": 0,
+                    "ModelPath": "Assets\/roboArm_tri_baked_ASCII.fbx",
+                    "Animator": {
+                        "Current animation time": 14.423998832702637,
+                        "Animation": {
+                            "Name": "Take 001",
+                            "IsPlaying": false,
+                            "Loop": true,
+                            "PingPong": true,
+                            "Backwards": false,
+                            "EaseIn": false,
+                            "EaseOut": false,
+                            "Speed": 1,
+                            "Duration": 50,
+                            "TicksPerSecond": 24,
+                            "BoneInfoMap": {
+                                "Arm": {
+                                    "id": 1,
+                                    "offset": [
+                                        [
+                                            4.0469437583520005e-17,
+                                            0.66091609001159668,
+                                            0.75046002864837646,
+                                            -108.47528839111328
+                                        ],
+                                        [
+                                            -1.5279925120540843e-17,
+                                            0.75046002864837646,
+                                            -0.66091609001159668,
+                                            -125.89192962646484
+                                        ],
+                                        [
+                                            -1,
+                                            1.5279925120540843e-17,
+                                            4.0469430966075105e-17,
+                                            51.822048187255859
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            1
+                                        ]
+                                    ]
+                                },
+                                "Arm1": {
+                                    "id": 2,
+                                    "offset": [
+                                        [
+                                            3.6507639496085028e-17,
+                                            -0.59621506929397583,
+                                            0.80282503366470337,
+                                            57.712169647216797
+                                        ],
+                                        [
+                                            1.2073496787960715e-17,
+                                            0.80282503366470337,
+                                            0.59621506929397583,
+                                            -333.17877197265625
+                                        ],
+                                        [
+                                            -1,
+                                            -1.2073493479238265e-17,
+                                            3.6507632878640127e-17,
+                                            51.822044372558594
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            1
+                                        ]
+                                    ]
+                                },
+                                "Arm1_$AssimpFbx$_Rotation": {
+                                    "id": 8,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Arm1_$AssimpFbx$_Scaling": {
+                                    "id": 9,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Arm1_$AssimpFbx$_Translation": {
+                                    "id": 7,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Arm_$AssimpFbx$_Rotation": {
+                                    "id": 5,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Arm_$AssimpFbx$_Scaling": {
+                                    "id": 6,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Arm_$AssimpFbx$_Translation": {
+                                    "id": 4,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger1_$AssimpFbx$_Rotation": {
+                                    "id": 14,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger1_$AssimpFbx$_Scaling": {
+                                    "id": 15,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger1_$AssimpFbx$_Translation": {
+                                    "id": 13,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger_$AssimpFbx$_Rotation": {
+                                    "id": 11,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger_$AssimpFbx$_Scaling": {
+                                    "id": 12,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Finger_$AssimpFbx$_Translation": {
+                                    "id": 10,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Hand": {
+                                    "id": 3,
+                                    "offset": [
+                                        [
+                                            3.7560527919301725e-17,
+                                            -0.61340999603271484,
+                                            0.78976500034332275,
+                                            -8.3185014724731445
+                                        ],
+                                        [
+                                            1.2873199287745344e-17,
+                                            0.78976500034332275,
+                                            0.61340999603271484,
+                                            -333.43609619140625
+                                        ],
+                                        [
+                                            -1,
+                                            -1.2873195151842281e-17,
+                                            3.7560521301856825e-17,
+                                            51.822044372558594
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            1
+                                        ]
+                                    ]
+                                },
+                                "Hand_$AssimpFbx$_Rotation": {
+                                    "id": 17,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Hand_$AssimpFbx$_Scaling": {
+                                    "id": 18,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Hand_$AssimpFbx$_Translation": {
+                                    "id": 16,
+                                    "offset": [
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ]
+                                    ]
+                                },
+                                "Parent": {
+                                    "id": 0,
+                                    "offset": [
+                                        [
+                                            1,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            1,
+                                            0,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            1,
+                                            0
+                                        ],
+                                        [
+                                            0,
+                                            0,
+                                            0,
+                                            1
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1739,
+                    "Index Count": 3480
+                }
+            ]
+        },
+        {
+            "Name": "Parent",
+            "UID": 1008437650,
+            "Element_Type": "None",
+            "Parent UID": 428572753,
+            "Children UID": [
+                505804061
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Translation",
+            "UID": 505804061,
+            "Element_Type": "None",
+            "Parent UID": 1008437650,
+            "Children UID": [
+                76695557
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_PreRotation",
+            "UID": 76695557,
+            "Element_Type": "None",
+            "Parent UID": 505804061,
+            "Children UID": [
+                1516582561
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Rotation",
+            "UID": 1516582561,
+            "Element_Type": "None",
+            "Parent UID": 76695557,
+            "Children UID": [
+                1959495910
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm_$AssimpFbx$_Scaling",
+            "UID": 1959495910,
+            "Element_Type": "None",
+            "Parent UID": 1516582561,
+            "Children UID": [
+                387863878
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm",
+            "UID": 387863878,
+            "Element_Type": "None",
+            "Parent UID": 1959495910,
+            "Children UID": [
+                89166775
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Translation",
+            "UID": 89166775,
+            "Element_Type": "None",
+            "Parent UID": 387863878,
+            "Children UID": [
+                1045357491
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_PreRotation",
+            "UID": 1045357491,
+            "Element_Type": "None",
+            "Parent UID": 89166775,
+            "Children UID": [
+                1754545345
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Rotation",
+            "UID": 1754545345,
+            "Element_Type": "None",
+            "Parent UID": 1045357491,
+            "Children UID": [
+                1844870326
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1_$AssimpFbx$_Scaling",
+            "UID": 1844870326,
+            "Element_Type": "None",
+            "Parent UID": 1754545345,
+            "Children UID": [
+                1563416117
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Arm1",
+            "UID": 1563416117,
+            "Element_Type": "None",
+            "Parent UID": 1844870326,
+            "Children UID": [
+                1451493725
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Translation",
+            "UID": 1451493725,
+            "Element_Type": "None",
+            "Parent UID": 1563416117,
+            "Children UID": [
+                384761648
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_PreRotation",
+            "UID": 384761648,
+            "Element_Type": "None",
+            "Parent UID": 1451493725,
+            "Children UID": [
+                896563467
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Rotation",
+            "UID": 896563467,
+            "Element_Type": "None",
+            "Parent UID": 384761648,
+            "Children UID": [
+                1087368835
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand_$AssimpFbx$_Scaling",
+            "UID": 1087368835,
+            "Element_Type": "None",
+            "Parent UID": 896563467,
+            "Children UID": [
+                1325625071
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hand",
+            "UID": 1325625071,
+            "Element_Type": "None",
+            "Parent UID": 1087368835,
+            "Children UID": [
+                980292252,
+                106684659
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Translation",
+            "UID": 980292252,
+            "Element_Type": "None",
+            "Parent UID": 1325625071,
+            "Children UID": [
+                1557741062
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_PreRotation",
+            "UID": 1557741062,
+            "Element_Type": "None",
+            "Parent UID": 980292252,
+            "Children UID": [
+                1203930514
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Rotation",
+            "UID": 1203930514,
+            "Element_Type": "None",
+            "Parent UID": 1557741062,
+            "Children UID": [
+                195509071
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger_$AssimpFbx$_Scaling",
+            "UID": 195509071,
+            "Element_Type": "None",
+            "Parent UID": 1203930514,
+            "Children UID": [
+                986897920
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger",
+            "UID": 986897920,
+            "Element_Type": "None",
+            "Parent UID": 195509071,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Translation",
+            "UID": 106684659,
+            "Element_Type": "None",
+            "Parent UID": 1325625071,
+            "Children UID": [
+                1381482499
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_PreRotation",
+            "UID": 1381482499,
+            "Element_Type": "None",
+            "Parent UID": 106684659,
+            "Children UID": [
+                2056782894
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Rotation",
+            "UID": 2056782894,
+            "Element_Type": "None",
+            "Parent UID": 1381482499,
+            "Children UID": [
+                615474865
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1_$AssimpFbx$_Scaling",
+            "UID": 615474865,
+            "Element_Type": "None",
+            "Parent UID": 2056782894,
+            "Children UID": [
+                275752938
+            ],
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Finger1",
+            "UID": 275752938,
+            "Element_Type": "None",
+            "Parent UID": 615474865,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

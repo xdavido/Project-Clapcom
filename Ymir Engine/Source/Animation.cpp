@@ -7,7 +7,14 @@
 #include "External/mmgr/mmgr.h"
 
 Animation::Animation() {
-
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
+	easeInSpeed = 1;
+	easeOutSpeed = 1;
+	easeInMultiplier = 1.025f;
+	easeOutMultiplier = 0.995f;
+	duration = 0;
 }
 
 Animation::Animation(const std::string& animationPath, Model* model, int index)
@@ -17,7 +24,18 @@ Animation::Animation(const std::string& animationPath, Model* model, int index)
 	loop = false;
 	pingPong = false;
 	backwards = false;
+	easeIn = false;
+	easeOut = false;
 	speed = 1;
+	backwardsAux = true;
+	pingPongAux = true;
+	pingPongBackwardsAux = true;
+	easeInSpeed = 1;
+	easeOutSpeed = 1;
+	easeInMultiplier = 1.025f;
+	easeOutMultiplier = 0.995f;
+	duration = 0;
+
 	ParseAnimationData(animationPath, model, index);
 }
 
@@ -30,6 +48,7 @@ Bone* Animation::FindBone(std::string& name)
 	// iterator 
 	std::_Vector_iterator iter = std::find_if(bones.begin(), bones.end(),
 		[&](Bone& bone) {
+			
 			return bone.GetName() == name;
 		});
 	if(iter == bones.end()){
@@ -93,7 +112,7 @@ void Animation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
 		AssimpNodeData newData; 
 		ReadHierarchyData(newData, src->mChildren[i]);
 		dest.children.push_back(newData);
-	}	
+	}
 }
 
 Animation* Animation::ParseAnimationData(const std::string& animationPath, Model* model, int index)
@@ -102,11 +121,11 @@ Animation* Animation::ParseAnimationData(const std::string& animationPath, Model
 	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
 	assert(scene && scene->mRootNode);
 	aiAnimation* animation = scene->mAnimations[index];
+	name = animation->mName.C_Str();
 	duration = animation->mDuration;
 	ticksPerSecond = animation->mTicksPerSecond;
 	ReadHierarchyData(rootNode, scene->mRootNode);
 	ReadMissingBones(animation, *model);
-
 	return this;
 }
 

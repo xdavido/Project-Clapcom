@@ -9,13 +9,12 @@
 #include <vector>
 #include <map>
 
-#include "Animation.h"
 #include "Animator.h"
 
 class GameObject;
 
 class Animator;
-class Animation;
+class ResourceAnimation; 
 
 class CAnimation : public Component {
 public:
@@ -25,24 +24,53 @@ public:
 	void Update();
 
 	void OnInspector() override;
-
-	void AddAnimation(Animation &newAnimation, std::string animationName);
+	
+	// Add animation to animations list
+	void AddAnimation(ResourceAnimation &newAnimation);
 
 	void RemoveAnimation(int ID);
 
+	// Plays an animation. !!Must give name!!
+	void PlayAnimation(std::string animationName);
+
+	// Resumes current playing animation.
+	void PauseAnimation();
+
+	// Resumes current playing animation.
+	void ResumeAnimation();
+
+	// Stop current playing animation.
+	void StopAnimation();
+
+	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
+
+	// Set animation to loop. If not given a name it applies to all animations
+	void SetLoop(std::string animationName = "", bool loop = true);
+
+	// Set animation to go backwards. If not given a name it applies to all animations
+	void SetBackwards(std::string animationName = "", bool backwards = true);
+
+	// Set animation to pingpong. If not given a name it applies to all animations
+	void SetPingPong(std::string animationName = "", bool pingPong = true);
+
+	// Set animation speed. If not given a name it applies to all animations
+	void SetSpeed(std::string animationName = "", float loop = true);
+
+
 private:
+
+	void YAnimDragDropTarget();
 
 public:
 
 	Animator* animator;
 
-	int selectedAnimationPlaying = -1;
+	int selectedAnimation = -1;
+
+	std::string modelPath;
 
 private:
 
-	int selectedAnimation = -1;
 	bool isSelected = false;
-
-	//sizeof crashing the engine for some reason so using int for now
-	int totalAnimations = -1;
+	
 };

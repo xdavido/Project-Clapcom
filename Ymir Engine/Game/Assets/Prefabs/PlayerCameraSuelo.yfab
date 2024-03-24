@@ -3,6 +3,7 @@
         {
             "Name": "Player_Camera_Suelo",
             "UID": 1858338460,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 381266425,
             "Components": [
@@ -35,6 +36,7 @@
         {
             "Name": "Main Camera",
             "UID": 1270585162,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1858338460,
             "Components": [
@@ -104,6 +106,7 @@
         {
             "Name": "Player",
             "UID": 1589760253,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Raisen_Mi_Amor.fbx",
             "Parent UID": 1858338460,
@@ -113,7 +116,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        3.8908348083496094,
+                        4.4254260063171387,
                         0
                     ],
                     "Rotation": [
@@ -126,21 +129,6 @@
                         1,
                         1
                     ]
-                },
-                {
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "Gravity": true
                 },
                 {
                     "Type": "Script",
@@ -160,6 +148,30 @@
                     "Bank Name": "Player",
                     "Event Name": "P_Shoot",
                     "Event ID": 1216763735
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": false,
+                    "LockZ": true
                 }
             ],
             "Children UID": [
@@ -172,6 +184,7 @@
         {
             "Name": "Backpack",
             "UID": 433503244,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1589760253,
             "Components": [
@@ -209,6 +222,7 @@
         {
             "Name": "backpack",
             "UID": 328689476,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -250,6 +264,7 @@
         {
             "Name": "beltD",
             "UID": 28280604,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -291,6 +306,7 @@
         {
             "Name": "beltI.001",
             "UID": 824516471,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -332,6 +348,7 @@
         {
             "Name": "lightD",
             "UID": 566477109,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -373,6 +390,7 @@
         {
             "Name": "lightI",
             "UID": 1693908760,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -414,6 +432,7 @@
         {
             "Name": "metalD",
             "UID": 114144529,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -455,6 +474,7 @@
         {
             "Name": "metalI",
             "UID": 1814991651,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -496,6 +516,7 @@
         {
             "Name": "radio",
             "UID": 2030945739,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 433503244,
             "Components": [
@@ -537,6 +558,7 @@
         {
             "Name": "Body",
             "UID": 109009799,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1589760253,
             "Components": [
@@ -578,6 +600,7 @@
         {
             "Name": "Eyes",
             "UID": 1060511610,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1589760253,
             "Components": [
@@ -619,6 +642,7 @@
         {
             "Name": "Tail",
             "UID": 873998742,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1589760253,
             "Components": [
@@ -660,6 +684,7 @@
         {
             "Name": "Suelo",
             "UID": 1009784856,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Primitives\/Cube.fbx",
             "Parent UID": 1858338460,
@@ -691,6 +716,7 @@
         {
             "Name": "Cube",
             "UID": 1553236809,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1009784856,
             "Components": [
@@ -728,6 +754,11 @@
                     "Index Count": 36
                 },
                 {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
                     "Type": "Physics",
                     "Active": 1,
                     "Collider Type": 0,
@@ -740,7 +771,11 @@
                     "Height": 1,
                     "Physics Type": 2,
                     "Mass": 0,
-                    "Gravity": true
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
                 }
             ]
         }

@@ -6,6 +6,7 @@
 #include "PhysfsEncapsule.h"
 #include "ImporterMesh.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -23,6 +24,7 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	librarySettingsPath = libraryPath + "Settings/";
 	libraryScriptsPath = libraryPath + "Scripts/";
 	libraryPrefabsPath = libraryPath + "Prefabs/";
+	libraryAnimationsPath = libraryPath + "Animations/";
 
 	regenerateLibrary = false;
 
@@ -137,6 +139,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
 	PhysfsEncapsule::CreateFolder(libraryPath, "Prefabs"); // Prefabs
+	PhysfsEncapsule::CreateFolder(libraryPath, "Animations"); // Animations
 }
 
 bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename) {
@@ -163,6 +166,29 @@ bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector
 	delete[] fileBuffer;
 
 	return true;
+}
+
+bool ModuleFileSystem::SaveAnimationToFile(Animation* anim, const std::string& filename) {
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
+
+	std::ofstream outFile(filename, std::ios::binary);
+
+	if (!outFile.is_open()) {
+
+		LOG("[ERROR] Unable to open the file for writing: %s", filename);
+
+		return false;
+	}
+
+	// Write the buffer to the file
+	outFile.write(fileBuffer, bufferSize);
+
+	// Close the file
+	outFile.close();
+
+	// Free the allocated memory for the buffer
+	delete[] fileBuffer;
 }
 
 bool ModuleFileSystem::SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename)

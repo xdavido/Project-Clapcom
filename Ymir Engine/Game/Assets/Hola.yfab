@@ -2,7 +2,8 @@
     "Prefab": [
         {
             "Name": "BakerHouse",
-            "UID": 2042006763,
+            "UID": 1621732659,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/BakerHouse.fbx",
             "Parent UID": 1320671775,
@@ -28,14 +29,14 @@
                 }
             ],
             "Children UID": [
-                677142659
+                1602157225
             ]
         },
         {
-            "Name": "677142659",
-            "UID": 677142659,
+            "Name": "1602157225",
+            "UID": 1602157225,
             "Element_Type": "None",
-            "Parent UID": 2042006763,
+            "Parent UID": 1621732659,
             "Components": [
                 {
                     "Type": "Transform",
@@ -72,15 +73,15 @@
                 }
             ],
             "Children UID": [
-                408397738,
+                835802751,
                 1110725937
             ]
         },
         {
-            "Name": "408397738",
-            "UID": 408397738,
+            "Name": "835802751",
+            "UID": 835802751,
             "Element_Type": "None",
-            "Parent UID": 677142659,
+            "Parent UID": 1602157225,
             "Components": [
                 {
                     "Type": "Transform",
@@ -124,7 +125,7 @@
             "Name": "Empty (1)",
             "UID": 442258442,
             "Element_Type": "None",
-            "Parent UID": 408397738,
+            "Parent UID": 835802751,
             "Components": [
                 {
                     "Type": "Transform",
@@ -179,9 +180,9 @@
         },
         {
             "Name": "Empty (3)",
-            "UID": 1110725937,
+            "UID": 273939343,
             "Element_Type": "None",
-            "Parent UID": 677142659,
+            "Parent UID": 1621732659,
             "Components": [
                 {
                     "Type": "Transform",

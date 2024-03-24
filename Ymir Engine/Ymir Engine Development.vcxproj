@@ -137,7 +137,6 @@
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
     <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\AnimationController.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\CAnimation.h" />
@@ -347,6 +346,7 @@
     <ClInclude Include="Source\External\stb_image\stb_image.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Globals.h" />
+    <ClInclude Include="Source\ImporterAnimation.h" />
     <ClInclude Include="Source\ImporterMaterial.h" />
     <ClInclude Include="Source\ImporterMesh.h" />
     <ClInclude Include="Source\ImporterModel.h" />
@@ -439,6 +439,7 @@
     <ClInclude Include="Source\PointLight.h" />
     <ClInclude Include="Source\Primitive.h" />
     <ClInclude Include="Source\Random.h" />
+    <ClInclude Include="Source\ResourceAnimation.h" />
     <ClInclude Include="Source\ResourceMaterial.h" />
     <ClInclude Include="Source\ResourceMesh.h" />
     <ClInclude Include="Source\ResourceModel.h" />
@@ -468,7 +469,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Animation.cpp" />
-    <ClCompile Include="Source\AnimationController.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AreaLight.cpp" />
@@ -522,6 +522,7 @@
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\G_UI.cpp" />
+    <ClCompile Include="Source\ImporterAnimation.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />
@@ -587,6 +588,7 @@
     <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
     <ClCompile Include="Source\Random.cpp" />
+    <ClCompile Include="Source\ResourceAnimation.cpp" />
     <ClCompile Include="Source\ResourceMaterial.cpp" />
     <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\ResourceMesh.cpp" />

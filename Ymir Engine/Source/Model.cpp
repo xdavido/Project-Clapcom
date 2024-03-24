@@ -8,6 +8,7 @@
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "ModuleResourceManager.h"
 
@@ -38,6 +39,7 @@ Model::Model()
 Model::Model(const std::string& path, bool onlyReimport, const std::string& shaderPath)
 {
 	this->onlyReimport = onlyReimport;
+	processedMeshes = 0;
 	LoadModel(path, shaderPath);
 }
 
@@ -207,7 +209,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
 			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
-
+			processedMeshes++;
 		}
 
 		GenerateYmodelFile(tmpNodeTransform.translation, tmpNodeTransform.rotation, tmpNodeTransform.scale);
@@ -215,7 +217,40 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		// Load Transform From Assimp
 		static_cast<CTransform*>(currentNodeGO->GetComponent(ComponentType::TRANSFORM))->SetTransform(tmpNodeTransform.translation, tmpNodeTransform.rotation * RADTODEG, tmpNodeTransform.scale);
 
+		// Check if all the bone meshes have been processed ---> when all meshes processed, process if have animations
+		if (scene->mNumMeshes == processedMeshes) {
+			if (scene->HasAnimations()) {
+				if (modelGO->GetComponent(ANIMATION) == nullptr) {
+					CAnimation* animationComponent = new CAnimation(modelGO);
+					modelGO->AddComponent(animationComponent);
+					CAnimation* cAnim = (CAnimation*)modelGO->GetComponent(ANIMATION);
+					cAnim->modelPath = path;
+
+					for (int i = 0; i < scene->mNumAnimations; i++) {
+						Animation* anim = new Animation(path, this, i);
+
+						std::string filename = std::to_string(modelGO->UID) + ".yanim";
+						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+
+						//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+
+						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
+						cAnim->AddAnimation(*rAnim);
+					}
+					LOG("Model has animations");
+				}
+			}
+			else {
+
+				//animator = nullptr;
+
+				LOG("Model doesn't have animations");
+			}
+
+		}
 	}
+		
 
 	// Process children of the current node
 	for (uint i = 0; i < node->mNumChildren; i++) {
@@ -464,25 +499,35 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	// Load animations
 
-	if (scene->HasAnimations()) {
+	//if (scene->HasAnimations()) {
 
-		// Hardcoded for testing
-		CAnimation* animationComponent = new CAnimation(linkGO);
-		linkGO->AddComponent(animationComponent);
-		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-		//-------------------------
-		for (int i = 0; i < scene->mNumAnimations; i++) {
-			Animation* anim = new Animation(path, this, i);
-			cAnim->AddAnimation(*anim, scene->mAnimations[i]->mName.C_Str());
-		}
-		LOG("Model has animations");
-	}
-	else {
+	//	if (linkGO->GetComponent(ANIMATION) == nullptr) {
+	//		CAnimation* animationComponent = new CAnimation(linkGO);
+	//		linkGO->AddComponent(animationComponent);
+	//		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
+	//		cAnim->modelPath = path;
 
-		//animator = nullptr;
+	//		for (int i = 0; i < scene->mNumAnimations; i++) {
+	//			Animation* anim = new Animation(path, this, i);
 
-		LOG("Model doesn't have animations");
-	}
+	//			std::string filename = std::to_string(linkGO->UID) + ".yanim";
+	//			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+
+	//			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+	//			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+
+	//			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
+	//			cAnim->AddAnimation(*rAnim);
+	//		}
+	//		LOG("Model has animations");
+	//	}
+	//}
+	//else {
+
+	//	//animator = nullptr;
+
+	//	LOG("Model doesn't have animations");
+	//}
 
 	// Create the mesh
 
