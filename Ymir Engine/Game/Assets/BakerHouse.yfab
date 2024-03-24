@@ -2,10 +2,11 @@
     "Prefab": [
         {
             "Name": "BakerHouse",
-            "UID": 2042006763,
+            "UID": 1621732659,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 1212678857,
+            "Parent UID": 1386565631,
             "Components": [
                 {
                     "Type": "Transform",
@@ -28,15 +29,16 @@
                 }
             ],
             "Children UID": [
-                677142659,
-                408397738
+                1602157225,
+                835802751
             ]
         },
         {
             "Name": "Chimney",
-            "UID": 677142659,
+            "UID": 1602157225,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 2042006763,
+            "Parent UID": 1621732659,
             "Components": [
                 {
                     "Type": "Transform",
@@ -75,9 +77,10 @@
         },
         {
             "Name": "Baker_house",
-            "UID": 408397738,
+            "UID": 835802751,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 2042006763,
+            "Parent UID": 1621732659,
             "Components": [
                 {
                     "Type": "Transform",
