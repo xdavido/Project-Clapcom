@@ -19,6 +19,8 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	collType = collider;
 	physType = physics;
 
+	isSensor = false;
+
 	mass = 1;
 	size = float3{ 1,1,1 };
 	btSize = float3_to_btVector3(size);
@@ -62,13 +64,14 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		height = 10;
 	}
 
-	//shape->setLocalScaling(btSize);
-	
+	lockX = false;
+	lockY = false;
+	lockZ = false;
 }
 
 CCollider::~CCollider()
 {
-	External->physics->world->removeRigidBody(physBody->body);
+	RemovePhysbody();
 
 	delete physBody;
 	delete shape;
@@ -77,9 +80,9 @@ CCollider::~CCollider()
 void CCollider::Update()
 {
 	if (External->physics->beginPlay)
-		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, gravity);
+		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, useGravity);
 
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING && !ImGuizmo::IsUsing())
 	{
 		if (physBody != nullptr) {
 
@@ -89,16 +92,17 @@ void CCollider::Update()
 			CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 			CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
+			CTransform* parentTransform = (CTransform*)mOwner->mParent->GetComponent(ComponentType::TRANSFORM);
+
 			float offsetX = 0;
 			float offsetY = 0;
 			float offsetZ = 0;
 
-			if (componentMesh != nullptr) {
-
+			if (componentMesh != nullptr) 
+			{
 				offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
 				offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
 				offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
-
 			}
 
 			float4x4 newMat;
@@ -106,38 +110,71 @@ void CCollider::Update()
 			newMat.SetCol(0, float4(matrix[0], matrix[1], matrix[2], matrix[3]));
 			newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 			newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
-			if (collType != ColliderType::MESH_COLLIDER)
-				newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
-			else
-				newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
 
-			mOwner->mTransform->SetPosition(newMat.TranslatePart());
+			if (parentTransform == nullptr)
+			{
+				if (collType != ColliderType::MESH_COLLIDER)
+					newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+				else
+					newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
+			}
+			else
+			{
+				if (collType != ColliderType::MESH_COLLIDER)
+					newMat.SetCol(3, float4(matrix[12] - offsetX - parentTransform->GetGlobalPosition().x, 
+											matrix[13] - offsetY - parentTransform->GetGlobalPosition().y, 
+											matrix[14] - offsetZ - parentTransform->GetGlobalPosition().z,  
+											matrix[15]));
+				else
+					newMat.SetCol(3, float4(matrix[12] - parentTransform->GetGlobalPosition().x, 
+											matrix[13] - parentTransform->GetGlobalPosition().y, 
+											matrix[14] - parentTransform->GetGlobalPosition().z, 
+											matrix[15]));
+			}
+
+			float3 pos = newMat.TranslatePart();
+
+			if (parentTransform)
+			{
+				pos.x /= parentTransform->scale.x;
+				pos.y /= parentTransform->scale.y;
+				pos.z /= parentTransform->scale.z;
+			}
+
+			mOwner->mTransform->SetPosition(pos);
+
 			mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
-			//mOwner->mTransform->SetScale(newMat.GetScale());
 
 			mOwner->mTransform->UpdateTransformsChilds();
 
 		}
-		
+
 	}
 
-	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active) {
+	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active || ImGuizmo::IsUsing()) {
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr && physBody != nullptr) {
 
+			float3 pos;
+
 			if (collType != ColliderType::MESH_COLLIDER)
-			{
-				float3 pos = componentMesh->rMeshReference->obb.CenterPoint();
-				physBody->SetPosition(pos);
-			}
+				pos = componentMesh->rMeshReference->obb.CenterPoint();
+			else
+				pos = componentTransform->GetGlobalPosition();
+
+			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetLocalRotation());
 
-			if (ImGuizmo::IsUsing()) {
+			//physBody->SetScale(componentTransform->scale);
+			/*physBody->SetScale*/
+			if (ImGuizmo::IsUsing()) 
+			{
+				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+				else size = componentMesh->rMeshReference->obb.Size();
 
-				size = componentMesh->rMeshReference->obb.Size();
 				radius = size.Length() / 2;
 				height = size.y;
 			}
@@ -145,27 +182,28 @@ void CCollider::Update()
 		}
 		else {
 
-			physBody->SetPosition(componentTransform->GetLocalTransform().TranslatePart());
-			physBody->SetRotation(componentTransform->GetLocalRotation());
+			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
+			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
-			if (ImGuizmo::IsUsing()) {
-
+			if (ImGuizmo::IsUsing()) 
+			{
 				size = componentTransform->GetGlobalTransform().GetScale();
-
 			}
-
 		}
+	}
 
-	}	
+	if (size.x == 0) size.x = 0.1;
+	if (size.y == 0) size.y = 0.1;
+	if (size.z == 0) size.z = 0.1;
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
-
 }
 
 void CCollider::OnInspector()
 {
-	char* titles[]{ "Box", "Sphere", "Capsule", "Mesh (needs a component mesh!)" };
+	char* titles[]	{ "Box", "Sphere", "Capsule", "Mesh" };
+
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -186,10 +224,26 @@ void CCollider::OnInspector()
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
-		ImGui::Text("Shape: "); ImGui::SameLine();
-		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles))) 
+
+		bool auxIsSensor = isSensor;
+		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
-			switch (collType)
+			SetAsSensor(auxIsSensor);
+		}
+
+		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))
+		{
+			!physBody->drawShape;
+		}
+
+		ImGui::Text("Shape: "); ImGui::SameLine();
+		
+		int hasNotMesh = 0;
+		if (mOwner->GetComponent(ComponentType::MESH) == nullptr) hasNotMesh = 1; // if mesh = false -> value = 1
+
+		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles) - hasNotMesh)) 
+		{
+			switch (collType)	
 			{
 			case ColliderType::BOX:
 				RemovePhysbody();
@@ -258,13 +312,14 @@ void CCollider::OnInspector()
 
 				if (componentMesh != nullptr) {
 
-					size = componentMesh->rMeshReference->obb.Size();
+					if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+					else size = componentMesh->rMeshReference->obb.Size();
+
 					radius = size.Length();
 					height = size.y;
 				}
 
 			}
-
 		}
 
 		// -----------------------------------------------------------------------------------------------------
@@ -284,7 +339,7 @@ void CCollider::OnInspector()
 		{
 			physType = static_cast<PhysicsType>(currentItem);
 			SetDefaultValues(physType);
-			External->physics->RecalculateInertia(physBody, mass, gravity);
+			External->physics->RecalculateInertia(physBody, mass, useGravity);
 		}
 
 		switch (physType) 
@@ -292,9 +347,23 @@ void CCollider::OnInspector()
 		case PhysicsType::DYNAMIC:
 			ImGui::Text("Mass: "); ImGui::SameLine();
 			if (ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 1000.0f))
-				External->physics->RecalculateInertia(physBody, mass, gravity);
-			if (ImGui::Checkbox("Use gravity\t", &gravity))
-				External->physics->RecalculateInertia(physBody, mass, gravity);
+				External->physics->RecalculateInertia(physBody, mass, useGravity);
+			if (ImGui::Checkbox("Use gravity\t", &useGravity))
+				External->physics->RecalculateInertia(physBody, mass, useGravity);
+
+			ImGui::Spacing();
+			ImGui::Text("Lock rotation");
+
+			if (ImGui::Checkbox("Lock x\t", &lockX))
+				UpdateLockRotation();
+
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Lock y\t", &lockY))
+				UpdateLockRotation();
+				
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Lock z\t", &lockZ))
+				UpdateLockRotation();
 
 			if (ImGui::Checkbox("Lock x\t", &lockX))
 				UpdateLockRotation();
@@ -404,17 +473,13 @@ void CCollider::SetCapsuleCollider()
 
 void CCollider::SetMeshCollider()
 {
-	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-	if (auxMesh == nullptr)
-	{
-		LOG("Mesh collider needs a ComponentMesh!");
-		SetBoxCollider();
-		return;
-	}
 
 	LOG("Set Mesh Collider");
 	collType = ColliderType::MESH_COLLIDER;
+	
+	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
+	size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 
 	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
@@ -430,21 +495,38 @@ void CCollider::SetDefaultValues(PhysicsType type)
 	{
 	case PhysicsType::DYNAMIC:
 		mass = 1;
-		gravity = true;
+		useGravity = true;
 		break;
 	case PhysicsType::KINEMATIC:
 		mass = 1;
-		gravity = false;
+		useGravity = false;
 		break;
 	case PhysicsType::STATIC:
 		mass = 0;
-		gravity = false;
+		useGravity = false;
 		break;
 	default:
 		mass = 0;
-		gravity = false;
+		useGravity = false;
 		break;
 	}
+}
+
+void CCollider::UpdateLockRotation()
+{
+	btVector3 rot;
+
+	if (lockX) rot.setX(0);
+	else rot.setX(1);
+
+	if (lockY) rot.setY(0);
+	else rot.setY(1);
+
+	if (lockZ) rot.setZ(0);
+	else rot.setZ(1);
+
+	physBody->body->setAngularFactor(rot);
+
 }
 
 void CCollider::RemovePhysbody()
@@ -453,5 +535,20 @@ void CCollider::RemovePhysbody()
 		External->physics->RemoveBody(physBody);
 		physBody = nullptr;
 	}
+}
 
+void CCollider::SetAsSensor(bool is_sensor)
+{
+	isSensor = is_sensor;
+
+	if (isSensor == true)
+	{
+		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+		physType = PhysicsType::STATIC;
+		SetDefaultValues(physType);
+		External->physics->RecalculateInertia(physBody, mass, useGravity);
+	}
+	else
+		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
 }

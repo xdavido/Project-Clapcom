@@ -121,6 +121,9 @@ public:
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
+	// God mode
+	bool godMode;
+
 private:
 
 	std::vector<GameObject*> vSelectedGOs;

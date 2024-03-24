@@ -828,9 +828,23 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
-				bool auxDebugDraw = App->physics->GetDebugDraw();
-				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g,
-					App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+				bool auxDebugDrawScene = App->physics->debugScene;
+				bool auxDebugDrawGame = App->physics->debugGame;
+				int auxLineWidth = App->physics->shapeLineWidth;
+
+				ImVec4 auxColliderColor = ImVec4(
+					App->physics->colliderColor.r, 
+					App->physics->colliderColor.g,
+					App->physics->colliderColor.b, 
+					App->physics->colliderColor.a
+				);
+
+				ImVec4 auxSensorColor = ImVec4(
+					App->physics->sensorColor.r,
+					App->physics->sensorColor.g,
+					App->physics->sensorColor.b,
+					App->physics->sensorColor.a
+				);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -846,37 +860,66 @@ void ModuleEditor::DrawEditor()
 				}
 
 				ImGui::Unindent();
-				ImGui::SeparatorText("Colliders");
+				ImGui::SeparatorText("Drawer");
 				ImGui::Indent();
 
-				ImGui::Text("Draw Colliders"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+
+				ImGui::Text("Draw Scene"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawScene", &auxDebugDrawScene))
 				{
-					App->physics->SetdebugDraw(auxDebugDraw);
+					App->physics->debugScene = auxDebugDrawScene;
 				}
+
+				ImGui::Text("Draw Game"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawGame", &auxDebugDrawGame))
+				{
+					App->physics->debugGame = auxDebugDrawGame;
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Customization");
+				ImGui::Indent();
 
 				ImGui::Text("Collider Color"); ImGui::SameLine();
 
-				// Mostrar el bot�n de color personalizado
-				if (ImGui::ColorButton("##ColorButton", auxColor))
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##ColliderColorButton", auxColliderColor))
 				{
-					ImGui::OpenPopup("ColorPickerPopup");
+					ImGui::OpenPopup("ColliderColorPicker");
 				}
 
-				if (ImGui::BeginPopup("ColorPickerPopup"))
+				if (ImGui::BeginPopup("ColliderColorPicker"))
 				{
-					ImGui::ColorPicker4("Color", (float*)&auxColor);
-					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::ColorPicker4("Color", (float*)&auxColliderColor);
+					App->physics->SetColliderColor(Color(auxColliderColor.x, auxColliderColor.y, auxColliderColor.z, auxColliderColor.w));
 					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Sensor Color"); ImGui::SameLine();
+
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor)) 
+				{ 
+					ImGui::OpenPopup("SensorColorPicker"); 
+				}
+
+				if (ImGui::BeginPopup("SensorColorPicker")) 
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxSensorColor);
+					App->physics->SetSensorColor(Color(auxSensorColor.x, auxSensorColor.y, auxSensorColor.z, auxSensorColor.w));
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Shape line width: "); ImGui::SameLine(); ImGui::SetNextItemWidth(100.0f);
+				if (ImGui::SliderInt("##Shape line width", &auxLineWidth, 0, 10))
+				{
+					App->physics->SetLineWidth(auxLineWidth);
 				}
 
 				ImGui::Unindent();
 			}
-
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showConsole) {
@@ -893,9 +936,7 @@ void ModuleEditor::DrawEditor()
 			MemoryLeaksOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showAssimpLog) {
@@ -907,9 +948,7 @@ void ModuleEditor::DrawEditor()
 			AssimpLogOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showHierarchy) {
@@ -921,9 +960,7 @@ void ModuleEditor::DrawEditor()
 			DrawHierarchy();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showInspector) {
@@ -1251,7 +1288,6 @@ void ModuleEditor::DrawEditor()
 
 			ImGui::End();
 		}
-
 	}
 
 	if (showShaderEditor) {
@@ -1312,7 +1348,7 @@ void ModuleEditor::DrawEditor()
 
 			// Mouse Picking Management
 
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !ImGuizmo::IsUsing())
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
 			{
 				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
 			}

@@ -24,6 +24,7 @@ public:
 	void SetRotation(Quat q);
 	GameObject* SetGameObject(GameObject* _owner);
 	void SetAsSensor(bool is_sensor);
+
 	btRigidBody* body = nullptr;
 	p2List<Module*> collision_listeners;
 
@@ -31,4 +32,6 @@ public:
 	bool is_sensor = false;
 
 	GameObject* owner;
+
+	bool drawShape = true;
 };

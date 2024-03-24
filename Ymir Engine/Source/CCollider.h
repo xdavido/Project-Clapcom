@@ -48,6 +48,10 @@ public:
 
 	void RemovePhysbody();
 
+	void SetAsSensor(bool is_sensor);
+
+	void UpdateLockRotation();
+
 	void SetDefaultValues(PhysicsType type);
 
 	// Conversion function from btVector3 to float3
@@ -73,10 +77,10 @@ public:
 	float height;
 
 	float mass;
-	bool gravity;
-	bool lockX;
-	bool lockZ;
-	bool lockY;
+	bool useGravity;
+	bool isSensor;
+
+	bool lockX, lockY, lockZ;
 
 	btCollisionShape* shape;
 	//btConvexHullShape* convexShape;
@@ -89,6 +93,6 @@ public:
 
 	//btCollisionObject* collider;
 
-	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
+	//TODO: crear variables: hull, mesh, sensor, edit collider, transformï¿½?
 
 };

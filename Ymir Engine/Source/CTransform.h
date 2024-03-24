@@ -37,6 +37,8 @@ public:
 	float4x4 GetLocalTransform() const;
 	float3 GetGlobalPosition() const;
 	Quat GetLocalRotation() const;
+	Quat GetGlobalRotation() const;
+
 
 	void UpdateTransformsChilds();
 	void UpdateGlobalMatrix();

@@ -57,6 +57,7 @@ bool ModuleScene::Init()
 	gameCameraObject->AddComponent(audioSourceComponent);
 
 	selectedGO = nullptr;
+	godMode = false;
 
 	return ret;
 }
@@ -121,6 +122,11 @@ update_status ModuleScene::Update(float dt)
 
 		}
 
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		godMode = !godMode;
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
@@ -310,9 +316,14 @@ void ModuleScene::ClearScene()
 	// RELEASE(mRootNode); 
 
 	External->lightManager->lights.clear();
+
+	External->physics->DeleteWorld(); // It was this or nothing :(
+
 	gameObjects.clear();
 	destroyList.clear();
 	App->renderer3D->models.clear();
+
+	External->physics->CreateWorld();
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
 }

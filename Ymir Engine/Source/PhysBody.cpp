@@ -10,7 +10,7 @@ PhysBody::PhysBody(btRigidBody* body) : body(body), owner(nullptr)
 // ---------------------------------------------------------
 PhysBody::~PhysBody()
 {
-	//delete body;
+	delete body;
 }
 
 // ---------------------------------------------------------
@@ -48,7 +48,7 @@ void PhysBody::SetPosition(float3 pos)
 	body->setWorldTransform(t);
 }
 
-// Ángulos en radianes!!!
+// ï¿½ngulos en radianes!!!
 void PhysBody::SetRotation(Quat q)
 {
 	btTransform t = body->getWorldTransform();
@@ -62,7 +62,6 @@ void PhysBody::SetRotation(Quat q)
 	t.setRotation(rotationQuat);
 	body->setWorldTransform(t);
 }
-
 
 GameObject* PhysBody::SetGameObject(GameObject* _owner)
 {

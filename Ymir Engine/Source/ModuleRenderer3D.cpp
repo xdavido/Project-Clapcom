@@ -36,7 +36,7 @@ bool ModuleRenderer3D::Init()
 {
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
-
+	
 	// Stream Assimp Log messages to Debug window
 	EnableAssimpDebugger();
 
@@ -307,7 +307,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		// Render Physics Colliders
 
-		if (App->physics->GetDebugDraw())
+		if (App->physics->debugScene)
 		{
 			DrawPhysicsColliders();
 		}
@@ -334,6 +334,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
+			// Render Physics Stuff
+			if (App->physics->debugGame || App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
+
 			DrawUIElements(true);
 
 		}
@@ -357,6 +363,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (App->scene->gameCameraObject->active) {
 
 			DrawGameObjects();
+
+			// Render Physics Stuff
+			if (App->physics->debugScene || App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
 
 			DrawUIElements(true);
 
@@ -599,17 +611,45 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 void ModuleRenderer3D::DrawPhysicsColliders()
 {
+	if (App->editor->gl_Lighting) glDisable(GL_LIGHTING); // Los colliders y los sensores se ver�n siempre sin importar la iluminacion
+
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
 		CCollider* colliderComponent = (CCollider*)(*it)->GetComponent(ComponentType::PHYSICS);
 
-		if (colliderComponent != nullptr) {
+		if (colliderComponent != nullptr && colliderComponent->physBody->drawShape) 
+		{
+			Color color;
+			if (colliderComponent->isSensor) color = App->physics->sensorColor;
+			else color = App->physics->colliderColor;
 
-			App->physics->world->debugDrawWorld();
-			
+			btCollisionShape* shape = colliderComponent->physBody->body->getCollisionShape();
+
+			glColor3f(color.r, color.g, color.b); // Cambio aqui el color para tenerlo m�s controlado
+			glLineWidth(App->physics->shapeLineWidth); // Lo mismo con la lineWidth
+
+			switch (shape->getShapeType())
+			{
+			case BroadphaseNativeTypes::BOX_SHAPE_PROXYTYPE: // RENDER BOX ==========================
+				App->physics->RenderBoxCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::SPHERE_SHAPE_PROXYTYPE: // RENDER SPHERE ====================
+				App->physics->RenderSphereCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
+				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
+				App->physics->RenderMeshCollider(colliderComponent->physBody);
+				break;
+			} 
+
+			glColor3f(255.0f, 255.0f, 255.0f);
+			glLineWidth(1.f);
 		}
-
 	}
+
+	if (App->editor->gl_Lighting) glEnable(GL_LIGHTING);
 }
 
 bool ModuleRenderer3D::IsInsideFrustum(const CCamera* camera, const AABB& aabb)
