@@ -359,10 +359,6 @@ void CScript::LoadScriptData(std::string scriptName)
 	onCollisionStayMehtod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
-	oncDesc = mono_method_desc_new(":OnCollisionExit", false);
-	onCollisionExitMethod = mono_method_desc_search_in_class(oncDesc, klass);
-	mono_method_desc_free(oncDesc);
-
 	oncDesc = mono_method_desc_new(":Start", false);
 	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
@@ -392,16 +388,6 @@ void CScript::CollisionStayCallback(bool isTrigger, GameObject* collidedGameObje
 			if (onTriggerEnterMethod != nullptr)
 				mono_runtime_invoke(onCollisionStayMehtod, mono_gchandle_get_target(noGCobject), params, NULL);
 		}
-	}
-}
-
-void CScript::CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject)
-{
-	void* params[1];
-	params[0] = collidedGameObject;
-
-	if (onCollisionExitMethod != nullptr) {
-		mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
 	}
 }
 

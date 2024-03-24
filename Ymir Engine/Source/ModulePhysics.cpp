@@ -128,7 +128,6 @@ update_status ModulePhysics::Update(float dt)
 
 					if (aux != nullptr) {
 						aux->CollisionStayCallback(false, pbodyA->owner);
-						onexitcollision = true;
 					}
 				}
 
@@ -139,7 +138,6 @@ update_status ModulePhysics::Update(float dt)
 
 					if (aux != nullptr) {
 						aux->CollisionStayCallback(false, pbodyB->owner);
-						onexitcollision = true;
 					}
 				}
 				
@@ -175,31 +173,6 @@ update_status ModulePhysics::Update(float dt)
 							}
 						}
 					}
-				}
-			}
-			else if (numContacts == 0 && onexitcollision == true)
-			{
-				// Manejar salida de colisiones
-				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
-				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
-
-				// Verificar que los objetos de colisión sean válidos
-				if (pbodyA && pbodyB)
-				{
-					// Obtener los scripts asociados a los objetos
-					CScript* scriptA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
-					CScript* scriptB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
-
-					// Llamar a la función adecuada para manejar la salida de la colisión
-					if (scriptA)
-					{
-						scriptA->CollisionExitCallback(false, pbodyB->owner);
-					}
-					if (scriptB)
-					{
-						scriptB->CollisionExitCallback(false, pbodyA->owner);
-					}
-					onexitcollision == false;
 				}
 			}
 		}

@@ -33,8 +33,6 @@ public:
 
 	void CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject);
 
-	void CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject);
-
 public:
 
 	std::vector<std::string> methods;

@@ -107,6 +107,5 @@ public:
 	int shapeLineWidth = 2;
 
 private:
-	
-	bool onexitcollision = false;
+
 };

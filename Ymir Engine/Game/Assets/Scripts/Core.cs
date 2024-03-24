@@ -288,14 +288,9 @@ public class Core : YmirComponent
         //}
     }
     
-    public void OnCollisionStay()
+    public void OnCollisionEnter()
     {
         Debug.Log("Pedrito");
-    }
-
-    public void OnCollisionExit() 
-    {
-        Debug.Log("Juanito");
     }
     private void UpdateState()
     {
