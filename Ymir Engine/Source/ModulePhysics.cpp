@@ -132,8 +132,6 @@ update_status ModulePhysics::Update(float dt)
 					}
 				}
 
-
-
 				if (pbodyB->owner != nullptr) {
 					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 

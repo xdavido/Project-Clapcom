@@ -376,6 +376,25 @@ void CScript::LoadScriptData(std::string scriptName)
 	External->moduleMono->DebugAllFields(scriptName.c_str(), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
 }
 
+void CScript::CollisionEnterCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+
+	if (collidedGameObject != nullptr)
+	{
+		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
+
+		if (onCollisionEnterMethod != nullptr)
+			mono_runtime_invoke(onCollisionEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+
+		if (isTrigger)
+		{
+			if (onTriggerEnterMethod != nullptr)
+				mono_runtime_invoke(onTriggerEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		}
+	}
+}
+
 void CScript::CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject)
 {
 	void* params[1];
