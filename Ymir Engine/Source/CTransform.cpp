@@ -301,7 +301,27 @@ float3 CTransform::GetRight()
 	return GetNormalizeAxis(0);
 }
 
+float3 CTransform::GetLocalForward()
+{
+	return GetNormalizeLocalAxis(2);
+}
+
+float3 CTransform::GetLocalUp()
+{
+	return GetNormalizeLocalAxis(1);
+}
+
+float3 CTransform::GetLocalRight()
+{
+	return GetNormalizeLocalAxis(0);
+}
+
 float3 CTransform::GetNormalizeAxis(int i)
 {
 	return mGlobalMatrix.RotatePart().Col(i).Normalized();
+}
+
+float3 CTransform::GetNormalizeLocalAxis(int i)
+{
+	return mLocalMatrix.RotatePart().Col(i).Normalized();
 }

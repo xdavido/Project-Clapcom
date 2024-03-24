@@ -87,6 +87,8 @@ public class Player : YmirComponent
 
     //private int Hp;
 
+    private GameObject cameraObject;
+
     public void Start()
     {
         //Hp = 100;
@@ -100,7 +102,12 @@ public class Player : YmirComponent
         reloadTimer = reloadCD;
 
         currentState = STATE.IDLE;
+
+        cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
+
         Debug.Log("START!");
+
+
     }
 
     //private void StartFake()
@@ -486,7 +493,18 @@ public class Player : YmirComponent
     {
         HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+        //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+
+        if (gamepadInput.x > 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
+        }
+        if (gamepadInput.x < 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        }
+
+
     }
     private void StopPlayer()
     {
@@ -545,7 +563,7 @@ public class Player : YmirComponent
     private void HandleRotation()
     {
         //Calculate player rotation
-        Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y - 1);
+        Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
         Vector3 aY = new Vector3(0, 0, 1);
         aX = Vector3.Normalize(aX);
 

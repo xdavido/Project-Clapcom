@@ -325,6 +325,49 @@ MonoObject* GetRight(MonoObject* go)
 	return External->moduleMono->Float3ToCS(trans->GetRight());
 }
 
+MonoObject* GetUp(MonoObject* go)
+{
+	if (External == nullptr)
+		return nullptr;
+
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
+
+	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
+	return External->moduleMono->Float3ToCS(trans->GetUp());
+}
+
+MonoObject* GetLocalForward(MonoObject* go)
+{
+	if (External == nullptr)
+		return nullptr;
+
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
+
+	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
+	return External->moduleMono->Float3ToCS(trans->GetLocalForward());
+}
+MonoObject* GetLocalRight(MonoObject* go)
+{
+	if (External == nullptr)
+		return nullptr;
+
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
+
+	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
+	return External->moduleMono->Float3ToCS(trans->GetLocalRight());
+}
+
+MonoObject* GetLocalUp(MonoObject* go)
+{
+	if (External == nullptr)
+		return nullptr;
+
+	CTransform* trans = CS_CompToComp<CTransform*>(go);
+
+	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
+	return External->moduleMono->Float3ToCS(trans->GetLocalUp());
+}
+
 MonoObject* SendRotation(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	return Ymir_Box_Quat(obj, false); //Use this method to send class types

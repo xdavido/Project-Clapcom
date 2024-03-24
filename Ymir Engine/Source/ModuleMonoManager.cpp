@@ -66,9 +66,11 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.Transform::GetForward", GetForward);
 	mono_add_internal_call("YmirEngine.Transform::GetRight", GetRight);
+	mono_add_internal_call("YmirEngine.Transform::GetUp", GetUp);
 
-	//mono_add_internal_call("YmirEngine.GameObject::GetForward", GetForward);
-	//mono_add_internal_call("YmirEngine.GameObject::GetRight", GetRight);
+	mono_add_internal_call("YmirEngine.Transform::GetLocalForward", GetLocalForward);
+	mono_add_internal_call("YmirEngine.Transform::GetLocalRight", GetLocalRight);
+	mono_add_internal_call("YmirEngine.Transform::GetLocalUp", GetLocalUp);
 
 	mono_add_internal_call("YmirEngine.Transform::get_localPosition", SendPosition);
 	mono_add_internal_call("YmirEngine.Transform::get_globalPosition", SendGlobalPosition);

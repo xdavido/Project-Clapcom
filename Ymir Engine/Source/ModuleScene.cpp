@@ -429,6 +429,8 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
+	LoadScriptsData();
+
 	delete sceneToLoad;
 }
 
