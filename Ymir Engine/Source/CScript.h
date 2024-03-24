@@ -31,7 +31,7 @@ public:
 
 	void LoadScriptData(std::string scriptName);
 
-	void CollisionCallback(bool isTrigger, GameObject* collidedGameObject);
+	void CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject);
 
 public:
 

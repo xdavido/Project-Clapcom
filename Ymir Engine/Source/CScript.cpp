@@ -355,8 +355,8 @@ void CScript::LoadScriptData(std::string scriptName)
 	updateMethod = mono_method_desc_search_in_class(mdesc, klass);
 	mono_method_desc_free(mdesc);
 
-	MonoMethodDesc* oncDesc = mono_method_desc_new(":OnCollisionEnter", false);
-	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	MonoMethodDesc* oncDesc = mono_method_desc_new(":OnCollisionStay", false);
+	onCollisionStayMehtod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
 	oncDesc = mono_method_desc_new(":Start", false);
@@ -372,7 +372,7 @@ void CScript::LoadScriptData(std::string scriptName)
 	External->moduleMono->DebugAllFields(scriptName.c_str(), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
 }
 
-void CScript::CollisionCallback(bool isTrigger, GameObject* collidedGameObject)
+void CScript::CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject)
 {
 	void* params[1];
 
@@ -381,12 +381,12 @@ void CScript::CollisionCallback(bool isTrigger, GameObject* collidedGameObject)
 		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
 
 		if (onCollisionEnterMethod != nullptr)
-			mono_runtime_invoke(onCollisionEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+			mono_runtime_invoke(onCollisionStayMehtod, mono_gchandle_get_target(noGCobject), params, NULL);
 
 		if (isTrigger)
 		{
 			if (onTriggerEnterMethod != nullptr)
-				mono_runtime_invoke(onTriggerEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+				mono_runtime_invoke(onCollisionStayMehtod, mono_gchandle_get_target(noGCobject), params, NULL);
 		}
 	}
 }
