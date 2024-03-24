@@ -136,11 +136,11 @@ bool ModuleEditor::Init()
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 
-#ifdef _STANDALONE
-
-	TimeManager::gameTimer.Start();
-
-#endif // _STANDALONE
+//#ifdef _STANDALONE
+//
+//	TimeManager::gameTimer.Start();
+//
+//#endif // _STANDALONE
 
 	return ret;
 }
@@ -1049,6 +1049,7 @@ void ModuleEditor::DrawEditor()
 		else {
 
 			if (ImGui::Button("Play")) {
+
 				TimeManager::gameTimer.Start();
 
 				isPlaying = true;

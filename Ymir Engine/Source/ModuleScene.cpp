@@ -70,14 +70,17 @@ bool ModuleScene::Init()
 bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
+
 #ifdef _RELEASE
+
 	LoadSceneFromStart("Assets", "VS2 Release");
+
 #endif // _RELEASE
 
 
 #ifdef _STANDALONE
-
-	LoadSceneFromStart("Assets", "MAPA_FINAL");
+		
+	LoadSceneFromStart("Assets/Scenes", "UI_scene");
 
 #endif // _STANDALONE
 

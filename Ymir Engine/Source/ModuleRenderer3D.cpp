@@ -268,11 +268,25 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	return UPDATE_CONTINUE;
 }
+static bool started = false; // Sorry
 
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
+
+#ifdef _STANDALONE // Sorry for doing this, it was necessary (Francesc) :(
+
+	if (!started) {
+
+		TimeManager::gameTimer.Start();
+		App->physics->beginPlay = true;
+
+		started = true;
+
+	}
+
+#endif // _STANDALONE
 
 	// Clear color buffer and depth buffer before each PostUpdate call
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
