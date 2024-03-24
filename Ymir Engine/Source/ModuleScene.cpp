@@ -73,13 +73,16 @@ bool ModuleScene::Start()
 
 #ifdef _RELEASE
 
-	LoadSceneFromStart("Assets", "VS2 Release");
+	//LoadSceneFromStart("Assets", "VS2 Release");
+	LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	
 
 #endif // _RELEASE
 
 
 #ifdef _STANDALONE
-		
+
+	//LoadSceneFromStart("Assets/Scenes", "You_Died");
 	LoadSceneFromStart("Assets/Scenes", "UI_scene");
 
 #endif // _STANDALONE

@@ -74,7 +74,10 @@ public class Player : YmirComponent
     public int ammo = 0;
     public int magsize = 5;
 
+    //--------------------- External GameObjects ---------------------\\
     private GameObject cameraObject;
+
+    //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
     private Health csBHealth;
 
@@ -87,12 +90,12 @@ public class Player : YmirComponent
         //--------------------- Shoot ---------------------\\
         ammo = magsize;
         reloadTimer = reloadCD;
-        GetBulletsScript();
 
+        //--------------------- Get Player Scripts ---------------------\\
+        GetPlayerScripts();
+
+        //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
-        
-        //--------------------- Health ---------------------\\
-        GetHealthScript();
 
         currentState = STATE.IDLE;
 
@@ -408,28 +411,6 @@ public class Player : YmirComponent
     {
         // Reset del futuro autoapuntado
     }
-
-    // TODO: use the generic functions
-    private void GetBulletsScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBullets = gameObject.GetComponent<UI_Bullets>();
-        }
-    }
-
-    private void GetHealthScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBHealth = gameObject.GetComponent<Health>();
-        }
-    }
-
     #endregion
 
     #region DASH
@@ -489,18 +470,25 @@ public class Player : YmirComponent
     {
         HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+        //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        //if (gamepadInput.x > 0)
-        //{
-        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
-        //}
-        //if (gamepadInput.x < 0)
-        //{
-        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
-        //}
+        if (gamepadInput.x > 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
+        }
+        if (gamepadInput.x < 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        }
 
-
+        if (gamepadInput.y > 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetForward() * movementSpeed);
+        }
+        if (gamepadInput.y < 0)
+        {
+            gameObject.SetVelocity(cameraObject.transform.GetForward() * movementSpeed * -1);
+        }
     }
     private void StopPlayer()
     {
@@ -579,5 +567,17 @@ public class Player : YmirComponent
 
         gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
     }
+
+    // TODO: use the generic functions
+    private void GetPlayerScripts()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (gameObject != null)
+        {
+            csBullets = gameObject.GetComponent<UI_Bullets>();
+            csBHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
     #endregion
 }
