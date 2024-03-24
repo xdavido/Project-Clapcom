@@ -92,7 +92,7 @@ bool ModuleScene::Start()
 
 	//CreateGUI(UI_TYPE::SLIDER);
 
-	CreateGUI(UI_TYPE::SLIDER, nullptr, 100, 100);
+	//CreateGUI(UI_TYPE::SLIDER, nullptr, 100, 100);
 	//CreateGUI(UI_TYPE::CHECKBOX, nullptr, 500, 500);
 	//CreateGUI(UI_TYPE::INPUTBOX, nullptr, 500, 500);
 	//CreateGUI(UI_TYPE::TEXT);
@@ -393,6 +393,8 @@ void ModuleScene::SavePrefab(GameObject* prefab, const std::string& dir, const s
 
 void ModuleScene::LoadPrefab(const std::string& dir, const std::string& fileName)
 {
+	ClearVec(vTempComponents);
+
 	JsonFile* prefabToLoad = JsonFile::GetJSON(dir + "/" + fileName + ".yfab");
 
 	// FRANCESC: Bug Hierarchy reimported GO when loading in Case 2
