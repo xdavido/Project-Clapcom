@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
+
 using YmirEngine;
 
 
@@ -287,11 +287,7 @@ public class Core : YmirComponent
 
         //}
     }
-    
-    public void OnCollisionEnter()
-    {
-        Debug.Log("Pedrito");
-    }
+
     private void UpdateState()
     {
         switch (currentState)
