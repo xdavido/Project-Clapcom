@@ -78,6 +78,9 @@ public class Player : YmirComponent
     private UI_Bullets csBullets;
     private Health csBHealth;
 
+    //--------------------- GOD mode ---------------------\\
+    public bool godMode = false;
+
     public void Start()
     {
         //--------------------- Dash ---------------------\\
@@ -110,7 +113,10 @@ public class Player : YmirComponent
 
         UpdateState();
 
-
+        if (Input.GetKey(YmirKeyCode.F1) == KeyState.KEY_DOWN)
+        {
+            godMode = !godMode;
+        }
 
         //Old things
         //UpdateControllerInputs();
@@ -374,9 +380,11 @@ public class Player : YmirComponent
         Audio.PlayAudio(gameObject,"P_Shoot");
         Debug.Log("Shoot!");
 
-        --ammo;
-
-        csBullets.UseBullets(ammo);
+        if (!godMode)
+        {
+            --ammo;
+            csBullets.UseBullets(ammo);
+        }
 
         Debug.Log("Ammo:" + ammo);
 
