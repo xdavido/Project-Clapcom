@@ -449,6 +449,7 @@ public class Player : YmirComponent
     #region DASH
     private void StartDash()
     {
+        //Animation.PlayAnimation(gameObject, "Lift2");
         //Audio.PlayAudio(gameObject, "P_Dash");
         //StopPlayer();
         dashTimer = dashDuration;
@@ -466,6 +467,8 @@ public class Player : YmirComponent
 
     private void StartJump()
     {
+        //Animation.PlayAnimation(gameObject, "Random");
+        //Animation.SetLoop(gameObject, "Random", true);
         jumpTimer = dashDuration;
     }
     private void UpdateJump()
