@@ -54,6 +54,8 @@ public class EnemyBehaviour : YmirComponent
 
     private int counter1 = 0;
 
+    public float wanderTimer = 5f;
+
     //private EnemyState state = EnemyState.Idle;
 
     private WanderState wanderState = WanderState.Reached;
@@ -87,15 +89,18 @@ public class EnemyBehaviour : YmirComponent
             gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
 
             //Set movement speed negative cuz the facehugger is facing backwards
-            if (counter1 > 80 && counter1 < 320) {
+            if (counter1 > 80 && counter1 < 320)
+            {
                 movementSpeed = 0;
             }
             else if (counter1 > 320)
             {
                 movementSpeed += movementAux;
+                Debug.Log("[ERROR] Speed " + movementSpeed);
                 counter1 -= 320;
                 wanderState = WanderState.Reached;
             }
+
             //if (counter1 > 80)
             //{
             //    movementSpeed = 0;
