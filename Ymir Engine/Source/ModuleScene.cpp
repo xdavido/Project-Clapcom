@@ -449,7 +449,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	mRootNode = gameObjects[0];
 
 	LoadScriptsData();
-	
+
 	RELEASE(sceneToLoad);
 }
 
@@ -794,6 +794,26 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 	referenceMap.clear();
 }
 
+void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
+{
+
+	for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
+	{
+		if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+		{
+			listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
+		}
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUINaviagte(go->mChildren[i], listgo);
+		}
+	}
+}
+
 bool ModuleScene::TabNavigate(bool isForward)
 {
 	// Get UI elements to navigate
@@ -801,63 +821,62 @@ bool ModuleScene::TabNavigate(bool isForward)
 
 	for (int i = 0; i < vCanvas.size(); ++i)
 	{
-		External->renderer3D->GetUIGOs(vCanvas[i], listUI);
+		GetUINaviagte(vCanvas[i], listUI);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
 	{
-		if (static_cast<C_UI*>(listUI[i])->tabNav_)
+
+		if (isForward)
 		{
-			if (isForward)
+			if (selectedUI == listUI.size() - 1)
 			{
-				if (selectedUI == listUI.size() - 1)
-				{
-					App->scene->SetSelected(listUI[0]->mOwner);
+				App->scene->SetSelected(listUI[0]->mOwner);
 
-					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[0]->SetState(UI_STATE::SELECTED);
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[0]->SetState(UI_STATE::SELECTED);
 
-					selectedUI = 0;
-				}
-
-				else
-				{
-					App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
-
-					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
-
-					selectedUI += 1;
-				}
+				selectedUI = 0;
 			}
 
 			else
 			{
-				for (auto i = 0; i < listUI.size(); i++)
-				{
-					if (selectedUI == 0)
-					{
-						App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
 
-						listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-						listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
 
-						selectedUI = listUI.size() - 1;
-					}
-
-					else
-					{
-						App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
-
-						listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-						listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
-
-						selectedUI -= 1;
-					}
-					return true;
-				}
+				selectedUI += 1;
 			}
 		}
+
+		else
+		{
+			for (auto i = 0; i < listUI.size(); i++)
+			{
+				if (selectedUI == 0)
+				{
+					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI = listUI.size() - 1;
+				}
+
+				else
+				{
+					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI -= 1;
+				}
+				return true;
+			}
+		}
+
 		return true;
 	}
 
