@@ -46,13 +46,13 @@ public class Player : YmirComponent
     private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 10.0f;
+    //public float dashforce = 1000.0f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
     public float dashCD = 0.1f;
-    public float dashDuration = 0.25f;
-    public float dashDistance = 1.0f;
+    public float dashDuration = 1.0f;
+    public float dashDistance = 100000.0f;
     private float dashSpeed = 0.0f;
     //private float dashStartYPos = 0.0f;
 
@@ -198,7 +198,6 @@ public class Player : YmirComponent
         if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
         {
             inputsList.Add(INPUT.I_SHOOTING);
-            Input.Rumble_Controller(300);
         }
         else
         {
@@ -209,6 +208,7 @@ public class Player : YmirComponent
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
+            Input.Rumble_Controller(50);
         }
 
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
@@ -375,6 +375,7 @@ public class Player : YmirComponent
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
+        Input.Rumble_Controller(100);
         Debug.Log("Shoot!");
 
         --ammo;
@@ -416,19 +417,18 @@ public class Player : YmirComponent
     #region DASH
     private void StartDash()
     {
-        Audio.PlayAudio(gameObject, "P_Dash");
-        //Audio.PlayAudio(gameObject, "P_Relief");
-        StopPlayer();
+        //Audio.PlayAudio(gameObject, "P_Dash");
+        //StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
+        gameObject.SetImpulse(gameObject.transform.GetForward() * dashSpeed);
     }
     private void EndDash()
     {
-        StopPlayer();
+        //StopPlayer();
         //gameObject.transform.localPosition.y = dashStartYPos;
     }
     #endregion
