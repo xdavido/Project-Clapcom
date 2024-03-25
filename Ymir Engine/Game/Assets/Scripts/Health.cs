@@ -36,23 +36,31 @@ public class Health : YmirComponent
 
     public void Update()
     {
-        if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
+        if (/*godmode*/ true)
         {
-            Debug.Log("Take debug dmg");
-
-            if (TakeDmg(debugDmg))
+            if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
             {
-                DeathScreen();
+                Debug.Log("Take debug dmg");
+
+                if (TakeDmg(debugDmg))
+                {
+                    DeathScreen();
+                }
             }
-        }
 
-        if (Input.GetKey(YmirKeyCode.F8) == KeyState.KEY_DOWN)
-        {
-            Debug.Log("Instant win");
-
-            if (/*godmode*/ true)
+            if (Input.GetKey(YmirKeyCode.F3) == KeyState.KEY_DOWN)
             {
+                Debug.Log("Instant win");
+
                 WinScreen();
+            }
+
+            if (Input.GetKey(YmirKeyCode.F4) == KeyState.KEY_DOWN)
+            {
+                Debug.Log("Instant lose");
+
+
+                DeathScreen();
             }
         }
 
@@ -78,7 +86,6 @@ public class Health : YmirComponent
 
     public bool DeathScreen()
     {
-        // TODO: Desactivar todo movimiento y demas del player
         deathCanvas.SetActive(true);
         player.gameObject.SetActive(false);
 
@@ -87,7 +94,6 @@ public class Health : YmirComponent
 
     public bool WinScreen()
     {
-        // TODO: Desactivar todo movimiento y demas del player
         winCanvas.SetActive(true);
         player.gameObject.SetActive(false);
 
