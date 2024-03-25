@@ -146,7 +146,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		godMode = !godMode;
 	}
