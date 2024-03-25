@@ -12,8 +12,6 @@ public class PlayerMovement : YmirComponent
     public Vector3 direccion;
     public float fireRate = 0.5f;
 
-    bool a = false;
-
     private double angle = 0.0f;
     //private bool script = true;
     public void Start()
@@ -167,18 +165,18 @@ public class PlayerMovement : YmirComponent
         //RotatePlayer();
     }
 
-    public void OnCollisionEnter()
-    {
-        if (!a)
-        {
-            Debug.Log("OnCollisionEnter!!!!");
+    //public void OnCollisionEnter()
+    //{
+    //    if (!a)
+    //    {
+    //        Debug.Log("OnCollisionEnter!!!!");
 
-            GetAnotherScript();
+    //        GetAnotherScript();
 
-            Debug.Log("coso2345678 ");
-            a = true;
-        }
-    }
+    //        Debug.Log("coso2345678 ");
+    //        a = true;
+    //    }
+    //}
 
     private void GetAnotherScript()
     {
