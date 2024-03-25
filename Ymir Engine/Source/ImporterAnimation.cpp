@@ -11,7 +11,6 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 {
 	std::string boneNames = ""; //Bone names stored together
 
-	uint boneMapTotalSize = 0; 
 	retSize = sizeof(float) + sizeof(float) + sizeof(uint) * 4; // Duration + ticksPerSecond + bonesSize + boneNamesSize + AnimationNameSize + BoneInfoMapSize (headers size)
 
 	for (int i = 0; i < ourAnimation->bones.size(); i++) {
@@ -101,14 +100,6 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 	cursor += ourAnimation->name.size() + 1;
 
 	// Save BoneInfoMap
-	/*std::map<std::string, BoneInfo>::const_iterator it = ourAnimation->boneInfoMap.begin();
-	for (it = ourAnimation->boneInfoMap.begin(); it != ourAnimation->boneInfoMap.end(); it++) {
-		memcpy(cursor, &it->first, sizeof(std::string));
-		cursor += sizeof(std::string);
-
-		memcpy(cursor, &it->second, sizeof(BoneInfo));
-		cursor += sizeof(BoneInfo);
-	}*/
 
 	for (const auto& pair : ourAnimation->boneInfoMap) {
 		const std::string& name = pair.first;
@@ -249,16 +240,6 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	cursor += animationNameSize;
 
 	// Load boneInfoMap
-	/*for (int i = 0; i < header[5]; i++) {
-		std::string name; 
-		memcpy(&name, cursor, sizeof(std::string));
-		cursor += sizeof(std::string);
-
-		BoneInfo info; 
-		memcpy(&info, cursor, sizeof(BoneInfo));
-		cursor += sizeof(BoneInfo);
-		ourAnimation->boneInfoMap[name] = BoneInfo(info);
-	}*/
 
 	for (int i = 0; i < header[5]; ++i) {
 		uint nameSize;

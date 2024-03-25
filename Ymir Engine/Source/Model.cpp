@@ -502,38 +502,6 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 		LOG("Model with no bones");
 	}
 
-	// Load animations
-
-	//if (scene->HasAnimations()) {
-
-	//	if (linkGO->GetComponent(ANIMATION) == nullptr) {
-	//		CAnimation* animationComponent = new CAnimation(linkGO);
-	//		linkGO->AddComponent(animationComponent);
-	//		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-	//		cAnim->modelPath = path;
-
-	//		for (int i = 0; i < scene->mNumAnimations; i++) {
-	//			Animation* anim = new Animation(path, this, i);
-
-	//			std::string filename = std::to_string(linkGO->UID) + ".yanim";
-	//			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
-
-	//			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
-	//			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
-
-	//			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
-	//			cAnim->AddAnimation(*rAnim);
-	//		}
-	//		LOG("Model has animations");
-	//	}
-	//}
-	//else {
-
-	//	//animator = nullptr;
-
-	//	LOG("Model doesn't have animations");
-	//}
-
 	// Create the mesh
 
 	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
