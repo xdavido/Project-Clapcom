@@ -13,6 +13,8 @@
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	workingDirectory = "./";
+	assetsPath = workingDirectory + "Assets/";
+
 	libraryPath = workingDirectory + "Library/";
 
 	libraryScenesPath = libraryPath + "Scenes/";
@@ -172,11 +174,19 @@ bool ModuleFileSystem::SaveAnimationToFile(Animation* anim, const std::string& f
 	uint bufferSize = 0;
 	char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
 
-	std::ofstream outFile(filename, std::ios::binary);
+	std::string name = filename;
+
+	for (name; PhysfsEncapsule::FileExists(name); name) {
+		int pos = name.length() - 6;
+		name.insert(pos, "_Copy");
+		LOG("File with name '%s'; changed to '%s'", filename.c_str(), name.c_str());
+	}
+
+	std::ofstream outFile(name, std::ios::binary);
 
 	if (!outFile.is_open()) {
 
-		LOG("[ERROR] Unable to open the file for writing: %s", filename);
+		LOG("[ERROR] Unable to open the file for writing: %s", name);
 
 		return false;
 	}

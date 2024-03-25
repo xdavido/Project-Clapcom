@@ -41,6 +41,8 @@ public:
 public:
 
 	std::string workingDirectory;
+
+	std::string assetsPath;
 	std::string libraryPath;
 
 	std::string libraryScenesPath;

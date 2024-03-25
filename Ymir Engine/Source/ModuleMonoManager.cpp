@@ -17,6 +17,7 @@
 #include "CS_Bindings.h"
 #include "CS_Input_Bindings.h"
 #include "CS_Audio_Bindings.h"
+#include "CS_Animation_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -153,6 +154,17 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Input::GetMouseY", MouseY);
 	mono_add_internal_call("YmirEngine.Input::Rumble_Controller", Rumble_Controller);
 
+#pragma endregion
+
+#pragma region Animation
+	mono_add_internal_call("YmirEngine.Animation::PlayAnimation", PlayAnimation);
+	mono_add_internal_call("YmirEngine.Animation::PauseAnimation", PauseAnimation);
+	mono_add_internal_call("YmirEngine.Animation::ResumeAnimation", ResumeAnimation);
+	mono_add_internal_call("YmirEngine.Animation::StopAnimation", StopAnimation);
+	mono_add_internal_call("YmirEngine.Animation::SetLoop", SetLoop);
+	mono_add_internal_call("YmirEngine.Animation::SetBackward", SetBackward);
+	mono_add_internal_call("YmirEngine.Animation::SetSpeed", SetSpeed);		
+	mono_add_internal_call("YmirEngine.Animation::SetPingPong", SetPingPong);
 #pragma endregion
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
