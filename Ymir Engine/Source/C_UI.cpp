@@ -264,7 +264,7 @@ void C_UI::StateLogic()
 			break;
 			case UI_STATE::RELEASE:
 			{
-				LOG("RELEASE");
+				//LOG("RELEASE");
 
 				OnRelease();
 				state = UI_STATE::SELECTED;
