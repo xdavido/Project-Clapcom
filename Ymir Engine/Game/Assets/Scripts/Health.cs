@@ -36,7 +36,7 @@ public class Health : YmirComponent
 
     public void Update()
     {
-        if (/*godmode*/ true)
+        if (player.godMode)
         {
             if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
             {
@@ -59,7 +59,6 @@ public class Health : YmirComponent
             {
                 Debug.Log("Instant lose");
 
-
                 DeathScreen();
             }
         }
@@ -69,7 +68,7 @@ public class Health : YmirComponent
 
     public bool TakeDmg(float dmg)
     {
-        if (/*godmode*/ true)
+        if (!player.godMode)
         {
             currentHealth -= dmg;
 

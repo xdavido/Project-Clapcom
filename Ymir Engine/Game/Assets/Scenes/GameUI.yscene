@@ -25,7 +25,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 2116802985,
+            "Parent UID": 381266425,
             "Components": [
                 {
                     "Type": "Transform",
@@ -5094,7 +5094,8 @@
                     "fireRate": 0.20000000298023224,
                     "secondaryRate": 0.20000000298023224,
                     "ammo": 0,
-                    "magsize": 5
+                    "magsize": 5,
+                    "godMode": false
                 }
             ],
             "Children UID": [
@@ -6284,7 +6285,7 @@
         {
             "Name": "Game Canva",
             "UID": 1398847280,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 381266425,
             "Components": [
@@ -6313,7 +6314,7 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 764,
+                    "Width": 658,
                     "Height": 614,
                     "UI Type": 0,
                     "UI State": 1,
@@ -6333,7 +6334,7 @@
         {
             "Name": "Health Bar",
             "UID": 664762359,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1398847280,
             "Components": [
@@ -6476,7 +6477,7 @@
         {
             "Name": "Fill",
             "UID": 1746115142,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 664762359,
             "Components": [
@@ -6568,7 +6569,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         65,
-                        90,
+                        65,
                         70,
                         70
                     ],
@@ -6590,7 +6591,7 @@
         {
             "Name": "Bullets Text",
             "UID": 1647798137,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1398847280,
             "Components": [

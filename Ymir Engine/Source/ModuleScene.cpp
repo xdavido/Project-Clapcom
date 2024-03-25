@@ -75,6 +75,7 @@ bool ModuleScene::Start()
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 #endif // _RELEASE
 

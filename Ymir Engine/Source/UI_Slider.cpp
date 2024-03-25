@@ -53,7 +53,8 @@ UI_Slider::UI_Slider(GameObject* g, bool floats, float min, float max, float val
 
 	SetValue(value);
 
-	tabNav_ = true;
+	// TODO: esto tiene que ser true por defecto pero ahora mismo causa problemas
+	tabNav_ = false;
 }
 
 UI_Slider::~UI_Slider()
