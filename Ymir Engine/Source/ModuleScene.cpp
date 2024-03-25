@@ -83,7 +83,7 @@ bool ModuleScene::Start()
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	//LoadSceneFromStart("Assets/Scenes", "GameUI");
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
 #endif // _STANDALONE
@@ -146,7 +146,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		godMode = !godMode;
 	}
@@ -797,12 +797,14 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 
 void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
 {
-
-	for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
+	if (go->active)
 	{
-		if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+		for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
 		{
-			listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
+			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+			{
+				listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
+			}
 		}
 	}
 

@@ -85,7 +85,7 @@ update_status ModulePhysics::Update(float dt)
 		// Enable/disable collision logic in God Mode
 		if (App->scene->godMode)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 			{
 				for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
 				{
