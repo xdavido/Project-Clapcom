@@ -1,8 +1,8 @@
 {
     "Editor Camera Position": [
-        178.48002624511719,
-        494.13961791992188,
-        501.8280029296875
+        178.91276550292969,
+        494.93936157226562,
+        502.78485107421875
     ],
     "Editor Camera Right (X)": [
         0.9111485481262207,
@@ -22,19 +22,21 @@
     "Hierarchy": [
         {
             "Name": "Scene",
-            "UID": 1540572837,
+            "UID": 2030506049,
+            "Active": true,
             "Element_Type": "None",
             "Components": [],
             "Children UID": [
-                1500841417,
-                763636674
+                1281693348,
+                1669738939
             ]
         },
         {
             "Name": "Main Camera",
-            "UID": 1500841417,
+            "UID": 1281693348,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1540572837,
+            "Parent UID": 2030506049,
             "Components": [
                 {
                     "Type": "Transform",
@@ -96,10 +98,11 @@
         },
         {
             "Name": "roboArm_Anim2",
-            "UID": 763636674,
+            "UID": 1669738939,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/roboArm_Anim2.fbx",
-            "Parent UID": 1540572837,
+            "Parent UID": 2030506049,
             "Components": [
                 {
                     "Type": "Transform",
@@ -119,18 +122,28 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Animation",
+                    "Active": 1,
+                    "NumPaths": 2,
+                    "Paths": [
+                        ".\/Library\/Animations\/1669738939.yanim",
+                        "Assets\/Take 001_Copy.yanim"
+                    ]
                 }
             ],
             "Children UID": [
-                1095220158,
-                435324150
+                582758747,
+                1187718511
             ]
         },
         {
             "Name": "RoboArm",
-            "UID": 1095220158,
+            "UID": 582758747,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 763636674,
+            "Parent UID": 1669738939,
             "Components": [
                 {
                     "Type": "Transform",
@@ -160,15 +173,6 @@
                     "UID": 0
                 },
                 {
-                    "Type": "Animation",
-                    "Active": 1,
-                    "NumPaths": 2,
-                    "Paths": [
-                        ".\/Library\/Animations\/1095220158.yanim",
-                        "Library\/Animations\\2018754809.yanim"
-                    ]
-                },
-                {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 1702,
@@ -178,9 +182,10 @@
         },
         {
             "Name": "Parent",
-            "UID": 435324150,
+            "UID": 1187718511,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 763636674,
+            "Parent UID": 1669738939,
             "Components": [
                 {
                     "Type": "Transform",
@@ -203,14 +208,15 @@
                 }
             ],
             "Children UID": [
-                272508192
+                1022029322
             ]
         },
         {
             "Name": "Arm",
-            "UID": 272508192,
+            "UID": 1022029322,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 435324150,
+            "Parent UID": 1187718511,
             "Components": [
                 {
                     "Type": "Transform",
@@ -233,14 +239,15 @@
                 }
             ],
             "Children UID": [
-                1423023452
+                1982175436
             ]
         },
         {
             "Name": "Arm1",
-            "UID": 1423023452,
+            "UID": 1982175436,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 272508192,
+            "Parent UID": 1022029322,
             "Components": [
                 {
                     "Type": "Transform",
@@ -263,14 +270,15 @@
                 }
             ],
             "Children UID": [
-                1954778756
+                803788834
             ]
         },
         {
             "Name": "Hand",
-            "UID": 1954778756,
+            "UID": 803788834,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1423023452,
+            "Parent UID": 1982175436,
             "Components": [
                 {
                     "Type": "Transform",
@@ -293,15 +301,16 @@
                 }
             ],
             "Children UID": [
-                481217645,
-                339439751
+                770358755,
+                318373806
             ]
         },
         {
             "Name": "Finger",
-            "UID": 481217645,
+            "UID": 770358755,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1954778756,
+            "Parent UID": 803788834,
             "Components": [
                 {
                     "Type": "Transform",
@@ -326,9 +335,10 @@
         },
         {
             "Name": "Finger1",
-            "UID": 339439751,
+            "UID": 318373806,
+            "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1954778756,
+            "Parent UID": 803788834,
             "Components": [
                 {
                     "Type": "Transform",

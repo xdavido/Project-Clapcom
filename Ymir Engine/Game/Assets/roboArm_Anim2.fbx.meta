@@ -1,17 +1,17 @@
 {
     "Name": "roboArm_Anim2",
     "Assets Path": "Assets\/roboArm_Anim2.fbx",
-    "Library Path": ".\/Library\/Models\/763636674.ymodel",
-    "UID": 763636674,
+    "Library Path": ".\/Library\/Models\/1669738939.ymodel",
+    "UID": 1669738939,
     "Type": "Model",
     "Meshes num": 7,
     "Meshes Embedded UID": [
-        1095220158,
-        435324150,
-        272508192,
-        1423023452,
-        1954778756,
-        481217645,
-        339439751
+        582758747,
+        1187718511,
+        1022029322,
+        1982175436,
+        803788834,
+        770358755,
+        318373806
     ]
 }
