@@ -42,6 +42,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Animation.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Audio.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Mathf.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Transform.cs" />

@@ -1106,7 +1106,7 @@
     </ClInclude>
     <ClInclude Include="Source\ImporterAnimation.h">
       <Filter>Sources\Features\Custom File Format</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Source\PointLight.h">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
@@ -1132,6 +1132,9 @@
       <Filter>Sources\Features\Lighting System</Filter>
     </ClInclude>
     <ClInclude Include="Source\CS_Audio_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CS_Animation_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
