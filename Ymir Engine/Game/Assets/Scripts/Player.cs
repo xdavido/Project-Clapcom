@@ -381,6 +381,7 @@ public class Player : YmirComponent
         Debug.Log("Ammo:" + ammo);
 
         StopPlayer();
+
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
         Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
         //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);

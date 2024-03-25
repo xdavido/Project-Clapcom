@@ -11,6 +11,7 @@
 #include "CTransform.h"
 
 #include "ModuleInput.h"
+#include "ModuleEditor.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h" 
 #include "ModuleMonoManager.h"
@@ -189,6 +190,7 @@ MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
 
 	return ret;
 }
+
 GameObject* CS_Comp_To_GameObject(MonoObject* component)
 {
 	uintptr_t ptr = 0;
@@ -198,10 +200,12 @@ GameObject* CS_Comp_To_GameObject(MonoObject* component)
 
 	return reinterpret_cast<Component*>(ptr)->mOwner;
 }
+
 MonoObject* CS_Component_Get_GO(MonoObject* thisRef)
 {
 	return External->moduleMono->GoToCSGO(CS_Comp_To_GameObject(thisRef));
 }
+
 MonoString* Get_GO_Name(MonoObject* go)
 {
 	if (External == nullptr)
@@ -321,6 +325,7 @@ MonoObject* GetForward(MonoObject* go)
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 	return External->moduleMono->Float3ToCS(trans->GetForward());
 }
+
 MonoObject* GetRight(MonoObject* go)
 {
 	if (External == nullptr)
@@ -353,6 +358,7 @@ MonoObject* GetLocalForward(MonoObject* go)
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 	return External->moduleMono->Float3ToCS(trans->GetLocalForward());
 }
+
 MonoObject* GetLocalRight(MonoObject* go)
 {
 	if (External == nullptr)
@@ -429,6 +435,24 @@ void SetActive(MonoObject* obj, bool active)
 	External->scene->SetActiveRecursively(go, active);
 }
 
+void ExitGame()
+{
+	External->editor->exit = update_status::UPDATE_STOP;
+
+	LOG("Exit game");
+}
+
+void ChangeSceneCS(MonoString* scenePath)
+{
+	char* _name = mono_string_to_utf8(scenePath);
+	External->resourceManager->ImportFile(_name);
+
+	//TODO:
+	std::string name = PhysfsEncapsule::GetAssetName(_name);
+
+	External->scene->LoadSceneFromStart("Assets", name);
+}
+
 void Destroy(MonoObject* go)
 {
 	if (go == NULL)
@@ -496,16 +520,6 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	c = new CScript(go, t);
 	go->AddComponent(c);
 
-}
-
-void ChangeSceneCS(MonoString* scenePath)
-{
-	char* _name = mono_string_to_utf8(scenePath);
-	External->resourceManager->ImportFile(_name);
-	//TODO:
-	std::string name = PhysfsEncapsule::GetAssetName(_name);
-
-	External->scene->LoadSceneFromStart("Assets", name);
 }
 
 //---------- GLOBAL GETTERS ----------//
@@ -583,6 +597,7 @@ void Rumble_Controller(int time)
 		}
 	}
 }
+
 void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
 {
 	//Falta meter automaticamente que haga el change de Image

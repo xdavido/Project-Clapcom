@@ -8,15 +8,17 @@ using YmirEngine;
 
 public class Button_Exit : YmirComponent
 {
-bool start = true;
+    public void Update()
+    {
+        if (Input.GetKey(YmirKeyCode.ESCAPE) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.ExitGame();
+        }
+        return;
+    }
 
-	public void Start()
-	{
-			Debug.Log("HelloWorld"); 
-	}
-
-	public void Update()
-	{
-		return;
-	}
+    public void OnExecuteButton()
+    {
+        InternalCalls.ExitGame();
+    }
 }

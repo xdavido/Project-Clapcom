@@ -8,7 +8,7 @@ using YmirEngine;
 
 public class Button_Navigation : YmirComponent
 {
-    public string sceneName = "Assets/VS2 Release.yscene";
+    public string sceneName = "VS2 Release";
 
     public void OnExecuteButton()
     {
