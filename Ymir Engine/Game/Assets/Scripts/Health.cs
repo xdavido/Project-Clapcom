@@ -38,7 +38,7 @@ public class Health : YmirComponent
     {
         if (/*godmode*/ true)
         {
-            if (Input.GetKey(YmirKeyCode.F7) == KeyState.KEY_DOWN)
+            if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
             {
                 Debug.Log("Take debug dmg");
 
@@ -48,14 +48,14 @@ public class Health : YmirComponent
                 }
             }
 
-            if (Input.GetKey(YmirKeyCode.F8) == KeyState.KEY_DOWN)
+            if (Input.GetKey(YmirKeyCode.F3) == KeyState.KEY_DOWN)
             {
                 Debug.Log("Instant win");
 
                 WinScreen();
             }
 
-            if (Input.GetKey(YmirKeyCode.F9) == KeyState.KEY_DOWN)
+            if (Input.GetKey(YmirKeyCode.F4) == KeyState.KEY_DOWN)
             {
                 Debug.Log("Instant lose");
 
