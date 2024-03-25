@@ -42,7 +42,7 @@ public class Player : YmirComponent
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
-    private double angle = 0.0f;
+    //private double angle = 0.0f;
     private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
