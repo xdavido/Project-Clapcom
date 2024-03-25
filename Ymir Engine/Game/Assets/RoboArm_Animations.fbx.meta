@@ -1,0 +1,17 @@
+{
+    "Name": "RoboArm_Animations",
+    "Assets Path": "Assets\/RoboArm_Animations.fbx",
+    "Library Path": ".\/Library\/Models\/297700616.ymodel",
+    "UID": 297700616,
+    "Type": "Model",
+    "Meshes num": 7,
+    "Meshes Embedded UID": [
+        806780173,
+        816705142,
+        1659253059,
+        697463317,
+        1817716599,
+        1935787994,
+        1366926106
+    ]
+}
