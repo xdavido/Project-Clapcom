@@ -1,122 +1,5 @@
 {
-    "Editor Camera Position": [
-        5,
-        -495,
-        5
-    ],
-    "Editor Camera Right (X)": [
-        0.70710670948028564,
-        0,
-        -0.70710670948028564
-    ],
-    "Editor Camera Up (Y)": [
-        -0.40824830532073975,
-        0.81649661064147949,
-        -0.40824830532073975
-    ],
-    "Editor Camera Front (Z)": [
-        -0.5773501992225647,
-        -0.5773501992225647,
-        -0.5773501992225647
-    ],
-    "Hierarchy": [
-        {
-            "Name": "Scene",
-            "UID": 1849948901,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 371787295,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1462703712,
-                2047246996
-            ]
-        },
-        {
-            "Name": "Main Camera",
-            "UID": 1462703712,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1849948901,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -40,
-                        29,
-                        54
-                    ],
-                    "Rotation": [
-                        180,
-                        40.000007629394531,
-                        180
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Audio listener",
-                    "Active": 1,
-                    "Default Listener": 1
-                },
-                {
-                    "Type": "Audio source",
-                    "Active": 1,
-                    "Bank Name": "",
-                    "Event Name": "",
-                    "Event ID": 0
-                },
-                {
-                    "Type": "Camera",
-                    "Active": 1,
-                    "Right": [
-                        0.76604437828063965,
-                        1.4361705780174816e-07,
-                        0.64278769493103027
-                    ],
-                    "Up": [
-                        -6.696972576492044e-08,
-                        1,
-                        -1.4361705780174816e-07
-                    ],
-                    "Front": [
-                        0.64278769493103027,
-                        -6.696972576492044e-08,
-                        -0.76604437828063965
-                    ],
-                    "FOV": 60.000003814697266,
-                    "Near Plane": 1,
-                    "Far Plane": 1000,
-                    "Frustum Culling": 1,
-                    "Draw Bounding Boxes": 1,
-                    "Game Camera": true
-                }
-            ]
-        },
+    "Prefab": [
         {
             "Name": "Start Canvas",
             "UID": 2047246996,
@@ -152,7 +35,7 @@
                     "Width": 764,
                     "Height": 614,
                     "UI Type": 0,
-                    "UI State": 1,
+                    "UI State": 5,
                     "Drag Limits": [
                         0,
                         0,
@@ -201,7 +84,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 1,
+                    "UI State": 5,
                     "Drag Limits": [
                         0,
                         0,
