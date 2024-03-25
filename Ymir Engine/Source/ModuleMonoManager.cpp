@@ -58,7 +58,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 
 	mono_add_internal_call("YmirEngine.InternalCalls::ExitGame", ExitGame);
-	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);
+	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", LoadSceneCS);
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 
 #pragma region GameObject

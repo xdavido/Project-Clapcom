@@ -442,15 +442,10 @@ void ExitGame()
 	LOG("Exit game");
 }
 
-void ChangeSceneCS(MonoString* scenePath)
+void LoadSceneCS(MonoString* scenePath)
 {
-	char* _name = mono_string_to_utf8(scenePath);
-	External->resourceManager->ImportFile(_name);
-
-	//TODO:
-	std::string name = PhysfsEncapsule::GetAssetName(_name);
-
-	External->scene->LoadSceneFromStart("Assets", name);
+	char* _path = mono_string_to_utf8(scenePath);
+	External->scene->pendingToAddScene = _path;
 }
 
 void Destroy(MonoObject* go)
