@@ -40,6 +40,7 @@ Model::Model(const std::string& path, bool onlyReimport, const std::string& shad
 {
 	this->onlyReimport = onlyReimport;
 	processedMeshes = 0;
+	boneCounter = 0;
 	LoadModel(path, shaderPath);
 }
 
@@ -609,8 +610,6 @@ void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 
 void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
-	boneCounter = 0;
-
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++) {
 		int boneID = -1; 
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
