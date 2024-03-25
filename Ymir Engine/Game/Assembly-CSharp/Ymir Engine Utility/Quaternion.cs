@@ -256,5 +256,25 @@ namespace YmirEngine
             return a * (float)Math.Cos(theta) + qperp * (float)Math.Sin(theta);
         }
 
+        public static Quaternion AngleAxis(float angle, Vector3 axis)
+        {
+            // Convert the angle to radians
+            float radians = angle * Mathf.Deg2Rad;
+
+            // Calculate half angle and its sin
+            float halfAngle = radians * 0.5f;
+            float sinHalfAngle = (float)Math.Sin(halfAngle);
+
+            // Construct the quaternion
+            Quaternion result = new Quaternion(
+                axis.x * sinHalfAngle,
+                axis.y * sinHalfAngle,
+                axis.z * sinHalfAngle,
+                (float)Math.Cos(halfAngle)
+            );
+
+            return result;
+        }
+
     }
 }

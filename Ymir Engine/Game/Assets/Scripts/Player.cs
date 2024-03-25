@@ -445,7 +445,7 @@ public class Player : YmirComponent
         x = Input.GetLeftAxisX();
         y = Input.GetLeftAxisY();
 
-        gamepadInput = new Vector3(x, -y, 0f);
+        gamepadInput = new Vector3(x, y, 0f);
 
         //Debug.Log("sdsad" + x);
     }
@@ -469,10 +469,13 @@ public class Player : YmirComponent
     private void UpdateMove()
     {
         HandleRotation();
+
+        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
         //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+        //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
         //if (gamepadInput.x > 0)
         //{
@@ -547,50 +550,56 @@ public class Player : YmirComponent
     }
     private void HandleRotation()
     {
-        //Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y);
+        Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y);
+        aX = Vector3.Normalize(aX);
+
+        Quaternion targetRotation = Quaternion.identity;
+
+        Vector3 aY = gameObject.transform.GetUp();
+
+        if (aX != Vector3.zero)
+        {
+            float angle = 0;
+
+            if (aX.x >= 0)
+            {
+                angle = (float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+            else if (aX.x < 0)
+            {
+                angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+
+            // Add 45 degrees to the calculated angle
+            angle -= Mathf.PI / 4f; // Rotate 45 degrees to the right
+
+            // Construct quaternion rotation with an inverted axis for correcting left and right inversion
+            targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
+        }
+
+        // Apply rotation
+        gameObject.SetRotation(targetRotation);
+
+        //Calculate player rotation
+        //Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
         //Vector3 aY = new Vector3(0, 0, 1);
         //aX = Vector3.Normalize(aX);
 
-        //float angle = 0f;
-
-        //if (aX != Vector3.zero)
+        //if (aX.x >= 0)
         //{
-        //    // Calculate the signed angle between aX and aY
-        //    angle = Mathf.Atan2(aX.z, aX.x);
+        //    angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+        //}
+        //else if (aX.x < 0)
+        //{
+        //    angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
         //}
 
-        //// Convert angle from world view to orthogonal view
-        //angle -= Mathf.PI / 4f; // Rotate 45 degrees to the right
+        ////Convert angle from world view to orthogonal view
+        //angle += 0.785398f; //Rotate 45 degrees to the right
 
-        //// Convert angle to degrees
-        //float angleDegrees = angle * Mathf.Rad2Deg;
+        ////Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
 
-        //// Construct quaternion rotation
-        //Quaternion targetRotation = Quaternion.Euler(0f, angleDegrees, 0f);
-
-        //// Apply rotation
-        //gameObject.SetRotation(targetRotation);
-
-        //Calculate player rotation
-        Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
-        Vector3 aY = new Vector3(0, 0, 1);
-        aX = Vector3.Normalize(aX);
-
-        if (aX.x >= 0)
-        {
-            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
-        else if (aX.x < 0)
-        {
-            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
-
-        //Convert angle from world view to orthogonal view
-        angle += 0.785398f; //Rotate 45 degrees to the right
-
-        //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
-
-        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
+        //gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
     }
 
     // TODO: use the generic functions

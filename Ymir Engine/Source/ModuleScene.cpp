@@ -82,8 +82,8 @@ bool ModuleScene::Start()
 
 #ifdef _STANDALONE
 
-	LoadSceneFromStart("Assets/Scenes", "You_Died");
-	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets/Scenes", "You_Died");
+	LoadSceneFromStart("Assets/Scenes", "UI_scene");
 
 #endif // _STANDALONE
 

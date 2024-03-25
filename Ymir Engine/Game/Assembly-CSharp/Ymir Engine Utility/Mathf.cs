@@ -58,6 +58,7 @@ namespace YmirEngine
         public static float Floor(float f) { return (float)Math.Floor(f); }
 
         public const float Rad2Deg = 57.29578f;
+        public const float Deg2Rad = 0.0174532925199432957f;
 
         public const float PI = 3.14159265358979323846f;
 
@@ -78,6 +79,16 @@ namespace YmirEngine
         public static float Atan(float x)
         {
             return x - (x * x * x) / 3 + (x * x * x * x * x) / 5 - (x * x * x * x * x * x * x) / 7;
+        }
+
+        public static float Abs(float value)
+        {
+            return value < 0 ? -value : value;
+        }
+
+        public static float Epsilon()
+        {
+            return 0.000001f; // A very small float value
         }
 
     }
