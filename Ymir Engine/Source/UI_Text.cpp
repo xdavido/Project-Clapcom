@@ -110,8 +110,10 @@ UI_Text::UI_Text(GameObject* g, float x, float y, const char* t, float fs, float
 UI_Text::~UI_Text()
 {
 	font = nullptr;
+
 	boundsEditor->DeleteBuffers();
 	boundsGame->DeleteBuffers();
+
 	//RELEASE_ARRAY(boundsEditor->index);
 	//RELEASE_ARRAY(boundsGame->index);
 	RELEASE(boundsEditor);
