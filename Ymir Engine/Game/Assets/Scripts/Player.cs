@@ -472,23 +472,24 @@ public class Player : YmirComponent
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
         //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        if (gamepadInput.x > 0)
-        {
-            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
-        }
-        if (gamepadInput.x < 0)
-        {
-            gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
-        }
+        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        if (gamepadInput.y > 0)
-        {
-            gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
-        }
-        if (gamepadInput.y < 0)
-        {
-            gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed * -1);
-        }
+        //if (gamepadInput.x > 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
+        //}
+        //if (gamepadInput.y > 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetUp() * movementSpeed);
+        //}
+        //if (gamepadInput.y < 0)
+        //{
+        //    gameObject.SetVelocity(cameraObject.transform.GetUp() * movementSpeed * -1);
+        //}
     }
     private void StopPlayer()
     {
@@ -546,6 +547,30 @@ public class Player : YmirComponent
     }
     private void HandleRotation()
     {
+        //Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y);
+        //Vector3 aY = new Vector3(0, 0, 1);
+        //aX = Vector3.Normalize(aX);
+
+        //float angle = 0f;
+
+        //if (aX != Vector3.zero)
+        //{
+        //    // Calculate the signed angle between aX and aY
+        //    angle = Mathf.Atan2(aX.z, aX.x);
+        //}
+
+        //// Convert angle from world view to orthogonal view
+        //angle -= Mathf.PI / 4f; // Rotate 45 degrees to the right
+
+        //// Convert angle to degrees
+        //float angleDegrees = angle * Mathf.Rad2Deg;
+
+        //// Construct quaternion rotation
+        //Quaternion targetRotation = Quaternion.Euler(0f, angleDegrees, 0f);
+
+        //// Apply rotation
+        //gameObject.SetRotation(targetRotation);
+
         //Calculate player rotation
         Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
         Vector3 aY = new Vector3(0, 0, 1);

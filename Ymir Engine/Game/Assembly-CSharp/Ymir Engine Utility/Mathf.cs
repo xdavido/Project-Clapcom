@@ -58,5 +58,27 @@ namespace YmirEngine
         public static float Floor(float f) { return (float)Math.Floor(f); }
 
         public const float Rad2Deg = 57.29578f;
+
+        public const float PI = 3.14159265358979323846f;
+
+        public static float Atan2(float y, float x)
+        {
+            float angle = Mathf.Atan(y / x);
+            if (x < 0)
+            {
+                angle += Mathf.PI;
+            }
+            else if (y < 0)
+            {
+                angle += 2 * Mathf.PI;
+            }
+            return angle;
+        }
+
+        public static float Atan(float x)
+        {
+            return x - (x * x * x) / 3 + (x * x * x * x * x) / 5 - (x * x * x * x * x * x * x) / 7;
+        }
+
     }
 }
