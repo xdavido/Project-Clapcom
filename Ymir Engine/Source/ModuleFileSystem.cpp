@@ -176,7 +176,7 @@ bool ModuleFileSystem::SaveAnimationToFile(Animation* anim, const std::string& f
 
 	std::string name = filename;
 
-	for (name; FileExists(name); name) {
+	for (name; PhysfsEncapsule::FileExists(name); name) {
 		int pos = name.length() - 6;
 		name.insert(pos, "_Copy");
 		LOG("File with name '%s'; changed to '%s'", filename.c_str(), name.c_str());
@@ -243,11 +243,4 @@ bool ModuleFileSystem::LoadMeshToFile(const std::string filename, ResourceMesh* 
 
 	ImporterMesh::Load(buf, ourMesh);
 	return true;
-}
-
-bool ModuleFileSystem::FileExists(std::string fileName)
-{
-	std::ifstream file(fileName.c_str());
-
-	return file.good();
 }

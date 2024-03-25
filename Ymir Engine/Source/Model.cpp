@@ -228,10 +228,19 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 					cAnim->modelPath = path;
 
 					for (int i = 0; i < scene->mNumAnimations; i++) {
+
 						Animation* anim = new Animation(path, this, i);
 
-						std::string filenameUID = std::to_string(modelGO->UID) + ".yanim";
+						uint UID = modelGO->UID;
+
+						std::string filenameUID = std::to_string(UID) + ".yanim";
 						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
+
+						if (PhysfsEncapsule::FileExists(libraryPath)) {
+							UID = Random::Generate();
+							filenameUID = std::to_string(UID) + ".yanim";
+							libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
+						}
 
 						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
 
@@ -240,7 +249,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 						External->fileSystem->SaveAnimationToFile(anim, assetsPath);
 
-						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
+						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, UID);
 						cAnim->AddAnimation(*rAnim);
 					}
 					LOG("Model has animations");

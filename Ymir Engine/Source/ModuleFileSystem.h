@@ -36,8 +36,6 @@ public:
 	// Load
 	bool LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh);
 	//bool LoadTextureToFile(const Texture* ourTexture, const std::string& filename);
-
-	bool FileExists(std::string fileName);
 	
 
 public:
