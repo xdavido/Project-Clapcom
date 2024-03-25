@@ -44,7 +44,7 @@ public class EnemyBehaviour : YmirComponent
 
     private bool start = true;
 
-    public float movementSpeed = 2f, movementAux = 2f;
+    private float movementSpeed = 2f, movementAux = 2f;
 
     public float life = 100f;
 
@@ -52,9 +52,7 @@ public class EnemyBehaviour : YmirComponent
 
     public float xSpeed = 0, ySpeed = 0;
 
-    public int counter1 = 0;
-
-    public float rotationSpeed = 0.5f;
+    private int counter1 = 0;
 
     //private EnemyState state = EnemyState.Idle;
 
@@ -89,7 +87,7 @@ public class EnemyBehaviour : YmirComponent
             gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
 
             //Set movement speed negative cuz the facehugger is facing backwards
-            if (counter1 > 80) {
+            if (counter1 > 80 && counter1 < 320) {
                 movementSpeed = 0;
             }
             else if (counter1 > 320)
