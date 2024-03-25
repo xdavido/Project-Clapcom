@@ -198,30 +198,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 343,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        342.41851806640625,
-                        50.486038208007812,
-                        300,
-                        50
-                    ],
-                    "Path": "Assets\/Baker_house.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 343,
+                "Position Y": 0,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  342.41851806640625,
+                  50.486038208007812,
+                  300,
+                  50
+                ],
+                "Path": "Assets\/Baker_house.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -502,30 +503,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 100,
-                    "Position Y": 100,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        100,
-                        100,
-                        300,
-                        50
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 100,
+                "Position Y": 100,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  100,
+                  100,
+                  300,
+                  50
+                ],
+                "Path": "Assets\/InGameConeptPng.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -558,30 +560,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 100,
-                    "Position Y": 220,
-                    "Width": 139,
-                    "Height": 119,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        100,
-                        220,
-                        139,
-                        119
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 100,
+                "Position Y": 220,
+                "Width": 139,
+                "Height": 119,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  100,
+                  220,
+                  139,
+                  119
+                ],
+                "Path": "Assets\/InGameConeptPng.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -614,30 +617,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 65,
-                    "Position Y": 65,
-                    "Width": 70,
-                    "Height": 70,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        65,
-                        90,
-                        70,
-                        70
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 65,
+                "Position Y": 65,
+                "Width": 70,
+                "Height": 70,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  65,
+                  90,
+                  70,
+                  70
+                ],
+                "Path": "Assets\/InGameConeptPng.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -730,30 +734,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 282,
-                    "Position Y": 271,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        282,
-                        271,
-                        300,
-                        50
-                    ],
-                    "Path": "Assets\/Baker_house.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 282,
+                "Position Y": 271,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  282,
+                  271,
+                  300,
+                  50
+                ],
+                "Path": "Assets\/Baker_house.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -905,30 +910,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 544,
-                    "Position Y": 261,
-                    "Width": 63,
-                    "Height": 63,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        544,
-                        261,
-                        63,
-                        63
-                    ],
-                    "Path": "Assets\/Lava.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 544,
+                "Position Y": 261,
+                "Width": 63,
+                "Height": 63,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  544,
+                  261,
+                  63,
+                  63
+                ],
+                "Path": "Assets\/Lava.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1

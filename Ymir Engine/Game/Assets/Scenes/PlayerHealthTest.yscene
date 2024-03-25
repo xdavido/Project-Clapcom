@@ -273,30 +273,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 0,
-                    "Draggeable": false,
-                    "Position X": 9,
-                    "Position Y": 53,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        9,
-                        53,
-                        300,
-                        50
-                    ],
-                    "Path": "Assets\/pato.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 0,
+                "Draggeable": false,
+                "Position X": 9,
+                "Position Y": 53,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  9,
+                  53,
+                  300,
+                  50
+                ],
+                "Path": "Assets\/pato.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -328,30 +329,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 9,
-                    "Position Y": 54,
-                    "Width": 126,
-                    "Height": 103,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        9,
-                        54,
-                        126,
-                        103
-                    ],
-                    "Path": "Assets\/juan.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 9,
+                "Position Y": 54,
+                "Width": 126,
+                "Height": 103,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  9,
+                  54,
+                  126,
+                  103
+                ],
+                "Path": "Assets\/juan.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -383,30 +385,31 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 0,
-                    "Draggeable": false,
-                    "Position X": -26,
-                    "Position Y": 121,
-                    "Width": 70,
-                    "Height": 70,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        -26,
-                        121,
-                        70,
-                        70
-                    ],
-                    "Path": "Assets\/pato.png",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 0,
+                "Draggeable": false,
+                "Position X": -26,
+                "Position Y": 121,
+                "Width": 70,
+                "Height": 70,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  -26,
+                  121,
+                  70,
+                  70
+                ],
+                "Path": "Assets\/pato.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
