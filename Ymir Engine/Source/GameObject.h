@@ -54,6 +54,7 @@ public:
 	std::vector<Component*> GetAllComponentsByType(ComponentType type);
 	Component* GetComponent(ComponentType ctype, char* scriptname);
 	void RemoveComponent(Component* component);
+	void RemoveCSReference(SerializedField* fieldToRemove);
 
 	void DestroyGameObject();
 
