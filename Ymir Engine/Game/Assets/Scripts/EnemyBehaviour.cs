@@ -44,7 +44,7 @@ public class EnemyBehaviour : YmirComponent
 
     private bool start = true;
 
-    public float movementSpeed = 0.1f;
+    public float movementSpeed = 2f;
 
     public float life = 100f;
 
@@ -56,7 +56,7 @@ public class EnemyBehaviour : YmirComponent
 
     private double angle = 0.0f;
 
-    public float rotationSpeed = 0.1f;
+    public float rotationSpeed = 0.5f;
 
     private bool rotate = false;
 
@@ -87,8 +87,10 @@ public class EnemyBehaviour : YmirComponent
 
         if (wanderState == WanderState.Going)
         {
-            gameObject.transform.localPosition += new Vector3(xSpeed, 0, 0) * movementSpeed * Time.deltaTime;
-            gameObject.transform.localPosition += new Vector3(0, 0, ySpeed) * movementSpeed * Time.deltaTime;
+            HandleRotation();
+
+            //Set movement speed negative cuz the facehugger is facing backwards
+            gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
 
             counter1++;
 
@@ -97,77 +99,36 @@ public class EnemyBehaviour : YmirComponent
                 wanderState = WanderState.Reached;
                 counter1 = 0;
             }
+        }
+    }
 
-            //Rotation
+    private void HandleRotation()
+    {
+        Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
+        aX = Vector3.Normalize(aX);
 
-            //Vector3 X = new Vector3(xSpeed, 0, -ySpeed - 1);
-            //Vector3 Y = new Vector3(0, 0, 1);
-            //X = Vector3.Normalize(X);
+        Quaternion targetRotation = Quaternion.identity;
 
-            //if (X.x >= 0)
-            //{
-            //    angle = Math.Acos(Vector3.Dot(X, Y) - 1);
-            //}
-            //else if (X.x < 0)
-            //{
-            //    angle = -Math.Acos(Vector3.Dot(X, Y) - 1);
-            //}
+        Vector3 aY = gameObject.transform.GetUp();
 
-            //angle += 0f; //Add offset here if needed
-            //Se viene hardcodeada
+        if (aX != Vector3.zero)
+        {
+            float angle = 0;
 
-            if (rotate == true)
+            if (aX.x >= 0)
             {
-                if (counter2 == 0)
-                {
-                    Vector3 X = new Vector3(xSpeed, 0, -ySpeed - 1);
-                    Vector3 Y = new Vector3(0, 0, 1);
-                    X = Vector3.Normalize(X);
-
-                    if (X.x >= 0)
-                    {
-                        angle = Math.Acos(Vector3.Dot(X, Y) - 1);
-                    }
-                    else if (X.x < 0)
-                    {
-                        angle = -Math.Acos(Vector3.Dot(X, Y) - 1);
-                    }
-
-                    angle = angle / 20;
-                    counter2++;
-
-                }
-
-                if (counter2 > 0)
-                {
-                    counter2++;
-                    angle = angle + (angle / counter2);
-                    gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
-                    if (counter2 > 20)
-                    {
-                        counter2 = 0;
-                        rotate = false;
-                        Vector3 X = new Vector3(xSpeed, 0, -ySpeed - 1);
-                        Vector3 Y = new Vector3(0, 0, 1);
-                        X = Vector3.Normalize(X);
-
-                        if (X.x >= 0)
-                        {
-                            angle = Math.Acos(Vector3.Dot(X, Y) - 1);
-                        }
-                        else if (X.x < 0)
-                        {
-                            angle = -Math.Acos(Vector3.Dot(X, Y) - 1);
-                        }
-                        gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
-
-                    }
-
-                }
+                angle = (float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+            else if (aX.x < 0)
+            {
+                angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
             }
 
-            //gameObject.transform.localRotation = Quaternion.RotateAroundAxis(Vector3.up, (float)-angle);
+            angle -= Mathf.PI / 4f;
 
+            targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
         }
+        gameObject.SetRotation(targetRotation);
+
     }
 }
