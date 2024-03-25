@@ -483,11 +483,11 @@ public class Player : YmirComponent
 
         if (gamepadInput.y > 0)
         {
-            gameObject.SetVelocity(cameraObject.transform.GetForward() * movementSpeed);
+            gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
         }
         if (gamepadInput.y < 0)
         {
-            gameObject.SetVelocity(cameraObject.transform.GetForward() * movementSpeed * -1);
+            gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed * -1);
         }
     }
     private void StopPlayer()
