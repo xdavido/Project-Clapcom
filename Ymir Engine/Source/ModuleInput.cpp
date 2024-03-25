@@ -60,11 +60,6 @@ bool ModuleInput::Init()
 		LOG("[ERROR] SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	if (SDL_Init(SDL_INIT_HAPTIC) < 0)
-	{
-		LOG("[ERROR] SDL_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
 	if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
 	{
 		LOG("[ERROR] SDL_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -93,13 +88,6 @@ bool ModuleInput::Init()
 			LOG("Is Haptic");
 		}
 
-		//Open the device
-		haptic = SDL_HapticOpenFromJoystick(joystick);
-		if (haptic == nullptr) return ret;
-
-		if (SDL_HapticRumbleInit(haptic) == 0) {
-			LOG("Rumlbe Init Innit");
-		}
 
 	}
 
@@ -361,12 +349,7 @@ bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
 
-	SDL_JoystickClose(joystick);
-	SDL_HapticClose(haptic);
-	SDL_QuitSubSystem(SDL_INIT_EVENTS);
-	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
-	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
-
+	SDL_Quit();
 
 	return true;
 }

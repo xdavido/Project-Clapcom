@@ -471,10 +471,9 @@ public class Player : YmirComponent
     #endregion
 
     #region COLLISION
-    public void OnCollisionEnter(GameObject other)
+    public void OnCollisionEnter()
     {
-        //Debug.Log("OnCollisionEnter!!!!");
-        //gameObject.SetVelocity(up * movementSpeed);
+        Debug.Log("Peedrito");
     }
     #endregion
 

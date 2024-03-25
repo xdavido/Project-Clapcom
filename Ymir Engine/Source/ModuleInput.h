@@ -130,9 +130,7 @@ public:
 	bool IsGamepadIdle();
 
 private:
-	
-	SDL_Haptic* haptic;
-	bool hapticEnabled = true;
+
 	// Gamepad Deadzone Management
 	float ReduceJoystickValue(bool controllerON, float v1, float min, float clamp_to);
 
