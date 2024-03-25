@@ -103,6 +103,8 @@ UI_Text::UI_Text(GameObject* g, float x, float y, const char* t, float fs, float
 	mat = new CMaterial(g);
 	mat->shaderPath = shaderPath;
 	mat->shader.LoadShader(mat->shaderPath);
+
+	tabNav_ = false;
 }
 
 UI_Text::~UI_Text()

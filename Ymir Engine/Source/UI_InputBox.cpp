@@ -27,6 +27,7 @@ UI_InputBox::UI_InputBox(GameObject* g, float x, float y, float w, float h) : C_
 	maxChars = 10;
 
 	isWriting = false;
+	tabNav_ = true;
 }
 
 UI_InputBox::~UI_InputBox()

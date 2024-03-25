@@ -10,6 +10,8 @@ UI_Canvas::UI_Canvas(GameObject* g, float w, float h) : C_UI(UI_TYPE::CANVAS, Co
 	static_cast<G_UI*>(mOwner)->canvas = this;
 	External->scene->SetCanvas((G_UI*)mOwner);
 	External->scene->vCanvas.push_back((G_UI*)mOwner);
+
+	tabNav_ = false;
 }
 
 UI_Canvas::~UI_Canvas()

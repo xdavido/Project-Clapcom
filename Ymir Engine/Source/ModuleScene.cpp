@@ -81,8 +81,9 @@ bool ModuleScene::Start()
 
 #ifdef _STANDALONE
 
-	LoadSceneFromStart("Assets", "VS2 Release");
+	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
 #endif // _STANDALONE
 
@@ -800,73 +801,63 @@ bool ModuleScene::TabNavigate(bool isForward)
 
 	for (int i = 0; i < vCanvas.size(); ++i)
 	{
-		for (int k = 0; k < vCanvas[i]->mChildren.size(); ++k)
-		{
-			for (int j = 0; j < vCanvas[i]->mChildren[k]->mComponents.size(); ++j)
-			{
-				if (static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::BUTTON
-					|| static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::CHECKBOX ||
-					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::INPUTBOX /*||
-					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::SLIDER*/)
-				{
-					listUI.push_back(static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j]));
-				}
-			}
-		}
+		External->renderer3D->GetUIGOs(vCanvas[i], listUI);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
 	{
-		if (isForward)
+		if (static_cast<C_UI*>(listUI[i])->tabNav_)
 		{
-			if (selectedUI == listUI.size() - 1)
+			if (isForward)
 			{
-				App->scene->SetSelected(listUI[0]->mOwner);
-
-				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[0]->SetState(UI_STATE::SELECTED);
-
-				selectedUI = 0;
-			}
-
-			else
-			{
-				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
-
-				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
-
-				selectedUI += 1;
-			}
-		}
-
-		else
-		{
-			for (auto i = 0; i < listUI.size(); i++)
-			{
-				if (selectedUI == 0)
+				if (selectedUI == listUI.size() - 1)
 				{
-					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+					App->scene->SetSelected(listUI[0]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+					listUI[0]->SetState(UI_STATE::SELECTED);
 
-					selectedUI = listUI.size() - 1;
+					selectedUI = 0;
 				}
 
 				else
 				{
-					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+					App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+					listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
 
-					selectedUI -= 1;
+					selectedUI += 1;
 				}
-				return true;
+			}
+
+			else
+			{
+				for (auto i = 0; i < listUI.size(); i++)
+				{
+					if (selectedUI == 0)
+					{
+						App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+
+						listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+						listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+
+						selectedUI = listUI.size() - 1;
+					}
+
+					else
+					{
+						App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+
+						listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+						listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+
+						selectedUI -= 1;
+					}
+					return true;
+				}
 			}
 		}
-
 		return true;
 	}
 
