@@ -469,8 +469,18 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->mTransform->rotation = rotVector.Normalized();                                             
 	go->mTransform->SetScale(scaleVector);
 
+	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
+
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
+
+	if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+		External->resourceManager->ImportFile("Assets/Primitives/Cube.fbx", true);
+
+	}
+
 	//Añade la mesh a la bullet
-	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary("Library/Meshes/1553236809.ymesh", ResourceType::MESH, 1553236809));
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID));
 	CMesh* cmesh = new CMesh(go);
 	cmesh->rMeshReference = rMesh;
 	go->AddComponent(cmesh);

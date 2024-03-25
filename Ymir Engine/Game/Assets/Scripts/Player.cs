@@ -417,8 +417,11 @@ public class Player : YmirComponent
         //Debug.Log("Ammo:" + ammo);
 
         StopPlayer();
+
+        Vector3 offset = new Vector3(0, 15, 0);
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
         //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
         //Debug.Log("Spawn pos: " + pos);
 
@@ -426,7 +429,7 @@ public class Player : YmirComponent
         Quaternion rot = gameObject.transform.globalRotation;
 
         //Tamaño de la bala
-        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+        Vector3 scale = new Vector3(2.0f, 2.0f, 4.0f);
 
         //Crea la bala
         //Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
@@ -528,7 +531,7 @@ public class Player : YmirComponent
     }
     private void StopPlayer()
     {
-        Debug.Log("Stoping");
+        Debug.Log("Stopping");
         gameObject.SetVelocity(new Vector3(0, 0, 0));
     }
     

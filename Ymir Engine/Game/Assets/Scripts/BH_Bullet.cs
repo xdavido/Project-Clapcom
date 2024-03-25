@@ -3,7 +3,7 @@ using YmirEngine;
 
 public class BH_Bullet : YmirComponent
 {
-    public float speed = 10.0f;
+    public float speed = 130.0f;
     public float maxLifeTime = 2.0f;
     public float currentLifeTime = 0.0f;
     public float yVel = 0.0f;
