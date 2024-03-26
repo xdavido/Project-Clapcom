@@ -257,3 +257,11 @@ void ResumeAllAudios()
 
 	External->audio->ResumeAllSounds();
 }
+
+void StopAllAudios()
+{
+	if (External == nullptr)
+		return;
+
+	External->audio->StopAllSounds();
+}

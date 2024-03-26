@@ -51,6 +51,9 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void ResumeAllAudios();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void StopAllAudios();
     }
 
 }

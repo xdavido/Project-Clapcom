@@ -133,6 +133,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Audio::SetSwitch", SetSwitch);
 	mono_add_internal_call("YmirEngine.Audio::PauseAllAudios", PauseAllAudios);
 	mono_add_internal_call("YmirEngine.Audio::ResumeAllAudios", ResumeAllAudios);
+	mono_add_internal_call("YmirEngine.Audio::StopAllAudios", StopAllAudios);
 #pragma endregion
 
 
