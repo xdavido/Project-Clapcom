@@ -25,6 +25,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
+            "Parent UID": 1038161478,
             "Components": [
                 {
                     "Type": "Transform",
@@ -6654,8 +6655,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1943,
-                    "Height": 1119,
+                    "Width": 0,
+                    "Height": 0,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -6677,8 +6678,8 @@
                 823303942,
                 1647798137,
                 118355006,
-                1408335669,
-                1843557112
+                1843557112,
+                1408335669
             ]
         },
         {
@@ -7255,6 +7256,63 @@
             ]
         },
         {
+            "Name": "Heal",
+            "UID": 1843557112,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1398847280,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 719,
+                    "Position Y": 991,
+                    "Width": 58,
+                    "Height": 52,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        719,
+                        991,
+                        58,
+                        52
+                    ],
+                    "Path": "Assets\/UI\/HUD Buttons\/Bumper_unpressed.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
             "Name": "Health_Frame",
             "UID": 1408335669,
             "Active": true,
@@ -7284,17 +7342,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 666,
-                    "Position Y": 881,
-                    "Width": 162,
-                    "Height": 162,
+                    "Position X": 683,
+                    "Position Y": 898,
+                    "Width": 128,
+                    "Height": 128,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        666,
-                        881,
-                        162,
-                        162
+                        683,
+                        898,
+                        128,
+                        128
                     ],
                     "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -7344,17 +7402,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 695,
-                    "Position Y": 907,
-                    "Width": 106,
-                    "Height": 112,
+                    "Position X": 707,
+                    "Position Y": 923,
+                    "Width": 80,
+                    "Height": 78,
                     "UI Type": 6,
                     "UI State": 1,
                     "Drag Limits": [
-                        695,
-                        907,
-                        106,
-                        112
+                        707,
+                        923,
+                        80,
+                        78
                     ],
                     "Is interactable": true,
                     "Fill image": 1746115142,
@@ -7380,7 +7438,7 @@
                         -1.5816255460782938e+38,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38,
-                        0
+                        1.4012984643248171e-44
                     ],
                     "Disabled color": [
                         -1.5816255460782938e+38,
@@ -7430,19 +7488,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 695,
-                    "Position Y": 907,
-                    "Width": 106,
-                    "Height": 113,
+                    "Position X": 707,
+                    "Position Y": 923,
+                    "Width": 80,
+                    "Height": 78,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        695,
-                        907,
-                        106,
-                        113
+                        707,
+                        923,
+                        80,
+                        78
                     ],
-                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Slider_Background.png",
+                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -7487,19 +7545,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 695,
-                    "Position Y": 908,
-                    "Width": 106,
-                    "Height": 112,
+                    "Position X": 707,
+                    "Position Y": 924,
+                    "Width": 80,
+                    "Height": 78,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        695,
-                        908,
-                        106,
-                        112
+                        707,
+                        924,
+                        80,
+                        78
                     ],
-                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Slider_Fill.png",
+                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -7544,8 +7602,8 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 660,
-                    "Position Y": 984,
+                    "Position X": 672,
+                    "Position Y": 966,
                     "Width": 70,
                     "Height": 70,
                     "UI Type": 1,
@@ -7557,63 +7615,6 @@
                         70
                     ],
                     "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 1
-                }
-            ]
-        },
-        {
-            "Name": "Heal",
-            "UID": 1843557112,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1398847280,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 719,
-                    "Position Y": 991,
-                    "Width": 58,
-                    "Height": 52,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        719,
-                        991,
-                        58,
-                        52
-                    ],
-                    "Path": "Assets\/UI\/HUD Buttons\/Bumper_unpressed.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
