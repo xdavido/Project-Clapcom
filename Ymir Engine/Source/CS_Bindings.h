@@ -338,12 +338,12 @@ MonoObject* GetRight(MonoObject* go)
 }
 
 MonoObject* GetUp(MonoObject* go)
-{
+{	
 	if (External == nullptr)
 		return nullptr;
 
 	CTransform* trans = CS_CompToComp<CTransform*>(go);
-
+		
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 	return External->moduleMono->Float3ToCS(trans->GetUp());
 }

@@ -1,0 +1,294 @@
+{
+    "Editor Camera Position": [
+        13.123638153076172,
+        15.216000556945801,
+        23.913385391235352
+    ],
+    "Editor Camera Right (X)": [
+        0.78325492143630981,
+        -4.3213367462158203e-07,
+        -0.62170875072479248
+    ],
+    "Editor Camera Up (Y)": [
+        -0.27390167117118835,
+        0.89772236347198486,
+        -0.34507352113723755
+    ],
+    "Editor Camera Front (Z)": [
+        -0.55812007188796997,
+        -0.44056636095046997,
+        -0.70314294099807739
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "UID": 381266425,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1009784856,
+                1634601570,
+                1614375652
+            ]
+        },
+        {
+            "Name": "Cube",
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        4.3292741775512695,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1.6799999475479126,
+                        1.6799999475479126,
+                        1.6799999475479126
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1.6799999475479126,
+                        1.6799999475479126,
+                        1.6799999475479126
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "EnemyBehaviour.cs",
+                    "UID": 0,
+                    "movementSpeed": 0,
+                    "life": 100,
+                    "xSpeed": 0,
+                    "ySpeed": 0,
+                    "PlayerDetected": true,
+                    "DetectionRadius": 0,
+                    "wanderDuration": 0,
+                    "stopedDuration": 0
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Cube (1)",
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/DefaultShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Assets\/Lava.png",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                }
+            ]
+        },
+        {
+            "Name": "Empty",
+            "UID": 1634601570,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        48.934429168701172,
+                        0.69476580619812012,
+                        55.755783081054688
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        48.934429168701172,
+                        0.69476580619812012,
+                        55.755783081054688
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Player",
+            "UID": 1614375652,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Sphere.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        2.7734565734863281,
+                        10.085670471191406
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1431930153
+            ]
+        },
+        {
+            "Name": "Sphere (1)",
+            "UID": 1431930153,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1614375652,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 439,
+                    "Index Count": 2280
+                }
+            ]
+        }
+    ]
+}
