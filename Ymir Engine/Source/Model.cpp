@@ -221,6 +221,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		// Check if all the bone meshes have been processed ---> when all meshes processed, process if have animations
 		if (scene->mNumMeshes == processedMeshes) {
 			if (scene->HasAnimations()) {
+
+				LOG("Model has animations");
 				if (modelGO->GetComponent(ANIMATION) == nullptr) {
 					CAnimation* animationComponent = new CAnimation(modelGO);
 					modelGO->AddComponent(animationComponent);
@@ -252,7 +254,6 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, UID);
 						cAnim->AddAnimation(*rAnim);
 					}
-					LOG("Model has animations");
 				}
 			}
 			else {
@@ -505,10 +506,10 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 	if (mesh->HasBones())
 	{
 		ExtractBoneWeightForVertices(vertices, mesh, scene);
-		LOG("Model with %i bones", mesh->mNumBones);
+		LOG("Mesh with %i bones", mesh->mNumBones);
 	}
 	else {
-		LOG("Model with no bones");
+		LOG("Mesh with no bones");
 	}
 
 	// Create the mesh
