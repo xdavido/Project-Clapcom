@@ -1134,11 +1134,11 @@
     <ClInclude Include="Source\CS_Audio_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ImGuiCustom.h">
-      <Filter>Sources\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CS_Animation_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ImGuiCustom.h">
+      <Filter>Sources\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1583,7 +1583,7 @@
     <ClCompile Include="Source\CLight.cpp">
       <Filter>Sources\Features\Lighting System</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiCustom.cpp">
+    <ClCompile Include="Source\ImGuiCustom.cpp">
       <Filter>Sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
