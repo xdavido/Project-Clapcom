@@ -26,6 +26,7 @@ enum WanderState
     REACHED,
     GOING,
     CHASING,
+    HIT,
     STOPED
 }
 public class RandomPointGenerator
@@ -71,7 +72,8 @@ public class EnemyBehaviour : YmirComponent
 
     private WanderState wanderState;
 
-    RandomPointGenerator pointGenerator;    
+    RandomPointGenerator pointGenerator;
+    private Health healthScript;
 
     private Vector3 vectorToPlayer = null;
 
@@ -88,6 +90,7 @@ public class EnemyBehaviour : YmirComponent
         wanderDuration = 5f;
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
+        healthScript = player.GetComponent<Health>();
         movementSpeed = 2f;
         stopedDuration = 1f;
         DetectionRadius = 15f;
@@ -104,23 +107,23 @@ public class EnemyBehaviour : YmirComponent
             case WanderState.REACHED:
                 (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
                 wanderTimer = wanderDuration;
-                Debug.Log("[ERROR] Current State: REACHED");
+                //Debug.Log("[ERROR] Current State: REACHED");
                 wanderState = WanderState.GOING;
                 movementSpeed = 2f;
                 break;
 
             case WanderState.GOING:
                 HandleRotation();
-                Debug.Log("[ERROR] Current State: GOING");
+                //Debug.Log("[ERROR] Current State: GOING");
                 ProcessMovement();
-                Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
-                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
+                //Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
+                gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
                 break;
 
 
             case WanderState.CHASING:
 
-                Debug.Log("[ERROR] Current State: CHASING");
+                //Debug.Log("[ERROR] Current State: CHASING");
                 vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
                 vectorToPlayer = Vector3.Normalize(vectorToPlayer);
 
@@ -136,13 +139,21 @@ public class EnemyBehaviour : YmirComponent
                 Debug.Log("[ERROR] Current State: STOPED");
                 ProcessStopped();
                 break;
+
+            case WanderState.HIT:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                break;
         }
 
 
         if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
         {
-            movementSpeed = 2f;
-            wanderState = WanderState.CHASING;
+            if (wanderState != WanderState.HIT)
+            {
+                movementSpeed = 2f;
+                wanderState = WanderState.CHASING;
+            }
         }
 
     }
@@ -178,24 +189,6 @@ public class EnemyBehaviour : YmirComponent
     private void HandleRotation()
     {
 
-        //Vector3 directionToPlayer = (player.transform.globalPosition - gameObject.transform.globalPosition);
-
-
-
-        //directionToPlayer = Vector3.Normalize(directionToPlayer);
-
-
-        //Debug.Log("[ERROR] Direction: " + directionToPlayer);
-
-        //if (directionToPlayer != Vector3.zero)
-        //{
-        //    float angle = Mathf.Atan2(directionToPlayer.x, directionToPlayer.z) * Mathf.Rad2Deg;
-
-        //    Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
-
-        //    // Aplicar rotación al objeto, considerando su rotación actual
-        //    gameObject.SetRotation( Quaternion.Euler(0,targetRotation.y,0));
-        //}
 
         Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
         aX = Vector3.Normalize(aX);
@@ -255,26 +248,25 @@ public class EnemyBehaviour : YmirComponent
 
         gameObject.transform.localRotation = desiredRotation;
 
-        Debug.Log("[ERROR] rotation:  " + gameObject.transform.localRotation);
-
-        //Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
-        //aX = Vector3.Normalize(aX);
-
-        //Vector3 aY = new Vector3(0, 0, 1);
-
-        //double angle = 0f;
-
-        //if (aX.x >= 0)
-        //{
-        //    angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
-        //}
-        //else if (aX.x < 0)
-        //{
-        //    angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
-        //}
+        //Debug.Log("[ERROR] rotation:  " + gameObject.transform.localRotation);
 
 
-        //gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
+    }
 
+   public void OnCollisionStay(GameObject other)
+    {
+        
+
+        if (other.Name == "Player" && wanderState != WanderState.HIT) 
+        {
+            
+            Debug.Log("[ERROR] Name: " + other.Name);
+            Debug.Log("[ERROR] HIT!!!");
+
+            healthScript.TakeDmg(10000);
+            wanderState = WanderState.HIT;
+            
+
+        }
     }
 }
