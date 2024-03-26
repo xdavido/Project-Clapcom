@@ -167,3 +167,24 @@ void SetSpeed(MonoObject* go, MonoString* nameAnim, float speed) {
 		LOG("[WARNING] Couldn't find ANIMATION COMPONENT!");
 	}
 }
+
+void AddBlendOption(MonoObject* go, MonoString* animationName, MonoString* blendName, float transitionTime) {
+
+	if (External == nullptr)
+		return;
+
+	GameObject* GO = External->moduleMono->GameObject_From_CSGO(go);
+	std::string animName = mono_string_to_utf8(animationName);
+	std::string bName = mono_string_to_utf8(blendName);
+
+	CAnimation* animComp = dynamic_cast<CAnimation*>(GO->GetComponent(ComponentType::ANIMATION));
+	if (animComp != nullptr)
+	{
+		animComp->AddBlendOption(animName, bName, transitionTime);
+
+	}
+	else
+	{
+		LOG("[WARNING] Couldn't find ANIMATION COMPONENT!");
+	}
+}

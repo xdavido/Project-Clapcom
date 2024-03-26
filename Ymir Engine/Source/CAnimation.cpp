@@ -100,36 +100,6 @@ void CAnimation::StopAnimation() {
     animator->StopAnimation();
 }
 
-void CAnimation::TransitionTo(std::string animationName, float transitionTime) {
-
-    ResourceAnimation* playingAnimation = nullptr;
-    ResourceAnimation* nextAnimation = nullptr;
-
-    for (int i = 0; i < animator->animations.size(); i++) {
-
-        if (animator->animations[i].isPlaying)
-            playingAnimation = &animator->animations[i];
-
-        if (animator->animations[i].name == animationName) {
-            nextAnimation = &animator->animations[i];
-        }
-    }
-
-    if (playingAnimation == nullptr) {
-        LOG("No animation playing");
-        return;
-    }
-    if (nextAnimation == nullptr) {
-        LOG("Animation not found");
-        return;
-    }
-    if (playingAnimation == nextAnimation) {
-        return;
-    }
-
-    animator->TransitionTo(playingAnimation, nextAnimation, transitionTime);
-}
-
 void CAnimation::SetLoop(std::string animationName, bool loop) {
 
     if (animationName != "") {

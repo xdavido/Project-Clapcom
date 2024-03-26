@@ -23,6 +23,15 @@ public class PlayerMovement : YmirComponent
         //Vector3 vel = new Vector3(10, 0, 0);      
         //gameObject.SetVelocity(vel);
 
+        Animation.SetLoop(gameObject, "Lift2", true);
+        Animation.SetLoop(gameObject, "Random", true);
+
+        //Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 10.0f);
+        //Animation.AddBlendOption(gameObject, "Lift2", "Random", 10.0f);
+
+        //Animation.AddBlendOption(gameObject, "Random", "Lift2", 5.0f);
+        //Animation.AddBlendOption(gameObject, "Random", "Random", 5.0f);
+
 
     }
     public void Update()
@@ -89,6 +98,17 @@ public class PlayerMovement : YmirComponent
 
             Vector3 vel = new Vector3(10, 0, 0);
             gameObject.SetImpulse(vel);
+        }
+
+        // Test anim scripts
+
+        if (Input.GetKey(YmirKeyCode.U) == KeyState.KEY_DOWN)
+        {
+            Animation.PlayAnimation(gameObject, "Lift2");
+        }
+        if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
+        {
+            Animation.PlayAnimation(gameObject, "Random");
         }
 
         //-------------- Controller --------------//
