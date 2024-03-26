@@ -89,8 +89,8 @@ public class Health : YmirComponent
     public bool DeathScreen()
     {
         deathCanvas.SetActive(true);
-        Audio.PauseAllAudios();
         player.gameObject.SetActive(false);
+        Audio.StopAllAudios();
 
         return true;
     }

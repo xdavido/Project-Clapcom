@@ -874,9 +874,11 @@ void ModuleRenderer3D::DrawGameObjects()
 				}
 
 			}
+
 		}
 
 	}
+
 }
 
 void ModuleRenderer3D::ClearModels()
