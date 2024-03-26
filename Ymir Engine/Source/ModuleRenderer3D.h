@@ -93,6 +93,8 @@ public:
 
 	void DrawLightsDebug();
 
+	void DrawParticles();
+
 public:
 
 	GL_Light gl_lights[MAX_GL_LIGHTS];

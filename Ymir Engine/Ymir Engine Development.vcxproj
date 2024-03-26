@@ -144,6 +144,7 @@
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CLight.h" />
+    <ClInclude Include="Source\CParticleSystem.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
     <ClInclude Include="Source\DirectionalLight.h" />
+    <ClInclude Include="Source\EmitterInstance.h" />
     <ClInclude Include="Source\EventSystem.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\crude_json.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.h" />
@@ -489,6 +491,7 @@
     <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
     <ClCompile Include="Source\DirectionalLight.cpp" />
+    <ClCompile Include="Source\EmitterInstance.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_node_editor.cpp" />
