@@ -13,7 +13,7 @@
 
 namespace ImGuiCustom
 {
-    void Theme1();
+    void Theme_OrangeFont();
 
     // Other Widgets
     void HelpMarker(const char* desc);

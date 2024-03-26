@@ -132,7 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ImGuiCustom.h" />
     <ClInclude Include="Source\AreaLight.h" />
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
@@ -347,6 +346,7 @@
     <ClInclude Include="Source\External\stb_image\stb_image.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Globals.h" />
+    <ClInclude Include="Source\ImGuiCustom.h" />
     <ClInclude Include="Source\ImporterAnimation.h" />
     <ClInclude Include="Source\ImporterMaterial.h" />
     <ClInclude Include="Source\ImporterMesh.h" />
@@ -469,7 +469,6 @@
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ImGuiCustom.cpp" />
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -524,6 +523,7 @@
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\G_UI.cpp" />
+    <ClCompile Include="Source\ImGuiCustom.cpp" />
     <ClCompile Include="Source\ImporterAnimation.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />

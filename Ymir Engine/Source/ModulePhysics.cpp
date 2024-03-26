@@ -69,8 +69,8 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-#ifdef _DEBUG
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
 	{
 		world->stepSimulation(dt, 6);
 	}
@@ -78,18 +78,6 @@ update_status ModulePhysics::PreUpdate(float dt)
 	{
 		world->stepSimulation(0);
 	}
-#elif STANDALONE
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
-	{
-		world->stepSimulation(dt, 6);
-	}
-	else
-	{
-		world->stepSimulation(0);
-	}
-#else
-	world->stepSimulation(dt, 6);
-#endif	
 
 	return UPDATE_CONTINUE;
 }

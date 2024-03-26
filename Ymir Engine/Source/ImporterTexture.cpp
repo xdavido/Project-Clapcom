@@ -4,6 +4,7 @@
 #include "Log.h"
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "PhysfsEncapsule.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -100,7 +101,13 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	// 6. Save texture on Library as .dds
 
-	External->fileSystem->SaveTextureToFile(ourTexture, External->fileSystem->libraryTexturesPath + std::to_string(ourTexture->UID) + ".dds");
+	std::string libraryPath = External->fileSystem->libraryTexturesPath + std::to_string(ourTexture->UID) + ".dds";
+
+	if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+		External->fileSystem->SaveTextureToFile(ourTexture, libraryPath);
+
+	}
 
 	// 7. Clean Up
 

@@ -30,6 +30,7 @@
 #include "ScriptEditor.h"
 
 #include "External/mmgr/mmgr.h"
+#include "ImGuiCustom.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -89,6 +90,11 @@ bool ModuleEditor::Init()
 
 	}
 
+	ImGuiCustom::Theme_OrangeFont();
+
+	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahoma.ttf", 15.0f);
+	io.Fonts->AddFontDefault();
+
 	// Setup Dear ImGui style
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
@@ -136,11 +142,11 @@ bool ModuleEditor::Init()
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 
-//#ifdef _STANDALONE
-//
-//	TimeManager::gameTimer.Start();
-//
-//#endif // _STANDALONE
+	//#ifdef _STANDALONE
+	//
+	//	TimeManager::gameTimer.Start();
+	//
+	//#endif // _STANDALONE
 
 	return ret;
 }
@@ -210,6 +216,29 @@ void ModuleEditor::DrawEditor()
 
 
 
+			}
+
+			ImGui::Separator();
+			if (ImGui::BeginMenu("Theme"))
+			{
+				if (ImGui::MenuItem("Classic"))
+				{
+					ImGui::StyleColorsClassic();
+				}
+				if (ImGui::MenuItem("Light (please don't)"))
+				{
+					ImGui::StyleColorsLight();
+				}
+				if (ImGui::MenuItem("Dark"))
+				{
+					ImGui::StyleColorsDark();
+				}
+
+				if (ImGui::MenuItem("Orange Font"))
+				{
+					ImGuiCustom::Theme_OrangeFont();
+				}
+				ImGui::EndMenu();
 			}
 
 			ImGui::SeparatorText("Exit");
@@ -842,9 +871,9 @@ void ModuleEditor::DrawEditor()
 				int auxLineWidth = App->physics->shapeLineWidth;
 
 				ImVec4 auxColliderColor = ImVec4(
-					App->physics->colliderColor.r, 
+					App->physics->colliderColor.r,
 					App->physics->colliderColor.g,
-					App->physics->colliderColor.b, 
+					App->physics->colliderColor.b,
 					App->physics->colliderColor.a
 				);
 
@@ -907,12 +936,12 @@ void ModuleEditor::DrawEditor()
 				ImGui::Text("Sensor Color"); ImGui::SameLine();
 
 				// Mostrar el boton de color personalizado
-				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor)) 
-				{ 
-					ImGui::OpenPopup("SensorColorPicker"); 
+				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor))
+				{
+					ImGui::OpenPopup("SensorColorPicker");
 				}
 
-				if (ImGui::BeginPopup("SensorColorPicker")) 
+				if (ImGui::BeginPopup("SensorColorPicker"))
 				{
 					ImGui::ColorPicker4("Color", (float*)&auxSensorColor);
 					App->physics->SetSensorColor(Color(auxSensorColor.x, auxSensorColor.y, auxSensorColor.z, auxSensorColor.w));
@@ -975,7 +1004,7 @@ void ModuleEditor::DrawEditor()
 	if (showInspector) {
 
 		if (ImGui::Begin("Inspector", &showInspector, ImGuiWindowFlags_MenuBar), true) {
-			
+
 			if (ImGui::BeginMenuBar())
 			{
 				ImGui::Checkbox("Lock", &App->scene->isLocked);
@@ -1398,7 +1427,7 @@ void ModuleEditor::DrawEditor()
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
-				gameViewPos =ImGui::GetWindowPos();
+				gameViewPos = ImGui::GetWindowPos();
 				gameViewSize = ImGui::GetContentRegionAvail();
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
@@ -1592,19 +1621,19 @@ void ModuleEditor::LightsMenu()
 	if (ImGui::BeginMenu("Light"))
 	{
 
-		if (ImGui::MenuItem("Point Light")) 
+		if (ImGui::MenuItem("Point Light"))
 		{
 			App->lightManager->CreateLight(LightType::POINT_LIGHT);
 		}
-		if (ImGui::MenuItem("Directional Light")) 
+		if (ImGui::MenuItem("Directional Light"))
 		{
 			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
 		}
-		if (ImGui::MenuItem("Spot Light")) 
+		if (ImGui::MenuItem("Spot Light"))
 		{
 			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
 		}
-		if (ImGui::MenuItem("Area Light")) 
+		if (ImGui::MenuItem("Area Light"))
 		{
 			App->lightManager->CreateLight(LightType::AREA_LIGHT);
 		}
@@ -1619,7 +1648,7 @@ void ModuleEditor::UIMenu()
 {
 	if (ImGui::BeginMenu("UI"))
 	{
-		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider"};
+		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider" };
 
 		for (int i = 0; i < ui.size(); i++)
 		{
@@ -2775,7 +2804,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode && ImGui::IsItemClicked()) 
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked())
 		{
 			App->scene->SetSelected(node);
 		}
@@ -3246,9 +3275,9 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta"); 
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-			if (tmpMetaFile) 
+			if (tmpMetaFile)
 			{
 				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
 			}
@@ -3401,6 +3430,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					ImGui::TableNextColumn();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color
 
 					// Display folder icon and name
 
@@ -3455,7 +3485,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					}
 
 					ImGui::Text("%s", entryName.c_str());
-					ImGui::PopStyleColor();
+					ImGui::PopStyleColor(2);
 
 					++columnCount;
 
@@ -3477,6 +3507,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					ImGui::TableNextColumn();
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color for files
 
 					// Process different file types
 
@@ -3490,7 +3521,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::TEXTURE:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
-						
+
 						if (ImGui::BeginDragDropSource())
 						{
 							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
@@ -3510,12 +3541,12 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
 
-					break;
+						break;
 					case ResourceType::PREFAB:
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
 
-					break;
+						break;
 					case ResourceType::SHADER:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
@@ -3595,7 +3626,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					ImGui::Text(entryName.c_str());
 
-					ImGui::PopStyleColor();
+					ImGui::PopStyleColor(2);
 
 					++columnCount;
 
@@ -3622,7 +3653,7 @@ void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
 }
 
 void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
-	
+
 	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
@@ -3653,7 +3684,7 @@ void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
 				ImGui::TextWrapped("%s", assetToDelete.c_str());
 
 			}
-			
+
 			ImGui::Separator();
 
 			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
