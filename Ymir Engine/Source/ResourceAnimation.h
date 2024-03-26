@@ -52,11 +52,13 @@ public:
 
 	float speed;
 
+	std::map<std::string, float> blendMap;
+
 	float duration;
 
 	float ticksPerSecond;
 
-	float intensity;
+	//float intensity;
 
 	bool backwardsAux;
 	bool pingPongAux;

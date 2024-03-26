@@ -198,6 +198,25 @@ void CAnimation::SetSpeed(std::string animationName, float speed) {
     }
 }
 
+void CAnimation::AddBlendOption(std::string animationName, std::string blendName, float frames) {
+    
+    if (!animator->FindAnimation(blendName)) return;
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].blendMap.insert(std::make_pair(blendName, frames));
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].blendMap.insert(std::make_pair(blendName, frames));;
+        }
+    }
+}
+
 void CAnimation::YAnimDragDropTarget() {
 
     if (ImGui::BeginDragDropTarget())
