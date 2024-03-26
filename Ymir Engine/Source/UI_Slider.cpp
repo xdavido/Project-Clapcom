@@ -328,84 +328,205 @@ void UI_Slider::SetValue(float val)
 {
 	if (useFloat)
 	{
-		if (val >= minValue.fValue && val <= maxValue.fValue)
+		if (val < minValue.fValue)
+		{
+			value.fValue = minValue.fValue;
+		}
+		else if (val > maxValue.fValue)
+		{
+			value.fValue = maxValue.fValue;
+		}
+		else
 		{
 			value.fValue = std::round(val);
+		}
 
-			// Fill bar
-			if (fillImage != nullptr)
+		// Fill bar
+		if (fillImage != nullptr)
+		{
+			UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
+
+			if (&img != nullptr)
 			{
-				UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
-
-				if (&img != nullptr)
+				switch (direction)
 				{
-					switch (direction)
-					{
-					case SLIDER_DIRECTION::LEFT_TO_RIGHT:
-					{
-						img.height = dragLimits.w;
-						img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
+				case SLIDER_DIRECTION::LEFT_TO_RIGHT:
+				{
+					img.height = dragLimits.w;
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
 
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::RIGHT_TO_LEFT:
-					{
-						// TODO: Sara
-						img.height = dragLimits.w;
-						img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::BOTTOM_TO_UP:
-					{
-						img.width = dragLimits.z;
-						img.height = dragLimits.w;
-
-						img.posY = dragLimits.y + img.height + (1 - ((val - minValue.fValue) / (maxValue.fValue - minValue.fValue)) * dragLimits.w);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, dragLimits.y + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), dragLimits.y + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::UP_TO_DOWN:
-					{
-						img.posY = dragLimits.y;
-						img.width = dragLimits.z;
-						img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.fValue);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::NONE:
-						break;
-					default:
-						break;
-					}
-
-					img.boundsGame->RegenerateVBO();
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
 				}
+				break;
+				case SLIDER_DIRECTION::RIGHT_TO_LEFT:
+				{
+					// TODO: Sara
+					img.height = dragLimits.w;
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::BOTTOM_TO_UP:
+				{
+					img.width = dragLimits.z;
+					img.height = dragLimits.w;
+
+					img.posY = dragLimits.y + img.height + (1 - ((val - minValue.fValue) / (maxValue.fValue - minValue.fValue)) * dragLimits.w);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, dragLimits.y + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), dragLimits.y + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::UP_TO_DOWN:
+				{
+					img.posY = dragLimits.y;
+					img.width = dragLimits.z;
+					img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.fValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::NONE:
+					break;
+				default:
+					break;
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+		}
+
+		// Handle
+		if (handleImage != nullptr)
+		{
+			UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+
+			if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
+			{
+				img.posX = dragLimits.x + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.z - (img.width * img.scaleBounds.x) / 2;
+
+				img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+			}
+			else
+			{
+				img.posY = dragLimits.y + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.w - (img.height * img.scaleBounds.y) / 2;
+
+				img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+				img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+				img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
 			}
 
-			// Handle
-			if (handleImage != nullptr)
-			{
-				UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+			img.boundsGame->RegenerateVBO();
+		}
+	}
+	else
+	{
+		if (val < minValue.iValue)
+		{
+			value.iValue = minValue.iValue;
+		}
+		else if (val > maxValue.iValue)
+		{
+			value.iValue = maxValue.iValue;
+		}
+		else
+		{
+			value.iValue = std::round(val);
+		}
 
+		// Fill bar
+		if (fillImage != nullptr)
+		{
+			UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
+
+			if (&img != nullptr)
+			{
+				switch (direction)
+				{
+				case SLIDER_DIRECTION::LEFT_TO_RIGHT:
+				{
+					img.height = dragLimits.w;
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::RIGHT_TO_LEFT:
+				{
+					// TODO: Sara
+					img.height = dragLimits.w;
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::BOTTOM_TO_UP:
+				{
+					img.width = dragLimits.z;
+					img.height = dragLimits.w;
+
+					img.posY = dragLimits.y + img.height + (1 - ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.w);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, dragLimits.y + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), dragLimits.y + (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::UP_TO_DOWN:
+				{
+					img.posY = dragLimits.y;
+					img.width = dragLimits.z;
+					img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue);
+
+					img.boundsGame->vertices[0].position = float3(img.posX, (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), (img.height * img.scaleBounds.y), 0);
+					img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
+					img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
+				}
+				break;
+				case SLIDER_DIRECTION::NONE:
+					break;
+				default:
+					break;
+				}
+
+				img.boundsGame->RegenerateVBO();
+			}
+		}
+
+		// Handle
+		if (handleImage != nullptr)
+		{
+			UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
+
+			if (&img != nullptr)
+			{
 				if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
 				{
+					//img.posX = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue) - (img.width * img.scaleBounds.x) / 2;
 					img.posX = dragLimits.x + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.z - (img.width * img.scaleBounds.x) / 2;
 
 					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
@@ -415,6 +536,7 @@ void UI_Slider::SetValue(float val)
 				}
 				else
 				{
+					//img.posY = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue) - (img.height * img.scaleBounds.y) / 2;
 					img.posY = dragLimits.y + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.w - (img.height * img.scaleBounds.y) / 2;
 
 					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
@@ -424,112 +546,6 @@ void UI_Slider::SetValue(float val)
 				}
 
 				img.boundsGame->RegenerateVBO();
-			}
-		}
-	}
-	else
-	{
-		if (val >= minValue.iValue && val <= maxValue.iValue)
-		{
-			value.iValue = std::round(val);
-
-			// Fill bar
-			if (fillImage != nullptr)
-			{
-				UI_Image& img = *(UI_Image*)fillImage->GetComponentUI(UI_TYPE::IMAGE);
-
-				if (&img != nullptr)
-				{
-					switch (direction)
-					{
-					case SLIDER_DIRECTION::LEFT_TO_RIGHT:
-					{
-						img.height = dragLimits.w;
-						img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::RIGHT_TO_LEFT:
-					{
-						// TODO: Sara
-						img.height = dragLimits.w;
-						img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3((img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::BOTTOM_TO_UP:
-					{
-						img.width = dragLimits.z;
-						img.height = dragLimits.w;
-
-						img.posY = dragLimits.y + img.height + (1 - ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.w);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, dragLimits.y + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), dragLimits.y + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::UP_TO_DOWN:
-					{
-						img.posY = dragLimits.y;
-						img.width = dragLimits.z;
-						img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue);
-
-						img.boundsGame->vertices[0].position = float3(img.posX, (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					break;
-					case SLIDER_DIRECTION::NONE:
-						break;
-					default:
-						break;
-					}
-
-					img.boundsGame->RegenerateVBO();
-				}
-			}
-
-			// Handle
-			if (handleImage != nullptr)
-			{
-				UI_Image& img = *(UI_Image*)handleImage->GetComponentUI(UI_TYPE::IMAGE);
-
-				if (&img != nullptr)
-				{
-					if (direction == SLIDER_DIRECTION::LEFT_TO_RIGHT || direction == SLIDER_DIRECTION::RIGHT_TO_LEFT)
-					{
-						//img.posX = ((dragLimits.x + dragLimits.z) * val / maxValue.iValue) - (img.width * img.scaleBounds.x) / 2;
-						img.posX = dragLimits.x + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.z - (img.width * img.scaleBounds.x) / 2;
-
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-					else
-					{
-						//img.posY = ((dragLimits.y + dragLimits.w) * val / maxValue.iValue) - (img.height * img.scaleBounds.y) / 2;
-						img.posY = dragLimits.y + ((val - minValue.iValue) / (maxValue.iValue - minValue.iValue)) * dragLimits.w - (img.height * img.scaleBounds.y) / 2;
-
-						img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
-						img.boundsGame->vertices[2].position = float3(img.posX, img.posY, 0);
-						img.boundsGame->vertices[3].position = float3(img.posX + (img.width * img.scaleBounds.x), img.posY, 0);
-					}
-
-					img.boundsGame->RegenerateVBO();
-				}
 			}
 		}
 	}
@@ -584,34 +600,12 @@ void UI_Slider::ValueCalculationsFromHandles(float val, float max)
 	{
 		float aux = (val * maxValue.fValue) / max;
 
-		if (aux < minValue.fValue)
-		{
-			SetValue(minValue.fValue);
-		}
-		else if (aux > maxValue.fValue)
-		{
-			SetValue(maxValue.fValue);
-		}
-		else
-		{
-			SetValue(aux);
-		}
+		SetValue(aux);
 	}
 	else
 	{
 		float aux = (val * maxValue.iValue) / max;
 
-		if (aux < minValue.iValue)
-		{
-			SetValue(minValue.iValue);
-		}
-		else if (aux > maxValue.iValue)
-		{
-			SetValue(maxValue.iValue);
-		}
-		else
-		{
-			SetValue(aux);
-		}
+		SetValue(aux);
 	}
 }
