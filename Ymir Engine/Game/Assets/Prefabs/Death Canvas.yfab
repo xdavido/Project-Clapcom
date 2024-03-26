@@ -3,7 +3,7 @@
         {
             "Name": "Death Canvas",
             "UID": 1676754095,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 381266425,
             "Components": [
@@ -32,8 +32,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 999,
-                    "Height": 614,
+                    "Width": 1897,
+                    "Height": 1032,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -54,7 +54,7 @@
         {
             "Name": "Background",
             "UID": 1076335875,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -86,7 +86,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 5,
+                    "UI State": 1,
                     "Drag Limits": [
                         0,
                         0,
@@ -111,7 +111,7 @@
         {
             "Name": "Text",
             "UID": 604314097,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -171,7 +171,7 @@
         {
             "Name": "Text",
             "UID": 43054277,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -231,7 +231,7 @@
         {
             "Name": "Empty",
             "UID": 199456300,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -239,7 +239,7 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        636,
+                        660,
                         0,
                         0
                     ],
@@ -263,7 +263,7 @@
         {
             "Name": "Respawn",
             "UID": 1541707194,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 199456300,
             "Components": [
@@ -291,14 +291,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 0,
-                    "Position Y": 686,
+                    "Position Y": 709,
                     "Width": 653,
                     "Height": 148,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
-                        686,
+                        660,
+                        709,
                         653,
                         148
                     ],
@@ -326,7 +326,7 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
+                        660,
                         0,
                         300,
                         50
@@ -378,7 +378,7 @@
         {
             "Name": "Text",
             "UID": 1641626881,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1541707194,
             "Components": [
@@ -406,14 +406,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 70,
-                    "Position Y": 780,
+                    "Position Y": 803,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        706,
-                        780,
+                        730,
+                        803,
                         300,
                         50
                     ],
@@ -438,7 +438,7 @@
         {
             "Name": "Back To Menu",
             "UID": 150558645,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 199456300,
             "Components": [
@@ -466,14 +466,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 0,
-                    "Position Y": 860,
+                    "Position Y": 880,
                     "Width": 653,
                     "Height": 148,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
-                        860,
+                        660,
+                        880,
                         653,
                         148
                     ],
@@ -501,7 +501,7 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
+                        660,
                         0,
                         300,
                         50
@@ -553,7 +553,7 @@
         {
             "Name": "Text",
             "UID": 1500166531,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 150558645,
             "Components": [
@@ -581,14 +581,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 158,
-                    "Position Y": 954,
+                    "Position Y": 974,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        794,
-                        954,
+                        818,
+                        974,
                         300,
                         50
                     ],
