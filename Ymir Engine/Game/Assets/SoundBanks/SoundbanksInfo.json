@@ -374,7 +374,6 @@
    {
     "Id": "357189188",
     "Language": "SFX",
-    "Hash": "2574216612",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\LV2Music",
     "ShortName": "LV2Music",
     "Path": "LV2Music.bnk",
@@ -644,6 +643,7 @@
    {
     "Id": "1069431850",
     "Language": "SFX",
+    "Hash": "997426574",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Player",
     "ShortName": "Player",
     "Path": "Player.bnk",
@@ -725,6 +725,22 @@
         "Language": "SFX",
         "ShortName": "P_Death.wav",
         "Path": "SFX\\P_Death_10C4C929.wem"
+       }
+      ]
+     },
+     {
+      "Id": "547444056",
+      "Name": "P_Heal",
+      "ObjectPath": "\\Events\\Default Work Unit\\Characters\\Player\\P_Heal",
+      "DurationType": "OneShot",
+      "DurationMin": "0.705306",
+      "DurationMax": "0.705306",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "730781401",
+        "Language": "SFX",
+        "ShortName": "health-pickup-6860.wav",
+        "Path": "SFX\\health-pickup-6860_10C4C929.wem"
        }
       ]
      },
@@ -853,6 +869,22 @@
         "Language": "SFX",
         "ShortName": "Whine.wav",
         "Path": "SFX\\Whine_10C4C929.wem"
+       }
+      ]
+     },
+     {
+      "Id": "3437299232",
+      "Name": "W_FirearmReload",
+      "ObjectPath": "\\Events\\Default Work Unit\\Weapons\\Firearm\\W_FirearmReload",
+      "DurationType": "OneShot",
+      "DurationMin": "1.056009",
+      "DurationMax": "1.056009",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "303306215",
+        "Language": "SFX",
+        "ShortName": "FirearmReload.wav",
+        "Path": "SFX\\FirearmReload_10C4C929.wem"
        }
       ]
      }

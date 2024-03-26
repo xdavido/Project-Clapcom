@@ -85,6 +85,7 @@ namespace AK
         static const AkUniqueID P_ACIDSPITPUDDLE = 2936341071U;
         static const AkUniqueID P_DASH = 3919743498U;
         static const AkUniqueID P_DEATH = 947529532U;
+        static const AkUniqueID P_HEAL = 547444056U;
         static const AkUniqueID P_HIT = 1073763149U;
         static const AkUniqueID P_PREDRUSH = 19031741U;
         static const AkUniqueID P_RELIEF = 2290830213U;
