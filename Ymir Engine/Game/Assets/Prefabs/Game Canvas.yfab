@@ -32,8 +32,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 0,
-                    "Height": 0,
+                    "Width": 1943,
+                    "Height": 1119,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -819,9 +819,9 @@
                     ],
                     "Disabled color": [
                         -1.5816255460782938e+38,
-                        0,
+                        1.4012984643248171e-44,
                         -1.5816255460782938e+38,
-                        0
+                        1.4012984643248171e-44
                     ]
                 },
                 {
@@ -877,7 +877,7 @@
                         80,
                         78
                     ],
-                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
+                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Slider_Background.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -934,7 +934,7 @@
                         80,
                         78
                     ],
-                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Marco_Vida.png",
+                    "Path": "Assets\/UI\/HUD Buttons\/Slider\/Slider_Fill.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
