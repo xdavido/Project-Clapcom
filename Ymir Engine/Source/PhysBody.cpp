@@ -75,9 +75,9 @@ GameObject* PhysBody::SetGameObject(GameObject* _owner)
 // ---------------------------------------------------------
 void PhysBody::SetAsSensor(bool is_sensor)
 {
-	if (this->is_sensor != is_sensor)
+	if (this->isSensor != is_sensor)
 	{
-		this->is_sensor = is_sensor;
+		this->isSensor = is_sensor;
 		if (is_sensor == true)
 			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 		else
