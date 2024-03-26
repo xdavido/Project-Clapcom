@@ -25,7 +25,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 328716832,
+            "Parent UID": 736652832,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1653,13 +1653,13 @@
                     ],
                     "Pressed color": [
                         -1.5816255460782938e+38,
-                        1.4012984643248171e-44,
-                        1.4012984643248171e-44,
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38,
                         1.4012984643248171e-44
                     ],
                     "Selected color": [
                         1.4012984643248171e-44,
-                        -1.5816255460782938e+38,
+                        1.4012984643248171e-44,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38
                     ],
@@ -2465,7 +2465,7 @@
         {
             "Name": "Win Canvas",
             "UID": 1676754095,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 381266425,
             "Components": [
@@ -2494,8 +2494,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1897,
-                    "Height": 1032,
+                    "Width": 0,
+                    "Height": 0,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -2514,7 +2514,7 @@
         {
             "Name": "Background",
             "UID": 1076335875,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -2571,7 +2571,7 @@
         {
             "Name": "Back To Menu",
             "UID": 1984199107,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 1676754095,
             "Components": [
@@ -2610,7 +2610,7 @@
                         649,
                         196
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -2686,7 +2686,7 @@
         {
             "Name": "Text",
             "UID": 1850778591,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 1984199107,
             "Components": [
