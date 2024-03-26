@@ -48,7 +48,7 @@ public class RandomPointGenerator
 
 public class EnemyBehaviour : YmirComponent
 {
-	public GameObject thisReference = null;
+    public GameObject thisReference = null;
 
 
     public float movementSpeed = 2f;
@@ -98,10 +98,7 @@ public class EnemyBehaviour : YmirComponent
     }
 
     public void Update()
-	{
-
-
-
+    {
         switch (wanderState)
         {
             case WanderState.REACHED:
@@ -212,7 +209,7 @@ public class EnemyBehaviour : YmirComponent
             {
                 angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
             }
-            
+
 
 
             //Debug.Log("[ERROR] Angle: " + angle);
@@ -253,20 +250,18 @@ public class EnemyBehaviour : YmirComponent
 
     }
 
-   public void OnCollisionStay(GameObject other)
+    public void OnCollisionStay(GameObject other)
     {
-        
 
-        if (other.Name == "Player" && wanderState != WanderState.HIT) 
+
+        if (other.Name == "Player" && wanderState != WanderState.HIT)
         {
-            
+
             Debug.Log("[ERROR] Name: " + other.Name);
             Debug.Log("[ERROR] HIT!!!");
 
             healthScript.TakeDmg(10000);
             wanderState = WanderState.HIT;
-            
-
         }
     }
 }

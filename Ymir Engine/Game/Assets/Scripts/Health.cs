@@ -59,10 +59,7 @@ public class Health : YmirComponent
             {
                 Debug.Log("Take debug dmg");
 
-                if (TakeDmg(debugDmg))
-                {
-                    DeathScreen();
-                }
+                TakeDmg(debugDmg);
             }
         }
 
@@ -79,6 +76,7 @@ public class Health : YmirComponent
 
             if (currentHealth <= 0)
             {
+                DeathScreen();
                 return true;
             }
         }
