@@ -59,7 +59,7 @@ void CScript::Update()
 	MonoObject* exec2 = nullptr;
 
 	if (startMethod && isStarting) {
-		mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
+			mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
 		isStarting = false;
 	}
 	MonoObject* exec = nullptr;

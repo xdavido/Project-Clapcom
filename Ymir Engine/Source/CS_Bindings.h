@@ -263,7 +263,7 @@ void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
-	if (External == nullptr)
+	if (External == nullptr)		
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
@@ -271,7 +271,7 @@ void SetVelocity(MonoObject* obj, MonoObject* vel) {
 	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
 
 	if (rigidbody)
-	{
+	{			
 		rigidbody->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
 
 	}

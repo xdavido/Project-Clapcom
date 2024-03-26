@@ -18,19 +18,18 @@ public class PlayerMovement : YmirComponent
     {
 
         Debug.Log("START!");
-        Debug.Log("[ERROR] Name: " + thisReference.Name);
 
-        //Vector3 vel = new Vector3(10, 0, 0);      
-        //gameObject.SetVelocity(vel);
+        Vector3 vel = new Vector3(10, 0, 0);
+        gameObject.SetVelocity(vel);
 
         Animation.SetLoop(gameObject, "Lift2", true);
         Animation.SetLoop(gameObject, "Random", true);
 
-        //Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 10.0f);
-        //Animation.AddBlendOption(gameObject, "Lift2", "Random", 10.0f);
+        Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 20f);
+        Animation.AddBlendOption(gameObject, "Lift2", "Random", 20f);
 
-        //Animation.AddBlendOption(gameObject, "Random", "Lift2", 5.0f);
-        //Animation.AddBlendOption(gameObject, "Random", "Random", 5.0f);
+        Animation.AddBlendOption(gameObject, "Random", "Lift2", 20f);
+        Animation.AddBlendOption(gameObject, "Random", "Random", 20f);
 
 
     }
