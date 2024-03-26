@@ -1163,31 +1163,6 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Assets", &showAssets, ImGuiWindowFlags_MenuBar), true) {
 
-			ImGui::BeginMenuBar();
-			if (ImGui::Button(("<- " + currentDir).c_str()))
-			{
-				std::size_t found = currentDir.find_last_of("/");
-				currentDir = currentDir.substr(0, found);
-			}
-
-			if (ImGui::Button("Create Folder"))
-			{
-				createFolder = true;
-			}
-			ImGui::Dummy(ImVec2(10, 0));
-
-			static ImGuiTextFilter filter;
-			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
-
-			ImGui::Dummy(ImVec2(10, 0));
-
-			if (ImGui::Button("Regenerate Library"))
-			{
-				DeleteAssetConfirmationPopup("Library");
-			}
-
-			ImGui::EndMenuBar();
-
 			DrawAssetsWindow((currentDir + "/").c_str());
 
 			// Display the modal when showModal is true
@@ -3469,254 +3444,270 @@ void ModuleEditor::CreateNewFolder()
 
 void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 {
+	// Start Menu Bar
+
+	ImGui::BeginMenuBar();
+
+	if (ImGui::Button(("<- " + currentDir).c_str()))
+	{
+		std::size_t found = currentDir.find_last_of("/");
+		currentDir = currentDir.substr(0, found);
+	}
+
+	if (ImGui::Button("Create Folder"))
+	{
+		createFolder = true;
+	}
+
+	ImGui::Dummy(ImVec2(10, 0));
+
+	static ImGuiTextFilter filter;
+	filter.Draw("Search", ImGui::GetFontSize() * 15);
+
+	ImGui::Dummy(ImVec2(10, 0));
+
+	if (ImGui::Button("Regenerate Library"))
+	{
+		DeleteAssetConfirmationPopup("Library");
+	}
+
+	ImGui::EndMenuBar();
+
+	// End Menu Bar
+
 	CreateNewFolder();
 
 	if (ImGui::BeginTable("DirectoryTable", 8))
 	{
 		int columnCount = 0;
 
-		// Process directories
+		// Process directories with filtering
 
 		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
 
-			if (entry.is_directory()) {
+			std::string entryName = entry.path().filename().string();
 
-				std::string entryName = entry.path().filename().string();
+			if (entry.is_directory() && (entryName != "." && entryName != "..") && filter.PassFilter(entryName.c_str())) {
+				
+				ImGui::TableNextColumn();
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color
 
-				if (entryName != "." && entryName != "..") {
+				// Display folder icon and name
 
-					ImGui::TableNextColumn();
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color
+				if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
-					// Display folder icon and name
+					// ---Click event---
 
-					if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
+					if (ImGui::IsItemClicked()) {
 
-						// ---Click event---
+						selectedDir = entry.path().string();
 
-						if (ImGui::IsItemClicked()) {
+					}
+					else {
 
-							selectedDir = entry.path().string();
-
-						}
-						else {
-
-							selectedDir = currentDir;
-
-						}
-
-						if (ImGui::IsMouseDoubleClicked(0)) {
-
-							currentDir = selectedDir;
-
-						}
-
-
-						// ---RMB Click event---
-
-						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
-						{
-							ImGui::MenuItem(entryName.c_str(), NULL, false, false);
-							ImGui::Separator();
-
-							if (ImGui::MenuItem("Delete Folder"))
-							{
-								DeleteAssetConfirmationPopup(entry.path().string().c_str());
-							}
-
-							ImGui::EndPopup();
-						}
-						else
-						{
-							rmbMenu = false;
-						}
-
-						/*if (!rmbMenu && ImGui::GetIO().MouseClicked[1])
-						{
-							selectedDir = entry.path().string();
-							selectedFile = entry.path().filename().string();
-							rmbMenu = true;
-						}*/
+						selectedDir = currentDir;
 
 					}
 
-					ImGui::Text("%s", entryName.c_str());
-					ImGui::PopStyleColor(2);
+					if (ImGui::IsMouseDoubleClicked(0)) {
 
-					++columnCount;
-
-				}
-
-			}
-
-		}
-
-		// Process files
-
-		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
-
-			if (!entry.is_directory()) {
-
-				std::string entryName = entry.path().filename().string();
-
-				if (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) {
-
-					ImGui::TableNextColumn();
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color for files
-
-					// Process different file types
-
-					switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
-					{
-					case ResourceType::UNKNOWN:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::TEXTURE:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
-							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
-						}
-					}
-					break;
-					case ResourceType::MESH:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Import Model: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
-						}
+						currentDir = selectedDir;
 
 					}
-					break;
-					case ResourceType::SCENE:
 
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Load Scene: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
-						}
-
-					break;
-					case ResourceType::PREFAB:
-
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::BeginDragDropSource())
-						{
-							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
-
-							ImGui::Text("Load Prefab: %s", entry.path().string().c_str());
-
-							ImGui::EndDragDropSource();
-						}
-
-					break;
-					case ResourceType::SHADER:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::IsItemClicked()) {
-
-							shaderEditor.LoadShaderTXT(entry.path().string());
-
-						}
-					}
-					break;
-					case ResourceType::MATERIAL:
-						break;
-					case ResourceType::META:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::ALL_TYPES:
-						break;
-					default:
-						break;
-					}
 
 					// ---RMB Click event---
 
 					if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
 					{
-						selectedFile = entryName;
-						currentFile = selectedFile;
-
-						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+						ImGui::MenuItem(entryName.c_str(), NULL, false, false);
 						ImGui::Separator();
 
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::PREFAB)
-						{
-							if (ImGui::MenuItem("Import to Scene"))
-							{
-								App->resourceManager->ImportFile(entry.path().string());
-							}
-						}
-
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
-						{
-							if (ImGui::MenuItem("Load Scene"))
-							{
-								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
-								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
-							}
-						}
-
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::PREFAB)
-						{
-							if (ImGui::MenuItem("Load Prefab"))
-							{
-								std::string fileName;
-								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &fileName, nullptr);
-								App->scene->LoadPrefab(currentDir, fileName);
-							}
-						}
-
-						if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
-						{
-							if (ImGui::MenuItem("Delete Metadata"))
-							{
-								DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
-							}
-						}
-
-						if (ImGui::MenuItem("Delete File"))
+						if (ImGui::MenuItem("Delete Folder"))
 						{
 							DeleteAssetConfirmationPopup(entry.path().string().c_str());
 						}
 
 						ImGui::EndPopup();
 					}
-
-					ImGui::Text(entryName.c_str());
-
-					ImGui::PopStyleColor(2);
-
-					++columnCount;
+					else
+					{
+						rmbMenu = false;
+					}
 
 				}
+
+				ImGui::Text("%s", entryName.c_str());
+				ImGui::PopStyleColor(2);
+
+				++columnCount;
+
+			}
+
+		}
+
+		// Process files with filtering
+
+		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+
+			std::string entryName = entry.path().filename().string();
+
+			if (!entry.is_directory() && (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) && filter.PassFilter(entryName.c_str())) {
+				
+				ImGui::TableNextColumn();
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color for files
+
+				// Process different file types
+
+				switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
+				{
+				case ResourceType::UNKNOWN:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+				}
+				break;
+				case ResourceType::TEXTURE:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+				}
+				break;
+				case ResourceType::MESH:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Import Model: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+				}
+				break;
+				case ResourceType::SCENE:
+
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Load Scene: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+					break;
+				case ResourceType::PREFAB:
+
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Load Prefab: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+					break;
+				case ResourceType::SHADER:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::IsItemClicked()) {
+
+						shaderEditor.LoadShaderTXT(entry.path().string());
+
+					}
+				}
+				break;
+				case ResourceType::MATERIAL:
+					break;
+				case ResourceType::META:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+				}
+				break;
+				case ResourceType::ALL_TYPES:
+					break;
+				default:
+					break;
+				}
+
+				// ---RMB Click event---
+
+				if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+				{
+					selectedFile = entryName;
+					currentFile = selectedFile;
+
+					ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+					ImGui::Separator();
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::PREFAB)
+					{
+						if (ImGui::MenuItem("Import to Scene"))
+						{
+							App->resourceManager->ImportFile(entry.path().string());
+						}
+					}
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
+					{
+						if (ImGui::MenuItem("Load Scene"))
+						{
+							PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
+							App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
+						}
+					}
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::PREFAB)
+					{
+						if (ImGui::MenuItem("Load Prefab"))
+						{
+							std::string fileName;
+							PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &fileName, nullptr);
+							App->scene->LoadPrefab(currentDir, fileName);
+						}
+					}
+
+					if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
+					{
+						if (ImGui::MenuItem("Delete Metadata"))
+						{
+							DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
+						}
+					}
+
+					if (ImGui::MenuItem("Delete File"))
+					{
+						DeleteAssetConfirmationPopup(entry.path().string().c_str());
+					}
+
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text(entryName.c_str());
+
+				ImGui::PopStyleColor(2);
+
+				++columnCount;
 
 			}
 
