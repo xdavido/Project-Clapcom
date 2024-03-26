@@ -1410,6 +1410,64 @@ void ModuleEditor::DrawEditor()
 				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
 			}
 
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+				{
+					std::string assetsFilePathDrop = (const char*)payload->Data;
+
+					if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						App->resourceManager->ImportFile(assetsFilePathDrop);
+
+					}
+
+					if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						std::string path, name;
+						PhysfsEncapsule::SplitFilePath(assetsFilePathDrop.c_str(), &path, &name);
+
+						App->scene->LoadScene(path, name);
+
+					}
+
+					if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						std::string path, name;
+						PhysfsEncapsule::SplitFilePath(assetsFilePathDrop.c_str(), &path, &name);
+
+						App->scene->LoadPrefab(path, name);
+
+					}
+
+					if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						App->resourceManager->ImportFile(assetsFilePathDrop);
+
+					}
+
+				}
+
+				ImGui::EndDragDropTarget();
+
+			}
+
 			ImGui::End();
 		}
 
@@ -1443,7 +1501,6 @@ void ModuleEditor::DrawEditor()
 	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
 	// Rendering
-
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -3525,6 +3582,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						if (ImGui::BeginDragDropSource())
 						{
 							ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
 
 							ImGui::Text("Import Texture: %s", entry.path().string().c_str());
 
@@ -3535,18 +3593,46 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					case ResourceType::MESH:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Model: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
+
 					}
 					break;
 					case ResourceType::SCENE:
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
 
-						break;
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Load Scene: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
+
+					break;
 					case ResourceType::PREFAB:
 
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
 
-						break;
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Load Prefab: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
+
+					break;
 					case ResourceType::SHADER:
 					{
 						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
