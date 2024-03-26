@@ -25,6 +25,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
+            "Parent UID": 74898852,
             "Components": [
                 {
                     "Type": "Transform",
@@ -5795,7 +5796,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 2,
+                    "UI State": 1,
                     "Drag Limits": [
                         0,
                         0,
@@ -6501,28 +6502,28 @@
                     "Value max": 10,
                     "Direction": 2,
                     "Focused color": [
-                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
-                        -1.5816255460782938e+38,
-                        1.4012984643248171e-44
+                        1.4012984643248171e-44,
+                        1.4012984643248171e-44,
+                        -1.5816255460782938e+38
                     ],
                     "Pressed color": [
-                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38,
-                        1.4012984643248171e-44
+                        1.4012984643248171e-44,
+                        -1.5816255460782938e+38
                     ],
                     "Selected color": [
-                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38,
-                        1.4012984643248171e-44
+                        1.4012984643248171e-44,
+                        -1.5816255460782938e+38
                     ],
                     "Disabled color": [
-                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38,
-                        1.4012984643248171e-44
+                        1.4012984643248171e-44,
+                        -1.5816255460782938e+38
                     ]
                 },
                 {
@@ -7363,7 +7364,7 @@
             ],
             "Children UID": [
                 1076335875,
-                150558645
+                1984199107
             ]
         },
         {
@@ -7401,7 +7402,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 5,
+                    "UI State": 1,
                     "Drag Limits": [
                         0,
                         0,
@@ -7425,7 +7426,7 @@
         },
         {
             "Name": "Back To Menu",
-            "UID": 150558645,
+            "UID": 1984199107,
             "Active": false,
             "Element_Type": "None",
             "Parent UID": 1676754095,
@@ -7453,19 +7454,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 700,
-                    "Position Y": 838,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": 670,
+                    "Position Y": 738,
+                    "Width": 649,
+                    "Height": 196,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        700,
-                        838,
-                        424,
-                        152
+                        670,
+                        738,
+                        649,
+                        196
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -7495,12 +7496,12 @@
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 1500166531,
-                    "Image": 150558645,
-                    "Normal": "Assets\/UI\/Death Buttons\/ButtonUnselected.png",
-                    "Focused": "Assets\/UI\/Death Buttons\/ButtonHover.png",
-                    "Pressed": "Assets\/UI\/Death Buttons\/ButtonPressed.png",
-                    "Selected": "Assets\/UI\/Death Buttons\/ButtonHover.png",
+                    "Text": 1850778591,
+                    "Image": 1984199107,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button_pressed.png",
                     "Release": "Assets\/Baker_house.png",
                     "Focused color": [
                         0,
@@ -7535,15 +7536,15 @@
                 }
             ],
             "Children UID": [
-                1500166531
+                1850778591
             ]
         },
         {
             "Name": "Text",
-            "UID": 1500166531,
+            "UID": 1850778591,
             "Active": false,
             "Element_Type": "None",
-            "Parent UID": 150558645,
+            "Parent UID": 1984199107,
             "Components": [
                 {
                     "Type": "Transform",
@@ -7568,19 +7569,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 748,
+                    "Position X": 742,
                     "Position Y": 870,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        748,
+                        742,
                         870,
                         300,
                         50
                     ],
-                    "Text": "Back To Menu",
+                    "Text": "Back to menu",
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\\Fonts",
                     "Font size": 60,
