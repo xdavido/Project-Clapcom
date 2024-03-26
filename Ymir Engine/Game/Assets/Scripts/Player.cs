@@ -539,7 +539,7 @@ public class Player : YmirComponent
     #endregion
 
     #region COLLISION
-    public void OnCollisionEnter()
+    public void OnCollisionEnter(GameObject other)
     {
         Debug.Log("Peedrito");
         //Debug.Log("OnCollisionEnter!!!!");
@@ -562,13 +562,13 @@ public class Player : YmirComponent
     }
     private void UpdateMove()
     {
-        HandleRotation();
-
         Vector3 velocity = gameObject.transform.GetForward() * movementSpeed;
         Vector3 gravity = new Vector3(0.0f, -10.0f, 0.0f);
 
         velocity += gravity;
         gameObject.SetVelocity(velocity);
+
+        HandleRotation();
 
         //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
@@ -582,7 +582,7 @@ public class Player : YmirComponent
     {
         Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y);
         aX = Vector3.Normalize(aX);
-
+        
         Quaternion targetRotation = Quaternion.identity;
 
         Vector3 aY = gameObject.transform.GetUp();
