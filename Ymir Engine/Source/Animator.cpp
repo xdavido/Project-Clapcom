@@ -160,10 +160,11 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	if (animation != currentAnimation) {
-		previousAnimation = currentAnimation;
-		currentAnimation = animation;
-	}
+	if (previousAnimation)
+		lastCurrentTime = previousAnimation->currentTime;
+
+	previousAnimation = currentAnimation;
+	currentAnimation = animation;
 	
 	currentAnimation->isPlaying = true;
 	currentAnimation->currentTime = 0.0f;
@@ -200,7 +201,7 @@ void Animator::ResetAnimation(ResourceAnimation* animation) {
 
 float Animator::CalculatePreviousTime(ResourceAnimation* lastAnimation, float transitionTime) {
 
-	float time = lastAnimation->currentTime + transitionTime;
+	float time = lastCurrentTime + transitionTime;
 
 	if (time > lastAnimation->duration) {
 		time -= lastAnimation->duration;
@@ -226,6 +227,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform = bone->GetLocalTransform();
 	}
 
+	// Blending
 	if (previousAnimation != nullptr 
 		&& CheckBlendMap(previousAnimation, currentAnimation->name) 
 		&& transitionTime < previousAnimation->blendMap.at(currentAnimation->name)) {

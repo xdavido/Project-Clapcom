@@ -25,11 +25,11 @@ public class PlayerMovement : YmirComponent
         Animation.SetLoop(gameObject, "Lift2", true);
         Animation.SetLoop(gameObject, "Random", true);
 
-        Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 20f);
-        Animation.AddBlendOption(gameObject, "Lift2", "Random", 20f);
+        Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 10.0f);
+        Animation.AddBlendOption(gameObject, "Lift2", "Random", 10.0f);
 
-        Animation.AddBlendOption(gameObject, "Random", "Lift2", 20f);
-        Animation.AddBlendOption(gameObject, "Random", "Random", 20f);
+        Animation.AddBlendOption(gameObject, "Random", "Lift2", 10.0f);
+        Animation.AddBlendOption(gameObject, "Random", "Random", 10.0f);
 
 
     }
