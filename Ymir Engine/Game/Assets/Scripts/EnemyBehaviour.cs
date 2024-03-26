@@ -4,8 +4,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 using YmirEngine;
+
+
 
 enum EnemyState
 {
@@ -48,19 +54,27 @@ public class EnemyBehaviour : YmirComponent
 
     public float life = 100f;
 
-    public float wanderRadius = 10f;
+    private float wanderRadius = 10f;
 
     public float xSpeed = 0, ySpeed = 0;
 
     private int counter1 = 0;
 
-    public float wanderTimer = 5f;
+    //public float wanderTimer = 5f;
+
+    private GameObject playerObject;
+
+    public bool PlayerDetected = false;
+
+    public float DetectionRadius = 15f;
 
     //private EnemyState state = EnemyState.Idle;
 
     private WanderState wanderState = WanderState.Reached;
 
     RandomPointGenerator pointGenerator;
+
+    private Vector3 vectorToPlayer = null;
 
     public void Update()
 	{
@@ -69,49 +83,71 @@ public class EnemyBehaviour : YmirComponent
         if (start)
         {
             pointGenerator = new RandomPointGenerator();
+            playerObject = InternalCalls.GetGameObjectByName("Player");
             start = false;
         }
 
-        if (wanderState == WanderState.Reached)
+        if (PlayerDetected == false)
         {
-            (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
 
-            wanderState = WanderState.Going;
-            //state = EnemyState.Moving;
+            if (wanderState == WanderState.Reached)
+            {
+                (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
+
+                wanderState = WanderState.Going;
+                //state = EnemyState.Moving;
+            }
+
+            if (wanderState == WanderState.Going)
+            {
+                HandleRotation();
+
+                counter1++;
+
+                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
+
+                //Set movement speed negative cuz the facehugger is facing backwards
+                //if (counter1 > 80 && counter1 < 320)
+                //{
+                //    movementSpeed = 0;
+                //}
+                if (counter1 > 320)
+                {
+                    //movementSpeed += movementAux;
+                    //Debug.Log("[ERROR] Speed " + movementSpeed);
+                    counter1 -= 320;
+                    wanderState = WanderState.Reached;
+                }
+
+                if (playerObject.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && playerObject.transform.globalPosition.y - gameObject.transform.globalPosition.y < DetectionRadius)
+                {
+                    PlayerDetected = true;
+                }
+
+                //if (counter1 > 80)
+                //{
+                //    movementSpeed = 0;
+                //    counter2++;
+                //    if (counter2 > 320)
+                //    {
+                //        counter1 = 0;
+                //        counter2 = 0;
+                //        wanderState = WanderState.Reached;
+                //    }
+                //}
+            }
         }
-
-        if (wanderState == WanderState.Going)
+        else
         {
-            HandleRotation();
+            vectorToPlayer = playerObject.transform.globalPosition - gameObject.transform.globalPosition;
+            vectorToPlayer = Vector3.Normalize(vectorToPlayer);
+            xSpeed = -vectorToPlayer.x;
+            ySpeed = -vectorToPlayer.z;  
 
-            counter1++;
+            HandleRotation();
 
             gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
 
-            //Set movement speed negative cuz the facehugger is facing backwards
-            if (counter1 > 80 && counter1 < 320)
-            {
-                movementSpeed = 0;
-            }
-            else if (counter1 > 320)
-            {
-                movementSpeed += movementAux;
-                Debug.Log("[ERROR] Speed " + movementSpeed);
-                counter1 -= 320;
-                wanderState = WanderState.Reached;
-            }
-
-            //if (counter1 > 80)
-            //{
-            //    movementSpeed = 0;
-            //    counter2++;
-            //    if (counter2 > 320)
-            //    {
-            //        counter1 = 0;
-            //        counter2 = 0;
-            //        wanderState = WanderState.Reached;
-            //    }
-            //}
         }
     }
 
