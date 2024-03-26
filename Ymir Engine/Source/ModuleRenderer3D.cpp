@@ -360,12 +360,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 			DrawGameObjects();
 
-			// Render Physics Stuff
-			if (App->physics->debugGame || App->scene->godMode)
-			{
-				DrawPhysicsColliders();
-			}
-
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
 			glOrtho(0.0, App->editor->gameViewSize.x, App->editor->gameViewSize.y, 0.0, 1.0, -1.0);
@@ -396,12 +390,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		if (App->scene->gameCameraObject->active) {
 
 			DrawGameObjects();
-
-			// Render Physics Stuff
-			if (App->physics->debugScene || App->scene->godMode)
-			{
-				DrawPhysicsColliders();
-			}
 
 			DrawUIElements(true, true);
 
