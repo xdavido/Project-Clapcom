@@ -247,6 +247,8 @@ void CAnimation::OnInspector() {
         ImGui::Button("Drop .yanim to Add animation", ImVec2(200, 50));
         YAnimDragDropTarget();
 
+        ImGui::Separator();
+
         if (ImGui::BeginCombo("Animations", animationName.c_str())) {
             for (int i = 0; i < animator->animations.size(); i++) {
 
@@ -281,12 +283,28 @@ void CAnimation::OnInspector() {
             ImGui::EndCombo();
         }
 
+        ImGui::Indent(20.0f);
+
         if (!animator->animations.empty() && selectedAnimation != -1) {
 
+            ImGui::Spacing();
+            ImGui::Spacing();
+
+            if (ImGui::InputText("Name", &animator->animations[selectedAnimation].name)) {
+
+            }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
 
             if (ImGui::SliderFloat("Playback Time", &animator->animations[selectedAnimation].currentTime, .0f, animator->animations[selectedAnimation].GetDuration())) {
 
             }
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
 
             if (ImGui::DragFloat("Speed", &animator->animations[selectedAnimation].speed, 1.0f, .0f, 100.0f)) {
 
@@ -308,7 +326,6 @@ void CAnimation::OnInspector() {
                 ImGui::EndTooltip();
             }
 
-
             ImGui::Checkbox("PingPong", &animator->animations[selectedAnimation].pingPong);
 
             if (ImGui::IsItemClicked()) {
@@ -324,7 +341,6 @@ void CAnimation::OnInspector() {
                 ImGui::Text("Goes from the start to the end and then back. Works with both Loop and backwards features");
                 ImGui::EndTooltip();
             }
-
 
             ImGui::Checkbox("Backwards", &animator->animations[selectedAnimation].backwards);
 
@@ -342,6 +358,7 @@ void CAnimation::OnInspector() {
                 ImGui::EndTooltip();
             }
 
+            ImGui::Spacing();
 
             ImGui::Checkbox("Ease-In", &animator->animations[selectedAnimation].easeIn);
 
@@ -363,6 +380,7 @@ void CAnimation::OnInspector() {
 
             ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeInMultiplier);
 
+
             ImGui::Checkbox("Ease-Out", &animator->animations[selectedAnimation].easeOut);
 
             if (ImGui::IsItemClicked()) {
@@ -382,6 +400,12 @@ void CAnimation::OnInspector() {
             ImGui::SameLine();
 
             ImGui::InputFloat("Factor", &animator->animations[selectedAnimation].easeOutMultiplier);
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            ImGui::Unindent();
 
             if (ImGui::Button("Play")) {
                 animator->PlayAnimation(&animator->animations[selectedAnimation]);

@@ -1134,8 +1134,11 @@
     <ClInclude Include="Source\CS_Audio_Bindings.h">
       <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiCustom.h">
+    <ClInclude Include="Source\ImGuiCustom.h">
       <Filter>Sources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CS_Animation_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ public class Player : YmirComponent
         SHOOTING,
         SHOOT,
         DEAD,
+        JUMP,
 
         All_TYPES
     }
@@ -32,7 +33,9 @@ public class Player : YmirComponent
         I_SHOOTING_END,
         I_SHOOT,
         I_SHOOT_END,
-        I_DEAD
+        I_DEAD,
+        I_JUMP,
+        I_JUMP_END,
     }
 
     //--------------------- State ---------------------\\
@@ -42,17 +45,18 @@ public class Player : YmirComponent
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
-    private double angle = 0.0f;
-    private float deathZone = 0.3f;
+    //private double angle = 0.0f;
+    private float deathZone = 0.5f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 10.0f;
+    //public float dashforce = 1000.0f;
     private float dashTimer = 0.0f;
+    private float jumpTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
     public float dashCD = 0.1f;
-    public float dashDuration = 0.25f;
-    public float dashDistance = 1.0f;
+    public float dashDuration = 1.0f;
+    public float dashDistance = 100000.0f;
     private float dashSpeed = 0.0f;
     //private float dashStartYPos = 0.0f;
 
@@ -74,7 +78,10 @@ public class Player : YmirComponent
     public int ammo = 0;
     public int magsize = 5;
 
+    //--------------------- External GameObjects ---------------------\\
     private GameObject cameraObject;
+
+    //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
     private Health csBHealth;
 
@@ -85,17 +92,18 @@ public class Player : YmirComponent
     {
         //--------------------- Dash ---------------------\\
         dashTimer = 0f;
+        jumpTimer = 0.0f;
         dashSpeed = dashDistance / dashDuration;
 
         //--------------------- Shoot ---------------------\\
         ammo = magsize;
         reloadTimer = reloadCD;
-        GetBulletsScript();
 
+        //--------------------- Get Player Scripts ---------------------\\
+        GetPlayerScripts();
+
+        //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
-        
-        //--------------------- Health ---------------------\\
-        GetHealthScript();
 
         currentState = STATE.IDLE;
 
@@ -155,7 +163,16 @@ public class Player : YmirComponent
             if (dashTimer <= 0)
             {  
                 inputsList.Add(INPUT.I_DASH_END);
-                StopPlayer();
+            }
+        }
+
+        if (jumpTimer > 0)
+        {
+            jumpTimer -= Time.deltaTime;
+
+            if (jumpTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_JUMP_END);
             }
         }
 
@@ -166,7 +183,7 @@ public class Player : YmirComponent
             if (shootingTimer <= 0)
             {
                 inputsList.Add(INPUT.I_SHOOT);
-                Debug.Log("In shoot");
+                //Debug.Log("In shoot");
             }
         }
         if (isReloading)
@@ -201,7 +218,6 @@ public class Player : YmirComponent
         if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
         {
             inputsList.Add(INPUT.I_SHOOTING);
-            Input.Rumble_Controller(300);
         }
         else
         {
@@ -212,13 +228,23 @@ public class Player : YmirComponent
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
+            Input.Rumble_Controller(50);
         }
 
+        //----------------- Reload -----------------\\
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
             Audio.PlayAudio(gameObject, "P_PredRush");
             isReloading = true;
             reloadTimer = reloadCD;
+        }
+
+        //----------------- Desbugear -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN)
+        {
+            //Debug.Log("aaaa");
+            inputsList.Add(INPUT.I_JUMP);
+            Input.Rumble_Controller(50);
         }
     }
     private void ProcessState()
@@ -234,6 +260,7 @@ public class Player : YmirComponent
                     break;
 
                 case STATE.IDLE:
+                    //Debug.Log("IDLE");
                     switch (input)
                     {
                         case INPUT.I_MOVE:
@@ -244,6 +271,11 @@ public class Player : YmirComponent
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_JUMP:
+                            currentState = STATE.JUMP;
+                            StartJump();
                             break;
 
                         case INPUT.I_SHOOTING:
@@ -258,6 +290,7 @@ public class Player : YmirComponent
 
 
                 case STATE.MOVE:
+                    //Debug.Log("MOVE");
                     switch (input)
                     {
                         case INPUT.I_IDLE:
@@ -268,6 +301,11 @@ public class Player : YmirComponent
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_JUMP:
+                            currentState = STATE.JUMP;
+                            StartJump();
                             break;
 
                         case INPUT.I_SHOOTING:
@@ -282,6 +320,7 @@ public class Player : YmirComponent
 
 
                 case STATE.DASH:
+                    //Debug.Log("DASH");
                     switch (input)
                     {
                         case INPUT.I_DASH_END:
@@ -294,13 +333,33 @@ public class Player : YmirComponent
                     }
                     break;
 
+                case STATE.JUMP:
+                    //Debug.Log("JUMP");
+                    switch (input)
+                    {
+                        case INPUT.I_JUMP_END:
+                            currentState = STATE.IDLE;
+                            EndJump();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            break;
+                    }
+                    break;
+
 
                 case STATE.SHOOTING:
+                    //Debug.Log("SHOOTING");
                     switch (input)
                     {
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_JUMP:
+                            currentState = STATE.JUMP;
+                            StartJump();
                             break;
 
                         case INPUT.I_SHOOTING_END:
@@ -320,6 +379,7 @@ public class Player : YmirComponent
                     break;
 
                 case STATE.SHOOT:
+                    //Debug.Log("SHOOT");
                     switch (input)
                     {
                         case INPUT.I_SHOOT_END:
@@ -353,6 +413,9 @@ public class Player : YmirComponent
             case STATE.DASH:
                 UpdateDash();
                 break;
+            case STATE.JUMP:
+                UpdateJump();
+                break;
             case STATE.SHOOTING:
                 UpdateShooting();
                 break;
@@ -378,7 +441,8 @@ public class Player : YmirComponent
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
-        Debug.Log("Shoot!");
+        Input.Rumble_Controller(100);
+        //Debug.Log("Shoot!");
 
         if (!godMode)
         {
@@ -386,12 +450,14 @@ public class Player : YmirComponent
             csBullets.UseBullets();
         }
 
-        Debug.Log("Ammo:" + ammo);
+        //Debug.Log("Ammo:" + ammo);
 
         StopPlayer();
 
+        Vector3 offset = new Vector3(0, 15, 0);
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
         //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
         //Debug.Log("Spawn pos: " + pos);
 
@@ -399,7 +465,7 @@ public class Player : YmirComponent
         Quaternion rot = gameObject.transform.globalRotation;
 
         //Tamaño de la bala
-        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+        Vector3 scale = new Vector3(2.0f, 2.0f, 4.0f);
 
         //Crea la bala
         //Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
@@ -417,47 +483,40 @@ public class Player : YmirComponent
     {
         // Reset del futuro autoapuntado
     }
-
-    // TODO: use the generic functions
-    private void GetBulletsScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBullets = gameObject.GetComponent<UI_Bullets>();
-        }
-    }
-
-    private void GetHealthScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBHealth = gameObject.GetComponent<Health>();
-        }
-    }
-
     #endregion
 
     #region DASH
     private void StartDash()
     {
-        Audio.PlayAudio(gameObject, "P_Dash");
-        //Audio.PlayAudio(gameObject, "P_Relief");
+        //Animation.PlayAnimation(gameObject, "Lift2");
+        //Audio.PlayAudio(gameObject, "P_Dash");
         StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
+        gameObject.SetImpulse(gameObject.transform.GetForward() * dashSpeed);
     }
     private void EndDash()
     {
         StopPlayer();
         //gameObject.transform.localPosition.y = dashStartYPos;
+    }
+
+    private void StartJump()
+    {
+        //Animation.PlayAnimation(gameObject, "Random");
+        //Animation.SetLoop(gameObject, "Random", true);
+        jumpTimer = dashDuration;
+    }
+    private void UpdateJump()
+    {
+        gameObject.SetImpulse(new Vector3(0,1,0) * dashSpeed);
+    }
+    private void EndJump()
+    {
+        StopPlayer();
     }
     #endregion
 
@@ -473,7 +532,7 @@ public class Player : YmirComponent
         x = Input.GetLeftAxisX();
         y = Input.GetLeftAxisY();
 
-        gamepadInput = new Vector3(x, -y, 0f);
+        gamepadInput = new Vector3(x, y, 0f);
 
         //Debug.Log("sdsad" + x);
     }
@@ -483,6 +542,14 @@ public class Player : YmirComponent
     public void OnCollisionEnter()
     {
         Debug.Log("Peedrito");
+        //Debug.Log("OnCollisionEnter!!!!");
+        //gameObject.SetVelocity(up * movementSpeed);
+
+        if (other.Tag == "Enemy")
+        {
+            csBHealth.TakeDmg(10);
+        }
+        
     }
     #endregion
 
@@ -496,96 +563,85 @@ public class Player : YmirComponent
     private void UpdateMove()
     {
         HandleRotation();
-        //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
-        //if (gamepadInput.x > 0)
-        //{
-        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed * -1);
-        //}
-        //if (gamepadInput.x < 0)
-        //{
-        //    gameObject.SetVelocity(cameraObject.transform.GetRight() * movementSpeed);
-        //}
+        Vector3 velocity = gameObject.transform.GetForward() * movementSpeed;
+        Vector3 gravity = new Vector3(0.0f, -10.0f, 0.0f);
 
+        velocity += gravity;
+        gameObject.SetVelocity(velocity);
 
+        //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
     private void StopPlayer()
     {
-        //Debug.Log("Stoping");
+        Debug.Log("Stopping");
         gameObject.SetVelocity(new Vector3(0, 0, 0));
     }
-    void HandleMovement()
-    {
-        //--------------------- KeyBoard Movement ---------------------//
-        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
-        //}
-
-        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
-        //}
-
-        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetRight() * movementSpeed);
-        //}
-
-        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetRight() * -movementSpeed);
-        //}
-
-
-        ////--------------------- Controller Movement ---------------------//
-
-        //if (gamepadInput.x > 0)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetRight() * -movementSpeed);
-        //}
-        //if (gamepadInput.x < 0)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetRight() * movementSpeed);
-        //}
-        //if (gamepadInput.y > 0)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
-        //}
-        //if (gamepadInput.y < 0)
-        //{
-        //    gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
-        //}
-
-
-
-        HandleRotation();
-        //Debug.Log("Vel:"+gameObject.GetForward() * movementSpeed);
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
-    }
+    
     private void HandleRotation()
     {
-        //Calculate player rotation
-        Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
-        Vector3 aY = new Vector3(0, 0, 1);
+        Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y);
         aX = Vector3.Normalize(aX);
 
-        if (aX.x >= 0)
+        Quaternion targetRotation = Quaternion.identity;
+
+        Vector3 aY = gameObject.transform.GetUp();
+
+        if (aX != Vector3.zero)
         {
-            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+            float angle = 0;
+
+            if (aX.x >= 0)
+            {
+                angle = (float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+            else if (aX.x < 0)
+            {
+                angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+
+            // Add 45 degrees to the calculated angle
+            angle -= Mathf.PI / 4f; // Rotate 45 degrees to the right
+
+            // Construct quaternion rotation with an inverted axis for correcting left and right inversion
+            targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
         }
-        else if (aX.x < 0)
-        {
-            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
 
-        //Convert angle from world view to orthogonal view
-        angle += 0.785398f; //Rotate 45 degrees to the right
+        // Apply rotation
+        gameObject.SetRotation(targetRotation);
 
-        //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
+        //Calculate player rotation
+        //Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
+        //Vector3 aY = new Vector3(0, 0, 1);
+        //aX = Vector3.Normalize(aX);
 
-        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
+        //if (aX.x >= 0)
+        //{
+        //    angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+        //}
+        //else if (aX.x < 0)
+        //{
+        //    angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
+        //}
+
+        ////Convert angle from world view to orthogonal view
+        //angle += 0.785398f; //Rotate 45 degrees to the right
+
+        ////Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
+
+        //gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
     }
+
+    // TODO: use the generic functions
+    private void GetPlayerScripts()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (gameObject != null)
+        {
+            csBullets = gameObject.GetComponent<UI_Bullets>();
+            csBHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
     #endregion
 }

@@ -40,6 +40,7 @@ Model::Model(const std::string& path, bool onlyReimport, const std::string& shad
 {
 	this->onlyReimport = onlyReimport;
 	processedMeshes = 0;
+	boneCounter = 0;
 	LoadModel(path, shaderPath);
 }
 
@@ -220,6 +221,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 		// Check if all the bone meshes have been processed ---> when all meshes processed, process if have animations
 		if (scene->mNumMeshes == processedMeshes) {
 			if (scene->HasAnimations()) {
+
+				LOG("Model has animations");
 				if (modelGO->GetComponent(ANIMATION) == nullptr) {
 					CAnimation* animationComponent = new CAnimation(modelGO);
 					modelGO->AddComponent(animationComponent);
@@ -227,18 +230,30 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 					cAnim->modelPath = path;
 
 					for (int i = 0; i < scene->mNumAnimations; i++) {
+
 						Animation* anim = new Animation(path, this, i);
 
-						std::string filename = std::to_string(modelGO->UID) + ".yanim";
-						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
+						uint UID = modelGO->UID;
 
-						//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
+						std::string filenameUID = std::to_string(UID) + ".yanim";
+						std::string libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
+
+						if (PhysfsEncapsule::FileExists(libraryPath)) {
+							UID = Random::Generate();
+							filenameUID = std::to_string(UID) + ".yanim";
+							libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
+						}
+
 						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
 
-						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, modelGO->UID);
+						std::string filename = anim->name + ".yanim";
+						std::string assetsPath = External->fileSystem->assetsPath + filename;
+
+						External->fileSystem->SaveAnimationToFile(anim, assetsPath);
+
+						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, UID);
 						cAnim->AddAnimation(*rAnim);
 					}
-					LOG("Model has animations");
 				}
 			}
 			else {
@@ -491,43 +506,11 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 	if (mesh->HasBones())
 	{
 		ExtractBoneWeightForVertices(vertices, mesh, scene);
-		LOG("Model with %i bones", mesh->mNumBones);
+		LOG("Mesh with %i bones", mesh->mNumBones);
 	}
 	else {
-		LOG("Model with no bones");
+		LOG("Mesh with no bones");
 	}
-
-	// Load animations
-
-	//if (scene->HasAnimations()) {
-
-	//	if (linkGO->GetComponent(ANIMATION) == nullptr) {
-	//		CAnimation* animationComponent = new CAnimation(linkGO);
-	//		linkGO->AddComponent(animationComponent);
-	//		CAnimation* cAnim = (CAnimation*)linkGO->GetComponent(ANIMATION);
-	//		cAnim->modelPath = path;
-
-	//		for (int i = 0; i < scene->mNumAnimations; i++) {
-	//			Animation* anim = new Animation(path, this, i);
-
-	//			std::string filename = std::to_string(linkGO->UID) + ".yanim";
-	//			std::string libraryPath = External->fileSystem->libraryAnimationsPath + filename;
-
-	//			//JsonFile yanimFile(libraryPath, std::to_string(linkGO->UID) + ".yanim");
-	//			External->fileSystem->SaveAnimationToFile(anim, libraryPath);
-
-	//			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, linkGO->UID);
-	//			cAnim->AddAnimation(*rAnim);
-	//		}
-	//		LOG("Model has animations");
-	//	}
-	//}
-	//else {
-
-	//	//animator = nullptr;
-
-	//	LOG("Model doesn't have animations");
-	//}
 
 	// Create the mesh
 
@@ -605,8 +588,6 @@ void Model::SetVertexBoneData(Vertex& vertex, int boneID, float weight)
 
 void Model::ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
-	boneCounter = 0;
-
 	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++) {
 		int boneID = -1; 
 		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
