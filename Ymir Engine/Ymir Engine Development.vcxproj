@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ImGuiCustom.h" />
     <ClInclude Include="Source\AreaLight.h" />
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
@@ -468,6 +469,7 @@
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImGuiCustom.cpp" />
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />

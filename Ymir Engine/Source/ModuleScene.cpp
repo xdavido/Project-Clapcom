@@ -75,7 +75,8 @@ bool ModuleScene::Start()
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 #endif // _RELEASE
 
@@ -200,24 +201,24 @@ update_status ModuleScene::PostUpdate(float dt)
 	if (!pendingToAddScene.empty())
 	{
 		// Obtener el nombre del archivo sin la extensi�n
-		std::string name;
-		PhysfsEncapsule::SplitFilePath(pendingToAddScene.c_str(), nullptr, &name, nullptr);
+		std::string name, path;
+		PhysfsEncapsule::SplitFilePath(pendingToAddScene.c_str(), &path, &name, nullptr);
 
-		// Encontrar la posici�n del �ltimo separador de directorio
-		size_t lastSlashPos = pendingToAddScene.find_last_of("/\\");
+		//// Encontrar la posici�n del �ltimo separador de directorio
+		//size_t lastSlashPos = pendingToAddScene.find_last_of("/\\");
 
-		// Si se encontr� el separador de directorio
-		if (lastSlashPos != std::string::npos) {
-			// Eliminar el nombre del archivo y su extensi�n
-			pendingToAddScene = pendingToAddScene.substr(0, lastSlashPos);
-		}
+		//// Si se encontr� el separador de directorio
+		//if (lastSlashPos != std::string::npos) {
+		//	// Eliminar el nombre del archivo y su extensi�n
+		//	pendingToAddScene = pendingToAddScene.substr(0, lastSlashPos);
+		//}
 
-		// Ahora path contiene el directorio sin el nombre del archivo y su extensi�n
-		std::string sceneFileName = name + ".yscene";
-		// Eliminar el nombre del archivo de la ruta completa
-		pendingToAddScene = pendingToAddScene.substr(0, pendingToAddScene.length() - sceneFileName.length());
+		//// Ahora path contiene el directorio sin el nombre del archivo y su extensi�n
+		//std::string sceneFileName = name + ".yscene";
+		//// Eliminar el nombre del archivo de la ruta completa
+		//pendingToAddScene = pendingToAddScene.substr(0, pendingToAddScene.length() - sceneFileName.length());
 
-		LoadScene(pendingToAddScene, name);
+		LoadScene(path, name);
 
 		pendingToAddScene.clear();
 	}
