@@ -11,8 +11,6 @@ public class UI_Bullets : YmirComponent
     //public GameObject player = null;
     public GameObject bulletsBar = null;
 
-    public int debugShoot = 1;
-
     Player player;
 
     public void Start()
@@ -22,23 +20,21 @@ public class UI_Bullets : YmirComponent
         GetAnotherScript();
         bulletsBar = InternalCalls.GetGameObjectByName("Bullets Text");
 
-        UI.TextEdit(bulletsBar, player.magsize.ToString());
+        UI.TextEdit(bulletsBar, player.ammo.ToString() + "/" + player.magsize.ToString());
     }
-
     public void Update()
     {
-        if (Input.GetKey(YmirKeyCode.Z) == KeyState.KEY_DOWN)
-        {
-            Debug.Log("Take debug dmg");
-            UseBullets(debugShoot);
-        }
+        //if (Input.GetKey(YmirKeyCode.Z) == KeyState.KEY_DOWN)
+        //{
+        //    Debug.Log("Take debug dmg");
+        //    UseBullets();
+        //}
 
         return;
     }
-
-    public void UseBullets(int bullet)
+    public void UseBullets()
     {
-        UI.TextEdit(bulletsBar, player.ammo.ToString());
+        UI.TextEdit(bulletsBar, player.ammo.ToString() + "/" + player.magsize.ToString());
     }
 
     private void GetAnotherScript()

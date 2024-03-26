@@ -178,7 +178,7 @@ public class Player : YmirComponent
                 if (reloadTimer <= 0)
                 {
                     ammo = magsize; 
-                    csBullets.UseBullets(ammo);
+                    csBullets.UseBullets();
                     isReloading = false;    
                 }
             }
@@ -383,7 +383,7 @@ public class Player : YmirComponent
         if (!godMode)
         {
             --ammo;
-            csBullets.UseBullets(ammo);
+            csBullets.UseBullets();
         }
 
         Debug.Log("Ammo:" + ammo);

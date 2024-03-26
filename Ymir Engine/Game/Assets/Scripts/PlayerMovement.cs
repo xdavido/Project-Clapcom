@@ -193,7 +193,7 @@ public class PlayerMovement : YmirComponent
         if (gameObject != null)
         {
             UI_Bullets player = gameObject.GetComponent<UI_Bullets>();
-            player.UseBullets(2);
+            player.UseBullets();
         }
     }
 

@@ -172,10 +172,10 @@ void UI_Text::OnInspector()
 		//	//RELEASE(font);
 		//	font = new Font("Cat Paw.otf");
 		//}
-		if (ImGui::Button("change times"))
+		if (ImGui::Button("change valencia"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf");
+			font = new Font("de-valencia-beta.otf");
 		}
 
 		ImGui::Text("Font Size");
