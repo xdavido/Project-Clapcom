@@ -25,7 +25,7 @@
             "UID": 1849948901,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 371787295,
+            "Parent UID": 1101542658,
             "Components": [
                 {
                     "Type": "Transform",
@@ -149,8 +149,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 764,
-                    "Height": 614,
+                    "Width": 0,
+                    "Height": 0,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -201,7 +201,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 1,
+                    "UI State": 5,
                     "Drag Limits": [
                         0,
                         0,
@@ -299,7 +299,7 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -365,7 +365,7 @@
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
                     "UID": 0,
-                    "sceneName": "Assets\/VS2 Release.yscene"
+                    "sceneName": "Assets\/Scenes\/GameUI.yscene"
                 }
             ],
             "Children UID": [
@@ -474,7 +474,7 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -643,7 +643,7 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
@@ -812,7 +812,7 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Color": [
                         1,
