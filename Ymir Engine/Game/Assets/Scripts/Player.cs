@@ -454,7 +454,7 @@ public class Player : YmirComponent
     {
         //Animation.PlayAnimation(gameObject, "Lift2");
         //Audio.PlayAudio(gameObject, "P_Dash");
-        //StopPlayer();
+        StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
@@ -507,6 +507,12 @@ public class Player : YmirComponent
     {
         //Debug.Log("OnCollisionEnter!!!!");
         //gameObject.SetVelocity(up * movementSpeed);
+
+        if (other.Tag == "Enemy")
+        {
+            csBHealth.TakeDmg(10);
+        }
+        
     }
     #endregion
 
