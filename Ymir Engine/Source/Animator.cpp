@@ -228,13 +228,13 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 
 	if (previousAnimation != nullptr 
 		&& CheckBlendMap(previousAnimation, currentAnimation->name) 
-		&& transitionTime >= previousAnimation->blendMap.at(currentAnimation->name)) {
+		&& transitionTime < previousAnimation->blendMap.at(currentAnimation->name)) {
 
 		float4x4 prevTransform = node->transformation;
 
 		Bone* prevBone = previousAnimation->FindBone(nodeName);
 		if (prevBone) {
-			prevBone->Update(CalculatePreviousTime(previousAnimation, previousAnimation->blendMap.at(currentAnimation->name)));
+			prevBone->Update(CalculatePreviousTime(previousAnimation, transitionTime));
 			prevTransform = prevBone->GetLocalTransform();
 			prevTransform = prevTransform;
 		}
@@ -252,7 +252,7 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 
 		// Calculate lerp value
 		
-		float lerpValue = transitionTime / previousAnimation->blendMap.at(currentAnimation->name);
+		float lerpValue = 1 - (transitionTime / previousAnimation->blendMap.at(currentAnimation->name));
 
 		translate = translate.Lerp(prevTranslate, lerpValue);
 		rotation = rotation.Slerp(prevRotation, lerpValue);
@@ -261,8 +261,6 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform.SetRotatePart(rotation.ToFloat3x3());
 		nodeTransform.Scale(scale);
 		nodeTransform.SetTranslatePart(translate);
-
-		// Update transitionTime
 
 		transitionTime += deltaTime;
 	}

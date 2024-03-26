@@ -42,8 +42,6 @@ public:
 	// Stop current playing animation.
 	void StopAnimation();
 
-	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
-
 	// Set animation to loop. If not given a name it applies to all animations
 	void SetLoop(std::string animationName = "", bool loop = true);
 
