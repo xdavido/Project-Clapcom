@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 
 using YmirEngine;
 
-
-
 enum EnemyState
 {
     Idle,
@@ -151,6 +149,7 @@ public class EnemyBehaviour : YmirComponent
                 movementSpeed = 2f;
                 wanderState = WanderState.CHASING;
             }
+
         }
 
     }
@@ -185,8 +184,6 @@ public class EnemyBehaviour : YmirComponent
 
     private void HandleRotation()
     {
-
-
         Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
         aX = Vector3.Normalize(aX);
 
@@ -210,22 +207,19 @@ public class EnemyBehaviour : YmirComponent
                 angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
             }
 
-
-
             //Debug.Log("[ERROR] Angle: " + angle);
 
             targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
 
             //Debug.Log("[ERROR] Angle: " + targetRotation);
         }
+
         gameObject.SetRotation(targetRotation);
 
     }
 
     private void RotateEnemy()
     {
-
-
         Vector3 direction = player.transform.globalPosition - gameObject.transform.globalPosition;
         direction = direction.normalized;
         float angle = (float)Math.Atan2(direction.x, direction.z);
@@ -246,14 +240,10 @@ public class EnemyBehaviour : YmirComponent
         gameObject.transform.localRotation = desiredRotation;
 
         //Debug.Log("[ERROR] rotation:  " + gameObject.transform.localRotation);
-
-
     }
 
     public void OnCollisionStay(GameObject other)
     {
-
-
         if (other.Name == "Player" && wanderState != WanderState.HIT)
         {
 
