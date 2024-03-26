@@ -95,6 +95,7 @@ public:
 	void LoadScriptsData(GameObject* rootObject = nullptr);
 
 	// UI navigation
+	void GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo);
 	bool TabNavigate(bool isForward);
 
 	// Handle both keyboard and gamepad control of all UI game objects

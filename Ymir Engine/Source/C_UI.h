@@ -127,5 +127,6 @@ public:
 	UI_Transform* transformUI;
 	bool dirty_;
 
+	bool tabNav_;
 };
 #endif // __UI_H__

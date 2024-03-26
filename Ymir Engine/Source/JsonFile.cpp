@@ -1269,6 +1269,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_number(componentObject, "Height", static_cast<const UI_Image&>(component).height);
 
 			json_object_set_string(componentObject, "Path", (static_cast<const UI_Image&>(component).mat->path == "" ? "" : static_cast<const UI_Image&>(component).mat->path).c_str());
+			json_object_set_string(componentObject, "Shader Path", (static_cast<const UI_Image&>(component).mat->shaderPath == "" ? "" : static_cast<const UI_Image&>(component).mat->shaderPath).c_str());
 
 			// Colors
 			JSON_Value* colorArrayValue = json_value_init_array();
@@ -2028,6 +2029,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			ui_comp->height = json_object_get_number(componentObject, "Height");
 
 			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
+			ui_comp->mat->shaderPath = json_object_get_string(componentObject, "Shader Path");
 
 			if (External->scene->GetCanvas() == nullptr)
 			{

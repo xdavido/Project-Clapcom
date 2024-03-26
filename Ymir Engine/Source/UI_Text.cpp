@@ -103,13 +103,17 @@ UI_Text::UI_Text(GameObject* g, float x, float y, const char* t, float fs, float
 	mat = new CMaterial(g);
 	mat->shaderPath = shaderPath;
 	mat->shader.LoadShader(mat->shaderPath);
+
+	tabNav_ = false;
 }
 
 UI_Text::~UI_Text()
 {
 	font = nullptr;
+
 	boundsEditor->DeleteBuffers();
 	boundsGame->DeleteBuffers();
+
 	//RELEASE_ARRAY(boundsEditor->index);
 	//RELEASE_ARRAY(boundsGame->index);
 	RELEASE(boundsEditor);
@@ -168,10 +172,10 @@ void UI_Text::OnInspector()
 		//	//RELEASE(font);
 		//	font = new Font("Cat Paw.otf");
 		//}
-		if (ImGui::Button("change times"))
+		if (ImGui::Button("change valencia"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf");
+			font = new Font("de-valencia-beta.otf");
 		}
 
 		ImGui::Text("Font Size");

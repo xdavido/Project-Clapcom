@@ -238,7 +238,7 @@ bool ModuleRenderer3D::Init()
 	
 	//App->scene->gameCameraComponent->framebuffer.Load();
 
-	defaultFont = new Font("default_consola.ttf", "Assets\\Fonts");
+	defaultFont = new Font("de-valencia-beta.otf", "Assets\\Fonts");
 
 	return ret;
 }

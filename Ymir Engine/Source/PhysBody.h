@@ -29,7 +29,7 @@ public:
 	p2List<Module*> collision_listeners;
 
 public:
-	bool is_sensor = false;
+	bool isSensor = false;
 
 	GameObject* owner;
 

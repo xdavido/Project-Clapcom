@@ -74,16 +74,18 @@ bool ModuleScene::Start()
 #ifdef _RELEASE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
-	LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	
+	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 #endif // _RELEASE
 
 
 #ifdef _STANDALONE
 
-	//LoadSceneFromStart("Assets/Scenes", "You_Died");
-	LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets", "VS2 Release");
+	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
 #endif // _STANDALONE
 
@@ -145,7 +147,7 @@ update_status ModuleScene::Update(float dt)
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		godMode = !godMode;
 	}
@@ -449,7 +451,7 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	mRootNode = gameObjects[0];
 
 	LoadScriptsData();
-	
+
 	RELEASE(sceneToLoad);
 }
 
@@ -794,6 +796,28 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 	referenceMap.clear();
 }
 
+void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
+{
+	if (go->active)
+	{
+		for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
+		{
+			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+			{
+				listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
+			}
+		}
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUINaviagte(go->mChildren[i], listgo);
+		}
+	}
+}
+
 bool ModuleScene::TabNavigate(bool isForward)
 {
 	// Get UI elements to navigate
@@ -801,23 +825,12 @@ bool ModuleScene::TabNavigate(bool isForward)
 
 	for (int i = 0; i < vCanvas.size(); ++i)
 	{
-		for (int k = 0; k < vCanvas[i]->mChildren.size(); ++k)
-		{
-			for (int j = 0; j < vCanvas[i]->mChildren[k]->mComponents.size(); ++j)
-			{
-				if (static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::BUTTON
-					|| static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::CHECKBOX ||
-					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::INPUTBOX /*||
-					static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j])->UI_type == UI_TYPE::SLIDER*/)
-				{
-					listUI.push_back(static_cast<C_UI*>(vCanvas[i]->mChildren[k]->mComponents[j]));
-				}
-			}
-		}
+		GetUINaviagte(vCanvas[i], listUI);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
 	{
+
 		if (isForward)
 		{
 			if (selectedUI == listUI.size() - 1)

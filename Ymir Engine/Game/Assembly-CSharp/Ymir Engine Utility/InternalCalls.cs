@@ -6,7 +6,6 @@ namespace YmirEngine
 {
     class InternalCalls
     {
-
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void CreateGameObject(object name, object position);
 
@@ -25,6 +24,8 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject LoadScene(string name);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject ExitGame();
     }
 
     public class UI
@@ -91,9 +92,6 @@ namespace YmirEngine
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Rumble_Controller(int time);
-
-
-
     }
 
     public partial class Debug

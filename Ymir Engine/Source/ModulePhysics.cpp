@@ -85,7 +85,7 @@ update_status ModulePhysics::Update(float dt)
 		// Enable/disable collision logic in God Mode
 		if (App->scene->godMode)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+			if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 			{
 				for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
 				{
@@ -127,8 +127,18 @@ update_status ModulePhysics::Update(float dt)
 					CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
 
 					if (aux != nullptr) {
-						aux->CollisionCallback(false, pbodyB->owner);
-						onexitcollision = true;
+						if (firstCollision)
+						{
+							aux->CollisionEnterCallback(false, pbodyB->owner);
+							firstCollision = false;
+						}
+						else
+						{
+							aux->CollisionStayCallback(false, pbodyB->owner);
+							firstCollision = false;
+							onExitCollision = true;
+						}
+						
 					}
 				}
 
@@ -136,8 +146,17 @@ update_status ModulePhysics::Update(float dt)
 					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
 					if (aux != nullptr) {
-						aux->CollisionCallback(false, pbodyA->owner);
-						onexitcollision = true;
+						if (firstCollision)
+						{
+							aux->CollisionEnterCallback(false, pbodyB->owner);
+							firstCollision = false;
+						}
+						else
+						{
+							aux->CollisionStayCallback(false, pbodyA->owner);
+							firstCollision = false;
+							onExitCollision = true;
+						}
 					}
 				}
 				
@@ -158,7 +177,7 @@ update_status ModulePhysics::Update(float dt)
 					}
 				}
 			}
-			else if (numContacts == 0 && onexitcollision == true)
+			else if (numContacts == 0 && onExitCollision == true)
 			{
 				// Manejar salida de colisiones
 				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
@@ -180,7 +199,8 @@ update_status ModulePhysics::Update(float dt)
 					{
 						scriptB->CollisionExitCallback(false, pbodyA->owner);
 					}
-					onexitcollision == false;
+					onExitCollision = false;
+					firstCollision = true;
 				}
 			}
 		}

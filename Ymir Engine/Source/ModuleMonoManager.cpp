@@ -57,6 +57,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
 
 
+	mono_add_internal_call("YmirEngine.InternalCalls::ExitGame", ExitGame);
+	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", LoadSceneCS);
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 
 #pragma region GameObject
@@ -66,8 +68,6 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma endregion
 
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando est� el CreateBullet()
-
-	mono_add_internal_call("YmirEngine.InternalCalls::LoadScene", ChangeSceneCS);
 
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.Transform::GetForward", GetForward);

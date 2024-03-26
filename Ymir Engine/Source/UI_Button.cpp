@@ -18,6 +18,8 @@ UI_Button::UI_Button(GameObject* g, float x, float y, float w, float h) : C_UI(U
 
 	image = nullptr;
 	displayText = nullptr;
+
+	tabNav_ = true;
 }
 
 UI_Button::~UI_Button()

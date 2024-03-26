@@ -21,6 +21,8 @@ UI_Checkbox::UI_Checkbox(GameObject* g, int x, int y, int w, int h) : C_UI(UI_TY
 	cmImg = nullptr;
 
 	displayText = nullptr;
+
+	tabNav_ = true;
 }
 
 UI_Checkbox::~UI_Checkbox()

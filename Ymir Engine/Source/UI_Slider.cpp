@@ -52,6 +52,9 @@ UI_Slider::UI_Slider(GameObject* g, bool floats, float min, float max, float val
 	dragLimits.w = h;
 
 	SetValue(value);
+
+	// TODO: esto tiene que ser true por defecto pero ahora mismo causa problemas
+	tabNav_ = false;
 }
 
 UI_Slider::~UI_Slider()

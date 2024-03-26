@@ -19,6 +19,8 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	SetImg(imgPath, UI_STATE::NORMAL);
 
 	selectedTexture = mapTextures.find(state)->second;
+
+	tabNav_ = false;
 }
 
 UI_Image::~UI_Image()

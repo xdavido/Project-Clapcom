@@ -31,7 +31,9 @@ public:
 
 	void LoadScriptData(std::string scriptName);
 
-	void CollisionCallback(bool isTrigger, GameObject* collidedGameObject);
+	void CollisionEnterCallback(bool isTrigger, GameObject* collidedGameObject);
+
+	void CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject);
 
 	void CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject);
 
@@ -45,7 +47,7 @@ public:
 	MonoMethod* updateMethod;
 	MonoMethod* startMethod;
 	MonoMethod* onCollisionEnterMethod;
-	MonoMethod* onCollisionStayMehtod;
+	MonoMethod* onCollisionStayMethod;
 	MonoMethod* onCollisionExitMethod;
 	MonoMethod* onTriggerEnterMethod;
 	MonoMethod* onTriggerExitMethod;
