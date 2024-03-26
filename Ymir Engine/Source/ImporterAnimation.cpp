@@ -21,7 +21,7 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 		retSize += ourAnimation->bones[i].positions.size() * (sizeof(float) + sizeof(float3)); // Save the float TimeStamp and the position vector
 		retSize += ourAnimation->bones[i].rotations.size() * (sizeof(float) + sizeof(Quat)); // Save the float TimeStamp and the position quaternion
 		retSize += ourAnimation->bones[i].scales.size() * (sizeof(float) + sizeof(float3));
-	}
+	}	
 	retSize += ourAnimation->boneInfoMap.size() * sizeof(BoneInfo) + ourAnimation->boneInfoMap.size() * sizeof(std::string);
 	
 	uint header[6] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size(), ourAnimation->name.size(), ourAnimation->boneInfoMap.size()};
@@ -126,6 +126,11 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	std::string boneNames; 
 
 	char* fileBuffer = nullptr;
+
+	if (!PhysfsEncapsule::FileExists(path)) {
+		LOG("File %s don`t exist", path);
+		return;
+	}
 
 	// Load file contents into file buffer and get its size
 	uint size = PhysfsEncapsule::LoadFileToBuffer(path, &fileBuffer);
