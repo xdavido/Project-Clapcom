@@ -49,7 +49,8 @@
             ],
             "Children UID": [
                 1009784856,
-                1634601570
+                1634601570,
+                1614375652
             ]
         },
         {
@@ -107,11 +108,14 @@
                     "Type": "Script",
                     "ScriptName": "EnemyBehaviour.cs",
                     "UID": 0,
+                    "movementSpeed": 0,
                     "life": 100,
-                    "wanderRadius": 10,
                     "xSpeed": 0,
                     "ySpeed": 0,
-                    "wanderTimer": 0
+                    "PlayerDetected": true,
+                    "DetectionRadius": 0,
+                    "wanderDuration": 0,
+                    "stopedDuration": 0
                 }
             ],
             "Children UID": [
@@ -209,6 +213,80 @@
                     "LockX": false,
                     "LockY": false,
                     "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Player",
+            "UID": 1614375652,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Sphere.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        2.7734565734863281,
+                        10.085670471191406
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1431930153
+            ]
+        },
+        {
+            "Name": "Sphere (1)",
+            "UID": 1431930153,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1614375652,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 439,
+                    "Index Count": 2280
                 }
             ]
         }

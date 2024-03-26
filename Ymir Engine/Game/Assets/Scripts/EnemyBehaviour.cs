@@ -23,9 +23,10 @@ enum EnemyState
 
 enum WanderState
 {
-    Reached,
-    Going,
-    Stoped
+    REACHED,
+    GOING,
+    CHASING,
+    STOPED
 }
 public class RandomPointGenerator
 {
@@ -48,9 +49,8 @@ public class EnemyBehaviour : YmirComponent
 {
 	public GameObject thisReference = null;
 
-    private bool start = true;
 
-    private float movementSpeed = 2f, movementAux = 2f;
+    public float movementSpeed = 2f;
 
     public float life = 100f;
 
@@ -58,11 +58,10 @@ public class EnemyBehaviour : YmirComponent
 
     public float xSpeed = 0, ySpeed = 0;
 
-    private int counter1 = 0;
 
     //public float wanderTimer = 5f;
 
-    private GameObject playerObject;
+    private GameObject player;
 
     public bool PlayerDetected = false;
 
@@ -70,95 +69,143 @@ public class EnemyBehaviour : YmirComponent
 
     //private EnemyState state = EnemyState.Idle;
 
-    private WanderState wanderState = WanderState.Reached;
+    private WanderState wanderState;
 
-    RandomPointGenerator pointGenerator;
+    RandomPointGenerator pointGenerator;    
 
     private Vector3 vectorToPlayer = null;
 
+    private float wanderTimer;
+    public float wanderDuration = 5f;
+
+    private float stopedTimer;
+    public float stopedDuration = 1f;
+
+    public void Start()
+    {
+        pointGenerator = new RandomPointGenerator();
+        wanderState = WanderState.REACHED;
+        wanderDuration = 5f;
+        wanderTimer = wanderDuration;
+        player = InternalCalls.GetGameObjectByName("Player");
+        movementSpeed = 2f;
+        stopedDuration = 1f;
+        DetectionRadius = 15f;
+        wanderRadius = 10f;
+    }
+
     public void Update()
 	{
-        thisReference = gameObject;
 
-        if (start)
+
+
+        switch (wanderState)
         {
-            pointGenerator = new RandomPointGenerator();
-            playerObject = InternalCalls.GetGameObjectByName("Player");
-            start = false;
-        }
-
-        if (PlayerDetected == false)
-        {
-
-            if (wanderState == WanderState.Reached)
-            {
+            case WanderState.REACHED:
                 (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
+                wanderTimer = wanderDuration;
+                Debug.Log("[ERROR] Current State: REACHED");
+                wanderState = WanderState.GOING;
+                movementSpeed = 2f;
+                break;
 
-                wanderState = WanderState.Going;
-                //state = EnemyState.Moving;
-            }
+            case WanderState.GOING:
+                HandleRotation();
+                Debug.Log("[ERROR] Current State: GOING");
+                ProcessMovement();
+                Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
+                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
+                break;
 
-            if (wanderState == WanderState.Going)
-            {
+
+            case WanderState.CHASING:
+
+                Debug.Log("[ERROR] Current State: CHASING");
+                vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
+                vectorToPlayer = Vector3.Normalize(vectorToPlayer);
+                
+                xSpeed = vectorToPlayer.x;
+                ySpeed = -vectorToPlayer.z;
+
                 HandleRotation();
 
-                counter1++;
+                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed * 2);
+                break;
 
-                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
+            case WanderState.STOPED:
+                Debug.Log("[ERROR] Current State: STOPED");
+                ProcessStopped();
+                break;
+        }
 
-                //Set movement speed negative cuz the facehugger is facing backwards
-                //if (counter1 > 80 && counter1 < 320)
-                //{
-                //    movementSpeed = 0;
-                //}
-                if (counter1 > 320)
-                {
-                    //movementSpeed += movementAux;
-                    //Debug.Log("[ERROR] Speed " + movementSpeed);
-                    counter1 -= 320;
-                    wanderState = WanderState.Reached;
-                }
 
-                if (playerObject.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && playerObject.transform.globalPosition.y - gameObject.transform.globalPosition.y < DetectionRadius)
-                {
-                    PlayerDetected = true;
-                }
+        if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
+        {
+            movementSpeed = 2f;
+            wanderState = WanderState.CHASING;
+        }
 
-                //if (counter1 > 80)
-                //{
-                //    movementSpeed = 0;
-                //    counter2++;
-                //    if (counter2 > 320)
-                //    {
-                //        counter1 = 0;
-                //        counter2 = 0;
-                //        wanderState = WanderState.Reached;
-                //    }
-                //}
+    }
+
+    private void ProcessStopped()
+    {
+        if (stopedTimer > 0)
+        {
+            stopedTimer -= Time.deltaTime;
+            if (stopedTimer <= 0)
+            {
+                wanderState = WanderState.REACHED;
             }
         }
-        else
+    }
+    private void ProcessMovement()
+    {
+        if (wanderTimer > 0)
         {
-            vectorToPlayer = playerObject.transform.globalPosition - gameObject.transform.globalPosition;
-            vectorToPlayer = Vector3.Normalize(vectorToPlayer);
-            xSpeed = -vectorToPlayer.x;
-            ySpeed = -vectorToPlayer.z;  
+            wanderTimer -= Time.deltaTime;
+            if (wanderTimer <= 0)
+            {
 
-            HandleRotation();
+                Debug.Log("[ERROR] AAAA");
+                movementSpeed = 0;
+                stopedTimer = stopedDuration;
+                wanderState = WanderState.STOPED;
 
-            gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
-
+            }
         }
     }
 
     private void HandleRotation()
     {
+
+        //Vector3 directionToPlayer = (player.transform.globalPosition - gameObject.transform.globalPosition);
+
+
+
+        //directionToPlayer = Vector3.Normalize(directionToPlayer);
+
+
+        //Debug.Log("[ERROR] Direction: " + directionToPlayer);
+
+        //if (directionToPlayer != Vector3.zero)
+        //{
+        //    float angle = Mathf.Atan2(directionToPlayer.x, directionToPlayer.z) * Mathf.Rad2Deg;
+
+        //    Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
+
+        //    // Aplicar rotación al objeto, considerando su rotación actual
+        //    gameObject.SetRotation( Quaternion.Euler(0,targetRotation.y,0));
+        //}
+
         Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
         aX = Vector3.Normalize(aX);
+
+        //Debug.Log("[ERROR] Vector: " + aX);
 
         Quaternion targetRotation = Quaternion.identity;
 
         Vector3 aY = gameObject.transform.GetUp();
+        //Debug.Log("[ERROR] Vector: " + aY);
 
         if (aX != Vector3.zero)
         {
@@ -173,9 +220,14 @@ public class EnemyBehaviour : YmirComponent
                 angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
             }
 
-            angle -= Mathf.PI / 4f;
+            
+
+
+            //Debug.Log("[ERROR] Angle: " + angle);
 
             targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
+
+            //Debug.Log("[ERROR] Angle: " + targetRotation);
         }
         gameObject.SetRotation(targetRotation);
 
