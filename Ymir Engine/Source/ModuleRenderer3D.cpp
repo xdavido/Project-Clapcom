@@ -358,6 +358,11 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		if (App->scene->gameCameraObject->active) {
 
+			if (App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
+
 			DrawGameObjects();
 
 			glMatrixMode(GL_PROJECTION);
@@ -388,6 +393,11 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		App->scene->gameCameraComponent->Update();
 
 		if (App->scene->gameCameraObject->active) {
+
+			if (App->scene->godMode)
+			{
+				DrawPhysicsColliders();
+			}
 
 			DrawGameObjects();
 
