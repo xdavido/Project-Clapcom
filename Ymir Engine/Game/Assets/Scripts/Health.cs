@@ -38,16 +38,6 @@ public class Health : YmirComponent
     {
         if (player.godMode)
         {
-            if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
-            {
-                Debug.Log("Take debug dmg");
-
-                if (TakeDmg(debugDmg))
-                {
-                    DeathScreen();
-                }
-            }
-
             if (Input.GetKey(YmirKeyCode.F3) == KeyState.KEY_DOWN)
             {
                 Debug.Log("Instant win");
@@ -60,6 +50,19 @@ public class Health : YmirComponent
                 Debug.Log("Instant lose");
 
                 DeathScreen();
+            }
+        }
+
+        else
+        {
+            if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
+            {
+                Debug.Log("Take debug dmg");
+
+                if (TakeDmg(debugDmg))
+                {
+                    DeathScreen();
+                }
             }
         }
 
