@@ -2,9 +2,10 @@
 #include "Globals.h"
 
 #include "ResourceAnimation.h"
+#include "Model.h"
 
-class Animation;
 class ResourceAnimation;
+class Model; 
 
 struct AssimpNodeData;
 

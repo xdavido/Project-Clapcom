@@ -136,7 +136,6 @@
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
-    <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\CAnimation.h" />
@@ -469,7 +468,6 @@
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AreaLight.cpp" />

@@ -229,8 +229,9 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 					for (int i = 0; i < scene->mNumAnimations; i++) {
 
-						Animation* anim = new Animation(path, this, i);
-
+						//Animation* anim = new Animation(path, this, i);
+						ResourceAnimation* rAnim = new ResourceAnimation(modelGO->UID); 
+						ImporterAnimation::Import(path, rAnim, this, i);
 						uint UID = modelGO->UID;
 
 						std::string filenameUID = std::to_string(UID) + ".yanim";
@@ -242,14 +243,14 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 							libraryPath = External->fileSystem->libraryAnimationsPath + filenameUID;
 						}
 
-						External->fileSystem->SaveAnimationToFile(anim, libraryPath);
+						External->fileSystem->SaveAnimationToFile(rAnim, libraryPath);
 
-						std::string filename = anim->name + ".yanim";
+						std::string filename = rAnim->name + ".yanim";
 						std::string assetsPath = External->fileSystem->assetsPath + filename;
 
-						External->fileSystem->SaveAnimationToFile(anim, assetsPath);
+						External->fileSystem->SaveAnimationToFile(rAnim, assetsPath);
 
-						ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, UID);
+						//ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::ANIMATION, UID);
 						cAnim->AddAnimation(*rAnim);
 					}
 					LOG("Model has animations");

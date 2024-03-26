@@ -170,7 +170,7 @@ bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector
 	return true;
 }
 
-bool ModuleFileSystem::SaveAnimationToFile(Animation* anim, const std::string& filename) {
+bool ModuleFileSystem::SaveAnimationToFile(ResourceAnimation* anim, const std::string& filename) {
 	uint bufferSize = 0;
 	char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
 
