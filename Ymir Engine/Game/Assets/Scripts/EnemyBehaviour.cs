@@ -123,13 +123,13 @@ public class EnemyBehaviour : YmirComponent
                 Debug.Log("[ERROR] Current State: CHASING");
                 vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
                 vectorToPlayer = Vector3.Normalize(vectorToPlayer);
-                
+
                 xSpeed = vectorToPlayer.x;
-                ySpeed = -vectorToPlayer.z;
+                ySpeed = vectorToPlayer.z;
 
-                HandleRotation();
+                RotateEnemy();
 
-                gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed * 2);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed * 2);
                 break;
 
             case WanderState.STOPED:
@@ -219,7 +219,6 @@ public class EnemyBehaviour : YmirComponent
             {
                 angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
             }
-
             
 
 
@@ -230,6 +229,52 @@ public class EnemyBehaviour : YmirComponent
             //Debug.Log("[ERROR] Angle: " + targetRotation);
         }
         gameObject.SetRotation(targetRotation);
+
+    }
+
+    private void RotateEnemy()
+    {
+
+
+        Vector3 direction = player.transform.globalPosition - gameObject.transform.globalPosition;
+        direction = direction.normalized;
+        float angle = (float)Math.Atan2(direction.x, direction.z);
+
+        //Debug.Log("Desired angle: " + (angle * Mathf.Rad2Deg).ToString());
+
+        if (Math.Abs(angle * Mathf.Rad2Deg) < 1.0f)
+            return;
+
+        Quaternion dir = Quaternion.RotateAroundAxis(Vector3.up, angle);
+
+        float rotationSpeed = Time.deltaTime * movementSpeed;
+        //Debug.Log("CS: Rotation speed: " + rotationSpeed.ToString());
+        //Debug.Log("CS: Time: " + Time.deltaTime);
+
+        Quaternion desiredRotation = Quaternion.Slerp(gameObject.transform.localRotation, dir, rotationSpeed);
+
+        gameObject.transform.localRotation = desiredRotation;
+
+        Debug.Log("[ERROR] rotation:  " + gameObject.transform.localRotation);
+
+        //Vector3 aX = new Vector3(xSpeed, 0, ySpeed);
+        //aX = Vector3.Normalize(aX);
+
+        //Vector3 aY = new Vector3(0, 0, 1);
+
+        //double angle = 0f;
+
+        //if (aX.x >= 0)
+        //{
+        //    angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+        //}
+        //else if (aX.x < 0)
+        //{
+        //    angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
+        //}
+
+
+        //gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
 
     }
 }
