@@ -3452,6 +3452,78 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 	{
 		std::size_t found = currentDir.find_last_of("/");
 		currentDir = currentDir.substr(0, found);
+
+	}
+
+	if (currentDir != "Assets") {
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+			{
+				std::string assetsFilePathDrop = (const char*)payload->Data;
+
+				if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				// Extract the file name from the path
+				std::filesystem::path assetFilePath(assetsFilePathDrop);
+				std::string fileName = assetFilePath.filename().string();
+
+				// Calculate parent directory from current directory
+				std::filesystem::path parentDirPath(currentDir);
+				parentDirPath = parentDirPath.parent_path();
+				std::string parentDir = parentDirPath.string();
+
+				// Construct the new path by appending the file name to the parent directory
+				std::filesystem::path newFilePath = std::filesystem::path(parentDir) / fileName;
+
+				// Perform the move operation
+				std::error_code ec;
+				std::filesystem::rename(assetFilePath, newFilePath, ec);
+
+				if (!ec) {
+					LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), currentDir.c_str());
+				}
+				else {
+					LOG("Error moving asset: %s", ec.message().c_str());
+				}
+
+			}
+
+			ImGui::EndDragDropTarget();
+
+		}
+
 	}
 
 	if (ImGui::Button("Create Folder"))
@@ -3516,6 +3588,67 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					}
 
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+						{
+							std::string assetsFilePathDrop = (const char*)payload->Data;
+
+							if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+							
+							}
+
+							if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							// Extract the file name from the path
+							std::filesystem::path assetFilePath(assetsFilePathDrop);
+							std::string fileName = assetFilePath.filename().string();
+
+							// Construct the new path by appending the file name to the current directory
+							std::filesystem::path newFilePath = entry.path() / fileName;
+
+							// Perform the move operation
+							std::error_code ec;
+							std::filesystem::rename(assetFilePath, newFilePath, ec);
+
+							if (!ec) {
+								LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), entryName.c_str());
+							}
+							else {
+								LOG("Error moving asset: %s", ec.message().c_str());
+							}
+
+						}
+
+						ImGui::EndDragDropTarget();
+
+					}
 
 					// ---RMB Click event---
 
