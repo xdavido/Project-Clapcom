@@ -20,7 +20,7 @@
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
-#include "Animation.h"
+
 #include "Animator.h"
 #include "ModuleAudio.h"
 
@@ -1853,7 +1853,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		JSON_Array* jsonSizeArray = json_value_get_array(jsonSizeValue);
 		for (int i = 0; i < json_object_get_number(componentObject, "NumPaths"); i++) {
 			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(json_array_get_string(jsonSizeArray,i), ResourceType::ANIMATION, gameObject->UID);
-			cAnim->AddAnimation(*rAnim);
+			if (rAnim->name != "") {
+				cAnim->AddAnimation(*rAnim);
+			}
 		}
 
 		gameObject->AddComponent(cAnim);

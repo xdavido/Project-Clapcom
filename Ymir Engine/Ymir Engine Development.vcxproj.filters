@@ -1077,9 +1077,6 @@
     <ClInclude Include="Source\PhysBody.h">
       <Filter>Sources\Utils\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Animation.h">
-      <Filter>Sources\Features\Skeletal Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Animator.h">
       <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClInclude>
@@ -1534,9 +1531,6 @@
     </ClCompile>
     <ClCompile Include="Source\PhysBody.cpp">
       <Filter>Sources\Utils\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Animation.cpp">
-      <Filter>Sources\Features\Skeletal Animation</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animator.cpp">
       <Filter>Sources\Features\Skeletal Animation</Filter>

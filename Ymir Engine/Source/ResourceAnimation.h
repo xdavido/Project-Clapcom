@@ -5,7 +5,6 @@
 #include "Globals.h"
 
 #include "Bone.h"
-#include "Animation.h"
 #include "Resources.h"
 
 #include "External/MathGeoLib/include/Math/float3.h"
@@ -15,7 +14,12 @@
 class Model;
 struct BoneInfo;
 
-struct AssimpNodeData;
+struct AssimpNodeData {
+	float4x4 transformation;
+	std::string name;
+	int childrenCount;
+	std::vector<AssimpNodeData> children;
+};
 
 class ResourceAnimation : public Resource {
 public:
