@@ -234,18 +234,18 @@ public class Player : YmirComponent
         //----------------- Reload -----------------\\
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
-            Audio.PlayAudio(gameObject, "P_PredRush");
+            Audio.PlayAudio(gameObject, "W_FirearmReload");
             isReloading = true;
             reloadTimer = reloadCD;
         }
 
         //----------------- Desbugear -----------------\\
-        if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN)
-        {
-            //Debug.Log("aaaa");
-            inputsList.Add(INPUT.I_JUMP);
-            Input.Rumble_Controller(50);
-        }
+        //if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN)
+        //{
+        //    //Debug.Log("aaaa");
+        //    inputsList.Add(INPUT.I_JUMP);
+        //    Input.Rumble_Controller(50);
+        //}
     }
     private void ProcessState()
     {
@@ -489,7 +489,7 @@ public class Player : YmirComponent
     private void StartDash()
     {
         //Animation.PlayAnimation(gameObject, "Lift2");
-        //Audio.PlayAudio(gameObject, "P_Dash");
+        Audio.PlayAudio(gameObject, "P_Dash");
         StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
@@ -541,15 +541,9 @@ public class Player : YmirComponent
     #region COLLISION
     public void OnCollisionEnter(GameObject other)
     {
-        Debug.Log("Peedrito");
+        //Debug.Log("Peedrito");
         //Debug.Log("OnCollisionEnter!!!!");
         //gameObject.SetVelocity(up * movementSpeed);
-
-        if (other.Tag == "Enemy")
-        {
-            csBHealth.TakeDmg(10);
-        }
-        
     }
     #endregion
 
@@ -568,9 +562,9 @@ public class Player : YmirComponent
         velocity += gravity;
         gameObject.SetVelocity(velocity);
 
-        HandleRotation();
-
         //gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+
+        HandleRotation();
     }
     private void StopPlayer()
     {
