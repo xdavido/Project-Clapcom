@@ -66,7 +66,6 @@
 		<Compile Include="Assets\Scripts\UI_Bullets.cs" />
 		<Compile Include="Assets\Scripts\Button_Navigation.cs" />
 		<Compile Include="Assets\Scripts\Button_Exit.cs" />
-		<Compile Include="Assets\Scripts\EnemyBehaviour.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
