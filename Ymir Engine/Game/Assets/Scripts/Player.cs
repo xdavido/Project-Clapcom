@@ -42,7 +42,7 @@ public class Player : YmirComponent
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
-    private double angle = 0.0f;
+    //private double angle = 0.0f;
     private float deathZone = 0.3f;
 
     //--------------------- Dash ---------------------\\
@@ -475,7 +475,7 @@ public class Player : YmirComponent
         x = Input.GetLeftAxisX();
         y = Input.GetLeftAxisY();
 
-        gamepadInput = new Vector3(x, -y, 0f);
+        gamepadInput = new Vector3(x, y, 0f);
 
         //Debug.Log("sdsad" + x);
     }
@@ -499,8 +499,8 @@ public class Player : YmirComponent
     {
         HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
-        Vector3 forward = gameObject.transform.GetForward();
-        forward.y = 0f;
+        //Vector3 forward = gameObject.transform.GetForward();
+        //forward.y = 0f;
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
         //if (gamepadInput.x > 0)
@@ -562,34 +562,41 @@ public class Player : YmirComponent
         //    gameObject.SetVelocity(gameObject.transform.GetForward() * -movementSpeed);
         //}
 
-
-
         HandleRotation();
         //Debug.Log("Vel:"+gameObject.GetForward() * movementSpeed);
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
     }
     private void HandleRotation()
     {
-        //Calculate player rotation
-        Vector3 aX = new Vector3(-gamepadInput.x, 0, -gamepadInput.y - 1);
-        Vector3 aY = new Vector3(0, 0, 1);
+        Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y);
         aX = Vector3.Normalize(aX);
 
-        if (aX.x >= 0)
+        Quaternion targetRotation = Quaternion.identity;
+
+        Vector3 aY = new Vector3(0,1,0);
+
+        if (aX != Vector3.zero)
         {
-            angle = Math.Acos(Vector3.Dot(aX, aY) - 1);
+            float angle = 0;
+
+            if (aX.x >= 0)
+            {
+                angle = (float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+            else if (aX.x < 0)
+            {
+                angle = -(float)Math.Acos(Vector3.Dot(aX, aY) - 1);
+            }
+
+            // Add 45 degrees to the calculated angle
+            angle -= Mathf.PI / 4f; // Rotate 45 degrees to the right
+
+            // Construct quaternion rotation with an inverted axis for correcting left and right inversion
+            targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
         }
-        else if (aX.x < 0)
-        {
-            angle = -Math.Acos(Vector3.Dot(aX, aY) - 1);
-        }
 
-        //Convert angle from world view to orthogonal view
-        angle += 0.785398f; //Rotate 45 degrees to the right
-
-        //Debug.Log(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).x + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).y + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).z + Quaternion.RotateAroundAxis(Vector3.up, (float)-angle).w);
-
-        gameObject.SetRotation(Quaternion.RotateAroundAxis(Vector3.up, (float)-angle));
+        // Apply rotation
+        gameObject.SetRotation(targetRotation);
     }
     #endregion
 }

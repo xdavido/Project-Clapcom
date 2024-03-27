@@ -58,5 +58,10 @@ namespace YmirEngine
         public static float Floor(float f) { return (float)Math.Floor(f); }
 
         public const float Rad2Deg = 57.29578f;
+
+        public const float Deg2Rad = 0.0174532925199432957f;
+
+        public const float PI = 3.14159265358979323846f;
+
     }
 }
