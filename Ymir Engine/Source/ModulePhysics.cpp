@@ -69,7 +69,15 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	//world->stepSimulation(dt, 15);
+
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
+	{
+		world->stepSimulation(dt, 6);
+	}
+	else
+	{
+		world->stepSimulation(0);
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -105,8 +113,6 @@ update_status ModulePhysics::Update(float dt)
 				}
 			}
 		}
-
-		world->stepSimulation(dt, 15);
 
 		int numManifolds = world->getDispatcher()->getNumManifolds();
 		for (int i = 0; i < numManifolds; i++)
@@ -385,7 +391,7 @@ void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool useGrav
 		if (!useGravity)
 			pbody->body->setGravity(btVector3(0, 0, 0));
 		else
-			pbody->body->setGravity(GRAVITY);
+			pbody->body->setGravity(world->getGravity());
 
 		if (mass != 0.f)
 			colShape->calculateLocalInertia(mass, localInertia);

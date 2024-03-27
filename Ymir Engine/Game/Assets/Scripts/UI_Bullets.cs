@@ -20,7 +20,7 @@ public class UI_Bullets : YmirComponent
         GetAnotherScript();
         bulletsBar = InternalCalls.GetGameObjectByName("Bullets Text");
 
-        UI.TextEdit(bulletsBar, player.ammo.ToString() + "/" + player.magsize.ToString());
+        UI.TextEdit(bulletsBar, player.magsize.ToString() + "/" + player.magsize.ToString());
     }
     public void Update()
     {

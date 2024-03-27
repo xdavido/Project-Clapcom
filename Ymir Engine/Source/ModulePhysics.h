@@ -50,7 +50,7 @@ public:
 	// PhysBody related
 	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);		 // Box
 	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);	 // Sphere
-	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);	 // Capsule
+	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);// Capsule
 	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape);				 // Mesh
 	void RemoveBody(PhysBody* b);
 

@@ -81,7 +81,6 @@ bool ModuleScene::Start()
 
 #endif // _RELEASE
 
-
 #ifdef _STANDALONE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");

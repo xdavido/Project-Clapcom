@@ -524,7 +524,11 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
 	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
 
-	External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
+	if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+		External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
+
+	}
 
 	if (!onlyReimport) {
 

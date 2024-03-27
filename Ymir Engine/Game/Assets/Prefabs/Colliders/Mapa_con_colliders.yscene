@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        351.2701416015625,
-        412.12432861328125,
-        269.66915893554688
+        67.435737609863281,
+        189.09388732910156,
+        221.84107971191406
     ],
     "Editor Camera Right (X)": [
-        0.78648209571838379,
-        2.0861625671386719e-06,
-        -0.61138206720352173
+        0.97242915630340576,
+        -3.8743019104003906e-07,
+        -0.23087000846862793
     ],
     "Editor Camera Up (Y)": [
-        -0.49148157238960266,
-        0.59248894453048706,
-        -0.63224005699157715
+        -0.15010564029216766,
+        0.7593732476234436,
+        -0.63224929571151733
     ],
     "Editor Camera Front (Z)": [
-        -0.36504745483398438,
-        -0.80388665199279785,
-        -0.46959990262985229
+        -0.17550753057003021,
+        -0.65017068386077881,
+        -0.73924022912979126
     ],
     "Hierarchy": [
         {
@@ -47,7 +47,6 @@
                 }
             ],
             "Children UID": [
-                1058808307,
                 1858338460,
                 1398847280,
                 1676754095,
@@ -57,48 +56,7 @@
             ]
         },
         {
-            "Name": "Point Light",
-            "UID": 1058808307,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 381266425,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        10.563426971435547,
-                        112.62493896484375,
-                        138.20832824707031
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Light",
-                    "Active": 1,
-                    "Debug": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Intensity": 0.69999998807907104,
-                    "Light Type": 0,
-                    "Radius": 1
-                }
-            ]
-        },
-        {
-            "Name": "Plyaer_Camera_Suelo",
+            "Name": "Player_Camera_Suelo",
             "UID": 1858338460,
             "Active": true,
             "Element_Type": "None",
@@ -108,9 +66,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -65.799224853515625,
-                        2.2668646124657243e-05,
-                        132.59840393066406
+                        0,
+                        0,
+                        0
                     ],
                     "Rotation": [
                         -0,
@@ -126,8 +84,7 @@
             ],
             "Children UID": [
                 1270585162,
-                1589760253,
-                2128342503
+                1589760253
             ]
         },
         {
@@ -795,58 +752,6 @@
             ]
         },
         {
-            "Name": "Suelo",
-            "UID": 2128342503,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1858338460,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        -1.7038817405700684,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        854.3233642578125,
-                        10.345239639282227,
-                        964.65826416015625
-                    ]
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        854.3233642578125,
-                        10.345239639282227,
-                        964.65826416015625
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "UseGravity": false,
-                    "IsSensor": false,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false
-                }
-            ]
-        },
-        {
             "Name": "Game Canva",
             "UID": 1398847280,
             "Active": true,
@@ -878,8 +783,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 407,
-                    "Height": 572,
+                    "Width": 0,
+                    "Height": 0,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -1659,15 +1564,15 @@
                     ],
                     "Selected color": [
                         -1.5816255460782938e+38,
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38,
+                        9.8090892502737195e-45
+                    ],
+                    "Disabled color": [
+                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
                         1.4012984643248171e-44,
                         1.4012984643248171e-44
-                    ],
-                    "Disabled color": [
-                        1.4012984643248171e-44,
-                        -1.5816255460782938e+38,
-                        1.4012984643248171e-44,
-                        -1.5816255460782938e+38
                     ]
                 },
                 {
@@ -2091,7 +1996,7 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        636,
+                        660,
                         0,
                         0
                     ],
@@ -2143,14 +2048,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 0,
-                    "Position Y": 686,
+                    "Position Y": 709,
                     "Width": 653,
                     "Height": 148,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
-                        686,
+                        660,
+                        709,
                         653,
                         148
                     ],
@@ -2178,7 +2083,7 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
+                        660,
                         0,
                         300,
                         50
@@ -2258,14 +2163,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 70,
-                    "Position Y": 780,
+                    "Position Y": 803,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        706,
-                        780,
+                        730,
+                        803,
                         300,
                         50
                     ],
@@ -2318,14 +2223,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 0,
-                    "Position Y": 860,
+                    "Position Y": 880,
                     "Width": 653,
                     "Height": 148,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
-                        860,
+                        660,
+                        880,
                         653,
                         148
                     ],
@@ -2353,7 +2258,7 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        636,
+                        660,
                         0,
                         300,
                         50
@@ -2433,14 +2338,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 158,
-                    "Position Y": 954,
+                    "Position Y": 974,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        794,
-                        954,
+                        818,
+                        974,
                         300,
                         50
                     ],
@@ -2772,7 +2677,8 @@
                 }
             ],
             "Children UID": [
-                279378109
+                279378109,
+                1058808307
             ]
         },
         {
@@ -16672,9 +16578,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -4.9063682556152344,
                         0,
-                        -6.1179161071777344
+                        0,
+                        0
                     ],
                     "Rotation": [
                         -0,
@@ -16728,9 +16634,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -8.5923843383789062,
                         0,
-                        1.6375236511230469
+                        0,
+                        0
                     ],
                     "Rotation": [
                         -0,
@@ -16784,9 +16690,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -0.25108146667480469,
                         0,
-                        6.6171989440917969
+                        0,
+                        0
                     ],
                     "Rotation": [
                         -0,
@@ -17514,6 +17420,47 @@
             ]
         },
         {
+            "Name": "Point Light",
+            "UID": 1058808307,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 499171686,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        16.147960662841797,
+                        203.5048828125,
+                        188.51776123046875
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Light",
+                    "Active": 1,
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Intensity": 0.69999998807907104,
+                    "Light Type": 0,
+                    "Radius": 1
+                }
+            ]
+        },
+        {
             "Name": "CollidersMapa",
             "UID": 401523607,
             "Active": true,
@@ -17611,7 +17558,13 @@
                 570223856,
                 1551339711,
                 444743756,
-                1009784856
+                1342665026,
+                1065773714,
+                802564971,
+                239557371,
+                200441138,
+                2086891943,
+                2128342503
             ]
         },
         {
@@ -18514,9 +18467,9 @@
                         33.829967498779297
                     ],
                     "Rotation": [
-                        1.2321527004241943,
-                        26.501895904541016,
-                        -0.28773266077041626
+                        1.2321531772613525,
+                        26.501911163330078,
+                        -0.28773277997970581
                     ],
                     "Scale": [
                         46.980365753173828,
@@ -19763,7 +19716,7 @@
                     ],
                     "Rotation": [
                         -0,
-                        19.099700927734375,
+                        19.099697113037109,
                         -0
                     ],
                     "Scale": [
@@ -19834,9 +19787,9 @@
                     "Active": 1,
                     "Collider Type": 0,
                     "Size": [
-                        21.773897171020508,
+                        21.773895263671875,
                         21.773914337158203,
-                        21.773897171020508
+                        21.773895263671875
                     ],
                     "Radius": 5,
                     "Height": 10,
@@ -19971,7 +19924,7 @@
                     ],
                     "Rotation": [
                         0,
-                        -44.878032684326172,
+                        -44.878047943115234,
                         0
                     ],
                     "Scale": [
@@ -21011,7 +20964,7 @@
                     ],
                     "Rotation": [
                         0,
-                        -27.06201171875,
+                        -27.062009811401367,
                         0
                     ],
                     "Scale": [
@@ -21167,7 +21120,7 @@
                     ],
                     "Rotation": [
                         0,
-                        -13.703193664550781,
+                        -13.703191757202148,
                         0
                     ],
                     "Scale": [
@@ -21255,61 +21208,29 @@
             ]
         },
         {
-            "Name": "Suelo",
-            "UID": 1009784856,
+            "Name": "Collider_75",
+            "UID": 1342665026,
             "Active": true,
-            "Element_Type": "Model",
-            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Element_Type": "None",
             "Parent UID": 401523607,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -0.8273468017578125,
-                        58.056404113769531,
-                        -0.40562725067138672
+                        278.59161376953125,
+                        10.542444229125977,
+                        332.36285400390625
                     ],
                     "Rotation": [
-                        -0,
                         0,
-                        -0
+                        -37.019790649414062,
+                        0
                     ],
                     "Scale": [
-                        3934.874267578125,
-                        1,
-                        683.68170166015625
-                    ]
-                }
-            ],
-            "Children UID": [
-                354038258
-            ]
-        },
-        {
-            "Name": "Collider_Suelo",
-            "UID": 354038258,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1009784856,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0.0097447587177157402,
-                        -61.282184600830078,
-                        0.1634657084941864
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        0.30566170811653137,
-                        8.534733772277832,
-                        1.8824923038482666
+                        14.391242027282715,
+                        12.888907432556152,
+                        14.312765121459961
                     ]
                 },
                 {
@@ -21322,9 +21243,321 @@
                     "Active": 1,
                     "Collider Type": 0,
                     "Size": [
-                        1202.7403564453125,
-                        8.534733772277832,
-                        1287.0255126953125
+                        14.391242027282715,
+                        12.888907432556152,
+                        14.312765121459961
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Collider_72",
+            "UID": 1065773714,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        300.11578369140625,
+                        12.136843681335449,
+                        351.61209106445312
+                    ],
+                    "Rotation": [
+                        -0,
+                        14.20068359375,
+                        -0
+                    ],
+                    "Scale": [
+                        16.943065643310547,
+                        16.235067367553711,
+                        16.129829406738281
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        16.943065643310547,
+                        16.235067367553711,
+                        16.129829406738281
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Collider_73",
+            "UID": 802564971,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        363.91546630859375,
+                        9.3587322235107422,
+                        352.22161865234375
+                    ],
+                    "Rotation": [
+                        0,
+                        -49.168102264404297,
+                        0
+                    ],
+                    "Scale": [
+                        7.8849897384643555,
+                        10.468323707580566,
+                        18.17445182800293
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        7.8849897384643555,
+                        10.468323707580566,
+                        18.17445182800293
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Collider_74",
+            "UID": 239557371,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        359.2691650390625,
+                        8.35736083984375,
+                        288.19915771484375
+                    ],
+                    "Rotation": [
+                        -0,
+                        39.313503265380859,
+                        -0
+                    ],
+                    "Scale": [
+                        11.82026195526123,
+                        12.775001525878906,
+                        11.754854202270508
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        11.82026195526123,
+                        12.775001525878906,
+                        11.754854202270508
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Collider_75",
+            "UID": 200441138,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        318.7919921875,
+                        5.8793988227844238,
+                        310.82333374023438
+                    ],
+                    "Rotation": [
+                        0,
+                        -44.853000640869141,
+                        0
+                    ],
+                    "Scale": [
+                        7.7037086486816406,
+                        5.9981846809387207,
+                        7.883232593536377
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        7.7037086486816406,
+                        5.9981846809387207,
+                        7.883232593536377
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Collider_76",
+            "UID": 2086891943,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        36.588653564453125,
+                        6.0207033157348633,
+                        -0.42967653274536133
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        7.4142694473266602,
+                        6.3997335433959961,
+                        6.4841642379760742
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        7.4142694473266602,
+                        6.3997335433959961,
+                        6.4841642379760742
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Suelo",
+            "UID": 2128342503,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 401523607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -0.8273468017578125,
+                        -1.703880786895752,
+                        -0.40562725067138672
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        854.3233642578125,
+                        10.345239639282227,
+                        964.65826416015625
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        854.3233642578125,
+                        10.345239639282227,
+                        964.65826416015625
                     ],
                     "Radius": 5,
                     "Height": 10,
