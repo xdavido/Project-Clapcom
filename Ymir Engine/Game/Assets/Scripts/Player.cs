@@ -43,16 +43,16 @@ public class Player : YmirComponent
     //public float rotationSpeed = 2.0f;
     public float movementSpeed = 35.0f;
     //private double angle = 0.0f;
-    private float deathZone = 0.3f;
+    private float deathZone = 0.5f;
 
     //--------------------- Dash ---------------------\\
-    public float dashforce = 10.0f;
+    //public float dashforce = 1000.0f;
     private float dashTimer = 0.0f;
 
     //private float timeSinceLastDash = 0.0f;
     public float dashCD = 0.1f;
-    public float dashDuration = 0.25f;
-    public float dashDistance = 1.0f;
+    public float dashDuration = 1.0f;
+    public float dashDistance = 100000.0f;
     private float dashSpeed = 0.0f;
     //private float dashStartYPos = 0.0f;
 
@@ -67,14 +67,17 @@ public class Player : YmirComponent
     private float shootingTimer = 0.0f;
     public float secondaryRate = 0.2f;
 
-    private bool isReloading= false;
+    private bool isReloading = false;
     private float reloadTimer = 0.0f;
     private float reloadCD = 1.0f;
 
     public int ammo = 0;
     public int magsize = 5;
 
+    //--------------------- External GameObjects ---------------------\\
     private GameObject cameraObject;
+
+    //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
     private Health csBHealth;
 
@@ -83,8 +86,6 @@ public class Player : YmirComponent
 
     public void Start()
     {
-        gameObject.SetPosition(new Vector3(0, 1, 0));
-
         //--------------------- Dash ---------------------\\
         dashTimer = 0f;
         dashSpeed = dashDistance / dashDuration;
@@ -92,12 +93,12 @@ public class Player : YmirComponent
         //--------------------- Shoot ---------------------\\
         ammo = magsize;
         reloadTimer = reloadCD;
-        GetBulletsScript();
 
+        //--------------------- Get Player Scripts ---------------------\\
+        GetPlayerScripts();
+
+        //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
-        
-        //--------------------- Health ---------------------\\
-        GetHealthScript();
 
         currentState = STATE.IDLE;
 
@@ -119,32 +120,6 @@ public class Player : YmirComponent
         {
             godMode = !godMode;
         }
-
-        //Old things
-        //UpdateControllerInputs();
-
-        //if (gamepadInput.magnitude > 0)
-        //{
-        //    isMoving = true;
-        //    HandleMovement();
-        //}
-        //else if (isMoving)
-        //{
-        //    isMoving = false;
-        //    StopPlayer();
-        //}
-
-        //if (Input.GetGamepadRightTrigger() > 0)
-        //{
-        //    StartShooting();
-        //    Debug.Log("Shoot");
-        //    inputsList.Add(INPUT.I_SHOOTING);
-        //}
-        //else
-        //{
-        //    inputsList.Add(INPUT.I_SHOOTING_END);
-        //}
-        //Debug.Log(gameObject.transform.GetRight());
     }
 
     #region FSM
@@ -203,7 +178,6 @@ public class Player : YmirComponent
         if (Input.GetGamepadRightTrigger() > 0 && !isReloading && ammo > 0)
         {
             inputsList.Add(INPUT.I_SHOOTING);
-            Input.Rumble_Controller(300);
         }
         else
         {
@@ -214,11 +188,12 @@ public class Player : YmirComponent
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
+            Input.Rumble_Controller(50);
         }
 
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
-            Audio.PlayAudio(gameObject, "P_PredRush");
+            Audio.PlayAudio(gameObject, "W_FirearmReload");
             isReloading = true;
             reloadTimer = reloadCD;
         }
@@ -380,6 +355,7 @@ public class Player : YmirComponent
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
+        Input.Rumble_Controller(100);
         Debug.Log("Shoot!");
 
         if (!godMode)
@@ -392,8 +368,10 @@ public class Player : YmirComponent
 
         StopPlayer();
 
+        Vector3 offset = new Vector3(0, 15, 0);
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
         //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
         //Debug.Log("Spawn pos: " + pos);
 
@@ -401,7 +379,7 @@ public class Player : YmirComponent
         Quaternion rot = gameObject.transform.globalRotation;
 
         //Tamaño de la bala
-        Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
+        Vector3 scale = new Vector3(2.0f, 2.0f, 4.0f);
 
         //Crea la bala
         //Debug.Log("rot: " + gameObject.transform.localRotation.x + gameObject.transform.localRotation.y + gameObject.transform.localRotation.z + gameObject.transform.localRotation.w);
@@ -420,41 +398,20 @@ public class Player : YmirComponent
         // Reset del futuro autoapuntado
     }
 
-    // TODO: use the generic functions
-    private void GetBulletsScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBullets = gameObject.GetComponent<UI_Bullets>();
-        }
-    }
-
-    private void GetHealthScript()
-    {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
-
-        if (gameObject != null)
-        {
-            csBHealth = gameObject.GetComponent<Health>();
-        }
-    }
-
     #endregion
 
     #region DASH
     private void StartDash()
     {
+        //Animation.PlayAnimation(gameObject, "Lift2");
         Audio.PlayAudio(gameObject, "P_Dash");
-        //Audio.PlayAudio(gameObject, "P_Relief");
         StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        gameObject.SetVelocity(gameObject.transform.GetForward().normalized * dashforce);
+        gameObject.SetImpulse(gameObject.transform.GetForward() * dashSpeed);
     }
     private void EndDash()
     {
@@ -484,7 +441,7 @@ public class Player : YmirComponent
     #region COLLISION
     public void OnCollisionEnter()
     {
-        Debug.Log("Peedrito");
+        //Debug.Log("Peedrito");
     }
     #endregion
 
@@ -602,5 +559,18 @@ public class Player : YmirComponent
         // Apply rotation
         gameObject.SetRotation(targetRotation);
     }
+
+    // TODO: use the generic functions
+    private void GetPlayerScripts()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (gameObject != null)
+        {
+            csBullets = gameObject.GetComponent<UI_Bullets>();
+            csBHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
     #endregion
+
 }
