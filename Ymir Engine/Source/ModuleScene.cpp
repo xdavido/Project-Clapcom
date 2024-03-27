@@ -70,14 +70,15 @@ bool ModuleScene::Init()
 bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
-	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	
 
 #ifdef _RELEASE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
-	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	//LoadSceneFromStart("Assets/", "GameUI");
+	LoadSceneFromStart("Assets", "Enemigo player"); 
 
 #endif // _RELEASE
 
