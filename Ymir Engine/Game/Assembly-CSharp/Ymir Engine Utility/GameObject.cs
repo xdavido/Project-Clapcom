@@ -92,5 +92,8 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void SetRotation(Quaternion rot);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetPosition(Vector3 position);
+
     }
 }

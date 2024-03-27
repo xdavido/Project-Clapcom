@@ -96,8 +96,6 @@ public:
 	btBroadphaseInterface* broadphase;
 	btConstraintSolver* constraintSolver;
 
-	bool beginPlay;
-
 	bool debugScene = true; // If true, draws physics stuff in SCENE
 	bool debugGame = false; // If true, draws physics stuff in GAME
 

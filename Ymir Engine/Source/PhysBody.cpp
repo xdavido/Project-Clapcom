@@ -4,83 +4,91 @@
 #include "External/mmgr/mmgr.h"
 
 // =================================================
-PhysBody::PhysBody(btRigidBody* body) : body(body), owner(nullptr)
-{}
+PhysBody::PhysBody(btRigidBody* body) : body(body), owner(nullptr), isSensor(false), drawShape(true)
+{
+
+}
 
 // ---------------------------------------------------------
 PhysBody::~PhysBody()
 {
-	delete body;
+	RELEASE(body);
 }
 
 // ---------------------------------------------------------
-void PhysBody::Push(float x, float y, float z)
+void PhysBody::Push(const float3& pushVec) const
 {
-	body->applyCentralImpulse(btVector3(x, y, z));
+	body->applyCentralImpulse(btVector3(pushVec.x, pushVec.y, pushVec.z));
 }
 
 // ---------------------------------------------------------
-void PhysBody::GetTransform(float* matrix) const
+void PhysBody::GetTransform(float4x4& matrix) const
 {
-	if (body != NULL && matrix != NULL)
+	if (body != nullptr)
 	{
-		body->getWorldTransform().getOpenGLMatrix(matrix);
+		body->getWorldTransform().getOpenGLMatrix(matrix.ptr());
 	}
 }
 
 // ---------------------------------------------------------
-void PhysBody::SetTransform(const float* matrix) const
+void PhysBody::SetTransform(const float4x4& matrix) const
 {
-	if (body != NULL && matrix != NULL)
+	if (body != nullptr && matrix.ptr() != nullptr)
 	{
 		btTransform t;
-		t.setFromOpenGLMatrix(matrix);
+
+		t.setFromOpenGLMatrix(matrix.ptr());
+
 		body->setWorldTransform(t);
 	}
 }
 
 // ---------------------------------------------------------
-void PhysBody::SetPosition(float3 pos)
+void PhysBody::SetPosition(const float3& pos) const
 {
 	btTransform t = body->getWorldTransform();
+
 	t.setOrigin(btVector3(pos.x, pos.y, pos.z));
 	
 	body->setWorldTransform(t);
 }
 
 // �ngulos en radianes!!!
-void PhysBody::SetRotation(Quat q)
+void PhysBody::SetRotation(const Quat& q) const
 {
 	btTransform t = body->getWorldTransform();
 
 	btQuaternion rotationQuat;
+
 	rotationQuat.setW(q.w);
 	rotationQuat.setX(q.x);
 	rotationQuat.setY(q.y);
 	rotationQuat.setZ(q.z);
 
 	t.setRotation(rotationQuat);
+
 	body->setWorldTransform(t);
 }
 
-GameObject* PhysBody::SetGameObject(GameObject* _owner)
+void PhysBody::SetGameObject(GameObject* owner)
 {
-
-	owner = _owner;
-
-	return nullptr;
+	this->owner = owner;
 }
 
-
 // ---------------------------------------------------------
-void PhysBody::SetAsSensor(bool is_sensor)
+void PhysBody::SetAsSensor(bool isSensor)
 {
-	if (this->isSensor != is_sensor)
-	{
-		this->isSensor = is_sensor;
-		if (is_sensor == true)
-			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-		else
-			body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	this->isSensor = isSensor;
+
+	if (this->isSensor) {
+
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+	}	
+	else {
+
+		body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
 	}
+
 }

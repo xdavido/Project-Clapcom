@@ -1083,8 +1083,6 @@ void ModuleEditor::DrawEditor()
 
 				isPlaying = true;
 
-				App->physics->beginPlay = true;
-
 				App->scene->SaveScene();
 			}
 

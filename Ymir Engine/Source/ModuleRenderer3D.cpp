@@ -280,7 +280,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	if (!started) {
 
 		TimeManager::gameTimer.Start();
-		App->physics->beginPlay = true;
 
 		started = true;
 

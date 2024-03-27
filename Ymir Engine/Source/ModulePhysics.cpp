@@ -28,6 +28,8 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 {
 	LOG("Creating ModulePhysics");
 
+	onExitCollision = false;
+
 	// Physics simulation (world)
 	constraintSolver = new btSequentialImpulseConstraintSolver();
 	broadphase = new btDbvtBroadphase();
@@ -41,6 +43,10 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	// Colors
 	colliderColor = Green;
 	sensorColor = Red;
+
+	CreateWorld();
+	world->setGravity(GRAVITY);
+
 }
 
 ModulePhysics::~ModulePhysics()
@@ -60,8 +66,6 @@ bool ModulePhysics::Init()
 // START ---------------------------------------------------------------------
 bool ModulePhysics::Start()
 {
-	CreateWorld();
-	world->setGravity(btVector3(0,0,0));
 
 	return true;
 }
@@ -69,10 +73,9 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
 	{
-		world->stepSimulation(dt, 6);
+		world->stepSimulation(dt);
 	}
 	else
 	{
@@ -218,22 +221,24 @@ update_status ModulePhysics::Update(float dt)
 // POST-UPDATE ---------------------------------------------------------------
 update_status ModulePhysics::PostUpdate(float dt)
 {
-	beginPlay = false;
+	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	//{
+	//	btRigidBody* b = (btRigidBody*)(*it)->body;
+	//	btTransform t;
+	//	b->getMotionState()->getWorldTransform(t);
+
+	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	//}
+
 	return UPDATE_CONTINUE;
-
-	for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
-	{
-		btRigidBody* b = (btRigidBody*)(*it)->body;
-		btTransform t;
-		b->getMotionState()->getWorldTransform(t);
-
-		//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
-	}
 }
 
 // CLEANUP -------------------------------------------------------------------
 bool ModulePhysics::CleanUp()
 {
+
+
+
 	return true;
 }
 
@@ -259,14 +264,15 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
-	float x = startTransform.getOrigin().x();
-	LOG("start transform: %f", x);
-	float y = startTransform.getOrigin().y();
-	LOG("start transform: %f", y);
-	startTransform.setOrigin(btVector3(x, y, 0));
-	float z = startTransform.getOrigin().z();
-	LOG("start transform: %f", z);
+	startTransform.setFromOpenGLMatrix(cube.transform.ptr());
+	
+	//float x = startTransform.getOrigin().x();
+	//LOG("start transform: %f", x);
+	//float y = startTransform.getOrigin().y();
+	//LOG("start transform: %f", y);
+	//startTransform.setOrigin(btVector3(x, y, 0));
+	//float z = startTransform.getOrigin().z();
+	//LOG("start transform: %f", z);
 
 	btVector3 localInertia(0, 0, 0);
 
@@ -559,14 +565,14 @@ bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3&
 // RENDER SHAPES ---------------------------------------------------------------
 void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 {
-	float mat[16];
+	float4x4 mat;
 	pbody->GetTransform(mat);
 
 	btBoxShape* shape = (btBoxShape*)pbody->body->getCollisionShape();
 	btVector3 halfExtents = shape->getHalfExtentsWithoutMargin();
 
 	glPushMatrix();
-	glMultMatrixf(mat); // translation and rotation
+	glMultMatrixf(mat.ptr()); // translation and rotation
 
 	// TODO: render box
 	glBegin(GL_LINES);
@@ -616,13 +622,13 @@ void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 }
 void ModulePhysics::RenderSphereCollider(PhysBody* pbody)
 {
-	float mat[16];
+	float4x4 mat;
 	pbody->GetTransform(mat);
 
 	float r = ((btSphereShape*)pbody->body->getCollisionShape())->getRadius();
 
 	glPushMatrix();
-	glMultMatrixf(mat); // translation and rotation
+	glMultMatrixf(mat.ptr()); // translation and rotation
 
 	// Dibujar la meridiana en el plano XY
 	glBegin(GL_LINE_STRIP);
@@ -652,14 +658,14 @@ void ModulePhysics::RenderSphereCollider(PhysBody* pbody)
 }
 void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 {
-	float mat[16];
+	float4x4 mat;
 	pbody->GetTransform(mat);
 
 	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
 	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
 
 	glPushMatrix();
-	glMultMatrixf(mat); // translation and rotation
+	glMultMatrixf(mat.ptr()); // translation and rotation
 
 	// Columnas
 	glBegin(GL_LINES);
@@ -730,7 +736,7 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 }
 void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 {
-	float mat[16];
+	float4x4 mat;
 	pbody->GetTransform(mat);
 
 	// Get Scale
@@ -743,7 +749,7 @@ void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 
 	// Render mesh 
 	glPushMatrix(); 
-	glMultMatrixf(mat); // translation and rotation  
+	glMultMatrixf(mat.ptr()); // translation and rotation  
 
 	for (int part = 0; part < numTriangles; ++part) {
 		const unsigned char* vertexBase;
