@@ -15,6 +15,7 @@ public class Health : YmirComponent
 
     public float currentHealth = 0;
     public float maxHealth = 7;
+    public bool isAlive;
 
     public float debugDmg = 1;
 
@@ -32,6 +33,8 @@ public class Health : YmirComponent
 
         UI.SliderEdit(healthBar, maxHealth);
         currentHealth = maxHealth;
+
+        isAlive = true;
     }
 
     public void Update()
@@ -98,6 +101,7 @@ public class Health : YmirComponent
     {
         deathCanvas.SetActive(true);
         player.gameObject.SetActive(false);
+        isAlive = false;
         Audio.StopAllAudios();
 
         return true;

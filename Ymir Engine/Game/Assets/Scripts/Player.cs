@@ -17,6 +17,7 @@ public class Player : YmirComponent
         MOVE,
         DASH,
         SHOOTING,
+        RELOANDING,
         SHOOT,
         DEAD,
         JUMP,
@@ -33,6 +34,7 @@ public class Player : YmirComponent
         I_SHOOTING_END,
         I_SHOOT,
         I_SHOOT_END,
+        I_RELOAD,
         I_DEAD,
         I_JUMP,
         I_JUMP_END,
@@ -83,7 +85,7 @@ public class Player : YmirComponent
 
     //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
-    private Health csBHealth;
+    private Health csHealth;
 
     //--------------------- GOD mode ---------------------\\
     public bool godMode = false;
@@ -174,6 +176,11 @@ public class Player : YmirComponent
                 }
             }
         }
+
+        if(!csHealth.isAlive)
+        {
+            inputsList.Add(INPUT.I_DEAD);
+        }
     }
     private void ProcessExternalInput()
     {
@@ -208,9 +215,7 @@ public class Player : YmirComponent
         //----------------- Reload -----------------\\
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
-            Audio.PlayAudio(gameObject, "W_FirearmReload");
-            isReloading = true;
-            reloadTimer = reloadCD;
+            inputsList.Add(INPUT.I_RELOAD);
         }
 
         //----------------- Desbugear -----------------\\
@@ -256,8 +261,13 @@ public class Player : YmirComponent
                             currentState = STATE.SHOOTING;
                             StartShooting();
                             break;
+                        case INPUT.I_RELOAD:
+                            currentState = STATE.RELOANDING;
+                            StartReload();
+                            break;
 
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -287,7 +297,13 @@ public class Player : YmirComponent
                             StartShooting();
                             break;
 
+                        case INPUT.I_RELOAD:
+                            currentState = STATE.RELOANDING;
+                            StartReload();
+                            break;
+
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -303,6 +319,7 @@ public class Player : YmirComponent
                             break;
 
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -317,6 +334,7 @@ public class Player : YmirComponent
                             break;
 
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -347,7 +365,13 @@ public class Player : YmirComponent
                             StartShoot();
                             break;
 
+                        case INPUT.I_RELOAD:
+                            currentState = STATE.RELOANDING;
+                            StartReload();
+                            break;
+
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -362,6 +386,40 @@ public class Player : YmirComponent
                             break;
 
                         case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
+                            break;
+                    }
+                    break;
+
+                case STATE.RELOANDING:
+                    switch (input)
+                    {
+                        case INPUT.I_MOVE:
+                            currentState = STATE.MOVE;
+                            StartMove();
+                            break;
+
+                        case INPUT.I_DASH:
+                            currentState = STATE.DASH;
+                            StartDash();
+                            break;
+
+                        case INPUT.I_JUMP:
+                            currentState = STATE.JUMP;
+                            StartJump();
+                            break;
+
+                        case INPUT.I_SHOOTING:
+                            currentState = STATE.SHOOTING;
+                            StartShooting();
+                            break;
+                        case INPUT.I_RELOAD:
+                            currentState = STATE.RELOANDING;
+                            StartReload();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
                             break;
                     }
                     break;
@@ -392,6 +450,8 @@ public class Player : YmirComponent
                 break;
             case STATE.SHOOTING:
                 UpdateShooting();
+                break;
+            case STATE.RELOANDING:
                 break;
             case STATE.SHOOT:
                 break;
@@ -456,6 +516,12 @@ public class Player : YmirComponent
     private void EndShooting()
     {
         // Reset del futuro autoapuntado
+    }
+    private void StartReload()
+    {
+        Audio.PlayAudio(gameObject, "W_FirearmReload");
+        isReloading = true;
+        reloadTimer = reloadCD;
     }
     #endregion
 
@@ -595,7 +661,7 @@ public class Player : YmirComponent
         if (gameObject != null)
         {
             csBullets = gameObject.GetComponent<UI_Bullets>();
-            csBHealth = gameObject.GetComponent<Health>();
+            csHealth = gameObject.GetComponent<Health>();
         }
     }
 
