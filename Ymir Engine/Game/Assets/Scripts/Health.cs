@@ -14,7 +14,7 @@ public class Health : YmirComponent
     public GameObject winCanvas = null;
 
     public float currentHealth = 0;
-    public float maxHealth = 7;
+    public float maxHealth = 10;
 
     public float debugDmg = 1;
 
@@ -58,10 +58,7 @@ public class Health : YmirComponent
             {
                 Debug.Log("Take debug dmg");
 
-                if (TakeDmg(debugDmg))
-                {
-                    DeathScreen();
-                }
+                TakeDmg(debugDmg);
             }
 
             if (Input.GetKey(YmirKeyCode.F6) == KeyState.KEY_DOWN)
@@ -86,6 +83,7 @@ public class Health : YmirComponent
 
             if (currentHealth <= 0)
             {
+                DeathScreen();
                 return true;
             }
         }
