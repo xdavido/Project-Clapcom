@@ -7,7 +7,6 @@
 #include "Texture.h"
 #include "ResourceTexture.h"
 #include "ResourceAnimation.h"
-#include "Animation.h"
 
 #include "JsonFile.h"
 
@@ -31,7 +30,7 @@ public:
 	// Save
 	bool SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename);
 	bool SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename);
-	bool SaveAnimationToFile(Animation* animation, const std::string& filename);
+	bool SaveAnimationToFile(ResourceAnimation* animation, const std::string& filename);
 
 	// Load
 	bool LoadMeshToFile(const std::string filename, ResourceMesh* ourMesh);
@@ -41,6 +40,8 @@ public:
 public:
 
 	std::string workingDirectory;
+
+	std::string assetsPath;
 	std::string libraryPath;
 
 	std::string libraryScenesPath;

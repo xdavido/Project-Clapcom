@@ -70,13 +70,14 @@ bool ModuleScene::Init()
 bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 #ifdef _RELEASE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	LoadSceneFromStart("Assets/Scenes", "Start_scene");
-	//LoadSceneFromStart("Assets/Scenes", "GameUI");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 #endif // _RELEASE
 
@@ -113,15 +114,7 @@ update_status ModuleScene::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
-	/*Destroy gameobjects inside the destroy queue*/
-	if (destroyList.size() > 0)
-	{
-		for (size_t i = 0; i < destroyList.size(); ++i)
-		{
-			Destroy(destroyList[i]);
-		}
-		destroyList.clear();
-	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -224,6 +217,21 @@ update_status ModuleScene::PostUpdate(float dt)
 
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
 	pendingToAdd.clear();
+
+	/*Destroy gameobjects inside the destroy queue*/
+	if (destroyList.size() > 0)
+	{
+		isLocked = false;
+		SetSelected();
+		for (size_t i = 0; i < destroyList.size(); ++i)
+		{
+			Destroy(destroyList[i]);
+
+		}
+		destroyList.clear();
+	}
+
+
 
 	return UPDATE_CONTINUE;
 }
@@ -467,12 +475,8 @@ void ModuleScene::Destroy(GameObject* gm)
 	}
 	gm->mParent->mChildren.shrink_to_fit();
 
-	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
-	if (it != gameObjects.end()) {
-		delete* it;
-		gameObjects.erase(it);
-	}
 
+	delete gm;
 	gm = nullptr;
 }
 
@@ -510,7 +514,7 @@ void ModuleScene::SetSelected(GameObject* go)
 
 				// Set selected go children to the same state as the clicked item
 				SetSelectedState(go, go->selected);
-			}
+			}	
 			else if (!vSelectedGOs.empty())
 			{
 				SetSelectedState(go, false);
@@ -518,7 +522,7 @@ void ModuleScene::SetSelected(GameObject* go)
 			}
 		}
 		else
-		{
+		{	
 			selectedGO = nullptr;
 
 			for (auto i = 0; i < vSelectedGOs.size(); i++)

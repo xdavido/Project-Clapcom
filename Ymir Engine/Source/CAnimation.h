@@ -42,8 +42,6 @@ public:
 	// Stop current playing animation.
 	void StopAnimation();
 
-	void TransitionTo(std::string animationName = "", float transitionTime = 1.0f);
-
 	// Set animation to loop. If not given a name it applies to all animations
 	void SetLoop(std::string animationName = "", bool loop = true);
 
@@ -54,7 +52,11 @@ public:
 	void SetPingPong(std::string animationName = "", bool pingPong = true);
 
 	// Set animation speed. If not given a name it applies to all animations
-	void SetSpeed(std::string animationName = "", float loop = true);
+	void SetSpeed(std::string animationName = "", float speed = true);
+
+	// Specify which animations will blend into and the duration of the blend. If not given a name it applies to all animations
+	void AddBlendOption(std::string animationName = "", std::string blendName = "", float frames = 10.0f);
+
 
 
 private:

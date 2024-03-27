@@ -2,9 +2,10 @@
 #include "Globals.h"
 
 #include "ResourceAnimation.h"
+#include "Model.h"
 
-class Animation;
 class ResourceAnimation;
+class Model; 
 
 struct AssimpNodeData;
 
@@ -28,7 +29,9 @@ public:
 
 	void ResetAnimation(ResourceAnimation* animation);
 
-	void TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime);
+	float CalculatePreviousTime(ResourceAnimation* lastAnimation, float transitionTime);
+
+	bool CheckBlendMap(ResourceAnimation* animation, std::string animationBlend);
 
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
@@ -40,6 +43,8 @@ public:
 	void SetPreviousAnimation(ResourceAnimation* animation) { previousAnimation = animation; }
 	ResourceAnimation* GetPreviousAnimation() { return previousAnimation; }
 
+	bool FindAnimation(std::string aniationName);
+
 private:
 	std::vector<float4x4> finalBoneMatrices;
 
@@ -47,7 +52,9 @@ private:
 
 	float4x4 identity; 
 
-	bool blend = true;
+	// Blending 
+	float transitionTime;
+	float lastCurrentTime;
 
 public:
 

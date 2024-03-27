@@ -18,8 +18,18 @@ public class PlayerMovement : YmirComponent
     {
 
         Debug.Log("START!");
-        //Vector3 vel = new Vector3(10, 0, 0);
-        //gameObject.SetVelocity(vel);
+
+        Vector3 vel = new Vector3(10, 0, 0);
+        gameObject.SetVelocity(vel);
+
+        Animation.SetLoop(gameObject, "Lift2", true);
+        Animation.SetLoop(gameObject, "Random", true);
+
+        Animation.AddBlendOption(gameObject, "Lift2", "Lift2", 10.0f);
+        Animation.AddBlendOption(gameObject, "Lift2", "Random", 10.0f);
+
+        Animation.AddBlendOption(gameObject, "Random", "Lift2", 10.0f);
+        Animation.AddBlendOption(gameObject, "Random", "Random", 10.0f);
 
 
     }
@@ -30,21 +40,21 @@ public class PlayerMovement : YmirComponent
         //-------------- Keyboard --------------//
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
             gameObject.transform.localPosition += new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
 
         if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
         if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
 
         if (Input.GetKey(YmirKeyCode.E) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
 
             //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-            Vector3 pos = new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.globalPosition.z);
+            Vector3 pos = new Vector3(thisReference.transform.globalPosition.x, thisReference.transform.globalPosition.y, gameObject.transform.globalPosition.z);
             pos += GetPlayerDirection();
             Debug.Log("Spawn pos: " + pos);
             //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
@@ -60,7 +70,7 @@ public class PlayerMovement : YmirComponent
         if (Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
         {
             Vector3 vel = new Vector3(0, 0, 10);
-            gameObject.SetImpulse(vel);
+            thisReference.SetImpulse(vel);
         }
 
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
@@ -89,6 +99,17 @@ public class PlayerMovement : YmirComponent
             gameObject.SetImpulse(vel);
         }
 
+        // Test anim scripts
+
+        if (Input.GetKey(YmirKeyCode.U) == KeyState.KEY_DOWN)
+        {
+            Animation.PlayAnimation(gameObject, "Lift2");
+        }
+        if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
+        {
+            Animation.PlayAnimation(gameObject, "Random");
+        }
+
         //-------------- Controller --------------//
 
         float x = Input.GetLeftAxisX();
@@ -115,25 +136,25 @@ public class PlayerMovement : YmirComponent
 
         if (gamepadInput.x > 0)
         {
-            gameObject.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(1, 0, 0) * -movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.x < 0)
         {
-            gameObject.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(1, 0, 0) * movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.y > 0)
         {
-            gameObject.transform.localPosition += new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(0, 0, 1) * -movementSpeed * Time.deltaTime;
         }
         if (gamepadInput.y < 0)
         {
-            gameObject.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
+            thisReference.transform.localPosition += new Vector3(0, 0, 1) * movementSpeed * Time.deltaTime;
         }
 
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
             Debug.Log("Shoot!");
-            Vector3 pos = new Vector3(gameObject.transform.localPosition.x, 0, gameObject.transform.localPosition.z);
+            Vector3 pos = new Vector3(thisReference.transform.localPosition.x, 0, thisReference.transform.localPosition.z);
             Vector3 rot = new Vector3(0, 1, 0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 0.2f);
             InternalCalls.CreateBullet(pos, rot, scale);

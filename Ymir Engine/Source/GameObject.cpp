@@ -64,6 +64,13 @@ GameObject::~GameObject()
 	}
 	csReferences.clear();
 
+	auto it = std::find(External->scene->gameObjects.begin(), External->scene->gameObjects.end(), this);
+	if (it != External->scene->gameObjects.end()) {
+		External->scene->gameObjects.erase(it);
+		
+	}
+
+
 }
 
 update_status GameObject::Update(float dt)
@@ -343,6 +350,18 @@ void GameObject::RemoveComponent(Component* component)
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
 
 		RELEASE(component);
+	}
+}
+
+void GameObject::RemoveCSReference(SerializedField* fieldToRemove)
+{
+	for (size_t i = 0; i < csReferences.size(); ++i)
+	{
+		if (csReferences[i]->fiValue.goValue == fieldToRemove->fiValue.goValue)
+		{
+			mono_field_set_value(mono_gchandle_get_target(csReferences[i]->parentSC->noGCobject), csReferences[i]->field, NULL);
+			csReferences.erase(csReferences.begin() + i);
+		}
 	}
 }
 

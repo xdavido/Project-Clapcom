@@ -19,7 +19,6 @@ ResourceAnimation::ResourceAnimation(uint UID) : Resource(UID, ResourceType::ANI
 	speed = 1;
 
 	currentTime = 0.0f;
-	intensity = 1.0f;
 
 	backwardsAux = true;
 	pingPongAux = true;

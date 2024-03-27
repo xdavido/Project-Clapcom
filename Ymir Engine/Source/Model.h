@@ -15,7 +15,6 @@
 
 class GameObject;
 
-class Animation;
 class Animator;
 
 struct NodeTransform {

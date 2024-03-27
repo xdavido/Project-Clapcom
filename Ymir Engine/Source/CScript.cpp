@@ -59,7 +59,7 @@ void CScript::Update()
 	MonoObject* exec2 = nullptr;
 
 	if (startMethod && isStarting) {
-		mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
+			mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
 		isStarting = false;
 	}
 	MonoObject* exec = nullptr;
@@ -125,7 +125,7 @@ void CScript::OnInspector()
 
 		for (int i = 0; i < fields.size(); i++)
 		{
-			DropField(fields[i], "_GAMEOBJECT");
+			DropField(fields[i], "GameObject");
 		}
 
 		ImGui::Separator();
@@ -268,6 +268,23 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 		}
 
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), (field.fiValue.goValue != nullptr) ? field.fiValue.goValue->name.c_str() : "this");
+
+				
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dropType))
+			{
+				if (field.fiValue.goValue != nullptr)
+					field.fiValue.goValue->RemoveCSReference(&field);
+
+				GameObject* draggedObject = External->editor->draggedGO;
+				field.fiValue.goValue = draggedObject;
+				field.goUID = draggedObject->UID;
+
+				SetField(field.field, field.fiValue.goValue);
+			}
+			ImGui::EndDragDropTarget();
+		}
 
 		//Hardcodeado para que asigne el GO del objeto del script a todos los campos
 		

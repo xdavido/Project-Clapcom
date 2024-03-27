@@ -9,6 +9,7 @@ public class BH_Bullet : YmirComponent
     public float yVel = 0.0f;
 
     private bool destroyed = false;
+    private bool hit = false;
 
     Vector3 vSpeed = Vector3.zero;
     public void Start()
@@ -51,6 +52,15 @@ public class BH_Bullet : YmirComponent
             return gameObject.transform.GetForward();
         }
         else return new Vector3(0, 0, 0);
+    }
+
+    public void OnCollisionStay(GameObject other)
+    {
+        if(other.Name == "Enemy" && !hit)
+        {
+            InternalCalls.Destroy(other);
+            hit = true;
+        }
     }
 }
 

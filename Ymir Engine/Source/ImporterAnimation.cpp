@@ -1,28 +1,37 @@
 #include "ImporterAnimation.h"
 #include "Bone.h"
 #include "PhysfsEncapsule.h"
+#include "External/Assimp/include/scene.h"
+#include "External/Assimp/include/Importer.hpp"
 
-void ImporterAnimation::Import(const std::string& animationPath, ResourceAnimation* ourAnimation)
+void ImporterAnimation::Import(const std::string& animationPath, ResourceAnimation* ourAnimation, Model* model, int index)
 {
-
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate);
+	assert(scene && scene->mRootNode);
+	aiAnimation* animation = scene->mAnimations[index];
+	ourAnimation->name = animation->mName.C_Str();
+	ourAnimation->duration = animation->mDuration;
+	ourAnimation->ticksPerSecond = animation->mTicksPerSecond;
+	ReadHierarchyData(ourAnimation->rootNode, scene->mRootNode);
+	ReadMissingBones(animation, *model, ourAnimation);
 }
 
-const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize)
+const char* ImporterAnimation::Save(const ResourceAnimation* ourAnimation, uint& retSize)
 {
 	std::string boneNames = ""; //Bone names stored together
 
-	uint boneMapTotalSize = 0; 
-	retSize = sizeof(float) + sizeof(float) + sizeof(uint); // Duration + ticksPerSecond + bonesSize
+	retSize = sizeof(float) + sizeof(float) + sizeof(uint) * 4; // Duration + ticksPerSecond + bonesSize + boneNamesSize + AnimationNameSize + BoneInfoMapSize (headers size)
 
 	for (int i = 0; i < ourAnimation->bones.size(); i++) {
 		boneNames += ourAnimation->bones[i].name;
 		boneNames += "\n";
 
-		retSize += sizeof(uint) + ourAnimation->bones[i].name.size() + sizeof(uint) * 3;
+		retSize += ourAnimation->bones[i].name.size() * sizeof(uint) * 4;
 		retSize += ourAnimation->bones[i].positions.size() * (sizeof(float) + sizeof(float3)); // Save the float TimeStamp and the position vector
 		retSize += ourAnimation->bones[i].rotations.size() * (sizeof(float) + sizeof(Quat)); // Save the float TimeStamp and the position quaternion
 		retSize += ourAnimation->bones[i].scales.size() * (sizeof(float) + sizeof(float3));
-	}
+	}	
 	retSize += ourAnimation->boneInfoMap.size() * sizeof(BoneInfo) + ourAnimation->boneInfoMap.size() * sizeof(std::string);
 	
 	uint header[6] = { ourAnimation->duration, ourAnimation->ticksPerSecond, ourAnimation->bones.size(), boneNames.size(), ourAnimation->name.size(), ourAnimation->boneInfoMap.size()};
@@ -101,14 +110,6 @@ const char* ImporterAnimation::Save(const Animation* ourAnimation, uint& retSize
 	cursor += ourAnimation->name.size() + 1;
 
 	// Save BoneInfoMap
-	/*std::map<std::string, BoneInfo>::const_iterator it = ourAnimation->boneInfoMap.begin();
-	for (it = ourAnimation->boneInfoMap.begin(); it != ourAnimation->boneInfoMap.end(); it++) {
-		memcpy(cursor, &it->first, sizeof(std::string));
-		cursor += sizeof(std::string);
-
-		memcpy(cursor, &it->second, sizeof(BoneInfo));
-		cursor += sizeof(BoneInfo);
-	}*/
 
 	for (const auto& pair : ourAnimation->boneInfoMap) {
 		const std::string& name = pair.first;
@@ -135,6 +136,11 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	std::string boneNames; 
 
 	char* fileBuffer = nullptr;
+
+	if (!PhysfsEncapsule::FileExists(path)) {
+		LOG("File %s don`t exist", path);
+		return;
+	}
 
 	// Load file contents into file buffer and get its size
 	uint size = PhysfsEncapsule::LoadFileToBuffer(path, &fileBuffer);
@@ -249,16 +255,6 @@ void ImporterAnimation::Load(const char* path, ResourceAnimation* ourAnimation)
 	cursor += animationNameSize;
 
 	// Load boneInfoMap
-	/*for (int i = 0; i < header[5]; i++) {
-		std::string name; 
-		memcpy(&name, cursor, sizeof(std::string));
-		cursor += sizeof(std::string);
-
-		BoneInfo info; 
-		memcpy(&info, cursor, sizeof(BoneInfo));
-		cursor += sizeof(BoneInfo);
-		ourAnimation->boneInfoMap[name] = BoneInfo(info);
-	}*/
 
 	for (int i = 0; i < header[5]; ++i) {
 		uint nameSize;
@@ -346,5 +342,61 @@ void ImporterAnimation::CalculateNodeSize(const AssimpNodeData& node, uint& size
 
 	for (int i = 0; i < node.childrenCount; i++) {
 		CalculateNodeSize(node.children[i], size);
+	}
+}
+
+void ImporterAnimation::ReadMissingBones(const aiAnimation* animation, Model& model, ResourceAnimation* rAnim)
+{
+	int size = animation->mNumChannels;
+
+	std::map<std::string, BoneInfo>& boneInfoMap = model.GetBoneInfoMap();
+	int boneCount = model.GetBoneCount();
+
+	for (int i = 0; i < size; i++) {
+		aiNodeAnim* channel = animation->mChannels[i];
+		std::string boneName = channel->mNodeName.data;
+
+		if (boneInfoMap.find(boneName) == boneInfoMap.end()) {
+			boneInfoMap[boneName].id = boneCount;
+			boneCount++;
+		}
+		rAnim->bones.push_back(Bone(channel->mNodeName.data, boneInfoMap[channel->mNodeName.data].id, channel));
+	}
+	rAnim->boneInfoMap = boneInfoMap;
+}
+
+void ImporterAnimation::ReadHierarchyData(AssimpNodeData& dest, const aiNode* src)
+{
+	assert(src);
+
+	dest.name = src->mName.data;
+
+	/*LOG("Source matrix:");
+	LOG("%f %f %f %f", src->mTransformation.a1, src->mTransformation.a2, src->mTransformation.a3, src->mTransformation.a4);
+	LOG("%f %f %f %f", src->mTransformation.b1, src->mTransformation.b2, src->mTransformation.b3, src->mTransformation.b4);
+	LOG("%f %f %f %f", src->mTransformation.c1, src->mTransformation.c2, src->mTransformation.c3, src->mTransformation.c4);
+	LOG("%f %f %f %f", src->mTransformation.d1, src->mTransformation.d2, src->mTransformation.d3, src->mTransformation.d4);*/
+
+	float4x4 m;
+
+	m.At(0, 0) = src->mTransformation.a1; m.At(0, 1) = src->mTransformation.a2; m.At(0, 2) = src->mTransformation.a3; m.At(0, 3) = src->mTransformation.a4;
+	m.At(1, 0) = src->mTransformation.b1; m.At(1, 1) = src->mTransformation.b2; m.At(1, 2) = src->mTransformation.b3; m.At(1, 3) = src->mTransformation.b4;
+	m.At(2, 0) = src->mTransformation.c1; m.At(2, 1) = src->mTransformation.c2; m.At(2, 2) = src->mTransformation.c3; m.At(2, 3) = src->mTransformation.c4;
+	m.At(3, 0) = src->mTransformation.d1; m.At(3, 1) = src->mTransformation.d2; m.At(3, 2) = src->mTransformation.d3; m.At(3, 3) = src->mTransformation.d4;
+
+	dest.transformation = m;
+
+	/*LOG("Destination matrix:");
+	LOG("%f %f %f %f", dest.transformation.At(0, 0), dest.transformation.At(0, 1), dest.transformation.At(0, 2), dest.transformation.At(0, 3));
+	LOG("%f %f %f %f", dest.transformation.At(1, 0), dest.transformation.At(1, 1), dest.transformation.At(1, 2), dest.transformation.At(1, 3));
+	LOG("%f %f %f %f", dest.transformation.At(2, 0), dest.transformation.At(2, 1), dest.transformation.At(2, 2), dest.transformation.At(2, 3));
+	LOG("%f %f %f %f", dest.transformation.At(3, 0), dest.transformation.At(3, 1), dest.transformation.At(3, 2), dest.transformation.At(3, 3));*/
+
+	dest.childrenCount = src->mNumChildren;
+
+	for (int i = 0; i < src->mNumChildren; i++) {
+		AssimpNodeData newData;
+		ReadHierarchyData(newData, src->mChildren[i]);
+		dest.children.push_back(newData);
 	}
 }

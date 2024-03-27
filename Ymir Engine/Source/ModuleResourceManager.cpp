@@ -751,7 +751,7 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 	{
 		return ResourceType::PREFAB;
 	}
-	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
+	if (PhysfsEncapsule::HasExtension(fileDir, "yanim"))
 	{
 		return ResourceType::ANIMATION;
 	}

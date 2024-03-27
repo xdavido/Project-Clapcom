@@ -38,8 +38,8 @@ enum update_status
 // Configuration -----------
 
 #ifdef _STANDALONE
-#define SCREEN_WIDTH 2560
-#define SCREEN_HEIGHT 1440
+#define SCREEN_WIDTH 4096
+#define SCREEN_HEIGHT 2160
 #else
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 1024

@@ -136,7 +136,6 @@
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
-    <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\CAnimation.h" />
@@ -145,6 +144,7 @@
     <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Animation_Bindings.h" />
     <ClInclude Include="Source\CS_Audio_Bindings.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
@@ -469,7 +469,6 @@
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AreaLight.cpp" />

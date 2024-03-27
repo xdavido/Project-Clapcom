@@ -11,13 +11,6 @@
 class Model;
 struct BoneInfo;
 
-struct AssimpNodeData {
-	float4x4 transformation; 
-	std::string name; 
-	int childrenCount; 
-	std::vector<AssimpNodeData> children; 
-};
-
 class Animation {
 public:
 

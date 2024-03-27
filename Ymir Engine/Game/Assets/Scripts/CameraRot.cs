@@ -30,26 +30,11 @@ public class CameraRot : YmirComponent
             followStrenght = target.GetComponent<Player>().movementSpeed;
         }
 
-        //Audio.PlayAudio(gameObject, "LV2_Inter");
+        Audio.PlayAudio(gameObject, "LV2_Inter");
     }
 
-    //private void StartFake()
-    //{
-    //    _gameObject = InternalCalls.GetGameObjectByName("Player");
-    //    if (_gameObject != null)
-    //    {
-    //        followStrenght = _gameObject.GetComponent<Player>().movementSpeed;
-    //    }
-    //}
-
-    // Update is called once per frame
     public void Update()
     {
-        //if (scriptStart == true)
-        //{
-        //    StartFake();
-        //    scriptStart = false;
-        //}
         Vector3 newpos = target.transform.globalPosition + difPos;
 
         float dis = Vector3.Distance(gameObject.transform.globalPosition, newpos);

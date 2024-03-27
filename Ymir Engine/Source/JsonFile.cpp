@@ -20,7 +20,7 @@
 #include "ModuleScene.h"
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
-#include "Animation.h"
+
 #include "Animator.h"
 #include "ModuleAudio.h"
 
@@ -1116,6 +1116,14 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		}
 		json_object_set_value(componentObject, "Paths",sizeArrayValue);
 
+		JSON_Value* sizeArrayValueAssets = json_value_init_array();
+		JSON_Array* sizeArrayAssets = json_value_get_array(sizeArrayValueAssets);
+
+		for (int i = 0; i < cAnimation->animator->animations.size(); i++) {
+			json_array_append_string(sizeArrayAssets, cAnimation->animator->animations[i].GetAssetsFilePath().c_str());
+		}
+		json_object_set_value(componentObject, "AssetsPath", sizeArrayValueAssets);
+
 		break;
 	}
 	case PHYSICS:
@@ -1844,16 +1852,34 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		CAnimation* cAnim = new CAnimation(gameObject);
 
 		JSON_Value* jsonSizeValue = json_object_get_value(componentObject, "Paths");
+		JSON_Value* jsonSizeAssetsValue = json_object_get_value(componentObject, "AssetsPath");
 		
 		if (jsonSizeValue == nullptr || json_value_get_type(jsonSizeValue) != JSONArray) {
 
 			return;
 		}
 
+		if (jsonSizeAssetsValue == nullptr || json_value_get_type(jsonSizeAssetsValue) != JSONArray) {
+
+			return;
+		}
+
 		JSON_Array* jsonSizeArray = json_value_get_array(jsonSizeValue);
+		JSON_Array* jsonSizeAssetsArray = json_value_get_array(jsonSizeAssetsValue);
 		for (int i = 0; i < json_object_get_number(componentObject, "NumPaths"); i++) {
-			ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(json_array_get_string(jsonSizeArray,i), ResourceType::ANIMATION, gameObject->UID);
-			cAnim->AddAnimation(*rAnim);
+			if (json_array_get_string(jsonSizeArray, i) != "") {
+				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(json_array_get_string(jsonSizeArray, i), ResourceType::ANIMATION, gameObject->UID);
+				cAnim->AddAnimation(*rAnim);
+				LOG("Loaded animation from Library");
+			}
+			else if(json_array_get_string(jsonSizeAssetsArray, i) != "") {
+				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromAssets(json_array_get_string(jsonSizeAssetsArray, i), ResourceType::ANIMATION, gameObject->UID);
+				cAnim->AddAnimation(*rAnim);
+				LOG("Loaded animation from Assets");
+			}
+			else {
+				LOG("[ERROR]Couldn't load animation");
+			}
 		}
 
 		gameObject->AddComponent(cAnim);

@@ -160,13 +160,16 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	if (animation != currentAnimation) {
-		previousAnimation = currentAnimation;
-		currentAnimation = animation;
-	}
+	if (previousAnimation)
+		lastCurrentTime = previousAnimation->currentTime;
+
+	previousAnimation = currentAnimation;
+	currentAnimation = animation;
 	
 	currentAnimation->isPlaying = true;
 	currentAnimation->currentTime = 0.0f;
+
+	transitionTime = .0f;
 }
 
 void Animator::PauseAnimation() {
@@ -196,21 +199,21 @@ void Animator::ResetAnimation(ResourceAnimation* animation) {
 	animation->easeOutSpeed = 1;
 }
 
-void Animator::TransitionTo(ResourceAnimation* lastAnimation, ResourceAnimation* nextAnimation, float transitionTime) {
+float Animator::CalculatePreviousTime(ResourceAnimation* lastAnimation, float transitionTime) {
 
-	float timeToTransition = lastAnimation->GetDuration() * transitionTime;
-	float transitionDuration = lastAnimation->GetDuration() - timeToTransition;
+	float time = lastCurrentTime + transitionTime;
 
-	float normalizedTime = (lastAnimation->currentTime - timeToTransition) / (lastAnimation->GetDuration() - timeToTransition);
-
-	if (lastAnimation->currentTime >= timeToTransition) {
-
-		if (!nextAnimation->isPlaying)
-			PlayAnimation(nextAnimation);
-		
-		lastAnimation->intensity = 1 - normalizedTime;
-		nextAnimation->intensity = normalizedTime;
+	if (time > lastAnimation->duration) {
+		time -= lastAnimation->duration;
 	}
+
+	return time;
+}
+
+bool Animator::CheckBlendMap(ResourceAnimation* animation, std::string animationBlend) {
+
+	if (animation->blendMap.find(animationBlend) == animation->blendMap.end()) return false;
+	return true;
 }
 
 void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform)
@@ -224,34 +227,44 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform = bone->GetLocalTransform();
 	}
 
-	if (blend && previousAnimation != nullptr) {
+	// Blending
+	if (previousAnimation != nullptr 
+		&& CheckBlendMap(previousAnimation, currentAnimation->name) 
+		&& transitionTime < previousAnimation->blendMap.at(currentAnimation->name)) {
 
 		float4x4 prevTransform = node->transformation;
 
 		Bone* prevBone = previousAnimation->FindBone(nodeName);
 		if (prevBone) {
-			prevBone->Update(previousAnimation->currentTime);
+			prevBone->Update(CalculatePreviousTime(previousAnimation, transitionTime));
 			prevTransform = prevBone->GetLocalTransform();
+			prevTransform = prevTransform;
 		}
 
-		float3 translate;
-		Quat rotation;
-		float3 scale;
+		float3 translate = float3(.0f, .0f, .0f);;
+		Quat rotation = Quat::identity;;
+		float3 scale = float3(1, 1, 1);;
 
-		float3 prevTranslate;
-		Quat prevRotation;
-		float3 prevScale;
+		float3 prevTranslate = float3(.0f,.0f,.0f);
+		Quat prevRotation = Quat::identity;
+		float3 prevScale = float3(1,1,1);
 
 		nodeTransform.Decompose(translate, rotation, scale);
 		prevTransform.Decompose(prevTranslate, prevRotation, prevScale);
 
-		translate.Lerp(prevTranslate, 0.5f);
-		rotation.Lerp(prevRotation, 0.5f);
-		scale.Lerp(prevScale, 0.5f);
+		// Calculate lerp value
+		
+		float lerpValue = 1 - (transitionTime / previousAnimation->blendMap.at(currentAnimation->name));
 
-		nodeTransform.Translate(translate);
+		translate = translate.Lerp(prevTranslate, lerpValue);
+		rotation = rotation.Slerp(prevRotation, lerpValue);
+		scale = scale.Lerp(prevScale, lerpValue);
+
 		nodeTransform.SetRotatePart(rotation.ToFloat3x3());
 		nodeTransform.Scale(scale);
+		nodeTransform.SetTranslatePart(translate);
+
+		transitionTime += deltaTime;
 	}
 
 	float4x4 globalTransform = parentTransform * nodeTransform;
@@ -269,4 +282,15 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 
 		CalculateBoneTransform(&node->children[i], globalTransform);
 	}
+}
+
+bool Animator::FindAnimation(std::string aniationName) {
+
+	for (int i = 0; i < animations.size(); i++) {
+		if (animations[i].name == aniationName) {
+			return true;;
+		} 
+	}
+
+	return false;
 }

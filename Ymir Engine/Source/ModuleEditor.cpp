@@ -138,6 +138,7 @@ bool ModuleEditor::Init()
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
+	animIcon.LoadEngineIconTexture("Assets/Editor/animation.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
@@ -2870,17 +2871,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					node->mParent->DeleteChild(node);
-
-					App->scene->gameObjects.erase(
-						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-							[](const GameObject* obj) { return obj->selected; }
-						),
-						App->scene->gameObjects.end()
-					);
-
-					App->scene->isLocked = false;
-					App->scene->SetSelected();
+					node->DestroyGameObject();
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -3646,6 +3637,38 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 						ImGui::EndDragDropTarget();
 
+					}
+					break;
+					case ResourceType::MATERIAL:
+						break;
+					case ResourceType::META:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+					}
+					break;
+					case ResourceType::ANIMATION:
+					{
+						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(animIcon.ID)), ImVec2(64, 64));
+
+						if ((entryName.find(".yanim") != std::string::npos)) {
+
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
+					}
+					break;
+					case ResourceType::ALL_TYPES:
+						break;
+					default:
+						break;
 					}
 
 					// ---RMB Click event---

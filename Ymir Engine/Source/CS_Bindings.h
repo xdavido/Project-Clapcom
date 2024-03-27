@@ -263,7 +263,7 @@ void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
-	if (External == nullptr)
+	if (External == nullptr)		
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
@@ -480,7 +480,7 @@ void Destroy(MonoObject* go)
 		return;
 	}
 
-	workGO->DestroyGameObject();
+	workGO->DestroyGameObject();	
 }
 
 float GetDT()
