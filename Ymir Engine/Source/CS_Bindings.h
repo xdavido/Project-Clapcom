@@ -67,7 +67,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotaci�n del objeto
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
-	
+
 	if (External == nullptr)
 		return nullptr;
 
@@ -82,7 +82,7 @@ MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotac
 		Quat globalRot;
 		workTrans->mGlobalMatrix.Decompose(pos, globalRot, scale);
 		value = globalRot;
-    }
+	}
 	else
 	{
 		value = workTrans->rotation;
@@ -263,7 +263,7 @@ void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
-	if (External == nullptr)		
+	if (External == nullptr)
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(vel);
@@ -480,7 +480,7 @@ void Destroy(MonoObject* go)
 		return;
 	}
 
-	workGO->DestroyGameObject();	
+	workGO->DestroyGameObject();
 }
 
 float GetDT()
@@ -610,7 +610,7 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 void Rumble_Controller(int time)
 {
 	if (External != nullptr) {
-		
+
 		if (SDL_JoystickRumble(External->input->joystick, 0xFFFF, 0xFFFF, time) == -1) {
 			printf("Rumble failed...?\n");
 		}
@@ -648,5 +648,49 @@ void SliderEdit(MonoObject* object, double value)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
 	static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->SetValue(value);
+}
+
+void SliderSetRange(MonoObject* object, double min, double max)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+
+	if (static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->useFloat)
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->minValue.fValue = min;
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.fValue = max;
+	}
+	else
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->minValue.iValue = min;
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.iValue = max;
+	}
+}
+
+void SliderSetMin(MonoObject* object, double value)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+
+	if (static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->useFloat)
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->minValue.fValue = value;
+	}
+	else
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->minValue.iValue = value;
+	}
+}
+
+void SliderSetMax(MonoObject* object, double value)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+
+	if (static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->useFloat)
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.fValue = value;
+	}
+	else
+	{
+		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.iValue = value;
+	}
 }
 #pragma endregion

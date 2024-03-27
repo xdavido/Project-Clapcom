@@ -31,6 +31,7 @@ public class Health : YmirComponent
         deathCanvas = InternalCalls.GetGameObjectByName("Death Canvas");
         winCanvas = InternalCalls.GetGameObjectByName("Win Canvas");
 
+        UI.SliderSetMax(healthBar, maxHealth);
         UI.SliderEdit(healthBar, maxHealth);
         currentHealth = maxHealth;
 
