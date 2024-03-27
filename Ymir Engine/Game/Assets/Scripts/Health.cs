@@ -52,7 +52,6 @@ public class Health : YmirComponent
                 DeathScreen();
             }
         }
-
         else
         {
             if (Input.GetKey(YmirKeyCode.F5) == KeyState.KEY_DOWN)
@@ -63,6 +62,14 @@ public class Health : YmirComponent
                 {
                     DeathScreen();
                 }
+            }
+
+            if (Input.GetKey(YmirKeyCode.F6) == KeyState.KEY_DOWN)
+            {
+                Debug.Log("Get debug health");
+
+                TakeDmg(-debugDmg);
+
             }
         }
 

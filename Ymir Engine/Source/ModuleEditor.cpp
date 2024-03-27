@@ -3638,38 +3638,6 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 						ImGui::EndDragDropTarget();
 
 					}
-					break;
-					case ResourceType::MATERIAL:
-						break;
-					case ResourceType::META:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::ANIMATION:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(animIcon.ID)), ImVec2(64, 64));
-
-						if ((entryName.find(".yanim") != std::string::npos)) {
-
-							if (ImGui::BeginDragDropSource())
-							{
-								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
-
-								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
-
-								ImGui::EndDragDropSource();
-							}
-
-						}
-
-					}
-					break;
-					case ResourceType::ALL_TYPES:
-						break;
-					default:
-						break;
-					}
 
 					// ---RMB Click event---
 
@@ -3791,13 +3759,34 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					}
 				}
 				break;
-				case ResourceType::MATERIAL:
-					break;
 				case ResourceType::META:
 				{
 					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
 				}
 				break;
+				case ResourceType::ANIMATION:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(animIcon.ID)), ImVec2(64, 64));
+
+					if ((entryName.find(".yanim") != std::string::npos)) {
+
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Animation: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
+
+					}
+
+				}
+				break;
+				case ResourceType::MATERIAL: {
+
+				}
+					break;
 				case ResourceType::ALL_TYPES:
 					break;
 				default:
