@@ -107,6 +107,7 @@ public class Player : YmirComponent
 
         currentState = STATE.IDLE;
 
+
         Debug.Log("START!");
     }
 

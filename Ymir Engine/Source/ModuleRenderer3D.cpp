@@ -854,7 +854,7 @@ void ModuleRenderer3D::DrawGameObjects()
 					materialComponent->shader.UseShader(false);
 
 					for (auto& textures : materialComponent->rTextures) {
-
+							
 						textures->BindTexture(false);
 
 					}

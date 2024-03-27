@@ -81,6 +81,9 @@ public class EnemyBehaviour : YmirComponent
     private float stopedTimer;
     public float stopedDuration = 1f;
 
+    private float cumTimer;
+    public float cumDuration = 2f;
+
     public void Start()
     {
         pointGenerator = new RandomPointGenerator();
@@ -93,7 +96,8 @@ public class EnemyBehaviour : YmirComponent
         stopedDuration = 1f;
         DetectionRadius = 15f;
         wanderRadius = 10f;
-    }
+        cumDuration = 2f;
+}
 
     public void Update()
     {
@@ -136,7 +140,8 @@ public class EnemyBehaviour : YmirComponent
                 break;
 
             case WanderState.HIT:
-                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                Proccescumdown();
 
                 break;
         }
@@ -152,6 +157,20 @@ public class EnemyBehaviour : YmirComponent
 
         }
 
+    }
+
+
+    private void Proccescumdown()
+    {
+        if(cumTimer > 0)
+        {
+            cumTimer -= Time.deltaTime;
+            if(cumTimer<=0)
+            {
+                Debug.Log("[ERROR] Reached");
+                wanderState = WanderState.REACHED;
+            }
+        }
     }
 
     private void ProcessStopped()
@@ -191,7 +210,7 @@ public class EnemyBehaviour : YmirComponent
 
         Quaternion targetRotation = Quaternion.identity;
 
-        Vector3 aY = gameObject.transform.GetUp();
+        Vector3 aY = new Vector3(0,1,0);
         //Debug.Log("[ERROR] Vector: " + aY);
 
         if (aX != Vector3.zero)
@@ -249,9 +268,11 @@ public class EnemyBehaviour : YmirComponent
 
             Debug.Log("[ERROR] Name: " + other.Name);
             Debug.Log("[ERROR] HIT!!!");
-
-            healthScript.TakeDmg(10000);
+            gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+            gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
+            healthScript.TakeDmg(3);
             wanderState = WanderState.HIT;
+            cumTimer = cumDuration;
         }
     }
 }

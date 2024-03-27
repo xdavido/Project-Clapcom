@@ -14,7 +14,7 @@ public class Health : YmirComponent
     public GameObject winCanvas = null;
 
     public float currentHealth = 0;
-    public float maxHealth = 7;
+    public float maxHealth = 10;
 
     public float debugDmg = 1;
 
