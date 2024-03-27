@@ -82,10 +82,16 @@ public class Health : YmirComponent
         {
             currentHealth -= dmg;
 
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
             UI.SliderEdit(healthBar, currentHealth);
 
             if (currentHealth <= 0)
             {
+                currentHealth = 0;
                 return true;
             }
         }
