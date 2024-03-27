@@ -2812,17 +2812,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					node->mParent->DeleteChild(node);
-
-					App->scene->gameObjects.erase(
-						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-							[](const GameObject* obj) { return obj->selected; }
-						),
-						App->scene->gameObjects.end()
-					);
-
-					App->scene->isLocked = false;
-					App->scene->SetSelected();
+					node->DestroyGameObject();
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {

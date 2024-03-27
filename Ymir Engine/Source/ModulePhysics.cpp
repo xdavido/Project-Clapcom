@@ -148,7 +148,7 @@ update_status ModulePhysics::Update(float dt)
 					if (aux != nullptr) {
 						if (firstCollision)
 						{
-							aux->CollisionEnterCallback(false, pbodyB->owner);
+							aux->CollisionEnterCallback(false, pbodyA->owner);
 							firstCollision = false;
 						}
 						else
