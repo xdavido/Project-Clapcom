@@ -299,7 +299,7 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mas
 	shape = new btSphereShape(sphere.radius);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(sphere.transform));
+	startTransform.setFromOpenGLMatrix(sphere.transform.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 
@@ -326,7 +326,7 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(capsule.transform));
+	startTransform.setFromOpenGLMatrix(capsule.transform.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 

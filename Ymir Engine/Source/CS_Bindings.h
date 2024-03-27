@@ -272,6 +272,7 @@ void SetVelocity(MonoObject* obj, MonoObject* vel) {
 
 	if (rigidbody)
 	{
+		rigidbody->physBody->body->activate(true);
 		rigidbody->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
 
 	}

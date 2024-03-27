@@ -494,13 +494,17 @@ public class Player : YmirComponent
     {
         //Trigger de la animacion
         //Trigger del SFX de caminar
+        //Vector3 impulse = new Vector3(0.0f,0.0f,0.01f);
+        //gameObject.SetImpulse(gameObject.transform.GetForward() * 0.5f);
     }
     private void UpdateMove()
     {
-        HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
         //Vector3 forward = gameObject.transform.GetForward();
         //forward.y = 0f;
+
+        HandleRotation();
+
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
         //if (gamepadInput.x > 0)
