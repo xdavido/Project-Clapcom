@@ -58,10 +58,7 @@ public class Health : YmirComponent
             {
                 Debug.Log("Take debug dmg");
 
-                if (TakeDmg(debugDmg))
-                {
-                    DeathScreen();
-                }
+                TakeDmg(debugDmg);
             }
 
             if (Input.GetKey(YmirKeyCode.F6) == KeyState.KEY_DOWN)
@@ -76,7 +73,7 @@ public class Health : YmirComponent
         return;
     }
 
-    public bool TakeDmg(float dmg)
+    public void TakeDmg(float dmg)
     {
         if (!player.godMode)
         {
@@ -87,16 +84,14 @@ public class Health : YmirComponent
                 currentHealth = maxHealth;
             }
 
-            UI.SliderEdit(healthBar, currentHealth);
-
-            if (currentHealth <= 0)
+            else if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                return true;
+                DeathScreen();
             }
-        }
 
-        return false;
+            UI.SliderEdit(healthBar, currentHealth);
+        }
     }
 
     public bool DeathScreen()
