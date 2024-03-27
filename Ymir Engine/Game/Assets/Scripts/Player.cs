@@ -83,6 +83,8 @@ public class Player : YmirComponent
 
     public void Start()
     {
+        gameObject.SetPosition(new Vector3(0, 1, 0));
+
         //--------------------- Dash ---------------------\\
         dashTimer = 0f;
         dashSpeed = dashDistance / dashDuration;
@@ -99,7 +101,7 @@ public class Player : YmirComponent
 
         currentState = STATE.IDLE;
 
-        Debug.Log("START!");
+        //Debug.Log("START!");
     }
 
     public void Update()
@@ -497,6 +499,8 @@ public class Player : YmirComponent
     {
         HandleRotation();
         //Debug.Log("Fuersa:" + gameObject.transform.GetForward());
+        Vector3 forward = gameObject.transform.GetForward();
+        forward.y = 0f;
         gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
 
         //if (gamepadInput.x > 0)

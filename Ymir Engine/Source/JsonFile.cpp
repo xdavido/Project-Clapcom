@@ -1890,6 +1890,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		CCollider* ccollider = new CCollider(gameObject, collider, physics);
 
+		ccollider->physType = physics;
+		ccollider->collType = collider;
+
 		// Size
 
 		JSON_Value* jsonSizeValue = json_object_get_value(componentObject, "Size");

@@ -22,12 +22,12 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	isSensor = false;
 
 	mass = 1;
-	size = float3{ 1,1,1 };
-	btSize = float3_to_btVector3(size);
-	radius = 1;
+	useGravity = true;
 	lockX = false;
 	lockY = false;
 	lockZ = false;
+
+	transform = mOwner->mTransform;
 
 	switch (collType)
 	{
@@ -54,19 +54,17 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	if (componentMesh != nullptr) {
 
 		size = componentMesh->rMeshReference->obb.Size();
+		btSize = float3_to_btVector3(size);
 		radius = size.Length() / 2;
 		height = size.y;
 	}
 	else {
 
 		size = float3(10, 10, 10);
+		btSize = float3_to_btVector3(size);
 		radius = 5;
 		height = 10;
 	}
-
-	lockX = false;
-	lockY = false;
-	lockZ = false;
 }
 
 CCollider::~CCollider()
@@ -79,8 +77,8 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-	if (External->physics->beginPlay)
-		if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, useGravity);
+	//if (External->physics->beginPlay)
+	if (physBody != nullptr) 	External->physics->RecalculateInertia(physBody, mass, useGravity);
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING && !ImGuizmo::IsUsing())
 	{

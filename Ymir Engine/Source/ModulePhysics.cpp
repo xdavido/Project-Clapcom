@@ -61,7 +61,7 @@ bool ModulePhysics::Init()
 bool ModulePhysics::Start()
 {
 	CreateWorld();
-	world->setGravity(GRAVITY);
+	world->setGravity(btVector3(0,0,0));
 
 	return true;
 }
@@ -260,6 +260,13 @@ PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, b
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
+	float x = startTransform.getOrigin().x();
+	LOG("start transform: %f", x);
+	float y = startTransform.getOrigin().y();
+	LOG("start transform: %f", y);
+	startTransform.setOrigin(btVector3(x, y, 0));
+	float z = startTransform.getOrigin().z();
+	LOG("start transform: %f", z);
 
 	btVector3 localInertia(0, 0, 0);
 
