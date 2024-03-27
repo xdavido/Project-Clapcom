@@ -476,12 +476,8 @@ void ModuleScene::Destroy(GameObject* gm)
 	}
 	gm->mParent->mChildren.shrink_to_fit();
 
-	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
-	if (it != gameObjects.end()) {
-		gameObjects.erase(it);
-		delete gm;
-	}
 
+	delete gm;
 	gm = nullptr;
 }
 

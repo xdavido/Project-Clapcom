@@ -463,7 +463,7 @@ void Destroy(MonoObject* go)
 		return;
 	}
 
-	workGO->DestroyGameObject();
+	workGO->DestroyGameObject();	
 }
 
 float GetDT()

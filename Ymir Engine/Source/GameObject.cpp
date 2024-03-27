@@ -64,6 +64,13 @@ GameObject::~GameObject()
 	}
 	csReferences.clear();
 
+	auto it = std::find(External->scene->gameObjects.begin(), External->scene->gameObjects.end(), this);
+	if (it != External->scene->gameObjects.end()) {
+		External->scene->gameObjects.erase(it);
+		
+	}
+
+
 }
 
 update_status GameObject::Update(float dt)
