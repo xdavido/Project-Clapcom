@@ -91,8 +91,25 @@ update_status ModulePhysics::Update(float dt)
 	//LOG("Bodies in list: %d", bodiesList.size());
 	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
 
+
+
+	return UPDATE_CONTINUE;
+}
+
+// POST-UPDATE ---------------------------------------------------------------
+update_status ModulePhysics::PostUpdate(float dt)
+{
+	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	//{
+	//	btRigidBody* b = (btRigidBody*)(*it)->body;
+	//	btTransform t;
+	//	b->getMotionState()->getWorldTransform(t);
+
+	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	//}
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
-	{	
+	{
 		// Enable/disable collision logic in God Mode
 		if (App->scene->godMode)
 		{
@@ -147,7 +164,7 @@ update_status ModulePhysics::Update(float dt)
 							firstCollision = false;
 							onExitCollision = true;
 						}
-						
+
 					}
 				}
 
@@ -168,7 +185,7 @@ update_status ModulePhysics::Update(float dt)
 						}
 					}
 				}
-				
+
 				if (pbodyA && pbodyB)
 				{
 					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
@@ -213,22 +230,10 @@ update_status ModulePhysics::Update(float dt)
 				}
 			}
 		}
+		
+
+
 	}
-
-	return UPDATE_CONTINUE;
-}
-
-// POST-UPDATE ---------------------------------------------------------------
-update_status ModulePhysics::PostUpdate(float dt)
-{
-	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
-	//{
-	//	btRigidBody* b = (btRigidBody*)(*it)->body;
-	//	btTransform t;
-	//	b->getMotionState()->getWorldTransform(t);
-
-	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
-	//}
 
 	return UPDATE_CONTINUE;
 }

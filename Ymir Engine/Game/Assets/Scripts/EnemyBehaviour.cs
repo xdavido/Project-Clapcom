@@ -85,6 +85,9 @@ public class EnemyBehaviour : YmirComponent
     private float cumTimer;
     public float cumDuration = 2f;
 
+    private float cumTimer2;
+    public float cumDuration2 = 5f;
+
     public void Start()
     {
         pointGenerator = new RandomPointGenerator();
@@ -93,70 +96,82 @@ public class EnemyBehaviour : YmirComponent
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
-        movementSpeed = 20f;
+        movementSpeed = 10f;
         stopedDuration = 1f;
-        DetectionRadius = 15f;
+        DetectionRadius = 10f;
         wanderRadius = 10f;
         cumDuration = 2f;
-}
+        cumDuration2 = 5f;
+
+        cumTimer = cumDuration2;
+
+    }
 
     public void Update()
     {
-        switch (wanderState)
+   
+        cumTimer2 -= Time.deltaTime;
+        if(cumTimer2 <= 0)
         {
-            case WanderState.REACHED:
-                (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
-                wanderTimer = wanderDuration;
-                //Debug.Log("[ERROR] Current State: REACHED");
-                wanderState = WanderState.GOING;
-                actualMovementSpeed = movementSpeed;
-                break;
-
-            case WanderState.GOING:
-                HandleRotation();
-                //Debug.Log("[ERROR] Current State: GOING");
-                ProcessMovement();
-                //Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
-                gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed);
-                break;
-
-
-            case WanderState.CHASING:
-
-                //Debug.Log("[ERROR] Current State: CHASING");
-                vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
-                vectorToPlayer = Vector3.Normalize(vectorToPlayer);
-
-                xSpeed = vectorToPlayer.x;
-                ySpeed = vectorToPlayer.z;
-
-                RotateEnemy();
-                Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
-                gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
-                break;
-
-            case WanderState.STOPED:
-                Debug.Log("[ERROR] Current State: STOPED");
-                ProcessStopped();
-                break;
-
-            case WanderState.HIT:
-
-                Proccescumdown();
-
-                break;
-        }
-
-
-        if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
-        {
-            if (wanderState != WanderState.HIT)
+            switch (wanderState)
             {
-                actualMovementSpeed = movementSpeed;
-                wanderState = WanderState.CHASING;
+                case WanderState.REACHED:
+                    (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
+                    wanderTimer = wanderDuration;
+                    //Debug.Log("[ERROR] Current State: REACHED");
+                    wanderState = WanderState.GOING;
+                    actualMovementSpeed = movementSpeed;
+                break;
+
+                case WanderState.GOING:
+                    HandleRotation();
+                    //Debug.Log("[ERROR] Current State: GOING");
+                    ProcessMovement();
+                    //Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
+                    gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed);
+                break;
+
+
+                case WanderState.CHASING:
+
+                    //Debug.Log("[ERROR] Current State: CHASING");
+                    vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
+                    vectorToPlayer = Vector3.Normalize(vectorToPlayer);
+
+                    xSpeed = vectorToPlayer.x;
+                    ySpeed = vectorToPlayer.z;
+
+                    RotateEnemy();
+                    Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
+                    gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
+                break;
+
+                case WanderState.STOPED:
+                    Debug.Log("[ERROR] Current State: STOPED");
+                    ProcessStopped();
+                break;
+
+                case WanderState.HIT:
+
+                    Proccescumdown();
+
+                break;
+            }
+
+
+            if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
+            {
+                if (wanderState != WanderState.HIT)
+                {
+                    actualMovementSpeed = movementSpeed;
+                    wanderState = WanderState.CHASING;
+                }
+
             }
 
         }
+        
+       
 
     }
 
