@@ -93,29 +93,29 @@ update_status ModulePhysics::Update(float dt)
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{	
-		// Enable/disable collision logic in God Mode
-		if (App->scene->godMode)
-		{
-			if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
-			{
-				for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
-				{
-					if ((*it)->body != NULL)
-					{
-						if ((*it)->body->getCollisionFlags() == btCollisionObject::CF_NO_CONTACT_RESPONSE)
-						{
-							(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		// Enable/disable collision logic in God Mode (WIP, doesn't work properly now)
+		//if (App->scene->godMode)
+		//{
+		//	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		//	{
+		//		for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+		//		{
+		//			if ((*it)->body != NULL)
+		//			{
+		//				if ((*it)->body->getCollisionFlags() == btCollisionObject::CF_NO_CONTACT_RESPONSE)
+		//				{
+		//					(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
-						}
-						else
-						{
-							(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		//				}
+		//				else
+		//				{
+		//					(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
-						}
-					}
-				}
-			}
-		}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 
 		int numManifolds = world->getDispatcher()->getNumManifolds();
 		for (int i = 0; i < numManifolds; i++)
