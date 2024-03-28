@@ -647,13 +647,34 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 	if (tmpResource != nullptr)
 	{
-		resources[UID] = tmpResource;
+		// Fix Resource Texture
+		
+		//if (resources.find(UID) != resources.end()) {
+
+		//	tmpResource->IncreaseReferenceCount();
+
+		//}
+		//else {
+
+		//	resources.emplace(UID, tmpResource);
+
+		//	tmpResource->SetLibraryFilePath(libraryFilePath);
+
+		//	tmpResource->LoadInMemory();
+
+		//	tmpResource->IncreaseReferenceCount();
+
+		//}
+
+		// FRANCESC: Disparo arreglado por algún motivo
+		// resources.emplace(UID, tmpResource);
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
 
 		tmpResource->LoadInMemory();
 
 		tmpResource->IncreaseReferenceCount();
+
 	}
 
 	return tmpResource;

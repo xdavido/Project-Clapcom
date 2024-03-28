@@ -474,6 +474,7 @@ btCollisionShape* CCollider::GetShape()
 void CCollider::SetBoxCollider()
 {
 	LOG("Set Box Collider");
+
 	collType = ColliderType::BOX;
 
 	CCube cube;
@@ -481,16 +482,14 @@ void CCollider::SetBoxCollider()
 	//cube.size.y = size.y;
 	//cube.size.z = size.z;
 	
-	transform = mOwner->mTransform;
+	if (mOwner) {
 
-	//if (transform) {
+		transform = mOwner->mTransform;
 
-	//	float3 pos = transform->GetGlobalPosition();
-	//	cube.SetPos(pos.x, pos.y, pos.z);
-	//}
+		physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
+		physBody->SetGameObject(mOwner);
 
-	physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
-	physBody->SetGameObject(mOwner);
+	}
 
 }
 

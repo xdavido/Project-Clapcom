@@ -53,6 +53,8 @@ GameObject::~GameObject()
 
 	mTransform = nullptr;
 
+	this->mParent->RemoveChild(this);
+
 	if (!mChildren.empty())
 	{
 		ClearVecPtr(mChildren);
@@ -69,7 +71,6 @@ GameObject::~GameObject()
 		External->scene->gameObjects.erase(it);
 		
 	}
-
 
 }
 

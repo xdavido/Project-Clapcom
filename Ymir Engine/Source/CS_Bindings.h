@@ -494,6 +494,7 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	//Crea un game object temporal llamado "Bullet"
 	if (External == nullptr) return;
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Bullet", External->scene->mRootNode);
+	go->UID = Random::Generate();
 
 	//Hace unbox de los parametros de transform pasados
 	float3 posVector = External->moduleMono->UnboxVector(position);

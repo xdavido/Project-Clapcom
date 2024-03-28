@@ -84,8 +84,8 @@ bool ModuleScene::Start()
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	LoadSceneFromStart("Assets/Scenes", "GameUI");
-	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	//LoadSceneFromStart("Assets/Scenes", "GameUI");
+	LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
 #endif // _STANDALONE
 
@@ -466,17 +466,6 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 
 void ModuleScene::Destroy(GameObject* gm)
 {
-	for (std::vector<GameObject*>::iterator i = gm->mParent->mChildren.begin(); i != gm->mParent->mChildren.end(); ++i)
-	{
-		if (*i._Ptr == gm)
-		{
-			gm->mParent->mChildren.erase(i);
-			break;
-		}
-	}
-	gm->mParent->mChildren.shrink_to_fit();
-
-
 	delete gm;
 	gm = nullptr;
 }
