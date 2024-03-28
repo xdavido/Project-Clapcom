@@ -57,8 +57,8 @@ public class Player : YmirComponent
 
     //private float timeSinceLastDash = 0.0f;
     public float dashCD = 0.1f;
-    public float dashDuration = 1.0f;
-    public float dashDistance = 100000.0f;
+    public float dashDuration = 50.0f;
+    public float dashDistance = 10.0f;
     private float dashSpeed = 0.0f;
     //private float dashStartYPos = 0.0f;
 
@@ -90,9 +90,13 @@ public class Player : YmirComponent
     //--------------------- GOD mode ---------------------\\
     public bool godMode = false;
 
+    //Hay que dar valor a las variables en el start porque los de scripting se cagan un poco encima
+
     public void Start()
     {
         //--------------------- Dash ---------------------\\
+        dashDistance = 2;
+        dashDuration = 0.250f;
         dashTimer = 0f;
         jumpTimer = 0.0f;
         dashSpeed = dashDistance / dashDuration;
