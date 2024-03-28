@@ -3,26 +3,32 @@
 #include "ModulePhysics.h"
 #include "ModuleInput.h"
 #include "PhysBody.h"
+#include "GameObject.h"
+#include "CScript.h"
+
+#include "ModuleScene.h"
 
 #include "Log.h"
 
 #include <vector>
 
 #ifdef _DEBUG
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics_debug.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision_debug.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision_debug.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath_debug.lib")
 #else					   
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision.lib")
-	#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletDynamics.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/BulletCollision.lib")
+#pragma comment (lib, "Source/External/Bullet/libx86/LinearMath.lib")
 #endif
- 
+
 #include "External/mmgr/mmgr.h"
 
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	LOG("Creating ModulePhysics");
+
+	onExitCollision = false;
 
 	// Physics simulation (world)
 	constraintSolver = new btSequentialImpulseConstraintSolver();
@@ -31,43 +37,35 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 	dispatcher = new btCollisionDispatcher(collisionConfig);
 
 	// Debug drawer	
-	debugDraw = new DebugDrawer();
-	debug = true;
+	debugScene = true;
+	debugGame = false;
 
-	//Colors
+	// Colors
 	colliderColor = Green;
+	sensorColor = Red;
+
+	CreateWorld();
+	world->setGravity(GRAVITY);
+
 }
 
-ModulePhysics::~ModulePhysics() 
+ModulePhysics::~ModulePhysics()
 {
 	delete dispatcher;
 	delete collisionConfig;
 	delete broadphase;
 	delete constraintSolver;
-
-	delete debugDraw;
-	
-	//for (int i = 0; i < bodiesList.size(); i++)	
-	//	RemoveBody(bodiesList[i]);
-
-	//for (int i = 0; i < collidersList.size(); i++) 
-	//	RemoveCollider(collidersList[i]);
 }
 
 // INIT ----------------------------------------------------------------------
-bool ModulePhysics::Init() 
+bool ModulePhysics::Init()
 {
-	debugDraw->setDebugMode(1);
-
 	return true;
 }
 
 // START ---------------------------------------------------------------------
 bool ModulePhysics::Start()
 {
-	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
-	world->setGravity(GRAVITY);
-	world->setDebugDrawer(debugDraw);
 
 	return true;
 }
@@ -75,7 +73,14 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
-	//world->stepSimulation(dt, 15);
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
+	{
+		world->stepSimulation(dt);
+	}
+	else
+	{
+		world->stepSimulation(0);
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -83,10 +88,10 @@ update_status ModulePhysics::PreUpdate(float dt)
 // UPDATE --------------------------------------------------------------------
 update_status ModulePhysics::Update(float dt)
 {
-	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
-	{
-		world->stepSimulation(dt, 15);
-	}
+	//LOG("Bodies in list: %d", bodiesList.size());
+	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
+
+
 
 	return UPDATE_CONTINUE;
 }
@@ -94,48 +99,188 @@ update_status ModulePhysics::Update(float dt)
 // POST-UPDATE ---------------------------------------------------------------
 update_status ModulePhysics::PostUpdate(float dt)
 {
+	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	//{
+	//	btRigidBody* b = (btRigidBody*)(*it)->body;
+	//	btTransform t;
+	//	b->getMotionState()->getWorldTransform(t);
+
+	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	//}
+
+	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
+	{	
+		// Enable/disable collision logic in God Mode (WIP, doesn't work properly now)
+		//if (App->scene->godMode)
+		//{
+		//	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+		//	{
+		//		for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+		//		{
+		//			if ((*it)->body != NULL)
+		//			{
+		//				if ((*it)->body->getCollisionFlags() == btCollisionObject::CF_NO_CONTACT_RESPONSE)
+		//				{
+		//					(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+		//				}
+		//				else
+		//				{
+		//					(*it)->body->setCollisionFlags((*it)->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+		int numManifolds = world->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
+		{
+			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+			btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
+
+			int numContacts = contactManifold->getNumContacts();
+			if (numContacts > 0)
+			{
+				//LOG("Contacts number: %i", contactManifold->getNumContacts());
+				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
+				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
+
+				// Pendiente de revisar de momento wuaaaaarrrraaaaaaaaaada!!!!
+				if (pbodyA->owner != nullptr) {
+					CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+
+					if (aux != nullptr) {
+						if (firstCollision)
+						{
+							aux->CollisionEnterCallback(false, pbodyB->owner);
+							firstCollision = false;
+						}
+						else
+						{
+							aux->CollisionStayCallback(false, pbodyB->owner);
+							firstCollision = false;
+							onExitCollision = true;
+						}
+
+					}
+				}
+
+				if (pbodyB->owner != nullptr) {
+					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
+
+					if (aux != nullptr) {
+						if (firstCollision)
+						{
+							aux->CollisionEnterCallback(false, pbodyA->owner);
+							firstCollision = false;
+						}
+						else
+						{
+							aux->CollisionStayCallback(false, pbodyA->owner);
+							firstCollision = false;
+							onExitCollision = true;
+						}
+					}
+				}
+
+				if (pbodyA && pbodyB)
+				{
+					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyA, pbodyB);
+						item = item->next;
+					}
+
+					item = pbodyB->collision_listeners.getFirst();
+					while (item)
+					{
+						item->data->OnCollision(pbodyB, pbodyA);
+						item = item->next;
+					}
+				}
+			}
+			else if (numContacts == 0 && onExitCollision == true)
+			{
+				// Manejar salida de colisiones
+				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
+				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
+
+				// Verificar que los objetos de colisiï¿½n sean vï¿½lidos
+				if (pbodyA && pbodyB)
+				{
+					// Obtener los scripts asociados a los objetos
+					CScript* scriptA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+					CScript* scriptB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
+
+					// Llamar a la funciï¿½n adecuada para manejar la salida de la colisiï¿½n
+					if (scriptA)
+					{
+						scriptA->CollisionExitCallback(false, pbodyB->owner);
+					}
+					if (scriptB)
+					{
+						scriptB->CollisionExitCallback(false, pbodyA->owner);
+					}
+					onExitCollision = false;
+					firstCollision = true;
+				}
+			}
+		}
+		
+
+
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 // CLEANUP -------------------------------------------------------------------
-bool ModulePhysics::CleanUp()												  
-{																			  
-	return true;															  
-}																			  
-																			  
-// Module Functions	----------------------------------------------------------
-//void ModulePhysics::AddBody(btRigidBody* b)
-//{
-//	bodiesList.push_back(b);
-//	world->addRigidBody(b);
-//}
+bool ModulePhysics::CleanUp()
+{
 
-//void ModulePhysics::AddCollider(btCollisionShape* c)
-//{
-//	collidersList.push_back(c);
-//	//world->addCollisionObject(c);
-//}
 
-//void ModulePhysics::RemoveCollider(btCollisionShape* c)
-//{
-//	//world->removeCollisionObject(c);
-//
-//	collidersList.erase(std::find(collidersList.begin(), collidersList.end(), c));
-//	collidersList.shrink_to_fit();
-//}
+
+	return true;
+}
+
+// CREATE / DELETE WORLD --------------------------------------------------------------
+void ModulePhysics::CreateWorld()
+{
+	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, constraintSolver, collisionConfig);
+}
+
+void ModulePhysics::DeleteWorld()
+{
+	External->physics->ClearBodiesList();
+	External->physics->motions.clear();
+	External->physics->world->clearForces();
+
+	delete world;
+}
 
 // ADDBODY ============================================================================================================
 // Box Collider -------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCube cube, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btBoxShape(btVector3(cube.size.x * 0.5f, cube.size.y * 0.5f, cube.size.z * 0.5f));
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(cube.transform));
+	startTransform.setFromOpenGLMatrix(cube.transform.ptr());
+	
+	//float x = startTransform.getOrigin().x();
+	//LOG("start transform: %f", x);
+	//float y = startTransform.getOrigin().y();
+	//LOG("start transform: %f", y);
+	//startTransform.setOrigin(btVector3(x, y, 0));
+	//float z = startTransform.getOrigin().z();
+	//LOG("start transform: %f", z);
 
 	btVector3 localInertia(0, 0, 0);
-	
+
 	if (mass != 0.f)
 		shape->calculateLocalInertia(mass, localInertia);
 
@@ -154,13 +299,12 @@ PhysBody* ModulePhysics::AddBody(CCube cube, physicsType physType, float mass, b
 }
 
 // Sphere ---------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CSphere sphere, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btSphereShape(sphere.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(sphere.transform));
+	startTransform.setFromOpenGLMatrix(sphere.transform.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 
@@ -182,13 +326,12 @@ PhysBody* ModulePhysics::AddBody(CSphere sphere, physicsType physType, float mas
 }
 
 // Capsule --------------------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float mass, bool gravity, btCollisionShape*& shape)
+PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
 {
 	shape = new btCapsuleShape(capsule.height, capsule.radius);
-	collidersList.push_back(shape);
 
 	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(getOpenGLMatrix(capsule.transform));
+	startTransform.setFromOpenGLMatrix(capsule.transform.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 
@@ -209,12 +352,10 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, physicsType physType, float m
 	return pbody;
 }
 
-// Convex Collider ----------------------------------------------------------------------------------------------------
-PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool gravity, btConvexHullShape*& shape)
+// Mesh Collider ----------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape)
 {
-	shape = CreateConvexHullShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
-
-	collidersList.push_back(shape);
+	shape = CreateCollisionShape(mesh->rMeshReference->vertices, mesh->rMeshReference->indices);
 
 	btTransform startTransform;
 	startTransform.setIdentity();
@@ -238,25 +379,37 @@ PhysBody* ModulePhysics::AddBody(CMesh* mesh, physicsType, float mass, bool grav
 	return pbody;
 }
 
+// Destroy things (yey)
 void ModulePhysics::RemoveBody(PhysBody* b)
 {
-	world->removeRigidBody(b->body);
+	if (b->body != nullptr)
+		world->removeCollisionObject(b->body);
 
 	bodiesList.erase(std::find(bodiesList.begin(), bodiesList.end(), b));
 	bodiesList.shrink_to_fit();
 }
 
-void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool gravity)
+void ModulePhysics::ClearBodiesList()
+{
+	for (int i = 0; i < bodiesList.size(); i++)
+	{
+		RemoveBody(bodiesList[i]);
+	}
+
+	bodiesList.clear();
+}
+
+void ModulePhysics::RecalculateInertia(PhysBody* pbody, float mass, bool useGravity)
 {
 	if (pbody && pbody->body)
 	{
 		btCollisionShape* colShape = pbody->body->getCollisionShape();
 		btVector3 localInertia(0, 0, 0);
 
-		if (!gravity)
+		if (!useGravity)
 			pbody->body->setGravity(btVector3(0, 0, 0));
 		else
-			pbody->body->setGravity(GRAVITY);
+			pbody->body->setGravity(world->getGravity());
 
 		if (mass != 0.f)
 			colShape->calculateLocalInertia(mass, localInertia);
@@ -271,11 +424,6 @@ btVector3 ModulePhysics::GetWorldGravity()
 	return world->getGravity();
 }
 
-bool ModulePhysics::GetDebugDraw()
-{
-	return debug;
-}
-
 Color ModulePhysics::GetColliderColor()
 {
 	return colliderColor;
@@ -287,17 +435,40 @@ void ModulePhysics::SetWorldGravity(btVector3 g)
 	world->setGravity(g);
 }
 
-void ModulePhysics::SetdebugDraw(bool d)
+void ModulePhysics::SetDrawScene(bool d)
 {
-	debug = d;
+	debugScene = d;
 
-	if (debug) LOG("DebugDrawer On");
-	else LOG("DebugDrawer Off");
+	if (debugScene) LOG("Draw Scene Colliders On");
+	else LOG("Draw Scene Colliders Off");
 }
 
-void ModulePhysics::SetColliderColor(Color col) 
+void ModulePhysics::SetDrawGame(bool d)
+{
+	debugGame = d;
+
+	if (debugScene) LOG("Draw Game Colliders On");
+	else LOG("Draw Game Colliders Off");
+}
+
+void ModulePhysics::SetColliderColor(Color col)
 {
 	colliderColor = col;
+}
+
+void ModulePhysics::SetSensorColor(Color col)
+{
+	sensorColor = col;
+}
+
+void ModulePhysics::SetLineWidth(float w)
+{
+	shapeLineWidth = w;
+}
+
+bool ModulePhysics::GetDebugDraw()
+{
+	return true;
 }
 
 void ModulePhysics::ResetGravity()
@@ -306,35 +477,34 @@ void ModulePhysics::ResetGravity()
 	world->setGravity(GRAVITY);
 }
 
-// CONVEX HULL SHAPE ===============================================================
-btConvexHullShape* ModulePhysics::CreateConvexHullShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
+// MESH SHAPE ===============================================================
+btCollisionShape* ModulePhysics::CreateCollisionShape(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
 {
-	btConvexHullShape* convexShape = new btConvexHullShape();
+	btTriangleMesh* triangleMesh = new btTriangleMesh();
 
-	// Add vertices to shape
-	for (const auto& vertex : vertices) {
+	// Add vertices to the triangle mesh
+	for (const Vertex& vertex : vertices) {
 		btVector3 btVertex(vertex.position.x, vertex.position.y, vertex.position.z);
-		convexShape->addPoint(btVertex);
-
-		//LOG("Vertex: (%f, %f, %f)", vertex.position.x, vertex.position.y, vertex.position.z);
+		triangleMesh->findOrAddVertex(btVertex, 1);
 	}
 
-	// Optionally, you can also add indices to maintain convexity
-	//for (size_t i = 0; i < indices.size(); i += 3) {
-	//	btVector3 vertex0(vertices[indices[i]].position.x, vertices[indices[i]].position.y, vertices[indices[i]].position.z);
-	//	btVector3 vertex1(vertices[indices[i + 1]].position.x, vertices[indices[i + 1]].position.y, vertices[indices[i + 1]].position.z);
-	//	btVector3 vertex2(vertices[indices[i + 2]].position.x, vertices[indices[i + 2]].position.y, vertices[indices[i + 2]].position.z);
+	// Add triangles to the triangle mesh
+	for (size_t i = 0; i < indices.size(); i += 3) {
+		const Vertex& v0 = vertices[indices[i]];
+		const Vertex& v1 = vertices[indices[i + 1]];
+		const Vertex& v2 = vertices[indices[i + 2]];
 
-	//	LOG("Vertex: (% .0f, % .0f, % .0f) - Index: (%d, %d, %d)", i, vertex0, vertex1, vertex2, i, indices[i], indices[i + 1], indices[i + 2]);
+		btVector3 btV0(v0.position.x, v0.position.y, v0.position.z);
+		btVector3 btV1(v1.position.x, v1.position.y, v1.position.z);
+		btVector3 btV2(v2.position.x, v2.position.y, v2.position.z);
 
-	//	convexShape->addPoint(vertex0);
-	//	convexShape->addPoint(vertex1);
-	//	convexShape->addPoint(vertex2);
-	//}
+		triangleMesh->addTriangle(btV0, btV1, btV2);
+	}
 
-	return convexShape;
+	btCollisionShape* collisionShape = new btConvexTriangleMeshShape(triangleMesh);
+
+	return collisionShape;
 }
-
 
 // RayCasts ========================================================================
 bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector3& hitPoint)
@@ -344,7 +514,7 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 	// Realizar el raycast
 	world->rayTest(from, to, rayCallback);
 
-	// Comprobar si hubo una colisión
+	// Comprobar si hubo una colisiï¿½n
 	if (rayCallback.hasHit()) {
 		hitPoint = rayCallback.m_hitPointWorld; // Punto de impacto
 		return true;
@@ -353,41 +523,271 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 	return false;
 }
 
-// DEBUG DRAWER =============================================
-void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+bool ModulePhysics::VolumetricRayCast(const btVector3& origin, const btVector3& direction, int numRays, float rayLength, std::vector<btVector3>& hitPoints)
 {
-	line.origin.Set(from.getX(), from.getY(), from.getZ());
-	line.destination.Set(to.getX(), to.getY(), to.getZ());
-	line.color.Set(color.getX(), color.getY(), color.getZ());
 
-	line.Render(External->physics->GetColliderColor()); // Custom color yey
+	btVector3 step = direction.normalized() * (rayLength / numRays);
+
+	btVector3 start = origin - direction.normalized() * (rayLength / 2);
+
+	hitPoints.clear();
+
+
+	for (int i = 0; i < numRays; ++i) {
+		btVector3 end = start + direction.normalized() * rayLength;
+
+		btCollisionWorld::ClosestRayResultCallback rayCallback(start, end);
+
+		world->rayTest(start, end, rayCallback);
+
+		if (rayCallback.hasHit()) {
+			hitPoints.push_back(rayCallback.m_hitPointWorld);
+		}
+
+
+		start += step;
+	}
+
+	return !hitPoints.empty();
 }
 
-void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+bool ModulePhysics::DirectionalRayCast(const btVector3& origin, const btVector3& direction, float rayLength, btVector3& hitPoint) //the most common
 {
-	point.transform.Translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
-	point.color.Set(color.getX(), color.getY(), color.getZ());
-	point.Render();
+	btVector3 end = origin + direction.normalized() * rayLength;
+
+	btCollisionWorld::ClosestRayResultCallback rayCallback(origin, end);
+
+	world->rayTest(origin, end, rayCallback);
+
+	if (rayCallback.hasHit()) {
+		hitPoint = rayCallback.m_hitPointWorld;
+		return true;
+	}
+
+	return false;
 }
 
-void DebugDrawer::reportErrorWarning(const char* warningString)
+// RENDER SHAPES ---------------------------------------------------------------
+void ModulePhysics::RenderBoxCollider(PhysBody* pbody)
 {
-	LOG("Bullet warning: %s", warningString);
-}
+	float4x4 mat;
+	pbody->GetTransform(mat);
 
-void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
-{
-	LOG("Bullet draw text: %s", textString);
-}
+	btBoxShape* shape = (btBoxShape*)pbody->body->getCollisionShape();
+	btVector3 halfExtents = shape->getHalfExtentsWithoutMargin();
 
-void DebugDrawer::setDebugMode(int debugMode)
-{
-	mode = (DebugDrawModes)debugMode;
-}
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
 
-int	 DebugDrawer::getDebugMode() const
+	// TODO: render box
+	glBegin(GL_LINES);
+
+	// Aristas horizontales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	// Aristas verticales
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	// Otras aristas
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), -halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), -halfExtents.y(), halfExtents.z());
+
+	glVertex3f(-halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(-halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glVertex3f(halfExtents.x(), halfExtents.y(), -halfExtents.z());
+	glVertex3f(halfExtents.x(), halfExtents.y(), halfExtents.z());
+
+	glEnd();
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderSphereCollider(PhysBody* pbody)
 {
-	return mode;
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	float r = ((btSphereShape*)pbody->body->getCollisionShape())->getRadius();
+
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
+
+	// Dibujar la meridiana en el plano XY
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), r * sin(phi), 0);
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(r * cos(phi), 0, r * sin(phi));
+	}
+	glEnd();
+
+	// Dibujar la meridiana en el plano YZ
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, r * cos(phi), r * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
+{
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
+
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(radius, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(-radius, halfHeight, 0);
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, radius);
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, -radius);
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ (circulos completos)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	// Medio circulo superior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) + halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio circulo inferior (XY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), (radius * sin(phi)) - halfHeight, 0);
+	}
+	glEnd();
+
+	// Medio circulo superior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 180; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) + halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+	// Medio circulo inferior (ZY)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 180; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(0, (radius * sin(phi)) - halfHeight, radius * cos(phi));
+	}
+	glEnd();
+
+
+	glPopMatrix();
+}
+void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
+{
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	// Get Scale
+	btVector3 scaling = pbody->body->getCollisionShape()->getLocalScaling();
+
+	btConvexTriangleMeshShape* shape = (btConvexTriangleMeshShape*)pbody->body->getCollisionShape();
+	btStridingMeshInterface* meshInterface = shape->getMeshInterface();
+
+	int numTriangles = meshInterface->getNumSubParts();
+
+	// Render mesh 
+	glPushMatrix(); 
+	glMultMatrixf(mat.ptr()); // translation and rotation  
+
+	for (int part = 0; part < numTriangles; ++part) {
+		const unsigned char* vertexBase;
+		int numVerts, vertexStride;
+		const unsigned char* indexBase;
+		int indexStride, numFaces;
+		PHY_ScalarType indexType, vertexType;
+
+		meshInterface->getLockedReadOnlyVertexIndexBase(&vertexBase, numVerts, vertexType, vertexStride, &indexBase, indexStride, numFaces, indexType, part);
+
+		glBegin(GL_LINES);
+		for (int f = 0; f < numFaces; ++f) {
+			unsigned int* index = (unsigned int*)(indexBase + f * indexStride);
+
+			for (int i = 0; i < 3; ++i) {
+				btVector3* vertex1 = (btVector3*)(vertexBase + index[i] * vertexStride);
+				btVector3* vertex2 = (btVector3*)(vertexBase + index[(i + 1) % 3] * vertexStride);
+
+				// Apply scale
+				btVector3 scaledVertex1 = (*vertex1) * scaling;
+				btVector3 scaledVertex2 = (*vertex2) * scaling;
+
+				glVertex3f(scaledVertex1.x(), scaledVertex1.y(), scaledVertex1.z());
+				glVertex3f(scaledVertex2.x(), scaledVertex2.y(), scaledVertex2.z());
+			}
+		}
+
+		glEnd();
+
+		meshInterface->unLockReadOnlyVertexBase(part);
+	}
+
+	glPopMatrix();
 }
 
 btScalar* ModulePhysics::getOpenGLMatrix(float4x4 matrix)

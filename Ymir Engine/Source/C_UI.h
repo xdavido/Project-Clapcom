@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+class UI_Transform;
+
 struct UI_Bounds
 {
 	GLuint VBO; //vertex buffer object
@@ -58,6 +60,7 @@ enum class UI_TYPE
 	BUTTON,
 	INPUTBOX,
 	CHECKBOX,
+	SLIDER,
 
 	NONE
 };
@@ -65,7 +68,7 @@ enum class UI_TYPE
 class C_UI : public Component
 {
 public:
-	C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n = "UI", int x = 0, int y = 0, int w = 200, int h = 100, Color c = { 1, 1, 1, 1 });
+	C_UI(UI_TYPE ui_t, ComponentType t, GameObject* g, std::string n = "UI", float x = 0, float y = 0, float w = 200, float h = 100, Color c = { 1, 1, 1, 1 });
 	~C_UI();
 
 	virtual update_status Update(float dt);
@@ -81,10 +84,12 @@ public:
 	virtual void OnPressed();
 	virtual void OnRelease();
 	virtual void OnSelected();
+
 	void SetState(UI_STATE uiState);
 	bool MouseCheck(float2 mouse);
 
 	virtual void UpdateUITransform();
+
 	void DrawABB();
 	void DrawOBB();
 	void UpdateBoundingBoxes();
@@ -108,12 +113,20 @@ public:
 	OBB obb;//global OB
 
 	bool isDragging;
-	bool isDraggable;
+	bool isDraggeable;
+	// x, y, w, h
+	ImVec4 dragLimits;
+
 	bool fade;
 
 	UI_Bounds* boundsEditor;
 	UI_Bounds* boundsGame;
 
 	float3 scaleBounds;
+
+	UI_Transform* transformUI;
+	bool dirty_;
+
+	bool tabNav_;
 };
 #endif // __UI_H__

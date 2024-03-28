@@ -12,17 +12,18 @@
 #include <mono/metadata/class.h>
 #include <mono/metadata/object.h>
 #include <mono/metadata/debug-helpers.h>
+#include <filesystem>
 
 #include "External/mmgr/mmgr.h"
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr),startMethod(nullptr), onExecuteButtonMethod(nullptr), isStarting(true)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
 
 	/*External->moduleMono->DebugAllMethods(YMIR_SCRIPTS_NAMESPACE, "GameObject", methods);*/
-	LoadScriptData(name.c_str());
+	LoadScriptData(name);
 }
 
 CScript::~CScript()
@@ -55,7 +56,12 @@ void CScript::Update()
 		return;
 
 	CScript::runningScript = this; // I really think this is the peak of stupid code, but hey, it works, slow as hell but works.
+	MonoObject* exec2 = nullptr;
 
+	if (startMethod && isStarting) {
+			mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
+		isStarting = false;
+	}
 	MonoObject* exec = nullptr;
 
 	mono_runtime_invoke(updateMethod, mono_gchandle_get_target(noGCobject), NULL, &exec);  //Peta al hacer PLAY en el motor
@@ -75,7 +81,7 @@ void CScript::Update()
 
 void CScript::ReloadComponent() {
 
-	LoadScriptData(name.c_str());
+	LoadScriptData(name);
 
 }	
 
@@ -119,7 +125,7 @@ void CScript::OnInspector()
 
 		for (int i = 0; i < fields.size(); i++)
 		{
-			DropField(fields[i], "_GAMEOBJECT");
+			DropField(fields[i], "GameObject");
 		}
 
 		ImGui::Separator();
@@ -263,6 +269,23 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), (field.fiValue.goValue != nullptr) ? field.fiValue.goValue->name.c_str() : "this");
 
+				
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dropType))
+			{
+				if (field.fiValue.goValue != nullptr)
+					field.fiValue.goValue->RemoveCSReference(&field);
+
+				GameObject* draggedObject = External->editor->draggedGO;
+				field.fiValue.goValue = draggedObject;
+				field.goUID = draggedObject->UID;
+
+				SetField(field.field, field.fiValue.goValue);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		//Hardcodeado para que asigne el GO del objeto del script a todos los campos
 		
 		//field.fiValue.goValue = mOwner;
@@ -315,13 +338,19 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 	ImGui::PopID();
 }
 
-void CScript::LoadScriptData(const char* scriptName)
+void CScript::LoadScriptData(std::string scriptName)
 {
 	methods.clear();
 	fields.clear();
+	
+	scriptName.find_first_of('.');
+	size_t pos = scriptName.find_last_of('.');
 
+	if (pos != std::string::npos) {
+		scriptName = scriptName.substr(0, pos);
+	}
 
-	MonoClass* klass = mono_class_from_name(External->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName);
+	MonoClass* klass = mono_class_from_name(External->moduleMono->image, USER_SCRIPTS_NAMESPACE, scriptName.c_str());
 
 	if (klass == nullptr)
 	{
@@ -330,7 +359,7 @@ void CScript::LoadScriptData(const char* scriptName)
 		return;
 	}
 
-	External->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName, methods);
+	External->moduleMono->DebugAllMethods(USER_SCRIPTS_NAMESPACE, scriptName.c_str(), methods);
 
 	noGCobject = mono_gchandle_new(mono_object_new(External->moduleMono->domain, klass), false);
 	mono_runtime_object_init(mono_gchandle_get_target(noGCobject));
@@ -343,11 +372,87 @@ void CScript::LoadScriptData(const char* scriptName)
 	updateMethod = mono_method_desc_search_in_class(mdesc, klass);
 	mono_method_desc_free(mdesc);
 
+	MonoMethodDesc* oncDesc = mono_method_desc_new(":OnCollisionStay", false);
+	onCollisionStayMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+	
+	oncDesc = mono_method_desc_new(":OnCollisionEnter", false);
+	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
+	oncDesc = mono_method_desc_new(":OnCollisionExit", false);
+	onCollisionExitMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
+	MonoMethodDesc* oncBut = mono_method_desc_new(":OnExecuteButton", false);
+	onExecuteButtonMethod = mono_method_desc_search_in_class(oncBut, klass);
+	mono_method_desc_free(oncBut);
+
+	oncDesc = mono_method_desc_new(":Start", false);
+	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
+
+
+
 	MonoClass* baseClass = mono_class_get_parent(klass);
 	if (baseClass != nullptr)
 		External->moduleMono->DebugAllFields(mono_class_get_name(baseClass), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(baseClass));
 
-	External->moduleMono->DebugAllFields(scriptName, fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
+	External->moduleMono->DebugAllFields(scriptName.c_str(), fields, mono_gchandle_get_target(noGCobject), this, mono_class_get_namespace(goClass));
+}
+
+void CScript::CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+
+	if (collidedGameObject != nullptr)
+	{
+		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
+
+		if (onCollisionStayMethod != nullptr)
+			mono_runtime_invoke(onCollisionStayMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+
+		if (isTrigger)
+		{
+			if (onTriggerEnterMethod != nullptr)
+				mono_runtime_invoke(onCollisionStayMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		}
+	}
+}
+
+void CScript::CollisionEnterCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+	if (collidedGameObject != nullptr)
+	{
+		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
+
+		if (onCollisionEnterMethod != nullptr)
+			mono_runtime_invoke(onCollisionEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+
+		if (isTrigger)
+		{
+			if (onTriggerEnterMethod != nullptr)
+				mono_runtime_invoke(onCollisionEnterMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		}
+	}
+}
+
+void CScript::CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject)
+{
+	void* params[1];
+	params[0] = collidedGameObject;
+
+	if (onCollisionExitMethod != nullptr) {
+		mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+	}
+}
+void CScript::ExecuteButton() {
+
+	if (onExecuteButtonMethod != nullptr) {
+
+		mono_runtime_invoke(onExecuteButtonMethod, mono_gchandle_get_target(noGCobject), NULL, NULL);
+	}
 }
 
 void CScript::SetField(MonoClassField* field, GameObject* value)

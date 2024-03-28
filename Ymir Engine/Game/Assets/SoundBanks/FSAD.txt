@@ -1,0 +1,14 @@
+Event	ID	Name			Wwise Object Path	Notes
+	779644395	W_FSADEnemy			\Default Work Unit\Weapons\FSAD\W_FSADEnemy	
+	1530428297	W_FSADShot			\Default Work Unit\Weapons\FSAD\W_FSADShot	
+	1753215977	W_FSADSurf			\Default Work Unit\Weapons\FSAD\W_FSADSurf	
+	2959608070	W_FSADReload			\Default Work Unit\Weapons\FSAD\W_FSADReload	
+	3715232504	W_FSADCapRel			\Default Work Unit\Weapons\FSAD\W_FSADCapRel	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	64571642	FSADCapReload	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FSADCapReload_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\FSAD\FSADCapReload		176392
+	316221824	SurfaceHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\SurfaceHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\FSAD\SurfaceHit		417308
+	486821775	EnemyHit	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\EnemyHit_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\FSAD\EnemyHit		112096
+	724287722	FSADShot	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FSADShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\FSAD\FSADShot		221652
+	900068951	FSADReload	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\FSADReload_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\FSAD\FSADReload		58020
+

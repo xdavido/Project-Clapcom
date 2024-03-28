@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
 using System.Collections;
+using System.IO;
 
 namespace YmirEngine
 {
@@ -54,9 +55,11 @@ namespace YmirEngine
         public void Set(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ;}
 
         public static Vector3 operator *(Vector3 a, float d) { return new Vector3(a.x * d, a.y * d, a.z * d); }
+        public static Vector3 operator *(float d, Vector3 a) { return new Vector3(a.x * d, a.y * d, a.z * d); }
         public static Vector3 operator +(Vector3 a, Vector3 b) { return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
         public static Vector3 operator /(Vector3 a, float d) { return new Vector3(a.x / d, a.y / d, a.z / d); }
         public static Vector3 operator -(Vector3 a, float d) { return new Vector3(a.x - d, a.y - d, a.z - d); }
+        public static Vector3 operator -(Vector3 a, Vector3 b) { return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z); }
 
         static readonly Vector3 zeroVector = new Vector3(0F, 0F, 0F);
         static readonly Vector3 oneVector = new Vector3(1F, 1F, 1F);
@@ -107,5 +110,51 @@ namespace YmirEngine
         {
             return (this.x.ToString() + ", " + this.y.ToString() + ", " + this.z.ToString());
         }
+
+        public static float Distance(Vector3 a, Vector3 b)
+        {
+            return (a - b).magnitude;
+        }
+
+        public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
+        {
+            t = (t < 0f) ? 0f : (t > 1f) ? 1f : t;
+            return a * (1 - t) + b * t;
+        }
+
+        public static Vector3 SmoothDamp(Vector3 current, Vector3 target, ref Vector3 currentVelocity, float smoothTime, float maxSpeed = float.PositiveInfinity, float deltaTime = 0.02f)
+        {
+            // Ensure smooth time is non-negative
+            smoothTime = Math.Max(0.0001f, smoothTime);
+
+            // Calculate the smooth damp factor based on smooth time
+            float omega = 2.0f / smoothTime;
+            float x = omega * deltaTime;
+            float exp = 1.0f / (1.0f + x + 0.48f * x * x + 0.235f * x * x * x);
+            float smoothDampFactor = 1.0f - exp;
+
+            // Calculate the difference between current and target vectors
+            Vector3 difference = target - current;
+
+            // Clamp the magnitude of the difference vector to ensure it doesn't exceed maxSpeed
+            float maxDistanceDelta = maxSpeed * smoothTime;
+
+            if (difference.magnitude > maxDistanceDelta)
+            {
+                difference = difference.normalized * maxDistanceDelta;
+            }
+
+            // Calculate the new velocity
+            Vector3 newVelocity = currentVelocity + difference * omega * deltaTime;
+
+            // Calculate the new position
+            Vector3 newPosition = current + newVelocity * deltaTime;
+
+            // Update currentVelocity
+            currentVelocity = (1.0f - smoothDampFactor) * newVelocity;
+
+            return newPosition;
+        }
+
     }
 }

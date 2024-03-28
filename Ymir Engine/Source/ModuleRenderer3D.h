@@ -34,7 +34,7 @@
 #include <vector>
 #include "Module.h"
 #include "Globals.h"
-#include "Light.h"
+#include "GL_Light.h"
 #include "Primitive.h"
 
 #include "Model.h"
@@ -42,7 +42,7 @@
 #include "Shader.h"
 #include "UI_Text.h"
 
-#define MAX_LIGHTS 8
+#define MAX_GL_LIGHTS 8
 
 class GameObject;
 class CCamera;
@@ -88,11 +88,13 @@ public:
 	void DrawPhysicsColliders();
 	// Draw UI
 	void GetUIGOs(GameObject* go, std::vector<C_UI*>& listgo);
-	void DrawUIElements(bool isGame);
+	void DrawUIElements(bool isGame, bool isBuild);
+
+	void DrawLightsDebug();
 
 public:
 
-	Light lights[MAX_LIGHTS];
+	GL_Light gl_lights[MAX_GL_LIGHTS];
 	SDL_GLContext context;
 
 	CPlane Grid;

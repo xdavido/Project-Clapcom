@@ -42,6 +42,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Animation.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Audio.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Mathf.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Transform.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\YmirComponent.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\GameObject.cs" />
@@ -51,9 +54,21 @@
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Vector3.cs" />
     <Compile Include="Assets\Scripts\BH_Bullet.cs" />
     <Compile Include="Assets\Scripts\BH_Plane.cs" />
+    <Compile Include="Assets\Scripts\Button.cs" />
+    <Compile Include="Assets\Scripts\CameraRot.cs" />
     <Compile Include="Assets\Scripts\Core.cs" />
+    <Compile Include="Assets\Scripts\EnemyBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\main.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Prueba.cs" />
+    <Compile Include="Assets\Scripts\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\Ui.cs" />
+    <Compile Include="Assets\Scripts\UI_Bullets.cs" />
+    <Compile Include="Assets\Scripts\Button_Navigation.cs" />
+    <Compile Include="Assets\Scripts\Button_Exit.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

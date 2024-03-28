@@ -1,25 +1,25 @@
 #pragma once
 #include "Globals.h"
 
-#include "Animation.h"
+#include "ResourceAnimation.h"
+#include "Model.h"
 
-class Animation;
+class ResourceAnimation;
+class Model; 
 
 struct AssimpNodeData;
 
 class Animator {
 public:
 	Animator();
-	Animator(Animation* animation);
+	Animator(ResourceAnimation* animation);
 	~Animator();
-	
-	Animation* GetCurrentAnimation() { return currentAnimation; }
-	float GetCurrentAnimationTime() { return currentTime; }
-	void SetCurrentAnimationTime(float ct) { currentTime = ct; }
 
 	void UpdateAnimation(float dt);
 
-	void PlayAnimation(Animation* animation);
+	void UpdateCurrentTime(ResourceAnimation* animation);
+	
+	void PlayAnimation(ResourceAnimation* animation);
 
 	void PauseAnimation();
 
@@ -27,23 +27,41 @@ public:
 
 	void StopAnimation();
 
+	void ResetAnimation(ResourceAnimation* animation);
+
+	float CalculatePreviousTime(ResourceAnimation* lastAnimation, float transitionTime);
+
+	bool CheckBlendMap(ResourceAnimation* animation, std::string animationBlend);
+
 	void CalculateBoneTransform(const AssimpNodeData* node, float4x4 parentTransform);
 
 	std::vector<float4x4> GetFinalBoneMatrices() { return finalBoneMatrices; }
 
+	void SetCurrentAnimation(ResourceAnimation* animation) { currentAnimation = animation; }
+	ResourceAnimation* GetCurrentAnimation() { return currentAnimation; }
+
+	void SetPreviousAnimation(ResourceAnimation* animation) { previousAnimation = animation; }
+	ResourceAnimation* GetPreviousAnimation() { return previousAnimation; }
+
+	bool FindAnimation(std::string aniationName);
+
 private:
 	std::vector<float4x4> finalBoneMatrices;
-	Animation* currentAnimation; 
-	float currentTime; 
+
 	float deltaTime; 
 
 	float4x4 identity; 
 
-	bool backwardsAux;
-	bool pingPongAux;
-	bool pingPongBackwardsAux;
+	// Blending 
+	float transitionTime;
+	float lastCurrentTime;
 
 public:
-	std::vector<Animation> animations;
+
+	// List of animations
+	std::vector<ResourceAnimation> animations;
+
+	ResourceAnimation* currentAnimation = nullptr;
+	ResourceAnimation* previousAnimation = nullptr;
 
 };

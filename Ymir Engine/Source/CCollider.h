@@ -18,11 +18,10 @@ enum ColliderType
 	BOX,
 	SPHERE,
 	CAPSULE,
-	CONVEX_HULL,
-	//MESH_COLLIDER
+	MESH_COLLIDER,
 };
 
-enum physicsType {
+enum PhysicsType {
 	DYNAMIC,
 	KINEMATIC,
 	STATIC
@@ -31,7 +30,7 @@ enum physicsType {
 class CCollider : public Component
 {
 public:
-	CCollider(GameObject* owner);
+	CCollider(GameObject* owner, ColliderType collider = ColliderType::BOX, PhysicsType physics = PhysicsType::DYNAMIC);
 	~CCollider();
 
 	void Update();
@@ -39,16 +38,19 @@ public:
 
 	btCollisionShape* GetShape();
 
+	void UpdateLockRotation();
+
 	//TODO: funcions per canviar transform del collider, isTrigger, hull collider, mesh collider, etc.
 	void SetBoxCollider();
 	void SetSphereCollider();
 	void SetCapsuleCollider();
-	void SetConvexCollider();
 	void SetMeshCollider();
 
 	void RemovePhysbody();
 
-	void SetDefaultValues(physicsType type);
+	void SetAsSensor(bool is_sensor);
+
+	void SetDefaultValues(PhysicsType type);
 
 	// Conversion function from btVector3 to float3
 	float3 btVector3_to_float3(const btVector3& v) {
@@ -63,25 +65,32 @@ public:
 public:
 
 	// Public para el Save/Load
+	
+	ColliderType collType;
+	PhysicsType physType;
+
 	float3 size;
 	btVector3 btSize;
+	float radius;
+	float height;
 
 	float mass;
-	float radius;
+	bool useGravity;
+	bool isSensor;
+
+	bool lockX, lockY, lockZ;
+
 	btCollisionShape* shape;
-	btConvexHullShape* convexShape;
+	//btConvexHullShape* convexShape;
 
-private:
+public:
 
-	ColliderType collType;
 	PhysBody* physBody;
 
 	CTransform* transform;
 
 	//btCollisionObject* collider;
 
-	//TODO: crear variables: hull, mesh, sensor, edit collider, transform¿?
+	//TODO: crear variables: hull, mesh, sensor, edit collider, transformï¿½?
 
-	physicsType physType;
-	bool gravity;
 };

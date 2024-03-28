@@ -26,25 +26,17 @@
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	// UID regenerated = duplication (This will be fixed with scene serialization)
+	LOG("Creating ModuleScene");
 
 	mRootNode = CreateGameObject("Scene", nullptr);
-	mRootNode->UID = Random::Generate();
 
-	////Hardcodeado para la VS1
-	//MainCharacter = CreateGameObject("Main Character", mRootNode);
-	//
 	gameCameraObject = CreateGameObject("Main Camera", mRootNode);
-	//gameCameraObject->UID = Random::Generate();
-	//tags = { "Untagged" };
+	tags = { "Untagged" };
 
-	//audiosource = CreateGameObject("AudioSource", mRootNode);
-	//audiosource->UID = Random::Generate();
+	isLocked = false;
 
 	gameCameraComponent = nullptr;
 	canvas = nullptr;
-
-	LOG("Creating ModuleScene");
 }
 
 ModuleScene::~ModuleScene()
@@ -59,10 +51,18 @@ bool ModuleScene::Init()
 
 	LOG("Loading scene");
 
-	//CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
-	//gameCameraObject->AddComponent(audioSourceComponent);
+	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
+	audioListenerComponent->SetAsDefaultListener();
+	gameCameraObject->AddComponent(audioListenerComponent);
+
+	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
+	gameCameraObject->AddComponent(audioSourceComponent);
 
 	selectedGO = nullptr;
+	godMode = false;
+
+	selectedUI = 0;
+	canTab = true;
 
 	return ret;
 }
@@ -71,96 +71,41 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
-	//Hardcodeado para la VS1
-	/*App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
+#ifdef _RELEASE
 
-	MainCharacter = gameObjects[4];
+	//LoadSceneFromStart("Assets", "VS2 Release");
+	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	/*LoadSceneFromStart("Assets", "Enemigo player"); */
 
-	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
-	componentTransform->SetScale({0.003f,0.003f,0.003f});
-	componentTransform->SetRotation({ -90,0,180});
+#endif // _RELEASE
 
-	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
-	MainCharacter->mParent->AddComponent(scriptComponent);
+#ifdef _STANDALONE
 
-	CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
-	animationComponent->selectedAnimationPlaying = 0;
-	animationComponent->animator->GetCurrentAnimation()->loop = true;
-	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;*/
+	//LoadSceneFromStart("Assets", "VS2 Release");
+	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
+	//LoadSceneFromStart("Assets/Scenes", "GameUI");
+	LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
+#endif // _STANDALONE
 
 	// Test for Physics
 	// LoadSceneFromStart("Assets", "PhysicsTest"); 
 
 	// Test for Game Extraction
 	// LoadSceneFromStart("Assets", "Water");
-	
-	//Audio Testing
-//#ifdef _STANDALONE
 
-	LoadSceneFromStart("Assets", "Colliders");
+	//CreateGUI(UI_TYPE::BUTTON);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
 
-	//Hardcodeado para la VS1
-	tags = { "Untagged" };
+	//CreateGUI(UI_TYPE::SLIDER);
 
-	App->resourceManager->ImportFile("Assets/CHAR_Walk_Forward.fbx");
-
-	App->resourceManager->ImportFile("Assets/VS1_DemoRoom.fbx");
-
-	MainCharacter = gameObjects[7];
-
-	gameObjects[219]->mTransform->SetPosition({ 0,0, 8.524627685546875 });
-
-	G_UI* juan = CreateGUI(UI_TYPE::IMAGE);
-	UI_Image* coso = (UI_Image*)(juan->GetComponentUI(UI_TYPE::IMAGE));
-	coso->SetNativeSize();
-
-	gameCameraObject = CreateGameObject("Main Camera", MainCharacter);
-	
-	CCamera* componentCamera = new CCamera(App->scene->gameCameraObject);
-	gameCameraComponent = componentCamera;
-	componentCamera->enableFrustumCulling = false;
-	gameCameraComponent->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
-	gameCameraObject->AddComponent(componentCamera);
-	//gameCameraComponent->framebuffer.Load();
-	gameCameraObject->mTransform->SetPosition({ 0,683,-884 });
-	gameCameraObject->mTransform->SetRotation({ 35,0,0});
-
-	CAudioListener* audioListenerComponent = new CAudioListener(gameCameraObject);
-	audioListenerComponent->SetAsDefaultListener();
-	gameCameraObject->AddComponent(audioListenerComponent);
-	CAudioSource* audioSourceComponent = new CAudioSource(gameCameraObject);
-	gameCameraObject->AddComponent(audioSourceComponent);
-
-	CTransform* componentTransform = (CTransform*)MainCharacter->mParent->GetComponent(TRANSFORM);
-	componentTransform->SetScale({ 0.003f,0.003f,0.003f });
-	componentTransform->SetRotation({ -90,0,180 });
-	//componentTransform->SetPosition({ 0,2,0});
-
-	//CCollider* colliderComponent = new CCollider(MainCharacter);
-	//float3 size;
-
-	//size.x = static_cast<float>(1);
-	//size.y = static_cast<float>(1);
-	//size.z = static_cast<float>(1);
-
-	//colliderComponent->size = size;
-
-	//colliderComponent->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
-
-	//// Mass
-	//colliderComponent->mass = static_cast<float>(1);
-	//MainCharacter->AddComponent(colliderComponent);
-
-	CScript* scriptComponent = new CScript(MainCharacter->mParent, "PlayerMovement");
-	MainCharacter->mParent->AddComponent(scriptComponent);
-
-	CAnimation* animationComponent = (CAnimation*)MainCharacter->GetComponent(ANIMATION);
-	animationComponent->selectedAnimationPlaying = 0;
-	animationComponent->animator->GetCurrentAnimation()->loop = true;
-	animationComponent->animator->GetCurrentAnimation()->isPlaying = true;
-
-//#endif // _STANDALONE
+	//CreateGUI(UI_TYPE::SLIDER, nullptr, 100, 100);
+	//CreateGUI(UI_TYPE::CHECKBOX, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::INPUTBOX, nullptr, 500, 500);
+	//CreateGUI(UI_TYPE::TEXT);
 
 	return false;
 }
@@ -169,15 +114,7 @@ update_status ModuleScene::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
-	/*Destroy gameobjects inside the destroy queue*/
-	if (destroyList.size() > 0)
-	{
-		for (size_t i = 0; i < destroyList.size(); ++i)
-		{
-			Destroy(destroyList[i]);
-		}
-		destroyList.clear();
-	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -188,20 +125,26 @@ update_status ModuleScene::Update(float dt)
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 	{
-		
-		if ((*it)->pendingToDelet) {
+		if ((*it)->pendingToDelete) {
 			destroyList.push_back((*it));
 			continue;
 		}
 
-		if ((*it)->active) (*it)->Update(dt);
+		if ((*it)->active)
+		{
+			(*it)->Update(dt);
 
-		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
+			for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 
-			if ((*jt)->active)(*jt)->Update();
+				if ((*jt)->active)(*jt)->Update();
 
+			}
 		}
+	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		godMode = !godMode;
 	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
@@ -224,7 +167,8 @@ update_status ModuleScene::Update(float dt)
 
 		if (currentSceneFile != "")
 		{
-			LoadScene(currentSceneDir, currentSceneFile);
+			//LoadScene(currentSceneDir, currentSceneFile);
+			pendingToAddScene = currentSceneDir + "/" + currentSceneFile + ".yscene";
 		}
 
 	}
@@ -238,6 +182,9 @@ update_status ModuleScene::Update(float dt)
 		//node->mParent->DeleteChild(node);
 	}
 
+	// UI navigation
+	HandleUINavigation();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -245,9 +192,48 @@ update_status ModuleScene::PostUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	if (!pendingToAddScene.empty())
+	{
+		// Obtener el nombre del archivo sin la extensi�n
+		std::string name, path;
+		PhysfsEncapsule::SplitFilePath(pendingToAddScene.c_str(), &path, &name, nullptr);
+
+		//// Encontrar la posici�n del �ltimo separador de directorio
+		//size_t lastSlashPos = pendingToAddScene.find_last_of("/\\");
+
+		//// Si se encontr� el separador de directorio
+		//if (lastSlashPos != std::string::npos) {
+		//	// Eliminar el nombre del archivo y su extensi�n
+		//	pendingToAddScene = pendingToAddScene.substr(0, lastSlashPos);
+		//}
+
+		//// Ahora path contiene el directorio sin el nombre del archivo y su extensi�n
+		//std::string sceneFileName = name + ".yscene";
+		//// Eliminar el nombre del archivo de la ruta completa
+		//pendingToAddScene = pendingToAddScene.substr(0, pendingToAddScene.length() - sceneFileName.length());
+
+		LoadScene(path, name);
+
+		pendingToAddScene.clear();
+	}
+
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
 	pendingToAdd.clear();
-	
+
+	/*Destroy gameobjects inside the destroy queue*/
+	if (destroyList.size() > 0)
+	{
+		isLocked = false;
+		SetSelected();
+		for (size_t i = 0; i < destroyList.size(); ++i)
+		{
+			Destroy(destroyList[i]);
+
+		}
+		destroyList.clear();
+	}
+
+
 
 	return UPDATE_CONTINUE;
 }
@@ -265,8 +251,10 @@ bool ModuleScene::CleanUp()
 
 GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 {
+	std::string newName = GetUniqueName(name);
+
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
-	GameObject* tempGameObject = new GameObject(name, parent);
+	GameObject* tempGameObject = new GameObject(newName, parent);
 
 	if (parent != nullptr) {
 
@@ -274,11 +262,42 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 	}
 
-	
-		gameObjects.push_back(tempGameObject);
-	
+	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
+}
+
+std::string ModuleScene::GetUniqueName(std::string name)
+{
+	//Check if a Game Object with same name exists
+	bool exists = false;
+	int counter = 0;
+	if (gameObjects.size() > 0)
+	{
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			if (name == gameObjects[i]->name)    //If the name exists, add 1 to counter
+			{
+				counter++;
+				name = ReName(name, counter);
+			}
+		}
+		return name;
+	}
+	else return name;
+}
+
+std::string ModuleScene::ReName(std::string name, uint counter)
+{
+	std::string uniqueName = name + " (" + std::to_string(counter) + ")";
+	std::string newName;
+
+	size_t first = uniqueName.find_first_of("(");
+
+	newName = uniqueName.erase(first - 1);
+	newName = uniqueName + " (" + std::to_string(counter) + ")";
+
+	return newName;
 }
 
 GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject* parent)
@@ -297,25 +316,18 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	return tempGameObject;
 }
 
+void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)
+{
+	pendingToAdd.push_back(go);
+}
+
 G_UI* ModuleScene::CreateGUI(UI_TYPE t, GameObject* pParent, int x, int y)
 {
-	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent);
+	G_UI* tempGameObject = new G_UI(t, pParent == nullptr ? App->scene->mRootNode : pParent, x, y);
 	gameObjects.push_back(tempGameObject);
 
 	return tempGameObject;
 }
-
-
-
-//void ModuleScene::DestroyGameObject(GameObject* toDestroy)
-//{
-//	if (toDestroy) {
-
-//		toDestroy->DestroyGameObject();
-
-//	}
-
-//}
 
 void ModuleScene::ClearScene()
 {
@@ -323,17 +335,24 @@ void ModuleScene::ClearScene()
 
 	uint deletedSceneUID = mRootNode->UID;
 
-	/*App->editor->DestroyHierarchyTree(mRootNode);
-	delete mRootNode;
-	mRootNode = nullptr;*/
-
+	isLocked = false;
 	SetSelected();
 
-	RELEASE(mRootNode);
+	// FRANCESC: Doing this RELEASE here makes the meshes disappear
+	//RELEASE(mRootNode);
 
-	gameObjects.clear();
-	destroyList.clear();
+	External->lightManager->lights.clear();
+
+	External->physics->DeleteWorld(); // It was this or nothing :(
+
+	External->physics->CreateWorld();
+	ClearVec(gameObjects);
+	ClearVec(destroyList);
 	App->renderer3D->models.clear();
+
+	ClearVec(vTempComponents);
+	ClearVec(vCanvas);
+
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
 }
@@ -352,7 +371,7 @@ void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 		App->scene->currentSceneDir = dir;
 		App->scene->currentSceneFile = (fileName == "" ? std::to_string(mRootNode->UID) : fileName);
 
-		ysceneFile.CreateJSON(dir +"/", App->scene->currentSceneFile + ".yscene");
+		ysceneFile.CreateJSON(dir + "/", App->scene->currentSceneFile + ".yscene");
 
 		LOG("Scene '%s' saved to %s", App->scene->currentSceneFile.c_str(), App->scene->currentSceneDir.c_str());
 	}
@@ -383,9 +402,41 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
+
 	LoadScriptsData();
 
 	RELEASE(sceneToLoad);
+}
+
+void ModuleScene::SavePrefab(GameObject* prefab, const std::string& dir, const std::string& fileName)
+{
+	JsonFile* prefabFile = new JsonFile;
+
+	prefabFile->SetPrefab("Prefab", *prefab);
+
+	prefabFile->CreateJSON(dir + "/", fileName + ".yfab");
+
+	LOG("Prefab '%s' saved to %s", fileName.c_str(), dir.c_str());
+}
+
+void ModuleScene::LoadPrefab(const std::string& dir, const std::string& fileName)
+{
+	ClearVec(vTempComponents);
+
+	JsonFile* prefabToLoad = JsonFile::GetJSON(dir + "/" + fileName + ".yfab");
+
+	// FRANCESC: Bug Hierarchy reimported GO when loading in Case 2
+	std::vector<GameObject*> prefab = prefabToLoad->GetHierarchy("Prefab");
+
+	// Add the loaded prefab objects to the existing gameObjects vector
+	gameObjects.insert(gameObjects.begin(), prefab.begin(), prefab.end());
+
+	LoadScriptsData();
+
+	LOG("Prefab '%s' loaded", fileName.c_str());
+
+	ClearVec(prefab);
+	RELEASE(prefabToLoad);
 }
 
 void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& fileName)
@@ -404,12 +455,14 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
-	// ClearScene();
+	ClearScene();
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
-	delete sceneToLoad;
+	LoadScriptsData();
+
+	RELEASE(sceneToLoad);
 }
 
 void ModuleScene::Destroy(GameObject* gm)
@@ -424,15 +477,12 @@ void ModuleScene::Destroy(GameObject* gm)
 	}
 	gm->mParent->mChildren.shrink_to_fit();
 
-	auto it = std::find(gameObjects.begin(), gameObjects.end(), gm);
-	if (it != gameObjects.end()) {
-		delete* it; 
-		gameObjects.erase(it); 
-	}
 
+	delete gm;
 	gm = nullptr;
 }
 
+//
 std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 {
 	return vSelectedGOs;
@@ -440,47 +490,50 @@ std::vector<GameObject*>& ModuleScene::GetSelectedGOs()
 
 void ModuleScene::SetSelected(GameObject* go)
 {
-	if (go != nullptr)
+	if (!isLocked)
 	{
-		// If ctrl not pressed, set everything to false clear and the selected go's vector 
-		if (!ImGui::GetIO().KeyCtrl)
+		if (go != nullptr)
 		{
+			// If ctrl not pressed, set everything to false clear and the selected go's vector 
+			if (!ImGui::GetIO().KeyCtrl)
+			{
+				for (auto i = 0; i < vSelectedGOs.size(); i++)
+				{
+					SetSelectedState(vSelectedGOs[i], false);
+				}
+				ClearVec(vSelectedGOs);
+			}
+
+			// On click select or deselect item
+			go->selected = !go->selected;
+
+			// If the item was selected, add it to the vec, otherwise remove it
+			if (go->selected)
+			{
+				selectedGO = go;
+
+				vSelectedGOs.push_back(go);
+
+				// Set selected go children to the same state as the clicked item
+				SetSelectedState(go, go->selected);
+			}	
+			else if (!vSelectedGOs.empty())
+			{
+				SetSelectedState(go, false);
+				vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
+			}
+		}
+		else
+		{	
+			selectedGO = nullptr;
+
 			for (auto i = 0; i < vSelectedGOs.size(); i++)
 			{
 				SetSelectedState(vSelectedGOs[i], false);
 			}
+
 			ClearVec(vSelectedGOs);
 		}
-
-		// On click select or deselect item
-		go->selected = !go->selected;
-
-		// If the item was selected, add it to the vec, otherwise remove it
-		if (go->selected)
-		{
-			selectedGO = go;
-
-			vSelectedGOs.push_back(go);
-
-			// Set selected go children to the same state as the clicked item
-			SetSelectedState(go, go->selected);
-		}
-		else if (!vSelectedGOs.empty())
-		{
-			SetSelectedState(go, false);
-			vSelectedGOs.erase(std::find(vSelectedGOs.begin(), vSelectedGOs.end(), go));
-		}
-	}
-	else
-	{
-		selectedGO = nullptr;
-
-		for (auto i = 0; i < vSelectedGOs.size(); i++)
-		{
-			SetSelectedState(vSelectedGOs[i], false);
-		}
-
-		ClearVec(vSelectedGOs);
 	}
 }
 
@@ -506,6 +559,17 @@ void ModuleScene::SetSelectedState(GameObject* go, bool selected)
 				vSelectedGOs.push_back(go->mChildren[i]);
 			}
 		}
+	}
+}
+
+void ModuleScene::SetActiveRecursively(GameObject* gameObject, bool active)
+{
+	gameObject->active = active;
+
+	for (auto& child : gameObject->mChildren) {
+
+		SetActiveRecursively(child, active);
+
 	}
 }
 
@@ -639,6 +703,7 @@ bool ModuleScene::IsInsideAABB(const float3& point, const AABB& aabb)
 		&& point.z <= aabb.maxPoint.z;
 }
 
+// GUI
 void ModuleScene::SetCanvas(G_UI* newCanvas)
 {
 	canvas = newCanvas;
@@ -649,6 +714,7 @@ G_UI* ModuleScene::GetCanvas()
 	return canvas;
 }
 
+//
 GameObject* ModuleScene::GetGOFromUID(GameObject* n, uint sUID)
 {
 	if (n->UID == sUID)
@@ -735,3 +801,115 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 
 	referenceMap.clear();
 }
+
+void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
+{
+	if (go->active)
+	{
+		for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
+		{
+			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+			{
+				listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
+			}
+		}
+	}
+
+	if (!go->mChildren.empty())
+	{
+		for (auto i = 0; i < go->mChildren.size(); i++)
+		{
+			GetUINaviagte(go->mChildren[i], listgo);
+		}
+	}
+}
+
+bool ModuleScene::TabNavigate(bool isForward)
+{
+	// Get UI elements to navigate
+	std::vector<C_UI*> listUI;
+
+	for (int i = 0; i < vCanvas.size(); ++i)
+	{
+		GetUINaviagte(vCanvas[i], listUI);
+	}
+
+	for (auto i = 0; i < listUI.size(); i++)
+	{
+
+		if (isForward)
+		{
+			if (selectedUI == listUI.size() - 1)
+			{
+				App->scene->SetSelected(listUI[0]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[0]->SetState(UI_STATE::SELECTED);
+
+				selectedUI = 0;
+			}
+
+			else
+			{
+				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
+
+				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
+
+				selectedUI += 1;
+			}
+		}
+
+		else
+		{
+			for (auto i = 0; i < listUI.size(); i++)
+			{
+				if (selectedUI == 0)
+				{
+					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI = listUI.size() - 1;
+				}
+
+				else
+				{
+					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+
+					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
+					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+
+					selectedUI -= 1;
+				}
+				return true;
+			}
+		}
+
+		return true;
+	}
+
+	return true;
+}
+
+void ModuleScene::HandleUINavigation()
+{
+	if (!canTab && App->input->GetGamepadLeftJoystickPositionValueY() == 0)
+	{
+		canTab = true;
+	}
+
+	if ((App->input->GetGamepadLeftJoystickPositionValueY() < 0 && canTab) || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(false);
+	}
+
+	else if ((App->input->GetGamepadLeftJoystickPositionValueY() > 0 && canTab) || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	{
+		canTab = false;
+		TabNavigate(true);
+	}
+}
+

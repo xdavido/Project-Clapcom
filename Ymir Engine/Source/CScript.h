@@ -29,7 +29,15 @@ public:
 	void SetField(MonoClassField* field, GameObject* value);
 	void DropField(SerializedField& fieldName, const char* dropType);
 
-	void LoadScriptData(const char*);
+	void LoadScriptData(std::string scriptName);
+
+	void CollisionEnterCallback(bool isTrigger, GameObject* collidedGameObject);
+
+	void CollisionStayCallback(bool isTrigger, GameObject* collidedGameObject);
+
+	void CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject);
+
+	void ExecuteButton();
 
 public:
 
@@ -37,8 +45,17 @@ public:
 	std::vector<SerializedField> fields;
 
 	MonoMethod* updateMethod;
+	MonoMethod* startMethod;
+	MonoMethod* onCollisionEnterMethod;
+	MonoMethod* onCollisionStayMethod;
+	MonoMethod* onCollisionExitMethod;
+	MonoMethod* onTriggerEnterMethod;
+	MonoMethod* onTriggerExitMethod;
+	MonoMethod* onExecuteButtonMethod;
+
 	uint32_t noGCobject;
 	std::string name;
 
+	bool isStarting;
 	static CScript* runningScript;
 };

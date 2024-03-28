@@ -6,12 +6,15 @@
 #include "PhysfsEncapsule.h"
 #include "ImporterMesh.h"
 #include "ImporterTexture.h"
+#include "ImporterAnimation.h"
 
 #include "External/mmgr/mmgr.h"
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	workingDirectory = "./";
+	assetsPath = workingDirectory + "Assets/";
+
 	libraryPath = workingDirectory + "Library/";
 
 	libraryScenesPath = libraryPath + "Scenes/";
@@ -21,6 +24,11 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryShadersPath = libraryPath + "Shaders/";
 	libraryTexturesPath = libraryPath + "Textures/";
 	librarySettingsPath = libraryPath + "Settings/";
+	libraryScriptsPath = libraryPath + "Scripts/";
+	libraryPrefabsPath = libraryPath + "Prefabs/";
+	libraryAnimationsPath = libraryPath + "Animations/";
+
+	regenerateLibrary = false;
 
 	LOG("Creating ModuleFileSystem");
 }
@@ -57,6 +65,22 @@ update_status ModuleFileSystem::PreUpdate(float dt)
 update_status ModuleFileSystem::Update(float dt)
 {
 	OPTICK_EVENT();
+
+	// Regenerate Library Logic when it's deleted on Runtime
+
+	if (!PhysfsEncapsule::FolderExists(libraryPath)) {
+
+		regenerateLibrary = true;
+
+	}
+
+	if (regenerateLibrary) {
+
+		CreateLibraryFolder();
+
+		regenerateLibrary = false;
+
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -116,12 +140,14 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Textures"); // DDS 
 	PhysfsEncapsule::CreateFolder(libraryPath, "Settings"); // Custom File Format (JSON)
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
+	PhysfsEncapsule::CreateFolder(libraryPath, "Prefabs"); // Prefabs
+	PhysfsEncapsule::CreateFolder(libraryPath, "Animations"); // Animations
 }
 
-bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename) {
+bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename) {
 
 	uint bufferSize = 0;
-	char* fileBuffer = (char*)ImporterMesh::Save(ourMesh, bufferSize);
+	char* fileBuffer = (char*)ImporterMesh::Save(vertices, indices, bufferSize);
 
 	std::ofstream outFile(filename, std::ios::binary);
 
@@ -142,6 +168,37 @@ bool ModuleFileSystem::SaveMeshToFile(Mesh* ourMesh, const std::string& filename
 	delete[] fileBuffer;
 
 	return true;
+}
+
+bool ModuleFileSystem::SaveAnimationToFile(ResourceAnimation* anim, const std::string& filename) {
+	uint bufferSize = 0;
+	char* fileBuffer = (char*)ImporterAnimation::Save(anim, bufferSize);
+
+	std::string name = filename;
+
+	for (name; PhysfsEncapsule::FileExists(name); name) {
+		int pos = name.length() - 6;
+		name.insert(pos, "_Copy");
+		LOG("File with name '%s'; changed to '%s'", filename.c_str(), name.c_str());
+	}
+
+	std::ofstream outFile(name, std::ios::binary);
+
+	if (!outFile.is_open()) {
+
+		LOG("[ERROR] Unable to open the file for writing: %s", name);
+
+		return false;
+	}
+
+	// Write the buffer to the file
+	outFile.write(fileBuffer, bufferSize);
+
+	// Close the file
+	outFile.close();
+
+	// Free the allocated memory for the buffer
+	delete[] fileBuffer;
 }
 
 bool ModuleFileSystem::SaveTextureToFile(const ResourceTexture* ourTexture, const std::string& filename)

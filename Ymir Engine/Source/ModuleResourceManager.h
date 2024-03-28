@@ -30,7 +30,7 @@ public:
 	/// If first time import to engine --> Create a copy in local space
 	/// If it already exists the file --> Dupe it with another name (nameN.ext) { N == number}
 	void ImportFileToEngine(const char* path);
-	void ImportFile(const std::string& assetsFilePath);
+	void ImportFile(const std::string& assetsFilePath, bool onlyReimport = false);
 	void SaveResourceToLibrary(Resource* resource);
 
 	uint GenerateNewUID();
@@ -60,6 +60,8 @@ public:
 	void LoadResource(const uint& UID);
 	void ReleaseResource(Resource* resource);
 
+	void ReImportModel(const std::string& modelPath, bool onlyReimport);
+
 private:
 
 	std::map<uint, Resource*> resources;
@@ -71,6 +73,7 @@ private:
 		{ResourceType::MESH, "ymesh"},
 		{ResourceType::MODEL, "ymodel"},
 		{ResourceType::SCENE, "yscene"},
+		{ResourceType::ANIMATION, "yanim"},
 		{ResourceType::MATERIAL, "ymat"},
 		{ResourceType::TEXTURE, "dds"},
 		{ResourceType::SHADER, "spv"},
@@ -82,6 +85,7 @@ private:
 		{ResourceType::MESH, "Library/Meshes/"},
 		{ResourceType::MODEL, "Library/Models/"},
 		{ResourceType::SCENE, "Library/Scenes/"},
+		{ResourceType::ANIMATION, "Library/Animations/"},
 		{ResourceType::MATERIAL, "Library/Materials/"},
 		{ResourceType::TEXTURE, "Library/Textures/"},
 		{ResourceType::SHADER, "Library/Shaders/"},

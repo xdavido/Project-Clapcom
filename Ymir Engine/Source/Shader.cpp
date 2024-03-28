@@ -4,6 +4,8 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 #include "External/mmgr/mmgr.h"
 
@@ -394,6 +396,19 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 	// Time uniform management
 	this->SetFloat("time", TimeManager::graphicsTimer.ReadSec());
 
+	if (!External->lightManager->lights.empty()) 
+	{
+		this->SetInt("numLights", External->lightManager->lights.size());
+		this->SetUniformValue("lightDir", External->lightManager->lights[0]->lightGO->mTransform->GetGlobalPosition().ptr());
+		this->SetFloat("lightInt", External->lightManager->lights[0]->GetIntensity());
+		this->SetUniformValue("lightColor", External->lightManager->lights[0]->GetColor().ptr());
+	}
+	else {
+
+		this->SetInt("numLights", 0);
+
+	}
+	
 }
 
 void Shader::AddShader(GLuint shaderProgram, const char* pShaderText, GLenum shaderType)
@@ -673,8 +688,8 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 					name.pop_back();
 				}
 
-				// Ignore "time" and "selected" uniforms because they are managed internally
-				if (name == "time" || name == "selected") {
+				// Ignore some uniforms because they are managed internally
+				if (std::find(uniformNamesToIgnore.begin(), uniformNamesToIgnore.end(), name) != uniformNamesToIgnore.end()) {
 					continue;
 				}
 
@@ -687,7 +702,7 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				}
 				else if (type == "float") {
 
-					std::unique_ptr<float> value = std::make_unique<float>(0.5);
+					std::unique_ptr<float> value = std::make_unique<float>(1.0);
 					this->AddUniform(name, std::move(value), UniformType::f1, 1);
 
 				}

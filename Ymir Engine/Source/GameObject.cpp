@@ -18,7 +18,7 @@ GameObject::GameObject()
 
 	active = true;
 	selected = false;
-	pendingToDelet = false;
+	pendingToDelete = false;
 	hidden = false;
 
 	mTransform = nullptr;
@@ -33,7 +33,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 	active = true;
 	selected = false;
-	pendingToDelet = false;
+	pendingToDelete = false;
 	hidden = false;
 
 	mTransform = nullptr;
@@ -48,6 +48,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 
 GameObject::~GameObject()
 {
+	// Clear components
 	ClearVecPtr(mComponents);
 
 	mTransform = nullptr;
@@ -63,21 +64,30 @@ GameObject::~GameObject()
 	}
 	csReferences.clear();
 
+	auto it = std::find(External->scene->gameObjects.begin(), External->scene->gameObjects.end(), this);
+	if (it != External->scene->gameObjects.end()) {
+		External->scene->gameObjects.erase(it);
+		
+	}
+
 }
 
 update_status GameObject::Update(float dt)
 {
 	// Check if any of the UIDs is repeated (it's not gonna happen)
+	
+	// FRANCESC: This shouldn't be commented, but it would need a rework in the future 
+	// (separate gameobject and resourcemesh UID)
 
-	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
+	//for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
 
-		if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
+	//	if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
 
-			this->UID = Random::Generate();
+	//		this->UID = Random::Generate();
 
-		}
+	//	}
 
-	}
+	//}
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -96,6 +106,29 @@ void GameObject::Disable()
 	}
 }
 
+GameObject* GameObject::FindChild(uint UID_ToFind, GameObject* go)
+{
+	for (auto i = 0; i < mChildren.size(); i++)
+	{
+		if (go != nullptr)
+		{
+			break;
+		}
+		if (!mChildren[i]->mChildren.empty())
+		{
+			go = mChildren[i]->FindChild(UID_ToFind, go);
+		}
+		if (UID_ToFind == mChildren[i]->UID)
+		{
+			go = mChildren[i];
+			return go;
+		}
+	}
+
+	return go;
+}
+
+
 void GameObject::SetParent(GameObject* newParent)
 {
 	if (this->mParent)
@@ -110,16 +143,6 @@ void GameObject::SetParent(GameObject* newParent)
 	mParent = newParent;
 	mParent->AddChild(this);
 
-	// Update transform values, there is a bug where if the parent has a different scale it changes the scale of the children
-	if (mParent->mTransform != nullptr)
-	{
-		mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
-	}
-
-	else
-	{
-		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
-	}
 }
 
 void GameObject::ReParent(GameObject* newParent)
@@ -141,6 +164,23 @@ void GameObject::ReParent(GameObject* newParent)
 
 }
 
+GameObject* GameObject::GetChildByUID(const uint& UID)
+{
+	GameObject* gameObjectWithUID = nullptr;
+
+	for (auto it = mChildren.begin(); it != mChildren.end(); ++it) {
+
+		if ((*it)->UID == UID) {
+
+			gameObjectWithUID = (*it);
+
+		}
+
+	}
+
+	return gameObjectWithUID;
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	mChildren.push_back(child);
@@ -149,6 +189,8 @@ void GameObject::AddChild(GameObject* child)
 void GameObject::DeleteChild(GameObject* go)
 {
 	RemoveChild(go);
+	go->ClearReferences();
+
 	RELEASE(go);
 }
 
@@ -259,6 +301,46 @@ Component* GameObject::GetComponent(ComponentType ctype)
 
 	return nullptr;
 }
+Component* GameObject::GetComponent(ComponentType ctype,char* scriptname)
+{
+	 // Suponiendo que ya tienes asignado un valor a scriptname
+	char* concatenatedName = new char[strlen(scriptname) + 4]; // +4 para ".cs" y el terminador nulo
+	strcpy(concatenatedName, scriptname);
+	strcat(concatenatedName, ".cs");
+	for (size_t i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i] && mComponents[i]->ctype == ctype)
+		{
+			if (ctype == ComponentType::SCRIPT)
+			{
+				CScript* a = dynamic_cast<CScript*>(mComponents[i]);
+				if (scriptname != nullptr && strcmp(a->name.c_str(), concatenatedName) == 0)
+					return mComponents[i];
+			}
+			else
+			{
+				return mComponents[i];
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+std::vector<Component*> GameObject::GetAllComponentsByType(ComponentType type)
+{
+	std::vector<Component*> vec = {};
+
+	for (auto i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i]->ctype == type)
+		{
+			vec.push_back(mComponents[i]);
+		}
+	}
+	
+	return vec;
+}
 
 void GameObject::RemoveComponent(Component* component)
 {
@@ -267,6 +349,18 @@ void GameObject::RemoveComponent(Component* component)
 		mComponents.erase(std::find(mComponents.begin(), mComponents.end(), component));
 
 		RELEASE(component);
+	}
+}
+
+void GameObject::RemoveCSReference(SerializedField* fieldToRemove)
+{
+	for (size_t i = 0; i < csReferences.size(); ++i)
+	{
+		if (csReferences[i]->fiValue.goValue == fieldToRemove->fiValue.goValue)
+		{
+			mono_field_set_value(mono_gchandle_get_target(csReferences[i]->parentSC->noGCobject), csReferences[i]->field, NULL);
+			csReferences.erase(csReferences.begin() + i);
+		}
 	}
 }
 
@@ -279,9 +373,7 @@ void GameObject::CollectChilds(std::vector<GameObject*>& vector)
 
 void GameObject::DestroyGameObject()
 {
-
-	pendingToDelet = true;
-
+	pendingToDelete = true;
 }
 
 GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID)
@@ -306,3 +398,22 @@ bool GameObject::CompareTag(const char* _tag)
 	return strcmp(tag, _tag) == 0;
 }
 
+//
+void GameObject::RemoveReference(Component* comp)
+{
+	if (!vReferences.empty())
+	{
+		vReferences.erase(std::find(vReferences.begin(), vReferences.end(), comp));
+		vReferences.shrink_to_fit();
+	}
+}
+
+void GameObject::ClearReferences()
+{
+	// Clear references
+	for (auto it = vReferences.begin(); it != vReferences.end(); ++it)
+	{
+		(*it)->OnReferenceDestroyed(this);
+	}
+	ClearVec(vReferences);
+}

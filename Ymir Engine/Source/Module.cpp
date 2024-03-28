@@ -1,7 +1,8 @@
 #include "Module.h"
 
 #include "External/mmgr/mmgr.h"
-
+#include "Log.h"
+	
 Module::Module(Application* parent, bool start_enabled) : App(parent)
 {
 
@@ -42,7 +43,6 @@ bool Module::CleanUp()
 	return true;
 }
 
-void Module::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+void Module::OnCollision(PhysBody* body1, PhysBody* body2)
 {
-
 }

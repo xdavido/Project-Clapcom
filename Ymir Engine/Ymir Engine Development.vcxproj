@@ -24,8 +24,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -132,23 +132,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AreaLight.h" />
     <ClInclude Include="Source\AudioBank.h" />
     <ClInclude Include="Source\CAudioListener.h" />
     <ClInclude Include="Source\CAudioSource.h" />
-    <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\AnimationController.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Bone.h" />
     <ClInclude Include="Source\CAnimation.h" />
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
+    <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
+    <ClInclude Include="Source\CS_Animation_Bindings.h" />
+    <ClInclude Include="Source\CS_Audio_Bindings.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
     <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />
+    <ClInclude Include="Source\DirectionalLight.h" />
     <ClInclude Include="Source\EventSystem.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\crude_json.h" />
     <ClInclude Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.h" />
@@ -343,6 +346,8 @@
     <ClInclude Include="Source\External\stb_image\stb_image.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Globals.h" />
+    <ClInclude Include="Source\ImGuiCustom.h" />
+    <ClInclude Include="Source\ImporterAnimation.h" />
     <ClInclude Include="Source\ImporterMaterial.h" />
     <ClInclude Include="Source\ImporterMesh.h" />
     <ClInclude Include="Source\ImporterModel.h" />
@@ -351,7 +356,7 @@
     <ClInclude Include="Source\ImporterShader.h" />
     <ClInclude Include="Source\ImporterTexture.h" />
     <ClInclude Include="Source\JsonFile.h" />
-    <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\GL_Light.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Geometry\AABB.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Geometry\AABB2D.h" />
@@ -412,8 +417,9 @@
     <ClInclude Include="Source\External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="Source\External\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\ModuleLightManager.h" />
     <ClInclude Include="Source\Log.h" />
-    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\ModuleAudio.h" />
@@ -431,8 +437,10 @@
     <ClInclude Include="Source\NodeEditor.h" />
     <ClInclude Include="Source\PhysBody.h" />
     <ClInclude Include="Source\PhysfsEncapsule.h" />
+    <ClInclude Include="Source\PointLight.h" />
     <ClInclude Include="Source\Primitive.h" />
     <ClInclude Include="Source\Random.h" />
+    <ClInclude Include="Source\ResourceAnimation.h" />
     <ClInclude Include="Source\ResourceMaterial.h" />
     <ClInclude Include="Source\ResourceMesh.h" />
     <ClInclude Include="Source\ResourceModel.h" />
@@ -446,6 +454,7 @@
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\ShaderEditor.h" />
     <ClInclude Include="Source\Singleton.h" />
+    <ClInclude Include="Source\SpotLight.h" />
     <ClInclude Include="Source\Texture.h" />
     <ClInclude Include="Source\TimeManager.h" />
     <ClInclude Include="Source\Timer.h" />
@@ -454,20 +463,22 @@
     <ClInclude Include="Source\UI_CheckBox.h" />
     <ClInclude Include="Source\UI_Image.h" />
     <ClInclude Include="Source\UI_InputBox.h" />
+    <ClInclude Include="Source\UI_Slider.h" />
     <ClInclude Include="Source\UI_Text.h" />
+    <ClInclude Include="Source\UI_Transform.h" />
     <ClInclude Include="Source\Wwise.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Animation.cpp" />
-    <ClCompile Include="Source\AnimationController.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\AreaLight.cpp" />
     <ClCompile Include="Source\CAudioListener.cpp" />
     <ClCompile Include="Source\CAudioSource.cpp" />
     <ClCompile Include="Source\Bone.cpp" />
     <ClCompile Include="Source\CAnimation.cpp" />
     <ClCompile Include="Source\CCamera.cpp" />
     <ClCompile Include="Source\CCollider.cpp" />
+    <ClCompile Include="Source\CLight.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -477,6 +488,7 @@
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\C_UI.cpp" />
     <ClCompile Include="Source\Delegate.cpp" />
+    <ClCompile Include="Source\DirectionalLight.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\crude_json.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_canvas.cpp" />
     <ClCompile Include="Source\External\ImGuiNodeEditor\include\imgui_node_editor.cpp" />
@@ -510,6 +522,8 @@
     <ClCompile Include="Source\FrameBuffer.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\G_UI.cpp" />
+    <ClCompile Include="Source\ImGuiCustom.cpp" />
+    <ClCompile Include="Source\ImporterAnimation.cpp" />
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />
@@ -518,7 +532,9 @@
     <ClCompile Include="Source\ImporterShader.cpp" />
     <ClCompile Include="Source\ImporterTexture.cpp" />
     <ClCompile Include="Source\JsonFile.cpp" />
+    <ClCompile Include="Source\GL_Light.cpp" />
     <ClCompile Include="Source\Light.cpp" />
+    <ClCompile Include="Source\ModuleLightManager.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\External\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
@@ -553,7 +569,6 @@
     <ClCompile Include="Source\External\MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="Source\External\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="Source\External\MathGeoLib\include\Time\Clock.cpp" />
-    <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Module.cpp" />
@@ -571,8 +586,10 @@
     <ClCompile Include="Source\NodeEditor.cpp" />
     <ClCompile Include="Source\PhysBody.cpp" />
     <ClCompile Include="Source\PhysfsEncapsule.cpp" />
+    <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Primitive.cpp" />
     <ClCompile Include="Source\Random.cpp" />
+    <ClCompile Include="Source\ResourceAnimation.cpp" />
     <ClCompile Include="Source\ResourceMaterial.cpp" />
     <ClCompile Include="Source\Resources.cpp" />
     <ClCompile Include="Source\ResourceMesh.cpp" />
@@ -586,6 +603,7 @@
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\ShaderEditor.cpp" />
     <ClCompile Include="Source\Singleton.cpp" />
+    <ClCompile Include="Source\SpotLight.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
     <ClCompile Include="Source\TimeManager.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
@@ -594,15 +612,20 @@
     <ClCompile Include="Source\UI_CheckBox.cpp" />
     <ClCompile Include="Source\UI_Image.cpp" />
     <ClCompile Include="Source\UI_InputBox.cpp" />
+    <ClCompile Include="Source\UI_Slider.cpp" />
     <ClCompile Include="Source\UI_Text.cpp" />
+    <ClCompile Include="Source\UI_Transform.cpp" />
     <ClCompile Include="Source\Wwise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Assets\Shaders\AnimationShader.glsl" />
     <None Include="Game\Assets\Shaders\ColorShader.glsl" />
+    <None Include="Game\Assets\Shaders\DefaultShader.glsl" />
     <None Include="Game\Assets\Shaders\LavaShader.glsl" />
+    <None Include="Game\Assets\Shaders\Lighting Shader.glsl" />
     <None Include="Game\Assets\Shaders\MyShader.glsl" />
     <None Include="Game\Assets\Shaders\RainbowShader.glsl" />
+    <None Include="Game\Assets\Shaders\UI Shader.glsl" />
     <None Include="Game\Assets\Shaders\WaterShader.glsl" />
     <None Include="Source\External\ImGuiNodeEditor\include\imgui_bezier_math.inl" />
     <None Include="Source\External\ImGuiNodeEditor\include\imgui_extra_math.inl" />

@@ -1,0 +1,18 @@
+Event	ID	Name			Wwise Object Path	Notes
+	442070525	LV2_OpenChest			\Default Work Unit\Level2\MapInteractionLV2\LV2_OpenChest	
+	841889754	LV2_CloseDoor			\Default Work Unit\Level2\MapInteractionLV2\LV2_CloseDoor	
+	936921561	LV2_GrabKey			\Default Work Unit\Level2\MapInteractionLV2\LV2_GrabKey	
+	1928507640	LV2_UseKey			\Default Work Unit\Level2\MapInteractionLV2\LV2_UseKey	
+	2080472109	LV2_CollectItem			\Default Work Unit\Level2\MapInteractionLV2\LV2_CollectItem	
+	2558715662	LV2_OpenDoor			\Default Work Unit\Level2\MapInteractionLV2\LV2_OpenDoor	
+	3551652262	LV2_Beacon			\Default Work Unit\Level2\MapInteractionLV2\LV2_Beacon	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	44773720	DoorClose	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DoorClose_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\DoorClose		154614
+	62041791	UseKey	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\UseKey_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\UseKey		119872
+	222614412	GrabKey	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\GrabKey_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\GrabKey		92850
+	225996279	Beacon	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Beacon_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\Beacon		368704
+	428149977	ItemPickup	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\ItemPickup_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\ItemPickup		101440
+	898287355	OpenChest	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\OpenChest_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\OpenChest		364096
+	1040922353	DoorOpen	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\DoorOpen_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level2\MapInteractionLV2\DoorOpen		186688
+

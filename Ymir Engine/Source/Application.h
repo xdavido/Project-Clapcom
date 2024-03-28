@@ -18,6 +18,7 @@ class ModuleFileSystem;
 class ModuleMonoManager;
 class ModuleAudio;
 class ModulePhysics;
+class ModuleLightManager;
 
 class Application
 {
@@ -34,6 +35,7 @@ public:
 	ModuleMonoManager* moduleMono;
 	ModuleAudio* audio;
 	ModulePhysics* physics;
+	ModuleLightManager* lightManager;
 
 private:
 

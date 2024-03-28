@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMonoManager.h"
+#include "ModuleLightManager.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -44,8 +45,11 @@ public:
 	bool CleanUp() override;
 
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
-	//TODO:
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
+
+	void PostUpdateCreateGameObject_UI(GameObject* go);
+	std::string GetUniqueName(std::string name);
+	std::string ReName(std::string name, uint counter);
 
 	G_UI* CreateGUI(UI_TYPE t, GameObject* pParent = nullptr, int x = 0, int y = 0);
 	//void DestroyGameObject(GameObject* toDestroy);
@@ -55,9 +59,12 @@ public:
 	void SaveScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 	void LoadScene(const std::string& dir = External->fileSystem->libraryScenesPath, const std::string& fileName = "");
 
+	void SavePrefab(GameObject* prefab, const std::string& dir, const std::string& fileName);
+	void LoadPrefab(const std::string& dir, const std::string& fileName);
+
 	// Start with a loaded scene from start
 	void LoadSceneFromStart(const std::string& dir, const std::string& fileName);
-
+	
 	void Destroy(GameObject* gm);
 
 	// Select GameObjects
@@ -66,6 +73,7 @@ public:
 	// If no parameter --> deselect everything
 	void SetSelected(GameObject* go = nullptr);
 	void SetSelectedState(GameObject* go, bool selected);
+	void SetActiveRecursively(GameObject* gameObject, bool active = true);
 	
 	// Function to handle GameObject selection by Mouse Picking
 	void HandleGameObjectSelection(const LineSegment& ray);
@@ -85,6 +93,13 @@ public:
 	GameObject* GetGOFromUID(GameObject* n, uint sUID);
 
 	void LoadScriptsData(GameObject* rootObject = nullptr);
+
+	// UI navigation
+	void GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo);
+	bool TabNavigate(bool isForward);
+
+	// Handle both keyboard and gamepad control of all UI game objects
+	void HandleUINavigation();
 
 
 public:
@@ -107,23 +122,29 @@ public:
 
 	std::string currentSceneDir;
 	std::string currentSceneFile;
+	std::string pendingToAddScene;
 
+	bool isLocked;
 	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
-	//Hardcodeado para la VS1
-	GameObject* MainCharacter;
+	// God mode
+	bool godMode;
 
 private:
-
 	G_UI* canvas;
 	int selectedUI;
 
 	std::vector<GameObject*> vSelectedGOs;
 
-	GameObject* audiosource;
+	// Limit tab navigation with controller
+	bool canTab;
+	
+	GameObject* audiosource;	
+public:
+	// DO NOT USE, Save/Load purposes only
+    std::vector<Component*> vTempComponents;
 
-	bool a = false;
 };

@@ -5,8 +5,6 @@
 
 #include "Mesh.h"
 
-#include "CAnimation.h"
-
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
 #include "External/Assimp/include/postprocess.h"
@@ -17,7 +15,6 @@
 
 class GameObject;
 
-class Animation;
 class Animator;
 
 struct NodeTransform {
@@ -39,7 +36,7 @@ class Model {
 public:
 
     Model();
-    Model(const std::string& path, const std::string& shaderPath = SHADER_VS_FS);
+    Model(const std::string& path, bool onlyReimport = false, const std::string& shaderPath = SHADER_VS_FS);
 
     virtual ~Model();
 
@@ -52,7 +49,7 @@ public:
 private:
 
     void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO, const std::string& shaderPath, int& iteration);
-    Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath);
+    void ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath);
 
     void GenerateModelMetaFile();
     void GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale);
@@ -61,7 +58,6 @@ private:
     void SetVertexBoneData(Vertex& vertex, int boneID, float weight);
 
     void ExtractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene);
-    
 
 public:
 
@@ -84,5 +80,10 @@ public:
     //Animation stuff
     std::map<std::string, BoneInfo> boneInfoMap;
     int boneCounter;
+
+private:
+
+    bool onlyReimport;
+    int processedMeshes; 
 
 };

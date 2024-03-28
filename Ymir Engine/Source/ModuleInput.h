@@ -52,6 +52,9 @@ public:
 	void SetInputActive(std::string& strToStore, bool getInput = true);
 	void SetMaxChars(int limit);
 
+	KEY_STATE GetGamePadKey(int id) const {
+		return game_pad[id];
+	}
 
 	KEY_STATE GetKey(int id) const
 	{
@@ -114,8 +117,6 @@ public:
 	float GetGamepadJoystickPositionValueX(GamepadJoystick joystick);
 	float GetGamepadJoystickPositionValueY(GamepadJoystick joystick);
 	float2 GetGamepadJoystickPositionValues(GamepadJoystick joystick);
-	
-	void GetRumbleGamepad(_SDL_GameController* gameController, Uint16 leftRumble , Uint16 rightRumble, Uint32 timer);
 
 	// Trigger Mapping
 
@@ -137,7 +138,7 @@ private:
 	float ReduceTriggerValue(bool controllerON, float triggerValue);
 
 public:
-
+	SDL_Joystick* joystick;
 	bool quit = false;
 
 	// Drag & Drop
@@ -161,6 +162,7 @@ public:
 
 private:
 
+	KEY_STATE game_pad[SDL_CONTROLLER_BUTTON_MAX];
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
@@ -169,6 +171,8 @@ private:
 	int mouse_x_motion;
 	int mouse_y_motion;
 	//int mouse_z_motion;
+
+	SDL_GameController* controller_player = nullptr;
 
 	int maxChars;
 	bool getInput_B;

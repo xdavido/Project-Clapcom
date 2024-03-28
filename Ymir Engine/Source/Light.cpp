@@ -1,44 +1,56 @@
-#include "Globals.h"
 #include "Light.h"
-#include <gl/GL.h>
-//#include <gl/GLU.h>
 
-#include "External/mmgr/mmgr.h"
-
-Light::Light() : ref(-1), on(false), position(0.0f, 0.0f, 0.0f)
-{}
-
-void Light::Init()
+Light::Light() : type(LightType::UNKNOWN), color(float3::one), intensity(1.0f)
 {
-	glLightfv(ref, GL_AMBIENT, &ambient);
-	glLightfv(ref, GL_DIFFUSE, &diffuse);
+	lightGO = nullptr;
 }
 
-void Light::SetPos(float x, float y, float z)
+Light::Light(LightType type, float3 color, float intensity) : type(type), color(color), intensity(intensity)
 {
-	position.x = x;
-	position.y = y;
-	position.z = z;
+	lightGO = nullptr;
+}
+
+Light::~Light()
+{
+
+}
+
+void Light::Update()
+{
+
 }
 
 void Light::Render()
 {
-	if(on)
-	{
-		float pos[] = {position.x, position.y, position.z, 1.0f};
-		glLightfv(ref, GL_POSITION, pos);
-	}
+
 }
 
-void Light::Active(bool active)
+const LightType& Light::GetType() const
 {
-	if(on != active)
-	{
-		on = !on;
+	return type;
+}
 
-		if(on)
-			glEnable(ref);
-		else
-			glDisable(ref);
-	}
+void Light::SetType(const LightType& type)
+{
+	this->type = type;
+}
+
+const float3& Light::GetColor() const
+{
+	return color;
+}
+
+void Light::SetColor(const float3& color)
+{
+	this->color = color;
+}
+
+float Light::GetIntensity() const
+{
+	return intensity;
+}
+
+void Light::SetIntensity(float intensity)
+{
+	this->intensity = intensity;
 }

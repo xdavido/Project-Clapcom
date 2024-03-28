@@ -36,8 +36,13 @@ public:
 	void Disable();
 
 	//---Parent/Child---
+	// Return nullptr if gameobject not found. Recursive method
+	GameObject* FindChild(uint UID_ToFind, GameObject* go = nullptr);
+	GameObject* GetChildByUID(const uint& UID);
+
 	void SetParent(GameObject* newParent);
 	void ReParent(GameObject* newParent);
+
 	void AddChild(GameObject* go);
 	void DeleteChild(GameObject* go);
 	//Remove from children vector (do not use)
@@ -46,10 +51,12 @@ public:
 	void AddComponent(Component* component);
 	bool AddComponent(ComponentType ctype, void* var = NULL);
 	Component* GetComponent(ComponentType ctype);
+	std::vector<Component*> GetAllComponentsByType(ComponentType type);
+	Component* GetComponent(ComponentType ctype, char* scriptname);
 	void RemoveComponent(Component* component);
+	void RemoveCSReference(SerializedField* fieldToRemove);
 
 	void DestroyGameObject();
-	//void DestroyGameObject();
 
 	void CollectChilds(std::vector<GameObject*>& vector);
 
@@ -57,24 +64,32 @@ public:
 
 	bool CompareTag(const char* _tag);
 
+	// Clear references
+	void ClearReferences();
+	void RemoveReference(Component* comp);
+
 public:
 
 	std::string name;
 	uint UID;
 
 	std::string type = "None";
+	std::string originPath;
 
 	GameObject* mParent;
 	std::vector<GameObject*> mChildren;
 	std::vector<Component*> mComponents;
+
 	std::vector<SerializedField*> csReferences;
 
 	CTransform* mTransform; 
-	bool pendingToDelet;
+	bool pendingToDelete;
+
 	bool active;
 	bool selected;
 	bool hidden;
 
 	char tag[32] = "Untagged";
 
+	std::vector<Component*> vReferences;
 };

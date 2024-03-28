@@ -387,6 +387,23 @@ bool PhysfsEncapsule::RenameFile(std::string oldFile, std::string newFile) {
 
 }
 
+std::string PhysfsEncapsule::ConvertFileName(const std::string& name)
+{
+	// Find the position of the last dot
+		size_t dotPosition = name.find_last_of('.');
+	std::string nameWithoutExtension = name.substr(0, dotPosition); // Get part of the name before the dot
+
+	std::string convertedName = nameWithoutExtension;
+
+	// Replace spaces with underscores
+	for (char& c : convertedName) {
+		if (c == ' ') {
+			c = '_';
+		}
+	}
+	return convertedName;
+}
+
 
 
 std::string PhysfsEncapsule::UnNormalizePath(const char* full_path)
@@ -447,4 +464,26 @@ uint PhysfsEncapsule::LoadToBuffer(const char* file, char** buffer)
 		LOG("[ERROR] File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
+}
+
+std::string PhysfsEncapsule::GetAssetName(const std::string& path) {
+	// Find the last occurrence of '/' or '\\' in the path
+	size_t lastSlashPos = path.find_last_of("/\\");
+
+	// If no slash is found, return the entire path
+	if (lastSlashPos == std::string::npos)
+		return path;
+
+	// Get the substring after the last slash
+	std::string name = path.substr(lastSlashPos + 1);
+
+	// Find the dot (.) to get the name without extension
+	size_t dotPos = name.find_last_of(".");
+
+	// If no dot is found, return the full name
+	if (dotPos == std::string::npos)
+		return name;
+
+	// Return only the name without extension
+	return name.substr(0, dotPos);
 }

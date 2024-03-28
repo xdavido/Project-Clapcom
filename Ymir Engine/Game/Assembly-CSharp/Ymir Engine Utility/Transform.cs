@@ -65,6 +65,18 @@ namespace YmirEngine
         public extern Vector3 GetRight();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern Vector3 GetUp();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern Vector3 GetLocalForward();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern Vector3 GetLocalRight();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern Vector3 GetLocalUp();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void LookAt(Vector3 pointToLook);
     }
 
