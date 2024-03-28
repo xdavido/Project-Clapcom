@@ -44,6 +44,14 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderEdit(object go, double value);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetRange(object go, double min, double max);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetMin(object go, double value);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetMax(object go, double value);
     }
 
     public class Input

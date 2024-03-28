@@ -84,8 +84,8 @@ bool ModuleScene::Start()
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
-	//LoadSceneFromStart("Assets/Scenes", "GameUI");
-	LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 
 #endif // _STANDALONE
 
@@ -129,14 +129,16 @@ update_status ModuleScene::Update(float dt)
 			continue;
 		}
 
-		if ((*it)->active) (*it)->Update(dt);
+		if ((*it)->active)
+		{
+			(*it)->Update(dt);
 
-		for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
+			for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt) {
 
-			if ((*jt)->active)(*jt)->Update();
+				if ((*jt)->active)(*jt)->Update();
 
+			}
 		}
-
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)

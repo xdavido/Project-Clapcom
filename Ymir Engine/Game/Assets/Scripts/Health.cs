@@ -14,7 +14,7 @@ public class Health : YmirComponent
     public GameObject winCanvas = null;
 
     public float currentHealth = 0;
-    public float maxHealth = 7;
+    public float maxHealth = 10;
     public bool isAlive;
 
     public float debugDmg = 1;
@@ -31,6 +31,7 @@ public class Health : YmirComponent
         deathCanvas = InternalCalls.GetGameObjectByName("Death Canvas");
         winCanvas = InternalCalls.GetGameObjectByName("Win Canvas");
 
+        UI.SliderSetMax(healthBar, maxHealth);
         UI.SliderEdit(healthBar, maxHealth);
         currentHealth = maxHealth;
 
