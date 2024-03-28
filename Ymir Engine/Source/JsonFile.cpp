@@ -2563,13 +2563,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		External->audio->LoadBank(caudiosource->audBankName);
 
-
-#ifdef _STANDALONE
-
-		External->audio->PlayEvent(caudiosource->id, caudiosource->evName);
-
-#endif // STANDALONE
-
 		gameObject->AddComponent(caudiosource);
 
 	}
