@@ -132,7 +132,6 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-
 	if (physBody != nullptr) External->physics->RecalculateInertia(physBody, mass, useGravity);
 
 	// --------------------------- Physics Simulation Started --------------------------- 
@@ -215,17 +214,14 @@ void CCollider::Update()
 
 		mOwner->mTransform->UpdateTransformsChilds();
 
-
 		if (lockX) {
 			UpdateLockRotation();
 		}
 
-		
 		if (lockY) {
 			UpdateLockRotation();
 		}
 
-		
 		if (lockZ) {
 			UpdateLockRotation();
 		}

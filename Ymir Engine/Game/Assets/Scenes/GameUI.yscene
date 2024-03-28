@@ -146,7 +146,7 @@
                         -0.4531548023223877
                     ],
                     "FOV": 60.000003814697266,
-                    "Near Plane": 45.270000457763672,
+                    "Near Plane": 10,
                     "Far Plane": 1000,
                     "Frustum Culling": 1,
                     "Draw Bounding Boxes": 0,
@@ -213,9 +213,9 @@
                     "Mass": 1,
                     "UseGravity": true,
                     "IsSensor": false,
-                    "LockX": true,
+                    "LockX": false,
                     "LockY": false,
-                    "LockZ": true
+                    "LockZ": false
                 },
                 {
                     "Type": "Script",
