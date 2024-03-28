@@ -215,6 +215,21 @@ void CCollider::Update()
 
 		mOwner->mTransform->UpdateTransformsChilds();
 
+
+		if (lockX) {
+			UpdateLockRotation();
+		}
+
+		
+		if (lockY) {
+			UpdateLockRotation();
+		}
+
+		
+		if (lockZ) {
+			UpdateLockRotation();
+		}
+
 	}
 
 	// --------------------------- Physics Simulation Stopped ---------------------------

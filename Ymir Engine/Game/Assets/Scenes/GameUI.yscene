@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        67.435737609863281,
-        189.09388732910156,
-        221.84107971191406
+        15.704323768615723,
+        64.358978271484375,
+        45.84765625
     ],
     "Editor Camera Right (X)": [
-        0.97242915630340576,
-        -3.8743019104003906e-07,
-        -0.23087000846862793
+        0.19395223259925842,
+        -4.5448541641235352e-07,
+        0.9804607629776001
     ],
     "Editor Camera Up (Y)": [
-        -0.15010564029216766,
-        0.7593732476234436,
-        -0.63224929571151733
+        0.55196887254714966,
+        0.82603079080581665,
+        -0.10918869078159332
     ],
     "Editor Camera Front (Z)": [
-        -0.17550753057003021,
-        -0.65017068386077881,
-        -0.73924022912979126
+        0.81077069044113159,
+        -0.5629650354385376,
+        -0.16038484871387482
     ],
     "Hierarchy": [
         {
@@ -25,6 +25,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
+            "Parent UID": 700727890,
             "Components": [
                 {
                     "Type": "Transform",
@@ -52,7 +53,8 @@
                 1676754095,
                 1676754095,
                 499171686,
-                401523607
+                401523607,
+                1286993888
             ]
         },
         {
@@ -233,7 +235,6 @@
                     "ScriptName": "Player.cs",
                     "UID": 0,
                     "movementSpeed": 35,
-                    "dashforce": 10,
                     "dashCD": 0.10000000149011612,
                     "dashDuration": 0.25,
                     "dashDistance": 1,
@@ -1570,9 +1571,9 @@
                     ],
                     "Disabled color": [
                         -1.5816255460782938e+38,
-                        1.4012984643248171e-44,
-                        1.4012984643248171e-44,
-                        1.4012984643248171e-44
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38,
+                        9.8090892502737195e-45
                     ]
                 },
                 {
@@ -18467,9 +18468,9 @@
                         33.829967498779297
                     ],
                     "Rotation": [
-                        1.2321531772613525,
-                        26.501911163330078,
-                        -0.28773277997970581
+                        1.2321538925170898,
+                        26.501932144165039,
+                        -0.28773286938667297
                     ],
                     "Scale": [
                         46.980365753173828,
@@ -19716,7 +19717,7 @@
                     ],
                     "Rotation": [
                         -0,
-                        19.099697113037109,
+                        19.099699020385742,
                         -0
                     ],
                     "Scale": [
@@ -21120,7 +21121,7 @@
                     ],
                     "Rotation": [
                         0,
-                        -13.703191757202148,
+                        -13.703187942504883,
                         0
                     ],
                     "Scale": [
@@ -21568,6 +21569,1626 @@
                     "LockX": false,
                     "LockY": false,
                     "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "ANIM_CHAR_Facehugger_All",
+            "UID": 1286993888,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/ANIM_CHAR_Facehugger_All.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        128.83627319335938,
+                        3.9847960472106934,
+                        -4.9637489318847656
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Animation",
+                    "Active": 1,
+                    "NumPaths": 1,
+                    "Paths": [
+                        ".\/Library\/Animations\/1286993888.yanim"
+                    ],
+                    "AssetsPath": [
+                        ""
+                    ]
+                }
+            ],
+            "Children UID": [
+                2031517303,
+                1384088557
+            ]
+        },
+        {
+            "Name": "Central",
+            "UID": 2031517303,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1286993888,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -0.010627560317516327,
+                        2.811223030090332,
+                        0.074392929673194885
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                497316965,
+                1573122994,
+                1652275851,
+                63721548,
+                407246915
+            ]
+        },
+        {
+            "Name": "Leg_R",
+            "UID": 497316965,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2031517303,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0.96595007181167603,
+                        -0.34064352512359619,
+                        -0.8319849967956543
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                123742240,
+                1243895730,
+                706229143,
+                1796864357
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Botom",
+            "UID": 123742240,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 497316965,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                391424329
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Midle",
+            "UID": 391424329,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 123742240,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                814187907
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Top",
+            "UID": 814187907,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 391424329,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                586595161
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Tip",
+            "UID": 586595161,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 814187907,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Botom",
+            "UID": 1243895730,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 497316965,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1905821251
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Midle",
+            "UID": 1905821251,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1243895730,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                759494672
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Top",
+            "UID": 759494672,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1905821251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1389448933
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Tip",
+            "UID": 1389448933,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 759494672,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Botom",
+            "UID": 706229143,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 497316965,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                922711617
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Midle",
+            "UID": 922711617,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 706229143,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                396793871
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Top",
+            "UID": 396793871,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 922711617,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                403397514
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Tip",
+            "UID": 403397514,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 396793871,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Botom",
+            "UID": 1796864357,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 497316965,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        1.2019549608230591,
+                        0,
+                        0.88629341125488281
+                    ],
+                    "Rotation": [
+                        1.2846425771713257,
+                        -8.0567131042480469,
+                        9.0904731750488281
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                725976134
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Midle",
+            "UID": 725976134,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1796864357,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        2.8807992935180664,
+                        0,
+                        -0.051502533257007599
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        -22.283008575439453
+                    ],
+                    "Scale": [
+                        0.99999994039535522,
+                        0.99999994039535522,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1525612051
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Top",
+            "UID": 1525612051,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 725976134,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        2.6203546524047852,
+                        0,
+                        -0.038318388164043427
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        -28.639999389648438
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1626823825
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Tip",
+            "UID": 1626823825,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1525612051,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        3.0342311859130859,
+                        0,
+                        -0.006011799443513155
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Ala_L_1",
+            "UID": 1573122994,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2031517303,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1716860338
+            ]
+        },
+        {
+            "Name": "Ala_L_2",
+            "UID": 1716860338,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1573122994,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1584309077
+            ]
+        },
+        {
+            "Name": "Ala_L_3",
+            "UID": 1584309077,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716860338,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Ala_R_1",
+            "UID": 1652275851,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2031517303,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                949669708
+            ]
+        },
+        {
+            "Name": "Ala_R_2",
+            "UID": 949669708,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1652275851,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1011731892
+            ]
+        },
+        {
+            "Name": "Ala_R_3",
+            "UID": 1011731892,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 949669708,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L",
+            "UID": 63721548,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2031517303,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                728268359,
+                1375865273,
+                1404248839,
+                1234484319
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Botom1",
+            "UID": 728268359,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 63721548,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                152129960
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Midle1",
+            "UID": 152129960,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 728268359,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                842841259
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Top1",
+            "UID": 842841259,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 152129960,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                362010321
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Tip1",
+            "UID": 362010321,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 842841259,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Botom1",
+            "UID": 1375865273,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 63721548,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1263848849
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Midle1",
+            "UID": 1263848849,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1375865273,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1814642237
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Top1",
+            "UID": 1814642237,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1263848849,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                710900528
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Tip1",
+            "UID": 710900528,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1814642237,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Botom1",
+            "UID": 1404248839,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 63721548,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                731027236
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Midle1",
+            "UID": 731027236,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1404248839,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1191795565
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Top1",
+            "UID": 1191795565,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 731027236,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1398012013
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Tip1",
+            "UID": 1398012013,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1191795565,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Botom1",
+            "UID": 1234484319,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 63721548,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -1.2019569873809814,
+                        -1.6653345369377348e-16,
+                        -0.88629299402236938
+                    ],
+                    "Rotation": [
+                        1.2503770589828491,
+                        -8.4099922180175781,
+                        8.4879722595214844
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                515911261
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Midle1",
+            "UID": 515911261,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1234484319,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -2.8808000087738037,
+                        -1.9428902930940239e-16,
+                        0.051502201706171036
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        -22.28333854675293
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2034961297
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Top1",
+            "UID": 2034961297,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 515911261,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -2.6203498840332031,
+                        -2.4980018054066022e-16,
+                        0.038318399339914322
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        -28.639530181884766
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1871817634
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Tip1",
+            "UID": 1871817634,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2034961297,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -3.0342700481414795,
+                        -1.9428902930940239e-16,
+                        0.0060117999091744423
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Tail_1",
+            "UID": 407246915,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2031517303,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1414999922
+            ]
+        },
+        {
+            "Name": "Tail_2",
+            "UID": 1414999922,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 407246915,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                781566530
+            ]
+        },
+        {
+            "Name": "Tail_3",
+            "UID": 781566530,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1414999922,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                825184354
+            ]
+        },
+        {
+            "Name": "Tail_4",
+            "UID": 825184354,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 781566530,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1612670428
+            ]
+        },
+        {
+            "Name": "Tail_5",
+            "UID": 1612670428,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 825184354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1503058637
+            ]
+        },
+        {
+            "Name": "Tail_6",
+            "UID": 1503058637,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1612670428,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                727561211
+            ]
+        },
+        {
+            "Name": "Tail_7",
+            "UID": 727561211,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1503058637,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Enemy",
+            "UID": 1384088557,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1286993888,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        11.759878158569336,
+                        0.32548904418945312
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        11.599998474121094,
+                        25.860225677490234,
+                        11.599998474121094
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        11.599998474121094,
+                        25.860225677490234,
+                        11.599998474121094
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": false,
+                    "LockZ": true
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "EnemyBehaviour.cs",
+                    "UID": 0,
+                    "movementSpeed": 2,
+                    "life": 100,
+                    "xSpeed": 0,
+                    "ySpeed": 0,
+                    "PlayerDetected": false,
+                    "DetectionRadius": 15,
+                    "wanderDuration": 5,
+                    "stopedDuration": 1,
+                    "cumDuration": 0
+                }
+            ],
+            "Children UID": [
+                268083481
+            ]
+        },
+        {
+            "Name": "Repo",
+            "UID": 268083481,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1384088557,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        -0.45474770665168762,
+                        -0.028059482574462891
+                    ],
+                    "Rotation": [
+                        -90.000068664550781,
+                        -3.0533325433984571e-12,
+                        -180
+                    ],
+                    "Scale": [
+                        0.086206905543804169,
+                        0.086206883192062378,
+                        0.038669414818286896
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "",
+                    "UID": 0
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 5694,
+                    "Index Count": 8340
                 }
             ]
         }

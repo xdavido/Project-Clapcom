@@ -49,7 +49,8 @@ public class EnemyBehaviour : YmirComponent
     public GameObject thisReference = null;
 
 
-    public float movementSpeed = 2f;
+    public float movementSpeed = 20f;
+    private float actualMovementSpeed;
 
     public float life = 100f;
 
@@ -92,7 +93,7 @@ public class EnemyBehaviour : YmirComponent
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
-        movementSpeed = 2f;
+        movementSpeed = 20f;
         stopedDuration = 1f;
         DetectionRadius = 15f;
         wanderRadius = 10f;
@@ -108,7 +109,7 @@ public class EnemyBehaviour : YmirComponent
                 wanderTimer = wanderDuration;
                 //Debug.Log("[ERROR] Current State: REACHED");
                 wanderState = WanderState.GOING;
-                movementSpeed = 2f;
+                actualMovementSpeed = movementSpeed;
                 break;
 
             case WanderState.GOING:
@@ -116,7 +117,7 @@ public class EnemyBehaviour : YmirComponent
                 //Debug.Log("[ERROR] Current State: GOING");
                 ProcessMovement();
                 //Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
-                gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed);
                 break;
 
 
@@ -130,8 +131,8 @@ public class EnemyBehaviour : YmirComponent
                 ySpeed = vectorToPlayer.z;
 
                 RotateEnemy();
-
-                gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed * 2);
+                Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
                 break;
 
             case WanderState.STOPED:
@@ -151,7 +152,7 @@ public class EnemyBehaviour : YmirComponent
         {
             if (wanderState != WanderState.HIT)
             {
-                movementSpeed = 2f;
+                actualMovementSpeed = movementSpeed;
                 wanderState = WanderState.CHASING;
             }
 
@@ -193,7 +194,7 @@ public class EnemyBehaviour : YmirComponent
             {
 
                 Debug.Log("[ERROR] AAAA");
-                movementSpeed = 0;
+                actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;
                 wanderState = WanderState.STOPED;
 
@@ -211,7 +212,7 @@ public class EnemyBehaviour : YmirComponent
         Quaternion targetRotation = Quaternion.identity;
 
         Vector3 aY = new Vector3(0,1,0);
-        //Debug.Log("[ERROR] Vector: " + aY);
+        
 
         if (aX != Vector3.zero)
         {
@@ -269,6 +270,7 @@ public class EnemyBehaviour : YmirComponent
             Debug.Log("[ERROR] Name: " + other.Name);
             Debug.Log("[ERROR] HIT!!!");
             gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+          
             gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
             healthScript.TakeDmg(3);
             wanderState = WanderState.HIT;
