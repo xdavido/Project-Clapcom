@@ -105,6 +105,8 @@ public class EnemyBehaviour : YmirComponent
 
         cumTimer = cumDuration2;
 
+        gameObject.SetPosition(new Vector3(-181,4,230));
+
     }
 
     public void Update()
