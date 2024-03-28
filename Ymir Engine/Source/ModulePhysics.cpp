@@ -91,6 +91,23 @@ update_status ModulePhysics::Update(float dt)
 	//LOG("Bodies in list: %d", bodiesList.size());
 	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
 
+
+
+	return UPDATE_CONTINUE;
+}
+
+// POST-UPDATE ---------------------------------------------------------------
+update_status ModulePhysics::PostUpdate(float dt)
+{
+	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
+	//{
+	//	btRigidBody* b = (btRigidBody*)(*it)->body;
+	//	btTransform t;
+	//	b->getMotionState()->getWorldTransform(t);
+
+	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
+	//}
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 	{	
 		// Enable/disable collision logic in God Mode (WIP, doesn't work properly now)
@@ -147,7 +164,7 @@ update_status ModulePhysics::Update(float dt)
 							firstCollision = false;
 							onExitCollision = true;
 						}
-						
+
 					}
 				}
 
@@ -168,7 +185,7 @@ update_status ModulePhysics::Update(float dt)
 						}
 					}
 				}
-				
+
 				if (pbodyA && pbodyB)
 				{
 					p2List_item<Module*>* item = pbodyA->collision_listeners.getFirst();
@@ -192,14 +209,14 @@ update_status ModulePhysics::Update(float dt)
 				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
 				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
 
-				// Verificar que los objetos de colisión sean válidos
+				// Verificar que los objetos de colisiï¿½n sean vï¿½lidos
 				if (pbodyA && pbodyB)
 				{
 					// Obtener los scripts asociados a los objetos
 					CScript* scriptA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
 					CScript* scriptB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
-					// Llamar a la función adecuada para manejar la salida de la colisión
+					// Llamar a la funciï¿½n adecuada para manejar la salida de la colisiï¿½n
 					if (scriptA)
 					{
 						scriptA->CollisionExitCallback(false, pbodyB->owner);
@@ -213,22 +230,10 @@ update_status ModulePhysics::Update(float dt)
 				}
 			}
 		}
+		
+
+
 	}
-
-	return UPDATE_CONTINUE;
-}
-
-// POST-UPDATE ---------------------------------------------------------------
-update_status ModulePhysics::PostUpdate(float dt)
-{
-	//for (auto it = bodiesList.begin(); it != bodiesList.end(); ++it)
-	//{
-	//	btRigidBody* b = (btRigidBody*)(*it)->body;
-	//	btTransform t;
-	//	b->getMotionState()->getWorldTransform(t);
-
-	//	//LOG("Pos: %f, %f, %f", t.getOrigin().x, t.getOrigin().y, t.getOrigin().z );
-	//}
 
 	return UPDATE_CONTINUE;
 }
@@ -509,7 +514,7 @@ bool ModulePhysics::RayCast(const btVector3& from, const btVector3& to, btVector
 	// Realizar el raycast
 	world->rayTest(from, to, rayCallback);
 
-	// Comprobar si hubo una colisión
+	// Comprobar si hubo una colisiï¿½n
 	if (rayCallback.hasHit()) {
 		hitPoint = rayCallback.m_hitPointWorld; // Punto de impacto
 		return true;
