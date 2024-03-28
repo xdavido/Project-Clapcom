@@ -1,8 +1,0 @@
-Event	ID	Name			Wwise Object Path	Notes
-	3026565220	LV2_Inter			\Default Work Unit\Music\LV2Music\LV2_Inter	
-	3491575422	LV2_Combat			\Default Work Unit\Music\LV2Music\LV2_Combat	
-
-In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	138445343	LV2_Combat	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\LV2_Combat_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\LV2Music\LV2_Combat		31880876
-	535715354	Intersection	C:\Users\victo\Documents\GitHub\Wwise-Project\Ymir-Project\.cache\Windows\SFX\Intersection_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\LV2Music\Intersection		38550660
-

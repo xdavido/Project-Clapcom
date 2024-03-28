@@ -14,12 +14,9 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID B_AIRCOND = 3898569340U;
-        static const AkUniqueID B_BASIC = 3279702346U;
         static const AkUniqueID B_CABLESSPURT = 3589440314U;
-        static const AkUniqueID B_CAIUS = 1712983321U;
         static const AkUniqueID B_CLOSEDOOR = 3305540428U;
         static const AkUniqueID B_CONSOLES = 1321898274U;
-        static const AkUniqueID B_DEPARTING = 1841822454U;
         static const AkUniqueID B_METAL = 1253762097U;
         static const AkUniqueID B_OPENDOOR = 1237118816U;
         static const AkUniqueID B_TELEPORT = 3258831073U;
@@ -40,7 +37,6 @@ namespace AK
         static const AkUniqueID LV1_CABLESSPURT = 2482357211U;
         static const AkUniqueID LV1_CLOSEDOOR = 2671563405U;
         static const AkUniqueID LV1_COLLECTITEM = 2518039338U;
-        static const AkUniqueID LV1_COMBAT = 559267303U;
         static const AkUniqueID LV1_FIRE = 2203822039U;
         static const AkUniqueID LV1_GRABKEY = 1939003214U;
         static const AkUniqueID LV1_LEAKPIPES = 3849438701U;
@@ -54,22 +50,17 @@ namespace AK
         static const AkUniqueID LV2_CABLESSPURT = 3705695092U;
         static const AkUniqueID LV2_CLOSEDOOR = 841889754U;
         static const AkUniqueID LV2_COLLECTITEM = 2080472109U;
-        static const AkUniqueID LV2_COMBAT = 3491575422U;
         static const AkUniqueID LV2_CONSOLES = 3677345244U;
         static const AkUniqueID LV2_GRABKEY = 936921561U;
-        static const AkUniqueID LV2_INTER = 3026565220U;
         static const AkUniqueID LV2_METAL = 2946420807U;
         static const AkUniqueID LV2_OPENCHEST = 442070525U;
         static const AkUniqueID LV2_OPENDOOR = 2558715662U;
         static const AkUniqueID LV2_REACTOR = 481681728U;
         static const AkUniqueID LV2_SIREN = 890091745U;
         static const AkUniqueID LV2_USEKEY = 1928507640U;
-        static const AkUniqueID LV3_BASIC = 2102085613U;
         static const AkUniqueID LV3_BEACON = 1880536425U;
-        static const AkUniqueID LV3_BOSS = 3961795458U;
         static const AkUniqueID LV3_CLOSEDOOR = 1633402355U;
         static const AkUniqueID LV3_COLLECTITEM = 269349380U;
-        static const AkUniqueID LV3_COMBAT = 1402924317U;
         static const AkUniqueID LV3_DISTALIENCRY = 3203011774U;
         static const AkUniqueID LV3_FLESH = 3785941297U;
         static const AkUniqueID LV3_GRABKEY = 2705516844U;
@@ -105,13 +96,10 @@ namespace AK
         static const AkUniqueID UI_BACK = 2024222415U;
         static const AkUniqueID UI_CLOSEMAP = 3152746076U;
         static const AkUniqueID UI_CRAFT = 3368728976U;
-        static const AkUniqueID UI_CREDITS = 424608496U;
         static const AkUniqueID UI_EQUIPARMOR = 4033614823U;
         static const AkUniqueID UI_EQUIPCHIP = 919962612U;
         static const AkUniqueID UI_EQUIPCONSUMABLE = 4038071479U;
         static const AkUniqueID UI_ERROR = 1009189048U;
-        static const AkUniqueID UI_INVENTORY = 2766683758U;
-        static const AkUniqueID UI_MENU = 2511555531U;
         static const AkUniqueID UI_MOVEHOVER = 3300279817U;
         static const AkUniqueID UI_OPENINVENTORY = 1157348174U;
         static const AkUniqueID UI_OPENMAP = 1187363912U;

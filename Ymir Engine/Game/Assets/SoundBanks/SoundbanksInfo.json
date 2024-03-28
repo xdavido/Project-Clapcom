@@ -18,6 +18,7 @@
    {
     "Id": "209385238",
     "Language": "SFX",
+    "Hash": "2496613464",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Caius",
     "ShortName": "Caius",
     "Path": "Caius.bnk",
@@ -59,6 +60,7 @@
    {
     "Id": "265111208",
     "Language": "SFX",
+    "Hash": "1427811770",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level3\\AmbientLV3",
     "ShortName": "AmbientLV3",
     "Path": "AmbientLV3.bnk",
@@ -164,6 +166,7 @@
    {
     "Id": "265111209",
     "Language": "SFX",
+    "Hash": "812632268",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level2\\AmbientLV2",
     "ShortName": "AmbientLV2",
     "Path": "AmbientLV2.bnk",
@@ -269,6 +272,7 @@
    {
     "Id": "265111210",
     "Language": "SFX",
+    "Hash": "2400875734",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level1\\AmbientLV1",
     "ShortName": "AmbientLV1",
     "Path": "AmbientLV1.bnk",
@@ -377,44 +381,25 @@
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\LV2Music",
     "ShortName": "LV2Music",
     "Path": "LV2Music.bnk",
-    "IncludedEvents": [
+    "IncludedMemoryFiles": [
      {
-      "Id": "3491575422",
-      "Name": "LV2_Combat",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV2Music\\LV2_Combat",
-      "DurationType": "OneShot",
-      "DurationMin": "166.045898",
-      "DurationMax": "166.045898",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "138445343",
-        "Language": "SFX",
-        "ShortName": "LV2_Combat.wav",
-        "Path": "SFX\\LV2_Combat_10C4C929.wem"
-       }
-      ]
+      "Id": "138445343",
+      "Language": "SFX",
+      "ShortName": "LV2_Combat.wav",
+      "Path": "SFX\\LV2_Combat_D79FB2B7.wem"
      },
      {
-      "Id": "3026565220",
-      "Name": "LV2_Inter",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV2Music\\LV2_Inter",
-      "DurationType": "OneShot",
-      "DurationMin": "200.784348",
-      "DurationMax": "200.784348",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "535715354",
-        "Language": "SFX",
-        "ShortName": "Intersection.wav",
-        "Path": "SFX\\Intersection_10C4C929.wem"
-       }
-      ]
+      "Id": "535715354",
+      "Language": "SFX",
+      "ShortName": "Intersection.wav",
+      "Path": "SFX\\Intersection_D79FB2B7.wem"
      }
     ]
    },
    {
     "Id": "542436681",
     "Language": "SFX",
+    "Hash": "4143389248",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Firearm",
     "ShortName": "Firearm",
     "Path": "Firearm.bnk",
@@ -491,54 +476,24 @@
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\BaseMusic",
     "ShortName": "BaseMusic",
     "Path": "BaseMusic.bnk",
-    "IncludedEvents": [
+    "IncludedMemoryFiles": [
      {
-      "Id": "3279702346",
-      "Name": "B_Basic",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\BaseMusic\\B_Basic",
-      "DurationType": "OneShot",
-      "DurationMin": "46.813332",
-      "DurationMax": "46.813332",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "577557642",
-        "Language": "SFX",
-        "ShortName": "B_Basic.wav",
-        "Path": "SFX\\B_Basic_10C4C929.wem"
-       }
-      ]
+      "Id": "299318387",
+      "Language": "SFX",
+      "ShortName": "Departing.wav",
+      "Path": "SFX\\Departing_D79FB2B7.wem"
      },
      {
-      "Id": "1712983321",
-      "Name": "B_Caius",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\BaseMusic\\B_Caius",
-      "DurationType": "OneShot",
-      "DurationMin": "172.946915",
-      "DurationMax": "172.946915",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "681656794",
-        "Language": "SFX",
-        "ShortName": "Caius.wav",
-        "Path": "SFX\\Caius_10C4C929.wem"
-       }
-      ]
+      "Id": "577557642",
+      "Language": "SFX",
+      "ShortName": "B_Basic.wav",
+      "Path": "SFX\\B_Basic_D79FB2B7.wem"
      },
      {
-      "Id": "1841822454",
-      "Name": "B_Departing",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\BaseMusic\\B_Departing",
-      "DurationType": "OneShot",
-      "DurationMin": "38.638603",
-      "DurationMax": "38.638603",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "299318387",
-        "Language": "SFX",
-        "ShortName": "Departing.wav",
-        "Path": "SFX\\Departing_10C4C929.wem"
-       }
-      ]
+      "Id": "681656794",
+      "Language": "SFX",
+      "ShortName": "Caius.wav",
+      "Path": "SFX\\Caius_D79FB2B7.wem"
      }
     ]
    },
@@ -548,28 +503,19 @@
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\LV1Music",
     "ShortName": "LV1Music",
     "Path": "LV1Music.bnk",
-    "IncludedEvents": [
+    "IncludedMemoryFiles": [
      {
-      "Id": "559267303",
-      "Name": "LV1_Combat",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV1Music\\LV1_Combat",
-      "DurationType": "OneShot",
-      "DurationMin": "364.799988",
-      "DurationMax": "364.799988",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "1035668829",
-        "Language": "SFX",
-        "ShortName": "LV1_Combat.wav",
-        "Path": "SFX\\LV1_Combat_10C4C929.wem"
-       }
-      ]
+      "Id": "1035668829",
+      "Language": "SFX",
+      "ShortName": "LV1_Combat.wav",
+      "Path": "SFX\\LV1_Combat_D79FB2B7.wem"
      }
     ]
    },
    {
     "Id": "1000644167",
     "Language": "SFX",
+    "Hash": "551106268",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Plasma",
     "ShortName": "Plasma",
     "Path": "Plasma.bnk",
@@ -893,6 +839,7 @@
    {
     "Id": "1161361818",
     "Language": "SFX",
+    "Hash": "1466421761",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\DronXenomorph",
     "ShortName": "DronXenomorph",
     "Path": "DronXenomorph.bnk",
@@ -982,6 +929,7 @@
    {
     "Id": "1301294111",
     "Language": "SFX",
+    "Hash": "3092871733",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Base\\MapInteractionB",
     "ShortName": "MapInteractionB",
     "Path": "MapInteractionB.bnk",
@@ -1047,6 +995,7 @@
    {
     "Id": "1430525660",
     "Language": "SFX",
+    "Hash": "2199627985",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level3\\MapInteractionLV3",
     "ShortName": "MapInteractionLV3",
     "Path": "MapInteractionLV3.bnk",
@@ -1168,6 +1117,7 @@
    {
     "Id": "1430525661",
     "Language": "SFX",
+    "Hash": "1182971629",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level2\\MapInteractionLV2",
     "ShortName": "MapInteractionLV2",
     "Path": "MapInteractionLV2.bnk",
@@ -1289,6 +1239,7 @@
    {
     "Id": "1430525662",
     "Language": "SFX",
+    "Hash": "3554471707",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Level1\\MapInteractionLV1",
     "ShortName": "MapInteractionLV1",
     "Path": "MapInteractionLV1.bnk",
@@ -1410,6 +1361,7 @@
    {
     "Id": "2315910343",
     "Language": "SFX",
+    "Hash": "3992308475",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Characters\\Iscariot",
     "ShortName": "Iscariot",
     "Path": "Iscariot.bnk",
@@ -1438,60 +1390,31 @@
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\LV3Music",
     "ShortName": "LV3Music",
     "Path": "LV3Music.bnk",
-    "IncludedEvents": [
+    "IncludedMemoryFiles": [
      {
-      "Id": "2102085613",
-      "Name": "LV3_Basic",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV3Music\\LV3_Basic",
-      "DurationType": "OneShot",
-      "DurationMin": "224.",
-      "DurationMax": "224.",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "452460163",
-        "Language": "SFX",
-        "ShortName": "LV3_Basic.wav",
-        "Path": "SFX\\LV3_Basic_10C4C929.wem"
-       }
-      ]
+      "Id": "269906067",
+      "Language": "SFX",
+      "ShortName": "LV3_Combat.wav",
+      "Path": "SFX\\LV3_Combat_D79FB2B7.wem"
      },
      {
-      "Id": "3961795458",
-      "Name": "LV3_Boss",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV3Music\\LV3_Boss",
-      "DurationType": "OneShot",
-      "DurationMin": "293.386658",
-      "DurationMax": "293.386658",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "603436014",
-        "Language": "SFX",
-        "ShortName": "LV3_Boss.wav",
-        "Path": "SFX\\LV3_Boss_10C4C929.wem"
-       }
-      ]
+      "Id": "452460163",
+      "Language": "SFX",
+      "ShortName": "LV3_Basic.wav",
+      "Path": "SFX\\LV3_Basic_D79FB2B7.wem"
      },
      {
-      "Id": "1402924317",
-      "Name": "Lv3_Combat",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\LV3Music\\Lv3_Combat",
-      "DurationType": "OneShot",
-      "DurationMin": "132.689835",
-      "DurationMax": "132.689835",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "269906067",
-        "Language": "SFX",
-        "ShortName": "LV3_Combat.wav",
-        "Path": "SFX\\LV3_Combat_10C4C929.wem"
-       }
-      ]
+      "Id": "603436014",
+      "Language": "SFX",
+      "ShortName": "LV3_Boss.wav",
+      "Path": "SFX\\LV3_Boss_D79FB2B7.wem"
      }
     ]
    },
    {
     "Id": "2692855564",
     "Language": "SFX",
+    "Hash": "165755169",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\XenoSpitter",
     "ShortName": "XenoSpitter",
     "Path": "XenoSpitter.bnk",
@@ -1549,6 +1472,7 @@
    {
     "Id": "2982135181",
     "Language": "SFX",
+    "Hash": "2165875730",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\QueenXenomorph",
     "ShortName": "QueenXenomorph",
     "Path": "QueenXenomorph.bnk",
@@ -1622,6 +1546,7 @@
    {
     "Id": "3063191711",
     "Language": "SFX",
+    "Hash": "371059348",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\FSAD",
     "ShortName": "FSAD",
     "Path": "FSAD.bnk",
@@ -1711,6 +1636,7 @@
    {
     "Id": "3213291899",
     "Language": "SFX",
+    "Hash": "1794616298",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Weapons\\Consumables",
     "ShortName": "Consumables",
     "Path": "Consumables.bnk",
@@ -1755,44 +1681,19 @@
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music\\UIMusic",
     "ShortName": "UIMusic",
     "Path": "UIMusic.bnk",
-    "IncludedEvents": [
+    "IncludedMemoryFiles": [
      {
-      "Id": "424608496",
-      "Name": "UI_Credits",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\UIMisuc\\UI_Credits",
-      "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
-     },
-     {
-      "Id": "2766683758",
-      "Name": "UI_Inventory",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\UIMisuc\\UI_Inventory",
-      "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
-     },
-     {
-      "Id": "2511555531",
-      "Name": "UI_Menu",
-      "ObjectPath": "\\Events\\Default Work Unit\\Music\\UIMisuc\\UI_Menu",
-      "DurationType": "OneShot",
-      "DurationMin": "214.087997",
-      "DurationMax": "214.087997",
-      "IncludedMemoryFiles": [
-       {
-        "Id": "840542772",
-        "Language": "SFX",
-        "ShortName": "Menu.wav",
-        "Path": "SFX\\Menu_10C4C929.wem"
-       }
-      ]
+      "Id": "840542772",
+      "Language": "SFX",
+      "ShortName": "Menu.wav",
+      "Path": "SFX\\Menu_D79FB2B7.wem"
      }
     ]
    },
    {
     "Id": "3563481019",
     "Language": "SFX",
+    "Hash": "1884312788",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\UI\\UI_Sfx",
     "ShortName": "UI_Sfx",
     "Path": "UI_Sfx.bnk",
@@ -1882,8 +1783,16 @@
       "Name": "UI_EquipConsumable",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_EquipConsumable",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.520229",
+      "DurationMax": "0.520229",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "358170008",
+        "Language": "SFX",
+        "ShortName": "EquipConsumable.wav",
+        "Path": "SFX\\EquipConsumable_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1009189048",
@@ -1970,8 +1879,16 @@
       "Name": "UI_PlaceItem",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_PlaceItem",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.36125",
+      "DurationMax": "0.36125",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "120721830",
+        "Language": "SFX",
+        "ShortName": "PlaceItem.wav",
+        "Path": "SFX\\PlaceItem_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1838463399",
@@ -2010,8 +1927,16 @@
       "Name": "UI_SkillOnCD",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_SkillOnCD",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.086062",
+      "DurationMax": "0.086062",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "756628001",
+        "Language": "SFX",
+        "ShortName": "SkillOnCD.wav",
+        "Path": "SFX\\SkillOnCD_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "1219048826",
@@ -2034,22 +1959,39 @@
       "Name": "UI_SwapConsumables",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_SwapConsumables",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "0.590479",
+      "DurationMax": "0.590479",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "1003147809",
+        "Language": "SFX",
+        "ShortName": "SwapConsumables.wav",
+        "Path": "SFX\\SwapConsumables_10C4C929.wem"
+       }
+      ]
      },
      {
       "Id": "2545285754",
       "Name": "UI_WeaponUpgrade",
       "ObjectPath": "\\Events\\Default Work Unit\\UI\\UI_WeaponUpgrade",
       "DurationType": "OneShot",
-      "DurationMin": "0.",
-      "DurationMax": "0."
+      "DurationMin": "1.678917",
+      "DurationMax": "1.678917",
+      "IncludedMemoryFiles": [
+       {
+        "Id": "950695622",
+        "Language": "SFX",
+        "ShortName": "WeaponUpgrade.wav",
+        "Path": "SFX\\WeaponUpgrade_10C4C929.wem"
+       }
+      ]
      }
     ]
    },
    {
     "Id": "4095160059",
     "Language": "SFX",
+    "Hash": "665799726",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Base\\AmbientB",
     "ShortName": "AmbientB",
     "Path": "AmbientB.bnk",
@@ -2123,6 +2065,7 @@
    {
     "Id": "4095621880",
     "Language": "SFX",
+    "Hash": "3477694633",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\Enemies\\Facehugger",
     "ShortName": "Facehugger",
     "Path": "Facehugger.bnk",
