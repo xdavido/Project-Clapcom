@@ -1,12 +1,17 @@
 #include "UI_Canvas.h"
 #include "ModuleScene.h"
 #include "ModuleEditor.h"
+#include "ModuleWindow.h"
 
 #include "External/mmgr/mmgr.h"
 
-UI_Canvas::UI_Canvas(GameObject* g, int w, int h) : C_UI(UI_TYPE::CANVAS, ComponentType::UI, g, "Canvas")
+UI_Canvas::UI_Canvas(GameObject* g, float w, float h) : C_UI(UI_TYPE::CANVAS, ComponentType::UI, g, "Canvas")
 {
+	static_cast<G_UI*>(mOwner)->canvas = this;
+	External->scene->SetCanvas((G_UI*)mOwner);
 	External->scene->vCanvas.push_back((G_UI*)mOwner);
+
+	tabNav_ = false;
 }
 
 UI_Canvas::~UI_Canvas()
@@ -15,6 +20,9 @@ UI_Canvas::~UI_Canvas()
 	{
 		External->scene->SetCanvas();
 	}
+
+	External->scene->vCanvas.erase(std::find(External->scene->vCanvas.begin(), External->scene->vCanvas.end(), (G_UI*)mOwner));
+	External->scene->vCanvas.shrink_to_fit();
 }
 
 void UI_Canvas::OnInspector()
@@ -60,8 +68,17 @@ void UI_Canvas::UpdateUITransform()
 {
 	mOwner->mTransform->SetTransform(float3(0, 0, 0), float3(0, 0, 0), float3(1, 1, 1));
 	
+#ifndef _STANDALONE
+
 	width = External->editor->gameViewSize.x;
-	height = External->editor->gameViewSize.y;
+	height = External->editor->gameViewSize.y; 
+
+#else
+
+	width = External->window->width;
+	height = External->window->height;
+
+#endif // !_STANDALONE
 
 	boundsEditor->vertices[0].position = float3(posX, posY, 0);
 	boundsEditor->vertices[1].position = float3(posX + width, posY, 0);
@@ -72,6 +89,8 @@ void UI_Canvas::UpdateUITransform()
 	boundsEditor->vertices[3].textureCoordinates = float2(1, 1);
 	boundsEditor->vertices[1].textureCoordinates = float2(1, 0);
 	boundsEditor->vertices[0].textureCoordinates = float2(0, 0);
+
+	dirty_ = false;
 
 	boundsEditor->RegenerateVBO();
 }

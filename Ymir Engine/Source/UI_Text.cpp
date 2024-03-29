@@ -1,4 +1,6 @@
 #include "UI_Text.h"
+#include "UI_Transform.h"
+
 #include "GameObject.h"
 
 #include "ModuleEditor.h"
@@ -7,9 +9,9 @@
 
 #include "External/mmgr/mmgr.h"
 
-UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h, std::string fontName, std::string fontPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
+UI_Text::UI_Text(GameObject* g, float x, float y, const char* t, float fs, float ls, std::string fontName, std::string fontPath, float w, float h, std::string shaderPath) : C_UI(UI_TYPE::TEXT, ComponentType::UI, g, "Text", x, y, w, h)
 {
-	text = "Hello World";
+	text = t;
 
 	if (fontName == "")
 	{
@@ -73,36 +75,45 @@ UI_Text::UI_Text(GameObject* g, int x, int y, int w, int h, std::string fontName
 
 	Vertex gameVertex1;
 	gameVertex1.position = float3::zero;
-	gameVertex1.textureCoordinates = float2(0, 0);
+	gameVertex1.textureCoordinates = float2(0, 1);
 	boundsGame->vertices.push_back(gameVertex1);
 
 	Vertex gameVertex2;
 	gameVertex2.position = float3::zero;
-	gameVertex2.textureCoordinates = float2(1, 0);
+	gameVertex2.textureCoordinates = float2(1, 1);
 	boundsGame->vertices.push_back(gameVertex2);
 
 	Vertex gameVertex3;
 	gameVertex3.position = float3::zero;
-	gameVertex3.textureCoordinates = float2(0, 1);
+	gameVertex3.textureCoordinates = float2(0, 0);
 	boundsGame->vertices.push_back(gameVertex3);
 
 	Vertex gameVertex4;
 	gameVertex4.position = float3::zero;
-	gameVertex4.textureCoordinates = float2(1, 1);
+	gameVertex4.textureCoordinates = float2(1, 0);
 	boundsGame->vertices.push_back(gameVertex4);
 
 	boundsEditor->InitBuffers();
 	boundsGame->InitBuffers();
 
-	fontSize = 21;
+	fontSize = fs;
+	lineSpacing = ls;
 	space = 0;
+
+	mat = new CMaterial(g);
+	mat->shaderPath = shaderPath;
+	mat->shader.LoadShader(mat->shaderPath);
+
+	tabNav_ = false;
 }
 
 UI_Text::~UI_Text()
 {
 	font = nullptr;
+
 	boundsEditor->DeleteBuffers();
 	boundsGame->DeleteBuffers();
+
 	//RELEASE_ARRAY(boundsEditor->index);
 	//RELEASE_ARRAY(boundsGame->index);
 	RELEASE(boundsEditor);
@@ -118,7 +129,9 @@ void UI_Text::OnInspector()
 	{
 		if (!active) { ImGui::BeginDisabled(); }
 
-		ImGui::Checkbox("Draggeable", &isDraggable);
+		ImGui::TextColored(WARNING_COLOR, "[!] Move with UI Transform");
+
+		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		ImGui::InputTextMultiline(("Text##" + std::to_string(mOwner->UID)).c_str(), &text, ImVec2(0, 0), ImGuiInputTextFlags_AllowTabInput);
 		//ImGui::InputText(name.c_str(), &text, ImGuiInputTextFlags_EnterReturnsTrue);
@@ -159,21 +172,282 @@ void UI_Text::OnInspector()
 		//	//RELEASE(font);
 		//	font = new Font("Cat Paw.otf");
 		//}
-		if (ImGui::Button("change times"))
+		if (ImGui::Button("change valencia"))
 		{
 			//RELEASE(font);
-			font = new Font("times.ttf");
+			font = new Font("de-valencia-beta.otf");
 		}
 
 		ImGui::Text("Font Size");
-		if (ImGui::DragFloat("##FontSize", (fontSize < 0) ? &(fontSize = 0) : &fontSize, 0.1f, 0, 0, "%.1f"))
-		{
-		}
-		ImGui::ColorEdit4("Color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
+		ImGui::DragFloat("##FontSize", (fontSize < 0) ? &(fontSize = 0) : &fontSize, 0.1f, 0, 0, "%.1f");
+
+		ImGui::Text("Line Spacing");
+		ImGui::DragFloat("##LineSpacing", &lineSpacing, 0.1f);
+		
+		//ImGui::ColorEdit4("Color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 
 		if (!active) { ImGui::EndDisabled(); }
 	}
+
+	// Vectors of shader paths and names
+	std::vector<const char*> listShaderPaths;
+	std::vector<const char*> listShaderNames;
+
+	// Manage loaded shaders
+	for (auto& it = Shader::loadedShaders.begin(); it != Shader::loadedShaders.end(); ++it) {
+
+		listShaderPaths.push_back(it->first.c_str());
+
+		std::string shaderFileName = std::filesystem::path(it->first).stem().string();
+		listShaderNames.push_back(strdup(shaderFileName.c_str())); // strdup to allocate new memory
+
+	}
+
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+	ImGui::Checkbox(("##" + mOwner->name + std::to_string(ctype)).c_str(), &active);
 	ImGui::SameLine();
+
+	if (ImGui::CollapsingHeader("Material", &exists, flags))
+	{
+		ImGui::Indent();
+
+		ImGui::Spacing();
+
+		if (!active) { ImGui::BeginDisabled(); }
+
+		ImGui::Spacing();
+
+		// ------------------------------------ SHADER ------------------------------------
+
+		ImGui::SeparatorText("SHADER");
+
+		ImGui::Spacing();
+
+		ImGui::Text("Shader: ");
+		ImGui::SameLine();
+
+		if (mOwner->selected) {
+
+			// Find the index of the current shader path in listShaderPaths
+			auto it = std::find(listShaderPaths.begin(), listShaderPaths.end(), mat->shaderPath);
+
+			if (it != listShaderPaths.end()) {
+
+				mat->selectedShader = static_cast<int>(std::distance(listShaderPaths.begin(), it));
+
+			}
+
+		}
+
+		// Choose between the list of shaders
+		if (ImGui::Combo("##ChooseShader", &mat->selectedShader, listShaderNames.data(), listShaderNames.size())) {
+
+			mat->shaderDirtyFlag = true;
+
+		}
+
+		if (mat->shaderDirtyFlag) {
+
+			// When shader changes, update the shader path and recompile
+			mat->shaderPath = listShaderPaths[mat->selectedShader];
+			mat->shader.LoadShader(mat->shaderPath);
+
+			// Reset the dirty flag after handling the change
+			mat->shaderDirtyFlag = false;
+
+		}
+
+		ImGui::Spacing();
+
+		// Shader Uniforms Management
+
+		if (mOwner->selected) {
+
+			if (mat->shader.uniforms.size() == 0) {
+
+				ImGui::Text("No editable uniforms.");
+
+			}
+			else {
+
+				ImGui::Text("Uniforms:");
+
+			}
+
+			ImGui::Spacing();
+
+			ImGui::Indent();
+
+			// In case the shader has editable uniforms:
+			for (auto kt = mat->shader.uniforms.begin(); kt != mat->shader.uniforms.end(); ++kt) {
+
+				std::string label = "##" + kt->name;
+
+				ImGui::Text("%s", kt->name.c_str());
+				ImGui::SameLine();
+
+				// Change display according to uniform type
+				switch (kt->type)
+				{
+				case UniformType::boolean:
+
+					ImGui::Checkbox(label.c_str(), (bool*)kt->value.get());
+
+					mat->shader.SetUniformValue(kt->name, (bool*)kt->value.get());
+
+					break;
+
+				case UniformType::i1:
+
+					ImGui::DragInt(label.c_str(), (int*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+
+					break;
+
+				case UniformType::i2:
+
+					ImGui::DragInt2(label.c_str(), (int*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+
+					break;
+
+				case UniformType::i3:
+
+					ImGui::DragInt3(label.c_str(), (int*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+
+					break;
+
+				case UniformType::i4:
+
+					ImGui::DragInt4(label.c_str(), (int*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (int*)kt->value.get());
+
+					break;
+
+				case UniformType::f1:
+
+					ImGui::DragFloat(label.c_str(), (float*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+
+					break;
+
+				case UniformType::f2:
+
+					ImGui::DragFloat2(label.c_str(), (float*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+
+					break;
+
+				case UniformType::f3:
+
+					ImGui::DragFloat3(label.c_str(), (float*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+
+					break;
+
+				case UniformType::f4:
+
+					ImGui::DragFloat4(label.c_str(), (float*)kt->value.get(), 0.01f);
+
+					mat->shader.SetUniformValue(kt->name, (float*)kt->value.get());
+
+					break;
+
+				}
+
+			}
+
+			ImGui::Unindent();
+
+		}
+
+		ImGui::Spacing();
+
+		// ------------------------------------ TEXTURES ------------------------------------
+
+		ImGui::SeparatorText("TEXTURES");
+
+		ImGui::Spacing();
+
+		// Display texture maps of the gameobject material
+
+		ImVec2 textureMapSize(20, 20);
+
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Diffuse");
+		ImGui::SameLine();
+		ImGui::Text("(%s)", mat->path.c_str());
+
+		ImGui::Spacing();
+
+		ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Specular");
+
+		ImGui::Spacing();
+
+		ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Normal");
+
+		ImGui::Spacing();
+
+		ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Height");
+
+		ImGui::Spacing();
+
+		ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Ambient");
+
+		ImGui::Spacing();
+
+		ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+		mat->DdsDragDropTarget();
+		ImGui::SameLine();
+		ImGui::Text("Emissive");
+
+		ImGui::Spacing();
+
+		// Utility buttons
+
+		if (ImGui::Button("Apply Checker Texture")) {
+
+			External->renderer3D->ApplyCheckerTexture();
+
+		}
+
+		ImGui::Spacing();
+
+		if (ImGui::Button("Clear Actual Texture")) {
+
+			External->renderer3D->ClearActualTexture();
+
+		}
+
+		if (!active) { ImGui::EndDisabled(); }
+
+		ImGui::Spacing();
+
+		ImGui::Unindent();
+	}
 
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
@@ -183,7 +457,10 @@ void UI_Text::Draw(bool game)
 	UI_Bounds* boundsDrawn = nullptr;
 	space = 0;
 
-	for (size_t i = 0; i < text.length(); i++)
+	float fs = fontSize * 1.5;
+	uint newLines = 0;
+
+	for (size_t i = 0; i < text.length(); ++i)
 	{
 		float3 position = mOwner->mTransform->translation;
 
@@ -191,88 +468,87 @@ void UI_Text::Draw(bool game)
 
 		if (itr != font->mCharacters.end())
 		{
-			float sizeX = itr->second->size.x * (fontSize / 98);
+			float sizeX = itr->second->size.x * (fs / 98);
+			float sizeY = itr->second->size.y * (fs / 98);
+
+			float nlOffsetE = (/*position.y +*/ sizeY + mOwner->mTransform->GetGlobalPosition().y + (fs * lineSpacing)) * newLines;
+			float nlOffsetG = (/*posY +*/ (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y + (fs * lineSpacing)) / 2 * newLines;
 
 			if (i != 0)
 			{
 				auto itr2 = font->mCharacters.find(text[i - 1]);
-				space = space + itr2->second->size.x * (fontSize / 98) + (fontSize / 5);
+
+				if (itr2 == font->mCharacters.end())
+				{
+					return;
+				}
+
+				if (itr2->first != '\n')
+				{
+					space = space + itr2->second->size.x * (fs / 98) + (fs / 5);
+				}
 			}
 
 			if (itr->first == ' ')
 			{
-				space += fontSize;
+				space += (fs / 2);
 			}
 
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
-			boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x), position.y, 0);
-
-			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x), posY, 0);
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
-
-			if (game)
+			if (itr->first == '\n')
 			{
-				boundsDrawn = boundsGame;
-
-				//glMatrixMode(GL_PROJECTION);
-				//glLoadIdentity();
-				//glOrtho(0.0, External->editor->gameViewSize.x, 0.0, External->editor->gameViewSize.y, 1.0, -1.0);
-
-				//glMatrixMode(GL_MODELVIEW);
-				//glLoadIdentity();
+				++newLines;
+				space = 0;
 			}
-
 			else
 			{
-				boundsDrawn = boundsEditor;
+				boundsEditor->vertices[0].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y + nlOffsetE, 0);
+				boundsEditor->vertices[1].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + sizeY + mOwner->mTransform->GetGlobalPosition().y + nlOffsetE, 0);
+				boundsEditor->vertices[2].position = float3(position.x + space + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y + nlOffsetE, 0);
+				boundsEditor->vertices[3].position = float3(position.x + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, position.y + mOwner->mTransform->GetGlobalPosition().y + nlOffsetE, 0);
 
-				//glPushMatrix();
-				//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
-			}
+				// Bot left - Bot right - Top left - Top right
+				boundsGame->vertices[0].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y + nlOffsetG, 0);
+				boundsGame->vertices[1].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) + mOwner->mTransform->GetGlobalPosition().y + nlOffsetG, 0);
+				boundsGame->vertices[2].position = float3(posX + space + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y + nlOffsetG, 0);
+				boundsGame->vertices[3].position = float3(posX + space + (sizeX * scaleBounds.x * mOwner->mTransform->scale.x) + mOwner->mTransform->GetGlobalPosition().x, posY + (scaleBounds.y * mOwner->mTransform->scale.y) - sizeY + mOwner->mTransform->GetGlobalPosition().y + nlOffsetG, 0);
 
-			// TODO:  equivalent to this glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
+				boundsEditor->RegenerateVBO();
+				boundsGame->RegenerateVBO();
 
+				if (game)
+				{
+					boundsDrawn = boundsGame;
+				}
 
-			//for (auto& textures : mat->rTextures) {
+				else
+				{
+					boundsDrawn = boundsEditor;
 
-			//	textures->BindTexture(true);
+					//glPushMatrix();
+					//glMultMatrixf(mOwner->mTransform->mGlobalMatrix.Transposed().ptr());
+				}
 
-			//}
+				// Render
 
-			//mat->shader.UseShader(true);
-			//mat->shader.SetShaderUniforms(&mOwner->mTransform->mGlobalMatrix);
+				glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
 
-			// Render
+				mat->shader.UseShader(true);
+				mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
 
-			
-			glBindTexture(GL_TEXTURE_2D, itr->second->textureID);
-			
-			//uiImage->mat->shader.UseShader(true);
-			//uiImage->mat->shader.SetShaderUniforms(&uiImage->mOwner->mTransform->mGlobalMatrix, (*it)->selected);
+				glBindVertexArray(boundsDrawn->VAO);
 
-			glBindVertexArray(boundsDrawn->VAO);
+				glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
 
-			glDrawElements(GL_TRIANGLES, boundsDrawn->indices.size(), GL_UNSIGNED_INT, 0);
+				glBindVertexArray(0);
 
-			glBindVertexArray(0);
+				mat->shader.UseShader(false);
 
-			//uiImage->mat->shader.UseShader(false);
+				glBindTexture(GL_TEXTURE_2D, 0);
 
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-			//mat->shader.UseShader(false);
-
-
-			if (!game)
-			{
-				//glPopMatrix();
+				if (!game)
+				{
+					//glPopMatrix();
+				}
 			}
 		}
 	}
@@ -280,46 +556,14 @@ void UI_Text::Draw(bool game)
 	boundsDrawn = nullptr;
 }
 
-void UI_Text::ChangeFontSize()
+void UI_Text::SetText(const char* t)
 {
-	UI_Bounds* boundsDrawn = nullptr;
-	space = 0;
+	text = t;
+}
 
-	for (size_t i = 0; i < text.length(); i++)
-	{
-		float3 position = mOwner->mTransform->translation;
-
-		auto itr = font->mCharacters.find(text[i]);
-
-		if (itr != font->mCharacters.end())
-		{
-			if (i != 0)
-			{
-				auto itr2 = font->mCharacters.find(text[i - 1]);
-				space += itr2->second->size.x;
-			}
-
-			if (itr->first == ' ')
-			{
-				space += fontSize;
-			}
-
-			boundsEditor->vertices[0].position = float3(position.x + space, position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[1].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y + (fontSize * scaleBounds.y), 0);
-			boundsEditor->vertices[2].position = float3(position.x + space, position.y, 0);
-			boundsEditor->vertices[3].position = float3(position.x + space + (itr->second->size.x * scaleBounds.x), position.y, 0);
-
-			boundsGame->vertices[0].position = float3(posX + space, posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[1].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY + (fontSize * scaleBounds.y), 0);
-			boundsGame->vertices[2].position = float3(posX + space, posY, 0);
-			boundsGame->vertices[3].position = float3(posX + space + (itr->second->size.x * scaleBounds.x), posY, 0);
-
-			boundsEditor->RegenerateVBO();
-			boundsGame->RegenerateVBO();
-		}
-	}
-
-	boundsDrawn = nullptr;
+void UI_Text::ChangeFontSize(float size)
+{
+	fontSize = size;
 }
 
 Font::Font(std::string name, std::string fontPath)
@@ -376,7 +620,8 @@ Font::Font(std::string name, std::string fontPath)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		std::unique_ptr <Character> chara(new Character
+		// TODO: MEMORY LEAK -> Smart pointers don't work here
+		Character* chara(new Character
 			{
 				texture,
 				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
@@ -384,7 +629,7 @@ Font::Font(std::string name, std::string fontPath)
 				static_cast<unsigned int>(face->glyph->advance.x),
 			});
 
-		mCharacters.insert(std::pair<GLchar, Character*>(c, chara.get()));
+		mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
 	}
 
 	// destroy FreeType once we're finished
@@ -394,10 +639,10 @@ Font::Font(std::string name, std::string fontPath)
 
 Font::~Font()
 {
-	for (unsigned char c = 0; c < 128; ++c)
-	{
-		RELEASE(mCharacters[c]);
-	}
+	//for (unsigned char c = 0; c < 128; ++c)
+	//{
+	//	RELEASE(mCharacters[c]);
+	//}
 
 	mCharacters.clear();
 }
@@ -420,18 +665,4 @@ bool Font::InitFont(std::string n, std::string fontPath)
 	name = n;
 
 	return true;
-}
-
-GLuint Font::GetCharacterTexID(GLchar character)
-{
-	for (std::map<GLchar, Character*>::const_iterator it = mCharacters.begin(); it != mCharacters.end(); it++)
-	{
-		if ((*it).first == character)
-		{
-			GLuint id = (*it).second->textureID;
-			return id;
-		}
-	}
-
-	return 0;
 }

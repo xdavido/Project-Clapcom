@@ -14,6 +14,7 @@
 #include "ModulePhysics.h"
 #include "ModuleMonoManager.h"
 #include "ModuleLightManager.h"
+#include "ModuleAudio.h"
 
 #include "GameObject.h"
 #include "G_UI.h"
@@ -29,6 +30,7 @@
 #include "ScriptEditor.h"
 
 #include "External/mmgr/mmgr.h"
+#include "ImGuiCustom.h"
 
 // Constructor
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -59,6 +61,7 @@ bool ModuleEditor::Init()
 	LOG("Initializing editor...");
 
 	bool ret = true;
+	exit = update_status::UPDATE_CONTINUE;
 
 	// Retrieving data from window initial status
 
@@ -86,6 +89,11 @@ bool ModuleEditor::Init()
 		UpdateAndRenderAdditionalPlatformWindows = true;
 
 	}
+
+	ImGuiCustom::Theme_OrangeFont();
+
+	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahoma.ttf", 15.0f);
+	io.Fonts->AddFontDefault();
 
 	// Setup Dear ImGui style
 
@@ -129,18 +137,24 @@ bool ModuleEditor::Init()
 	modelIcon.LoadEngineIconTexture("Assets/Editor/model.dds");
 	shaderIcon.LoadEngineIconTexture("Assets/Editor/shader.dds");
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
-
+	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
+	animIcon.LoadEngineIconTexture("Assets/Editor/animation.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
 
-#ifdef _STANDALONE
-
-	TimeManager::gameTimer.Start();
-
-#endif // _STANDALONE
+	//#ifdef _STANDALONE
+	//
+	//	TimeManager::gameTimer.Start();
+	//
+	//#endif // _STANDALONE
 
 	return ret;
+}
+
+update_status ModuleEditor::Update(float dt)
+{
+	return exit;
 }
 
 void ModuleEditor::DrawEditor()
@@ -205,12 +219,37 @@ void ModuleEditor::DrawEditor()
 
 			}
 
-			/*ImGui::SeparatorText("Exit");
+			ImGui::Separator();
+			if (ImGui::BeginMenu("Theme"))
+			{
+				if (ImGui::MenuItem("Classic"))
+				{
+					ImGui::StyleColorsClassic();
+				}
+				if (ImGui::MenuItem("Light (please don't)"))
+				{
+					ImGui::StyleColorsLight();
+				}
+				if (ImGui::MenuItem("Dark"))
+				{
+					ImGui::StyleColorsDark();
+				}
+
+				if (ImGui::MenuItem("Orange Font"))
+				{
+					ImGuiCustom::Theme_OrangeFont();
+				}
+				ImGui::EndMenu();
+			}
+
+			ImGui::SeparatorText("Exit");
 
 			if (ImGui::MenuItem("Exit")) {
 
+				// TODO: Sara --> make a popup to ask to save
+				exit = update_status::UPDATE_STOP;
 
-			}*/
+			}
 
 			ImGui::EndMenu();
 
@@ -413,6 +452,7 @@ void ModuleEditor::DrawEditor()
 	}
 
 	SaveAs();
+	RenderSaveAsPrefabPopUp();
 
 	if (showAboutPopUp) {
 
@@ -421,6 +461,21 @@ void ModuleEditor::DrawEditor()
 		if (ImGui::BeginPopupModal("About")) {
 
 			AboutModalWindowContent();
+
+			ImGui::EndPopup();
+
+		}
+
+	}
+
+	if (showNewScriptPopUp) {
+
+		ImGui::OpenPopup("New Script");
+
+		ImGui::SetNextWindowSize(ImVec2(300.0f, 100.0f), ImGuiCond_Appearing);
+		if (ImGui::BeginPopupModal("New Script")) {
+
+			scriptEditor->ShowNewScriptDialogue();
 
 			ImGui::EndPopup();
 
@@ -812,9 +867,23 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::CollapsingHeader("Physics"))
 			{
 				btVector3 auxGravity = App->physics->GetWorldGravity();
-				bool auxDebugDraw = App->physics->GetDebugDraw();
-				ImVec4 auxColor = ImVec4(App->physics->GetColliderColor().r, App->physics->GetColliderColor().g,
-					App->physics->GetColliderColor().b, App->physics->GetColliderColor().a);
+				bool auxDebugDrawScene = App->physics->debugScene;
+				bool auxDebugDrawGame = App->physics->debugGame;
+				int auxLineWidth = App->physics->shapeLineWidth;
+
+				ImVec4 auxColliderColor = ImVec4(
+					App->physics->colliderColor.r,
+					App->physics->colliderColor.g,
+					App->physics->colliderColor.b,
+					App->physics->colliderColor.a
+				);
+
+				ImVec4 auxSensorColor = ImVec4(
+					App->physics->sensorColor.r,
+					App->physics->sensorColor.g,
+					App->physics->sensorColor.b,
+					App->physics->sensorColor.a
+				);
 
 				ImGui::SeparatorText("Gravity");
 
@@ -830,37 +899,66 @@ void ModuleEditor::DrawEditor()
 				}
 
 				ImGui::Unindent();
-				ImGui::SeparatorText("Colliders");
+				ImGui::SeparatorText("Drawer");
 				ImGui::Indent();
 
-				ImGui::Text("Draw Colliders"); ImGui::SameLine();
-				if (ImGui::Checkbox("##Draw", &auxDebugDraw))
+
+				ImGui::Text("Draw Scene"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawScene", &auxDebugDrawScene))
 				{
-					App->physics->SetdebugDraw(auxDebugDraw);
+					App->physics->debugScene = auxDebugDrawScene;
 				}
+
+				ImGui::Text("Draw Game"); ImGui::SameLine();
+				if (ImGui::Checkbox("##DrawGame", &auxDebugDrawGame))
+				{
+					App->physics->debugGame = auxDebugDrawGame;
+				}
+
+				ImGui::Unindent();
+				ImGui::SeparatorText("Customization");
+				ImGui::Indent();
 
 				ImGui::Text("Collider Color"); ImGui::SameLine();
 
-				// Mostrar el bot�n de color personalizado
-				if (ImGui::ColorButton("##ColorButton", auxColor))
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##ColliderColorButton", auxColliderColor))
 				{
-					ImGui::OpenPopup("ColorPickerPopup");
+					ImGui::OpenPopup("ColliderColorPicker");
 				}
 
-				if (ImGui::BeginPopup("ColorPickerPopup"))
+				if (ImGui::BeginPopup("ColliderColorPicker"))
 				{
-					ImGui::ColorPicker4("Color", (float*)&auxColor);
-					App->physics->SetColliderColor(Color(auxColor.x, auxColor.y, auxColor.z, auxColor.w));
+					ImGui::ColorPicker4("Color", (float*)&auxColliderColor);
+					App->physics->SetColliderColor(Color(auxColliderColor.x, auxColliderColor.y, auxColliderColor.z, auxColliderColor.w));
 					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Sensor Color"); ImGui::SameLine();
+
+				// Mostrar el boton de color personalizado
+				if (ImGui::ColorButton("##SensorColorButton", auxSensorColor))
+				{
+					ImGui::OpenPopup("SensorColorPicker");
+				}
+
+				if (ImGui::BeginPopup("SensorColorPicker"))
+				{
+					ImGui::ColorPicker4("Color", (float*)&auxSensorColor);
+					App->physics->SetSensorColor(Color(auxSensorColor.x, auxSensorColor.y, auxSensorColor.z, auxSensorColor.w));
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text("Shape line width: "); ImGui::SameLine(); ImGui::SetNextItemWidth(100.0f);
+				if (ImGui::SliderInt("##Shape line width", &auxLineWidth, 0, 10))
+				{
+					App->physics->SetLineWidth(auxLineWidth);
 				}
 
 				ImGui::Unindent();
 			}
-
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showConsole) {
@@ -877,9 +975,7 @@ void ModuleEditor::DrawEditor()
 			MemoryLeaksOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showAssimpLog) {
@@ -891,9 +987,7 @@ void ModuleEditor::DrawEditor()
 			AssimpLogOutput();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showHierarchy) {
@@ -905,14 +999,18 @@ void ModuleEditor::DrawEditor()
 			DrawHierarchy();
 
 			ImGui::End();
-
 		}
-
 	}
 
 	if (showInspector) {
 
-		if (ImGui::Begin("Inspector", &showInspector), true) {
+		if (ImGui::Begin("Inspector", &showInspector, ImGuiWindowFlags_MenuBar), true) {
+
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Checkbox("Lock", &App->scene->isLocked);
+			}
+			ImGui::EndMenuBar();
 
 			// Show GameObject Inspector
 
@@ -968,13 +1066,13 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::Button("Stop")) {
 
+				App->audio->StopAllSounds();
 				TimeManager::gameTimer.Stop();
 
 				isPlaying = false;
 				isPaused = false;
 
 				App->scene->LoadScene();
-
 			}
 
 		}
@@ -987,7 +1085,6 @@ void ModuleEditor::DrawEditor()
 				isPlaying = true;
 
 				App->scene->SaveScene();
-
 			}
 
 		}
@@ -1064,31 +1161,6 @@ void ModuleEditor::DrawEditor()
 	if (showAssets) {
 
 		if (ImGui::Begin("Assets", &showAssets, ImGuiWindowFlags_MenuBar), true) {
-
-			ImGui::BeginMenuBar();
-			if (ImGui::Button(("<- " + currentDir).c_str()))
-			{
-				std::size_t found = currentDir.find_last_of("/");
-				currentDir = currentDir.substr(0, found);
-			}
-
-			if (ImGui::Button("Create Folder"))
-			{
-				createFolder = true;
-			}
-			ImGui::Dummy(ImVec2(10, 0));
-
-			static ImGuiTextFilter filter;
-			filter.Draw("Search (WIP)", ImGui::GetFontSize() * 15);
-
-			ImGui::Dummy(ImVec2(10, 0));
-
-			if (ImGui::Button("Regenerate Library"))
-			{
-				DeleteAssetConfirmationPopup("Library");
-			}
-
-			ImGui::EndMenuBar();
 
 			DrawAssetsWindow((currentDir + "/").c_str());
 
@@ -1233,9 +1305,20 @@ void ModuleEditor::DrawEditor()
 
 			nodeEditor.Update();
 
+			ImVec2 gameViewPos = ImGui::GetWindowPos();
+
+			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
+			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
+
+			if (App->scene->gameCameraComponent != nullptr)
+			{
+				// Display the contents of the framebuffer texture
+				gameViewSize = ImGui::GetContentRegionAvail();
+				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
+				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
+			}
 			ImGui::End();
 		}
-
 	}
 
 	if (showShaderEditor) {
@@ -1296,9 +1379,67 @@ void ModuleEditor::DrawEditor()
 
 			// Mouse Picking Management
 
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !ImGuizmo::IsUsing())
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
 			{
 				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+				{
+					std::string assetsFilePathDrop = (const char*)payload->Data;
+
+					if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						App->resourceManager->ImportFile(assetsFilePathDrop);
+
+					}
+
+					if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						std::string path, name;
+						PhysfsEncapsule::SplitFilePath(assetsFilePathDrop.c_str(), &path, &name);
+
+						App->scene->LoadScene(path, name);
+
+					}
+
+					if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						std::string path, name;
+						PhysfsEncapsule::SplitFilePath(assetsFilePathDrop.c_str(), &path, &name);
+
+						App->scene->LoadPrefab(path, name);
+
+					}
+
+					if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						App->resourceManager->ImportFile(assetsFilePathDrop);
+
+					}
+
+				}
+
+				ImGui::EndDragDropTarget();
+
 			}
 
 			ImGui::End();
@@ -1310,7 +1451,7 @@ void ModuleEditor::DrawEditor()
 
 		if (ImGui::Begin("Game", &showGame), true) {
 
-			ImVec2 gameViewPos = ImGui::GetWindowPos();
+			gameViewPos = ImGui::GetWindowPos();
 
 			mouse.x = (ImGui::GetMousePos().x - gameViewPos.x) / gameViewSize.x;
 			mouse.y = (ImGui::GetMousePos().y - gameViewPos.y) / gameViewSize.y;
@@ -1318,6 +1459,7 @@ void ModuleEditor::DrawEditor()
 			if (App->scene->gameCameraComponent != nullptr)
 			{
 				// Display the contents of the framebuffer texture
+				gameViewPos = ImGui::GetWindowPos();
 				gameViewSize = ImGui::GetContentRegionAvail();
 				App->scene->gameCameraComponent->SetAspectRatio(gameViewSize.x / gameViewSize.y);
 				ImGui::Image((ImTextureID)App->scene->gameCameraComponent->framebuffer.TCB, gameViewSize, ImVec2(0, 1), ImVec2(1, 0));
@@ -1333,7 +1475,6 @@ void ModuleEditor::DrawEditor()
 	// --------------------------------- Here finishes the code for the editor ----------------------------------------
 
 	// Rendering
-
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -1511,19 +1652,19 @@ void ModuleEditor::LightsMenu()
 	if (ImGui::BeginMenu("Light"))
 	{
 
-		if (ImGui::MenuItem("Point Light")) 
+		if (ImGui::MenuItem("Point Light"))
 		{
 			App->lightManager->CreateLight(LightType::POINT_LIGHT);
 		}
-		if (ImGui::MenuItem("Directional Light")) 
+		if (ImGui::MenuItem("Directional Light"))
 		{
 			App->lightManager->CreateLight(LightType::DIRECTIONAL_LIGHT);
 		}
-		if (ImGui::MenuItem("Spot Light")) 
+		if (ImGui::MenuItem("Spot Light"))
 		{
 			App->lightManager->CreateLight(LightType::SPOT_LIGHT);
 		}
-		if (ImGui::MenuItem("Area Light")) 
+		if (ImGui::MenuItem("Area Light"))
 		{
 			App->lightManager->CreateLight(LightType::AREA_LIGHT);
 		}
@@ -1538,7 +1679,7 @@ void ModuleEditor::UIMenu()
 {
 	if (ImGui::BeginMenu("UI"))
 	{
-		std::array<std::string, 6> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox" };
+		std::array<std::string, 7> ui = { "Canvas", "Image", "Text", "Button", "Input Box", "Checkbox", "Slider" };
 
 		for (int i = 0; i < ui.size(); i++)
 		{
@@ -1591,6 +1732,62 @@ void ModuleEditor::SaveAs()
 		}
 		ImGui::EndPopup();
 	}
+}
+
+static bool showSaveAsPrefabPopup = false;
+static GameObject* prefabToSave;
+
+void ModuleEditor::SaveAsPrefabPopUp(GameObject* prefab) {
+
+	showSaveAsPrefabPopup = true;
+	prefabToSave = prefab;
+
+}
+
+void ModuleEditor::RenderSaveAsPrefabPopUp()
+{
+	if (showSaveAsPrefabPopup) {
+
+		ImGui::OpenPopup("Save As Prefab");
+
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+		if (ImGui::BeginPopupModal("Save As Prefab", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static std::string prefabName_saveAS = "New Prefab";
+
+			ImGui::Text("Prefab will be saved in %s as '%s'", currentDir.c_str(), prefabName_saveAS.c_str());
+			ImGui::Separator();
+
+			ImGui::InputText("File Name", &prefabName_saveAS);
+
+			if (ImGui::Button("OK", ImVec2(120, 0)))
+			{
+				App->scene->SavePrefab(prefabToSave, currentDir, prefabName_saveAS);
+
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::SetItemDefaultFocus();
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				showSaveAsPrefabPopup = false;
+
+				prefabName_saveAS = "New Prefab";
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
+	}
+
 }
 
 void ModuleEditor::WindowDockSpaceManagement()
@@ -2638,22 +2835,9 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		if (!node->active) ImGui::PopStyleColor();
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::IsItemClicked()) {
-
+		if (node != App->scene->mRootNode && ImGui::IsItemClicked())
+		{
 			App->scene->SetSelected(node);
-
-			//node->selected = true; // Toggle the selected state when clicked
-
-			//for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-			//	if ((*it) != node) {
-
-			//		(*it)->selected = false;
-
-			//	}
-
-			//}
-
 		}
 
 		if (ImGui::BeginDragDropSource())
@@ -2679,20 +2863,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 			ImGui::EndDragDropTarget();
 		}
 
-		if (node != App->scene->mRootNode /*Fran: This fixes Scene selection crash.*/ && ImGui::BeginPopupContextItem()) {
-
-			// TODO: Sara --> hacer bien esto
-			/*for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it) {
-
-				if ((*it) != node) {
-
-					(*it)->selected = false;
-
-				}
-
-			}*/
-
-			//node->selected = true;
+		if (node != App->scene->mRootNode && ImGui::BeginPopupContextItem()) {
 
 			App->scene->SetSelected(node);
 
@@ -2700,15 +2871,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 				if (node != App->scene->mRootNode && node->selected) {
 
-					App->scene->SetSelected();
-					node->mParent->DeleteChild(node);
-
-					App->scene->gameObjects.erase(
-						std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
-							[](const GameObject* obj) { return obj->selected; }
-						),
-						App->scene->gameObjects.end()
-					);
+					node->DestroyGameObject();
 
 				}
 				else if (node == App->scene->mRootNode && node->selected) {
@@ -2724,6 +2887,12 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 					}
 
 				}
+
+			}
+
+			if (ImGui::MenuItem("Save Prefab")) {
+
+				SaveAsPrefabPopUp(node);
 
 			}
 
@@ -2779,7 +2948,12 @@ void ModuleEditor::DrawInspector()
 
 		if (App->scene->selectedGO->selected) {
 
-			ImGui::Checkbox("##Active", &App->scene->selectedGO->active);
+			if (ImGui::Checkbox("##Active", &App->scene->selectedGO->active)) {
+
+				App->scene->SetActiveRecursively(App->scene->selectedGO, App->scene->selectedGO->active);
+
+			}
+
 			ImGui::SameLine();
 			char nameBuffer[256]; // You can adjust the buffer size as needed
 
@@ -2976,31 +3150,29 @@ void ModuleEditor::DrawInspector()
 
 				if (ImGui::BeginMenu("Script"))
 				{
-					if (ImGui::MenuItem("Core"))
-					{
-						script_name = "Core";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Plane"))
-					{
-						script_name = "BH_Plane";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("BH_Bullet"))
-					{
-						script_name = "BH_Bullet";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					if (ImGui::MenuItem("PlayerMovement"))
-					{
-						script_name = "PlayerMovement";
-						App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-					}
-					/*if (ImGui::MenuItem("New")) {
+					if (ImGui::MenuItem("Add New Script")) {
 
-					 //Todo: Add NewScript
+						//Todo: Add NewScript
+						showNewScriptPopUp = true;
 
-					}*/
+					}
+
+					ImGui::Separator();
+
+					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
+
+						if (!entry.is_directory()) {
+
+							std::string entryName = entry.path().filename().string();
+							if (ImGui::MenuItem(entryName.c_str()))
+							{
+								script_name = entryName.c_str();
+								App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+							}
+
+						}
+					}
+
 					ImGui::EndMenu();
 				}
 
@@ -3122,7 +3294,6 @@ void ModuleEditor::DrawGizmo(const ImVec2& sceneWindowPos, const ImVec2& sceneCo
 
 }
 
-// TODO: Sara
 void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 {
 	std::string path = filePath;
@@ -3135,9 +3306,9 @@ void ModuleEditor::DeleteFileAndRefs(const char* filePath)
 
 		if (PhysfsEncapsule::FileExists((path + ".meta").c_str()))
 		{
-			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta"); 
+			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
 
-			if (tmpMetaFile) 
+			if (tmpMetaFile)
 			{
 				PhysfsEncapsule::DeleteFS(tmpMetaFile->GetString("Library Path").c_str());
 			}
@@ -3272,199 +3443,424 @@ void ModuleEditor::CreateNewFolder()
 
 void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 {
+	// Start Menu Bar
+
+	ImGui::BeginMenuBar();
+
+	if (ImGui::Button(("<- " + currentDir).c_str()))
+	{
+		std::size_t found = currentDir.find_last_of("/");
+		currentDir = currentDir.substr(0, found);
+
+	}
+
+	if (currentDir != "Assets") {
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+			{
+				std::string assetsFilePathDrop = (const char*)payload->Data;
+
+				if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				// Extract the file name from the path
+				std::filesystem::path assetFilePath(assetsFilePathDrop);
+				std::string fileName = assetFilePath.filename().string();
+
+				// Calculate parent directory from current directory
+				std::filesystem::path parentDirPath(currentDir);
+				parentDirPath = parentDirPath.parent_path();
+				std::string parentDir = parentDirPath.string();
+
+				// Construct the new path by appending the file name to the parent directory
+				std::filesystem::path newFilePath = std::filesystem::path(parentDir) / fileName;
+
+				// Perform the move operation
+				std::error_code ec;
+				std::filesystem::rename(assetFilePath, newFilePath, ec);
+
+				if (!ec) {
+					LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), currentDir.c_str());
+				}
+				else {
+					LOG("Error moving asset: %s", ec.message().c_str());
+				}
+
+			}
+
+			ImGui::EndDragDropTarget();
+
+		}
+
+	}
+
+	if (ImGui::Button("Create Folder"))
+	{
+		createFolder = true;
+	}
+
+	ImGui::Dummy(ImVec2(10, 0));
+
+	static ImGuiTextFilter filter;
+	filter.Draw("Search", ImGui::GetFontSize() * 15);
+
+	ImGui::Dummy(ImVec2(10, 0));
+
+	if (ImGui::Button("Regenerate Library"))
+	{
+		DeleteAssetConfirmationPopup("Library");
+	}
+
+	ImGui::EndMenuBar();
+
+	// End Menu Bar
+
 	CreateNewFolder();
 
 	if (ImGui::BeginTable("DirectoryTable", 8))
 	{
 		int columnCount = 0;
 
-		// Process directories
+		// Process directories with filtering
 
 		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
 
-			if (entry.is_directory()) {
+			std::string entryName = entry.path().filename().string();
 
-				std::string entryName = entry.path().filename().string();
+			if (entry.is_directory() && (entryName != "." && entryName != "..") && filter.PassFilter(entryName.c_str())) {
+				
+				ImGui::TableNextColumn();
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color
 
-				if (entryName != "." && entryName != "..") {
+				// Display folder icon and name
 
-					ImGui::TableNextColumn();
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
+				if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
 
-					// Display folder icon and name
+					// ---Click event---
 
-					if (ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(folderIcon.ID)), ImVec2(64, 64)), true) {
+					if (ImGui::IsItemClicked()) {
 
-						// ---Click event---
+						selectedDir = entry.path().string();
 
-						if (ImGui::IsItemClicked()) {
+					}
+					else {
 
-							selectedDir = entry.path().string();
+						selectedDir = currentDir;
 
-						}
-						else {
+					}
 
-							selectedDir = currentDir;
+					if (ImGui::IsMouseDoubleClicked(0)) {
 
-						}
+						currentDir = selectedDir;
 
-						if (ImGui::IsMouseDoubleClicked(0)) {
+					}
 
-							currentDir = selectedDir;
-
-						}
-
-
-						// ---RMB Click event---
-
-						if (/*rmbMenu &&*/ ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
 						{
-							ImGui::MenuItem(entryName.c_str(), NULL, false, false);
-							ImGui::Separator();
+							std::string assetsFilePathDrop = (const char*)payload->Data;
 
-							if (ImGui::MenuItem("Delete Folder"))
-							{
-								DeleteAssetConfirmationPopup(entry.path().string().c_str());
+							if (assetsFilePathDrop.find(".fbx") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".fbx") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
 							}
 
-							ImGui::EndPopup();
-						}
-						else
-						{
-							rmbMenu = false;
-						}
+							if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
 
-						/*if (!rmbMenu && ImGui::GetIO().MouseClicked[1])
-						{
-							selectedDir = entry.path().string();
-							selectedFile = entry.path().filename().string();
-							rmbMenu = true;
-						}*/
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
 
-					}
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+							
+							}
 
-					ImGui::Text("%s", entryName.c_str());
-					ImGui::PopStyleColor();
+							if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
 
-					++columnCount;
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
 
-				}
+								LOG("File path: %s", assetsFilePathDrop.c_str());
 
-			}
+							}
 
-		}
+							if (assetsFilePathDrop.find(".png") != std::string::npos) {
 
-		// Process files
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
 
-		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+								LOG("File path: %s", assetsFilePathDrop.c_str());
 
-			if (!entry.is_directory()) {
+							}
 
-				std::string entryName = entry.path().filename().string();
+							// Extract the file name from the path
+							std::filesystem::path assetFilePath(assetsFilePathDrop);
+							std::string fileName = assetFilePath.filename().string();
 
-				if (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) {
+							// Construct the new path by appending the file name to the current directory
+							std::filesystem::path newFilePath = entry.path() / fileName;
 
-					ImGui::TableNextColumn();
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
+							// Perform the move operation
+							std::error_code ec;
+							std::filesystem::rename(assetFilePath, newFilePath, ec);
 
-					// Process different file types
-
-					switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
-					{
-					case ResourceType::UNKNOWN:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::TEXTURE:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::MESH:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::SCENE:
-
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
-
-						break;
-					case ResourceType::SHADER:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
-
-						if (ImGui::IsItemClicked()) {
-
-							shaderEditor.LoadShaderTXT(entry.path().string());
+							if (!ec) {
+								LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), entryName.c_str());
+							}
+							else {
+								LOG("Error moving asset: %s", ec.message().c_str());
+							}
 
 						}
-					}
-					break;
-					case ResourceType::MATERIAL:
-						break;
-					case ResourceType::META:
-					{
-						ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
-					}
-					break;
-					case ResourceType::ALL_TYPES:
-						break;
-					default:
-						break;
+
+						ImGui::EndDragDropTarget();
+
 					}
 
 					// ---RMB Click event---
 
 					if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
 					{
-						selectedFile = entryName;
-						currentFile = selectedFile;
-
-						ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+						ImGui::MenuItem(entryName.c_str(), NULL, false, false);
 						ImGui::Separator();
 
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE)
-						{
-							if (ImGui::MenuItem("Import to Scene"))
-							{
-								App->resourceManager->ImportFile(entry.path().string());
-							}
-						}
-
-						if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
-						{
-							if (ImGui::MenuItem("Load Scene"))
-							{
-								PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
-								App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
-							}
-						}
-
-						if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
-						{
-							if (ImGui::MenuItem("Delete Metadata"))
-							{
-								DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
-							}
-						}
-
-						if (ImGui::MenuItem("Delete File"))
+						if (ImGui::MenuItem("Delete Folder"))
 						{
 							DeleteAssetConfirmationPopup(entry.path().string().c_str());
 						}
 
 						ImGui::EndPopup();
 					}
-
-					ImGui::Text(entryName.c_str());
-
-					ImGui::PopStyleColor();
-
-					++columnCount;
+					else
+					{
+						rmbMenu = false;
+					}
 
 				}
+
+				ImGui::Text("%s", entryName.c_str());
+				ImGui::PopStyleColor(2);
+
+				++columnCount;
+
+			}
+
+		}
+
+		// Process files with filtering
+
+		for (const auto& entry : std::filesystem::directory_iterator(assetsFolder)) {
+
+			std::string entryName = entry.path().filename().string();
+
+			if (!entry.is_directory() && (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) && filter.PassFilter(entryName.c_str())) {
+				
+				ImGui::TableNextColumn();
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color for files
+
+				// Process different file types
+
+				switch (App->resourceManager->CheckExtensionType(entryName.c_str()))
+				{
+				case ResourceType::UNKNOWN:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+				}
+				break;
+				case ResourceType::TEXTURE:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(imageIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Import Texture: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+				}
+				break;
+				case ResourceType::MESH:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(modelIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Import Model: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+				}
+				break;
+				case ResourceType::SCENE:
+
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(sceneIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Load Scene: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+					break;
+				case ResourceType::PREFAB:
+
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(prefabIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Load Prefab: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
+					}
+
+					break;
+				case ResourceType::SHADER:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(shaderIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::IsItemClicked()) {
+
+						shaderEditor.LoadShaderTXT(entry.path().string());
+
+					}
+				}
+				break;
+				case ResourceType::META:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fileIcon.ID)), ImVec2(64, 64));
+				}
+				break;
+				case ResourceType::ANIMATION:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(animIcon.ID)), ImVec2(64, 64));
+
+					if ((entryName.find(".yanim") != std::string::npos)) {
+
+						if (ImGui::BeginDragDropSource())
+						{
+							ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+							ImGui::Text("Import Animation: %s", entry.path().string().c_str());
+
+							ImGui::EndDragDropSource();
+						}
+
+					}
+
+				}
+				break;
+				case ResourceType::MATERIAL: {
+
+				}
+					break;
+				case ResourceType::ALL_TYPES:
+					break;
+				default:
+					break;
+				}
+
+				// ---RMB Click event---
+
+				if (ImGui::BeginPopupContextItem()) // <-- use last item id as popup id
+				{
+					selectedFile = entryName;
+					currentFile = selectedFile;
+
+					ImGui::MenuItem(selectedFile.c_str(), NULL, false, false);
+					ImGui::Separator();
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::META && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::SCENE && App->resourceManager->CheckExtensionType(selectedFile.c_str()) != ResourceType::PREFAB)
+					{
+						if (ImGui::MenuItem("Import to Scene"))
+						{
+							App->resourceManager->ImportFile(entry.path().string());
+						}
+					}
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::SCENE)
+					{
+						if (ImGui::MenuItem("Load Scene"))
+						{
+							PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &App->scene->currentSceneFile, nullptr);
+							App->scene->LoadScene(currentDir, App->scene->currentSceneFile);
+						}
+					}
+
+					if (App->resourceManager->CheckExtensionType(selectedFile.c_str()) == ResourceType::PREFAB)
+					{
+						if (ImGui::MenuItem("Load Prefab"))
+						{
+							std::string fileName;
+							PhysfsEncapsule::SplitFilePath(entryName.c_str(), nullptr, &fileName, nullptr);
+							App->scene->LoadPrefab(currentDir, fileName);
+						}
+					}
+
+					if (PhysfsEncapsule::FileExists((entry.path().string() + ".meta")))
+					{
+						if (ImGui::MenuItem("Delete Metadata"))
+						{
+							DeleteAssetConfirmationPopup((entry.path().string() + ".meta").c_str());
+						}
+					}
+
+					if (ImGui::MenuItem("Delete File"))
+					{
+						DeleteAssetConfirmationPopup(entry.path().string().c_str());
+					}
+
+					ImGui::EndPopup();
+				}
+
+				ImGui::Text(entryName.c_str());
+
+				ImGui::PopStyleColor(2);
+
+				++columnCount;
 
 			}
 
@@ -3487,6 +3883,9 @@ void ModuleEditor::DeleteAssetConfirmationPopup(const char* filePath) {
 }
 
 void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
+
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
 	if (showDeleteAssetPopup) {
 
@@ -3515,7 +3914,7 @@ void ModuleEditor::RenderDeleteAssetConfirmationPopup() {
 				ImGui::TextWrapped("%s", assetToDelete.c_str());
 
 			}
-			
+
 			ImGui::Separator();
 
 			if (ImGui::Button("Confirm", ImVec2(120, 0))) {
@@ -3632,6 +4031,19 @@ void ModuleEditor::DrawLibraryWindow(const std::string& libraryFolder) {
 								ImGui::SetDragDropPayload("ymesh", entry.path().string().data(), entry.path().string().length());
 
 								ImGui::Text("Import Mesh: %s", entry.path().string().c_str());
+
+								ImGui::EndDragDropSource();
+							}
+
+						}
+
+						if ((entryName.find(".yanim") != std::string::npos)) {
+
+							if (ImGui::BeginDragDropSource())
+							{
+								ImGui::SetDragDropPayload("yanim", entry.path().string().data(), entry.path().string().length());
+
+								ImGui::Text("Import Animation: %s", entry.path().string().c_str());
 
 								ImGui::EndDragDropSource();
 							}

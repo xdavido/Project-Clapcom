@@ -21,12 +21,25 @@ ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, sta
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
 	memset(mouse_buttons, KEY_IDLE, sizeof(KEY_STATE) * MAX_MOUSE_BUTTONS);
+
+
+	for (size_t i = 0; i < MAX_MOUSE_BUTTONS; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			game_pad[i] = KEY_IDLE;
+		}
+	}
+
+	for (size_t i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
+	{
+		game_pad[i] = KEY_IDLE;
+	}
 }
 
 // Destructor
 ModuleInput::~ModuleInput()
 {
 	delete[] keyboard;
+	keyboard = nullptr;
 }
 
 // Called before render is available
@@ -47,6 +60,11 @@ bool ModuleInput::Init()
 		LOG("[ERROR] SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+	if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
+	{
+		LOG("[ERROR] SDL_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
+	}
 
 	num_controllers = SDL_NumJoysticks();
 
@@ -57,8 +75,19 @@ bool ModuleInput::Init()
 			sdl_controllers[i] = SDL_GameControllerOpen(i);
 
 			activeControllers.push_back((GameController*)sdl_controllers[i]);
-
 		}
+
+	}
+	if (SDL_NumJoysticks() > 0) {
+		joystick = SDL_JoystickOpen(0);
+		if (joystick)
+			LOG("Opened Joystick 0");
+
+		//Check if is haptic
+		if (SDL_JoystickIsHaptic(joystick) == 1) {
+			LOG("Is Haptic");
+		}
+
 
 	}
 
@@ -94,6 +123,45 @@ update_status ModuleInput::PreUpdate(float dt)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
+		}
+	}
+
+	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
+		bool key_pressed = SDL_GameControllerGetButton(controller_player, (SDL_GameControllerButton)i);
+
+		if (key_pressed)
+		{
+			switch (game_pad[i])
+			{
+			case KEY_IDLE:
+				game_pad[i] = KEY_DOWN;
+				break;
+			case KEY_DOWN:
+				game_pad[i] = KEY_REPEAT;
+				break;
+			case KEY_UP:
+				game_pad[i] = KEY_DOWN;
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			switch (game_pad[i])
+			{
+			case KEY_DOWN:
+				game_pad[i] = KEY_UP;
+				break;
+			case KEY_REPEAT:
+				game_pad[i] = KEY_UP;
+				break;
+			case KEY_UP:
+				game_pad[i] = KEY_IDLE;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -190,13 +258,31 @@ update_status ModuleInput::PreUpdate(float dt)
 				App->renderer3D->OnResize(e.window.data1, e.window.data2);
 				App->scene->gameCameraComponent->SetAspectRatio((float)(External->window->width / (float)External->window->height));
 
-#endif // _STANDALONE	
+#endif // _STANDALONE		
 
 				break;
 			}
 			}
 			break;
 		}
+		case SDL_CONTROLLERDEVICEADDED: {
+			int num_joystincks = SDL_NumJoysticks();
+			for (int i = 0; i < num_joystincks; ++i) {
+				if (i == 0) {
+					if (SDL_GameControllerGetAttached(controller_player) == SDL_FALSE) {
+						controller_player = SDL_GameControllerOpen(i);
+						continue;
+					}
+				}
+			}
+
+			break; }
+		case SDL_CONTROLLERDEVICEREMOVED:
+			if (SDL_GameControllerGetAttached(controller_player) == SDL_FALSE) {
+				SDL_GameControllerClose(controller_player);
+				controller_player = nullptr;
+			}
+			break;
 		case SDL_DROPFILE:
 		{ // In case if dropped file
 			droppedFile = true;
@@ -231,7 +317,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				controllers[i].buttons[j] = (controllers[i].buttons[j] == KEY_REPEAT || controllers[i].buttons[j] == KEY_DOWN) ? KEY_UP : KEY_IDLE;
 
 			}
-				
+
 		}
 
 		controllers[i].j1_x = SDL_GameControllerGetAxis(sdl_controllers[i], SDL_CONTROLLER_AXIS_LEFTX);
@@ -263,8 +349,7 @@ bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
 
-	SDL_QuitSubSystem(SDL_INIT_EVENTS);
-	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
+	SDL_Quit();
 
 	return true;
 }
@@ -324,6 +409,7 @@ void ModuleInput::SetMaxChars(int limit)
 {
 	maxChars = limit;
 }
+
 bool ModuleInput::AreGamepadButtonsIdle()
 {
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
@@ -534,7 +620,7 @@ float ModuleInput::GetGamepadLeftJoystickPositionValueX()
 
 float ModuleInput::GetGamepadLeftJoystickPositionValueY()
 {
-	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);	
+	return ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2);
 }
 
 float ModuleInput::GetGamepadRightJoystickPositionValueX()
@@ -596,7 +682,7 @@ float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
 		return float2(ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_x, 10000, 2), ReduceJoystickValue(SDL_IsGameController(0), controllers[0].j1_y, 10000, 2));
 
 		break;
-	
+
 	}
 	case GamepadJoystick::RIGHT:
 	{
@@ -607,17 +693,6 @@ float2 ModuleInput::GetGamepadJoystickPositionValues(GamepadJoystick joystick)
 	}
 
 }
-
-void ModuleInput::GetRumbleGamepad(_SDL_GameController* gameController, Uint16 _leftRumble, Uint16 _rightRumble, Uint32 _timer)
-{
-	if (!gameController || !SDL_GameControllerGetAttached(gameController)) {
-		return;
-	}
-
-	SDL_GameControllerRumble(gameController, _leftRumble, _rightRumble, _timer);
-}
-
-
 
 // ---------------- New Gamepad Management ----------------
 

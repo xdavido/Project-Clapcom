@@ -11,7 +11,7 @@ using YmirEngine;
 public class Core : YmirComponent
 {
     public static Core instance;
-    
+
 
     enum STATE : int
     {
@@ -40,26 +40,33 @@ public class Core : YmirComponent
     // Movment
     public float movementSpeed = 20f;
     private double angle = 0.0f;
-    
+
     //Controller Variables
 
     Vector3 gamepadInput;
 
     public GameObject reference = null;
-	public GameObject turret = null;
-	public GameObject shootPoint = null;
-		
-	
+    public GameObject turret = null;
+    public GameObject shootPoint = null;
+    public GameObject referenceUI = null;
+
+    public GameObject slider = null;
+
     public float mouseSens = 5.0f;
 
-	public bool testBool = true;
-	public string testString = "Juan";
+    public bool testBool = true;
+    public string testString = "Juan";
     public bool start = true;
 
     public Vector3 testOtherClass; //Should find a way to tell if the class is a gameobject or not
 
-	public void Update(/*int x*/)
-	{        
+    public void Start()
+    {
+        slider = InternalCalls.GetGameObjectByName("Text");
+    }
+
+    public void Update(/*int x*/)
+    {
         //Hardcoceado para que sea una especie de "Awake()"
         if (start)
         {
@@ -67,36 +74,36 @@ public class Core : YmirComponent
             Debug.Log("[WARNING] testString: " + testString);
             reference = gameObject;
 
-           start = false;
-         
+            start = false;
+
             Debug.Log("[WARNING] Name" + gameObject.Name);
-                
+
             //testString = reference.Tag;
             testString = "Update string";
             string name = "hola";
             Vector3 pos = new Vector3(0, 1, 0);
-   
-                InternalCalls.CreateGameObject(name, pos);
+
+            InternalCalls.CreateGameObject(name, pos);
 
         }
 
 
-		if (this.reference == null)
+        if (this.reference == null)
         {
             Debug.Log("[ERROR] Reference on Core.cs was 'null'");
             return;
         }
-       
- 
-        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
-        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
 
-        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
-        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
-            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+
+        //if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+
+        //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
         //if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
         //    reference.localRotation *= Quaternion.RotateAroundAxis(Vector3.up, rotationSpeed * Time.deltaTime);
         //if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
@@ -111,6 +118,11 @@ public class Core : YmirComponent
         {
             InternalCalls.CreateGameObject("Cube", Vector3.up);
             Debug.Log("Create 'Cube' GameObject");
+        }
+
+        if (Input.GetKey(YmirKeyCode.J) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.LoadScene("Assets/Scenes/Blockout.yscene");
         }
 
 
@@ -132,11 +144,25 @@ public class Core : YmirComponent
         }
 
 
+        if (Input.GetKey(YmirKeyCode.I) == KeyState.KEY_DOWN)
+        {
+            referenceUI = UI.CreateImageUI(gameObject, "Assets/pato.png", 1,1);
+        }
+
+        if (Input.GetKey(YmirKeyCode.O) == KeyState.KEY_DOWN)
+        {
+            InternalCalls.Destroy(referenceUI);
+        } 
+        
+        if (Input.GetKey(YmirKeyCode.Q) == KeyState.KEY_DOWN)
+        {
+            gameObject.SetActive(false);
+            //UI.TextEdit(slider, "slider, 7");
+            //UI.SliderEdit(slider, 7);
+        }
+
         float x = Input.GetLeftAxisX();
         float y = Input.GetLeftAxisY();
-
-       
-
 
         gamepadInput = new Vector3(x, y, 0f);
 
@@ -144,29 +170,29 @@ public class Core : YmirComponent
         Debug.Log("[WARNING] InputY " + gamepadInput.y);
 
 
-        if (gamepadInput.x > 0)
-        {
-            gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
-        }
-        if (gamepadInput.x < 0)
-        {
-            gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
-        }
-        if (gamepadInput.y > 0)
-        {
-            gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
-        }
-        if (gamepadInput.y < 0)
-        {
-            gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
-        }
+        //if (gamepadInput.x > 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetRight() * movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.x < 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetRight() * -movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.y > 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetForward() * -movementSpeed * Time.deltaTime;
+        //}
+        //if (gamepadInput.y < 0)
+        //{
+        //    gameObject.transform.localPosition += gameObject.GetForward() * movementSpeed * Time.deltaTime;
+        //}
 
 
         Debug.Log("[WARNING] PosicionX " + gameObject.transform.localPosition.x);
         Debug.Log("[WARNING] PosicionY " + gameObject.transform.localPosition.y);
         Debug.Log("[WARNING] PosicionZ " + gameObject.transform.localPosition.z);
         return;
-	}
+    }
 
     private void GameMovement()
     {
@@ -211,7 +237,7 @@ public class Core : YmirComponent
         //    switch (currentState)
         //    {
         //        case STATE.NONE:
-                    
+
         //            break;
 
         //        case STATE.IDLE:
@@ -219,7 +245,7 @@ public class Core : YmirComponent
         //            {
         //                case INPUT.IN_MOVE:
         //                    currentState = STATE.MOVE;
-                            
+
         //                    Move();
         //                    break;
 
@@ -293,14 +319,14 @@ public class Core : YmirComponent
                 break;
             case STATE.MOVE:
                 RotatePlayer();
-                gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
+                //gameObject.transform.localPosition += reference.GetForward() * movementSpeed * Time.deltaTime;
                 Debug.Log("[ERROR]Mover");
                 break;
             case STATE.DASH:
-                
+
                 break;
             case STATE.SHOOT:
-                
+
                 break;
             default:
                 Debug.Log("NEED TO ADD STATE TO CORE");
@@ -332,7 +358,7 @@ public class Core : YmirComponent
 
     private void Move()
     {
-         // Play Audio and SetAnimation;
+        // Play Audio and SetAnimation;
     }
     private void Dash()
     {
@@ -345,8 +371,8 @@ public class Core : YmirComponent
 
     private bool IsMoving()
     {
-     
-        return Math.Abs( gamepadInput.x) > 0 || Math.Abs(gamepadInput.y) > 0;
+
+        return Math.Abs(gamepadInput.x) > 0 || Math.Abs(gamepadInput.y) > 0;
     }
 }
 

@@ -28,6 +28,7 @@ struct KeyRotation {
 
 class Bone {
 public: 
+	Bone();
 	Bone(const std::string& name, int id, const aiNodeAnim* channel);
 	~Bone();
 
@@ -52,6 +53,7 @@ private:
 	float4x4 InterpolateScale(float animTime);
 
 public: 
+
 	std::vector<KeyPosition> positions;
 	std::vector<KeyRotation> rotations;
 	std::vector<KeyScale> scales;

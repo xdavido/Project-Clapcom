@@ -145,6 +145,17 @@ public:
     // Static map to convert uniform type to string
     static std::map<UniformType, std::string> uniformTypeToString;
 
+    std::vector<std::string> uniformNamesToIgnore = {
+
+        "time",
+        "selected",
+        //"lightDir",
+        //"lightInt",
+        //"lightColor",
+        //"numLights",
+
+    };
+
 private:
 
     // Private methods to encapsulate Shader Functionality

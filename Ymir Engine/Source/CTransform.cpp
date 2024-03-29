@@ -145,6 +145,12 @@ void CTransform::SetRotation(float3 vec)
 	dirty_ = true;
 }
 
+void CTransform::SetOrientation(btQuaternion bulletQuat)
+{
+	rotation = math::Quat(bulletQuat.x(), bulletQuat.y(), bulletQuat.z(), bulletQuat.w());
+	dirty_ = true;
+}
+
 void CTransform::SetScale(float3 vec)
 {
 	scale = float3(vec);
@@ -173,6 +179,15 @@ float3 CTransform::GetGlobalPosition() const
 Quat CTransform::GetLocalRotation() const
 {
 	return rotation;
+}
+
+Quat CTransform::GetGlobalRotation() const
+{
+	float3 pos, sc;
+	Quat rot;
+	mGlobalMatrix.Decompose(pos, rot, sc);
+
+	return rot;
 }
 
 void CTransform::UpdateTransformsChilds()
@@ -205,6 +220,20 @@ void CTransform::UpdateGlobalMatrix()
 	}
 
 	UpdateBoundingBoxes();
+
+	// Update collider scale and rotation
+	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS); 
+	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH); 
+
+	if (col != nullptr)
+	{
+		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
+		else col->size = mesh->rMeshReference->obb.Size();
+
+		col->physBody->SetRotation(rotation);
+	}
+
+
 }
 
 void CTransform::UpdateLocalMatrix()
@@ -272,7 +301,27 @@ float3 CTransform::GetRight()
 	return GetNormalizeAxis(0);
 }
 
+float3 CTransform::GetLocalForward()
+{
+	return GetNormalizeLocalAxis(2);
+}
+
+float3 CTransform::GetLocalUp()
+{
+	return GetNormalizeLocalAxis(1);
+}
+
+float3 CTransform::GetLocalRight()
+{
+	return GetNormalizeLocalAxis(0);
+}
+
 float3 CTransform::GetNormalizeAxis(int i)
 {
 	return mGlobalMatrix.RotatePart().Col(i).Normalized();
+}
+
+float3 CTransform::GetNormalizeLocalAxis(int i)
+{
+	return mLocalMatrix.RotatePart().Col(i).Normalized();
 }

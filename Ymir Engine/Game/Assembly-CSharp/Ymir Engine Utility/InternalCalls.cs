@@ -6,7 +6,6 @@ namespace YmirEngine
 {
     class InternalCalls
     {
-
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void CreateGameObject(object name, object position);
 
@@ -22,7 +21,39 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject GetGameObjectByName(string name);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject LoadScene(string name);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject ExitGame();
     }
+
+    public class UI
+    {
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject CreateImageUI(object go, string name, int x, int y);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject TextEdit(object go, string text);
+
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderEdit(object go, double value);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetRange(object go, double min, double max);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetMin(object go, double value);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SliderSetMax(object go, double value);
+    }
+
     public class Input
     {
         //Keyboard and mouse
@@ -40,6 +71,8 @@ namespace YmirEngine
 
         //Gamepad
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern KeyState GetGamepadButton(object keyPressed);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetLeftAxisX();
@@ -66,10 +99,7 @@ namespace YmirEngine
         public static extern bool IsGamepadButtonBPressedCS();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void GameControllerRumbleCS(int minrumble, int maxrumble, int time);
-
-
-
+        public static extern void Rumble_Controller(int time);
     }
 
     public partial class Debug
@@ -386,6 +416,26 @@ namespace YmirEngine
             this[(y * 4) + x] = value;
         }
     }
+}
+public enum GamePadButton
+{
+    INVALID = -1,
+    A,
+    B,
+    X,
+    Y,
+    BACK,
+    GUIDE,
+    START,
+    LEFTSTICK,
+    RIGHTSTICK,
+    LEFTSHOULDER,
+    RIGHTSHOULDER,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT,
+    MAX
 }
 
 public enum YmirKeyCode //This is a mirror from the SDL scancode enum to allow C# to C++ compatibility

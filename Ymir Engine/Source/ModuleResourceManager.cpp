@@ -17,6 +17,7 @@
 #include "ResourceTexture.h"
 #include "ResourceMaterial.h"
 #include "ResourceShader.h"
+#include "ResourceAnimation.h"
 
 #include "ImporterModel.h"
 #include "ImporterMesh.h"
@@ -82,7 +83,7 @@ void ModuleResourceManager::ImportFileToEngine(const char* fileDir)
 	PhysfsEncapsule::DuplicateFile(fileDir, App->editor->selectedDir.c_str(), filePath);
 }
 
-void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
+void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool onlyReimport)
 {
 	// Create Meta
 
@@ -148,7 +149,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			case ResourceType::MESH:
 			{
 				// Rework to ImporterModel::Import(path);
-				App->renderer3D->models.push_back(Model(path));
+				ReImportModel(path, onlyReimport);
 			}
 			break;
 			case ResourceType::SCENE:
@@ -160,6 +161,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 			case ResourceType::META:
 				break;
 			case ResourceType::ALL_TYPES:
+				break;
+			case ResourceType::ANIMATION:
 				break;
 			default:
 				break;
@@ -193,7 +196,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
 
 					// Rework to ImporterModel::Import(path);
-					App->renderer3D->models.push_back(Model(path));
+					ReImportModel(path, onlyReimport);
+
 					break;
 				}
 
@@ -277,6 +281,10 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath)
 
 				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
 				break;
+			case ResourceType::ANIMATION:
+				break;
+				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
+
 
 			}
 
@@ -318,6 +326,8 @@ void ModuleResourceManager::SaveResourceToLibrary(Resource* resource)
 	case ResourceType::SHADER:
 
 		//ImporterShader::Save((ResourceShader*)resource, resource->GetLibraryFilePath());
+		break;
+	case ResourceType::ANIMATION:
 		break;
 
 	}
@@ -371,6 +381,27 @@ void ModuleResourceManager::ReleaseResource(Resource* resource)
 	resources.erase(resource->GetUID());
 
 	delete resource;
+}
+
+void ModuleResourceManager::ReImportModel(const std::string& modelPath, bool onlyReimport)
+{
+	Model* model = new Model(modelPath, onlyReimport);
+
+	if (onlyReimport) {
+
+		App->scene->SetSelected();
+		model->modelGO->mParent->DeleteChild(model->modelGO);
+
+		App->scene->gameObjects.erase(
+			std::remove_if(App->scene->gameObjects.begin(), App->scene->gameObjects.end(),
+				[](const GameObject* obj) { return obj->selected; }
+			),
+			App->scene->gameObjects.end()
+		);
+
+	}
+
+	delete model;
 }
 
 bool ModuleResourceManager::IsResourceLoaded(const uint& UID)
@@ -459,6 +490,8 @@ Resource* ModuleResourceManager::RequestResource(const uint& UID, const char* li
 					tmpResource = new ResourceShader(UID);
 
 					break;
+				case ResourceType::ANIMATION:
+					tmpResource = new ResourceAnimation(UID);
 
 				}
 
@@ -548,6 +581,11 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 		tmpResource = new ResourceShader(UID);
 		break;
 
+	case ResourceType::ANIMATION:
+
+		tmpResource = new ResourceAnimation(UID);
+		break;
+
 	}
 
 	if (tmpResource != nullptr)
@@ -601,18 +639,42 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		tmpResource = new ResourceShader(UID);
 		break;
+	case ResourceType::ANIMATION:
 
+		tmpResource = new ResourceAnimation(UID);
+		break; 
 	}
 
 	if (tmpResource != nullptr)
 	{
-		resources[UID] = tmpResource;
+		// Fix Resource Texture
+		
+		//if (resources.find(UID) != resources.end()) {
+
+		//	tmpResource->IncreaseReferenceCount();
+
+		//}
+		//else {
+
+		//	resources.emplace(UID, tmpResource);
+
+		//	tmpResource->SetLibraryFilePath(libraryFilePath);
+
+		//	tmpResource->LoadInMemory();
+
+		//	tmpResource->IncreaseReferenceCount();
+
+		//}
+
+		// FRANCESC: Disparo arreglado por algún motivo
+		// resources.emplace(UID, tmpResource);
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
 
 		tmpResource->LoadInMemory();
 
 		tmpResource->IncreaseReferenceCount();
+
 	}
 
 	return tmpResource;
@@ -627,6 +689,7 @@ ResourceType ModuleResourceManager::GetTypeFromAssetsPath(std::string assetsFile
 
 	if (extension == "fbx" || extension == "dae" || extension == "obj") return ResourceType::MODEL;
 	else if (extension == "yscene") return ResourceType::SCENE;
+	else if (extension == "yanim") return ResourceType::ANIMATION;
 	else if (extension == "png" || extension == "dds" || extension == "jpg" || extension == "tga") return ResourceType::TEXTURE;
 
 	return ResourceType::UNKNOWN;
@@ -639,6 +702,7 @@ ResourceType ModuleResourceManager::GetTypeFromLibraryPath(std::string libraryFi
 	if (extension == "ymesh") return ResourceType::MESH;
 	else if (extension == "ymodel") return ResourceType::MODEL;
 	else if (extension == "yscene") return ResourceType::SCENE;
+	else if (extension == "yanim") return ResourceType::ANIMATION;
 	else if (extension == "ymat") return ResourceType::MATERIAL;
 	else if (extension == "dds") return ResourceType::TEXTURE;
 	else if (extension == "spv") return ResourceType::SHADER;
@@ -702,6 +766,15 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 	if (PhysfsEncapsule::HasExtension(fileDir, "glsl"))
 	{
 		return ResourceType::SHADER;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, "yfab"))
+	{
+		return ResourceType::PREFAB;
+	}
+	if (PhysfsEncapsule::HasExtension(fileDir, "yanim"))
+	{
+		return ResourceType::ANIMATION;
 	}
 
 	return ResourceType::UNKNOWN;

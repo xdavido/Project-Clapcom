@@ -1,5 +1,9 @@
 #include "ScriptEditor.h"
 #include"ModuleMonoManager.h"
+#include "ModuleEditor.h"
+#include "ModuleScene.h"
+#include "Application.h"
+#include "GameObject.h"
 
 #include <filesystem>
 #include "Log.h"
@@ -84,7 +88,7 @@ bool ScriptEditor::SaveScriptTXT(std::string scriptText, std::string fileName)
 {
 	bool ret = true;
 
-	std::string fullPath = SCRIPTING_ASSETS_PATH + fileName + ".cs";
+	std::string fullPath = SCRIPTING_ASSETS_PATH + fileName;
 
 	// Open the file for writing
 	std::ofstream outputFile(fullPath);
@@ -158,6 +162,42 @@ void ScriptEditor::LoadScriptTXT(std::string filePath)
 	// Retrieve the script file contents for the Scripting Editor
 	txtName = std::filesystem::path(filePath).stem().string();
 	txtEditor.SetText(fileContents);
+}
+
+void ScriptEditor::ShowNewScriptDialogue()
+{
+	static std::string newName = "New_Script";
+	ImGui::Text("Name: ");
+	ImGui::SameLine();
+	if (ImGui::InputText(" ", &newName));
+
+	ImGui::NewLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.0f, 0.0f, 1.0f)); // Set button color to red
+	if (ImGui::Button("Close")) {
+
+		External->editor->showNewScriptPopUp = false;
+
+		ImGui::CloseCurrentPopup();
+
+	}
+	ImGui::PopStyleColor();
+
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.6f, 0.0f, 1.0f)); // Set button color to green
+	if (ImGui::Button("Create")) {
+
+		newName = "Assets/Scripts/" + newName + ".cs";
+
+		//Call fuction to add script to SLN
+		External->moduleMono->CreateAssetsScript(newName.c_str());
+		
+		External->editor->showNewScriptPopUp = false;
+		ImGui::CloseCurrentPopup();
+
+	}
+	ImGui::PopStyleColor();
 }
 
 

@@ -22,19 +22,33 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+<<<<<<<< HEAD:Ymir Engine/Game/Assets/AudiosScriptTest.yscene
+            "UID": 1674238572,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                2134693347,
+========
             "UID": 134144693,
             "Element_Type": "None",
             "Components": [],
             "Children UID": [
                 2069419551,
+>>>>>>>> development:Ymir Engine/Game/Assets/Scenes/Prueba Cubo.yscene
                 1009784856
             ]
         },
         {
             "Name": "Main Camera",
+<<<<<<<< HEAD:Ymir Engine/Game/Assets/AudiosScriptTest.yscene
+            "UID": 2134693347,
+            "Element_Type": "None",
+            "Parent UID": 1674238572,
+========
             "UID": 2069419551,
             "Element_Type": "None",
             "Parent UID": 134144693,
+>>>>>>>> development:Ymir Engine/Game/Assets/Scenes/Prueba Cubo.yscene
             "Components": [
                 {
                     "Type": "Transform",
@@ -56,21 +70,24 @@
                     ]
                 },
                 {
-                    "Type": "Audio listener",
-                    "Active": 1,
-                    "Default Listener": 1
-                },
-                {
-                    "Type": "Audio source",
-                    "Active": 1,
-                    "Bank Name": "",
-                    "Event Name": "",
-                    "Event ID": 0
-                },
-                {
                     "Type": "Camera",
                     "Active": 1,
                     "Right": [
+<<<<<<<< HEAD:Ymir Engine/Game/Assets/AudiosScriptTest.yscene
+                        0.76604485511779785,
+                        -1.4361712885602174e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        6.6969747081202513e-08,
+                        1,
+                        1.4361708622345759e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        6.6969747081202513e-08,
+                        -0.76604485511779785
+========
                         0.76604437828063965,
                         1.4361705780174816e-07,
                         0.64278769493103027
@@ -84,6 +101,7 @@
                         0.64278769493103027,
                         -6.696972576492044e-08,
                         -0.76604437828063965
+>>>>>>>> development:Ymir Engine/Game/Assets/Scenes/Prueba Cubo.yscene
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
@@ -91,6 +109,18 @@
                     "Frustum Culling": 1,
                     "Draw Bounding Boxes": 1,
                     "Game Camera": true
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "Music",
+                    "Event Name": "Music",
+                    "Event ID": 3991942870
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
                 }
             ]
         },
@@ -98,8 +128,12 @@
             "Name": "Cube",
             "UID": 1009784856,
             "Element_Type": "Model",
+<<<<<<<< HEAD:Ymir Engine/Game/Assets/AudiosScriptTest.yscene
+            "Parent UID": 1674238572,
+========
             "Origin_Path": "Assets\/Primitives\/Cube.fbx",
             "Parent UID": 134144693,
+>>>>>>>> development:Ymir Engine/Game/Assets/Scenes/Prueba Cubo.yscene
             "Components": [
                 {
                     "Type": "Transform",
@@ -119,6 +153,12 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "PlayerMovement",
+                    "UID": 0,
+                    "movementSpeed": 5
                 }
             ],
             "Children UID": [
@@ -126,7 +166,11 @@
             ]
         },
         {
+<<<<<<<< HEAD:Ymir Engine/Game/Assets/AudiosScriptTest.yscene
+            "Name": "Cube",
+========
             "Name": "Cube (1)",
+>>>>>>>> development:Ymir Engine/Game/Assets/Scenes/Prueba Cubo.yscene
             "UID": 1553236809,
             "Element_Type": "None",
             "Parent UID": 1009784856,
