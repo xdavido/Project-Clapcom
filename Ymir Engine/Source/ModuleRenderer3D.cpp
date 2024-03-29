@@ -333,6 +333,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawUIElements(false, false);
 
+		DrawParticles();
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes)
@@ -382,6 +384,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			glLoadIdentity();
 
 			DrawUIElements(true,false);
+
+			DrawParticles();
 
 		}
 
