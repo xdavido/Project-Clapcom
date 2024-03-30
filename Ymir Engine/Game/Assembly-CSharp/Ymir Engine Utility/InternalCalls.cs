@@ -4,114 +4,191 @@ using System.Runtime.InteropServices;
 
 namespace YmirEngine
 {
+    /// <summary>
+    /// Provides methods for internal engine calls.
+    /// </summary>
     class InternalCalls
     {
+        /// <summary>
+        /// Creates a game object.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void CreateGameObject(object name, object position);
 
+        /// <summary>
+        /// Creates a bullet.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void CreateBullet(object position, object rotation, object scale);
 
-        //[MethodImplAttribute(MethodImplOptions.InternalCall)]
-        //public static extern void UpdateCppGO(int UID, Vector3 position, Quaternion quat, Vector3 scale);
-
+        /// <summary>
+        /// Destroys a game object.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Destroy(object go);
 
+        /// <summary>
+        /// Retrieves a game object by its name.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject GetGameObjectByName(string name);
 
+        /// <summary>
+        /// Loads a scene.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject LoadScene(string name);
 
+        /// <summary>
+        /// Exits the game.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject ExitGame();
     }
 
+    /// <summary>
+    /// Provides methods for UI operations.
+    /// </summary>
     public class UI
     {
+        /// <summary>
+        /// Creates an image UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject CreateImageUI(object go, string name, int x, int y);
 
+        /// <summary>
+        /// Changes an image UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
 
-
+        /// <summary>
+        /// Edits a text UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject TextEdit(object go, string text);
 
-
+        /// <summary>
+        /// Edits a slider UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderEdit(object go, double value);
 
+        /// <summary>
+        /// Sets the range of a slider UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderSetRange(object go, double min, double max);
 
+        /// <summary>
+        /// Sets the minimum value of a slider UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderSetMin(object go, double value);
 
+        /// <summary>
+        /// Sets the maximum value of a slider UI element.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderSetMax(object go, double value);
     }
 
+    /// <summary>
+    /// Provides methods for handling input.
+    /// </summary>
     public class Input
     {
-        //Keyboard and mouse
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern KeyState  GetKey(object keyPressed);
-
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern KeyState GetMouseClick(object keyPressed);
-
+        // Keyboard and mouse input methods
+        /// <summary>
+        /// Retrieves the state of the X position of the mouse.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern int GetMouseX();
 
+        /// <summary>
+        /// Retrieves the state of the Y position of the mouse.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern int GetMouseY();
 
-        //Gamepad
-
+        // Gamepad input methods
+        /// <summary>
+        /// Retrieves the state of a gamepad button.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern KeyState GetGamepadButton(object keyPressed);
 
+        /// <summary>
+        /// Retrieves the state of the left X-axis of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetLeftAxisX();
 
+        /// <summary>
+        /// Retrieves the state of the left Y-axis of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetLeftAxisY();
 
+        /// <summary>
+        /// Retrieves the state of the right X-axis of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetRightAxisX();
 
+        /// <summary>
+        /// Retrieves the state of the right Y-axis of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetRightAxisY();
 
+        /// <summary>
+        /// Retrieves the state of the left trigger of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetGamepadLeftTrigger();
 
+        /// <summary>
+        /// Retrieves the state of the right trigger of the gamepad.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern float GetGamepadRightTrigger();
 
+        /// <summary>
+        /// Checks if the A button of the gamepad is pressed.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern bool IsGamepadButtonAPressedCS();
 
+        /// <summary>
+        /// Checks if the B button of the gamepad is pressed.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern bool IsGamepadButtonBPressedCS();
 
+        /// <summary>
+        /// Controls the rumble of the gamepad for a specific time.
+        /// </summary>
+        /// <param name="time">The duration of the rumble in milliseconds.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Rumble_Controller(int time);
     }
 
+    /// <summary>
+    /// Provides methods for debugging and logging.
+    /// </summary>
     public partial class Debug
     {
+        /// <summary>
+        /// Logs a message.
+        /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Log(object logText);
-
-        //[DllImport("__Internal", EntryPoint = "CSLog")]
-        //public static extern void Log(string logText);
     }
+}
 
-    [StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential)]
     public partial struct mat4x4 /*: IEquatable<Vector3>*/
     {
         //    |  0   1   2   3
