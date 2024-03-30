@@ -197,6 +197,7 @@ bool ModuleMonoManager::CleanUp()
 
 	//mono_domain_unload(domain);
 	mono_jit_cleanup(jitDomain); //Mono cleanup
+	system("taskkill /F /IM VBCSCompiler.exe"); // Kills VBCSCompiler via CMD
 
 	return true;
 }
