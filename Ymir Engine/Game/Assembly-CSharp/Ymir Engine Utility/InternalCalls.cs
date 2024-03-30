@@ -100,6 +100,10 @@ namespace YmirEngine
     public class Input
     {
         // Keyboard and mouse input methods
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern KeyState GetKey(object keyPressed);
+
         /// <summary>
         /// Retrieves the state of the X position of the mouse.
         /// </summary>
@@ -186,9 +190,9 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void Log(object logText);
     }
-}
 
-[StructLayout(LayoutKind.Sequential)]
+
+    [StructLayout(LayoutKind.Sequential)]
     public partial struct mat4x4 /*: IEquatable<Vector3>*/
     {
         //    |  0   1   2   3
@@ -347,7 +351,7 @@ namespace YmirEngine
             mat[8] = 2 * (x * z - y * w); mat[9] = 2 * (y * z + x * w); mat[10] = 1 - 2 * (x * x + y * y); mat[11] = 0;
             mat[12] = 0; mat[13] = 0; mat[14] = 0; mat[15] = 1;
 
-            Debug.Log("Rotation: " +mat.ToString());
+            Debug.Log("Rotation: " + mat.ToString());
 
             return mat;
         }
@@ -360,7 +364,7 @@ namespace YmirEngine
             mat[8] = 0; mat[9] = 0; mat[10] = scale.z; mat[11] = 0;
             mat[12] = 0; mat[13] = 0; mat[14] = 0; mat[15] = 1;
 
-            Debug.Log("Scale: "+mat.ToString());
+            Debug.Log("Scale: " + mat.ToString());
 
 
             return mat;
@@ -407,7 +411,7 @@ namespace YmirEngine
             string ret = "";
             for (int i = 0; i < 16; i += 4)
             {
-                ret += (this[i].ToString() + ", " + this[i + 1].ToString() + ", " + this[i + 2].ToString() + ", " + this[i+3].ToString()) + Environment.NewLine;
+                ret += (this[i].ToString() + ", " + this[i + 1].ToString() + ", " + this[i + 2].ToString() + ", " + this[i + 3].ToString()) + Environment.NewLine;
             }
 
             return ret;
