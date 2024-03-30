@@ -21,7 +21,6 @@
 
 #include "ImporterModel.h"
 #include "ImporterMesh.h"
-#include "ImporterScene.h"
 #include "ImporterTexture.h"
 #include "ImporterMaterial.h"
 #include "ImporterShader.h"
@@ -230,7 +229,20 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 						meshGO->AddComponent(cmesh);
 
+						// Apply Checker Image
+
 						CMaterial* cmat = new CMaterial(meshGO);
+
+						ResourceTexture* rTex = new ResourceTexture();
+
+						rTex->LoadCheckerImage();
+
+						rTex->type = TextureType::DIFFUSE;
+
+						cmat->UID = rTex->UID;
+						cmat->path = "Checker Image";
+						cmat->rTextures.push_back(rTex);
+
 						meshGO->AddComponent(cmat);
 
 					}
@@ -249,7 +261,20 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 			
 						meshGO->AddComponent(cmesh);
 
+						// Apply Checker Image
+
 						CMaterial* cmat = new CMaterial(meshGO);
+						
+						ResourceTexture* rTex = new ResourceTexture();
+
+						rTex->LoadCheckerImage();
+
+						rTex->type = TextureType::DIFFUSE;
+
+						cmat->UID = rTex->UID;
+						cmat->path = "Checker Image";
+						cmat->rTextures.push_back(rTex);
+
 						meshGO->AddComponent(cmat);
 
 						itr->second->IncreaseReferenceCount();
@@ -666,8 +691,8 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		//}
 
-		// FRANCESC: Disparo arreglado por algún motivo
-		// resources.emplace(UID, tmpResource);
+		// FRANCESC: Disparo arreglado por algún motivo si comentas esta línea
+		resources.emplace(UID, tmpResource);
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
 

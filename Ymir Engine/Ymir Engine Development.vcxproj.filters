@@ -717,9 +717,6 @@
     <ClInclude Include="Source\ImporterTexture.h">
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ImporterScene.h">
-      <Filter>Sources\Features\Custom File Format</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ImporterMaterial.h">
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClInclude>
@@ -770,9 +767,6 @@
     </ClInclude>
     <ClInclude Include="Source\Globals.h">
       <Filter>Sources\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Scene.h">
-      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Settings.h">
       <Filter>Sources\Features\Serialization</Filter>
@@ -1071,9 +1065,6 @@
     <ClInclude Include="Source\CCollider.h">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CRigidBody.h">
-      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PhysBody.h">
       <Filter>Sources\Utils\Physics</Filter>
     </ClInclude>
@@ -1331,9 +1322,6 @@
     <ClCompile Include="Source\CCamera.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModuleResourceManager.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ResourceTexture.cpp">
       <Filter>Sources\Features\Resource Management</Filter>
     </ClCompile>
@@ -1371,9 +1359,6 @@
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClCompile>
     <ClCompile Include="Source\ImporterTexture.cpp">
-      <Filter>Sources\Features\Custom File Format</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ImporterScene.cpp">
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClCompile>
     <ClCompile Include="Source\ImporterSettings.cpp">
@@ -1414,9 +1399,6 @@
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Sources\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene.cpp">
-      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Settings.cpp">
       <Filter>Sources\Features\Serialization</Filter>
@@ -1526,9 +1508,6 @@
     <ClCompile Include="Source\CCollider.cpp">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CRigidBody.cpp">
-      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PhysBody.cpp">
       <Filter>Sources\Utils\Physics</Filter>
     </ClCompile>
@@ -1579,6 +1558,9 @@
     </ClCompile>
     <ClCompile Include="Source\ImGuiCustom.cpp">
       <Filter>Sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModuleResourceManager.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

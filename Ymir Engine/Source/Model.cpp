@@ -423,6 +423,21 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			delete metaFile;
 			
 		}
+		else {
+
+			// Apply Checker Texture 
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->LoadCheckerImage();
+
+			rTex->type = TextureType::DIFFUSE;
+
+			cmaterial->UID = rTex->UID;
+			cmaterial->path = "Checker Image";
+			cmaterial->rTextures.push_back(rTex);
+
+		}
 
 		if (material->GetTextureCount(aiTextureType_SPECULAR)) {
 

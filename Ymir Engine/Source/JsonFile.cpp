@@ -1799,7 +1799,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
 
-		const char* diffusePath = json_object_get_string(componentObject, "Diffuse");
+		std::string diffusePath = json_object_get_string(componentObject, "Diffuse");
 
 		cmaterial->path = diffusePath;
 
@@ -1815,7 +1815,19 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		//}
 
-		ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+		ResourceTexture* rTex = new ResourceTexture();
+
+		if (diffusePath == "Checker Image") {
+
+			rTex->LoadCheckerImage();
+
+		}
+		else {
+
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
+
+		}
+		
 		cmaterial->rTextures.push_back(rTex);
 	
 		gameObject->AddComponent(cmaterial);

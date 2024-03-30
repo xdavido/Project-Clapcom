@@ -50,6 +50,9 @@ public:
     void SetWidth(uint w);
     void SetHeight(uint h);
 
+    // Checker Texture
+    void LoadCheckerImage();
+
 public:
 
     TextureType type;

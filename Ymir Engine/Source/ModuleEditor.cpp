@@ -1503,9 +1503,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Plane")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Plane.fbx");
 
 			LOG("Plane created successfully");
 
@@ -1513,9 +1511,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cube")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cube.fbx");
 
 			LOG("Cube created successfully");
 
@@ -1523,9 +1519,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Pyramid")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Pyramid.fbx");
 
 			LOG("Pyramid created successfully");
 
@@ -1533,9 +1527,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cylinder")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cylinder.fbx");
 
 			LOG("Cylinder created successfully");
 
@@ -1543,9 +1535,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cone")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cone.fbx");
 
 			LOG("Cone created successfully");
 
@@ -1553,9 +1543,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Sphere")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Sphere.fbx");
 
 			LOG("Sphere created successfully");
 
@@ -1563,9 +1551,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Torus")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Torus.fbx");
 
 			LOG("Torus created successfully");
 
@@ -1573,9 +1559,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Capsule")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Capsule.fbx");
 
 			LOG("Capsule created successfully");
 
@@ -1583,9 +1567,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Disc")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Disc.fbx");
 
 			LOG("Disc created successfully");
 
@@ -1593,9 +1575,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Platonic Solid")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/PlatonicSolid.fbx");
 
 			LOG("Platonic Solid created successfully");
 
@@ -1603,9 +1583,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Prism")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Prism.fbx");
 
 			LOG("Prism created successfully");
 
@@ -1613,9 +1591,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Pipe")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Pipe.fbx");
 
 			LOG("Pipe created successfully");
 
@@ -1623,9 +1599,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Helix")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Helix.fbx");
 
 			LOG("Helix created successfully");
 
@@ -1634,6 +1608,7 @@ void ModuleEditor::PrimitivesMenu()
 		ImGui::EndMenu();
 
 	}
+
 }
 
 void ModuleEditor::CreateCameraMenu()
