@@ -28,12 +28,13 @@
 #include "RecastNavigation/DebugUtils/DebugDraw.h"
 #include "RecastNavigation/DebugUtils/RecastDebugDraw.h"
 #include "RecastNavigation/Detour/DetourNavMesh.h"
-#include "../RE_Mesh.h"
+#include "../ResourceMesh.h"
 #include "../Globals.h"
-#include "../MO_ResourceManager.h"
+#include "../ModuleResourceManager.h"
 #include "MathGeoLib/include/Math/float4x4.h"
 
-#include "../MO_Renderer3D.h"
+#include "../ModuleRenderer3D.h"
+#include"../Log.h"
 
 #include "mmgr/mmgr.h"
 
@@ -149,8 +150,9 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 	}
 	m_offMeshConCount = 0;
 	m_volumeCount = 0;
+	
 
-	float* vertices = new float[mesh->vertices_count * 3];
+	float* vertices = new float[mesh->vertices.size() * 3];
 	mesh->GetVertices(vertices);
 
 	m_mesh = mesh;
@@ -160,13 +162,13 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
 	{
-		LOG(LogType::L_ERROR, "buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
+		LOG("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
 		return false;
 	}
 
 	if (!rcCreateChunkyTriMesh(vertices, (int*)m_mesh->indices, m_mesh->indices_count / 3, 256, m_chunkyMesh))
 	{
-		LOG(LogType::L_ERROR, "buildTiledNavigation: Failed to build chunky mesh.");
+		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
 		RELEASE_ARRAY(vertices);
 		return false;
 	}		
@@ -186,7 +188,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 	++m_volumeCount;
 
 	if (m_mesh == nullptr)
-		m_mesh = new ResourceMesh(EngineExternal->GetRandomInt());
+		m_mesh = new ResourceMesh(External->GetRandomInt());
 
 	MergeToMesh(mesh, new_mesh_transform);
 

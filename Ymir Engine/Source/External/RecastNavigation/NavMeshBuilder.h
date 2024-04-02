@@ -4,7 +4,7 @@
 #include "RecastNavigation/Detour/DetourNavMesh.h"
 #include "RecastNavigation/Detour/DetourNavMeshQuery.h"
 #include "RecastNavigation/InputGeom.h"
-#include "../MO_Pathfinding.h"
+#include "../ModulePathfinding.h"
 
 enum class Walkability
 {

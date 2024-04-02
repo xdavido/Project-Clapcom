@@ -23,6 +23,7 @@
 #include "RecastNavigation/Recast/RecastAlloc.h"
 #include "RecastNavigation/Recast/RecastAssert.h"
 #include "../Globals.h"
+#include "../Log.h"
 
 inline bool overlapBounds(const float* amin, const float* amax, const float* bmin, const float* bmax)
 {
@@ -383,7 +384,7 @@ bool rcRasterizeTriangles(rcContext* ctx, const float* verts, const int /*nv*/,
 		// Rasterize.
 		if (!rasterizeTri(v0, v1, v2, areas[i], solid, solid.bmin, solid.bmax, solid.cs, ics, ich, flagMergeThr))
 		{
-			LOG(LogType::L_ERROR, "rcRasterizeTriangles: Out of memory.");
+			LOG("rcRasterizeTriangles: Out of memory.");
 			return false;
 		}
 	}

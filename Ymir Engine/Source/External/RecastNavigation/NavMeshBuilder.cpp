@@ -1,6 +1,6 @@
 #include "../Globals.h"
 #include "NavMeshBuilder.h"
-#include "../MO_Pathfinding.h"
+#include "../ModulePathFinding.h"
 #include "RecastNavigation/InputGeom.h"
 #include "RecastNavigation/Detour/DetourNavMesh.h"
 #include "RecastNavigation/Detour/DetourNavMeshQuery.h"
@@ -13,9 +13,9 @@
 #include "ImGui/imgui.h"
 
 #include "../Application.h"
-#include "../MO_Renderer3D.h"
+#include "../ModuleRenderer3D.h"		
 
-#include "../RE_Mesh.h"
+#include "../ResourceMesh.h"
 #include "mmgr/mmgr.h"
 
 
@@ -631,22 +631,21 @@ void NavMeshBuilder::DebugDraw()
 void NavMeshBuilder::DrawBoundaries(float minx, float miny, float minz, float maxx, float maxy, float maxz)
 {
 	//Top
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, miny, minz), float3(maxx, miny, minz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(minx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, miny, minz), float3(1.0f, 1.0f, 1.0f));
-
-	//Bottom	
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, maxy, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, maxy, minz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, maxy, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, maxy, maxz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-
-	//Sides		
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, miny, minz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	EngineExternal->moduleRenderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(maxx, miny, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(minx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, miny, minz), float3(1.0f, 1.0f, 1.0f));
+			  
+	//Bottome 
+	External->renderer3D->AddDebugLines(float3(minx, maxy, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, maxy, minz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, maxy, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, maxy, maxz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
+	
+	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
 }
 
 

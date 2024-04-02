@@ -19,6 +19,7 @@ class ModuleMonoManager;
 class ModuleAudio;
 class ModulePhysics;
 class ModuleLightManager;
+class ModulePathFinding;
 
 class Application
 {
@@ -36,6 +37,7 @@ public:
 	ModuleAudio* audio;
 	ModulePhysics* physics;
 	ModuleLightManager* lightManager;
+	ModulePathFinding* pathFinding;
 
 private:
 

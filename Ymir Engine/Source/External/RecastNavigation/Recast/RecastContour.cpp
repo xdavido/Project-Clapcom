@@ -25,6 +25,7 @@
 #include "RecastNavigation/Recast/RecastAlloc.h"
 #include "RecastNavigation/Recast/RecastAssert.h"
 #include "../Globals.h"
+#include "../Log.h"
 
 
 static int getCornerHeight(int x, int y, int i, int dir,
@@ -861,7 +862,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 	rcScopedDelete<unsigned char> flags((unsigned char*)rcAlloc(sizeof(unsigned char)*chf.spanCount, RC_ALLOC_TEMP));
 	if (!flags)
 	{
-		LOG(LogType::L_ERROR, "rcBuildContours: Out of memory 'flags' (%d).", chf.spanCount);
+		LOG("rcBuildContours: Out of memory 'flags' (%d).", chf.spanCount);
 		return false;
 	}
 	
@@ -1013,7 +1014,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 		rcScopedDelete<char> winding((char*)rcAlloc(sizeof(char)*cset.nconts, RC_ALLOC_TEMP));
 		if (!winding)
 		{
-			LOG(LogType::L_ERROR, "rcBuildContours: Out of memory 'hole' (%d).", cset.nconts);
+			LOG("rcBuildContours: Out of memory 'hole' (%d).", cset.nconts);
 			return false;
 		}
 		int nholes = 0;
@@ -1034,7 +1035,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 			rcScopedDelete<rcContourRegion> regions((rcContourRegion*)rcAlloc(sizeof(rcContourRegion)*nregions, RC_ALLOC_TEMP));
 			if (!regions)
 			{
-				LOG(LogType::L_ERROR, "rcBuildContours: Out of memory 'regions' (%d).", nregions);
+				LOG( "rcBuildContours: Out of memory 'regions' (%d).", nregions);
 				return false;
 			}
 			memset(regions, 0, sizeof(rcContourRegion)*nregions);
@@ -1042,7 +1043,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 			rcScopedDelete<rcContourHole> holes((rcContourHole*)rcAlloc(sizeof(rcContourHole)*cset.nconts, RC_ALLOC_TEMP));
 			if (!holes)
 			{
-				LOG(LogType::L_ERROR, "rcBuildContours: Out of memory 'holes' (%d).", cset.nconts);
+				LOG( "rcBuildContours: Out of memory 'holes' (%d).", cset.nconts);
 				return false;
 			}
 			memset(holes, 0, sizeof(rcContourHole)*cset.nconts);
@@ -1054,7 +1055,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 				if (winding[i] > 0)
 				{
 					if (regions[cont.reg].outline)
-						LOG(LogType::L_ERROR, "rcBuildContours: Multiple outlines for region %d.", cont.reg);
+						LOG( "rcBuildContours: Multiple outlines for region %d.", cont.reg);
 					regions[cont.reg].outline = &cont;
 				}
 				else
@@ -1095,7 +1096,7 @@ bool rcBuildContours(rcContext* ctx, rcCompactHeightfield& chf,
 					// The region does not have an outline.
 					// This can happen if the contour becaomes selfoverlapping because of
 					// too aggressive simplification settings.
-					LOG(LogType::L_ERROR, "rcBuildContours: Bad outline for region %d, contour simplification is likely too aggressive.", i);
+					LOG( "rcBuildContours: Bad outline for region %d, contour simplification is likely too aggressive.", i);
 				}
 			}
 		}

@@ -13,6 +13,7 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 #include "ModuleLightManager.h"
+#include "ModulePathfinding.h"
 
 #include "Log.h"
 
@@ -38,6 +39,7 @@ Application::Application()
 	audio = new ModuleAudio(this);
 	physics = new ModulePhysics(this);
 	lightManager = new ModuleLightManager(this);
+	pathFinding = new ModulePathFinding(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -56,6 +58,7 @@ Application::Application()
 	AddModule(fileSystem);
 	AddModule(resourceManager);
 	AddModule(moduleMono);
+	AddModule(pathFinding);
 	AddModule(scene);
 	AddModule(lightManager);
 
