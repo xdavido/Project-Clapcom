@@ -20,7 +20,7 @@ GameObject::GameObject()
 	selected = false;
 	pendingToDelete = false;
 	hidden = false;
-
+	isStatic = false;
 	mTransform = nullptr;
 
 	UID = Random::Generate();
@@ -35,7 +35,7 @@ GameObject::GameObject(std::string name, GameObject* parent)
 	selected = false;
 	pendingToDelete = false;
 	hidden = false;
-
+	isStatic = false;
 	mTransform = nullptr;
 	UID = Random::Generate();
 

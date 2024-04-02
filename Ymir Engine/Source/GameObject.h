@@ -87,6 +87,7 @@ public:
 	bool active;
 	bool selected;
 	bool hidden;
+	bool isStatic;
 
 	char tag[32] = "Untagged";
 

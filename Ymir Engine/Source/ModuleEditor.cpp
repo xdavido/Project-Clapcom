@@ -2944,6 +2944,8 @@ void ModuleEditor::DrawInspector()
 
 			ImGui::Spacing();
 
+			ImGui::Checkbox("Static", &App->scene->selectedGO->isStatic);
+
 			ImGui::Text("Tag"); ImGui::SameLine();
 
 			ImGuiStyle& style = ImGui::GetStyle();
