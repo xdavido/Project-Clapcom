@@ -108,7 +108,8 @@ update_status ModulePathFinding::Update(float dt)
 int ModulePathFinding::Save(const char* scene_path)
 {
 	std::string navMeshPath;
-	navMeshPath = External->scene->current_scene_name;
+	//Falta mirar si esto es correcto!!!!
+	External->scene->GetUniqueName(navMeshPath);
 	navMeshPath = "Assets/NavMeshes/" + navMeshPath + ".nav";
 
 	BuildSettings settings;
