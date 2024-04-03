@@ -372,9 +372,6 @@ void CCollider::OnInspector()
 			}
 		}
 
-		ImGui::Text("Offset"); ImGui::SameLine();
-		ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
-
 		if (shape != nullptr) {
 
 			switch (collType)
@@ -382,9 +379,10 @@ void CCollider::OnInspector()
 			case ColliderType::BOX: 
 
 				ImGui::Text("Scale: "); ImGui::SameLine();
-
 				ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
 
+				ImGui::Text("Offset"); ImGui::SameLine();
+				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 				break;
 
 			case ColliderType::SPHERE:
@@ -397,6 +395,9 @@ void CCollider::OnInspector()
 					size.y = radius;
 					size.z = radius;
 				}
+
+				ImGui::Text("Offset"); ImGui::SameLine();
+				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
 				break;
 			case ColliderType::CAPSULE:
@@ -411,6 +412,9 @@ void CCollider::OnInspector()
 
 				ImGui::Text("Height: "); ImGui::SameLine();
 				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
+
+				ImGui::Text("Offset"); ImGui::SameLine();
+				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
 				break;
 
