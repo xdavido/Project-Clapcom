@@ -89,32 +89,18 @@ void CParticleSystem::OnInspector()
 
 	//Give an ID to each colapsing header to be able to have more than one of the same time
 	//This must be done due to ImGui using the names as the ids of all menus and things
-	int myPosInComponents = mOwner->GetComponentPosition(this); //TODO TONI: Probably it has another way to do this
-	std::string idComponent;
-	idComponent.append("##");
-	idComponent.append(std::to_string(myPosInComponents).c_str());
+	//int myPosInComponents = mOwner->GetComponentPosition(this); //TODO TONI: Probably it has another way to do this //ERIC: Nada de esto hacia falta, basta con el UID, si que habra que hacer algo para si hay mas de un particle emmiter
+	
+	butonChar.append(butonChar.append(std::to_string(UID)).c_str());
 
-	butonChar.append(butonChar.append(idComponent).c_str());
-	if (ImGui::CollapsingHeader("ParticleSystem"))
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+
+	bool exists = true;
+
+	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
+	ImGui::SameLine();
+	if (ImGui::CollapsingHeader(("ParticleSystem##" + std::to_string(UID)).c_str(),&exists,flags))
 	{
-		butonChar.clear();
-		butonChar.append("##Particle System Active");
-		if (ImGui::Checkbox(butonChar.append(idComponent).c_str(), &this->active)) //El doble ## hace que no se muestre el texto. Es necesario poner un nombre distinto a cada checkbox y boton ya que ImGui usa el nombre como la ID
-		{
-			if (active)
-			{
-				Enable();
-			}
-		}
-		ImGui::SameLine();
-
-		butonChar.clear();
-		butonChar.append("Delete component");
-		if (ImGui::Button(butonChar.append(idComponent).c_str()))
-		{
-			this->~CParticleSystem();
-		}
-
 		int treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		int leafFlags = treeFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
@@ -324,6 +310,8 @@ void CParticleSystem::OnInspector()
 			ImGui::TreePop();
 		}
 	}
+
+	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
 const char* CParticleSystem::SaveMetaEmitters()
