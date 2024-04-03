@@ -27,6 +27,8 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	lockY = false;
 	lockZ = false;
 
+	offset = { 0, 0, 0 };
+
 	transform = mOwner->mTransform;
 
 	switch (collType)
@@ -351,6 +353,9 @@ void CCollider::OnInspector()
 				break;
 			}
 		}
+
+		ImGui::Text("Offset"); ImGui::SameLine();
+		ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
 		if (shape != nullptr) {
 
