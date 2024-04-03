@@ -125,22 +125,18 @@ bool NavMeshBuilder::HandleBuild()
 	status = m_navMesh->init(&params);
 	if (dtStatusFailed(status))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildTiledNavigation: Could not init navmesh.");
-=======
-		LOG( "buildTiledNavigation: Could not init navmesh.");
->>>>>>> Stashed changes
+
 		return false;
 	}
 
 	status = m_navQuery->init(m_navMesh, 2048);
 	if (dtStatusFailed(status))
 	{
-<<<<<<< Updated upstream
-		LOG("buildTiledNavigation: Could not init Detour navmesh query");
-=======
+
 		LOG( "buildTiledNavigation: Could not init Detour navmesh query");
->>>>>>> Stashed changes
+
 		return false;
 	}
 
@@ -197,11 +193,9 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 {
 	if (!m_geom || !m_geom->getMesh() || !m_geom->getChunkyMesh())
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Input mesh is not specified.");
-=======
-		LOG( "buildNavigation: Input mesh is not specified.");
->>>>>>> Stashed changes
+
 		return 0;
 	}
 
@@ -212,7 +206,7 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	            
 	CleanUp();
 
-	const float* verts = m_geom->getMesh()->vertices;
+	const float* verts = (float*)m_geom->getMesh()->vertices.data();
 	const int nverts = m_geom->getMesh()->vertices.size();
 	const int ntris = m_geom->getMesh()->indices.size() / 3;
 	const rcChunkyTriMesh* chunkyMesh = m_geom->getChunkyMesh();
@@ -269,34 +263,31 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 
 	// Start the build process.
 
-<<<<<<< Updated upstream
+
 	LOG("Building navigation:");
 	LOG(" - %d x %d cells", m_cfg.width, m_cfg.height);
 	LOG(" - %.1fK verts, %.1fK tris", nverts / 1000.0f, ntris / 1000.0f);
-=======
-	LOG( "Building navigation:");
-	LOG( " - %d x %d cells", m_cfg.width, m_cfg.height);
-	LOG( " - %.1fK verts, %.1fK tris", nverts / 1000.0f, ntris / 1000.0f);
->>>>>>> Stashed changes
+
+
+
 
 	// Allocate voxel heightfield where we rasterize our input data to.
 	m_solid = rcAllocHeightfield();
 	if (!m_solid)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'solid'.");
-=======
-		LOG( "buildNavigation: Out of memory 'solid'.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 	if (!rcCreateHeightfield(&m_ctx, *m_solid, m_cfg.width, m_cfg.height, m_cfg.bmin, m_cfg.bmax, m_cfg.cs, m_cfg.ch))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not create solid heightfield.");
-=======
-		LOG( "buildNavigation: Could not create solid heightfield.");
->>>>>>> Stashed changes
+
+
 		return 0;
 	}
 
@@ -306,11 +297,11 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	m_triareas = new unsigned char[chunkyMesh->maxTrisPerChunk];
 	if (!m_triareas)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'm_triareas' (%d).", chunkyMesh->maxTrisPerChunk);
-=======
-		LOG( "buildNavigation: Out of memory 'm_triareas' (%d).", chunkyMesh->maxTrisPerChunk);
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 
@@ -360,20 +351,19 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	m_chf = rcAllocCompactHeightfield();
 	if (!m_chf)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'chf'.");
-=======
-		LOG( "buildNavigation: Out of memory 'chf'.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 	if (!rcBuildCompactHeightfield(&m_ctx, m_cfg.walkableHeight, m_cfg.walkableClimb, *m_solid, *m_chf))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not build compact data.");
-=======
-		LOG( "buildNavigation: Could not build compact data.");
->>>>>>> Stashed changes
+
+
 		return 0;
 	}
 
@@ -385,11 +375,11 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	// Erode the walkable area by agent radius.
 	if (!rcErodeWalkableArea(&m_ctx, m_cfg.walkableRadius, *m_chf))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not erode.");
-=======
-		LOG( "buildNavigation: Could not erode.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 
@@ -442,11 +432,11 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 
 	if (!rcBuildLayerRegions(&m_ctx, *m_chf, m_cfg.borderSize, m_cfg.minRegionArea))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not build layer regions.");
-=======
-		LOG( "buildNavigation: Could not build layer regions.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 
@@ -454,20 +444,20 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	m_cset = rcAllocContourSet();
 	if (!m_cset)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'cset'.");
-=======
-		LOG( "buildNavigation: Out of memory 'cset'.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 	if (!rcBuildContours(&m_ctx, *m_chf, m_cfg.maxSimplificationError, m_cfg.maxEdgeLen, *m_cset))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not create contours.");
-=======
-		LOG( "buildNavigation: Could not create contours.");
->>>>>>> Stashed changes
+
+
+
 		return 0;
 	}
 
@@ -480,20 +470,18 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	m_pmesh = rcAllocPolyMesh();
 	if (!m_pmesh)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'pmesh'.");
-=======
-		LOG( "buildNavigation: Out of memory 'pmesh'.");
->>>>>>> Stashed changes
+
+
 		return 0;
 	}
 	if (!rcBuildPolyMesh(&m_ctx, *m_cset, m_cfg.maxVertsPerPoly, *m_pmesh))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Could not triangulate contours.");
-=======
-		LOG( "buildNavigation: Could not triangulate contours.");
->>>>>>> Stashed changes
+
+
 		return 0;
 	}
 
@@ -501,11 +489,10 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	m_dmesh = rcAllocPolyMeshDetail();
 	if (!m_dmesh)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildNavigation: Out of memory 'dmesh'.");
-=======
-		LOG( "buildNavigation: Out of memory 'dmesh'.");
->>>>>>> Stashed changes
+
+
 		return 0;
 	}
 
@@ -513,11 +500,9 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 		m_cfg.detailSampleDist, m_cfg.detailSampleMaxError,
 		*m_dmesh))
 	{
-<<<<<<< Updated upstream
-		LOG("buildNavigation: Could build polymesh detail.");
-=======
+
 		LOG( "buildNavigation: Could build polymesh detail.");
->>>>>>> Stashed changes
+
 		return 0;
 	}
 
@@ -533,11 +518,9 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 		if (m_pmesh->nverts >= 0xffff)
 		{
 			// The vertex indices are ushorts, and cannot point to more than 0xffff vertices.
-<<<<<<< Updated upstream
+
 			LOG("Too many vertices per tile %d (max: %d).", m_pmesh->nverts, 0xffff);
-=======
-			LOG( "Too many vertices per tile %d (max: %d).", m_pmesh->nverts, 0xffff);
->>>>>>> Stashed changes
+
 			return 0;
 		}
 
@@ -585,22 +568,21 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 
 		if (!dtCreateNavMeshData(&params, &navData, &navDataSize))
 		{
-<<<<<<< Updated upstream
+
 			LOG("Could not build Detour navmesh.");
-=======
-			LOG( "Could not build Detour navmesh.");
->>>>>>> Stashed changes
+
+
+
 			return 0;
 		}
 	}
 	m_tileMemUsage = navDataSize / 1024.0f;
 
 	// Show performance stats.
-<<<<<<< Updated upstream
+
 	LOG(">> Polymesh: %d vertices  %d polygons", m_pmesh->nverts, m_pmesh->npolys);
-=======
-	LOG( ">> Polymesh: %d vertices  %d polygons", m_pmesh->nverts, m_pmesh->npolys);
->>>>>>> Stashed changes
+
+
 
 	dataSize = navDataSize;
 	return navData;

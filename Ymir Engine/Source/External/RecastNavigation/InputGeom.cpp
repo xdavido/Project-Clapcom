@@ -218,20 +218,16 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
-=======
-		LOG( "buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
->>>>>>> Stashed changes
+
 		return false;
 	}
 	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
-<<<<<<< Updated upstream
+
 		LOG("buildTiledNavigation: Failed to build chunky mesh.");
-=======
-		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
->>>>>>> Stashed changes
+
 		//RELEASE_ARRAY(vertices);
 		return false;
 	}
