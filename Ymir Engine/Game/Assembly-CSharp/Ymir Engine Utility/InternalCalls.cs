@@ -34,6 +34,12 @@ namespace YmirEngine
         public static extern GameObject GetGameObjectByName(string name);
 
         /// <summary>
+        /// Retrieves a game object by its UID.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetGameObjectByUID(int id);
+
+        /// <summary>
         /// Loads a scene.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

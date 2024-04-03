@@ -216,6 +216,11 @@ MonoString* Get_GO_Name(MonoObject* go)
 		External->moduleMono->GameObject_From_CSGO(go)->name.c_str());
 }
 
+MonoObject* FindObjectWithUID(int id)
+{
+	return External->moduleMono->GoToCSGO(External->scene->mRootNode->FindChild(id));
+}
+
 MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
