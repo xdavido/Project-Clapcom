@@ -2955,13 +2955,13 @@ void ModuleEditor::DrawInspector()
 
 			std::vector<std::string> tags = External->scene->tags;
 
-			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag))
+			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag.c_str()))
 			{
 				for (int t = 0; t < tags.size(); t++)
 				{
-					bool is_selected = strcmp(App->scene->selectedGO->tag, tags[t].c_str()) == 0;
+					bool is_selected = strcmp(App->scene->selectedGO->tag.c_str(), tags[t].c_str()) == 0;
 					if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
-						strcpy(App->scene->selectedGO->tag, tags[t].c_str());
+						App->scene->selectedGO->tag = tags[t];
 					}
 
 					if (is_selected)

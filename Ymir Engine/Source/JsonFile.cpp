@@ -703,8 +703,10 @@ void JsonFile::SetGameObject(const char* key, const GameObject& gameObject)
 	json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
 	json_object_set_value(gameObjectObject, "Scale", scaleValue);*/
 
-	// Set UID
+	// Get Tag
+	json_object_set_string(gameObjectObject, "Tag", gameObject.tag.c_str());
 
+	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
 	// Set Parent UID
@@ -864,6 +866,9 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 
 	// Set Name
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
+
+	// Set Tag
+	json_object_set_string(gameObjectObject, "Tag", gameObject.tag.c_str());
 
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
@@ -1619,9 +1624,15 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	gameObject.name = (name != nullptr) ? name : "";
 
 	// Get Position, Rotation, Scale
+	// Get Name
+	
+	// Get Tag
+	gameObject.tag = json_object_get_string(gameObjectObject, "Tag");
 
+	std::vector<std::string> tagsCopy = External->scene->tags;
+	External->scene->tags.push_back(gameObject.tag);	
+	
 	// Get UID
-
 	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
 
 	// Get UID
