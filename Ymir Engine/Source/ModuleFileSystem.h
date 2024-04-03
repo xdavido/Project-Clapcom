@@ -54,6 +54,7 @@ public:
 	std::string libraryScriptsPath;
 	std::string libraryPrefabsPath;
 	std::string libraryAnimationsPath; 
+	std::string libraryNavMeshPath;
 
 	JsonFile outputFile;
 

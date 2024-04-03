@@ -10,7 +10,7 @@
 #include "GameObject.h"
 
 #include "../External/RecastNavigation/NavMeshBuilder.h"
-#include "IM_NavMeshImporter.h"
+#include "ImporterNavMesh.h"
 #include "ModuleResourceManager.h"
 
 
@@ -26,12 +26,14 @@
 #include "mmgr/mmgr.h"
 #include "RecastNavigation/DebugUtils/SampleInterfaces.h"
 
+#include "Random.h"
+
 ModulePathFinding::ModulePathFinding(Application* app, bool start_enabled) : Module(app, start_enabled),
 geometry(nullptr), navMeshBuilder(nullptr), walkabilityPoint(nullptr), debugDraw(false),
 randomPointSet(false), randomRadius(0.0f)
 {
 	geometry = new InputGeom();
-	geometry->SetMesh(new ResourceMesh(External->GetRandomInt()));
+	geometry->SetMesh(new ResourceMesh(Random::Generate()));
 	agents.push_back(NavAgent());
 
 	randomPoint = float3::inf;
@@ -122,13 +124,13 @@ int ModulePathFinding::Save(const char* scene_path)
 
 	navMeshBuilder->CollectSettings(settings);
 
-	return NavMeshImporter::Save(navMeshPath.c_str(), navMeshBuilder->GetNavMesh(), settings);
+	return ImporterNavMesh::Save(navMeshPath.c_str(), navMeshBuilder->GetNavMesh(), settings);
 }
 
 void ModulePathFinding::Load(int navMeshResourceUID)
 {
 	BuildSettings settings;
-	dtNavMesh* navMesh = NavMeshImporter::Load(navMeshResourceUID, settings);
+	dtNavMesh* navMesh = ImporterNavMesh::Load(navMeshResourceUID, settings);
 
 	if (navMesh != nullptr)
 		ClearNavMeshes();
@@ -269,7 +271,7 @@ void ModulePathFinding::ClearNavMeshes()
 	CleanUp();
 
 	geometry = new InputGeom();
-	geometry->SetMesh(new ResourceMesh(External->GetRandomInt()));
+	geometry->SetMesh(new ResourceMesh(Random::Generate()));
 
 	pathfinder;
 }
@@ -326,7 +328,7 @@ void ModulePathFinding::BakeNavMesh()
 
 void ModulePathFinding::AddGameObjectToNavMesh(GameObject* objectToAdd)
 {
-	CMesh* meshRenderer = dynamic_cast<CMesh*>(objectToAdd->GetComponent(ComponentType::MESH);
+	CMesh* meshRenderer = dynamic_cast<CMesh*>(objectToAdd->GetComponent(ComponentType::MESH));
 
 	if (meshRenderer == nullptr)
 		return;

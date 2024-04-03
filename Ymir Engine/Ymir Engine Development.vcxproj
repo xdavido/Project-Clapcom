@@ -372,6 +372,7 @@
     <ClInclude Include="Source\ImporterMaterial.h" />
     <ClInclude Include="Source\ImporterMesh.h" />
     <ClInclude Include="Source\ImporterModel.h" />
+    <ClInclude Include="Source\ImporterNavMesh.h" />
     <ClInclude Include="Source\ImporterSettings.h" />
     <ClInclude Include="Source\ImporterShader.h" />
     <ClInclude Include="Source\ImporterTexture.h" />
@@ -572,6 +573,7 @@
     <ClCompile Include="Source\ImporterMaterial.cpp" />
     <ClCompile Include="Source\ImporterMesh.cpp" />
     <ClCompile Include="Source\ImporterModel.cpp" />
+    <ClCompile Include="Source\ImporterNavMesh.cpp" />
     <ClCompile Include="Source\ImporterSettings.cpp" />
     <ClCompile Include="Source\ImporterShader.cpp" />
     <ClCompile Include="Source\ImporterTexture.cpp" />

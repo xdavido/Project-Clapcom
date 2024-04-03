@@ -38,6 +38,8 @@
 
 #include "mmgr/mmgr.h"
 
+#include "../Random.h"
+
 static bool intersectSegmentTriangle(const float* sp, const float* sq,
 									 const float* a, const float* b, const float* c,
 									 float &t)
@@ -188,7 +190,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 	++m_volumeCount;
 
 	if (m_mesh == nullptr)
-		m_mesh = new ResourceMesh(External->GetRandomInt());
+		m_mesh = new ResourceMesh(Random::Generate());
 
 	MergeToMesh(mesh, new_mesh_transform);
 
@@ -197,12 +199,12 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
 	{
-		LOG(LogType::L_ERROR, "buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
+		LOG("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
 		return false;
 	}
 	if (!rcCreateChunkyTriMesh(m_mesh->vertices, (int*)m_mesh->indices, m_mesh->indices_count / 3, 256, m_chunkyMesh))
 	{
-		LOG(LogType::L_ERROR, "buildTiledNavigation: Failed to build chunky mesh.");
+		LOG("buildTiledNavigation: Failed to build chunky mesh.");
 		//RELEASE_ARRAY(vertices);
 		return false;
 	}

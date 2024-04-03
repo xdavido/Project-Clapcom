@@ -27,6 +27,7 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryScriptsPath = libraryPath + "Scripts/";
 	libraryPrefabsPath = libraryPath + "Prefabs/";
 	libraryAnimationsPath = libraryPath + "Animations/";
+	libraryNavMeshPath = libraryPath + "NavMeshes/";
 
 	regenerateLibrary = false;
 
@@ -142,6 +143,7 @@ void ModuleFileSystem::CreateLibraryFolder()
 	PhysfsEncapsule::CreateFolder(libraryPath, "Scripts"); // Scripts
 	PhysfsEncapsule::CreateFolder(libraryPath, "Prefabs"); // Prefabs
 	PhysfsEncapsule::CreateFolder(libraryPath, "Animations"); // Animations
+	PhysfsEncapsule::CreateFolder(libraryPath, "NavMeshes"); // NavMeshes
 }
 
 bool ModuleFileSystem::SaveMeshToFile(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::string& filename) {
