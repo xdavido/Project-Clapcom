@@ -333,8 +333,6 @@ void ModuleScene::ClearScene()
 {
 	//JsonFile::DeleteJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
 
-	uint deletedSceneUID = mRootNode->UID;
-
 	isLocked = false;
 	SetSelected();
 
@@ -352,9 +350,6 @@ void ModuleScene::ClearScene()
 
 	ClearVec(vTempComponents);
 	ClearVec(vCanvas);
-
-	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
-	mRootNode->UID = deletedSceneUID;
 }
 
 void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
@@ -398,7 +393,12 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
+	uint deletedSceneUID = mRootNode->UID;
+
 	ClearScene();
+
+	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
+	mRootNode->UID = deletedSceneUID;
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
