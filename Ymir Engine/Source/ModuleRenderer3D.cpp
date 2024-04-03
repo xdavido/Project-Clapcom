@@ -979,7 +979,6 @@ void ModuleRenderer3D::DrawParticles()
 				// Esto iria bien
 				particleMaterial->shader.UseShader(false);
 
-
 				glEnd();
 				glPopMatrix();
 				glBindTexture(GL_TEXTURE_2D, 0);
