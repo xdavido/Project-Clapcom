@@ -146,15 +146,15 @@ void CCollider::Update()
 
 		CTransform* parentTransform = (CTransform*)mOwner->mParent->GetComponent(ComponentType::TRANSFORM);
 
-		float offsetX = 0;
-		float offsetY = 0;
-		float offsetZ = 0;
+		float meshOffsetX = 0;
+		float meshOffsetY = 0;
+		float meshOffsetZ = 0;
 
 		if (componentMesh != nullptr)
 		{
-			offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
-			offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
-			offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+			meshOffsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
+			meshOffsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
+			meshOffsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
 		}
 
 		float4x4 newMat;
@@ -168,7 +168,7 @@ void CCollider::Update()
 		{
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				newMat.SetCol(3, float4(matrix[12] - offsetX, matrix[13] - offsetY, matrix[14] - offsetZ, matrix[15]));
+				newMat.SetCol(3, float4(matrix[12] - meshOffsetX, matrix[13] - meshOffsetY, matrix[14] - meshOffsetZ, matrix[15]));
 
 			}
 			else {
@@ -182,9 +182,9 @@ void CCollider::Update()
 		{
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				newMat.SetCol(3, float4(matrix[12] - offsetX - parentTransform->GetGlobalPosition().x,
-					matrix[13] - offsetY - parentTransform->GetGlobalPosition().y,
-					matrix[14] - offsetZ - parentTransform->GetGlobalPosition().z,
+				newMat.SetCol(3, float4(matrix[12] - meshOffsetX - parentTransform->GetGlobalPosition().x,
+					matrix[13] - meshOffsetY - parentTransform->GetGlobalPosition().y,
+					matrix[14] - meshOffsetZ - parentTransform->GetGlobalPosition().z,
 					matrix[15]));
 
 			}

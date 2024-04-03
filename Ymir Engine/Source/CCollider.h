@@ -69,6 +69,7 @@ public:
 	ColliderType collType;
 	PhysicsType physType;
 
+	float3 offset;
 	float3 size;
 	btVector3 btSize;
 	float radius;
