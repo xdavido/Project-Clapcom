@@ -31,6 +31,7 @@ public:
 
 	virtual void Spawn(ParticleEmitter* emitter, Particle* particle) = 0;
 	virtual void Update(float dt, ParticleEmitter* emitter) /*= 0*/;
+	virtual void OnInspector();
 
 	bool unique = true; //Si es unique solo puede haber uno de ese tipo
 private:
@@ -42,6 +43,7 @@ struct EmitterBase : EmitterInstance
 	EmitterBase();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 
 	//Variable unica, posicion donde spawnean
 	float3 emitterOrigin;
@@ -53,6 +55,7 @@ struct EmitterSpawner : EmitterInstance
 	EmitterSpawner();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 
 	//Variable unica, ritmo de spawn
 	bool basedTimeSpawn;
@@ -66,6 +69,7 @@ struct EmitterPosition : EmitterInstance
 	EmitterPosition();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 
 	float GetModuleVec(float3 vec);
 
@@ -81,6 +85,7 @@ struct EmitterRotation : EmitterInstance
 {
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 };
 
 struct EmitterSize : EmitterInstance
@@ -88,6 +93,7 @@ struct EmitterSize : EmitterInstance
 	EmitterSize();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 
 	float3 originalSize; //Para gestionar si se escala el GameObject
 	bool progresive;
@@ -104,6 +110,7 @@ struct EmitterColor : EmitterInstance
 	EmitterColor();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
 
 	bool progresive;
 	float startChange; //Range from 0 to 1 as lifetime

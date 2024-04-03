@@ -167,8 +167,7 @@ void CParticleSystem::OnInspector()
 
 							//Positions
 							EmitterBase* eBase = (EmitterBase*)listModule.at(j);
-							ImGui::DragFloat3("Initial Pos. ## BASE", &(eBase->emitterOrigin[0]), 0.1f);
-							ImGui::DragFloat("Life Time ## BASE", &(eBase->particlesLifeTime), 0.5F, 1.0F, 720.0F);
+							eBase->OnInspector();
 							break;
 						}
 						case SPAWN:
@@ -182,35 +181,12 @@ void CParticleSystem::OnInspector()
 							}
 							deleteButton.clear();
 
-							int numParticles;
-							std::string numParticlesWithID = "Particles ##";
-
 							EmitterSpawner* eSpawner = (EmitterSpawner*)listModule.at(j);
-							numParticles = eSpawner->numParticlesToSpawn;
-
-							ImGui::Checkbox("(Time / Num) Spawn ", &(eSpawner->basedTimeSpawn));
-
-							if (eSpawner->basedTimeSpawn)
-							{
-
-								if (ImGui::SliderFloat("Delay ##SPAWN", &(eSpawner->spawnRatio), 0.1f, 1.0f))
-								{
-
-								}
-							}
-							else
-							{
-								if (ImGui::SliderInt(numParticlesWithID.append(std::to_string(i)).c_str(), &numParticles, 0, MAXPARTICLES))
-								{
-									eSpawner->numParticlesToSpawn = numParticles;
-								}
-							}
+							eSpawner->OnInspector();
 							break;
 						}
 						case POSITION:
 						{
-							EmitterPosition* ePosition = (EmitterPosition*)listModule.at(j);
-
 							ImGui::Text(particleModule.append("Position ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
@@ -219,28 +195,9 @@ void CParticleSystem::OnInspector()
 								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
 							}
 							deleteButton.clear();
-							ImGui::Checkbox("Random Movement ##POSITION", &ePosition->randomized);
-							if (ePosition->randomized)
-							{
-								ImGui::DragFloat3("Range 1 ##POSITION", &(ePosition->direction1[0]), 0.1f);
-								ImGui::DragFloat3("Range 2 ##POSITION", &(ePosition->direction2[0]), 0.1f);
-							}
-							else
-							{
-								ImGui::DragFloat3("Position", &(ePosition->direction1[0]), 0.1f);
-							}
-							ImGui::Checkbox("Acceraltion ##POSITION", &ePosition->acceleration);
-							if (ePosition->acceleration)
-							{
-								ImGui::DragFloat("SpeedInit ##POSITION", &(ePosition->particleSpeed1), 0.2F);
-								ImGui::DragFloat("SpeedFinal ##POSITION", &(ePosition->particleSpeed2), 0.2F);
-							}
-							else
-							{
-								ImGui::DragFloat("Speed ##POSITION", &(ePosition->particleSpeed1), 0.2F);
-							}
-
-
+							
+							EmitterPosition* ePosition = (EmitterPosition*)listModule.at(j);
+							ePosition->OnInspector();
 							break;
 						}
 						case ROTATION:
@@ -253,12 +210,13 @@ void CParticleSystem::OnInspector()
 								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
 							}
 							deleteButton.clear();
+
+							EmitterRotation* eRotation = (EmitterRotation*)listModule.at(j);
+							eRotation->OnInspector(); //Todo, porque la rotation aun no existe bien , solo mira a camara
 							break;
 						}
 						case SIZEPARTICLE:
 						{
-							EmitterSize* eSize = (EmitterSize*)listModule.at(j);
-
 							ImGui::Text(particleModule.append("Scale ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
@@ -268,19 +226,13 @@ void CParticleSystem::OnInspector()
 							}
 							deleteButton.clear();
 
-							ImGui::Checkbox("Progresive Scaling", &(eSize->progresive));
-							ImGui::SliderFloat("First Scale", &(eSize->sizeMultiplier1), 0.1f, 10.0f);
-							if (eSize->progresive)
-							{
-								ImGui::SliderFloat("End Scale", &(eSize->sizeMultiplier2), 0.1f, 10.0f);
-								ImGui::SliderFloat("Start Change ##SCALE", &(eSize->startChange), 0.0f, (eSize->stopChange - 0.05f));
-								ImGui::SliderFloat("Stop Change ##SCALE", &(eSize->stopChange), eSize->startChange + 0.05f, 1.0f);
-							}
+							EmitterSize* eSize = (EmitterSize*)listModule.at(j);
+							eSize->OnInspector();
 							break;
 						}
 						case COLOR:
 						{
-							EmitterColor* eColor = (EmitterColor*)listModule.at(j);
+							
 
 							ImGui::Text(particleModule.append("Color ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
@@ -291,23 +243,13 @@ void CParticleSystem::OnInspector()
 							}
 							deleteButton.clear();
 
-							ImGui::Checkbox("Progresive Color", &(eColor->progresive));
-							ImGui::ColorEdit4("First Color", &(eColor->color1));
-							if (eColor->progresive)
-							{
-								if (ImGui::ColorEdit4("End Color", &(eColor->color2)));
-								{
-									eColor->color2 = eColor->color2;
-								}
-								ImGui::SliderFloat("Start ReSize ##COLOR", &(eColor->startChange), 0.0f, (eColor->stopChange - 0.05f));
-								ImGui::SliderFloat("Stop ReSize ##COLOR", &(eColor->stopChange), eColor->startChange + 0.05f, 1.0f);
-							}
+							EmitterColor* eColor = (EmitterColor*)listModule.at(j);
+							eColor->OnInspector();
 
 							break;
 						}
 						case MAX:
-							//Color 
-							//ImGui::ColorEdit4;
+							//Esto existe para que sea generico el recorrer el switch de emitters
 							break;
 						default:
 							break;

@@ -18,6 +18,11 @@ void EmitterInstance::Update(float dt, ParticleEmitter* emitter)
 
 }
 
+void EmitterInstance::OnInspector()
+{
+
+}
+
 EmitterBase::EmitterBase()
 {
 	emitterOrigin = float3::zero;
@@ -47,6 +52,72 @@ void EmitterBase::Update(float dt, ParticleEmitter* emitter)
 	{
 		//Actualizamos el tiempo de vida de cada particula
 		emitter->listParticles.at(i)->lifetime += emitter->listParticles.at(i)->oneOverMaxLifetime * dt;
+	}
+}
+
+void EmitterBase::OnInspector()
+{
+	ImGui::DragFloat3("Initial Pos. ## BASE", &(this->emitterOrigin[0]), 0.1f);
+	ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime), 0.5F, 1.0F, 720.0F);
+}
+
+EmitterSpawner::EmitterSpawner()
+{
+	basedTimeSpawn = false;
+	spawnRatio = 0.2f; //Dividir en current time por cuantas se spawnean 
+	currentTimer = 0.0f;
+	numParticlesToSpawn = 5;
+
+}
+
+void EmitterSpawner::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
+}
+
+void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
+{
+	if (!basedTimeSpawn)
+	{
+		int remainingParticlesToSpawn = numParticlesToSpawn - emitter->listParticles.size();
+		if (remainingParticlesToSpawn > 0)
+		{
+			emitter->SpawnParticle(remainingParticlesToSpawn);
+		}
+	}
+	else
+	{
+		currentTimer += dt;
+		int numToSpawn = 0;
+		if (currentTimer > spawnRatio)
+		{
+			numToSpawn = currentTimer / spawnRatio;
+			emitter->SpawnParticle(numToSpawn);
+		}
+		currentTimer -= (spawnRatio * numToSpawn);
+	}
+}
+
+void EmitterSpawner::OnInspector()
+{
+	int numParticles = this->numParticlesToSpawn;
+	std::string numParticlesWithID = "Particles ##";
+
+	ImGui::Checkbox("(Time / Num) Spawn ", &(this->basedTimeSpawn));
+
+	if (this->basedTimeSpawn)
+	{
+
+		if (ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.1f, 1.0f))
+		{
+
+		}
+	}
+	else
+	{
+		if (ImGui::SliderInt(numParticlesWithID.append(std::to_string(0/*i*/)).c_str(), &numParticles, 0, MAXPARTICLES)) //ERIC: No recuerdo para que esta en Append de la i aqui, no parece romper nada quitarlo asi que quiza fue una flipada mia inutil del pasados
+		{
+			this->numParticlesToSpawn = numParticles;
+		}
 	}
 }
 
@@ -160,45 +231,33 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 	}
 }
 
-float EmitterPosition::GetModuleVec(float3 vec)
+void EmitterPosition::OnInspector()
 {
-	return sqrt((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
-}
-
-EmitterSpawner::EmitterSpawner()
-{
-	basedTimeSpawn = false;
-	spawnRatio = 0.2f; //Dividir en current time por cuantas se spawnean 
-	currentTimer = 0.0f;
-	numParticlesToSpawn = 5;
-
-}
-
-void EmitterSpawner::Spawn(ParticleEmitter* emitter, Particle* particle)
-{
-}
-
-void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
-{
-	if (!basedTimeSpawn)
+	ImGui::Checkbox("Random Movement ##POSITION", &this->randomized);
+	if (this->randomized)
 	{
-		int remainingParticlesToSpawn = numParticlesToSpawn - emitter->listParticles.size();
-		if (remainingParticlesToSpawn > 0)
-		{
-			emitter->SpawnParticle(remainingParticlesToSpawn);
-		}
+		ImGui::DragFloat3("Range 1 ##POSITION", &(this->direction1[0]), 0.1f);
+		ImGui::DragFloat3("Range 2 ##POSITION", &(this->direction2[0]), 0.1f);
 	}
 	else
 	{
-		currentTimer += dt;
-		int numToSpawn = 0;
-		if (currentTimer > spawnRatio)
-		{
-			numToSpawn = currentTimer / spawnRatio;
-			emitter->SpawnParticle(numToSpawn);
-		}
-		currentTimer -= (spawnRatio * numToSpawn);
+		ImGui::DragFloat3("Position", &(this->direction1[0]), 0.1f);
 	}
+	ImGui::Checkbox("Acceraltion ##POSITION", &this->acceleration);
+	if (this->acceleration)
+	{
+		ImGui::DragFloat("SpeedInit ##POSITION", &(this->particleSpeed1), 0.2F);
+		ImGui::DragFloat("SpeedFinal ##POSITION", &(this->particleSpeed2), 0.2F);
+	}
+	else
+	{
+		ImGui::DragFloat("Speed ##POSITION", &(this->particleSpeed1), 0.2F);
+	}
+}
+
+float EmitterPosition::GetModuleVec(float3 vec)
+{
+	return sqrt((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 }
 
 void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
@@ -217,6 +276,10 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 	{
 		emitter->listParticles.at(i)->worldRotation = tempRot;
 	}
+}
+
+void EmitterRotation::OnInspector()
+{
 }
 
 EmitterSize::EmitterSize()
@@ -253,6 +316,18 @@ void EmitterSize::Update(float dt, ParticleEmitter* emitter)
 	}
 }
 
+void EmitterSize::OnInspector()
+{
+	ImGui::Checkbox("Progresive Scaling", &(this->progresive));
+	ImGui::SliderFloat("First Scale", &(this->sizeMultiplier1), 0.1f, 10.0f);
+	if (this->progresive)
+	{
+		ImGui::SliderFloat("End Scale", &(this->sizeMultiplier2), 0.1f, 10.0f);
+		ImGui::SliderFloat("Start Change ##SCALE", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
+		ImGui::SliderFloat("Stop Change ##SCALE", &(this->stopChange), this->startChange + 0.05f, 1.0f);
+	}
+}
+
 void EmitterColor::Spawn(ParticleEmitter* emitter, Particle* particle)
 {
 	particle->color = color1;
@@ -285,6 +360,21 @@ void EmitterColor::Update(float dt, ParticleEmitter* emitter)
 
 			}
 		}
+	}
+}
+
+void EmitterColor::OnInspector()
+{
+	ImGui::Checkbox("Progresive Color", &(this->progresive));
+	ImGui::ColorEdit4("First Color", &(this->color1));
+	if (this->progresive)
+	{
+		if (ImGui::ColorEdit4("End Color", &(this->color2)));
+		{
+			this->color2 = this->color2;
+		}
+		ImGui::SliderFloat("Start ReSize ##COLOR", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
+		ImGui::SliderFloat("Stop ReSize ##COLOR", &(this->stopChange), this->startChange + 0.05f, 1.0f);
 	}
 }
  
