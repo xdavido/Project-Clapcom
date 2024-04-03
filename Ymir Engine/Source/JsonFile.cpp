@@ -1627,10 +1627,15 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	// Get Name
 	
 	// Get Tag
-	gameObject.tag = json_object_get_string(gameObjectObject, "Tag");
 
-	std::vector<std::string> tagsCopy = External->scene->tags;
-	External->scene->tags.push_back(gameObject.tag);	
+	if (json_object_has_value_of_type(gameObjectObject, "Tag", JSONString)) {
+
+		gameObject.tag = json_object_get_string(gameObjectObject, "Tag");
+
+		std::vector<std::string> tagsCopy = External->scene->tags;
+		External->scene->tags.push_back(gameObject.tag);
+
+	}
 	
 	// Get UID
 	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
