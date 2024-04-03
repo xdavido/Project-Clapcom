@@ -35,6 +35,7 @@
 
 #include "../ModuleRenderer3D.h"
 #include"../Log.h"
+#include"../Random.h"
 
 #include "mmgr/mmgr.h"
 
@@ -154,12 +155,20 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 	m_volumeCount = 0;
 	
 
-	float* vertices = new float[mesh->vertices.size() * 3];
-	mesh->GetVertices(vertices);
+	std::vector<float3> floatArray;
+
+	floatArray.reserve(mesh->vertices.size());
+
+	for (const auto& vertex : mesh->vertices) {
+
+		floatArray.push_back(vertex.position);
+
+	}
+	
 
 	m_mesh = mesh;
 
-	rcCalcBounds(vertices, m_mesh->vertices_count, m_meshBMin, m_meshBMax);
+	rcCalcBounds((float*)floatArray.data(), m_mesh->vertices.size(), m_meshBMin, m_meshBMax);
 
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
@@ -168,7 +177,7 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 		return false;
 	}
 
-	if (!rcCreateChunkyTriMesh(vertices, (int*)m_mesh->indices, m_mesh->indices_count / 3, 256, m_chunkyMesh))
+	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
 		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
 		RELEASE_ARRAY(vertices);
@@ -194,17 +203,35 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 
 	MergeToMesh(mesh, new_mesh_transform);
 
-	rcCalcBounds(m_mesh->vertices, m_mesh->vertices_count, m_meshBMin, m_meshBMax);
+	std::vector<float3> floatArray;
+
+	floatArray.reserve(mesh->vertices.size());
+
+	for (const auto& vertex : mesh->vertices) {
+
+		floatArray.push_back(vertex.position);
+
+	}
+
+	rcCalcBounds((float*)floatArray.data(), m_mesh->vertices.size(), m_meshBMin, m_meshBMax);
 
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
 	{
+<<<<<<< Updated upstream
 		LOG("buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
+=======
+		LOG( "buildTiledNavigation: Out of memory 'm_chunkyMesh'.");
+>>>>>>> Stashed changes
 		return false;
 	}
-	if (!rcCreateChunkyTriMesh(m_mesh->vertices, (int*)m_mesh->indices, m_mesh->indices_count / 3, 256, m_chunkyMesh))
+	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
+<<<<<<< Updated upstream
 		LOG("buildTiledNavigation: Failed to build chunky mesh.");
+=======
+		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
+>>>>>>> Stashed changes
 		//RELEASE_ARRAY(vertices);
 		return false;
 	}
@@ -220,19 +247,19 @@ void InputGeom::SetMesh(ResourceMesh* newMesh)
 void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 {
 	// Vertex Merging =====================================================================
-	int total_vertices = m_mesh->vertices_count + new_mesh->vertices_count;
+	int total_vertices = m_mesh->vertices.size() + new_mesh->vertices.size();
 	float* merged_vertices = new float[total_vertices * 3];
 
-	int indices_offset = m_mesh->vertices_count;
+	int indices_offset = m_mesh->vertices.size();
 
-	for (size_t i = 0; i < m_mesh->vertices_count; i++)
+	for (size_t i = 0; i < m_mesh->vertices.size(); i++)
 	{
-		merged_vertices[i * 3]	   = m_mesh->vertices[i * 3];
+		merged_vertices[i * 3]	   = (float*)m_mesh->vertices[i * 3];
 		merged_vertices[i * 3 + 1] = m_mesh->vertices[i * 3 + 1];
 		merged_vertices[i * 3 + 2] = m_mesh->vertices[i * 3 + 2];
 	}
 
-	float* new_mesh_vertices = new float[new_mesh->vertices_count * 3];
+	float* new_mesh_vertices = new float[new_mesh->vertices.size() * 3];
 	new_mesh->GetVertices(new_mesh_vertices);
 
 	int index = m_mesh->vertices_count;
@@ -282,13 +309,13 @@ void InputGeom::DrawMesh()
 {
 	if (m_mesh != nullptr)
 	{
-		for (size_t i = 0; i < m_mesh->vertices_count / 3; i+= 3)
+		for (size_t i = 0; i < m_mesh->vertices.size() / 3; i+= 3)
 		{
 			float3 a = float3(m_mesh->vertices[i * 3], m_mesh->vertices[i * 3 + 1], m_mesh->vertices[i * 3 + 2]);
 			float3 b = float3(m_mesh->vertices[(i + 1) * 3], m_mesh->vertices[(i + 1) * 3 + 1], m_mesh->vertices[(i + 1) * 3 + 2]);
 			float3 c = float3(m_mesh->vertices[(i + 2) * 3], m_mesh->vertices[(i + 2) * 3 + 1], m_mesh->vertices[(i + 2) * 3 + 2]);
 
-			EngineExternal->moduleRenderer3D->AddDebugTriangles(a, b ,c, float3(0.1, 0.75, 0.5));
+			External->renderer3D->AddDebugTriangles(a, b ,c, float3(0.1, 0.75, 0.5));
 		}
 	}
 }
@@ -355,7 +382,7 @@ bool InputGeom::raycastMesh(float* src, float* dst, float& tmin)
 	
 	tmin = 1.0f;
 	bool hit = false;
-	float* verts = m_mesh->vertices;
+	float* verts = (float*)m_mesh->vertices.data();
 	
 	for (int i = 0; i < ncid; ++i)
 	{

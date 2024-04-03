@@ -52,6 +52,7 @@ private:
     void ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath);
 
     void GenerateModelMetaFile();
+    void GenerateNavMetaFile(const char* aPath, const char* lPath, unsigned int uid);
     void GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale);
 
     void SetVertexBoneDataDefault(Vertex& vertex);

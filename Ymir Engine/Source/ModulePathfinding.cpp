@@ -12,6 +12,7 @@
 #include "../External/RecastNavigation/NavMeshBuilder.h"
 #include "ImporterNavMesh.h"
 #include "ModuleResourceManager.h"
+#include "Random.h"
 
 
 

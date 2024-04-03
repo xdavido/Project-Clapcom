@@ -577,6 +577,26 @@ void Model::GenerateModelMetaFile()
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);
 }
 
+void Model::GenerateNavMetaFile(const char* aPath, const char* lPath, unsigned int uid) {
+
+	JsonFile modelMetaFile;
+
+	
+
+	modelMetaFile.SetString("Name", name.c_str());
+	modelMetaFile.SetString("Assets Path", aPath);
+	modelMetaFile.SetString("Library Path", (External->fileSystem->libraryModelsPath + std::to_string(modelGO->UID) + ".ymodel").c_str());
+	modelMetaFile.SetInt("UID", modelGO->UID);
+	modelMetaFile.SetString("Type", "Model");
+	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
+	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
+
+
+
+	External->fileSystem->CreateMetaFileFromAsset(aPath, modelMetaFile);
+
+}
+
 void Model::GenerateYmodelFile(const float3& translation, const float3& rotation, const float3& scale)
 {
 	JsonFile ymodelFile;
