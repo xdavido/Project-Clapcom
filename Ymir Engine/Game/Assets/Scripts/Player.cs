@@ -40,6 +40,17 @@ public class Player : YmirComponent
         I_JUMP_END,
     }
 
+    enum WEAPON : int
+    {
+        NONE = -1,
+
+        SMG,
+        SHOTGUN,
+        TRACE,
+
+        All_TYPES
+    }
+
     //--------------------- State ---------------------\\
     private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
     private List<INPUT> inputsList = new List<INPUT>();
@@ -75,10 +86,12 @@ public class Player : YmirComponent
 
     private bool isReloading = false;
     private float reloadTimer = 0.0f;
-    private float reloadCD = 1.0f;
+    private float reloadDuration = 1.0f;
 
     public int ammo = 0;
     public int magsize = 5;
+
+    private WEAPON weaponType = WEAPON.NONE;
 
     //--------------------- External GameObjects ---------------------\\
     private GameObject cameraObject;
@@ -94,6 +107,8 @@ public class Player : YmirComponent
 
     public void Start()
     {
+        weaponType = WEAPON.SMG;
+
         //--------------------- Dash ---------------------\\
         dashDistance = 2;
         dashDuration = 0.250f;
@@ -102,8 +117,9 @@ public class Player : YmirComponent
         dashSpeed = dashDistance / dashDuration;
 
         //--------------------- Shoot ---------------------\\
+        GetWeaponVars();
         ammo = magsize;
-        reloadTimer = reloadCD;
+        reloadTimer = reloadDuration;
 
         //--------------------- Get Player Scripts ---------------------\\
         GetPlayerScripts();
@@ -470,12 +486,13 @@ public class Player : YmirComponent
 
     #region SHOOT
 
-    private void StartShoot()
+    private void StartShooting()
     {
         // Trigger animacion disparar
         // Futuro autoapuntado
+        shootingTimer = fireRate;
     }
-    private void StartShooting()
+    private void StartShoot()
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
@@ -525,7 +542,43 @@ public class Player : YmirComponent
     {
         Audio.PlayAudio(gameObject, "W_FirearmReload");
         isReloading = true;
-        reloadTimer = reloadCD;
+        reloadTimer = reloadDuration;
+    }
+
+    private void GetWeaponVars()
+    {
+        switch (weaponType)
+        {
+            case WEAPON.SMG:
+
+                magsize = 35;
+                reloadDuration = 1.8f;
+                //To do
+                //dmg = ?
+                //fireRate = ?
+                //range = ?
+                break;
+
+            case WEAPON.SHOTGUN:
+
+                magsize = 2;
+                reloadDuration = 2.7f;
+                //To do
+                //dmg = ?
+                //fireRate = ?
+                //range = ?
+                break;
+
+            case WEAPON.TRACE:
+
+                magsize = 200;
+                reloadDuration = 3f;
+                //To do
+                //dmg = ?
+                //fireRate = ?
+                //range = ?
+                break;
+        }
     }
     #endregion
 
