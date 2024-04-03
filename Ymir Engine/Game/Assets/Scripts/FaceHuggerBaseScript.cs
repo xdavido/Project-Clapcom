@@ -111,6 +111,21 @@ public class FaceHuggerBaseScript : YmirComponent
 
         cumTimer = cumDuration2;
 
+        //Enemy rarity stats
+        if (rarity == 1)
+        {
+            life = 350;
+            armor = 0.1f;
+            movementSpeed = 21.5f;
+        }
+        else if (rarity == 2)
+        {
+            life = 600;
+            armor = 0.2f;
+            movementSpeed = 23f;
+
+        }
+
         //gameObject.SetPosition(new Vector3(-181,4,230));
 
     }

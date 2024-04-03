@@ -58,8 +58,8 @@ public class BH_Bullet : YmirComponent
     {
         if(other.Name == "Enemy" && !hit)
         {
-            //Do damage
-            other.GetComponent<FaceHuggerBaseScript>().life -= 5;
+            //Do damage AND take into account armor
+            other.GetComponent<FaceHuggerBaseScript>().life -= (5 * (1- other.GetComponent<FaceHuggerBaseScript>().armor));
             //If health 0 then destroy enemy
             if (other.GetComponent<FaceHuggerBaseScript>().life <= 0)
             {
