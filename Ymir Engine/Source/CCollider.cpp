@@ -158,8 +158,8 @@ void CCollider::Update()
 		if (componentMesh != nullptr)
 		{
 			meshOffsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
-			meshOffsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y + offset.y;
-			meshOffsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z + offset.z;
+			meshOffsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
+			meshOffsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
 		}
 
 		float4x4 newMat;
@@ -219,6 +219,7 @@ void CCollider::Update()
 			pos.z /= parentTransform->scale.z;
 		}
 
+		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
 		mOwner->mTransform->SetPosition(pos);
 
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
@@ -506,6 +507,17 @@ void CCollider::OnInspector()
 
         default:
             break;
+		}
+
+		// -----------------------------------------------------------------------------------------------------
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+		if (ImGui::Button("Remove Component"))
+		{
+			mOwner->RemoveComponent(this);
+			return;
 		}
 
 		if (!active) { ImGui::EndDisabled(); }
