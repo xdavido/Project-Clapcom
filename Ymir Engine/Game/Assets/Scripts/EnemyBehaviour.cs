@@ -54,6 +54,12 @@ public class EnemyBehaviour : YmirComponent
 
     public float life = 100f;
 
+    //This may change depending on enemy rarity
+    public float armor = 0;
+
+    //0 = Common, 1 = Rare, 2 = Elite
+    public int rarity = 0;
+
     private float wanderRadius = 10f;
 
     public float xSpeed = 0, ySpeed = 0;
@@ -96,7 +102,7 @@ public class EnemyBehaviour : YmirComponent
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
-        movementSpeed = 10f;
+        movementSpeed = 20f;
         stopedDuration = 1f;
         DetectionRadius = 10f;
         wanderRadius = 10f;
