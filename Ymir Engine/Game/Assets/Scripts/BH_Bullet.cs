@@ -59,9 +59,9 @@ public class BH_Bullet : YmirComponent
         if(other.Name == "Enemy" && !hit)
         {
             //Do damage
-            other.GetComponent<EnemyBehaviour>().life -= 5;
+            other.GetComponent<FaceHuggerBaseScript>().life -= 5;
             //If health 0 then destroy enemy
-            if (other.GetComponent<EnemyBehaviour>().life <= 0)
+            if (other.GetComponent<FaceHuggerBaseScript>().life <= 0)
             {
                 InternalCalls.Destroy(other);
             }

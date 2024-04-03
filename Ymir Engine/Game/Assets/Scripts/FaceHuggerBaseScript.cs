@@ -44,7 +44,7 @@ public class RandomPointGenerator
     }
 }
 
-public class EnemyBehaviour : YmirComponent
+public class FaceHuggerBaseScript : YmirComponent
 {
     public GameObject thisReference = null;
 
@@ -111,7 +111,7 @@ public class EnemyBehaviour : YmirComponent
 
         cumTimer = cumDuration2;
 
-        gameObject.SetPosition(new Vector3(-181,4,230));
+        //gameObject.SetPosition(new Vector3(-181,4,230));
 
     }
 
@@ -167,7 +167,9 @@ public class EnemyBehaviour : YmirComponent
             }
 
 
-            if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
+            if ((player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius) ||
+                (gameObject.transform.globalPosition.x - player.transform.globalPosition.x < DetectionRadius && gameObject.transform.globalPosition.z - player.transform.globalPosition.z < DetectionRadius) 
+                )
             {
                 if (wanderState != WanderState.HIT)
                 {
