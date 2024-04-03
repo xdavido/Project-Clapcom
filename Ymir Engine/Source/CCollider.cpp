@@ -155,8 +155,8 @@ void CCollider::Update()
 		if (componentMesh != nullptr)
 		{
 			meshOffsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
-			meshOffsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
-			meshOffsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+			meshOffsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y + offset.y;
+			meshOffsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z + offset.z;
 		}
 
 		float4x4 newMat;
@@ -170,7 +170,11 @@ void CCollider::Update()
 		{
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				newMat.SetCol(3, float4(matrix[12] - meshOffsetX, matrix[13] - meshOffsetY, matrix[14] - meshOffsetZ, matrix[15]));
+				newMat.SetCol(3, 
+					float4(matrix[12] - meshOffsetX - offset.x, 
+						matrix[13] - meshOffsetY - offset.y, 
+						matrix[14] - meshOffsetZ - offset.z,
+						matrix[15]));
 
 			}
 			else {
@@ -184,15 +188,17 @@ void CCollider::Update()
 		{
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				newMat.SetCol(3, float4(matrix[12] - meshOffsetX - parentTransform->GetGlobalPosition().x,
-					matrix[13] - meshOffsetY - parentTransform->GetGlobalPosition().y,
-					matrix[14] - meshOffsetZ - parentTransform->GetGlobalPosition().z,
+				newMat.SetCol(3, float4(
+					matrix[12] - meshOffsetX - offset.x - parentTransform->GetGlobalPosition().x,
+					matrix[13] - meshOffsetY - offset.y - parentTransform->GetGlobalPosition().y,
+					matrix[14] - meshOffsetZ - offset.z - parentTransform->GetGlobalPosition().z,
 					matrix[15]));
 
 			}
 			else {
 
-				newMat.SetCol(3, float4(matrix[12] - parentTransform->GetGlobalPosition().x,
+				newMat.SetCol(3, float4(
+					matrix[12] - parentTransform->GetGlobalPosition().x,
 					matrix[13] - parentTransform->GetGlobalPosition().y,
 					matrix[14] - parentTransform->GetGlobalPosition().z,
 					matrix[15]));
