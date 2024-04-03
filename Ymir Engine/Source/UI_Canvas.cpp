@@ -48,7 +48,7 @@ void UI_Canvas::Draw(bool game)
 	if (!game)
 	{
 		glBegin(GL_LINE_LOOP);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
 
 		float3 v1 = float3(posX, posY, 0);
 		float3 v2 = float3(posX + width, posY, 0);

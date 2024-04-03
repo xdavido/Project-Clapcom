@@ -112,7 +112,7 @@ update_status G_UI::Update(float dt)
 
 			if (canvas != nullptr)
 			{
-				//canvas->UpdateUITransform(); Not implemented yet
+				canvas->UpdateUITransform(); 
 			}
 		}
 	}

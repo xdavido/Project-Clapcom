@@ -784,7 +784,7 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 
 	if (!listUI.empty())
 	{
-		for (auto i = listUI.size() - 1; i > 0; --i)
+		for (auto i = listUI.size() - 1; i >= 0; --i)
 		{
 			if (listUI[i]->mOwner->active && listUI[i]->active)
 			{
@@ -792,6 +792,8 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 				//listUI[i]->DebugDraw();
 
 			}
+			
+			if (i == 0) { break; }
 		}
 	}
 
