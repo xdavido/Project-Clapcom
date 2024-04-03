@@ -1028,10 +1028,127 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
+		// Shader Uniforms Configuration
+
+		JSON_Value* uniformArrayValue = json_value_init_array();
+		JSON_Array* uniformArray = json_value_get_array(uniformArrayValue);
+
+		JSON_Value* uniformObjectValue = json_value_init_object();
+		JSON_Object* uniformObject = json_value_get_object(uniformObjectValue);
+
+		for (auto& kt = cmaterial->shader.uniforms.begin(); kt != cmaterial->shader.uniforms.end(); ++kt) {
+
+			switch (kt->type)
+			{
+			case UniformType::boolean:
+			{
+				json_object_set_boolean(uniformObject, kt->name.c_str(), *static_cast<bool*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::i1:
+			{
+				json_object_set_number(uniformObject, kt->name.c_str(), *static_cast<int*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::i2:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::i3:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[2]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::i4:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[2]);
+				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[3]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::f1:
+			{
+				json_object_set_number(uniformObject, kt->name.c_str(), *static_cast<float*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::f2:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::f3:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[2]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::f4:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[2]);
+				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[3]);
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			}
+
+		}
+
+		json_array_append_value(uniformArray, uniformObjectValue);
+		json_object_set_value(componentObject, "Uniforms", uniformArrayValue);
+
 		// Texture maps
+
 		json_object_set_number(componentObject, "ID", cmaterial->ID);
 		json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
 		json_object_set_number(componentObject, "UID", cmaterial->UID);
+
 	}
 	break;
 	case CAMERA:
