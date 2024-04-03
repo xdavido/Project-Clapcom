@@ -42,6 +42,9 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	case CAPSULE:
 		SetCapsuleCollider();
 		break;
+	case CONE:
+		SetConeCollider();
+		break;
 	case MESH_COLLIDER:
 		SetMeshCollider();
 		break;
@@ -243,7 +246,8 @@ void CCollider::Update()
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
-		if (componentMesh != nullptr) {
+		if (componentMesh != nullptr) 
+		{
 
 			float3 pos;
 
@@ -271,7 +275,6 @@ void CCollider::Update()
 				radius = size.Length() / 2;
 				height = size.y;
 			}
-
 		}
 		else {
 
@@ -301,7 +304,7 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]	{ "Box", "Sphere", "Capsule", "Mesh" };
+	char* titles[]	{ "Box", "Sphere", "Capsule", "Cone", "Mesh" };
 
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
@@ -356,6 +359,10 @@ void CCollider::OnInspector()
 				RemovePhysbody();
 				SetCapsuleCollider();
 				break;
+			case ColliderType::CONE:
+				RemovePhysbody(); 
+				SetConeCollider();
+				break;
 			case ColliderType::MESH_COLLIDER:
 				RemovePhysbody();
 				SetMeshCollider();
@@ -393,6 +400,21 @@ void CCollider::OnInspector()
 
 				break;
 			case ColliderType::CAPSULE:
+				ImGui::Text("Radius: "); ImGui::SameLine();
+				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
+				{
+					if (radius == 0) radius = 0.1f;
+
+					size.x = radius;
+					size.z = radius;
+				}
+
+				ImGui::Text("Height: "); ImGui::SameLine();
+				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
+
+				break;
+
+			case ColliderType::CONE:
 				ImGui::Text("Radius: "); ImGui::SameLine();
 				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
 				{
@@ -517,7 +539,6 @@ void CCollider::SetBoxCollider()
 		physBody->SetGameObject(mOwner);
 
 	}
-
 }
 
 void CCollider::SetSphereCollider()
@@ -543,6 +564,19 @@ void CCollider::SetCapsuleCollider()
 	transform = mOwner->mTransform;
 
 	physBody = External->physics->AddBody(capsule, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
+}
+
+void CCollider::SetConeCollider()
+{
+	LOG("Set Cone Collider");
+	collType = ColliderType::CONE;
+
+	CCone cone;
+
+	transform = mOwner->mTransform;
+
+	physBody = External->physics->AddBody(cone, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
 }
 

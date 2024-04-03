@@ -352,6 +352,33 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 	return pbody;
 }
 
+// Capsule --------------------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CCone cone, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
+{
+	shape = new btConeShape(cone.height, cone.radius);
+
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(cone.transform.ptr());
+
+	btVector3 localInertia(0, 0, 0);
+
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
 // Mesh Collider ----------------------------------------------------------------------------------------------------
 PhysBody* ModulePhysics::AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape)
 {
@@ -739,6 +766,45 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 
 	glPopMatrix();
 }
+
+void ModulePhysics::RenderConeCollider(PhysBody* pbody)
+{
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	float radius = ((btConeShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btConeShape*)pbody->body->getCollisionShape())->getHeight() / 2;
+
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+
 void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 {
 	float4x4 mat;

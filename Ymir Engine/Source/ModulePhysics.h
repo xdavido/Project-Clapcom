@@ -51,6 +51,7 @@ public:
 	PhysBody* AddBody(CCube cube, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);		 // Box
 	PhysBody* AddBody(CSphere sphere, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);	 // Sphere
 	PhysBody* AddBody(CCapsule capsule, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);// Capsule
+	PhysBody* AddBody(CCone cone, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape);		 // Cone
 	PhysBody* AddBody(CMesh* mesh, PhysicsType, float mass, bool useGravity, btCollisionShape*& shape);				 // Mesh
 	void RemoveBody(PhysBody* b);
 
@@ -72,6 +73,7 @@ public:
 	void RenderBoxCollider(PhysBody* pbody);
 	void RenderSphereCollider(PhysBody* pbody);
 	void RenderCapsuleCollider(PhysBody* pbody);
+	void RenderConeCollider(PhysBody* pbody);
 	void RenderMeshCollider(PhysBody* pbody);
 
 	// Conversion function from btVector3 to float3
