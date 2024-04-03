@@ -139,6 +139,7 @@ bool ModuleEditor::Init()
 	sceneIcon.LoadEngineIconTexture("Assets/Editor/scene2.dds");
 	prefabIcon.LoadEngineIconTexture("Assets/Editor/prefab.dds");
 	animIcon.LoadEngineIconTexture("Assets/Editor/animation.dds");
+	fontIcon.LoadEngineIconTexture("Assets/Editor/font.dds");
 
 	scriptEditor = new ScriptEditor();
 	scriptEditor->LoadScriptTXT("../Game/Assets/Scripts/Core.cs");
@@ -3435,7 +3436,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 
-				if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+				else if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
 
 					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
 
@@ -3443,7 +3444,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 
-				if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+				else if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
 
 					assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
 
@@ -3451,9 +3452,25 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 
-				if (assetsFilePathDrop.find(".png") != std::string::npos) {
+				else if (assetsFilePathDrop.find(".png") != std::string::npos) {
 
 					assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				else if (assetsFilePathDrop.find(".ttf") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".ttf") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				else if (assetsFilePathDrop.find(".otf") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".otf") + 4);
 
 					LOG("File path: %s", assetsFilePathDrop.c_str());
 
@@ -3479,7 +3496,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), currentDir.c_str());
 				}
 				else {
-					LOG("Error moving asset: %s", ec.message().c_str());
+					LOG("[ERROR] moving asset: %s", ec.message().c_str());
 				}
 
 			}
@@ -3566,7 +3583,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							}
 
-							if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+							else if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
 
 								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
 
@@ -3574,7 +3591,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							
 							}
 
-							if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+							else if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
 
 								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
 
@@ -3582,9 +3599,25 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							}
 
-							if (assetsFilePathDrop.find(".png") != std::string::npos) {
+							else if (assetsFilePathDrop.find(".png") != std::string::npos) {
 
 								assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							else if (assetsFilePathDrop.find(".ttf") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".ttf") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							else if (assetsFilePathDrop.find(".otf") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".otf") + 4);
 
 								LOG("File path: %s", assetsFilePathDrop.c_str());
 
@@ -3605,7 +3638,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 								LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), entryName.c_str());
 							}
 							else {
-								LOG("Error moving asset: %s", ec.message().c_str());
+								LOG("[ERROR] moving asset: %s", ec.message().c_str());
 							}
 
 						}
@@ -3754,6 +3787,21 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 							ImGui::EndDragDropSource();
 						}
 
+					}
+
+				}
+				break;
+				case ResourceType::FONT:
+				{
+					ImGui::ImageButton(entryName.c_str(), reinterpret_cast<void*>(static_cast<intptr_t>(fontIcon.ID)), ImVec2(64, 64));
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("font", entry.path().string().data(), entry.path().string().length());
+
+						ImGui::Text("Load Font: %s", entry.path().string().c_str());
+
+						ImGui::EndDragDropSource();
 					}
 
 				}

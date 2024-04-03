@@ -36,6 +36,7 @@ CAudioSource::~CAudioSource()
 			}
 		}
 	}
+
 	External->audio->StopComponent(id);
 	External->audio->RemoveAudioSource(this);
 	External->audio->UnRegisterAudioObject(id);

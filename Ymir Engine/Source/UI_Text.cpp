@@ -137,45 +137,45 @@ void UI_Text::OnInspector()
 		//ImGui::InputText(name.c_str(), &text, ImGuiInputTextFlags_EnterReturnsTrue);
 		ImGui::Dummy(ImVec2(0, 10));
 
-		if (ImGui::Button("change font1"))
+		if (ImGui::BeginCombo("Font", font->name.c_str()))
 		{
-			//RELEASE(font);
-			font = new Font("Arial.ttf");
+			for (std::vector<Font*>::const_iterator it = External->renderer3D->mFonts.begin(); it != External->renderer3D->mFonts.end(); ++it)
+			{
+				bool isSelected = (font->name == (*it)->name);
+				if (ImGui::Selectable((*it)->name.c_str()))
+				{
+					font = (*it);
+				}
+				if (isSelected)
+				{
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
 		}
-		//if (ImGui::Button("change eglantineVar2"))
-		//{
-		//	//RELEASE(font);
-		//	font = new Font("eglantineVar2.ttf");
-		//}
-		if (ImGui::Button("change comic"))
+
+		if (ImGui::BeginDragDropTarget())
 		{
-			//RELEASE(font);
-			font = new Font("comic.ttf");
-		}
-		if (ImGui::Button("change times"))
-		{
-			//RELEASE(font);
-			font = new Font("times.ttf");
-		}
-		if (ImGui::Button("change consola"))
-		{
-			//RELEASE(font);
-			font = new Font("default_consola.ttf");
-		}
-		if (ImGui::Button("change Drawing with markers"))
-		{
-			//RELEASE(font);
-			font = new Font("Drawing with markers.ttf");
-		}
-		//if (ImGui::Button("change Cat Paw"))
-		//{
-		//	//RELEASE(font);
-		//	font = new Font("Cat Paw.otf");
-		//}
-		if (ImGui::Button("change valencia"))
-		{
-			//RELEASE(font);
-			font = new Font("de-valencia-beta.otf");
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("font"))
+			{
+				std::string path = (const char*)payload->Data;
+				std::string p, n, e;
+
+				std::size_t it = path.find(".ttf");
+
+				if (it == std::string::npos)
+				{
+					it = path.find(".otf");
+				}
+				path.erase(it + 4);
+
+				PhysfsEncapsule::SplitFilePath(path.c_str(), &p, &n, &e);
+
+				p.erase(p.find_last_of("/"));
+				font = new Font(n + "." + e, p);
+			}
+
+			ImGui::EndDragDropTarget();
 		}
 
 		ImGui::Text("Font Size");
@@ -183,7 +183,7 @@ void UI_Text::OnInspector()
 
 		ImGui::Text("Line Spacing");
 		ImGui::DragFloat("##LineSpacing", &lineSpacing, 0.1f);
-		
+
 		//ImGui::ColorEdit4("Color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
 
 		if (!active) { ImGui::EndDisabled(); }
@@ -568,73 +568,87 @@ void UI_Text::ChangeFontSize(float size)
 
 Font::Font(std::string name, std::string fontPath)
 {
-	InitFont(name, fontPath);
-
-	// 128 --> number of characters in a font
-	FT_Set_Pixel_Sizes(face, 0, 128);
-
-	// disable byte-alignment restriction
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	// load first 128 characters of ASCII set
-	for (unsigned char c = 0; c < 128; c++)
+	bool isImported = false;
+	for (auto it = External->renderer3D->mFonts.begin(); it != External->renderer3D->mFonts.end(); ++it)
 	{
-		// Load character glyph 
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+		if ((*it)->name == name)
 		{
-			LOG("[ERROR] Failed to load glyph");
-			continue;
+			isImported = true;
 		}
-
-		// generate texture
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		// Allocate a new buffer for RGBA data
-		GLubyte* rgbaBuffer = new GLubyte[4 * face->glyph->bitmap.width * face->glyph->bitmap.rows];
-
-		// Copy the glyph data into the RGBA buffer
-		for (int y = 0; y < face->glyph->bitmap.rows; ++y)
-		{
-			for (int x = 0; x < face->glyph->bitmap.width; ++x)
-			{
-				GLubyte value = face->glyph->bitmap.buffer[y * face->glyph->bitmap.width + x];
-				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x)] = value;  // Red
-				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 1] = value;  // Green
-				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 2] = value;  // Blue
-				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 3] = value;  // Alpha
-			}
-		}
-
-		// Use the RGBA buffer for texture data
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, rgbaBuffer);
-
-		// Clean up the temporary buffer
-		delete[] rgbaBuffer;
-
-		// set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		// TODO: MEMORY LEAK -> Smart pointers don't work here
-		Character* chara(new Character
-			{
-				texture,
-				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-				float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-				static_cast<unsigned int>(face->glyph->advance.x),
-			});
-
-		mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
 	}
 
-	// destroy FreeType once we're finished
-	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
+	if (!isImported)
+	{
+		InitFont(name, fontPath);
+
+		// 128 --> number of characters in a font
+		FT_Set_Pixel_Sizes(face, 0, 128);
+
+		// disable byte-alignment restriction
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		// load first 128 characters of ASCII set
+		for (unsigned char c = 0; c < 128; c++)
+		{
+			// Load character glyph 
+			if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+			{
+				LOG("[ERROR] Failed to load glyph");
+				continue;
+			}
+
+			// generate texture
+			GLuint texture;
+			glGenTextures(1, &texture);
+			glBindTexture(GL_TEXTURE_2D, texture);
+
+			// Allocate a new buffer for RGBA data
+			GLubyte* rgbaBuffer = new GLubyte[4 * face->glyph->bitmap.width * face->glyph->bitmap.rows];
+
+			// Copy the glyph data into the RGBA buffer
+			for (int y = 0; y < face->glyph->bitmap.rows; ++y)
+			{
+				for (int x = 0; x < face->glyph->bitmap.width; ++x)
+				{
+					GLubyte value = face->glyph->bitmap.buffer[y * face->glyph->bitmap.width + x];
+					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x)] = value;  // Red
+					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 1] = value;  // Green
+					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 2] = value;  // Blue
+					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 3] = value;  // Alpha
+				}
+			}
+
+			// Use the RGBA buffer for texture data
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0,
+				GL_RGBA, GL_UNSIGNED_BYTE, rgbaBuffer);
+
+			// Clean up the temporary buffer
+			delete[] rgbaBuffer;
+
+			// set texture options
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			// TODO: MEMORY LEAK -> Smart pointers don't work here
+			Character* chara(new Character
+				{
+					texture,
+					float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+					float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+					static_cast<unsigned int>(face->glyph->advance.x),
+				});
+
+			mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
+		}
+
+		// destroy FreeType once we're finished
+		FT_Done_Face(face);
+		FT_Done_FreeType(ft);
+
+		External->renderer3D->mFonts.push_back(this);
+	}
 }
 
 Font::~Font()

@@ -766,6 +766,7 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 {
 	std::vector<std::string> obj_ext = { "fbx", "FBX", "obj", "OBJ", "DAE", "dae" };
 	std::vector<std::string> tex_ext = { "png", "PNG", "jpg", "JPG", "dds", "DDS", "tga", "TGA" };
+	std::vector<std::string> font_ext = { "ttf", "otf" };
 	std::vector<std::string> meta_ext = { "meta", "json" };
 
 	if (PhysfsEncapsule::HasExtension(fileDir, "yscene"))
@@ -800,6 +801,11 @@ ResourceType ModuleResourceManager::CheckExtensionType(const char* fileDir)
 	if (PhysfsEncapsule::HasExtension(fileDir, "yanim"))
 	{
 		return ResourceType::ANIMATION;
+	}
+
+	if (PhysfsEncapsule::HasExtension(fileDir, font_ext))
+	{
+		return ResourceType::FONT;
 	}
 
 	return ResourceType::UNKNOWN;

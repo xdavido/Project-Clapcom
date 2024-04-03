@@ -238,7 +238,7 @@ bool ModuleRenderer3D::Init()
 	
 	//App->scene->gameCameraComponent->framebuffer.Load();
 
-	defaultFont = new Font("de-valencia-beta.otf", "Assets\\Fonts");
+	defaultFont = new Font("arial.ttf", "Assets\\Fonts");
 
 	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
 
