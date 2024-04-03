@@ -251,6 +251,8 @@ void CCollider::Update()
 				pos = componentTransform->GetGlobalPosition();
 
 			}
+
+			pos += offset;
 				
 			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetLocalRotation());
@@ -267,7 +269,10 @@ void CCollider::Update()
 		}
 		else {
 
-			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
+			float3 pos = componentTransform->GetGlobalTransform().TranslatePart();
+			pos += offset;
+
+			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
 			if (ImGuizmo::IsUsing()) 
