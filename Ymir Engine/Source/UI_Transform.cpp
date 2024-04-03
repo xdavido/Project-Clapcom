@@ -87,8 +87,6 @@ void UI_Transform::UpdateUITransformChilds()
 
 }
 
-
-
 update_status UI_Transform::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;

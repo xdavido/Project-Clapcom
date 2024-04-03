@@ -20,11 +20,14 @@ public:
 
 	void SetImg(std::string imgPath, UI_STATE state);
 	void SetNativeSize();
+	void SetSpriteSize();
 
 public:
 	CMaterial* mat;
 	ResourceTexture* selectedTexture;
 	std::map<UI_STATE, ResourceTexture*> mapTextures;
 
+	uint ssRows, ssColumns;
+	float2 ssSize, ssCoords;
 };
 #endif // __UI_IMAGE_H__

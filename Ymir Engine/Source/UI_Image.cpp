@@ -20,6 +20,10 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 
 	selectedTexture = mapTextures.find(state)->second;
 
+	ssRows = 1;
+	ssColumns = 1;
+	SetSpriteSize();
+
 	tabNav_ = false;
 }
 
@@ -90,10 +94,20 @@ void UI_Image::OnInspector()
 			}
 			ImGui::EndCombo();
 		}
-	
+
 		if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
 		{
 			SetNativeSize();
+		}
+
+		if (ImGui::DragInt2("Rows", (int*)&ssRows, 1.0f), 1)
+		{
+			SetSpriteSize();
+		}
+
+		if (ImGui::DragInt2("Columns", (int*)&ssColumns, 1.0f), 1)
+		{
+			SetSpriteSize();
 		}
 
 		ImGui::Spacing();
@@ -336,7 +350,6 @@ void UI_Image::Draw(bool game)
 {
 	UI_Bounds* boundsDrawn = nullptr;
 
-
 	selectedTexture->BindTexture(true);
 
 	mat->shader.UseShader(true);
@@ -408,4 +421,12 @@ void UI_Image::SetNativeSize()
 	height = selectedTexture->GetHeight();
 
 	dirty_ = true;
+}
+
+void UI_Image::SetSpriteSize()
+{
+	if (selectedTexture != nullptr)
+	{
+		ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
+	}
 }
