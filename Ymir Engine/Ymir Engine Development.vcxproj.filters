@@ -1137,6 +1137,10 @@
     <ClInclude Include="Source\ImGuiCustom.h">
       <Filter>Sources\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CParticleSystem.h" />
+    <ClInclude Include="Source\EmitterSetting.h" />
+    <ClInclude Include="Source\Particle.h" />
+    <ClInclude Include="Source\ParticleEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1580,6 +1584,10 @@
     <ClCompile Include="Source\ImGuiCustom.cpp">
       <Filter>Sources\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CParticleSystem.cpp" />
+    <ClCompile Include="Source\EmitterSetting.cpp" />
+    <ClCompile Include="Source\Particle.cpp" />
+    <ClCompile Include="Source\ParticleEmitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\MathGeoLib\include\Geometry\KDTree.inl">

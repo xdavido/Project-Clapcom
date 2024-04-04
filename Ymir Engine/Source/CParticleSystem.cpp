@@ -10,7 +10,7 @@
 #include "imGui/backends/imgui_impl_opengl3.h"
 #include "imGui/backends/imgui_impl_SDL2.h"
 
-#include "EmitterInstance.h"
+#include "EmitterSetting.h"
 #include "ParticleEmitter.h"
 
 //#include "parson-master/parson.h" //For JSONs
@@ -280,7 +280,7 @@ void CParticleSystem::OnInspector()
 						}
 						if (ImGui::Button(emitterType.c_str()))
 						{
-							allEmitters.at(i)->CreateEmitterByType((EmiterType)k);
+							allEmitters.at(i)->CreateEmitterSettingByType((EmiterType)k);
 						}
 
 					}
@@ -294,10 +294,12 @@ void CParticleSystem::OnInspector()
 					allEmitters.at(i)->name.assign(textInfo);
 				}*/
 				std::string SEid;
+				ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, ImVec4(0.7, 0.3, 0, 1)); //ERIC: Sara no me pegues, es temporal para diferenciarse de los settings
 				if (ImGui::Button(SEid.append("Save Emitter ##").append(std::to_string(i)).c_str()))
 				{
 					SaveEmmiterJSON(allEmitters.at(i));
 				}
+				ImGui::PopStyleColor();
 			}
 
 			if (ImGui::Button("Create Particle Emitter"))
@@ -578,7 +580,7 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 
 		EmiterType type = (EmiterType)json_object_get_number(modulo, "Type");
 
-		EmitterInstance* instancia = pE->CreateEmitterByType(type);
+		EmitterSetting* instancia = pE->CreateEmitterSettingByType(type);
 
 		switch (type)
 		{

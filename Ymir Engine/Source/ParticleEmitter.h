@@ -3,14 +3,14 @@
 #define __PARTICLE_EMITTER_H__ 
 
 #include "CParticleSystem.h"
-#include "EmitterInstance.h"
+#include "EmitterSetting.h"
 #include "Particle.h"
 #include <vector>
 
 #define MAXPARTICLES 500
 
 class CParticleSystem;
-class EmitterInstance;
+class EmitterSetting;
 
 //Ellos generan y controlan las particulas
 class ParticleEmitter
@@ -20,7 +20,7 @@ public:
 	~ParticleEmitter();
 
 	std::vector<Particle*> listParticles;
-	std::vector<EmitterInstance*> modules; //Son las Particle module del power, son las settings
+	std::vector<EmitterSetting*> modules; //Son las Particle module del power, son las settings (posicion, tipo de billboarding, color)
 	CParticleSystem* owner;
 
 	std::string name;
@@ -35,7 +35,7 @@ public:
 
 	void SpawnParticle(uint particlesToAdd = 1);
 
-	EmitterInstance* CreateEmitterByType(uint type);
+	EmitterSetting* CreateEmitterSettingByType(uint type);
 	int DestroyEmitter(uint pos);
 
 private:

@@ -21,11 +21,11 @@ enum EmiterType
 class ParticleEmitter;
 
 //Plantillas para los Emitters, que seran los settings de las particulas
-struct EmitterInstance //En Thor Engine esto seria el particle Module
+struct EmitterSetting //En Thor Engine esto seria el particle Module
 {
 public:
-	EmitterInstance();
-	~EmitterInstance();
+	EmitterSetting();
+	~EmitterSetting();
 
 	EmiterType type;
 
@@ -38,7 +38,7 @@ private:
 
 };
 
-struct EmitterBase : EmitterInstance
+struct EmitterBase : EmitterSetting
 {
 	EmitterBase();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
@@ -50,7 +50,7 @@ struct EmitterBase : EmitterInstance
 	float particlesLifeTime;
 };
 
-struct EmitterSpawner : EmitterInstance
+struct EmitterSpawner : EmitterSetting
 {
 	EmitterSpawner();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
@@ -64,7 +64,7 @@ struct EmitterSpawner : EmitterInstance
 	int numParticlesToSpawn;
 };
 
-struct EmitterPosition : EmitterInstance
+struct EmitterPosition : EmitterSetting
 {
 	EmitterPosition();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
@@ -81,14 +81,14 @@ struct EmitterPosition : EmitterInstance
 	float particleSpeed2;
 };
 
-struct EmitterRotation : EmitterInstance
+struct EmitterRotation : EmitterSetting
 {
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
 	void OnInspector();
 };
 
-struct EmitterSize : EmitterInstance
+struct EmitterSize : EmitterSetting
 {
 	EmitterSize();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
@@ -105,7 +105,7 @@ struct EmitterSize : EmitterInstance
 
 };
 
-struct EmitterColor : EmitterInstance
+struct EmitterColor : EmitterSetting
 {
 	EmitterColor();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);

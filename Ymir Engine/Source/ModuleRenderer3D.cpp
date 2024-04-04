@@ -922,6 +922,7 @@ void ModuleRenderer3D::DrawParticles()
 				//Matrix transform de la particula
 				float4x4 m = float4x4::FromTRS(par->position, par->worldRotation, par->size).Transposed();
 
+				//ERIC: Maybe creo que esto haya que hacer un rework tocho por los shadders y el VAO :(
 				glPushMatrix();
 				glMultMatrixf(m.ptr());
 

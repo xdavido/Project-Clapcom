@@ -1,24 +1,24 @@
-#include "EmitterInstance.h"
+#include "EmitterSetting.h"
 #include "CTransform.h"
 #include "GameObject.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ImporterTexture.h"
 
-EmitterInstance::EmitterInstance()
+EmitterSetting::EmitterSetting()
 {
 }
 
-EmitterInstance::~EmitterInstance()
+EmitterSetting::~EmitterSetting()
 {
 }
 
-void EmitterInstance::Update(float dt, ParticleEmitter* emitter)
+void EmitterSetting::Update(float dt, ParticleEmitter* emitter)
 {
 
 }
 
-void EmitterInstance::OnInspector()
+void EmitterSetting::OnInspector()
 {
 
 }

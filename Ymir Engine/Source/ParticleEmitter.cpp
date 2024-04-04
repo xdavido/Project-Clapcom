@@ -1,5 +1,5 @@
 #include "ParticleEmitter.h"
-#include "EmitterInstance.h"
+#include "EmitterSetting.h"
 
 #include "Application.h"
 #include "CTransform.h"
@@ -32,7 +32,7 @@ ParticleEmitter::~ParticleEmitter()
 	KillAllParticles();
 }
 
-EmitterInstance* ParticleEmitter::CreateEmitterByType(uint type)
+EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 {
 	//MOST emittter instances cannot be made twice so have an unique value
 
@@ -44,7 +44,7 @@ EmitterInstance* ParticleEmitter::CreateEmitterByType(uint type)
 		}
 	}
 
-	EmitterInstance* nuevoEmitter = nullptr;
+	EmitterSetting* nuevoEmitter = nullptr;
 	switch ((EmiterType)type)
 	{
 	case BASE:
