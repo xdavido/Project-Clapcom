@@ -5,6 +5,21 @@
 
 #include "C_UI.h"
 
+enum class UI_ANCHOR
+{
+	TOP_LEFT,
+	TOP,
+	TOP_RIGHT,
+	LEFT,
+	CENTER,
+	RIGHT,
+	BOTTOM_LEFT,
+	BOTTOM,
+	BOTTOM_RIGHT,
+
+	NONE
+};
+
 class UI_Transform : public Component
 {
 public:
@@ -17,12 +32,15 @@ public:
 
 	void UpdateUITransformChilds();
 
+	void GetFinalPos();
+
 public:
 
 	// Component reference
 	C_UI* componentReference;
 	float auxPosX;
 	float auxPosY;
+	UI_ANCHOR anchorType;
 
 	float4x4 mMatrixUI;
 
