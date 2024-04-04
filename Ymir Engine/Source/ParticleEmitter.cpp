@@ -157,6 +157,10 @@ void ParticleEmitter::Init(CParticleSystem* component)
 	//listParticles.resize(MAXPARTICLES);
 	//array de indices de particulas (int*)
 	//particleIndices = new unsigned int[MAXPARTICLES]
+	// 
+	//Todo particle system necesita estos elementos de antes y no tenerlos puede tener problems asi que se les crea uno de base
+	CreateEmitterSettingByType(EmiterType::BASE);
+	CreateEmitterSettingByType(EmiterType::SPAWN);
 }
 
 void ParticleEmitter::Update(float dt)
