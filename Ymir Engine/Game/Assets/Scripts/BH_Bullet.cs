@@ -58,13 +58,17 @@ public class BH_Bullet : YmirComponent
     {
         if(other.Name == "Enemy" && !hit)
         {
+            FaceHuggerBaseScript script;
             //Do damage AND take into account armor
-            other.GetComponent<FaceHuggerBaseScript>().life -= (5 * (1- other.GetComponent<FaceHuggerBaseScript>().armor));
+           script = other.GetComponent<FaceHuggerBaseScript>();
+            script.life -= (5 * (1 - script.armor));
+
             //If health 0 then destroy enemy
-            if (other.GetComponent<FaceHuggerBaseScript>().life <= 0)
+            if (script.life <= 0)
             {
                 InternalCalls.Destroy(other);
             }
+            Debug.Log("[ERROR] Life: " + script.life);
             hit = true;
             //Destroy bullet when hit, REMOVE THIS IF THE BULLET SHOULD PIERCE
             currentLifeTime = maxLifeTime;
