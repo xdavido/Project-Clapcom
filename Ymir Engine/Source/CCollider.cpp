@@ -23,11 +23,13 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	isSensor = false;
 
 	mass = 1;
+	friction = 0;
+	angularFriction = 0;
 	useGravity = true;
 	lockX = false;
 	lockY = false;
 	lockZ = false;
-
+	
 	offset = { 0, 0, 0 };
 
 	transform = mOwner->mTransform;
@@ -138,8 +140,18 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-	if (physBody != nullptr) External->physics->RecalculateInertia(physBody, mass, useGravity);
 
+	if (physBody != nullptr)
+	{
+		External->physics->RecalculateInertia(physBody, mass, useGravity);
+
+		//Esto NO deberia estar en update. Pero de otra forma no funcionaba
+		if (friction != 0)
+			physBody->body->setFriction(friction);
+
+		if (angularFriction != 0)
+			physBody->body->setRollingFriction(angularFriction);
+	}
 	// --------------------------- Physics Simulation Started --------------------------- 
 	
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING && physBody != nullptr)
@@ -529,9 +541,17 @@ void CCollider::OnInspector()
 		switch (physType) 
 		{
 		case PhysicsType::DYNAMIC:
-			ImGui::Text("Mass: "); ImGui::SameLine();
+			ImGui::Text("Mass:				  "); ImGui::SameLine();
 			if (ImGui::DragFloat("##Mass", &mass, 1.0f, 0.0f, 1000.0f))
 				External->physics->RecalculateInertia(physBody, mass, useGravity);
+
+			ImGui::Text("Friction:			   "); ImGui::SameLine();
+			if (ImGui::DragFloat("##Friction", &friction, 0.05f, 0.0f, 1.0f))
+				ImGui::SetTooltip("Es posible que se bloquee la rotacion del cuerpo en anadirle friccion");
+
+			ImGui::Text("Angular friction:	"); ImGui::SameLine();
+			ImGui::DragFloat("##Angular friction", &angularFriction, 0.05f, 0.0f, 1.0f);
+
 			if (ImGui::Checkbox("Use gravity\t", &useGravity))
 				External->physics->RecalculateInertia(physBody, mass, useGravity);
 

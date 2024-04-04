@@ -78,6 +78,8 @@ public:
 	float3 offset;
 
 	float mass;
+	float friction;
+	float angularFriction;
 	bool useGravity;
 	bool isSensor;
 
