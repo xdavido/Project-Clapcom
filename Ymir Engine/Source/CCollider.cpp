@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "External/ImGuizmo/include/ImGuizmo.h"
+#include <MathGeoLib/include/Math/float4x4.h>
 
 #include "External/mmgr/mmgr.h"
 
@@ -168,14 +169,57 @@ void CCollider::Update()
 		newMat.SetCol(0, float4(matrix[0], matrix[1], matrix[2], matrix[3]));
 		newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 		newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
+		newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
+
+
+		// INTENTO DE ANADIR LA ROTACION DEL PARENT CON LA MATRIZ GLOBAL DE TRANSFORMACION
+		// 
+		//float4x4 parentRotationMatrix = float4x4::identity; // Matriz de identidad si no hay padre
+		//if (parentTransform != nullptr) {
+		//	parentRotationMatrix = parentTransform->mGlobalMatrix;
+		//}
+
+		//LOG("\n");
+		//LOG("NEW MAT");
+
+		//// Aplicar la rotación del padre a la matriz de transformación newMat
+		//float4x4 totalMatrix = newMat + parentRotationMatrix;
+		////newMat = newMat * parentRotationMatrix;
+		////newMat = newMat.Mul(parentRotationMatrix);
+
+		//for (int i = 0; i < 4; ++i) {
+		//	for (int j = 0; j < 4; ++j) {
+		//		LOG("%f ", totalMatrix.v[i][j]);
+		//	}
+		//	LOG("\n");
+		//}
+		//LOG("\n");
+	
+
+		//LOG("\n");
+		//LOG("PARENT RMATRIX");
+		//for (int i = 0; i < 4; ++i) {
+		//	for (int j = 0; j < 4; ++j) {
+		//		LOG("%f ", parentRotationMatrix.v[i][j]);
+		//	}
+		//	LOG("\n");
+		//}
+		//LOG("\n");
+
+
+
+
+		// -------------------------------------------------------------------------------------------------
+		
+		// FIX TRANSFORM MATRIX ADDING THE PARENT TRANSFORMATION
 
 		if (parentTransform == nullptr)
 		{
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				newMat.SetCol(3, 
-					float4(matrix[12] - meshOffsetX - offset.x, 
-						matrix[13] - meshOffsetY - offset.y, 
+				newMat.SetCol(3,
+					float4(matrix[12] - meshOffsetX - offset.x,
+						matrix[13] - meshOffsetY - offset.y,
 						matrix[14] - meshOffsetZ - offset.z,
 						matrix[15]));
 
@@ -209,8 +253,8 @@ void CCollider::Update()
 			}
 
 		}
-
 		float3 pos = newMat.TranslatePart();
+		//float3 pos = totalMatrix.TranslatePart();
 
 		if (parentTransform)
 		{
@@ -222,7 +266,18 @@ void CCollider::Update()
 		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
 		mOwner->mTransform->SetPosition(pos);
 
+		Quat quat;
+		quat.Set(newMat);
+
+		float x = quat.x;
+		float y = quat.y;
+		float z = quat.z;
+		float w = quat.w;
+
+		btQuaternion btQuat(x, y, z, w);
+
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
+		//mOwner->mTransform->SetOrientation(btQuat);
 
 		mOwner->mTransform->UpdateTransformsChilds();
 
