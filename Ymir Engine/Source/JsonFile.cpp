@@ -1283,6 +1283,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_string(componentObject, "ScriptName", cscript->name.c_str());
 
+		json_object_set_number(componentObject, "Active", component.active);
+
 		for (int i = 0; i < cscript->fields.size(); i++)
 		{
 			switch (cscript->fields[i].type)
