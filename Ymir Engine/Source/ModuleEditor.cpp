@@ -307,6 +307,8 @@ void ModuleEditor::DrawEditor()
 
 			LightsMenu();
 
+			CreateParticleSystemMenu();
+
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Clear Scene")) {
@@ -1690,6 +1692,18 @@ void ModuleEditor::UIMenu()
 			}
 		}
 		ImGui::EndMenu();
+	}
+}
+
+void ModuleEditor::CreateParticleSystemMenu()
+{
+	if (ImGui::MenuItem("Particle System")) {
+
+		GameObject* empty = App->scene->CreateGameObject("Paticle System", App->scene->selectedGO != nullptr ? App->scene->selectedGO : App->scene->mRootNode);
+		empty->UID = Random::Generate();
+
+		empty->AddComponent(ComponentType::MATERIAL);
+		empty->AddComponent(ComponentType::PARTICLE);
 	}
 }
 
@@ -3140,13 +3154,14 @@ void ModuleEditor::DrawInspector()
 
 				// --- Add component Particles ---
 
-				if ((CParticleSystem*)App->scene->selectedGO->GetComponent(ComponentType::PARTICLE) == nullptr)
+				//ERIC: Por necesitar un Material lo quito de poder crearlo directamente desde aqui
+				/*if ((CParticleSystem*)App->scene->selectedGO->GetComponent(ComponentType::PARTICLE) == nullptr)
 				{
 					if (ImGui::MenuItem("Particle"))
 					{
 						App->scene->selectedGO->AddComponent(ComponentType::PARTICLE);
 					}
-				}
+				}*/
 
 				if (ImGui::BeginMenu("Script"))
 				{

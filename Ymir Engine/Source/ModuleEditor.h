@@ -45,6 +45,7 @@ public:
 	void PrimitivesMenu();
 	void CreateCameraMenu();
 	void UIMenu();
+	void CreateParticleSystemMenu();
 	void LightsMenu();
 
 	void SaveAs();
