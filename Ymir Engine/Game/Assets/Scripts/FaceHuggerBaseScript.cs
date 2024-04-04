@@ -284,9 +284,9 @@ public class FaceHuggerBaseScript : YmirComponent
 
             if (attackTimer <= 0)
             {
-                //IF HIT, Do damage
-                healthScript.TakeDmg(3);
-                Debug.Log("[ERROR] DID DAMAGE");
+                ////IF HIT, Do damage
+                //healthScript.TakeDmg(3);
+                //Debug.Log("[ERROR] DID DAMAGE");
 
                 attackTimer = attackDuration;
                 actualMovementSpeed = 0;
