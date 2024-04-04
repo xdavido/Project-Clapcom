@@ -205,10 +205,10 @@ void ParticleEmitter::SpawnParticle(uint particlesToAdd)
 				modules.at(m)->Spawn(this, particula);
 			}
 			//TODO TONI: En principio creo que esto no aplica con la camara del juego, ya que es: camera->editorCamera
-			float lineToZ = (External->scene->gameCameraComponent ->GetPos().z - (particula->position.z + owner->mOwner->mTransform->GetGlobalPosition().z + (particula->velocity.z * particula->velocity.w)));
+			float lineToZ = (External->camera->editorCamera->GetPos().z - (particula->position.z + owner->mOwner->mTransform->GetGlobalPosition().z + (particula->velocity.z * particula->velocity.w)));
 			for (int j = 0; j < listParticles.size(); ++j)
 			{
-				float lineToZVec = (External->scene->gameCameraComponent->GetPos().z - (listParticles.at(j)->position.z + owner->mOwner->mTransform->GetGlobalPosition().z + (listParticles.at(j)->velocity.z * listParticles.at(j)->velocity.w)));
+				float lineToZVec = (External->camera->editorCamera->GetPos().z - (listParticles.at(j)->position.z + owner->mOwner->mTransform->GetGlobalPosition().z + (listParticles.at(j)->velocity.z * listParticles.at(j)->velocity.w)));
 				if (lineToZVec * lineToZVec < lineToZ * lineToZ) //Si la particula esta mas lejos se printa primero para las transparencias
 				{
 					listParticles.emplace(listParticles.begin() + j, particula);

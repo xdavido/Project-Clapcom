@@ -330,7 +330,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		}
 
 		DrawGameObjects();
-		
+
 		DrawParticles();
 
 		DrawUIElements(false, false);
@@ -352,6 +352,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		DrawGameObjects();
 
 		DrawLightsDebug();
+
+		DrawParticles();
 
 		DrawUIElements(false,false);
 
@@ -384,8 +386,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			glLoadIdentity();
 
 			DrawUIElements(true,false);
-
-			DrawParticles();
 
 		}
 
@@ -801,6 +801,86 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 
 }
 
+void ModuleRenderer3D::DrawParticles()
+{
+	if (particleEmitters.size() > 0 && initParticles)
+	{
+		for (int j = 0; j < particleEmitters.size(); j++)
+		{
+			for (int i = 0; i < particleEmitters[j]->listParticles.size(); i++)
+			{
+				auto par = particleEmitters[j]->listParticles.at(i);
+
+				//Matrix transform de la particula
+				float4x4 m = float4x4::FromTRS(par->position, par->worldRotation, par->size).Transposed();
+
+				//ERIC: Maybe creo que esto haya que hacer un rework tocho por los shadders y el VAO :(
+				glPushMatrix();
+				glMultMatrixf(m.ptr());
+
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.0f);
+
+				//Binding particle Texture
+				if (par->mat)
+				{
+					for (auto& textures : par->mat->rTextures) {
+
+						textures->BindTexture(true);
+					}
+				}
+
+				glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
+
+				//ParticleEmitter thisParticleEmitter; // TODO: Rework
+
+				/* TODO TONI : Tienes que acceder al particle emitter que est� utilizando
+				estas particulas y con eso ya puedes llegar al material del gameobject.
+
+				Necesitar�s reworkear el draw de esta forma: Primero hacemos draw de los emitters
+				y luego draw de cada emitter, ya que cada emitter tendr� su propia lista de particulas,
+				as� que no podr� ser static. Despu�s ya deber�an verse por pantalla bien.*/
+
+				// Esto iria bien
+				//CMaterial* particleMaterial = (CMaterial*)thisParticleEmitter.owner->mOwner->GetComponent(ComponentType::MATERIAL);
+
+				CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
+
+				// Esto iria bien
+				particleMaterial->shader.UseShader(true);
+				particleMaterial->shader.SetShaderUniforms(&m);
+
+				//Drawing to tris in direct mode
+				glBegin(GL_TRIANGLES);
+
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex3f(.5f, -.5f, .0f);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex3f(-.5f, .5f, .0f);
+				glTexCoord2f(0.0f, 0.0f);
+				glVertex3f(-.5f, -.5f, .0f);
+
+				glTexCoord2f(1.0f, 0.0f);
+				glVertex3f(.5f, -.5f, .0f);
+				glTexCoord2f(1.0f, 1.0f);
+				glVertex3f(.5f, .5f, .0f);
+				glTexCoord2f(0.0f, 1.0f);
+				glVertex3f(-.5f, .5f, .0f);
+
+				// Esto iria bien
+				particleMaterial->shader.UseShader(false);
+
+				glEnd();
+				glPopMatrix();
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+			}
+		}
+	}
+}
+
 void ModuleRenderer3D::DrawLightsDebug()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -909,82 +989,3 @@ void ModuleRenderer3D::CleanUpAssimpDebugger()
 	aiDetachAllLogStreams();
 }
 
-void ModuleRenderer3D::DrawParticles()
-{
-	if (particleEmitters.size() > 0 && initParticles)
-	{
-		for (int j = 0; j < particleEmitters.size(); j++)
-		{
-			for (int i = 0; i < particleEmitters[j]->listParticles.size(); i++)
-			{
-				auto par = particleEmitters[j]->listParticles.at(i);
-
-				//Matrix transform de la particula
-				float4x4 m = float4x4::FromTRS(par->position, par->worldRotation, par->size).Transposed();
-
-				//ERIC: Maybe creo que esto haya que hacer un rework tocho por los shadders y el VAO :(
-				glPushMatrix();
-				glMultMatrixf(m.ptr());
-
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glEnable(GL_ALPHA_TEST);
-				glAlphaFunc(GL_GREATER, 0.0f);
-
-				//Binding particle Texture
-				if (par->mat)
-				{
-					for (auto& textures : par->mat->rTextures) {
-
-						textures->BindTexture(true);
-					}
-				}
-
-				glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
-
-				//ParticleEmitter thisParticleEmitter; // TODO: Rework
-
-				/* TODO TONI : Tienes que acceder al particle emitter que est� utilizando
-				estas particulas y con eso ya puedes llegar al material del gameobject.
-
-				Necesitar�s reworkear el draw de esta forma: Primero hacemos draw de los emitters
-				y luego draw de cada emitter, ya que cada emitter tendr� su propia lista de particulas,
-				as� que no podr� ser static. Despu�s ya deber�an verse por pantalla bien.*/
-
-				// Esto iria bien
-				//CMaterial* particleMaterial = (CMaterial*)thisParticleEmitter.owner->mOwner->GetComponent(ComponentType::MATERIAL);
-
-				CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
-
-				// Esto iria bien
-				particleMaterial->shader.UseShader(true);
-				particleMaterial->shader.SetShaderUniforms(&m);
-
-				//Drawing to tris in direct mode
-				glBegin(GL_TRIANGLES);
-
-				glTexCoord2f(1.0f, 0.0f);
-				glVertex3f(.5f, -.5f, .0f);
-				glTexCoord2f(0.0f, 1.0f);
-				glVertex3f(-.5f, .5f, .0f);
-				glTexCoord2f(0.0f, 0.0f);
-				glVertex3f(-.5f, -.5f, .0f);
-
-				glTexCoord2f(1.0f, 0.0f);
-				glVertex3f(.5f, -.5f, .0f);
-				glTexCoord2f(1.0f, 1.0f);
-				glVertex3f(.5f, .5f, .0f);
-				glTexCoord2f(0.0f, 1.0f);
-				glVertex3f(-.5f, .5f, .0f);
-
-				// Esto iria bien
-				particleMaterial->shader.UseShader(false);
-
-				glEnd();
-				glPopMatrix();
-				glBindTexture(GL_TEXTURE_2D, 0);
-
-			}
-		}
-	}
-}
