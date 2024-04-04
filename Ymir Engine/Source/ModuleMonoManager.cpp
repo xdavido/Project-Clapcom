@@ -175,6 +175,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma endregion
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
+	mono_add_internal_call("YmirEngine.Time::get_time", GetTimeCS);
 
 	InitMono();
 }
