@@ -29,6 +29,7 @@
 
 #include "External/mmgr/mmgr.h"
 #include "CScript.h"
+#include "CNavMeshAgent.h"
 #include "ImporterTexture.h"
 
 JsonFile::JsonFile()
@@ -1501,6 +1502,20 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		}
 
 	}
+	case NAVMESHAGENT:
+	{
+		json_object_set_string(componentObject, "Type", "NavMesh");
+
+		CNavMeshAgent* cNavMesh = (CNavMeshAgent*)&component;
+
+		json_object_set_number(componentObject, "Active", cNavMesh->active);
+		json_object_set_number(componentObject, "Speed", cNavMesh->properties.speed);
+		json_object_set_number(componentObject, "Angular Speed", cNavMesh->properties.angularSpeed);
+		json_object_set_number(componentObject, "Stopping Distance", cNavMesh->properties.stoppingDistance);
+
+		break;
+	}
+
 	break;
 	default:
 		break;
@@ -2751,6 +2766,19 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		}
 
+	}
+	else if (type == "NavMesh") {
+
+		CNavMeshAgent* comp = new CNavMeshAgent(gameObject);
+
+		comp->active = json_object_get_boolean(componentObject, "Active");
+		comp->properties.speed = json_object_get_number(componentObject,"Speed");
+		comp->properties.angularSpeed = json_object_get_number(componentObject, "Angular Speed");
+		comp->properties.stoppingDistance = json_object_get_number(componentObject, "Stopping Distance");
+
+
+		gameObject->AddComponent(comp);
+		break;
 	}
 
 }
