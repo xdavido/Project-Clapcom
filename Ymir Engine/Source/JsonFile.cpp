@@ -1053,39 +1053,17 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 				break;
 			}
 			case UniformType::i2:
-			{
-				JSON_Value* vectorArrayValue = json_value_init_array();
-				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
-
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
-
-				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
-
-				break;
-			}
 			case UniformType::i3:
-			{
-				JSON_Value* vectorArrayValue = json_value_init_array();
-				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
-
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[2]);
-
-				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
-
-				break;
-			}
 			case UniformType::i4:
 			{
 				JSON_Value* vectorArrayValue = json_value_init_array();
 				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
 
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[1]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[2]);
-				json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[3]);
+				for (int i = 0; i < kt->nElements; ++i) {
+
+					json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[i]);
+
+				}
 
 				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
 
@@ -1098,39 +1076,17 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 				break;
 			}
 			case UniformType::f2:
-			{
-				JSON_Value* vectorArrayValue = json_value_init_array();
-				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
-
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
-
-				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
-
-				break;
-			}
 			case UniformType::f3:
-			{
-				JSON_Value* vectorArrayValue = json_value_init_array();
-				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
-
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[2]);
-
-				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
-
-				break;
-			}
 			case UniformType::f4:
 			{
 				JSON_Value* vectorArrayValue = json_value_init_array();
 				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
 
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[0]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[1]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[2]);
-				json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[3]);
+				for (int i = 0; i < kt->nElements; ++i) {
+
+					json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[i]);
+
+				}
 
 				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
 
@@ -1928,6 +1884,150 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		std::string shaderPath = json_object_get_string(componentObject, "Shader");
 		cmaterial->shaderPath = shaderPath;
 		cmaterial->shader.LoadShader(shaderPath);
+
+		// Load Shader Uniforms
+
+		JSON_Value* jsonUniformValue = json_object_get_value(componentObject, "Uniforms");
+
+		if (jsonUniformValue != nullptr && json_value_get_type(jsonUniformValue) == JSONArray) {
+
+			JSON_Array* jsonUniformArray = json_value_get_array(jsonUniformValue);
+
+			for (auto& kt = cmaterial->shader.uniforms.begin(); kt != cmaterial->shader.uniforms.end(); ++kt) {
+
+				switch (kt->type)
+				{
+				case UniformType::boolean:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONBoolean)) {
+
+							bool value = json_object_get_boolean(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}		
+
+					break;
+				}
+				case UniformType::i1:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONNumber)) {
+
+							int value = json_object_get_number(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::i2:
+				case UniformType::i3:
+				case UniformType::i4:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONArray)) {
+
+							JSON_Array* jsonArray = json_object_get_array(uniformObject, kt->name.c_str());
+							
+							int arraySize = json_array_get_count(jsonArray);
+
+							// Allocate memory for the integer array
+							int* value = new int[arraySize];
+
+							// Copy values from the JSON array to the integer array
+							for (int j = 0; j < arraySize; ++j) {
+
+								value[j] = (int)json_array_get_number(jsonArray, j); // Assuming JSON array contains numbers
+
+							}
+
+							// Set uniform value
+							cmaterial->shader.SetUniformValue(kt->name, value);
+
+							// Delete memory when no longer needed
+							delete[] value;
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::f1:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONNumber)) {
+
+							float value = json_object_get_number(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::f2:
+				case UniformType::f3:
+				case UniformType::f4:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONArray)) {
+
+							JSON_Array* jsonArray = json_object_get_array(uniformObject, kt->name.c_str());
+
+							int arraySize = json_array_get_count(jsonArray);
+
+							// Allocate memory for the integer array
+							float* value = new float[arraySize];
+
+							// Copy values from the JSON array to the integer array
+							for (int j = 0; j < arraySize; ++j) {
+
+								value[j] = (float)json_array_get_number(jsonArray, j); // Assuming JSON array contains numbers
+
+							}
+
+							// Set uniform value
+							cmaterial->shader.SetUniformValue(kt->name, value);
+
+							// Delete memory when no longer needed
+							delete[] value;
+
+						}
+
+					}
+
+					break;
+				}
+				}
+
+			}
+
+		}
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
