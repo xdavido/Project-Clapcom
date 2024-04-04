@@ -335,6 +335,7 @@ void CParticleSystem::OnInspector()
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
+//Save all emitters
 const char* CParticleSystem::SaveMetaEmitters()
 {
 	std::string filePath;
@@ -385,6 +386,7 @@ const char* CParticleSystem::SaveMetaEmitters()
 	}
 }
 
+//Save just one emmiter
 uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 {
 	uint32_t docID = External->resourceManager->GenerateNewUID();

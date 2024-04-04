@@ -158,8 +158,7 @@ void ParticleEmitter::Init(CParticleSystem* component)
 
 void ParticleEmitter::Update(float dt)
 {
-
-	if (TimeManager::gameTimer.GetState() != TimerState::PAUSED)
+	if (TimeManager::gameTimer.GetState() != TimerState::PAUSED) //ERIC: TODO Esto tendra que cambiarse a que se mueva cuando timer sea running, que en stop se maten todas y en pause se printen pero estaticas
 	{
 		emitterTime += dt;
 
@@ -172,10 +171,12 @@ void ParticleEmitter::Update(float dt)
 
 	//Llamamos a Draw particles para que printe todas las particulas con su info updateada
 	DrawParticles();
+	//External->renderer3D->DrawParticles();
 }
 
 void ParticleEmitter::DrawParticles()
 {
+	//ERIC: Si lo unico que se hace es poner esto en true jamas parara, lo cual no ha de ser el caso
 	External->renderer3D->initParticles = true;
 }
 
