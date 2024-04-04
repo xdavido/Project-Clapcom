@@ -113,6 +113,29 @@ public class Player : YmirComponent
 
         currentState = STATE.IDLE;
 
+        //--------------------- Animations ---------------------\\
+
+        Animation.SetLoop(gameObject, "Idle", true);
+        Animation.AddBlendOption(gameObject, "Idle", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Die", 5.0f);
+
+
+        Animation.SetLoop(gameObject, "Walk", true);
+
+        Animation.AddBlendOption(gameObject, "Walk", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Die", 5.0f);
+
+
+        Animation.SetLoop(gameObject, "Run", true);
+        Animation.AddBlendOption(gameObject, "Run", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Die", 5.0f);
+
         //Debug.Log("START!");
     }
 
@@ -594,6 +617,7 @@ public class Player : YmirComponent
     private void StartMove()
     {
         //Trigger de la animacion
+        Animation.PlayAnimation(gameObject, "Walk");
         //Trigger del SFX de caminar
         //Vector3 impulse = new Vector3(0.0f,0.0f,0.01f);
         //gameObject.SetImpulse(gameObject.transform.GetForward() * 0.5f);
@@ -623,6 +647,8 @@ public class Player : YmirComponent
     {
         Debug.Log("Stopping");
         gameObject.SetVelocity(new Vector3(0, 0, 0));
+
+        Animation.PlayAnimation(gameObject, "Idle");
     }
     
     private void HandleRotation()
