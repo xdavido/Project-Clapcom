@@ -1860,6 +1860,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		//gameObject->AddComponent(gameObject->mTransform);
 
+		gameObject->mTransform->active = json_object_get_number(componentObject, "Active");
+
 	}
 	else if (type == "Mesh") {
 
@@ -1872,6 +1874,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
 
 		cmesh->rMeshReference = rMesh;
+
+		cmesh->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(cmesh);
 
@@ -2063,6 +2067,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		
 		cmaterial->rTextures.push_back(rTex);
 	
+		cmaterial->active = json_object_get_number(componentObject, "Active");
 		gameObject->AddComponent(cmaterial);
 
 	}
@@ -2088,6 +2093,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		// Game Camera
 		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
+
+		ccamera->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(ccamera);
 
@@ -2126,6 +2133,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				LOG("[ERROR]Couldn't load animation");
 			}
 		}
+
+		cAnim->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(cAnim);
 	}
@@ -2211,6 +2220,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		ccollider->lockY = json_object_get_boolean(componentObject, "LockY");
 		ccollider->lockZ = json_object_get_boolean(componentObject, "LockZ");
 
+		ccollider->active = json_object_get_number(componentObject, "Active");
+
 		gameObject->AddComponent(ccollider);
 
 	}
@@ -2275,6 +2286,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				break;
 			}
 		}
+
+		cscript->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(cscript);
 
@@ -2974,6 +2987,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				aLight->SetHeight(height);
 
 				CLight* componentLight = new CLight(gameObject, aLight);
+
+				componentLight->active = json_object_get_number(componentObject, "Active");
 
 				gameObject->AddComponent(componentLight);
 
