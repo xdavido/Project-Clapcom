@@ -2778,7 +2778,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 
 		gameObject->AddComponent(comp);
-		break;
+		
 	}
 
 }

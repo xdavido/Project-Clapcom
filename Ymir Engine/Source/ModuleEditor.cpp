@@ -19,6 +19,7 @@
 #include "GameObject.h"
 #include "G_UI.h"
 #include "PhysfsEncapsule.h"
+#include "External/RecastNavigation/NavMeshBuilder.h"
 
 #include "External/SDL/include/SDL_opengl.h"
 
@@ -357,6 +358,12 @@ void ModuleEditor::DrawEditor()
 			if (ImGui::MenuItem("Inspector")) {
 
 				showInspector = true;
+
+			}
+
+			if (ImGui::MenuItem("Navigation")) {
+
+				showNavMesh = true;
 
 			}
 
@@ -1019,6 +1026,19 @@ void ModuleEditor::DrawEditor()
 			ImGui::End();
 
 		}
+
+	}
+
+	if (showNavMesh) {
+
+
+		if (ImGui::Begin("Navigation", &showNavMesh), true)
+		{
+			
+			DrawBakingTab();;
+		}
+		ImGui::End();
+
 
 	}
 
@@ -2914,6 +2934,113 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 //	App->scene->DestroyGameObject(node);
 //
 //}
+
+void ModuleEditor::DrawBakingTab()
+{
+	char buffer[50];
+
+	ImGui::Text("Agent Properties");
+
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	ImGui::Columns(2, NULL, FALSE);
+	ImGui::Spacing();
+	ImGui::Text("Radius");
+	ImGui::Spacing();
+	ImGui::Text("Height");
+	ImGui::Spacing();
+	ImGui::Text("Step Height");
+	ImGui::Spacing();
+	ImGui::Text("Max Slope");
+	ImGui::Spacing();
+	ImGui::NextColumn();
+
+	sprintf_s(buffer, 50, "%.2f", External->pathFinding->bakedNav.radius);
+	if (ImGui::InputText("##Radius", &buffer[0], sizeof(buffer)))
+	{
+		if (buffer[0] != '\0') {
+			External->pathFinding->bakedNav.radius = strtod(buffer, NULL);
+		}
+	}
+	sprintf_s(buffer, 50, "%.2f", External->pathFinding->bakedNav.height);
+	if (ImGui::InputText("##Height", &buffer[0], sizeof(buffer)))
+	{
+		if (buffer[0] != '\0') {
+			External->pathFinding->bakedNav.height = strtod(buffer, NULL);
+		}
+	}
+	sprintf_s(buffer, 50, "%.2f", External->pathFinding->bakedNav.stopHeight);
+	if (ImGui::InputText("##StopHeight", &buffer[0], sizeof(buffer)))
+	{
+		if (buffer[0] != '\0') {
+			External->pathFinding->bakedNav.stopHeight = strtod(buffer, NULL);
+		}
+	}
+	sprintf_s(buffer, 50, "%d", External->pathFinding->bakedNav.maxSlope);
+	if (ImGui::InputText("##Slope", &buffer[0], sizeof(buffer)))
+	{
+		if (buffer[0] != '\0') {
+			External->pathFinding->bakedNav.maxSlope = strtod(buffer, NULL);
+		}
+	}
+
+	ImGui::Columns(1);
+
+	ImGui::Dummy({ 0,10 });
+
+	if (ImGui::Button("Calculate"))
+	{
+		External->pathFinding->BakeNavMesh();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Clear"))
+	{
+		External->pathFinding->ClearNavMeshes();
+	}
+
+	ImGui::Checkbox("Debug Draw", &External->pathFinding->debugDraw);
+
+	/*ImGui::Text("Input Mesh");
+	ImGui::Button("Drop mesh here");
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("_GAMEOBJECT"))
+		{
+			int uid = *(int*)payload->Data;
+
+			GameObject* droppedGO = External->moduleScene->GetGOFromUID(External->moduleScene->root, uid);
+			External->pathFinding->AddGameObjectToNavMesh(droppedGO);
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::Text("Current NavMesh");
+	*/
+
+	NavMeshBuilder* navMeshBuilder = External->pathFinding->GetNavMeshBuilder();
+	if (navMeshBuilder != nullptr)
+	{
+		navMeshBuilder->OnEditor();
+	}
+
+	/*if(ImGui::Button("Create Walkability Test"))
+	{
+		External->pathFinding->CreateWalkabilityTestPoint();
+	}*/
+
+	ImGui::Text("Path Type");
+
+	if (ImGui::RadioButton("Smooth Path", External->pathFinding->pathfinder.pathType == PathType::SMOOTH))
+		External->pathFinding->pathfinder.pathType = PathType::SMOOTH;
+
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Straight Path", External->pathFinding->pathfinder.pathType == PathType::STRAIGHT))
+		External->pathFinding->pathfinder.pathType = PathType::STRAIGHT;
+
+}
 
 void ModuleEditor::DrawInspector()
 {

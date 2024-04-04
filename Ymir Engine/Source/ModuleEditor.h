@@ -125,6 +125,8 @@ public:
 	void CreateHierarchyTree(GameObject* node);
 	//void DestroyHierarchyTree(GameObject* node);
 
+	void DrawBakingTab();
+
 	// Function to encapsulate GameObjects inspector
 	void DrawInspector();
 
@@ -170,6 +172,7 @@ public:
 	bool showAssimpLog = false;
 	bool showHierarchy = true;
 	bool showInspector = true;
+	bool showNavMesh = true;
 
 	bool showScene = true;
 	bool showGame = true;
