@@ -29,6 +29,7 @@ ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent, std::string p
 
 ParticleEmitter::~ParticleEmitter()
 {
+	KillAllParticles();
 }
 
 EmitterInstance* ParticleEmitter::CreateEmitterByType(uint type)

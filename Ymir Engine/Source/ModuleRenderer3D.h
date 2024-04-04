@@ -93,6 +93,8 @@ public:
 
 	void DrawLightsDebug();
 
+	//ERIC: Esto habria que hacerle un rework, el renderer no ha de tener ninguna lista de emmiter
+	//Habria que hacer que recorriera todos los game objects y si tiene component particles pues hacerle un draw particles (maybe se puede poner en el propio DrawGameObjects()
 	void DrawParticles();
 
 public:
