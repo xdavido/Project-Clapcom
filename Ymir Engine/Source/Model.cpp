@@ -380,6 +380,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			
 			ImporterTexture::Import(path, rTexTemp);
 
+			TextureType extractedType = rTexTemp->type;
+
 			delete rTexTemp;
 			rTexTemp = nullptr;
 
@@ -394,10 +396,54 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
 
-				rTex->type = TextureType::DIFFUSE;
+				rTex->type = extractedType;
 
-				cmaterial->UID = UID;
-				cmaterial->path = libraryPath;
+				switch (rTex->type)
+				{
+				case TextureType::DIFFUSE:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_ID = rTex->ID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				case TextureType::SPECULAR:
+					cmaterial->specular_UID = UID;
+					cmaterial->specular_ID = rTex->ID;
+					cmaterial->specular_path = libraryPath;
+					break;
+
+				case TextureType::AMBIENT:
+					cmaterial->ambient_UID = UID;
+					cmaterial->ambient_ID = rTex->ID;
+					cmaterial->ambient_path = libraryPath;
+					break;
+
+				case TextureType::EMISSIVE:
+					cmaterial->emissive_UID = UID;
+					cmaterial->emissive_ID = rTex->ID;
+					cmaterial->emissive_path = libraryPath;
+					break;
+
+				case TextureType::HEIGHT:
+					cmaterial->height_UID = UID;
+					cmaterial->height_ID = rTex->ID;
+					cmaterial->height_path = libraryPath;
+					break;
+
+				case TextureType::NORMAL:
+					cmaterial->normal_UID = UID;
+					cmaterial->normal_ID = rTex->ID;
+					cmaterial->normal_path = libraryPath;
+					break;
+
+				default:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_ID = rTex->ID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				}
+
 				cmaterial->rTextures.push_back(rTex);
 
 				delete metaFile;
@@ -412,10 +458,47 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
 
-				rTex->type = TextureType::DIFFUSE;
+				rTex->type = extractedType;
 
-				cmaterial->UID = UID;
-				cmaterial->path = libraryPath;
+				switch (rTex->type)
+				{
+				case TextureType::DIFFUSE:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				case TextureType::SPECULAR:
+					cmaterial->specular_UID = UID;
+					cmaterial->specular_path = libraryPath;
+					break;
+
+				case TextureType::AMBIENT:
+					cmaterial->ambient_UID = UID;
+					cmaterial->ambient_path = libraryPath;
+					break;
+
+				case TextureType::EMISSIVE:
+					cmaterial->emissive_UID = UID;
+					cmaterial->emissive_path = libraryPath;
+					break;
+
+				case TextureType::HEIGHT:
+					cmaterial->height_UID = UID;
+					cmaterial->height_path = libraryPath;
+					break;
+
+				case TextureType::NORMAL:
+					cmaterial->normal_UID = UID;
+					cmaterial->normal_path = libraryPath;
+					break;
+
+				default:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				}
+
 				cmaterial->rTextures.push_back(rTex);
 
 			}
@@ -433,8 +516,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			rTex->type = TextureType::DIFFUSE;
 
-			cmaterial->UID = rTex->UID;
-			cmaterial->path = "Checker Image";
+			cmaterial->diffuse_UID = rTex->UID;
+			cmaterial->diffuse_path = "Checker Image";
 			cmaterial->rTextures.push_back(rTex);
 
 		}

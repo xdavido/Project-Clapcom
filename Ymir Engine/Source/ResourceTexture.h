@@ -22,11 +22,11 @@ enum class TextureType {
     EMISSIVE,
     HEIGHT,
     NORMAL,
-    SHININESS,
-    OPACITY,
-    DISPLACEMENT,
-    LIGHTMAP,
-    REFLECTION,
+    //SHININESS,
+    //OPACITY,
+    //DISPLACEMENT,
+    //LIGHTMAP,
+    //REFLECTION,
 
     NUM_TYPES       // Total Quantity of Types
 

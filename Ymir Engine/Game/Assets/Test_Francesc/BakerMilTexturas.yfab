@@ -7,7 +7,7 @@
             "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 1567410875,
+            "Parent UID": 1040011479,
             "Components": [
                 {
                     "Type": "Transform",
@@ -83,7 +83,7 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 149,
+                    "Diffuse_ID": 160,
                     "Diffuse_Path": "Assets\/Baker_house.png",
                     "Diffuse_UID": 792489800
                 },
@@ -144,9 +144,24 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 151,
-                    "Diffuse_Path": "Assets\/Baker_house.png",
-                    "Diffuse_UID": 792489800
+                    "Diffuse_ID": 182,
+                    "Diffuse_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 1361734634,
+                    "Specular_ID": 174,
+                    "Specular_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 727030256,
+                    "Normal_ID": 176,
+                    "Normal_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1481489073,
+                    "Height_ID": 178,
+                    "Height_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 1826193319,
+                    "Ambient_ID": 180,
+                    "Ambient_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 888763688,
+                    "Emissive_ID": 172,
+                    "Emissive_Path": "Assets\/Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1141793826
                 },
                 {
                     "Type": "Mesh",

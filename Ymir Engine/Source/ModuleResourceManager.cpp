@@ -102,22 +102,72 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				if ((*jt)->ctype == ComponentType::MATERIAL)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
+
 					ImporterTexture::Import(assetsFilePath, rTexTemp);
 					
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
-					static_cast<CMaterial*>((*jt))->rTextures.clear();
+					//rTexTemp->type = TextureType::DIFFUSE;
+					//rTexTemp->UID = Random::Generate();
+
+					switch (rTexTemp->type)
+					{
+						case TextureType::DIFFUSE:
+							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::SPECULAR:
+							static_cast<CMaterial*>((*jt))->specular_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->specular_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->specular_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::AMBIENT:
+							static_cast<CMaterial*>((*jt))->ambient_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->ambient_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->ambient_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::EMISSIVE:
+							static_cast<CMaterial*>((*jt))->emissive_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->emissive_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->emissive_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::HEIGHT:
+							static_cast<CMaterial*>((*jt))->height_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->height_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->height_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::NORMAL:
+							static_cast<CMaterial*>((*jt))->normal_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->normal_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->normal_ID = rTexTemp->ID;
+							break;
+
+						default:
+							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
+							break;
+
+					}
+
+					//static_cast<CMaterial*>((*jt))->rTextures.clear();
 					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+
 				}
 				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
+
 					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+					//rTexTemp->type = TextureType::DIFFUSE;
+					//rTexTemp->UID = Random::Generate();
+
+					static_cast<UI_Image*>((*jt))->mat->diffuse_path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
 				}
@@ -138,11 +188,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 			case ResourceType::TEXTURE:
 			{
-
-				/*for (auto itr = 0; itr != App->editor.; itr++)
-				{
-
-				}*/
 			}
 			break;
 			case ResourceType::MESH:
@@ -239,8 +284,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 						rTex->type = TextureType::DIFFUSE;
 
-						cmat->UID = rTex->UID;
-						cmat->path = "Checker Image";
+						cmat->diffuse_UID = rTex->UID;
+						cmat->diffuse_path = "Checker Image";
 						cmat->rTextures.push_back(rTex);
 
 						meshGO->AddComponent(cmat);
@@ -271,8 +316,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 						rTex->type = TextureType::DIFFUSE;
 
-						cmat->UID = rTex->UID;
-						cmat->path = "Checker Image";
+						cmat->diffuse_UID = rTex->UID;
+						cmat->diffuse_path = "Checker Image";
 						cmat->rTextures.push_back(rTex);
 
 						meshGO->AddComponent(cmat);

@@ -114,6 +114,53 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
 
+	// 8. Set texture properties
+
+	std::string textureName;
+	PhysfsEncapsule::SplitFilePath(path.c_str(), nullptr, &textureName);
+
+	char typeChar = textureName.back();
+
+	switch (typeChar) {
+
+		case 'D':
+		{
+			ourTexture->type = TextureType::DIFFUSE;
+			break;
+		}
+		case 'S':
+		{
+			ourTexture->type = TextureType::SPECULAR;
+			break;
+		}
+		case 'N':
+		{
+			ourTexture->type = TextureType::NORMAL;
+			break;
+		}
+		case 'H':
+		{
+			ourTexture->type = TextureType::HEIGHT;
+			break;
+		}
+		case 'A':
+		{
+			ourTexture->type = TextureType::AMBIENT;
+			break;
+		}
+		case 'E':
+		{
+			ourTexture->type = TextureType::EMISSIVE;
+			break;
+		}
+		default:
+		{
+			ourTexture->type = TextureType::DIFFUSE;
+			break;
+		}
+			
+	}
+
 }
 
 uint ImporterTexture::Save(const Texture* ourTexture, char** fileBuffer)
