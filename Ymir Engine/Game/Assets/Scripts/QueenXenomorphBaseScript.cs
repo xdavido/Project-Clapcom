@@ -54,7 +54,37 @@ public class QueenXenomorphBaseScript : YmirComponent
 
 	private float queenRotationSpeed;
 
+    public float DetectionRadius = 120f;
+
     private GameObject player;
+
+    //For attacks
+    private Random random = new Random();
+    private bool randomSelected = false;
+    private float selectedAttack = 0f;
+    private float randomCounter = 0f;
+    
+    private Vector3 vectorToPlayer = null;
+
+    private int baseAttacks = 0;
+
+    private float clawRadius = 30f;
+    private float axeRadius = 50f;
+    private float dashRadius = 50f;
+
+    private float clawAttackCooldown = 4f;
+    private float clawTimer;
+    private bool clawReady;
+    private float clawAniCounter = 0f;
+    private float clawAniDuration = 2.5f;
+
+    private float axeAttackCooldown = 10f;
+	private float axeTimer;
+	private bool axeReady;
+
+    private float dashAttackCooldown = 13f;
+    private float dashTimer;
+	private bool dashReady;
 
 
     public void Start()
@@ -66,7 +96,12 @@ public class QueenXenomorphBaseScript : YmirComponent
 		speed = 12f;
 		queenRotationSpeed = 2f;
         player = InternalCalls.GetGameObjectByName("Player");
-
+		axeTimer = axeAttackCooldown;
+		dashTimer = dashAttackCooldown;
+        clawTimer = clawAttackCooldown;
+        clawReady = true;
+        axeReady = false;
+        dashReady = false;
     }
 
     public void Update()
@@ -74,26 +109,65 @@ public class QueenXenomorphBaseScript : YmirComponent
 
 		RotateQueen();
 
+        ClawCooldown();
+
+		//Once 2 attacks done, can use other attacks
+		if (baseAttacks >= 2)
+		{
+			AxeCooldown();
+			DashCooldown();
+		}
+
 		switch (queenState)
 		{
 			case QueenState.IDLE_PHASE_1:
 
-			break;
+            break;
 			case QueenState.ACID_SHOT: 
 
 			break;
 			case QueenState.IDLE_PHASE_2:
 
-			break;
-			case QueenState.WALKING_TO_PLAYER: 
-				
-			break;
+                if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius)) && (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, clawRadius)))
+                {
+                    Debug.Log("[ERROR] BOSS STATE WALKING TO PLAYER");
+                    queenState = QueenState.WALKING_TO_PLAYER;
+                }
+                else
+                {
+                    CheckAttackDistance();
+                }
+
+                break;
+			case QueenState.WALKING_TO_PLAYER:
+                vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
+                vectorToPlayer = Vector3.Normalize(vectorToPlayer);
+
+                xSpeed = vectorToPlayer.x;
+                ySpeed = vectorToPlayer.z;
+
+                gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 2);
+
+                CheckAttackDistance();
+
+                break;
 			case QueenState.WALKING_SIDEWAYS: 
-				
+				//Might be removed
+
 			break;
-			case QueenState.CLAW: 
-				
-			break;
+			case QueenState.CLAW:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                clawAniCounter += Time.deltaTime;
+
+                if (clawAniCounter >= clawAniDuration)
+                {
+                    Debug.Log("[ERROR] BOSS STATE IDLE");
+                    clawAniCounter = 0f;
+                    queenState = QueenState.IDLE_PHASE_2;
+                }
+
+                break;
 			case QueenState.PREPARE_AXE_TAIL: 
 				
 			break;
@@ -107,7 +181,115 @@ public class QueenXenomorphBaseScript : YmirComponent
 				
 			break;
 		}
-	}
+
+		//If player too far away stay idle
+        if (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius))
+        {
+            Debug.Log("[ERROR] BOSS STATE IDLE");
+            queenState = QueenState.IDLE_PHASE_2;
+        }
+
+    }
+
+    private void CheckAttackDistance()
+    {
+        if (!randomSelected)
+        {
+            selectedAttack = random.Next(0, 100);
+            randomSelected = true;
+        }
+
+        randomCounter += Time.deltaTime;
+
+        switch (selectedAttack)
+        {
+            case float i when (i <= 60):
+                if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, clawRadius)) && clawReady == true)
+                {
+                    Debug.Log("[ERROR] BOSS STATE CLAW");
+                    clawReady = false;
+                    clawTimer = clawAttackCooldown;
+                    baseAttacks++;
+                    queenState = QueenState.CLAW;
+                }
+                else
+                {
+                    randomCounter = 0;
+                    randomSelected = false;
+                }
+
+                break;
+            case float i when (i > 60 && i <= 80):
+                if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, axeRadius)) && axeReady == true)
+                {
+                    Debug.Log("[ERROR] BOSS STATE PREPARE AXE");
+                    axeReady = false;
+                    axeTimer = axeAttackCooldown;
+                    queenState = QueenState.PREPARE_AXE_TAIL;
+                }
+                else
+                {
+                    randomCounter = 0;
+                    randomSelected = false;
+                }
+
+                break;
+            case float i when (i > 80 && i <= 100):
+                if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, dashRadius)) && dashReady == true)
+                {
+                    Debug.Log("[ERROR] BOSS STATE PREPARE DASH");
+                    dashReady = false;
+                    dashTimer = dashAttackCooldown;
+                    queenState = QueenState.PREPARE_DASH;
+                }
+                else
+                {
+                    randomCounter = 0;
+                    randomSelected = false;
+                }
+
+                break;
+        }
+    }
+
+    private void ClawCooldown()
+    {
+        if (clawTimer > 0 && !clawReady)
+        {
+            clawTimer -= Time.deltaTime;
+            if (clawTimer <= 0)
+            {
+                clawReady = true;
+            }
+        }
+
+    }
+
+    private void AxeCooldown()
+	{
+        if (axeTimer > 0 && !axeReady)
+        {
+            axeTimer -= Time.deltaTime;
+            if (axeTimer <= 0)
+            {
+				axeReady = true;
+            }
+        }
+
+    }
+
+    private void DashCooldown()
+	{
+        if (dashTimer > 0 && !dashReady)
+        {
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0)
+            {
+                dashReady = true;
+            }
+        }
+
+    }
 
     private void RotateQueen()
     {
@@ -132,4 +314,14 @@ public class QueenXenomorphBaseScript : YmirComponent
 
         //Debug.Log("[ERROR] rotation:  " + gameObject.transform.localRotation);
     }
+
+    public bool CheckDistance(Vector3 first, Vector3 second, float checkRadius)
+    {
+        float deltaX = Math.Abs(first.x - second.x);
+        float deltaY = Math.Abs(first.y - second.y);
+        float deltaZ = Math.Abs(first.z - second.z);
+
+        return deltaX <= checkRadius && deltaY <= checkRadius && deltaZ <= checkRadius;
+    }
+
 }
