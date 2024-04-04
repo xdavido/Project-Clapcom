@@ -7,6 +7,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleResourceManager.h"
+#include "ModulePathfinding.h"
 
 #include "Globals.h"
 #include "Log.h"
@@ -948,7 +949,7 @@ void ModuleRenderer3D::DrawDebugLines()
 
 	points.clear();
 
-	External->modulePathfinding->DebugDraw();
+	External->pathFinding->DebugDraw();
 }
 void ModuleRenderer3D::AddDebugLines(float3& a, float3& b, float3& color)
 {

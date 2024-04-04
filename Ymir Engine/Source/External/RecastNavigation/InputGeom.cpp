@@ -133,8 +133,8 @@ InputGeom::~InputGeom()
 
 	if (m_mesh != nullptr)
 	{
-		delete[] m_mesh->vertices;
-		delete[] m_mesh->indices;
+		m_mesh->vertices.clear();
+		m_mesh->indices.clear();
 
 		delete m_mesh;
 		m_mesh = nullptr;
@@ -180,11 +180,11 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
 		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
-		RELEASE_ARRAY(vertices);
+		floatArray.clear();
 		return false;
 	}		
 	
-	RELEASE_ARRAY(vertices);
+	floatArray.clear();
 	return true;
 }
 
@@ -243,61 +243,65 @@ void InputGeom::SetMesh(ResourceMesh* newMesh)
 void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 {
 	// Vertex Merging =====================================================================
-	int total_vertices = m_mesh->vertices.size() + new_mesh->vertices.size();
-	float* merged_vertices = new float[total_vertices * 3];
+
+	std::vector<float3> merged_vertices;
+
+	// Reserve vertex size
+	merged_vertices.reserve(m_mesh->vertices.size() + new_mesh->vertices.size());
 
 	int indices_offset = m_mesh->vertices.size();
 
-	for (size_t i = 0; i < m_mesh->vertices.size(); i++)
-	{
-		merged_vertices[i * 3]	   = (float*)m_mesh->vertices[i * 3];
-		merged_vertices[i * 3 + 1] = m_mesh->vertices[i * 3 + 1];
-		merged_vertices[i * 3 + 2] = m_mesh->vertices[i * 3 + 2];
+	// Pass vertex info from m_mesh to merged_vertices
+	for (const auto& vertex : m_mesh->vertices) {
+
+		merged_vertices.push_back(vertex.position);
+
 	}
+	
+	// Pass vertex from new_mesh
+	std::vector<float3> new_mesh_vertices;
+	new_mesh_vertices.reserve(new_mesh->vertices.size());
 
-	float* new_mesh_vertices = new float[new_mesh->vertices.size() * 3];
-	new_mesh->GetVertices(new_mesh_vertices);
-
-	int index = m_mesh->vertices_count;
-	for (size_t i = 0; i < new_mesh->vertices_count; i++)
+	int index = m_mesh->vertices.size();
+	for (size_t i = 0; i < new_mesh->vertices.size(); i++)
 	{
-		float3 vertex = { new_mesh_vertices[i * 3],	new_mesh_vertices[i * 3 + 1], new_mesh_vertices[i * 3 + 2] };
+		new_mesh_vertices[i] = new_mesh_transform.MulPos(new_mesh_vertices[i]);
 
-		vertex = new_mesh_transform.MulPos(vertex);
-
-		merged_vertices[index * 3]     =  vertex.x;
-		merged_vertices[index * 3 + 1] =  vertex.y;
-		merged_vertices[index * 3 + 2] =  vertex.z;
+		merged_vertices[index * 3]     = new_mesh_vertices[i * 3];
+		merged_vertices[index * 3 + 1] = new_mesh_vertices[i * 3 + 1];
+		merged_vertices[index * 3 + 2] = new_mesh_vertices[i * 3 + 2];
 		index++;
 	}
 
-	RELEASE_ARRAY(new_mesh_vertices);
-	RELEASE_ARRAY(m_mesh->vertices);
+	new_mesh_vertices.clear();
+	m_mesh->vertices.clear();
 
-	m_mesh->vertices = merged_vertices;
-	m_mesh->vertices_count = total_vertices;
+	for (int i = 0; i < m_mesh->vertices.size(); i++) {
+		m_mesh->vertices.at(i).position = merged_vertices[i];
+	}
 
 	//Indices Merging =====================================================================
 
-	int total_indices = m_mesh->indices_count + new_mesh->indices_count;
+	int total_indices = m_mesh->indices.size() + new_mesh->indices.size();
 	uint* merged_indices = new uint[total_indices];
 
 	index = 0;
-	for (size_t i = 0; i < m_mesh->indices_count; i++)
+	for (size_t i = 0; i < m_mesh->indices.size(); i++)
 	{
 		merged_indices[i] = m_mesh->indices[i];
 		index++;
 	}
 
-	for (size_t i = 0; i < new_mesh->indices_count; i++)
+	for (size_t i = 0; i < new_mesh->indices.size(); i++)
 	{
 		merged_indices[index + i] = new_mesh->indices[i] + indices_offset;
 	}
 
-	RELEASE_ARRAY(m_mesh->indices);
+	m_mesh->indices.clear();
 
-	m_mesh->indices = merged_indices;
-	m_mesh->indices_count = total_indices;
+	for (int i = 0; i < m_mesh->indices.size(); i++) {
+		m_mesh->indices.at(i) = merged_indices[i];
+	}
 }
 
 #ifndef STANDALONE
@@ -307,9 +311,9 @@ void InputGeom::DrawMesh()
 	{
 		for (size_t i = 0; i < m_mesh->vertices.size() / 3; i+= 3)
 		{
-			float3 a = float3(m_mesh->vertices[i * 3], m_mesh->vertices[i * 3 + 1], m_mesh->vertices[i * 3 + 2]);
-			float3 b = float3(m_mesh->vertices[(i + 1) * 3], m_mesh->vertices[(i + 1) * 3 + 1], m_mesh->vertices[(i + 1) * 3 + 2]);
-			float3 c = float3(m_mesh->vertices[(i + 2) * 3], m_mesh->vertices[(i + 2) * 3 + 1], m_mesh->vertices[(i + 2) * 3 + 2]);
+			float3 a = m_mesh->vertices[i].position;
+			float3 b = m_mesh->vertices[i + 1].position;
+			float3 c = m_mesh->vertices[i + 2].position;
 
 			External->renderer3D->AddDebugTriangles(a, b ,c, float3(0.1, 0.75, 0.5));
 		}

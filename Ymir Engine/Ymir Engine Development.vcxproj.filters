@@ -1200,6 +1200,9 @@
     <ClInclude Include="Source\ModulePathfinding.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ImporterNavMesh.h">
+      <Filter>Sources\Features\Custom File Format</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1714,6 +1717,9 @@
     </ClCompile>
     <ClCompile Include="Source\ModulePathfinding.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ImporterNavMesh.cpp">
+      <Filter>Sources\Features\Custom File Format</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
