@@ -80,9 +80,9 @@ public class Player : YmirComponent
     //bool isMoving = false;
 
     //--------------------- Shoot var ---------------------\\
-    public float fireRate = 0.2f;
+    public float fireRate = 0;
     private float shootingTimer = 0.0f;
-    public float secondaryRate = 0.2f;
+    //public float secondaryRate = 0.2f;
 
     private bool isReloading = false;
     private float reloadTimer = 0.0f;
@@ -555,7 +555,7 @@ public class Player : YmirComponent
                 reloadDuration = 1.8f;
                 //To do
                 //dmg = ?
-                //fireRate = ?
+                fireRate = 0.1f;
                 //range = ?
                 break;
 
@@ -565,7 +565,7 @@ public class Player : YmirComponent
                 reloadDuration = 2.7f;
                 //To do
                 //dmg = ?
-                //fireRate = ?
+                fireRate = 1.2f;
                 //range = ?
                 break;
 
@@ -575,7 +575,7 @@ public class Player : YmirComponent
                 reloadDuration = 3f;
                 //To do
                 //dmg = ?
-                //fireRate = ?
+                fireRate = 0.03f;
                 //range = ?
                 break;
         }
