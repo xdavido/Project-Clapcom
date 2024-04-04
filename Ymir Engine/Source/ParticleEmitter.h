@@ -16,7 +16,7 @@ class EmitterSetting;
 class ParticleEmitter
 {
 public:
-	ParticleEmitter(CParticleSystem* cParticleParent, std::string imgPath = "Assets/InGameConeptPng.png");
+	ParticleEmitter(CParticleSystem* cParticleParent);
 	~ParticleEmitter();
 
 	std::vector<Particle*> listParticles;

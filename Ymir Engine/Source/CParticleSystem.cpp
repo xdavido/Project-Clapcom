@@ -48,22 +48,25 @@ void CParticleSystem::Update()
 bool CParticleSystem::Update(float dt)
 {
 	bool ret = true;
-	if (dt > 0.0f)
+
+	if (localPlay)
 	{
-		for (unsigned int i = 0; i < allEmitters.size(); ++i)
+		if (dt > 0.0f)
 		{
-			allEmitters.at(i)->Update(dt);
+			for (unsigned int i = 0; i < allEmitters.size(); ++i)
+			{
+				allEmitters.at(i)->Update(dt);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < allEmitters.size(); ++i)
+			{
+				allEmitters.at(i)->Reset();
+			}
 		}
 	}
-	else
-	{
-		for (unsigned int i = 0; i < allEmitters.size(); ++i)
-		{
-			allEmitters.at(i)->Reset();
-		}
-	}
-
-
+	
 	return ret;
 }
 
@@ -103,6 +106,22 @@ void CParticleSystem::OnInspector()
 	{
 		int treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		int leafFlags = treeFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		std::string playButtonName = localPlay ? "Pause: " : "Play: ";
+		if (ImGui::Button(playButtonName.c_str())) {
+			if (localPlay)
+			{
+				Stop();
+			}
+			else
+			{
+				Play();
+			}
+		}
+		ImGui::SameLine();
+		ImGui::Text("Playback time: %.2f", timer.ReadSec());
+
+		ImGui::Separator();
 
 		//Crear emitter
 		if (ImGui::TreeNodeEx((void*)(intptr_t)-1, treeFlags, "Emitters"))
@@ -712,6 +731,22 @@ void CParticleSystem::LoadAllEmmitersJSON(const char* path)
 	}
 }
 
+void CParticleSystem::Play()
+{
+	timer.Start();
+	localPlay = true;
 
+	int emittersCount = allEmitters.size();
+	for (int i = 0; i < emittersCount; ++i)
+	{
+		allEmitters[i]->Reset();
+	}
+}
+
+void CParticleSystem::Stop()
+{
+	timer.Stop();
+	localPlay = false;
+}
 
 

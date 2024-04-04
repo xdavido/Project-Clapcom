@@ -8,7 +8,7 @@
 #include "ImporterTexture.h"
 #include "ModuleScene.h"
 
-ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent, std::string path) //TODO: Solo se puede crear un emiiter funcional por game object, en el segundo no funciona el tree node de ImGui
+ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent) //TODO: Solo se puede crear un emiiter funcional por game object, en el segundo no funciona el tree node de ImGui
 {
 	//Quiza haya que meterle alguna info? IDK
 	name = "";
@@ -17,14 +17,7 @@ ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent, std::string p
 	mat->shaderPath = shaderPath;*/
 
 	mat = (CMaterial*)cParticleParent->mOwner->GetComponent(ComponentType::MATERIAL);
-	mat->shader.LoadShader(mat->shaderPath);
 
-	ResourceTexture* rTexTemp = new ResourceTexture();
-	ImporterTexture::Import(path, rTexTemp);
-	rTexTemp->type = TextureType::DIFFUSE;
-	rTexTemp->UID = Random::Generate();
-	mat->path = path;
-	mat->rTextures.push_back(rTexTemp);
 }
 
 ParticleEmitter::~ParticleEmitter()

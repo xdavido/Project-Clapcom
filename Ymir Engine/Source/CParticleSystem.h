@@ -26,8 +26,11 @@ public:
 
 	bool active = true;
 
+	//Bool to init the particles from inspector
+	bool localPlay = false;
+
 	CParticleSystem();
-	CParticleSystem(GameObject* own); //TODO TONI: CAMBIAR EL SHADER POR UNO PROPIO 
+	CParticleSystem(GameObject* own); 
 
 	~CParticleSystem();
 
@@ -48,7 +51,14 @@ public:
 	ParticleEmitter* LoadEmitterFromMeta(const char* pathMeta);
 	void LoadAllEmmitersJSON(const char* path);
 
+	//To play or stop the particles from inspector
+	void Stop();
+	void Play();
+
 private:
+
+	//Timer for local play
+	Timer timer;
 
 };
 

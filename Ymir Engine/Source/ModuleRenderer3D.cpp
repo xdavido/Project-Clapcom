@@ -331,8 +331,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawGameObjects();
 
-		DrawParticles();
-
 		DrawUIElements(false, false);
 
 		// Render Bounding Boxes
