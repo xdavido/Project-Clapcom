@@ -3143,6 +3143,14 @@ void ModuleEditor::DrawInspector()
 					ImGui::EndMenu();
 				}
 
+				if ((CNavMeshAgent*)App->scene->selectedGO->GetComponent(ComponentType::NAVMESHAGENT) == nullptr)
+				{
+					if (ImGui::MenuItem("NavMesh_Agent"))
+					{
+						App->scene->selectedGO->AddComponent(ComponentType::NAVMESHAGENT);
+					}
+				}
+
 				//delete physics;
 				ImGui::EndPopup();
 			}

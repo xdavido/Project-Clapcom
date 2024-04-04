@@ -23,6 +23,7 @@ enum ComponentType {
 	UI_TRAMSFORM,
 	UI,
 	LIGHT,
+	NAVMESHAGENT,
 
 	ALL_TYPES
 

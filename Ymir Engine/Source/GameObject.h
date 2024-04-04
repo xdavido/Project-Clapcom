@@ -16,6 +16,7 @@
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CScript.h"
+#include "CNavMeshAgent.h"
 #include "Component.h"
 
 #include "Random.h"

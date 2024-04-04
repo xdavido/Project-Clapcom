@@ -142,6 +142,7 @@
     <ClInclude Include="Source\CCamera.h" />
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CLight.h" />
+    <ClInclude Include="Source\CNavMeshAgent.h" />
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Animation_Bindings.h" />
     <ClInclude Include="Source\CS_Audio_Bindings.h" />
@@ -502,6 +503,7 @@
     <ClCompile Include="Source\CLight.cpp" />
     <ClCompile Include="Source\CMaterial.cpp" />
     <ClCompile Include="Source\CMesh.cpp" />
+    <ClCompile Include="Source\CNavMeshAgent.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\CScript.cpp" />

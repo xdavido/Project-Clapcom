@@ -1203,6 +1203,9 @@
     <ClInclude Include="Source\ImporterNavMesh.h">
       <Filter>Sources\Features\Custom File Format</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CNavMeshAgent.h">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
@@ -1720,6 +1723,9 @@
     </ClCompile>
     <ClCompile Include="Source\ImporterNavMesh.cpp">
       <Filter>Sources\Features\Custom File Format</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CNavMeshAgent.cpp">
+      <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

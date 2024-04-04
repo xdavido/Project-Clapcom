@@ -279,6 +279,11 @@ bool GameObject::AddComponent(ComponentType ctype, void* var)
 		}
 		else { ret = false; }
 		break;
+	case ComponentType::NAVMESHAGENT:
+		if (GetComponent(ComponentType::NAVMESHAGENT) == nullptr) {
+			temp = new CNavMeshAgent(this);
+			mComponents.push_back(temp);
+		}
 	default:
 		break;
 	}
