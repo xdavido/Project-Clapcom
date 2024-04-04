@@ -98,6 +98,11 @@ public class Health : YmirComponent
         }
     }
 
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     public bool DeathScreen()
     {
         deathCanvas.SetActive(true);

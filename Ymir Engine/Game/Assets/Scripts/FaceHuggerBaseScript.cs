@@ -24,6 +24,7 @@ enum WanderState
     REACHED,
     GOING,
     CHASING,
+    ATTACK,
     HIT,
     STOPED
 }
@@ -71,7 +72,8 @@ public class FaceHuggerBaseScript : YmirComponent
 
     public bool PlayerDetected = false;
 
-    public float DetectionRadius = 15f;
+    public float DetectionRadius = 60f;
+    private float AttackDistance = 20f;
 
     //private EnemyState state = EnemyState.Idle;
 
@@ -94,6 +96,9 @@ public class FaceHuggerBaseScript : YmirComponent
     private float cumTimer2;
     public float cumDuration2 = 5f;
 
+    private float attackTimer;
+    public float attackDuration = 1.5f;
+
     public void Start()
     {
         pointGenerator = new RandomPointGenerator();
@@ -104,7 +109,7 @@ public class FaceHuggerBaseScript : YmirComponent
         healthScript = player.GetComponent<Health>();
         movementSpeed = 20f;
         stopedDuration = 1f;
-        DetectionRadius = 10f;
+        DetectionRadius = 60f;
         wanderRadius = 10f;
         cumDuration = 2f;
         cumDuration2 = 5f;
@@ -167,7 +172,7 @@ public class FaceHuggerBaseScript : YmirComponent
                     RotateEnemy();
                     Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
                     gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
-                break;
+                    break;
 
                 case WanderState.STOPED:
                     Debug.Log("[ERROR] Current State: STOPED");
@@ -179,27 +184,57 @@ public class FaceHuggerBaseScript : YmirComponent
                     Proccescumdown();
 
                 break;
+
+                case WanderState.ATTACK:
+                    //FUIM for now, MUST BE CHANGED
+                    Attack();
+                break;
             }
 
-
-            if ((player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius) ||
-                (gameObject.transform.globalPosition.x - player.transform.globalPosition.x < DetectionRadius && gameObject.transform.globalPosition.z - player.transform.globalPosition.z < DetectionRadius) 
-                )
+            //Check if player is alive before chasing
+            if (wanderState != WanderState.ATTACK && healthScript.GetCurrentHealth() > 0)
             {
-                if (wanderState != WanderState.HIT)
-                {
-                    actualMovementSpeed = movementSpeed;
-                    wanderState = WanderState.CHASING;
-                }
 
+                if (CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius))
+                {
+
+                    if (wanderState != WanderState.HIT)
+                    {
+                        actualMovementSpeed = movementSpeed;
+                        wanderState = WanderState.CHASING;
+                    }
+
+                    //Attack if in range
+                    if (CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, AttackDistance))
+                    {
+
+                        if (wanderState == WanderState.CHASING && wanderState != WanderState.ATTACK)
+                        {
+                            Debug.Log("[ERROR] ATTACKING");
+                            attackTimer = attackDuration;
+                            gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+                            wanderState = WanderState.ATTACK;
+                        }
+                    }
+
+                }
             }
+
 
         }
-        
-       
+
+
 
     }
 
+    public bool CheckDistance(Vector3 first, Vector3 second, float checkRadius)
+    {
+        float deltaX = Math.Abs(first.x - second.x);
+        float deltaY = Math.Abs(first.y - second.y);
+        float deltaZ = Math.Abs(first.z - second.z);
+
+        return deltaX <= checkRadius && deltaY <= checkRadius && deltaZ <= checkRadius;
+    }
 
     private void Proccescumdown()
     {
@@ -234,6 +269,26 @@ public class FaceHuggerBaseScript : YmirComponent
             {
 
                 Debug.Log("[ERROR] AAAA");
+                actualMovementSpeed = 0;
+                stopedTimer = stopedDuration;
+                wanderState = WanderState.STOPED;
+
+            }
+        }
+    }
+    private void Attack()
+    {
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+
+            if (attackTimer <= 0)
+            {
+                //IF HIT, Do damage
+                healthScript.TakeDmg(3);
+                Debug.Log("[ERROR] DID DAMAGE");
+
+                attackTimer = attackDuration;
                 actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;
                 wanderState = WanderState.STOPED;
@@ -304,17 +359,17 @@ public class FaceHuggerBaseScript : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Name == "Player" && wanderState != WanderState.HIT)
-        {
+        //if (other.Name == "Player" && wanderState != WanderState.HIT)
+        //{
 
-            Debug.Log("[ERROR] Name: " + other.Name);
-            Debug.Log("[ERROR] HIT!!!");
-            gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+        //    Debug.Log("[ERROR] Name: " + other.Name);
+        //    Debug.Log("[ERROR] HIT!!!");
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
           
-            gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
-            healthScript.TakeDmg(3);
-            wanderState = WanderState.HIT;
-            cumTimer = cumDuration;
-        }
+        //    gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
+        //    healthScript.TakeDmg(3);
+        //    wanderState = WanderState.HIT;
+        //    cumTimer = cumDuration;
+        //}
     }
 }
