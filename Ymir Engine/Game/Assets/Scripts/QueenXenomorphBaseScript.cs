@@ -23,7 +23,6 @@ enum QueenState
 	//ATTACKS
 
 	CLAW,
-	PREPARE_AXE_TAIL,
 	AXE_TAIL,
 	PREPARE_DASH,
 	DASH
@@ -81,10 +80,19 @@ public class QueenXenomorphBaseScript : YmirComponent
     private float axeAttackCooldown = 10f;
 	private float axeTimer;
 	private bool axeReady;
+    private float axeAniCounter = 0f;
+    private float axeAniDuration = 3.5f;
 
     private float dashAttackCooldown = 13f;
     private float dashTimer;
 	private bool dashReady;
+    private float dashAniCounter1 = 0f;
+    private float dashAniDuration1 = 2.5f;
+    private float dashAniCounter2 = 0f;
+    private float dashAniDuration2 = 2.5f;
+    private bool dashDone = false;
+    private float dashNum = 0f;
+
 
 
     public void Start()
@@ -106,8 +114,10 @@ public class QueenXenomorphBaseScript : YmirComponent
 
     public void Update()
 	{
-
-		RotateQueen();
+        if (queenState != QueenState.DASH)
+        {
+            RotateQueen();
+        }
 
         ClawCooldown();
 
@@ -167,19 +177,63 @@ public class QueenXenomorphBaseScript : YmirComponent
                     queenState = QueenState.IDLE_PHASE_2;
                 }
 
-                break;
-			case QueenState.PREPARE_AXE_TAIL: 
-				
-			break;
-			case QueenState.AXE_TAIL: 
-				
-			break;
-			case QueenState.PREPARE_DASH: 
-				
-			break;
+            break;
+			case QueenState.AXE_TAIL:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                axeAniCounter += Time.deltaTime;
+
+                if (axeAniCounter >= axeAniDuration)
+                {
+                    Debug.Log("[ERROR] BOSS STATE IDLE");
+                    axeAniCounter = 0f;
+                    queenState = QueenState.IDLE_PHASE_2;
+                }
+
+            break;
+			case QueenState.PREPARE_DASH:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                dashAniCounter1 += Time.deltaTime;
+
+                if (dashAniCounter1 >= dashAniDuration1)
+                {
+                    Debug.Log("[ERROR] BOSS STATE DASH");
+                    dashAniCounter1 = 0f;
+                    queenState = QueenState.DASH;
+                }
+
+            break;
 			case QueenState.DASH: 
-				
-			break;
+				if (!dashDone)
+                {
+                    gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 6);
+                    dashDone = true;
+                    dashNum++;
+                }
+
+                dashAniCounter2 += Time.deltaTime;
+
+                if (dashAniCounter2 >= dashAniDuration2)
+                {
+                    if (dashNum == 2)
+                    {
+                        Debug.Log("[ERROR] BOSS STATE IDLE");
+                        dashAniCounter2 = 0f;
+                        dashDone = false;
+                        dashNum = 0;
+                        queenState = QueenState.IDLE_PHASE_2;
+
+                    }
+                    else
+                    {
+                        Debug.Log("[ERROR] BOSS STATE PREPARE SECOND DASH");
+                        dashAniCounter2 = 0f;
+                        dashDone = false;
+                        queenState = QueenState.PREPARE_DASH;
+                    }
+                }
+            break;
 		}
 
 		//If player too far away stay idle
@@ -222,10 +276,10 @@ public class QueenXenomorphBaseScript : YmirComponent
             case float i when (i > 60 && i <= 80):
                 if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, axeRadius)) && axeReady == true)
                 {
-                    Debug.Log("[ERROR] BOSS STATE PREPARE AXE");
+                    Debug.Log("[ERROR] BOSS STATE AXE");
                     axeReady = false;
                     axeTimer = axeAttackCooldown;
-                    queenState = QueenState.PREPARE_AXE_TAIL;
+                    queenState = QueenState.AXE_TAIL;
                 }
                 else
                 {
