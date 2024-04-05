@@ -37,9 +37,9 @@ public:
 public:
 
 	// Component reference
-	C_UI* componentReference;
-	float auxPosX;
-	float auxPosY;
+	C_UI* componentReference; 
+	float auxPosX,auxPosY, anchorX, anchorY;
+
 	UI_ANCHOR anchorType;
 
 	float4x4 mMatrixUI;
