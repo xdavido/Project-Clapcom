@@ -23,8 +23,8 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	ssRows = 1;
 	ssColumns = 1;
 
-	ssCoordsx = 0;
-	ssCoordsy = 0;
+	ssCoordsX = 0;
+	ssCoordsY = 0;
 
 	SetSpriteSize();
 
@@ -104,14 +104,18 @@ void UI_Image::OnInspector()
 			SetNativeSize();
 		}
 
-		ImGui::DragInt("X", &ssCoordsx, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
-		ImGui::DragInt("Y", &ssCoordsy, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SetNextItemWidth(70.0f);
+		ImGui::DragInt("X", &ssCoordsX, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
+		ImGui::SetNextItemWidth(70.0f);
+		ImGui::DragInt("Y", &ssCoordsY, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp);
 
+		ImGui::SetNextItemWidth(70.0f);
 		if (ImGui::DragInt("Rows", &ssRows, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
 			SetSpriteSize();
 		} ImGui::SameLine();
 
+		ImGui::SetNextItemWidth(70.0f);
 		if (ImGui::DragInt("Columns", &ssColumns, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
 			SetSpriteSize();
@@ -392,7 +396,6 @@ void UI_Image::Draw(bool game)
 
 	mat->shader.UseShader(false);
 	selectedTexture->BindTexture(false);
-
 }
 
 update_status UI_Image::Update(float dt)
@@ -432,13 +435,32 @@ void UI_Image::SetNativeSize()
 
 void UI_Image::SetSpriteSize()
 {
+	//if (selectedTexture != nullptr)
+	//{
+	//	float2 ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
+
+	//	boundsGame->vertices[0].textureCoordinates = float2(ssCoordsX * ssSize.x, ssCoordsY * ssSize.y + ssSize.y);	// 0, 1
+	//	boundsGame->vertices[1].textureCoordinates = float2(ssCoordsX * ssSize.x + ssSize.x, ssCoordsY * ssSize.y + ssSize.y);	// 1, 1
+	//	boundsGame->vertices[2].textureCoordinates = float2(ssCoordsX * ssSize.x, ssCoordsY * ssSize.y);	// 0, 0
+	//	boundsGame->vertices[3].textureCoordinates = float2(ssCoordsX * ssSize.x + ssSize.x, ssCoordsY * ssSize.y);	// 1, 0
+	//}
+
 	if (selectedTexture != nullptr)
 	{
-		float2 ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
+		// Calculate the size of each sprite cell in the sprite sheet
+		float spriteWidth = selectedTexture->GetWidth() / ssColumns;
+		float spriteHeight = selectedTexture->GetHeight() / ssRows;
 
-		boundsGame->vertices[0].textureCoordinates = float2(ssCoordsx * ssSize.x, ssCoordsy * ssSize.y + ssSize.y);	// 0, 1
-		boundsGame->vertices[1].textureCoordinates = float2(ssCoordsx * ssSize.x + ssSize.x, ssCoordsy * ssSize.y + ssSize.y);	// 1, 1
-		boundsGame->vertices[2].textureCoordinates = float2(ssCoordsx * ssSize.x, ssCoordsy * ssSize.y);	// 0, 0
-		boundsGame->vertices[3].textureCoordinates = float2(ssCoordsx * ssSize.x + ssSize.x, ssCoordsy * ssSize.y);	// 1, 0
+		// Calculate the texture coordinates of the sprite within the sprite sheet
+		float minX = ssCoordsX * spriteWidth / selectedTexture->GetWidth();
+		float minY = ssCoordsY * spriteHeight / selectedTexture->GetHeight();
+		float maxX = (ssCoordsX + 1) * spriteWidth / selectedTexture->GetWidth();
+		float maxY = (ssCoordsY + 1) * spriteHeight / selectedTexture->GetHeight();
+
+		// Set the texture coordinates for each vertex of the quad
+		boundsGame->vertices[0].textureCoordinates = float2(minX, maxY); // Bottom-left
+		boundsGame->vertices[1].textureCoordinates = float2(maxX, maxY); // Bottom-right
+		boundsGame->vertices[2].textureCoordinates = float2(minX, minY); // Top-left
+		boundsGame->vertices[3].textureCoordinates = float2(maxX, minY); // Top-right
 	}
 }

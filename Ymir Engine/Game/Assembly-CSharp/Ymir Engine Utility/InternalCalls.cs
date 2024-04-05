@@ -64,6 +64,18 @@ namespace YmirEngine
         public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
 
         /// <summary>
+        /// Get sprite sheet rows and columns. TODO: Sara --> probably delete
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern Vector2 GetImageRowsAndColumns(object go);
+
+        /// <summary>
+        /// Set image current frame.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern Vector2 SetImageCurrentFrame(object go, int x = 0, int y = 0);
+
+        /// <summary>
         /// Edits a text UI element.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

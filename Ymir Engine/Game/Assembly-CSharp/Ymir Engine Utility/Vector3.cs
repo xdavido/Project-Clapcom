@@ -8,7 +8,6 @@ using System.IO;
 
 namespace YmirEngine
 {
-
     [StructLayout(LayoutKind.Sequential)]
     public partial class Vector3 //We use class because struct needs to be boxed and unboxed but class doesn't
     {

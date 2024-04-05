@@ -28,6 +28,6 @@ public:
 	std::map<UI_STATE, ResourceTexture*> mapTextures;
 
 	int ssRows, ssColumns;
-	int ssCoordsx, ssCoordsy;
+	int ssCoordsX, ssCoordsY;
 };
 #endif // __UI_IMAGE_H__

@@ -46,6 +46,7 @@
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Audio.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Mathf.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Transform.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\Vector2.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\YmirComponent.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\GameObject.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\InternalCalls.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets\Scripts\UI_Bullets.cs" />
     <Compile Include="Assets\Scripts\Button_Navigation.cs" />
     <Compile Include="Assets\Scripts\Button_Exit.cs" />
+    <Compile Include="Assets\Scripts\UI_Animation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

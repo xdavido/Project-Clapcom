@@ -39,6 +39,7 @@ T CS_CompToComp(MonoObject* obj)
 
 	return reinterpret_cast<T>(ptr);
 }
+
 //------//
 MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Retorna la nueva posici�n del objeto
 {
@@ -64,6 +65,7 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 
 	return External->moduleMono->Float3ToCS(value);
 }
+
 MonoObject* Ymir_Box_Quat(MonoObject* obj, bool global)	//Retorna la nueva rotaci�n del objeto
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
@@ -131,6 +133,7 @@ int GetMouseClick(MonoObject* x)
 
 	return 0;
 }
+
 int MouseX()
 {
 	if (External != nullptr)
@@ -138,6 +141,7 @@ int MouseX()
 
 	return 0;
 }
+
 int MouseY()
 {
 	if (External != nullptr)
@@ -159,9 +163,8 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 	go->mTransform->SetPosition(posVector);
 	//go->mTransform->updateTransform = true;	//TODO: No tenemos la variable esta "updateTransform"
-
-
 }
+
 MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
 {
 	ComponentType sType = static_cast<ComponentType>(inputType);
@@ -240,8 +243,8 @@ MonoObject* FindObjectWithName(MonoString* name) {
 	mono_free(_name);
 
 	assert("The object you searched for doesn't exist. :/");
-	return nullptr;
 
+	return nullptr;
 }
 
 void SetImpulse(MonoObject* obj, MonoObject* vel) {
@@ -256,9 +259,7 @@ void SetImpulse(MonoObject* obj, MonoObject* vel) {
 	if (rigidbody)
 	{
 		rigidbody->physBody->body->applyCentralImpulse({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
-
 	}
-
 }
 
 void SetVelocity(MonoObject* obj, MonoObject* vel) {
@@ -274,9 +275,7 @@ void SetVelocity(MonoObject* obj, MonoObject* vel) {
 	{
 		rigidbody->physBody->body->activate(true);
 		rigidbody->physBody->body->setLinearVelocity({ omgItWorks.x, omgItWorks.y,omgItWorks.z });
-
 	}
-
 }
 
 void SetRotation(MonoObject* obj, MonoObject* vel) {
@@ -291,9 +290,7 @@ void SetRotation(MonoObject* obj, MonoObject* vel) {
 	if (rigidbody)
 	{
 		rigidbody->physBody->SetRotation(omgItWorks);
-
 	}
-
 }
 
 void SetPosition(MonoObject* obj, MonoObject* pos) {
@@ -307,9 +304,7 @@ void SetPosition(MonoObject* obj, MonoObject* pos) {
 	if (rigidbody)
 	{
 		rigidbody->physBody->SetPosition(omgItWorks);
-
 	}
-
 }
 
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
@@ -328,7 +323,6 @@ void RecievePosition(MonoObject* obj, MonoObject* secObj) //Allows to send float
 	if (workTrans)
 	{
 		workTrans->SetPosition(omgItWorks);
-
 	}
 }
 
@@ -355,12 +349,12 @@ MonoObject* GetRight(MonoObject* go)
 }
 
 MonoObject* GetUp(MonoObject* go)
-{	
+{
 	if (External == nullptr)
 		return nullptr;
 
 	CTransform* trans = CS_CompToComp<CTransform*>(go);
-		
+
 	MonoClass* vecClass = mono_class_from_name(External->moduleMono->image, YMIR_SCRIPTS_NAMESPACE, "Vector3");
 	return External->moduleMono->Float3ToCS(trans->GetUp());
 }
@@ -542,7 +536,6 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
-
 }
 
 //---------- GLOBAL GETTERS ----------//
@@ -637,6 +630,19 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 			image_to_change->SetImg(_newImage, UI_STATE::NORMAL);
 		}
 	}
+}
+
+std::array<int, 2> GetImageRowsAndColumns(MonoObject* object)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	return std::array<int, 2> {static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssRows, static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssColumns};
+}
+
+void SetImageCurrentFrame(MonoObject* object, int x, int y)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX = x;
+	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY = y;
 }
 
 void TextEdit(MonoObject* object, MonoString* text)
