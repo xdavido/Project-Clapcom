@@ -66,7 +66,14 @@ bool CParticleSystem::Update(float dt)
 			}
 		}
 	}
-	
+	else
+	{
+		for (unsigned int i = 0; i < allEmitters.size(); ++i)
+		{
+			allEmitters.at(i)->Reset();
+		}
+	}
+
 	return ret;
 }
 

@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(CMaterial* ownerMat)
+Particle::Particle()
 {
 	position = { 0,0,0 };
 	worldRotation = { 0,0,0,0 };
@@ -9,7 +9,6 @@ Particle::Particle(CMaterial* ownerMat)
 	oneOverMaxLifetime = 1.0f / 60;
 	velocity = { 0,0,0,0 };
 	color = { 0,0,0,1 };
-	mat = ownerMat;
 }
 
 Particle::~Particle()

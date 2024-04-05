@@ -13,11 +13,6 @@ ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent) //TODO: Solo 
 	//Quiza haya que meterle alguna info? IDK
 	name = "";
 
-	/*mat = new CMaterial(owner->mOwner);
-	mat->shaderPath = shaderPath;*/
-
-	mat = (CMaterial*)cParticleParent->mOwner->GetComponent(ComponentType::MATERIAL);
-
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -193,7 +188,7 @@ void ParticleEmitter::SpawnParticle(uint particlesToAdd)
 	{
 		for (int i = 0; i < particlesToAdd; i++)
 		{
-			Particle* particula = new Particle(mat);
+			Particle* particula = new Particle();
 			for (int m = 0; m < modules.size(); ++m)
 			{
 				modules.at(m)->Spawn(this, particula);

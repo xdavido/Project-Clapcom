@@ -821,14 +821,14 @@ void ModuleRenderer3D::DrawParticles()
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.0f);
 
-				//Binding particle Texture
-				if (par->mat)
-				{
-					for (auto& textures : par->mat->rTextures) {
+				////Binding particle Texture
+				//if (par->mat)
+				//{
+				//	for (auto& textures : par->mat->rTextures) {
 
-						textures->BindTexture(true);
-					}
-				}
+				//		textures->BindTexture(true);
+				//	}
+				//}
 
 				glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
 
@@ -844,11 +844,11 @@ void ModuleRenderer3D::DrawParticles()
 				// Esto iria bien
 				//CMaterial* particleMaterial = (CMaterial*)thisParticleEmitter.owner->mOwner->GetComponent(ComponentType::MATERIAL);
 
-				CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
+				//CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
 
 				// Esto iria bien
-				particleMaterial->shader.UseShader(true);
-				particleMaterial->shader.SetShaderUniforms(&m);
+				//particleMaterial->shader.UseShader(true);
+				//particleMaterial->shader.SetShaderUniforms(&m);
 
 				//Drawing to tris in direct mode
 				glBegin(GL_TRIANGLES);
@@ -867,8 +867,16 @@ void ModuleRenderer3D::DrawParticles()
 				glTexCoord2f(0.0f, 1.0f);
 				glVertex3f(-.5f, .5f, .0f);
 
+				/*if (par->mat)
+				{
+					for (auto& textures : par->mat->rTextures) {
+
+						textures->BindTexture(false);
+					}
+				}*/
+
 				// Esto iria bien
-				particleMaterial->shader.UseShader(false);
+				//particleMaterial->shader.UseShader(false);
 
 				glEnd();
 				glPopMatrix();

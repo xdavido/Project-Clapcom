@@ -9,7 +9,7 @@
 class Particle
 {
 public:
-	Particle(CMaterial* ownerMat);
+	Particle();
 	~Particle();
 
 	float3 position;
@@ -20,6 +20,5 @@ public:
 	float4 velocity; // (x,y,z son los vectores, normalizados, w es la intensidad de la velocidad)
 	Color color;
 
-	CMaterial* mat;
 private:
 };

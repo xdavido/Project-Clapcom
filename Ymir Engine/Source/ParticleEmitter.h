@@ -43,7 +43,5 @@ private:
 	void KillAllParticles();
 	void UpdateModules(float dt);
 
-	CMaterial* mat;
-
 };
 #endif //__PARTICLE_EMITTER_H__
