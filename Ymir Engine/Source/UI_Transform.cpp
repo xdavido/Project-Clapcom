@@ -68,6 +68,9 @@ void UI_Transform::OnInspector()
 			componentReference->dirty_ = true;
 		}
 
+		const char* anchor[]{ "TOP LEFT", "TOP", "TOP RIGHT", "LEFT", "CENTER", "RIGHT", "BOTTOM LEFT", "BOTTOM", "BOTTOM RIGHT"};
+		ImGui::Combo("Direction", (int*)&anchorType, anchor, IM_ARRAYSIZE(anchor));
+
 		ImGui::Unindent();
 	}
 
@@ -94,12 +97,11 @@ void UI_Transform::GetFinalPos()
 		float scenex = External->editor->gameViewSize.x / 2;
 		float sceney = External->editor->gameViewSize.y / 2;
 
-				
 		switch (anchorType)
 		{
 		case UI_ANCHOR::TOP_LEFT:
-			componentReference->posX -= scenex;
-			componentReference->posY += sceney;
+			//componentReference->posX -= scenex;
+			//componentReference->posY += sceney;
 			break;
 		case UI_ANCHOR::TOP:
 			componentReference->posY += sceney;
