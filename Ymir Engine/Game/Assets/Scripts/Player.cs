@@ -83,6 +83,7 @@ public class Player : YmirComponent
     public float fireRate = 0;
     private float shootingTimer = 0.0f;
     //public float secondaryRate = 0.2f;
+    private bool shootBefore = false;
 
     private bool isReloading = false;
     private float reloadTimer = 0.0f;
@@ -90,6 +91,9 @@ public class Player : YmirComponent
 
     public int ammo = 0;
     public int magsize = 5;
+
+    private int shootRumbleIntensity;
+    private int shootRumbleDuration;
 
     private WEAPON weaponType = WEAPON.NONE;
 
@@ -172,7 +176,12 @@ public class Player : YmirComponent
             }
         }
 
-        if (shootingTimer > 0)
+        if (currentState == STATE.SHOOTING && !shootBefore)
+        {
+            StartShoot();
+            shootBefore = true;
+        }
+        else if (shootingTimer > 0)
         {
             shootingTimer -= Time.deltaTime;
 
@@ -182,6 +191,7 @@ public class Player : YmirComponent
                 //Debug.Log("In shoot");
             }
         }
+
         if (isReloading)
         {
             if (reloadTimer > 0)
@@ -223,19 +233,41 @@ public class Player : YmirComponent
         else
         {
             inputsList.Add(INPUT.I_SHOOTING_END);
+            shootBefore = false;
         }
 
         //----------------- Dash -----------------\\
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
-            Input.Rumble_Controller(50,5);
+            Input.Rumble_Controller(100,7);
         }
 
         //----------------- Reload -----------------\\
         if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_RELOAD);
+        }
+
+        //----------------- Swap to SMG -----------------\\  Provisional!!!
+        if (Input.GetKey(YmirKeyCode.Alpha1) == KeyState.KEY_DOWN)
+        {
+            SwapWeapon(WEAPON.SMG);
+            Debug.Log("" + WEAPON.SMG);
+        }
+
+        //----------------- Swap to Shotgun -----------------\\  Provisional!!!
+        if (Input.GetKey(YmirKeyCode.Alpha2) == KeyState.KEY_DOWN)
+        {
+            SwapWeapon(WEAPON.SHOTGUN);
+            Debug.Log("" + WEAPON.SHOTGUN);
+        }
+
+        //----------------- Swap to Laser -----------------\\  Provisional!!!
+        if (Input.GetKey(YmirKeyCode.Alpha3) == KeyState.KEY_DOWN)
+        {
+            SwapWeapon(WEAPON.TRACE);
+            Debug.Log("" + WEAPON.TRACE);
         }
 
         //----------------- Desbugear -----------------\\
@@ -496,7 +528,7 @@ public class Player : YmirComponent
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
-        Input.Rumble_Controller(100,5);
+        Input.Rumble_Controller(shootRumbleDuration,shootRumbleIntensity);
         //Debug.Log("Shoot!");
 
         if (!godMode)
@@ -557,16 +589,22 @@ public class Player : YmirComponent
                 //dmg = ?
                 fireRate = 0.1f;
                 //range = ?
+
+                shootRumbleIntensity = 5;
+                shootRumbleDuration = 50;
                 break;
 
             case WEAPON.SHOTGUN:
 
-                magsize = 2;
+                magsize = 8;
                 reloadDuration = 2.7f;
                 //To do
                 //dmg = ?
                 fireRate = 1.2f;
                 //range = ?
+
+                shootRumbleIntensity = 10;
+                shootRumbleDuration = 200;
                 break;
 
             case WEAPON.TRACE:
@@ -579,6 +617,12 @@ public class Player : YmirComponent
                 //range = ?
                 break;
         }
+    }
+
+    private void SwapWeapon(WEAPON type)
+    {
+       weaponType = type;
+       GetWeaponVars();
     }
     #endregion
 
