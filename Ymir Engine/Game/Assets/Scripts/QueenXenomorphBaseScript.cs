@@ -128,11 +128,13 @@ public class QueenXenomorphBaseScript : YmirComponent
 
     public void Update()
 	{
+        //Dont rotate while doing dash
         if (queenState != QueenState.DASH)
         {
             RotateQueen();
         }
 
+        //Each attack has cooldown so its not spammed
         ClawCooldown();
 
         AcidSpitCooldown();
@@ -218,6 +220,7 @@ public class QueenXenomorphBaseScript : YmirComponent
                 {
                     Debug.Log("[ERROR] BOSS STATE IDLE");
                     acidSpitAniCounter = 0f;
+                    baseAttacks++;
                     queenState = QueenState.IDLE_PHASE_2;
                 }
 
@@ -290,6 +293,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
     }
 
+    //GENERATE RANDOM NUMBER AMB PICK A ATTACK IF ITS COOLDOWN IS READY AND DISTANCE IS ENOUGH
     private void CheckAttackDistance()
     {
         if (!randomSelected)
@@ -313,6 +317,7 @@ public class QueenXenomorphBaseScript : YmirComponent
                 }
                 else
                 {
+                    //Reset counter
                     randomCounter = 0;
                     randomSelected = false;
                 }
@@ -328,6 +333,7 @@ public class QueenXenomorphBaseScript : YmirComponent
                 }
                 else
                 {
+                    //Reset counter
                     randomCounter = 0;
                     randomSelected = false;
                 }
@@ -343,6 +349,7 @@ public class QueenXenomorphBaseScript : YmirComponent
                 }
                 else
                 {
+                    //Reset counter
                     randomCounter = 0;
                     randomSelected = false;
                 }
