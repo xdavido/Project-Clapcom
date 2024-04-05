@@ -94,6 +94,74 @@
 		float spec = Ks * pow(max(0.0, dot(n,h)), shininess);
 		return vec2(diffuse, spec);
 	}
+	
+	vec4 PointLight() {
+		
+		vec3 lightVec = lightDir - Position;
+		float dist = length(lightVec);
+		float a = 0.005;
+		float b = 0.0001;
+		float intensity = 1.0f / (a * dist * dist + b * dist + 1.0f);
+		
+		float ambient = 0.20f;
+            
+        vec3 normal = normalize(Normal);
+        vec3 lightDirection = normalize(lightDir - Position);
+            
+        float specularLight = 0.50f;
+        vec3 viewDirection = normalize (camPos - Position);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+        float specular = specAmount * specularLight;
+            
+        float diffuse = max(dot(normal, lightDirection), 0.0f);
+         
+        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + texture(texture_specular, TexCoords).r * specular * intensity, transparency);
+	
+	}
+	
+	vec4 DirectionalLight() {
+		
+		float ambient = 0.20f;
+            
+        vec3 normal = normalize(Normal);
+        vec3 lightDirection = normalize(lightDir);
+            
+        float specularLight = 0.50f;
+        vec3 viewDirection = normalize (camPos - Position);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+        float specular = specAmount * specularLight;
+            
+        float diffuse = max(dot(normal, lightDirection), 0.0f);
+         
+        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse+ ambient) + texture(texture_specular, TexCoords).r * specular, transparency);
+	
+	}
+	
+	vec4 SpotLight() {
+		
+		float outerCone = 0.90f;
+		float innerCone = 0.95f;
+		
+		float ambient = 0.20f;
+            
+        vec3 normal = normalize(Normal);
+        vec3 lightDirection = normalize(lightDir - Position);
+        float diffuse = max(dot(normal, lightDirection), 0.0f);
+        
+        float specularLight = 0.50f;
+        vec3 viewDirection = normalize (camPos - Position);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+        float specular = specAmount * specularLight;
+            
+        float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
+        float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
+         
+        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + texture(texture_specular, TexCoords).r * specular * intensity, transparency);
+	
+	}
 
     void main()
     {   
@@ -104,25 +172,16 @@
         } 
         else {
             
-            float ambient = 0.20f;
-            
-            vec3 normal = normalize(Normal);
-            vec3 lightDirection = normalize(lightDir - Position);
-            
-            float specularLight = 0.50f;
-            vec3 viewDirection = normalize (camPos - Position);
-            vec3 reflectionDirection = reflect(-lightDirection, normal);
-            float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
-            float specular = specAmount * specularLight;
-            
-            float diffuse = max(dot(normal, lightDirection), 0.0f);
-            FragColor = vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse + ambient) + texture(texture_specular, TexCoords).r * specular, transparency);
+           
+            FragColor = PointLight();
 
         }
         
     }
 
 #endif
+
+
 
 
 
