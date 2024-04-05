@@ -57,6 +57,7 @@ void EmitterBase::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterBase::OnInspector()
 {
+	ImGui::SeparatorText("SHADER");
 	ImGui::DragFloat3("Initial Pos. ## BASE", &(this->emitterOrigin[0]), 0.1f);
 	ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime), 0.5F, 1.0F, 720.0F);
 }
@@ -99,6 +100,7 @@ void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterSpawner::OnInspector()
 {
+	ImGui::Separator();
 	int numParticles = this->numParticlesToSpawn;
 	std::string numParticlesWithID = "Particles ##";
 
@@ -233,6 +235,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterPosition::OnInspector()
 {
+	ImGui::Separator();
 	ImGui::Checkbox("Random Movement ##POSITION", &this->randomized);
 	if (this->randomized)
 	{
@@ -318,6 +321,7 @@ void EmitterSize::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterSize::OnInspector()
 {
+	ImGui::Separator();
 	ImGui::Checkbox("Progresive Scaling", &(this->progresive));
 	ImGui::SliderFloat("First Scale", &(this->sizeMultiplier1), 0.1f, 10.0f);
 	if (this->progresive)
@@ -365,6 +369,7 @@ void EmitterColor::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterColor::OnInspector()
 {
+	ImGui::Separator();
 	ImGui::Checkbox("Progresive Color", &(this->progresive));
 	ImGui::ColorEdit4("First Color", &(this->color1));
 	if (this->progresive)
@@ -378,3 +383,49 @@ void EmitterColor::OnInspector()
 	}
 }
  
+EmitterImage::EmitterImage()
+{
+	imgPath = "Assets/InGameConeptPng.png";
+	SetImage(imgPath);
+}
+
+void EmitterImage::SetImage(std::string imgPath)
+{
+	ResourceTexture* rTexTemp = new ResourceTexture();
+	ImporterTexture::Import(imgPath, rTexTemp);
+	rTexTemp->type = TextureType::DIFFUSE;
+	rTexTemp->UID = Random::Generate();
+
+	/*auto itr = mapTextures.find(state);
+	if (itr != mapTextures.end())
+	{
+		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
+		mat->rTextures.shrink_to_fit();
+
+		mapTextures.erase(state);
+	}
+
+	mat->path = imgPath;
+	mat->rTextures.push_back(rTexTemp);
+
+	mapTextures.insert({ state, rTexTemp });*/
+}
+
+void EmitterImage::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
+
+}
+
+void EmitterImage::Update(float dt, ParticleEmitter* emitter)
+{
+
+}
+
+void EmitterImage::OnInspector()
+{
+	ImGui::Separator();
+	ImGui::Text("Texto de prueba para el apartado de Image");
+	ImGui::Text("Opcion para cambiar la imagen");
+	ImGui::Text("Foto Here");
+	
+}

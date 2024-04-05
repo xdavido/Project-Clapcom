@@ -83,6 +83,14 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 
 		break;
 	}
+	case IMAGE:
+	{
+		nuevoEmitter = new EmitterImage;
+		nuevoEmitter->type = EmiterType::IMAGE;
+		nuevoEmitter->unique = true;
+
+		break;
+	}
 	case MAX:
 		break;
 	default:

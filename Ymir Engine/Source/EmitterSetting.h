@@ -15,6 +15,7 @@ enum EmiterType
 	ROTATION,
 	SIZEPARTICLE,
 	COLOR,
+	IMAGE,
 	MAX,
 };
 
@@ -118,6 +119,18 @@ struct EmitterColor : EmitterSetting
 	Color color1;
 	Color color2;
 };
+
+struct EmitterImage : EmitterSetting
+{
+	EmitterImage();
+	void Spawn(ParticleEmitter* emitter, Particle* particle);
+	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
+	void SetImage(std::string imgPath);
+
+	std::string imgPath;
+};
+
 
 
 #endif //__EMITTER_INSTANCE_H__
