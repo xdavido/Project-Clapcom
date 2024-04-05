@@ -32,7 +32,7 @@ public:
 
 	void UpdateUITransformChilds();
 
-	void GetFinalPos();
+	void RecalculateAnchor();
 
 public:
 

@@ -95,31 +95,30 @@ void UI_Transform::UpdateUITransformChilds()
 
 void UI_Transform::RecalculateAnchor()
 {
-		// origin TOP LEFT is -xhalfwidth +yhalfheight
-		float sceneX = External->editor->gameViewSize.x;
-		float sceneY = External->editor->gameViewSize.y;
+		float sceneX = External->editor->gameViewSize.x - componentReference->posX;
+		float sceneY = External->editor->gameViewSize.y - componentReference->posY;
 
 		switch (anchorType)
 		{
 		case UI_ANCHOR::TOP_LEFT:
-			//componentReference->posX -= scenex;
-			//componentReference->posY += sceney;
+			anchorX = 0;
+			anchorY = 0;
 			break;
 		case UI_ANCHOR::TOP:
-			anchorY = sceneY;
+			anchorY = componentReference->posY;
 			break;
 		case UI_ANCHOR::TOP_RIGHT:
 			anchorX = sceneX;
-			anchorY = sceneY;
+			anchorY = componentReference->posY;
 			break;
 		case UI_ANCHOR::LEFT:
-			anchorX = sceneX;
+			anchorX = componentReference->posX;
 			break;
 		case UI_ANCHOR::RIGHT:
 			anchorX = sceneX;
 			break;
 		case UI_ANCHOR::BOTTOM_LEFT:
-			anchorX = sceneX;
+			anchorX = componentReference->posX;
 			anchorY = sceneY;
 			break;
 		case UI_ANCHOR::BOTTOM:
