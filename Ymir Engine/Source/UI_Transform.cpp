@@ -14,6 +14,8 @@ UI_Transform::UI_Transform(C_UI* owner) : Component(owner->mOwner, ComponentType
 
 	auxPosX = componentReference->posX;
 	auxPosY = componentReference->posY;
+	anchorX = 0;
+	anchorY = 0;
 
 	mMatrixUI = float4x4::identity;
 
@@ -91,11 +93,11 @@ void UI_Transform::UpdateUITransformChilds()
 
 }
 
-void UI_Transform::GetFinalPos()
+void UI_Transform::RecalculateAnchor()
 {
 		// origin TOP LEFT is -xhalfwidth +yhalfheight
-		float scenex = External->editor->gameViewSize.x / 2;
-		float sceney = External->editor->gameViewSize.y / 2;
+		float sceneX = External->editor->gameViewSize.x;
+		float sceneY = External->editor->gameViewSize.y;
 
 		switch (anchorType)
 		{
@@ -104,33 +106,34 @@ void UI_Transform::GetFinalPos()
 			//componentReference->posY += sceney;
 			break;
 		case UI_ANCHOR::TOP:
-			componentReference->posY += sceney;
+			anchorY = sceneY;
 			break;
 		case UI_ANCHOR::TOP_RIGHT:
-			componentReference->posX += scenex;
-			componentReference->posY += sceney;
+			anchorX = sceneX;
+			anchorY = sceneY;
 			break;
 		case UI_ANCHOR::LEFT:
-			componentReference->posX -= scenex;
+			anchorX = sceneX;
 			break;
 		case UI_ANCHOR::RIGHT:
-			componentReference->posX += scenex;
+			anchorX = sceneX;
 			break;
 		case UI_ANCHOR::BOTTOM_LEFT:
-			componentReference->posX -= scenex;
-			componentReference->posY -= sceney;
+			anchorX = sceneX;
+			anchorY = sceneY;
 			break;
 		case UI_ANCHOR::BOTTOM:
-			componentReference->posY -= sceney;
+			anchorY = sceneY;
 			break;
 		case UI_ANCHOR::BOTTOM_RIGHT:
-			componentReference->posX += scenex;
-			componentReference->posY -= sceney;
+			anchorX = sceneX;
+			anchorY = sceneY;
 			break;
 		default:
 			break;
 		}
-		float2 final_pos = { componentReference->posX / External->editor->gameViewSize.x, componentReference->posY / External->editor->gameViewSize.y };
+		
+		//float2 final_pos = { componentReference->posX / External->editor->gameViewSize.x, componentReference->posY / External->editor->gameViewSize.y };
 }
 
 update_status UI_Transform::Update(float dt)
