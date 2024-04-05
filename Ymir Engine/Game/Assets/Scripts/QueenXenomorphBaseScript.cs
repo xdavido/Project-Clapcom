@@ -18,10 +18,12 @@ enum QueenState
 
 	IDLE_PHASE_2,
 	WALKING_TO_PLAYER,
+    WALK_BACKWARDS,
 	WALKING_SIDEWAYS,
 
 	//ATTACKS
 
+    ACID_SPIT,
 	CLAW,
 	AXE_TAIL,
 	PREPARE_DASH,
@@ -70,6 +72,7 @@ public class QueenXenomorphBaseScript : YmirComponent
     private float clawRadius = 30f;
     private float axeRadius = 50f;
     private float dashRadius = 50f;
+    private float acidSpitRadius = 80f;
 
     private float clawAttackCooldown = 4f;
     private float clawTimer;
@@ -77,21 +80,30 @@ public class QueenXenomorphBaseScript : YmirComponent
     private float clawAniCounter = 0f;
     private float clawAniDuration = 2.5f;
 
-    private float axeAttackCooldown = 10f;
+    private float acidSpitAttackCooldown = 20f;
+    private float acidSpitTimer;
+    private bool acidSpitReady;
+    private float acidSpitAniCounter = 0f;
+    private float acidSpitAniDuration = 2f;
+
+    private float axeAttackCooldown = 18f;
 	private float axeTimer;
 	private bool axeReady;
     private float axeAniCounter = 0f;
     private float axeAniDuration = 3.5f;
 
-    private float dashAttackCooldown = 13f;
+    private float dashAttackCooldown = 22f;
     private float dashTimer;
 	private bool dashReady;
     private float dashAniCounter1 = 0f;
     private float dashAniDuration1 = 2.5f;
     private float dashAniCounter2 = 0f;
-    private float dashAniDuration2 = 2.5f;
+    private float dashAniDuration2 = 2f;
     private bool dashDone = false;
     private float dashNum = 0f;
+
+    private float backwardsTimer;
+    private float backwardsDuration = 1f;
 
 
 
@@ -107,9 +119,11 @@ public class QueenXenomorphBaseScript : YmirComponent
 		axeTimer = axeAttackCooldown;
 		dashTimer = dashAttackCooldown;
         clawTimer = clawAttackCooldown;
+        acidSpitTimer = acidSpitAttackCooldown;
         clawReady = true;
         axeReady = false;
         dashReady = false;
+        acidSpitReady = true;
     }
 
     public void Update()
@@ -120,6 +134,8 @@ public class QueenXenomorphBaseScript : YmirComponent
         }
 
         ClawCooldown();
+
+        AcidSpitCooldown();
 
 		//Once 2 attacks done, can use other attacks
 		if (baseAttacks >= 2)
@@ -165,6 +181,21 @@ public class QueenXenomorphBaseScript : YmirComponent
 				//Might be removed
 
 			break;
+            case QueenState.WALK_BACKWARDS:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * -speed * 2);
+
+                backwardsTimer += Time.deltaTime;
+
+                if (backwardsTimer >= backwardsDuration)
+                {
+                    Debug.Log("[ERROR] BOSS STATE ACID SPIT");
+                    backwardsTimer = 0f;
+                    acidSpitReady = false;
+                    acidSpitTimer = acidSpitAttackCooldown;
+                    queenState = QueenState.ACID_SPIT;
+                }
+
+                break;
 			case QueenState.CLAW:
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
@@ -178,6 +209,19 @@ public class QueenXenomorphBaseScript : YmirComponent
                 }
 
             break;
+            case QueenState.ACID_SPIT:
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+
+                acidSpitAniCounter += Time.deltaTime;
+
+                if (acidSpitAniCounter >= acidSpitAniDuration)
+                {
+                    Debug.Log("[ERROR] BOSS STATE IDLE");
+                    acidSpitAniCounter = 0f;
+                    queenState = QueenState.IDLE_PHASE_2;
+                }
+
+                break;
 			case QueenState.AXE_TAIL:
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
@@ -207,10 +251,10 @@ public class QueenXenomorphBaseScript : YmirComponent
 			case QueenState.DASH: 
 				if (!dashDone)
                 {
-                    gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 6);
                     dashDone = true;
                     dashNum++;
                 }
+                gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 5);
 
                 dashAniCounter2 += Time.deltaTime;
 
@@ -239,8 +283,9 @@ public class QueenXenomorphBaseScript : YmirComponent
 		//If player too far away stay idle
         if (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius))
         {
-            Debug.Log("[ERROR] BOSS STATE IDLE");
-            queenState = QueenState.IDLE_PHASE_2;
+            Debug.Log("[ERROR] BOSS STATE ACID SPIT");
+
+            queenState = QueenState.ACID_SPIT;
         }
 
     }
@@ -304,6 +349,21 @@ public class QueenXenomorphBaseScript : YmirComponent
 
                 break;
         }
+
+        //Acid spit
+        if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, acidSpitRadius)) && (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, clawRadius)) && randomCounter == 0 && acidSpitReady == true)
+        {
+            Debug.Log("[ERROR] BOSS STATE ACID SPIT");
+            acidSpitReady = false;
+            acidSpitTimer = acidSpitAttackCooldown;
+            queenState = QueenState.ACID_SPIT;
+
+        }
+        else if (acidSpitReady == true)
+        {
+            Debug.Log("[ERROR] BOSS STATE WALK BACKWARDS");
+            queenState = QueenState.WALK_BACKWARDS;
+        }
     }
 
     private void ClawCooldown()
@@ -314,6 +374,19 @@ public class QueenXenomorphBaseScript : YmirComponent
             if (clawTimer <= 0)
             {
                 clawReady = true;
+            }
+        }
+
+    }
+
+    private void AcidSpitCooldown()
+    {
+        if (acidSpitTimer > 0 && !acidSpitReady)
+        {
+            acidSpitTimer -= Time.deltaTime;
+            if (acidSpitTimer <= 0)
+            {
+                acidSpitReady = true;
             }
         }
 
