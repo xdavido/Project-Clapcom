@@ -13,6 +13,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	// -1. Set texture properties
 
 	GLenum format;
+	ILenum ILformat;
 
 	std::string textureName;
 	PhysfsEncapsule::SplitFilePath(path.c_str(), nullptr, &textureName);
@@ -25,42 +26,49 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	{
 		ourTexture->type = TextureType::DIFFUSE;
 		format = GL_RGBA;
+		ILformat = IL_RGBA;
 		break;
 	}
 	case 'S':
 	{
 		ourTexture->type = TextureType::SPECULAR;
-		format = GL_RED;
+		format = GL_ALPHA;
+		ILformat = IL_ALPHA;
 		break;
 	}
 	case 'N':
 	{
 		ourTexture->type = TextureType::NORMAL;
 		format = GL_RGB;
+		ILformat = IL_RGB;
 		break;
 	}
 	case 'H':
 	{
 		ourTexture->type = TextureType::HEIGHT;
 		format = GL_RGBA;
+		ILformat = IL_RGBA;
 		break;
 	}
 	case 'A':
 	{
 		ourTexture->type = TextureType::AMBIENT;
-		format = GL_RGBA;
+		format = GL_LUMINANCE;
+		ILformat = IL_LUMINANCE;
 		break;
 	}
 	case 'E':
 	{
 		ourTexture->type = TextureType::EMISSIVE;
 		format = GL_RGBA;
+		ILformat = IL_RGBA;
 		break;
 	}
 	default:
 	{
 		ourTexture->type = TextureType::DIFFUSE;
 		format = GL_RGBA;
+		ILformat = IL_RGBA;
 		break;
 	}
 
@@ -115,7 +123,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	// 2. Convert the Image to OpenGL Texture Format
 
-	if (ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
+	if (ilConvertImage(ILformat, IL_UNSIGNED_BYTE)) {
 		// Image converted successfully
 		LOG("Image converted successfully at %s", path.c_str());
 	}
@@ -152,7 +160,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	glGenerateMipmap(GL_TEXTURE_2D);
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	// 6. Save texture on Library as .dds
 

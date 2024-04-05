@@ -97,35 +97,45 @@
 	
 	vec4 PointLight() {
 		
+        // Point Light Attenuation
+
 		vec3 lightVec = lightDir - Position;
 		float dist = length(lightVec);
 		float a = 0.005;
 		float b = 0.0001;
 		float intensity = 1.0f / (a * dist * dist + b * dist + 1.0f);
 		
-		float ambient = 0.20f;
+        // Ambient Occlusion
+
+		float ambient = 0.30f;
             
+        // Diffuse
+
         vec3 normal = normalize(Normal);
         vec3 lightDirection = normalize(lightDir - Position);
-            
+        float diffuse = max(dot(normal, lightDirection), 0.0f);
+        
+        // Specular
+
         float specularLight = 0.50f;
         vec3 viewDirection = normalize (camPos - Position);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
-            
-        float diffuse = max(dot(normal, lightDirection), 0.0f);
          
+        // Apply all texture maps
+
         return vec4(
-            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + 
-            texture(texture_specular, TexCoords).r * specular * intensity, transparency
+            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + 
+            texture(texture_ambient, TexCoords).r * ambient) +
+            texture(texture_specular, TexCoords).a * specular * intensity, transparency
         );
 	
 	}
 	
 	vec4 DirectionalLight() {
 		
-		float ambient = 0.20f;
+		float ambient = 0.50f;
             
         vec3 normal = normalize(Normal);
         vec3 lightDirection = normalize(lightDir);
@@ -181,7 +191,6 @@
         } 
         else {
             
-           
             FragColor = PointLight();
 
         }
@@ -189,6 +198,12 @@
     }
 
 #endif
+
+
+
+
+
+
 
 
 
