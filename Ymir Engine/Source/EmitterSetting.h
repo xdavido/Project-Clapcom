@@ -128,6 +128,7 @@ struct EmitterImage : EmitterSetting
 	void OnInspector();
 	void SetImage(std::string imgPath);
 
+	ResourceTexture* rTexTemp;
 	std::string imgPath;
 };
 

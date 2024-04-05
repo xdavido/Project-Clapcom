@@ -108,7 +108,6 @@ void EmitterSpawner::OnInspector()
 
 	if (this->basedTimeSpawn)
 	{
-
 		if (ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.1f, 1.0f))
 		{
 
@@ -385,13 +384,13 @@ void EmitterColor::OnInspector()
  
 EmitterImage::EmitterImage()
 {
-	imgPath = "Assets/InGameConeptPng.png";
+	imgPath = "Assets/Particles/particleExample.png";
 	SetImage(imgPath);
 }
 
 void EmitterImage::SetImage(std::string imgPath)
 {
-	ResourceTexture* rTexTemp = new ResourceTexture();
+	rTexTemp = new ResourceTexture();
 	ImporterTexture::Import(imgPath, rTexTemp);
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
@@ -427,5 +426,6 @@ void EmitterImage::OnInspector()
 	ImGui::Text("Texto de prueba para el apartado de Image");
 	ImGui::Text("Opcion para cambiar la imagen");
 	ImGui::Text("Foto Here");
+	ImGui::Image((ImTextureID*)rTexTemp->ID, ImVec2(128, 128));
 	
 }
