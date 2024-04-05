@@ -22,10 +22,12 @@ public class Door : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Name == "Player")
+        if (other.Tag == "Player")
         {
-            Debug.Log("[ERROR] Name: " + other.Name + "DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
-			gameObject.parent.SetPosition(gameObject.transform.localPosition + new Vector3(0, 1, 0));
+            //Debug.Log("[ERROR] Name: " + other.Name + "DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
+			gameObject.SetPosition(gameObject.transform.localPosition + new Vector3(0, -1, 0));
+
+			//Debug.Log("[ERROR] Parent Name: " + gameObject.parent.Tag);
 			
         }
     }
