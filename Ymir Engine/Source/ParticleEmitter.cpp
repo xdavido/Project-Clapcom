@@ -12,7 +12,6 @@ ParticleEmitter::ParticleEmitter(CParticleSystem* cParticleParent) //TODO: Solo 
 {
 	//Quiza haya que meterle alguna info? IDK
 	name = "";
-
 }
 
 ParticleEmitter::~ParticleEmitter()

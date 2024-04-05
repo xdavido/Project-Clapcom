@@ -27,6 +27,7 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	libraryScriptsPath = libraryPath + "Scripts/";
 	libraryPrefabsPath = libraryPath + "Prefabs/";
 	libraryAnimationsPath = libraryPath + "Animations/";
+	libraryParticlesPath = libraryPath + "Particles/";
 
 	regenerateLibrary = false;
 

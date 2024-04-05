@@ -24,6 +24,7 @@ public:
 	CParticleSystem* owner;
 
 	std::string name;
+	uint32_t UID;
 
 	float emitterTime = 0; //Tiempo de las particulas
 

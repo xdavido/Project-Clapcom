@@ -1517,7 +1517,9 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		for (int i = 0; i < cparticles->allEmitters.size(); i++)
 		{
-			json_array_append_number(emmitersArray, cparticles->SaveEmmiterJSON(cparticles->allEmitters.at(i))); //Guarda en su propia carpeta el emiiter con sus settings.
+			//We create an array for each emmiter that will hold its settings
+			json_array_append_value(emmitersArray,cparticles->SaveEmmiterJSON2(cparticles->allEmitters.at(i)));
+			//json_array_append_number(emmitersArray, cparticles->SaveEmmiterJSON(cparticles->allEmitters.at(i))); //Guarda en su propia carpeta el emiiter con sus settings.
 		}
 	}
 	break;
