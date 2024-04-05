@@ -1,0 +1,332 @@
+{
+    "Editor Camera Position": [
+        -7.6710548400878906,
+        41.554267883300781,
+        45.445823669433594
+    ],
+    "Editor Camera Right (X)": [
+        0.95829153060913086,
+        5.7369470596313477e-07,
+        0.28586792945861816
+    ],
+    "Editor Camera Up (Y)": [
+        0.13779141008853912,
+        0.8761710524559021,
+        -0.46190854907035828
+    ],
+    "Editor Camera Front (Z)": [
+        0.25046452879905701,
+        -0.48201960325241089,
+        -0.83961063623428345
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Tag": "Untagged",
+            "UID": 1082110935,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1082110935,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1361962392
+            ]
+        },
+        {
+            "Name": "Group",
+            "Tag": "Untagged",
+            "UID": 1361962392,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1082110935,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                634023144,
+                1038218624,
+                357341360
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 634023144,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1361962392,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                517947247
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 517947247,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 634023144,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        3.3515467643737793,
+                        0,
+                        1.529348611831665
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                2.7667648792266846,
+                                23.722000122070312,
+                                12.262104034423828
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1,
+                            "camPos": [
+                                -21.088438034057617,
+                                40.267772674560547,
+                                30.757843017578125
+                            ]
+                        }
+                    ],
+                    "Diffuse_ID": 213,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 899405632,
+                    "Specular_ID": 211,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 447910140
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                }
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "Tag": "Untagged",
+            "UID": 1038218624,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1361962392,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -21.088438034057617,
+                        40.267772674560547,
+                        30.757843017578125
+                    ],
+                    "Rotation": [
+                        140.74874877929688,
+                        33.014751434326172,
+                        -156.00192260742188
+                    ],
+                    "Scale": [
+                        1.0000660419464111,
+                        1.0000001192092896,
+                        1.000068187713623
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604694128036499,
+                        -2.5629997253417969e-06,
+                        0.64278459548950195
+                    ],
+                    "Up": [
+                        0.34103536605834961,
+                        0.84764939546585083,
+                        -0.40643000602722168
+                    ],
+                    "Front": [
+                        0.54485493898391724,
+                        -0.53055673837661743,
+                        -0.64934015274047852
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Empty",
+            "Tag": "Untagged",
+            "UID": 357341360,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1361962392,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        13.986898422241211,
+                        -0
+                    ],
+                    "Scale": [
+                        1.0003514289855957,
+                        1,
+                        1.0003514289855957
+                    ]
+                }
+            ],
+            "Children UID": [
+                424365152
+            ]
+        },
+        {
+            "Name": "Point Light",
+            "Tag": "Untagged",
+            "UID": 424365152,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 357341360,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -0.27891969680786133,
+                        23.722000122070312,
+                        12.562857627868652
+                    ],
+                    "Rotation": [
+                        -0,
+                        0.00032272806856781244,
+                        -0
+                    ],
+                    "Scale": [
+                        1.0000013113021851,
+                        1,
+                        0.99998879432678223
+                    ]
+                },
+                {
+                    "Type": "Light",
+                    "Active": 1,
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Intensity": 1,
+                    "Light Type": 0,
+                    "Radius": 1
+                }
+            ]
+        }
+    ]
+}

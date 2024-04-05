@@ -18,7 +18,7 @@
 	{
 		gl_Position = projection * view * model * vec4(aPos, 1.0f);
 
-		Position  = aPos;
+		Position  = (model * vec4(aPos, 1.0f)).xyz;
 		Normal = aNormal;
 		TexCoords = aTexCoords;
 	}
@@ -44,6 +44,7 @@
 	uniform float lightInt;
 	uniform vec3 lightColor;
     uniform int numLights;
+    uniform vec3 camPos;
 
     uniform bool displayNormalMap; // Boolean uniform to toggle between normal visualization and texture display
     uniform bool selected;
@@ -101,66 +102,29 @@
             FragColor = DisplayNormalMap();
 
         } 
-        else if (bool(numLights)) {
-            
-            // Calculate the lighting intensity using Blinn-Phong
-		    vec2 inten = blinnPhongDir(lightDir, lightInt, 0.2, 0.8, 0.3, 80.0);
-    
-		    // Sample the diffuse texture
-		    vec3 textureColor = texture(texture_diffuse, TexCoords).rgb;
-
-		    // Multiply the texture color with the light intensity and add ambient term
-		    vec3 finalColor = textureColor * inten.x + vec3(1.0) * inten.y;
-
-		    // Apply the light color
-		    finalColor *= lightColor;
-
-		    // Output the final color
-		    FragColor = vec4(finalColor, transparency);
-
-            //if (selected) {
-
-                //FragColor = AddOutline(vec4(finalColor, transparency), vec4(1.0, 0.5, 0.0, transparency), 0.1);
-
-            //}
-
-        }
         else {
             
-            //vec4 mainTexture = texture(texture_diffuse, TexCoords);
-    		//mainTexture.a *= transparency;
-    		
-            //FragColor = mainTexture;
-
-            //if (selected) {
-
-                //FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
-
-            //}
-
-            // Ambient
-            vec3 ambient = vec3(0.1); // Example ambient color
-    
-            // Diffuse
-            vec3 norm = normalize(Normal);
-            vec3 lightDir = normalize(vec3(0.0, 0.0, -1.0)); // Example light direction
-            float diff = max(dot(norm, lightDir), 0.0);
-            vec3 diffuse = diff * texture(texture_diffuse, TexCoords).rgb;
-
-            // Specular
-            vec3 viewDir = normalize(-Position); // Example view direction
-            vec3 reflectDir = reflect(-lightDir, norm);
-            float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Example shininess
-            float specular = spec * texture(texture_specular, TexCoords).r;
-
-            // Final color
-            vec3 result = (ambient + diffuse + specular) * texture(texture_diffuse, TexCoords).rgb;
-            FragColor = vec4(result, 1.0);
+            float ambient = 0.20f;
+            
+            vec3 normal = normalize(Normal);
+            vec3 lightDirection = normalize(lightDir - Position);
+            
+            float specularLight = 0.50f;
+            vec3 viewDirection = normalize (camPos - Position);
+            vec3 reflectionDirection = reflect(-lightDirection, normal);
+            float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+            float specular = specAmount * specularLight;
+            
+            float diffuse = max(dot(normal, lightDirection), 0.0f);
+            FragColor = vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse + ambient) + texture(texture_specular, TexCoords).r * specular, transparency);
 
         }
+        
     }
 
 #endif
+
+
 
 
 

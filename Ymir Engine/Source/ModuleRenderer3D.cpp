@@ -848,16 +848,16 @@ void ModuleRenderer3D::DrawGameObjects()
 			{
 				if (materialComponent != nullptr && materialComponent->active) {
 
+					materialComponent->shader.UseShader(true);
+
 					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
 
 						std::string samplerName = materialComponent->rTextures[i]->GetSamplerName();
 
-						materialComponent->rTextures[i]->BindTexture(true, i);
 						materialComponent->shader.SetSampler2D(samplerName, i);
-
+						materialComponent->rTextures[i]->BindTexture(true, i);
+						
 					}
-
-					materialComponent->shader.UseShader(true);
 
 					if (animationComponent != nullptr && animationComponent->active) {
 						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
@@ -872,13 +872,13 @@ void ModuleRenderer3D::DrawGameObjects()
 
 				if (materialComponent != nullptr && materialComponent->active) {
 
-					materialComponent->shader.UseShader(false);
-
 					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
 
 						materialComponent->rTextures[i]->BindTexture(false, i);
 
 					}
+
+					materialComponent->shader.UseShader(false);
 
 				}
 

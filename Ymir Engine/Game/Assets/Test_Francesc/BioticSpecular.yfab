@@ -1,0 +1,178 @@
+{
+    "Prefab": [
+        {
+            "Name": "Group",
+            "Tag": "Untagged",
+            "UID": 1361962392,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 252752563,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                424365152,
+                634023144
+            ]
+        },
+        {
+            "Name": "Point Light",
+            "Tag": "Untagged",
+            "UID": 424365152,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1361962392,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        11.040679931640625,
+                        22.607303619384766,
+                        8.6834049224853516
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Light",
+                    "Active": 1,
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Intensity": 1,
+                    "Light Type": 0,
+                    "Radius": 1
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 634023144,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1361962392,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                517947247
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 517947247,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 634023144,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                11.040679931640625,
+                                22.607303619384766,
+                                8.6834049224853516
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1,
+                            "camPos": [
+                                0,
+                                0,
+                                0
+                            ]
+                        }
+                    ],
+                    "Diffuse_ID": 164,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 899405632
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                }
+            ]
+        }
+    ]
+}

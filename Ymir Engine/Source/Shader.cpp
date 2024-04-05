@@ -413,6 +413,9 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 		this->SetInt("numLights", 0);
 
 	}
+
+	// Specular Light
+	this->SetUniformValue("camPos", External->scene->gameCameraComponent->mOwner->mTransform->GetGlobalPosition().ptr());
 	
 }
 

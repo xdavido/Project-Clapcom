@@ -337,7 +337,7 @@ void ModuleScene::ClearScene()
 	SetSelected();
 
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
-	RELEASE(mRootNode);
+	// RELEASE(mRootNode);
 
 	External->lightManager->lights.clear();
 
