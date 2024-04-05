@@ -116,7 +116,10 @@
             
         float diffuse = max(dot(normal, lightDirection), 0.0f);
          
-        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + texture(texture_specular, TexCoords).r * specular * intensity, transparency);
+        return vec4(
+            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + 
+            texture(texture_specular, TexCoords).r * specular * intensity, transparency
+        );
 	
 	}
 	
@@ -135,7 +138,10 @@
             
         float diffuse = max(dot(normal, lightDirection), 0.0f);
          
-        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse+ ambient) + texture(texture_specular, TexCoords).r * specular, transparency);
+        return vec4(
+            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse+ ambient) + 
+            texture(texture_specular, TexCoords).r * specular, transparency
+        );
 	
 	}
 	
@@ -159,7 +165,10 @@
         float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
         float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
          
-        return vec4(texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + texture(texture_specular, TexCoords).r * specular * intensity, transparency);
+        return vec4(
+            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + 
+            texture(texture_specular, TexCoords).r * specular * intensity, transparency
+        );
 	
 	}
 
