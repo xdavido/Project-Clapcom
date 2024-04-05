@@ -181,8 +181,9 @@ namespace YmirEngine
         /// Controls the rumble of the gamepad for a specific time.
         /// </summary>
         /// <param name="time">The duration of the rumble in milliseconds.</param>
+        /// /// <param name="intesity">The intensity of the rumble min 1, max 10.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void Rumble_Controller(int time);
+        public static extern void Rumble_Controller(int time, int intesity);
     }
 
     /// <summary>

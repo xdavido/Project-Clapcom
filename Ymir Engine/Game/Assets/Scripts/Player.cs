@@ -229,7 +229,7 @@ public class Player : YmirComponent
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
         {
             inputsList.Add(INPUT.I_DASH);
-            Input.Rumble_Controller(50);
+            Input.Rumble_Controller(50,5);
         }
 
         //----------------- Reload -----------------\\
@@ -496,7 +496,7 @@ public class Player : YmirComponent
     {
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
-        Input.Rumble_Controller(100);
+        Input.Rumble_Controller(100,5);
         //Debug.Log("Shoot!");
 
         if (!godMode)
