@@ -104,11 +104,21 @@ void UI_Image::OnInspector()
 			SetNativeSize();
 		}
 
+		// Current frame
+		ImGui::SeparatorText("Current frame");
 		ImGui::SetNextItemWidth(70.0f);
-		ImGui::DragInt("X", &ssCoordsX, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
-		ImGui::SetNextItemWidth(70.0f);
-		ImGui::DragInt("Y", &ssCoordsY, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp);
+		if (ImGui::DragInt("X", &ssCoordsX, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
+		{
+			SetSpriteSize();
+		} ImGui::SameLine();
 
+		ImGui::SetNextItemWidth(70.0f);
+		if (ImGui::DragInt("Y", &ssCoordsY, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
+		{
+			SetSpriteSize();
+		}
+
+		// Rows and columns
 		ImGui::SetNextItemWidth(70.0f);
 		if (ImGui::DragInt("Rows", &ssRows, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
