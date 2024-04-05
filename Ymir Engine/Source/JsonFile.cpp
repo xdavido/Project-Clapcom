@@ -1183,6 +1183,14 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Mass", ccollider->mass);
 
+		//Friction
+
+		json_object_set_number(componentObject, "Friction", ccollider->friction);
+
+		//Angular Friction
+
+		json_object_set_number(componentObject, "Angular Friction", ccollider->angularFriction);
+
 		// Gravity
 
 		json_object_set_boolean(componentObject, "UseGravity", ccollider->useGravity);
@@ -2007,6 +2015,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		// Mass
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
+
+		// Friction
+		
+		ccollider->friction = static_cast<float>(json_object_get_number(componentObject, "Friction"));
+
+		// Angular Friction
+
+		ccollider->angularFriction = static_cast<float>(json_object_get_number(componentObject, "Angular Friction"));
 
 		// Gravity
 
