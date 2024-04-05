@@ -104,6 +104,7 @@ public:
     void SetInt(const std::string& name, int value) const;
     void SetFloat(const std::string& name, float value) const;
     void SetMatrix4x4(const std::string& name, float4x4 value) const;
+    void SetSampler2D(const std::string& name, GLuint unit) const;
 
     // Functions to manage Shader Transformations
     void Translate(float3 translation);

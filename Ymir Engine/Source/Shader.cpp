@@ -346,6 +346,11 @@ void Shader::SetMatrix4x4(const std::string& name, float4x4 value) const
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_TRUE, value.ptr());
 }
 
+void Shader::SetSampler2D(const std::string& name, GLuint unit) const
+{
+	glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), unit);
+}
+
 void Shader::Translate(float3 translation)
 {
 	this->translation = translation;

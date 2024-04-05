@@ -147,3 +147,31 @@ void ResourceTexture::LoadCheckerImage()
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkerImage);
 }
+
+const std::string& ResourceTexture::GetSamplerName() const
+{
+	switch (type)
+	{
+	case TextureType::DIFFUSE:
+		return "texture_diffuse";
+		break;
+	case TextureType::SPECULAR:
+		return "texture_specular";
+		break;
+	case TextureType::AMBIENT:
+		return "texture_ambient";
+		break;
+	case TextureType::EMISSIVE:
+		return "texture_emissive";
+		break;
+	case TextureType::HEIGHT:
+		return "texture_height";
+		break;
+	case TextureType::NORMAL:
+		return "texture_normal";
+		break;
+	default:
+		return "texture_diffuse";
+		break;
+	}
+}

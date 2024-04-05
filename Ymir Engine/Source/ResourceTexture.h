@@ -53,6 +53,9 @@ public:
     // Checker Texture
     void LoadCheckerImage();
 
+    // Get Sampler Name
+    const std::string& GetSamplerName() const;
+
 public:
 
     TextureType type;

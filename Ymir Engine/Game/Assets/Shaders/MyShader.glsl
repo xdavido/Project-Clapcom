@@ -33,7 +33,7 @@
 
     out vec4 FragColor;
 
-    uniform sampler2D texture_diffuse1;
+    uniform sampler2D texture_diffuse;
 	uniform sampler2D texture_specular;
 	uniform sampler2D texture_normal;
 	uniform sampler2D texture_height;
@@ -66,11 +66,11 @@
 
         // Sample the neighboring pixels
 
-        vec2 pixelSize = 1.0 / textureSize(texture_diffuse1, 0);
-        vec4 leftColor = texture(texture_diffuse1, TexCoords - vec2(outlineWidth, 0) * pixelSize);
-        vec4 rightColor = texture(texture_diffuse1, TexCoords + vec2(outlineWidth, 0) * pixelSize);
-        vec4 topColor = texture(texture_diffuse1, TexCoords + vec2(0, outlineWidth) * pixelSize);
-        vec4 bottomColor = texture(texture_diffuse1, TexCoords - vec2(0, outlineWidth) * pixelSize);
+        vec2 pixelSize = 1.0 / textureSize(texture_diffuse, 0);
+        vec4 leftColor = texture(texture_diffuse, TexCoords - vec2(outlineWidth, 0) * pixelSize);
+        vec4 rightColor = texture(texture_diffuse, TexCoords + vec2(outlineWidth, 0) * pixelSize);
+        vec4 topColor = texture(texture_diffuse, TexCoords + vec2(0, outlineWidth) * pixelSize);
+        vec4 bottomColor = texture(texture_diffuse, TexCoords - vec2(0, outlineWidth) * pixelSize);
 
         // Check if the current pixel is on the border
 
@@ -107,7 +107,7 @@
 		    vec2 inten = blinnPhongDir(lightDir, lightInt, 0.2, 0.8, 0.3, 80.0);
     
 		    // Sample the diffuse texture
-		    vec3 textureColor = texture(texture_diffuse1, TexCoords).rgb;
+		    vec3 textureColor = texture(texture_diffuse, TexCoords).rgb;
 
 		    // Multiply the texture color with the light intensity and add ambient term
 		    vec3 finalColor = textureColor * inten.x + vec3(1.0) * inten.y;
@@ -127,7 +127,7 @@
         }
         else {
 
-            vec4 mainTexture = texture(texture_diffuse1, TexCoords);
+            vec4 mainTexture = texture(texture_diffuse, TexCoords);
     		mainTexture.a *= transparency;
     		
             FragColor = mainTexture;
@@ -142,6 +142,7 @@
     }
 
 #endif
+
 
 
 

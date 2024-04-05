@@ -846,12 +846,12 @@ void ModuleRenderer3D::DrawGameObjects()
 		{
 			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
-
 				if (materialComponent != nullptr && materialComponent->active) {
 
-					for (auto& textures : materialComponent->rTextures) {
+					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
 
-						textures->BindTexture(true);
+						materialComponent->rTextures[i]->BindTexture(true);
+						materialComponent->shader.SetSampler2D(materialComponent->rTextures[i]->GetSamplerName(), i);
 
 					}
 
@@ -872,9 +872,9 @@ void ModuleRenderer3D::DrawGameObjects()
 
 					materialComponent->shader.UseShader(false);
 
-					for (auto& textures : materialComponent->rTextures) {
-							
-						textures->BindTexture(false);
+					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
+
+						materialComponent->rTextures[i]->BindTexture(false);
 
 					}
 
