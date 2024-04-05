@@ -48,6 +48,9 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	case CONE:
 		SetConeCollider();
 		break;
+	case CYLINDER:
+		SetCylinderCollider();
+		break;
 	case MESH_COLLIDER:
 		SetMeshCollider();
 		break;
@@ -372,7 +375,7 @@ void CCollider::Update()
 
 void CCollider::OnInspector()
 {
-	char* titles[]	{ "Box", "Sphere", "Capsule", "Cone", "Mesh" };
+	char* titles[]	{ "Box", "Sphere", "Capsule", "Cone", "Cylinder", "Mesh" };
 
 	std::string headerLabel = std::string(titles[*reinterpret_cast<int*>(&collType)]) + " " + "Collider"; // label = "Collider Type" + Collider
 	
@@ -430,6 +433,10 @@ void CCollider::OnInspector()
 			case ColliderType::CONE:
 				RemovePhysbody(); 
 				SetConeCollider();
+				break;
+			case ColliderType::CYLINDER:
+				RemovePhysbody();
+				SetCylinderCollider();
 				break;
 			case ColliderType::MESH_COLLIDER:
 				RemovePhysbody();
@@ -500,7 +507,26 @@ void CCollider::OnInspector()
 				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
 
 				break;
+
+			case ColliderType::CYLINDER:
+				ImGui::Text("Radius: "); ImGui::SameLine();
+				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
+				{
+					if (radius == 0) radius = 0.1f;
+
+					size.x = radius;
+					size.z = radius;
+				}
+
+				ImGui::Text("Height: "); ImGui::SameLine();
+				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
+
+				ImGui::Text("Offset"); ImGui::SameLine();
+				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
+
+				break;
 			}
+
 
 			if (ImGui::Button("Reset Collider Size")) {
 
@@ -668,6 +694,19 @@ void CCollider::SetConeCollider()
 	transform = mOwner->mTransform;
 
 	physBody = External->physics->AddBody(cone, PhysicsType::DYNAMIC, mass, true, shape);
+	physBody->SetGameObject(mOwner);
+}
+
+void CCollider::SetCylinderCollider()
+{
+	LOG("Set Cylinder Collider");
+	collType = ColliderType::CYLINDER;
+
+	CCylinder cylinder;
+
+	transform = mOwner->mTransform;
+
+	physBody = External->physics->AddBody(cylinder, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
 }
 

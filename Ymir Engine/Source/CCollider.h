@@ -19,6 +19,7 @@ enum ColliderType
 	SPHERE,
 	CAPSULE,
 	CONE,
+	CYLINDER,
 	MESH_COLLIDER,
 };
 
@@ -46,6 +47,7 @@ public:
 	void SetSphereCollider();
 	void SetCapsuleCollider();
 	void SetConeCollider();
+	void SetCylinderCollider();
 	void SetMeshCollider();
 
 	void RemovePhysbody();
