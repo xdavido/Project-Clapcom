@@ -352,8 +352,6 @@ void CParticleSystem::OnInspector()
 				CreateEmitter();
 			}
 
-
-
 			ImGui::TreePop();
 		}
 	}
