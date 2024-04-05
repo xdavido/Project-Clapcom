@@ -378,3 +378,45 @@ void EmitterColor::OnInspector()
 	}
 }
  
+EmitterImage::EmitterImage()
+{
+	imgPath = "Assets/InGameConeptPng.png";
+	SetImage(imgPath);
+}
+
+void EmitterImage::SetImage(std::string imgPath)
+{
+	ResourceTexture* rTexTemp = new ResourceTexture();
+	ImporterTexture::Import(imgPath, rTexTemp);
+	rTexTemp->type = TextureType::DIFFUSE;
+	rTexTemp->UID = Random::Generate();
+
+	/*auto itr = mapTextures.find(state);
+	if (itr != mapTextures.end())
+	{
+		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
+		mat->rTextures.shrink_to_fit();
+
+		mapTextures.erase(state);
+	}
+
+	mat->path = imgPath;
+	mat->rTextures.push_back(rTexTemp);
+
+	mapTextures.insert({ state, rTexTemp });*/
+}
+
+void EmitterImage::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
+
+}
+
+void EmitterImage::Update(float dt, ParticleEmitter* emitter)
+{
+
+}
+
+void EmitterImage::OnInspector()
+{
+	ImGui::Text("Texto de prueba para el apartado de Image");
+}

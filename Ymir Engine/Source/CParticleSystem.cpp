@@ -260,6 +260,22 @@ void CParticleSystem::OnInspector()
 
 							break;
 						}
+						case IMAGE:
+						{
+							ImGui::Text(particleModule.append("Image ##").append(std::to_string(j)).c_str());
+							ImGui::SameLine();
+							deleteButton.append("Delete ##").append(std::to_string(j));
+							if (ImGui::SmallButton(deleteButton.c_str()))
+							{
+								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
+							}
+							deleteButton.clear();
+
+							EmitterImage* eImage = (EmitterImage*)listModule.at(j);
+							eImage->OnInspector();
+
+							break;
+						}
 						case MAX:
 							//Esto existe para que sea generico el recorrer el switch de emitters
 							break;
@@ -298,6 +314,9 @@ void CParticleSystem::OnInspector()
 							break;
 						case COLOR:
 							emitterType.assign("Color Emitter");
+							break;
+						case IMAGE:
+							emitterType.assign("Image Emitter");
 							break;
 						case MAX:
 							break;
