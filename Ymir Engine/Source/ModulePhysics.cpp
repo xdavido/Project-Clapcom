@@ -28,8 +28,6 @@ ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app,
 {
 	LOG("Creating ModulePhysics");
 
-	onExitCollision = false;
-
 	// Physics simulation (world)
 	constraintSolver = new btSequentialImpulseConstraintSolver();
 	broadphase = new btDbvtBroadphase();
@@ -133,7 +131,7 @@ update_status ModulePhysics::PostUpdate(float dt)
 		//		}
 		//	}
 		//}
-
+		
 		int numManifolds = world->getDispatcher()->getNumManifolds();
 		for (int i = 0; i < numManifolds; i++)
 		{
@@ -149,38 +147,20 @@ update_status ModulePhysics::PostUpdate(float dt)
 				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
 
 				// Pendiente de revisar de momento wuaaaaarrrraaaaaaaaaada!!!!
-				if (pbodyA->owner != nullptr) {
-					CScript* aux = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+				if (pbodyA->owner != nullptr && pbodyB->owner != nullptr) {
+					CScript* auxA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
+					CScript* auxB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
-					if (aux != nullptr) {
-						if (firstCollision)
-						{
-							aux->CollisionEnterCallback(false, pbodyB->owner);
+					if (auxA != nullptr && auxB != nullptr) {
+						if (firstCollision) {
+							auxA->CollisionEnterCallback(false, pbodyB->owner);
+							auxB->CollisionEnterCallback(false, pbodyA->owner);
 							firstCollision = false;
+							inCollision = true;
 						}
-						else
-						{
-							aux->CollisionStayCallback(false, pbodyB->owner);
-							firstCollision = false;
-							onExitCollision = true;
-						}
-
-					}
-				}
-
-				if (pbodyB->owner != nullptr) {
-					CScript* aux = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
-
-					if (aux != nullptr) {
-						if (firstCollision)
-						{
-							aux->CollisionEnterCallback(false, pbodyA->owner);
-							firstCollision = false;
-						}
-						else
-						{
-							aux->CollisionStayCallback(false, pbodyA->owner);
-							firstCollision = false;
+						else if (inCollision) {
+							auxA->CollisionStayCallback(false, pbodyB->owner);
+							auxB->CollisionStayCallback(false, pbodyA->owner);
 							onExitCollision = true;
 						}
 					}
@@ -220,13 +200,10 @@ update_status ModulePhysics::PostUpdate(float dt)
 					if (scriptA)
 					{
 						scriptA->CollisionExitCallback(false, pbodyB->owner);
-					}
-					if (scriptB)
-					{
-						scriptB->CollisionExitCallback(false, pbodyA->owner);
-					}
-					onExitCollision = false;
-					firstCollision = true;
+						onExitCollision = false;
+						firstCollision = true;
+					}   
+					
 				}
 			}
 		}
