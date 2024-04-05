@@ -27,7 +27,7 @@ public:
 	ResourceTexture* selectedTexture;
 	std::map<UI_STATE, ResourceTexture*> mapTextures;
 
-	uint ssRows, ssColumns;
-	float2 ssSize, ssCoords;
+	int ssRows, ssColumns;
+	int ssCoordsx, ssCoordsy;
 };
 #endif // __UI_IMAGE_H__

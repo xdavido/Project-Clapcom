@@ -22,6 +22,10 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 
 	ssRows = 1;
 	ssColumns = 1;
+
+	ssCoordsx = 0;
+	ssCoordsy = 0;
+
 	SetSpriteSize();
 
 	tabNav_ = false;
@@ -100,12 +104,15 @@ void UI_Image::OnInspector()
 			SetNativeSize();
 		}
 
-		if (ImGui::DragInt2("Rows", (int*)&ssRows, 1.0f), 1)
+		ImGui::DragInt("X", &ssCoordsx, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
+		ImGui::DragInt("Y", &ssCoordsy, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp);
+
+		if (ImGui::DragInt("Rows", &ssRows, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
 			SetSpriteSize();
-		}
+		} ImGui::SameLine();
 
-		if (ImGui::DragInt2("Columns", (int*)&ssColumns, 1.0f), 1)
+		if (ImGui::DragInt("Columns", &ssColumns, 0.05f, 1, 0, "%d", ImGuiSliderFlags_AlwaysClamp))
 		{
 			SetSpriteSize();
 		}
@@ -427,6 +434,11 @@ void UI_Image::SetSpriteSize()
 {
 	if (selectedTexture != nullptr)
 	{
-		ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
+		float2 ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
+
+		boundsGame->vertices[0].textureCoordinates = float2(ssCoordsx * ssSize.x, ssCoordsy * ssSize.y + ssSize.y);	// 0, 1
+		boundsGame->vertices[1].textureCoordinates = float2(ssCoordsx * ssSize.x + ssSize.x, ssCoordsy * ssSize.y + ssSize.y);	// 1, 1
+		boundsGame->vertices[2].textureCoordinates = float2(ssCoordsx * ssSize.x, ssCoordsy * ssSize.y);	// 0, 0
+		boundsGame->vertices[3].textureCoordinates = float2(ssCoordsx * ssSize.x + ssSize.x, ssCoordsy * ssSize.y);	// 1, 0
 	}
 }
