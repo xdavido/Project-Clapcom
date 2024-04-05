@@ -84,15 +84,17 @@ bool ResourceTexture::UnloadFromMemory()
 	return false;
 }
 
-void ResourceTexture::BindTexture(bool bind)
+void ResourceTexture::BindTexture(bool bind, GLuint unit)
 {
 	if (bind) {
 
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, ID);
 
 	}
 	else {
 
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 	}
@@ -148,7 +150,7 @@ void ResourceTexture::LoadCheckerImage()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkerImage);
 }
 
-const std::string& ResourceTexture::GetSamplerName() const
+std::string ResourceTexture::GetSamplerName() const
 {
 	switch (type)
 	{

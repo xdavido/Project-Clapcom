@@ -40,7 +40,7 @@ public:
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
 
-    void BindTexture(bool bind);
+    void BindTexture(bool bind, GLuint unit);
 
     // Getters
     uint GetWidth();
@@ -54,7 +54,7 @@ public:
     void LoadCheckerImage();
 
     // Get Sampler Name
-    const std::string& GetSamplerName() const;
+    std::string GetSamplerName() const;
 
 public:
 

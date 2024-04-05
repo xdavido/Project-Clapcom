@@ -126,17 +126,36 @@
 
         }
         else {
-
-            vec4 mainTexture = texture(texture_diffuse, TexCoords);
-    		mainTexture.a *= transparency;
+            
+            //vec4 mainTexture = texture(texture_diffuse, TexCoords);
+    		//mainTexture.a *= transparency;
     		
-            FragColor = mainTexture;
+            //FragColor = mainTexture;
 
-            if (selected) {
+            //if (selected) {
 
-                FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
+                //FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
 
-            }
+            //}
+
+            // Ambient
+            vec3 ambient = vec3(0.1); // Example ambient color
+    
+            // Diffuse
+            vec3 norm = normalize(Normal);
+            vec3 lightDir = normalize(vec3(0.0, 0.0, -1.0)); // Example light direction
+            float diff = max(dot(norm, lightDir), 0.0);
+            vec3 diffuse = diff * texture(texture_diffuse, TexCoords).rgb;
+
+            // Specular
+            vec3 viewDir = normalize(-Position); // Example view direction
+            vec3 reflectDir = reflect(-lightDir, norm);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Example shininess
+            float specular = spec * texture(texture_specular, TexCoords).r;
+
+            // Final color
+            vec3 result = (ambient + diffuse + specular) * texture(texture_diffuse, TexCoords).rgb;
+            FragColor = vec4(result, 1.0);
 
         }
     }

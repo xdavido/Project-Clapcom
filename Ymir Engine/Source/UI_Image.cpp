@@ -337,7 +337,7 @@ void UI_Image::Draw(bool game)
 	UI_Bounds* boundsDrawn = nullptr;
 
 
-	selectedTexture->BindTexture(true);
+	selectedTexture->BindTexture(true, 0);
 
 	mat->shader.UseShader(true);
 	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
@@ -371,7 +371,7 @@ void UI_Image::Draw(bool game)
 	boundsDrawn = nullptr;
 
 	mat->shader.UseShader(false);
-	selectedTexture->BindTexture(false);
+	selectedTexture->BindTexture(false, 0);
 
 }
 
