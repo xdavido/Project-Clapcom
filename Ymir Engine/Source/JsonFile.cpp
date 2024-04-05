@@ -1502,6 +1502,25 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 	}
 	break;
+	case PARTICLE:
+	{
+		json_object_set_string(componentObject, "Type", "ParticleSystem");
+
+		CParticleSystem* cparticles = (CParticleSystem*)&component;
+
+		json_object_set_number(componentObject, "Active", cparticles->active);
+
+		//List of UUID , as each emmiter is save 
+
+		JSON_Value* emmitersArrayValue = json_value_init_array();
+		JSON_Array* emmitersArray = json_value_get_array(emmitersArrayValue);
+
+		for (int i = 0; i < cparticles->allEmitters.size(); i++)
+		{
+			json_array_append_number(emmitersArray, cparticles->SaveEmmiterJSON(cparticles->allEmitters.at(i))); //Guarda en su propia carpeta el emiiter con sus settings.
+		}
+	}
+	break;
 	default:
 		break;
 	}

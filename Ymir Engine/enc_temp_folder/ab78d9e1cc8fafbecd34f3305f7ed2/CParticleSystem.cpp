@@ -398,7 +398,7 @@ const char* CParticleSystem::SaveMetaEmitters()
 //Save just one emmiter
 uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 {
-	uint32_t docID = External->resourceManager->GenerateNewUID(); //ERIC: TODO esto hay que assignarlo al principio
+	uint32_t docID = External->resourceManager->GenerateNewUID();
 	JSON_Value* root_value = json_value_init_object();
 	JSON_Object* root_object = json_value_get_object(root_value);
 
