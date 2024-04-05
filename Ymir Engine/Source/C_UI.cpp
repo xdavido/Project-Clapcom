@@ -575,7 +575,6 @@ void UI_Bounds::RegenerateVBO()
 
 void UI_Bounds::DeleteBuffers()
 {
-
 	if (VBO != 0) {
 		glDeleteBuffers(1, &VBO);
 		VBO = 0;
@@ -590,7 +589,6 @@ void UI_Bounds::DeleteBuffers()
 		glDeleteBuffers(1, &VAO);
 		VAO = 0;
 	}
-
 
 	//glDeleteBuffers(1, &id_tex_uvs);
 	//id_tex_uvs = 0;
