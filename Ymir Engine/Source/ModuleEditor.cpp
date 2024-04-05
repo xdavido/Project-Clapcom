@@ -1702,7 +1702,8 @@ void ModuleEditor::CreateParticleSystemMenu()
 		GameObject* empty = App->scene->CreateGameObject("Paticle System", App->scene->selectedGO != nullptr ? App->scene->selectedGO : App->scene->mRootNode);
 		empty->UID = Random::Generate();
 
-		empty->AddComponent(ComponentType::MATERIAL);
+		//TONI: We dont need material in Particle System
+		//empty->AddComponent(ComponentType::MATERIAL);
 		empty->AddComponent(ComponentType::PARTICLE);
 	}
 }
