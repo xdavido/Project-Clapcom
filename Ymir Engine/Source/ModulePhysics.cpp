@@ -183,29 +183,26 @@ update_status ModulePhysics::PostUpdate(float dt)
 					}
 				}
 			}
-			else if (numContacts == 0 && onExitCollision == true)
+			else if (numContacts == 0 && onExitCollision)
 			{
-				// Manejar salida de colisiones
 				PhysBody* pbodyA = (PhysBody*)obA->getUserPointer();
 				PhysBody* pbodyB = (PhysBody*)obB->getUserPointer();
 
-				// Verificar que los objetos de colisi�n sean v�lidos
 				if (pbodyA && pbodyB)
 				{
-					// Obtener los scripts asociados a los objetos
 					CScript* scriptA = dynamic_cast<CScript*>(pbodyA->owner->GetComponent(ComponentType::SCRIPT));
 					CScript* scriptB = dynamic_cast<CScript*>(pbodyB->owner->GetComponent(ComponentType::SCRIPT));
 
-					// Llamar a la funci�n adecuada para manejar la salida de la colisi�n
-					if (scriptA)
+					if (scriptA && scriptB)
 					{
 						scriptA->CollisionExitCallback(false, pbodyB->owner);
-						onExitCollision = false;
-						firstCollision = true;
-					}   
+						scriptB->CollisionExitCallback(false, pbodyA->owner);
+					}
+
 					
 				}
 			}
+		
 		}
 		
 
