@@ -14,6 +14,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	GLenum format;
 	ILenum ILformat;
+	GLint param;
 
 	std::string textureName;
 	PhysfsEncapsule::SplitFilePath(path.c_str(), nullptr, &textureName);
@@ -27,6 +28,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::DIFFUSE;
 		format = GL_RGBA;
 		ILformat = IL_RGBA;
+		param = GL_NEAREST;
 		break;
 	}
 	case 'S':
@@ -34,6 +36,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::SPECULAR;
 		format = GL_ALPHA;
 		ILformat = IL_ALPHA;
+		param = GL_NEAREST;
 		break;
 	}
 	case 'N':
@@ -41,13 +44,15 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::NORMAL;
 		format = GL_RGB;
 		ILformat = IL_RGB;
+		param = GL_NEAREST;
 		break;
 	}
 	case 'H':
 	{
 		ourTexture->type = TextureType::HEIGHT;
-		format = GL_RGBA;
-		ILformat = IL_RGBA;
+		format = GL_LUMINANCE;
+		ILformat = IL_LUMINANCE;
+		param = GL_LINEAR;
 		break;
 	}
 	case 'A':
@@ -55,6 +60,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::AMBIENT;
 		format = GL_LUMINANCE;
 		ILformat = IL_LUMINANCE;
+		param = GL_NEAREST;
 		break;
 	}
 	case 'E':
@@ -62,6 +68,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::EMISSIVE;
 		format = GL_RGBA;
 		ILformat = IL_RGBA;
+		param = GL_NEAREST;
 		break;
 	}
 	default:
@@ -69,6 +76,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		ourTexture->type = TextureType::DIFFUSE;
 		format = GL_RGBA;
 		ILformat = IL_RGBA;
+		param = GL_NEAREST;
 		break;
 	}
 
@@ -157,8 +165,8 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param);
 
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
