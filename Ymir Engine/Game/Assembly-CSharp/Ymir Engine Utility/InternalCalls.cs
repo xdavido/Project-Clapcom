@@ -120,6 +120,18 @@ namespace YmirEngine
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject SliderSetMax(object go, double value);
+
+        /// <summary>
+        /// Get UI go that is in selected state.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetSelected(object go);
+
+        /// <summary>
+        /// Switch position of two game objects.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject SwitchPosition(object selectedgo, object targetobject);
     }
 
     /// <summary>

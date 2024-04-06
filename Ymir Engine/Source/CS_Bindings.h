@@ -722,4 +722,26 @@ void SliderSetMax(MonoObject* object, double value)
 		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.iValue = value;
 	}
 }
+
+// Inventory
+MonoObject* GetSelected(MonoObject* object)
+{
+	return External->moduleMono->GoToCSGO(External->scene->GetUISelected(External->moduleMono->GameObject_From_CSGO(object)));
+}
+
+void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
+{
+	G_UI* selectedgo = (G_UI*)External->moduleMono->GameObject_From_CSGO(selectedObject);
+	G_UI* targetgo = (G_UI*)External->moduleMono->GameObject_From_CSGO(targetObject);
+
+	float auxPosX = static_cast<UI_Button*>(targetgo->GetComponentUI(UI_TYPE::BUTTON))->posX;
+	float auxPosY = static_cast<UI_Button*>(targetgo->GetComponentUI(UI_TYPE::BUTTON))->posY;
+
+	targetgo->GetComponentUI(UI_TYPE::BUTTON)->posX = selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posX;
+	targetgo->GetComponentUI(UI_TYPE::BUTTON)->posY = selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posY;
+
+	selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posX = auxPosX;
+	selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posY = auxPosY;
+}
+
 #pragma endregion

@@ -128,6 +128,11 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.UI::SliderSetMin", SliderSetMin);
 	mono_add_internal_call("YmirEngine.UI::SliderSetMax", SliderSetMax);
 
+	// Inventory
+	mono_add_internal_call("YmirEngine.UI::GetSelected", GetSelected);
+	mono_add_internal_call("YmirEngine.UI::SwitchPosition", SwitchPosition);
+
+
 #pragma endregion
 
 #pragma region Audio

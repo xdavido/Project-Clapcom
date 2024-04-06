@@ -79,6 +79,7 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 	//LoadSceneFromStart("Assets", "Enemigo player");
 	LoadSceneFromStart("Assets/NewFolder", "UI_AnimationTest");
+	//LoadSceneFromStart("Assets/UI/Inventory", "InventoryScene");
 
 #endif // _RELEASE
 
@@ -517,7 +518,7 @@ void ModuleScene::SetSelected(GameObject* go)
 
 				// Set selected go children to the same state as the clicked item
 				SetSelectedState(go, go->selected);
-			}	
+			}
 			else if (!vSelectedGOs.empty())
 			{
 				SetSelectedState(go, false);
@@ -525,7 +526,7 @@ void ModuleScene::SetSelected(GameObject* go)
 			}
 		}
 		else
-		{	
+		{
 			selectedGO = nullptr;
 
 			for (auto i = 0; i < vSelectedGOs.size(); i++)
@@ -825,6 +826,29 @@ void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
 	}
 }
 
+GameObject* ModuleScene::GetUISelected(GameObject* go)
+{
+	if (go->active)
+	{
+		if (!go->mChildren.empty())
+		{
+			for (auto i = 0; i < go->mChildren.size(); i++)
+			{
+				for (auto i = 0; i < static_cast<G_UI*>(go->mChildren[i])->mComponents.size(); i++)
+				{
+					if (static_cast<C_UI*>(static_cast<G_UI*>(go->mChildren[i])->mComponents[i])->state == UI_STATE::SELECTED)
+					{
+						return go;
+					}
+				}
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+
 bool ModuleScene::TabNavigate(bool isForward)
 {
 	// Get UI elements to navigate
@@ -845,7 +869,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 				App->scene->SetSelected(listUI[0]->mOwner);
 
 				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[0]->SetState(UI_STATE::SELECTED);
+				listUI[0]->SetState(UI_STATE::FOCUSED);
 
 				selectedUI = 0;
 			}
@@ -855,7 +879,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
 
 				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[selectedUI + 1]->SetState(UI_STATE::SELECTED);
+				listUI[selectedUI + 1]->SetState(UI_STATE::FOCUSED);
 
 				selectedUI += 1;
 			}
@@ -870,7 +894,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[listUI.size() - 1]->SetState(UI_STATE::SELECTED);
+					listUI[listUI.size() - 1]->SetState(UI_STATE::FOCUSED);
 
 					selectedUI = listUI.size() - 1;
 				}
@@ -880,7 +904,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
 
 					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[selectedUI - 1]->SetState(UI_STATE::SELECTED);
+					listUI[selectedUI - 1]->SetState(UI_STATE::FOCUSED);
 
 					selectedUI -= 1;
 				}
