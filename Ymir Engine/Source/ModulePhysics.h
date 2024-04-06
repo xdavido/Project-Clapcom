@@ -104,7 +104,8 @@ public:
 	Color sensorColor;
 	int shapeLineWidth = 2;
 
-	bool onExitCollision;
+	bool inCollision = false;
+	bool onExitCollision = false;
 	bool firstCollision = true;
 
 private:

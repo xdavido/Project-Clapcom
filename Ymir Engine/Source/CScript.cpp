@@ -441,10 +441,24 @@ void CScript::CollisionEnterCallback(bool isTrigger, GameObject* collidedGameObj
 void CScript::CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject)
 {
 	void* params[1];
-	params[0] = collidedGameObject;
+	if (collidedGameObject != nullptr)
+	{
+		params[0] = External->moduleMono->GoToCSGO(collidedGameObject);
 
-	if (onCollisionExitMethod != nullptr) {
-		mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		if (onCollisionExitMethod != nullptr)
+		{
+			mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+			External->physics->firstCollision = true; // Restablecer firstCollision aquí después de salir de la colisión
+			External->physics->onExitCollision = false;
+		}
+			
+			
+
+		if (isTrigger)
+		{
+			if (onCollisionExitMethod != nullptr)
+				mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
+		}
 	}
 }
 void CScript::ExecuteButton() {
