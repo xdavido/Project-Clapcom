@@ -1,0 +1,11 @@
+{
+    "Name": "PROP_Workstation_LowPoly",
+    "Assets Path": "Assets\/Scenes\/LV_Base\/PROP_Workstation_LowPoly.fbx",
+    "Library Path": ".\/Library\/Models\/346798756.ymodel",
+    "UID": 346798756,
+    "Type": "Model",
+    "Meshes num": 1,
+    "Meshes Embedded UID": [
+        981322679
+    ]
+}
