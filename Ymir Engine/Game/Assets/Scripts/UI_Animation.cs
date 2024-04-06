@@ -38,9 +38,9 @@ public class UI_Animation : YmirComponent
 
             if (!backwards)
             {
-                if (currentFrame.x < rowXcolumn.x) { ++currentFrame.x; }
+                if (currentFrame.y < rowXcolumn.y) { ++currentFrame.y; }
                 else if (currentFrame.x >= rowXcolumn.x) { currentFrame.x = 0; }
-                else { ++currentFrame.y; }
+                else { ++currentFrame.x; }
 
                 if (currentFrame.y >= rowXcolumn.y) { currentFrame.y = 0; }
 
@@ -60,11 +60,11 @@ public class UI_Animation : YmirComponent
             }
             else
             {
-                if (currentFrame.x > 0) { --currentFrame.x; }
+                if (currentFrame.y > 0) { --currentFrame.y; }
                 else if (currentFrame.x == 0) { currentFrame.x = rowXcolumn.x; }
-                else { --currentFrame.y; }
+                else { --currentFrame.x; }
 
-                if (currentFrame.y < rowXcolumn.y) { currentFrame.y = rowXcolumn.y; }
+                if (currentFrame.y == 0) { currentFrame.y = rowXcolumn.y; }
 
                 ++currentIndex;
                 if (currentIndex >= totalFrames)
