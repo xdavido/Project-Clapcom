@@ -354,9 +354,15 @@ void CMaterial::OnInspector()
 
         ImGui::Spacing();
 
-        if (ImGui::Button("Clear Actual Texture")) {
+        if (ImGui::Button("Clear All Textures")) {
 
-            External->renderer3D->ClearActualTexture();
+            for (auto it = rTextures.begin(); it != rTextures.end(); ++it)
+            {
+                External->resourceManager->UnloadResource((*it)->GetUID());
+                
+            }
+
+            rTextures.clear();
 
         }
 

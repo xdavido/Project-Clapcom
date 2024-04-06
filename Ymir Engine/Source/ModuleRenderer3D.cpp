@@ -894,10 +894,14 @@ void ModuleRenderer3D::DrawGameObjects(bool isGame)
 
 					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
 
-						std::string samplerName = materialComponent->rTextures[i]->GetSamplerName();
+						if (materialComponent->rTextures[i]) {
 
-						materialComponent->shader.SetSampler2D(samplerName, i);
-						materialComponent->rTextures[i]->BindTexture(true, i);
+							std::string samplerName = materialComponent->rTextures[i]->GetSamplerName();
+
+							materialComponent->shader.SetSampler2D(samplerName, i);
+							materialComponent->rTextures[i]->BindTexture(true, i);
+
+						}
 						
 					}
 
@@ -925,7 +929,11 @@ void ModuleRenderer3D::DrawGameObjects(bool isGame)
 
 					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
 
-						materialComponent->rTextures[i]->BindTexture(false, i);
+						if (materialComponent->rTextures[i]) {
+
+							materialComponent->rTextures[i]->BindTexture(false, i);
+
+						}
 
 					}
 

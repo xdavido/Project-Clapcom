@@ -70,7 +70,18 @@
     uniform bool displayNormalMap; // Boolean uniform to toggle between normal visualization and texture display
     uniform bool selected;
     
-    uniform float transparency;
+   	uniform bool enableDiffuse;
+    uniform bool enableSpecular;
+    uniform bool enableNormal;
+    uniform bool enableAmbient;
+    uniform bool enableHeight;
+    uniform bool enableEmissive;
+    
+   	uniform float transparency = 1.0f;
+   	uniform float ambient = 0.50f;
+    uniform float specularLight = 0.50f;
+    uniform float normalIntensity = 1.0f;
+	uniform float emissive = 1.0f;
 
     vec4 DisplayNormalMap() {
 
@@ -113,33 +124,37 @@
 		float a = 0.005;
 		float b = 0.0001;
 		float intensity = 1.0f / (a * dist * dist + b * dist + 1.0f);
-		
-        // Ambient Occlusion
-
-		float ambient = 0.50f;
             
-        // Diffuse
-
+        // Normal
+		
         vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
-        vec3 normal = normalize(normalMap);
+        vec3 normal = (enableNormal ? normalize(normalMap) : normalize(Normal)) * normalIntensity;
         vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
         float diffuse = max(dot(normal, lightDirection), 0.0f);
         
         // Specular
-
-        float specularLight = 0.50f;
+        
         vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
-         
-        // Apply all texture maps
+		
+		// Apply texture maps
 
-        return vec4(
-            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + 
-            texture(texture_ambient, TexCoords).r * ambient) +
-            texture(texture_specular, TexCoords).a * specular * intensity, transparency
-        );
+        vec3 finalColor = vec3(0.0); // Initialize the final color variable
+
+        // Apply diffuse and ambient texture
+        finalColor += (enableDiffuse ? texture(texture_diffuse, TexCoords).rgb : vec3(1.0f)) * lightColor * (diffuse * intensity +
+        ambient * intensity * (enableAmbient ? texture(texture_ambient, TexCoords).r : 1.0f));
+
+        // Apply specular texture
+        if (enableSpecular) finalColor += texture(texture_specular, TexCoords).a * specular * intensity;
+
+        // Apply emissive texture
+        if (enableEmissive) finalColor += texture(texture_emissive, TexCoords).rgb * emissive;
+
+        // Apply transparency
+        return vec4(finalColor,transparency);
 	
 	}
 	
@@ -212,6 +227,13 @@
     }
 
 #endif
+
+
+
+
+
+
+
 
 
 
