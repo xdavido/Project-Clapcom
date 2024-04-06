@@ -220,18 +220,6 @@ void CTransform::UpdateGlobalMatrix()
 	}
 
 	UpdateBoundingBoxes();
-
-	// Update collider scale and rotation
-	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS); 
-	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH); 
-
-	if (col != nullptr)
-	{
-		//if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
-		//else col->size = mesh->rMeshReference->obb.Size();
-
-		col->physBody->SetRotation(rotation);
-	}
 }
 
 void CTransform::UpdateLocalMatrix()
