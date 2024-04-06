@@ -77,7 +77,8 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
-	/*LoadSceneFromStart("Assets", "Enemigo player"); */
+	//LoadSceneFromStart("Assets", "Enemigo player");
+	LoadSceneFromStart("Assets/NewFolder", "UI_AnimationTest");
 
 #endif // _RELEASE
 

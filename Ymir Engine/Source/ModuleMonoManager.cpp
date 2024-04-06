@@ -112,7 +112,11 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	// Image
 	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
 	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI);
-	mono_add_internal_call("YmirEngine.UI::GetImageRowsAndColumns", GetImageRowsAndColumns);
+	//// Animations
+	mono_add_internal_call("YmirEngine.UI::GetImageRows", GetImageRows);
+	mono_add_internal_call("YmirEngine.UI::GetImageColumns", GetImageColumns);
+	mono_add_internal_call("YmirEngine.UI::GetImageCurrentFrameX", GetImageCurrentFrameX);
+	mono_add_internal_call("YmirEngine.UI::GetImageCurrentFrameY", GetImageCurrentFrameY);
 	mono_add_internal_call("YmirEngine.UI::SetImageCurrentFrame", SetImageCurrentFrame);
 
 	// Text
@@ -127,6 +131,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma endregion
 
 #pragma region Audio
+
 	mono_add_internal_call("YmirEngine.Audio::PlayAudio", PlayAudio);
 	mono_add_internal_call("YmirEngine.Audio::StopAudio", StopAudio);
 	mono_add_internal_call("YmirEngine.Audio::StopOneAudio", StopOneAudio);
@@ -143,6 +148,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Audio::PauseAllAudios", PauseAllAudios);
 	mono_add_internal_call("YmirEngine.Audio::ResumeAllAudios", ResumeAllAudios);
 	mono_add_internal_call("YmirEngine.Audio::StopAllAudios", StopAllAudios);
+
 #pragma endregion
 
 
@@ -166,6 +172,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 #pragma endregion
 
 #pragma region Animation
+
 	mono_add_internal_call("YmirEngine.Animation::PlayAnimation", PlayAnimation);
 	mono_add_internal_call("YmirEngine.Animation::PauseAnimation", PauseAnimation);
 	mono_add_internal_call("YmirEngine.Animation::ResumeAnimation", ResumeAnimation);
@@ -175,6 +182,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Animation::SetSpeed", SetSpeed);
 	mono_add_internal_call("YmirEngine.Animation::SetPingPong", SetPingPong);
 	mono_add_internal_call("YmirEngine.Animation::AddBlendOption", AddBlendOption);
+
 #pragma endregion
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
@@ -250,13 +258,9 @@ void ModuleMonoManager::ReCompileCS()
 
 		if ((*it) != nullptr) {
 
-
 			CScript* script = (CScript*)(*it)->GetComponent(ComponentType::SCRIPT);
 			if (script != nullptr) script->ReloadComponent();
-
 		}
-
-
 	}
 }
 
@@ -271,6 +275,7 @@ float3 ModuleMonoManager::UnboxVector(MonoObject* _obj)
 	mono_field_get_value(_obj, mono_class_get_field_from_name(klass, "z"), &ret.z);
 	return static_cast<float3>(ret);
 }
+
 //ASK: Is this the worst idea ever? TOO SLOW
 Quat ModuleMonoManager::UnboxQuat(MonoObject* _obj)
 {
@@ -299,7 +304,6 @@ void ModuleMonoManager::DebugAllFields(const char* className, std::vector<Serial
 				_data.push_back(pushField);
 			//LOG(LogType::L_NORMAL, mono_field_full_name(method2));
 		}
-
 	}
 }
 
@@ -317,7 +321,6 @@ void ModuleMonoManager::DebugAllMethods(const char* nsName, const char* classNam
 
 MonoObject* ModuleMonoManager::GoToCSGO(GameObject* inGo) const
 {
-
 	if (inGo == nullptr) {
 		LOG("[WARNING] GoTOCSGO inGo doesn't exist");
 		return nullptr;
@@ -468,11 +471,10 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 		<< std::endl << ""
 		<< std::endl << "public class " << className.c_str() << " : YmirComponent"
 		<< std::endl << "{"
-		<< std::endl << "bool start = true;"
 		<< std::endl << ""
 		<< std::endl << "	public void Start()"
 		<< std::endl << "	{"
-		<< std::endl << "			Debug.Log(\"" + startScript + "\"); "
+		<< std::endl << "		Debug.Log(\"" + startScript + "\"); "
 		<< std::endl << "	}"
 		<< std::endl << ""
 		<< std::endl << "	public void Update()"

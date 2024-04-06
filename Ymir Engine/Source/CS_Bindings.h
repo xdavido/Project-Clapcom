@@ -632,10 +632,29 @@ void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageT
 	}
 }
 
-std::array<int, 2> GetImageRowsAndColumns(MonoObject* object)
+// Image Animations
+int GetImageRows(MonoObject* object)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
-	return std::array<int, 2> {static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssRows, static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssColumns};
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssRows;
+}
+
+int GetImageColumns(MonoObject* object)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssColumns;
+}
+
+int GetImageCurrentFrameX(MonoObject* object)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX;
+}
+
+int GetImageCurrentFrameY(MonoObject* object)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY;
 }
 
 void SetImageCurrentFrame(MonoObject* object, int x, int y)
@@ -643,8 +662,11 @@ void SetImageCurrentFrame(MonoObject* object, int x, int y)
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
 	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX = x;
 	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY = y;
+
+	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->SetSpriteSize();
 }
 
+//
 void TextEdit(MonoObject* object, MonoString* text)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
