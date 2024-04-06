@@ -455,6 +455,8 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 	className = className.substr(className.find_last_of("/") + 1);
 	className = className.substr(0, className.find_last_of("."));
 
+	className = PhysfsEncapsule::ConvertFileName(className);
+
 	//Default Script Text
 	outfile << "using System;"
 		<< std::endl << "using System.Collections.Generic;"
