@@ -27,7 +27,9 @@
 
 // Regex utils to retrieve code from unique-file shaders
 const std::regex versionRegex("#version\\s+\\d+\\s+core");
+
 const std::regex vertexShaderRegex("#ifdef VERTEX_SHADER([\\s\\S]+?)#endif");
+const std::regex geometryShaderRegex("#ifdef GEOMETRY_SHADER([\\s\\S]+?)#endif");
 const std::regex fragmentShaderRegex("#ifdef FRAGMENT_SHADER([\\s\\S]+?)#endif");
 
 enum class UniformType {

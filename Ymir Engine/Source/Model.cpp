@@ -17,7 +17,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcessPreset_TargetRealtime_MaxQuality)
+#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices  | aiProcess_CalcTangentSpace | aiProcessPreset_TargetRealtime_MaxQuality)
 
 Model::Model()
 {
@@ -319,6 +319,28 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			vNormals.z = mesh->mNormals[i].z;
 
 			vertex.normal = vNormals;
+		}
+
+		// Retrieve vertex tangents and bitangents
+
+		if (mesh->HasTangentsAndBitangents())
+		{
+			float3 vTangents;
+
+			vTangents.x = mesh->mTangents[i].x;
+			vTangents.y = mesh->mTangents[i].y;
+			vTangents.z = mesh->mTangents[i].z;
+
+			vertex.tangents = vTangents;
+
+			float3 vBitangents;
+
+			vBitangents.x = mesh->mBitangents[i].x;
+			vBitangents.y = mesh->mBitangents[i].y;
+			vBitangents.z = mesh->mBitangents[i].z;
+
+			vertex.bitangents = vBitangents;
+
 		}
 
 		// Retrieve vertex texture coordinates

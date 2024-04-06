@@ -6,30 +6,53 @@
 	layout(location = 1) in vec3 aNormal;
 	layout(location = 2) in vec2 aTexCoords;
 
-	out vec3 Position;
+	layout(location = 5) in vec3 aTangents;
+	layout(location = 6) in vec3 aBitangents;
+	
 	out vec3 Normal;
 	out vec2 TexCoords;
 
+	out vec3 TangentLightPos;
+    out vec3 TangentViewPos;
+    out vec3 TangentFragPos;
+	
 	uniform mat4 projection;
 	uniform mat4 view;
 	uniform mat4 model;
+	
+	uniform vec3 lightDir;
+	uniform vec3 camPos;
 
 	void main()
 	{
 		gl_Position = projection * view * model * vec4(aPos, 1.0f);
 
-		Position  = (model * vec4(aPos, 1.0f)).xyz;
+		vec3 Position  = (model * vec4(aPos, 1.0f)).xyz;
 		Normal = aNormal;
 		TexCoords = aTexCoords;
+		
+		vec3 T = normalize(vec3(model * vec4(aTangents,   0.0)));
+   		vec3 B = normalize(vec3(model * vec4(aBitangents, 0.0)));
+   		vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
+   		mat3 TBN = mat3(T, B, N);
+   		TBN = transpose(TBN);
+   		
+   		TangentLightPos = TBN * lightDir;
+    	TangentViewPos = TBN * camPos;
+    	TangentFragPos = TBN * Position;
+   		
 	}
 
 #endif
 
 #ifdef FRAGMENT_SHADER
 
-	in vec3 Position;
 	in vec3 Normal;
 	in vec2 TexCoords;
+	
+	in vec3 TangentLightPos;
+    in vec3 TangentViewPos;
+    in vec3 TangentFragPos;
 
     out vec4 FragColor;
 
@@ -40,11 +63,9 @@
 	uniform sampler2D texture_ambient;
 	uniform sampler2D texture_emissive;
 
-    uniform vec3 lightDir;
 	uniform float lightInt;
 	uniform vec3 lightColor;
     uniform int numLights;
-    uniform vec3 camPos;
 
     uniform bool displayNormalMap; // Boolean uniform to toggle between normal visualization and texture display
     uniform bool selected;
@@ -81,25 +102,13 @@
         // Set the outline color if it's a border pixel, otherwise use the main color
 
         return isBorder ? color : mainTexture;
-
     }
-
-    vec2 blinnPhongDir(vec3 lightDir, float lightInt, float Ka, float Kd, float Ks, float shininess)
-	{
-		vec3 s = normalize(lightDir);
-		vec3 v = normalize(-Position);
-		vec3 n = normalize(Normal);
-		vec3 h = normalize(v+s);
-		float diffuse = Ka + Kd * lightInt * max(0.0, dot(n, s));
-		float spec = Ks * pow(max(0.0, dot(n,h)), shininess);
-		return vec2(diffuse, spec);
-	}
 	
 	vec4 PointLight() {
 		
         // Point Light Attenuation
 
-		vec3 lightVec = lightDir - Position;
+		vec3 lightVec = TangentLightPos - TangentFragPos;
 		float dist = length(lightVec);
 		float a = 0.005;
 		float b = 0.0001;
@@ -107,18 +116,19 @@
 		
         // Ambient Occlusion
 
-		float ambient = 0.30f;
+		float ambient = 0.50f;
             
         // Diffuse
 
-        vec3 normal = normalize(Normal);
-        vec3 lightDirection = normalize(lightDir - Position);
+        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
+        vec3 normal = normalize(normalMap);
+        vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
         float diffuse = max(dot(normal, lightDirection), 0.0f);
         
         // Specular
 
         float specularLight = 0.50f;
-        vec3 viewDirection = normalize (camPos - Position);
+        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
@@ -137,11 +147,13 @@
 		
 		float ambient = 0.50f;
             
-        vec3 normal = normalize(Normal);
-        vec3 lightDirection = normalize(lightDir);
+        //vec3 normal = normalize(Normal);
+        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
+        vec3 normal = normalize(normalMap);
+        vec3 lightDirection = normalize(TangentLightPos);
             
         float specularLight = 0.50f;
-        vec3 viewDirection = normalize (camPos - Position);
+        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
@@ -162,12 +174,14 @@
 		
 		float ambient = 0.20f;
             
-        vec3 normal = normalize(Normal);
-        vec3 lightDirection = normalize(lightDir - Position);
+        //vec3 normal = normalize(Normal);
+        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
+        vec3 normal = normalize(normalMap);
+        vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
         float diffuse = max(dot(normal, lightDirection), 0.0f);
         
         float specularLight = 0.50f;
-        vec3 viewDirection = normalize (camPos - Position);
+        vec3 viewDirection = normalize (TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
@@ -198,6 +212,10 @@
     }
 
 #endif
+
+
+
+
 
 
 

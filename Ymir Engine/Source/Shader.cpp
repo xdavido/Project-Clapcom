@@ -134,7 +134,7 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 	std::smatch match;
 
 	// Strings to store extracted components of the shader
-	std::string version, vertexShaderCode, fragmentShaderCode;
+	std::string version, vertexShaderCode, geometryShaderCode, fragmentShaderCode;
 
 	/* Use regex search to extract the components of the shader and
 	store them in the respective strings */
@@ -147,6 +147,10 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 		vertexShaderCode = match[1];
 	}
 
+	if (std::regex_search(shaderString, match, geometryShaderRegex)) {
+		geometryShaderCode = match[1];
+	}
+
 	if (std::regex_search(shaderString, match, fragmentShaderRegex)) {
 		fragmentShaderCode = match[1];
 	}
@@ -156,6 +160,13 @@ void Shader::LoadShader(const std::string& shaderFilePath)
 
 	std::string vs = version + vertexShaderCode;
 	AddShader(shaderProgram, vs.c_str(), GL_VERTEX_SHADER);
+
+	if (!geometryShaderCode.empty()) {
+
+		std::string gs = version + geometryShaderCode;
+		AddShader(shaderProgram, gs.c_str(), GL_GEOMETRY_SHADER);
+
+	}
 
 	std::string fs = version + fragmentShaderCode;
 	AddShader(shaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
