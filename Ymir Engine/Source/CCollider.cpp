@@ -31,9 +31,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	lockZ = false;
 	
 	offset = { 0, 0, 0 };
-	size = float3(5, 5, 5);
-
-	LOG("CollSize: %.0f, %.0f, %.0f", size.x, size.y, size.z);
+	size = float3(5, 5, 5); 
 
 	transform = mOwner->mTransform;
 
@@ -117,8 +115,7 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-	LOG("CollSize: %.0f, %.0f, %.0f", size.x, size.y, size.z);
-	LOG("LocalScaling: %.0f, %.0f, %.0f", shape->getLocalScaling().x(), shape->getLocalScaling().y(), shape->getLocalScaling().z());
+
 	if (physBody != nullptr)
 	{
 		External->physics->RecalculateInertia(physBody, mass, useGravity);
@@ -370,6 +367,12 @@ void CCollider::OnInspector()
 		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
 			SetAsSensor(auxIsSensor);
+
+			if (auxIsSensor)
+			{
+				physType = PhysicsType::STATIC;
+				SetDefaultValues(physType);
+			}
 		}
 
 		if (ImGui::Checkbox("Draw Shape", &physBody->drawShape))
@@ -474,17 +477,7 @@ void CCollider::OnInspector()
 			ImGui::Text("Offset"); ImGui::SameLine();
 			ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
-			if (collType == ColliderType::BOX)
-			{
-				if (ImGui::Button("Get size from OBB"))
-				{
-					CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-					size = auxMesh->rMeshReference->obb.Size();
-					btSize = float3_to_btVector3(size);
-				}
-			}
-
-			if (ImGui::Button("Reset Collider Size")) {
+			if (ImGui::Button("Set size from OBB")) {
 
 				CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
@@ -775,9 +768,6 @@ void CCollider::SetAsSensor(bool is_sensor)
 	if (isSensor == true)
 	{
 		physBody->body->setCollisionFlags(physBody->body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-
-		physType = PhysicsType::STATIC;
-		SetDefaultValues(physType);
 		External->physics->RecalculateInertia(physBody, mass, useGravity);
 	}
 	else
