@@ -39,10 +39,16 @@ public class UI_Animation : YmirComponent
             if (!backwards)
             {
                 if (currentFrame.y < rowXcolumn.y) { ++currentFrame.y; }
-                else if (currentFrame.x >= rowXcolumn.x) { currentFrame.x = 0; }
-                else { ++currentFrame.x; }
-
-                if (currentFrame.y >= rowXcolumn.y) { currentFrame.y = 0; }
+                else if (currentFrame.x >= rowXcolumn.x)
+                {
+                    currentFrame.x = 0;
+                    currentFrame.y = 0;
+                }
+                else
+                {
+                    ++currentFrame.x;
+                    currentFrame.y = 0;
+                }
 
                 ++currentIndex;
                 if (currentIndex >= totalFrames)
@@ -61,10 +67,16 @@ public class UI_Animation : YmirComponent
             else
             {
                 if (currentFrame.y > 0) { --currentFrame.y; }
-                else if (currentFrame.x == 0) { currentFrame.x = rowXcolumn.x; }
-                else { --currentFrame.x; }
-
-                if (currentFrame.y == 0) { currentFrame.y = rowXcolumn.y; }
+                else if (currentFrame.x == 0)
+                {
+                    currentFrame.x = rowXcolumn.x;
+                    currentFrame.y = rowXcolumn.y;
+                }
+                else
+                {
+                    --currentFrame.x;
+                    currentFrame.y = rowXcolumn.y;
+                }
 
                 ++currentIndex;
                 if (currentIndex >= totalFrames)
@@ -94,8 +106,11 @@ public class UI_Animation : YmirComponent
 
     void IncreaseLoopCount()
     {
-        loopCount++; currentIndex = 0;
-        currentFrame.x = 0; currentFrame.y = 0;
+        loopCount++;
+        currentIndex = 0;
+
+        currentFrame.x = 0;
+        currentFrame.y = 0;
     }
 
     void Reset()
