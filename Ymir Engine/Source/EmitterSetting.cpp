@@ -57,7 +57,6 @@ void EmitterBase::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterBase::OnInspector()
 {
-	ImGui::SeparatorText("SHADER");
 	ImGui::DragFloat3("Initial Pos. ## BASE", &(this->emitterOrigin[0]), 0.1f);
 	ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime), 0.5F, 1.0F, 720.0F);
 }
