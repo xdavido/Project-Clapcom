@@ -66,16 +66,8 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-		if (componentMesh != nullptr) {
-
-			size = componentMesh->rMeshReference->obb.Size();
-			btSize = float3_to_btVector3(size);
-		}
-		else {
-
-			size = float3(10, 10, 10);
-			btSize = float3_to_btVector3(size);
-		}
+		size = float3(5, 5, 5);
+		btSize = float3_to_btVector3(size);
 
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
@@ -96,16 +88,11 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetLocalRotation());
-
-			if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-			else size = componentMesh->rMeshReference->obb.Size();
 		}
 		else {
 
 			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
 			physBody->SetRotation(componentTransform->GetGlobalRotation());
-
-			size = componentTransform->GetGlobalTransform().GetScale();
 		}
 
 		if (size.x == 0) size.x = 0.1;
@@ -325,6 +312,7 @@ void CCollider::Update()
 
 			if (ImGuizmo::IsUsing()) 
 			{
+				// TODO: que esto solo pase si se este manipulando unicamente la escala
 				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 				else size = componentMesh->rMeshReference->obb.Size();
 			}
@@ -339,6 +327,7 @@ void CCollider::Update()
 
 			if (ImGuizmo::IsUsing()) 
 			{
+				// TODO: que esto solo pase si se este manipulando unicamente la escala
 				size = componentTransform->GetGlobalTransform().GetScale();
 			}
 
@@ -478,6 +467,16 @@ void CCollider::OnInspector()
 			ImGui::Text("Offset"); ImGui::SameLine();
 			ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
+			if (collType == ColliderType::BOX)
+			{
+				if (ImGui::Button("Get size from OBB"))
+				{
+					CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+					size = auxMesh->rMeshReference->obb.Size();
+					btSize = float3_to_btVector3(size);
+				}
+			}
+
 			if (ImGui::Button("Reset Collider Size")) {
 
 				CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
@@ -491,8 +490,6 @@ void CCollider::OnInspector()
 		}
 
 		// -----------------------------------------------------------------------------------------------------
-
-
 		ImGui::Spacing();
 		ImGui::SeparatorText("RIGIDBODY");
 		ImGui::Spacing();
