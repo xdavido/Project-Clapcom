@@ -9,6 +9,8 @@ using YmirEngine;
 
 public class Player : YmirComponent
 {
+    #region ENUMS
+
     enum STATE : int
     {
         NONE = -1,
@@ -38,6 +40,8 @@ public class Player : YmirComponent
         I_DEAD,
         I_JUMP,
         I_JUMP_END,
+        I_PRED,
+        I_PRED_END,
     }
 
     enum WEAPON : int
@@ -50,6 +54,9 @@ public class Player : YmirComponent
 
         All_TYPES
     }
+    #endregion
+
+    #region DEFINE BASE VARS
 
     //--------------------- State ---------------------\\
     private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
@@ -57,27 +64,22 @@ public class Player : YmirComponent
 
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
-    public float movementSpeed = 35.0f;
+    public float movementSpeed = 35.0f;   
     //private double angle = 0.0f;
     private float deathZone = 0.5f;
-
-    //--------------------- Dash ---------------------\\
-    //public float dashforce = 1000.0f;
-    private float dashTimer = 0.0f;
-    private float jumpTimer = 0.0f;
-
-    //private float timeSinceLastDash = 0.0f;
-    public float dashCD = 0.1f;
-    public float dashDuration = 50.0f;
-    public float dashDistance = 10.0f;
-    private float dashSpeed = 0.0f;
-    //private float dashStartYPos = 0.0f;
 
     //--------------------- Controller var ---------------------\\
     float x = 0;
     float y = 0;
     Vector3 gamepadInput;
     //bool isMoving = false;
+
+    //--------------------- GOD mode ---------------------\\
+    public bool godMode = false;
+
+    #endregion
+
+    #region DEFINE SHOOT VARS
 
     //--------------------- Shoot var ---------------------\\
     public float fireRate = 0;
@@ -97,28 +99,54 @@ public class Player : YmirComponent
 
     private WEAPON weaponType = WEAPON.NONE;
 
+    #endregion
+
+    #region DEFINE SKILL VARS
+
+    //--------------------- Dash ---------------------\\
+    //public float dashforce = 1000.0f;
+    private float dashTimer = 0.0f;
+    private float jumpTimer = 0.0f;
+
+    //private float timeSinceLastDash = 0.0f;
+    //public float dashCD = 0.1f;
+    public float dashDuration = 0.250f;
+    public float dashDistance = 200.0f;
+    private float dashSpeed = 0.0f;
+    //private float dashStartYPos = 0.0f;
+
+    //--------------------- Predatory Rush ---------------------\\
+    private float PredatoryTimer;
+
+    #endregion
+
+    #region DEFINE EXTERNAL THINGS
+
     //--------------------- External GameObjects ---------------------\\
     private GameObject cameraObject;
 
     //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
     private Health csHealth;
+    #endregion
 
-    //--------------------- GOD mode ---------------------\\
-    public bool godMode = false;
-
-    //Hay que dar valor a las variables en el start porque los de scripting se cagan un poco encima
+    //Hay que dar valor a las variables en el start
 
     public void Start()
     {
         weaponType = WEAPON.SMG;
 
+        movementSpeed = 7000.0f;    //Antes 35
+
         //--------------------- Dash ---------------------\\
-        dashDistance = 2;
+        dashDistance = 200.0f;   //Antes 2        
         dashDuration = 0.250f;
         dashTimer = 0f;
         jumpTimer = 0.0f;
         dashSpeed = dashDistance / dashDuration;
+
+        //--------------------- Predatory Rush ---------------------\\
+        PredatoryTimer = 0;
 
         //--------------------- Shoot ---------------------\\
         GetWeaponVars();
@@ -156,6 +184,7 @@ public class Player : YmirComponent
     #region FSM
     private void ProcessInternalInput()
     {
+        //--------------------- Dash Timer ---------------------\\
         if (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
@@ -166,16 +195,7 @@ public class Player : YmirComponent
             }
         }
 
-        if (jumpTimer > 0)
-        {
-            jumpTimer -= Time.deltaTime;
-
-            if (jumpTimer <= 0)
-            {
-                inputsList.Add(INPUT.I_JUMP_END);
-            }
-        }
-
+        //--------------------- Shoot Timer ---------------------\\
         if (currentState == STATE.SHOOTING && !shootBefore)
         {
             StartShoot();
@@ -192,6 +212,7 @@ public class Player : YmirComponent
             }
         }
 
+        //--------------------- Reload Timer ---------------------\\
         if (isReloading)
         {
             if (reloadTimer > 0)
@@ -207,9 +228,32 @@ public class Player : YmirComponent
             }
         }
 
-        if(!csHealth.isAlive)
+        //--------------------- Predatory Timer ---------------------\\
+        if (PredatoryTimer > 0)
+        {
+            PredatoryTimer -= Time.deltaTime;
+
+            if (PredatoryTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_PRED_END);
+            }
+        }
+
+        //--------------------- HP Detector ---------------------\\
+        if (!csHealth.isAlive)
         {
             inputsList.Add(INPUT.I_DEAD);
+        }
+
+        //--------------------- Jump Timer (Useless) ---------------------\\
+        if (jumpTimer > 0)
+        {
+            jumpTimer -= Time.deltaTime;
+
+            if (jumpTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_JUMP_END);
+            }
         }
     }
     private void ProcessExternalInput()
@@ -237,10 +281,15 @@ public class Player : YmirComponent
         }
 
         //----------------- Dash -----------------\\
-        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        if (Input.GetGamepadLeftTrigger() > 0)
         {
             inputsList.Add(INPUT.I_DASH);
-            Input.Rumble_Controller(100,7);
+        }
+
+        //----------------- Predatory Rush (Skill 2) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        {
+            inputsList.Add(INPUT.I_PRED);
         }
 
         //----------------- Reload -----------------\\
@@ -304,6 +353,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_PRED:
+                            StartPredRush();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
+                            break;
+
                         case INPUT.I_JUMP:
                             currentState = STATE.JUMP;
                             StartJump();
@@ -339,6 +396,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_PRED:
+                            StartPredRush();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
+                            break;
+
                         case INPUT.I_JUMP:
                             currentState = STATE.JUMP;
                             StartJump();
@@ -370,6 +435,10 @@ public class Player : YmirComponent
                             EndDash();
                             break;
 
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
+                            break;
+
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
                             break;
@@ -383,6 +452,10 @@ public class Player : YmirComponent
                         case INPUT.I_JUMP_END:
                             currentState = STATE.IDLE;
                             EndJump();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
                             break;
 
                         case INPUT.I_DEAD:
@@ -399,6 +472,10 @@ public class Player : YmirComponent
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
                             break;
 
                         case INPUT.I_JUMP:
@@ -437,6 +514,10 @@ public class Player : YmirComponent
                             StartShooting();
                             break;
 
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
+                            break;
+
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
                             break;
@@ -454,6 +535,10 @@ public class Player : YmirComponent
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
                             break;
 
                         case INPUT.I_JUMP:
@@ -631,13 +716,14 @@ public class Player : YmirComponent
     {
         //Animation.PlayAnimation(gameObject, "Lift2");
         Audio.PlayAudio(gameObject, "P_Dash");
+        Input.Rumble_Controller(100, 7);
         StopPlayer();
         dashTimer = dashDuration;
         //dashStartYPos = gameObject.transform.localPosition.y;
     }
     private void UpdateDash()
     {
-        gameObject.SetImpulse(gameObject.transform.GetForward() * dashSpeed);
+        gameObject.SetImpulse(gameObject.transform.GetForward() * dashSpeed * Time.deltaTime);
     }
     private void EndDash()
     {
@@ -703,7 +789,7 @@ public class Player : YmirComponent
 
         HandleRotation();
 
-        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed);
+        gameObject.SetVelocity(gameObject.transform.GetForward() * movementSpeed * Time.deltaTime);
 
         //if (gamepadInput.x > 0)
         //{
@@ -768,4 +854,34 @@ public class Player : YmirComponent
 
     #endregion
 
+    #region PREDATORY RUSH
+    private void StartPredRush()
+    {
+        //trigger del sonido
+        Audio.PlayAudio(gameObject, "P_PredRush");
+
+        //trigger de la animacion
+
+        //cambio de variables
+        movementSpeed = movementSpeed * 1.5f;
+        //Increase armor by * 1.3
+        fireRate = fireRate * 0.7f;
+        reloadDuration = reloadDuration * 0.5f;
+        //Reduce dash CD * 0,5
+
+        PredatoryTimer = 6.0f;
+    }
+
+    private void EndPredRush()
+    {
+        //volver las variables a su valor original
+
+        movementSpeed = movementSpeed / 1.5f;
+        //Decrease armor by / 1.3
+        fireRate = fireRate / 0.7f;
+        reloadDuration = reloadDuration / 0.5f;
+        //Increase dash CD / 0,5
+    }
+
+    #endregion
 }
