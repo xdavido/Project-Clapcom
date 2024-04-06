@@ -31,6 +31,9 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 	lockZ = false;
 	
 	offset = { 0, 0, 0 };
+	size = float3(5, 5, 5);
+
+	LOG("CollSize: %.0f, %.0f, %.0f", size.x, size.y, size.z);
 
 	transform = mOwner->mTransform;
 
@@ -66,7 +69,6 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
-		size = float3(5, 5, 5);
 		btSize = float3_to_btVector3(size);
 
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
@@ -115,7 +117,8 @@ CCollider::~CCollider()
 
 void CCollider::Update()
 {
-
+	LOG("CollSize: %.0f, %.0f, %.0f", size.x, size.y, size.z);
+	LOG("LocalScaling: %.0f, %.0f, %.0f", shape->getLocalScaling().x(), shape->getLocalScaling().y(), shape->getLocalScaling().z());
 	if (physBody != nullptr)
 	{
 		External->physics->RecalculateInertia(physBody, mass, useGravity);
@@ -313,8 +316,8 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) 
 			{
 				// TODO: que esto solo pase si se este manipulando unicamente la escala
-				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-				else size = componentMesh->rMeshReference->obb.Size();
+				//if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+				//else size = componentMesh->rMeshReference->obb.Size();
 			}
 		}
 		else {
@@ -328,7 +331,7 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) 
 			{
 				// TODO: que esto solo pase si se este manipulando unicamente la escala
-				size = componentTransform->GetGlobalTransform().GetScale();
+				//size = componentTransform->GetGlobalTransform().GetScale();
 			}
 
 		}
@@ -336,11 +339,7 @@ void CCollider::Update()
 		if (size.x == 0) size.x = 0.1;
 		if (size.y == 0) size.y = 0.1;
 		if (size.z == 0) size.z = 0.1;
-
-		btSize = float3_to_btVector3(size);
-		shape->setLocalScaling(btSize);
 	}
-
 }
 
 void CCollider::OnInspector()
@@ -428,6 +427,8 @@ void CCollider::OnInspector()
 			}
 		}
 
+		float3 prevSize = size;
+
 		if (shape != nullptr && collType != ColliderType::MESH_COLLIDER) 
 		{
 			switch (collType)
@@ -462,6 +463,12 @@ void CCollider::OnInspector()
 				ImGui::Text("Height: "); ImGui::SameLine();
 				ImGui::DragFloat("##Height", &size.y, 0.1f, 0.1f);
 				break;
+			}
+
+			if ((prevSize.x != size.x) || (prevSize.y != size.y) || (prevSize.z != size.z))
+			{
+				btSize = float3_to_btVector3(size);
+				shape->setLocalScaling(btSize);
 			}
 
 			ImGui::Text("Offset"); ImGui::SameLine();
@@ -595,6 +602,9 @@ void CCollider::SetBoxCollider()
 		physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
 		physBody->SetGameObject(mOwner);
 	}
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 }
 
 void CCollider::SetSphereCollider()
@@ -608,6 +618,9 @@ void CCollider::SetSphereCollider()
 
 	physBody = External->physics->AddBody(sphere, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 }
 
 void CCollider::SetCapsuleCollider()
@@ -621,6 +634,9 @@ void CCollider::SetCapsuleCollider()
 
 	physBody = External->physics->AddBody(capsule, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 }
 
 void CCollider::SetConeCollider()
@@ -634,6 +650,9 @@ void CCollider::SetConeCollider()
 
 	physBody = External->physics->AddBody(cone, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 }
 
 void CCollider::SetCylinderCollider()
@@ -647,6 +666,9 @@ void CCollider::SetCylinderCollider()
 
 	physBody = External->physics->AddBody(cylinder, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
+
+	btSize = float3_to_btVector3(size);
+	shape->setLocalScaling(btSize);
 }
 
 void CCollider::SetMeshCollider()
@@ -658,6 +680,7 @@ void CCollider::SetMeshCollider()
 	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 
 	size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+	shape->setLocalScaling(btSize);
 
 	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);

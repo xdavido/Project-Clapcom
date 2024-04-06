@@ -227,8 +227,8 @@ void CTransform::UpdateGlobalMatrix()
 
 	if (col != nullptr)
 	{
-		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
-		else col->size = mesh->rMeshReference->obb.Size();
+		//if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
+		//else col->size = mesh->rMeshReference->obb.Size();
 
 		col->physBody->SetRotation(rotation);
 	}

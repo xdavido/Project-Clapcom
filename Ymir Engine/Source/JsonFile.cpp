@@ -1973,9 +1973,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		size.y = static_cast<float>(json_array_get_number(jsonSizeArray, 1));
 		size.z = static_cast<float>(json_array_get_number(jsonSizeArray, 2));
 
-		ccollider->size = size;
+		LOG("JsonSize: %.0f, %.0f, %.0f", size.x, size.y, size.z);
 
-		ccollider->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+		btVector3 btSize = ccollider->float3_to_btVector3(size);
+
+		ccollider->size = size;
+		ccollider->shape->setLocalScaling(btSize);
 
 		// Offset
 		
