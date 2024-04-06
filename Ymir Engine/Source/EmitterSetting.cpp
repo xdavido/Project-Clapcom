@@ -381,38 +381,39 @@ void EmitterColor::OnInspector()
 		ImGui::SliderFloat("Stop ReSize ##COLOR", &(this->stopChange), this->startChange + 0.05f, 1.0f);
 	}
 }
- 
-EmitterImage::EmitterImage()
+
+EmitterImage::EmitterImage(ParticleEmitter* parent)
 {
+	//TONI: Check if particle system GO has component material
+	if (parent->owner->mOwner->GetComponent(ComponentType::MATERIAL))
+	{
+		mat = (CMaterial*)parent->owner->mOwner->GetComponent(ComponentType::MATERIAL);
+	}
+	else
+	{
+		CMaterial* cMat = new CMaterial(parent->owner->mOwner);
+		parent->owner->mOwner->AddComponent(cMat);
+		mat = cMat;
+	}
+
+	rTexTemp = new ResourceTexture();
 	imgPath = "Assets/Particles/particleExample.png";
 	SetImage(imgPath);
 }
 
 void EmitterImage::SetImage(std::string imgPath)
 {
-	rTexTemp = new ResourceTexture();
 	ImporterTexture::Import(imgPath, rTexTemp);
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
 
-	/*auto itr = mapTextures.find(state);
-	if (itr != mapTextures.end())
-	{
-		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
-		mat->rTextures.shrink_to_fit();
-
-		mapTextures.erase(state);
-	}
-
 	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
-
-	mapTextures.insert({ state, rTexTemp });*/
 }
 
 void EmitterImage::Spawn(ParticleEmitter* emitter, Particle* particle)
 {
-
+	particle->mat = mat;
 }
 
 void EmitterImage::Update(float dt, ParticleEmitter* emitter)
@@ -420,12 +421,43 @@ void EmitterImage::Update(float dt, ParticleEmitter* emitter)
 
 }
 
+std::vector<std::string> ListFilesInParticlesFolder() {
+	std::vector<std::string> files;
+	const std::string particlesFolderPath = "Assets/Particles";
+	for (const auto& entry : std::filesystem::directory_iterator(particlesFolderPath)) {
+		if (entry.is_regular_file() && entry.path().extension() == ".png") {
+			files.push_back(entry.path().filename().string());
+		}
+	}
+	return files;
+}
+
 void EmitterImage::OnInspector()
 {
 	ImGui::Separator();
-	ImGui::Text("Texto de prueba para el apartado de Image");
-	ImGui::Text("Opcion para cambiar la imagen");
-	ImGui::Text("Foto Here");
-	ImGui::Image((ImTextureID*)rTexTemp->ID, ImVec2(128, 128));
+
+	ImGui::Text("Selecciona una particula:");
 	
+	ImGui::Spacing();
+
+	std::vector<std::string> particleFiles = ListFilesInParticlesFolder();
+	if (ImGui::BeginCombo("##Texture", rTexTemp->GetAssetsFilePath().c_str()))
+	{
+		if (!particleFiles.empty()) 
+		{
+			for (const auto& particleFile : particleFiles) 
+			{
+				if (ImGui::Selectable(particleFile.c_str())) 
+				{
+					std::string particlePath = "Assets/Particles/" + particleFile;
+					SetImage(particlePath);
+				}
+			}
+		}
+		else ImGui::Text("There is no assets.");
+
+		ImGui::EndCombo();
+	}
+
+	ImGui::Image((ImTextureID*)rTexTemp->ID, ImVec2(128, 128));
 }

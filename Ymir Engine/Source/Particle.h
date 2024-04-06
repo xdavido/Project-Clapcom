@@ -19,6 +19,7 @@ public:
 	float oneOverMaxLifetime; //Vida total en 1.0f/dt que queremos que dure, siendo el dt su duracion (60 dt = 1 segundo aprox?)
 	float4 velocity; // (x,y,z son los vectores, normalizados, w es la intensidad de la velocidad)
 	Color color;
+	CMaterial* mat = nullptr;
 
 private:
 };

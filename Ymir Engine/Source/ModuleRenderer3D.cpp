@@ -821,16 +821,15 @@ void ModuleRenderer3D::DrawParticles()
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.0f);
 
-				////Binding particle Texture
-				//if (par->mat)
-				//{
-				//	for (auto& textures : par->mat->rTextures) {
-
-				//		textures->BindTexture(true);
-				//	}
-				//}
-
 				glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
+
+				if (par->mat)
+				{
+					for (auto& textures : par->mat->rTextures) {
+
+						textures->BindTexture(true);
+					}
+				}
 
 				//ParticleEmitter thisParticleEmitter; // TODO: Rework
 
@@ -847,8 +846,8 @@ void ModuleRenderer3D::DrawParticles()
 				//CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
 
 				// Esto iria bien
-				//particleMaterial->shader.UseShader(true);
-				//particleMaterial->shader.SetShaderUniforms(&m);
+				//par->mat->shader.UseShader(true);
+				//par->mat->shader.SetShaderUniforms(&m);
 
 				//Drawing to tris in direct mode
 				glBegin(GL_TRIANGLES);
@@ -867,16 +866,16 @@ void ModuleRenderer3D::DrawParticles()
 				glTexCoord2f(0.0f, 1.0f);
 				glVertex3f(-.5f, .5f, .0f);
 
-				/*if (par->mat)
+				if (par->mat)
 				{
 					for (auto& textures : par->mat->rTextures) {
 
 						textures->BindTexture(false);
 					}
-				}*/
+				}
 
-				// Esto iria bien
-				//particleMaterial->shader.UseShader(false);
+				//// Esto iria bien
+				//par->mat->shader.UseShader(false);
 
 				glEnd();
 				glPopMatrix();
