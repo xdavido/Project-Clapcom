@@ -71,8 +71,6 @@
     uniform bool selected;
     
     uniform float transparency;
-    
-    float heightScale = 0.0001f;
 
     vec4 DisplayNormalMap() {
 
@@ -105,12 +103,6 @@
 
         return isBorder ? color : mainTexture;
     }
-
-    vec2 ParallaxMapping(vec2 texCoords, vec3 viewDir)
-    { 
-        float height =  texture(texture_height, texCoords).r;     
-        return texCoords - viewDir.xy * (height * heightScale);  
-    }
 	
 	vec4 PointLight() {
 		
@@ -125,20 +117,10 @@
         // Ambient Occlusion
 
 		float ambient = 0.50f;
-
-        // Parallax Occlusion Mapping (Height Map)
-
-        // offset texture coordinates with Parallax Mapping
-        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
-        vec2 UVs = TexCoords;
-        
-        UVs = ParallaxMapping(TexCoords,  TangentViewPos);       
-        if(UVs.x > 1.0 || UVs.y > 1.0 || UVs.x < 0.0 || UVs.y < 0.0)
-            discard;
-
+            
         // Diffuse
 
-        vec3 normalMap = texture(texture_normal, UVs).xyz * 2.0f - 1.0f;
+        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
         vec3 normal = normalize(normalMap);
         vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
         float diffuse = max(dot(normal, lightDirection), 0.0f);
@@ -146,6 +128,7 @@
         // Specular
 
         float specularLight = 0.50f;
+        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
@@ -153,9 +136,9 @@
         // Apply all texture maps
 
         return vec4(
-            texture(texture_diffuse, UVs).rgb * lightColor * (diffuse * intensity + 
-            texture(texture_ambient, UVs).r * ambient) +
-            texture(texture_specular, UVs).a * specular * intensity, transparency
+            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + 
+            texture(texture_ambient, TexCoords).r * ambient) +
+            texture(texture_specular, TexCoords).a * specular * intensity, transparency
         );
 	
 	}
@@ -229,9 +212,6 @@
     }
 
 #endif
-
-
-
 
 
 
