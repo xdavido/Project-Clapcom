@@ -648,20 +648,20 @@ int GetImageColumns(MonoObject* object)
 int GetImageCurrentFrameX(MonoObject* object)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
-	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX;
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY;
 }
 
 int GetImageCurrentFrameY(MonoObject* object)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
-	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY;
+	return static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX;
 }
 
 void SetImageCurrentFrame(MonoObject* object, int x, int y)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
-	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX = x;
-	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY = y;
+	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsY = x;
+	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->ssCoordsX = y;
 
 	static_cast<UI_Image*>(go->GetComponentUI(UI_TYPE::IMAGE))->SetSpriteSize();
 }

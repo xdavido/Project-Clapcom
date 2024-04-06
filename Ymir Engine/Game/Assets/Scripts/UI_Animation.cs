@@ -12,7 +12,7 @@ public class UI_Animation : YmirComponent
     public bool pingpong = false;
     public bool backwards = false;
 
-    public float speed = 1f;
+    public float delay = 1f;
     public int loopCount = 0;
     public int totalFrames = 1;
     public int currentIndex = 0;
@@ -27,14 +27,12 @@ public class UI_Animation : YmirComponent
     {
         image = InternalCalls.GetGameObjectByName("Image");
         rowXcolumn = new Vector2(UI.GetImageRows(image), UI.GetImageColumns(image));
-        currentFrame = new Vector2(UI.GetImageCurrentFrameY(image), UI.GetImageCurrentFrameY(image));
+        currentFrame = new Vector2(UI.GetImageCurrentFrameX(image), UI.GetImageCurrentFrameY(image));
     }
 
     public void Update()
     {
-        //_timer += Time.deltaTime * speed;
-
-        if ((loop || loopCount == 0) && (_timer += Time.deltaTime) >= speed)
+        if ((loop || loopCount == 0) && (_timer += Time.deltaTime) >= delay)
         {
             _timer = 0;
 
@@ -47,14 +45,43 @@ public class UI_Animation : YmirComponent
                 if (currentFrame.y >= rowXcolumn.y) { currentFrame.y = 0; }
 
                 ++currentIndex;
-                if (currentIndex >= totalFrames) 
-                { 
-                    loopCount++; currentIndex = 0;
-                    currentFrame.x = 0; currentFrame.y = 0;
+                if (currentIndex >= totalFrames)
+                {
+                    if (!pingpong)
+                    {
+                        IncreaseLoopCount();
+                    }
+                    else
+                    {
+                        backwards = !backwards;
+                        if (!loop) { pingpong = false; }
+                    }
                 }
-
-                UI.SetImageCurrentFrame(image, (int)currentFrame.x, (int)currentFrame.y);
             }
+            else
+            {
+                if (currentFrame.x > 0) { --currentFrame.x; }
+                else if (currentFrame.x == 0) { currentFrame.x = rowXcolumn.x; }
+                else { --currentFrame.y; }
+
+                if (currentFrame.y < rowXcolumn.y) { currentFrame.y = rowXcolumn.y; }
+
+                ++currentIndex;
+                if (currentIndex >= totalFrames)
+                {
+                    if (!pingpong)
+                    {
+                        IncreaseLoopCount();
+                    }
+                    else
+                    {
+                        backwards = !backwards;
+                        if (!loop) { pingpong = false; }
+                    }
+                }
+            }
+
+            UI.SetImageCurrentFrame(image, (int)currentFrame.x, (int)currentFrame.y);
         }
 
         return;
@@ -63,6 +90,12 @@ public class UI_Animation : YmirComponent
     bool HasFinished()
     {
         return ((!loop && !pingpong && currentIndex >= totalFrames) || (pingpong && currentIndex >= totalFrames * 2)) && loopCount > 0;
+    }
+
+    void IncreaseLoopCount()
+    {
+        loopCount++; currentIndex = 0;
+        currentFrame.x = 0; currentFrame.y = 0;
     }
 
     void Reset()

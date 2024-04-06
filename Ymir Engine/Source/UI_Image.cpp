@@ -23,8 +23,8 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 	ssRows = 1;
 	ssColumns = 1;
 
-	ssCoordsX = 0;
 	ssCoordsY = 0;
+	ssCoordsX = 0;
 
 	SetSpriteSize();
 
@@ -462,15 +462,15 @@ void UI_Image::SetSpriteSize()
 		float spriteHeight = selectedTexture->GetHeight() / ssRows;
 
 		// Calculate the texture coordinates of the sprite within the sprite sheet
-		float minX = ssCoordsX * spriteWidth / selectedTexture->GetWidth();
-		float minY = ssCoordsY * spriteHeight / selectedTexture->GetHeight();
-		float maxX = (ssCoordsX + 1) * spriteWidth / selectedTexture->GetWidth();
-		float maxY = (ssCoordsY + 1) * spriteHeight / selectedTexture->GetHeight();
+		float minX = ssCoordsX * spriteHeight / selectedTexture->GetHeight();
+		float minY = ssCoordsY * spriteWidth / selectedTexture->GetWidth();
+		float maxX = (ssCoordsX + 1) * spriteHeight / selectedTexture->GetHeight();
+		float maxY = (ssCoordsY + 1) * spriteWidth / selectedTexture->GetWidth();
 
 		// Set the texture coordinates for each vertex of the quad
-		boundsGame->vertices[0].textureCoordinates = float2(minX, maxY); // Bottom-left
-		boundsGame->vertices[1].textureCoordinates = float2(maxX, maxY); // Bottom-right
-		boundsGame->vertices[2].textureCoordinates = float2(minX, minY); // Top-left
-		boundsGame->vertices[3].textureCoordinates = float2(maxX, minY); // Top-right
+		boundsGame->vertices[0].textureCoordinates = float2(minY, maxX); // Bottom-left
+		boundsGame->vertices[1].textureCoordinates = float2(maxY, maxX); // Bottom-right
+		boundsGame->vertices[2].textureCoordinates = float2(minY, minX); // Top-left
+		boundsGame->vertices[3].textureCoordinates = float2(maxY, minX); // Top-right
 	}
 }
