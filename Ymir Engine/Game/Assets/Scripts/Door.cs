@@ -24,10 +24,8 @@ public class Door : YmirComponent
     {
         if (other.Tag == "Player")
         {
-            //Debug.Log("[ERROR] Name: " + other.Name + "DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
-			gameObject.SetPosition(gameObject.transform.localPosition + new Vector3(0, -1, 0));
-
-			//Debug.Log("[ERROR] Parent Name: " + gameObject.parent.Tag);
+			//gameObject.SetPosition(gameObject.transform.localPosition + new Vector3(0, 0, 0));
+			gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 			
         }
     }
