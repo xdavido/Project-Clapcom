@@ -9,7 +9,7 @@ using YmirEngine;
 public class UI_Animation : YmirComponent
 {
     public bool loop = false;
-    public bool pingpong = false;
+    public bool pingpongWIP = false;
     public bool backwards = false;
 
     public float delay = 1f;
@@ -53,14 +53,14 @@ public class UI_Animation : YmirComponent
                 ++currentIndex;
                 if (currentIndex >= totalFrames)
                 {
-                    if (!pingpong)
+                    if (!pingpongWIP)
                     {
                         IncreaseLoopCount();
                     }
                     else
                     {
                         backwards = !backwards;
-                        if (!loop) { pingpong = false; }
+                        if (!loop) { pingpongWIP = false; }
                     }
                 }
             }
@@ -81,14 +81,14 @@ public class UI_Animation : YmirComponent
                 ++currentIndex;
                 if (currentIndex >= totalFrames)
                 {
-                    if (!pingpong)
+                    if (!pingpongWIP)
                     {
                         IncreaseLoopCount();
                     }
                     else
                     {
                         backwards = !backwards;
-                        if (!loop) { pingpong = false; }
+                        if (!loop) { pingpongWIP = false; }
                     }
                 }
             }
@@ -101,7 +101,7 @@ public class UI_Animation : YmirComponent
 
     bool HasFinished()
     {
-        return ((!loop && !pingpong && currentIndex >= totalFrames) || (pingpong && currentIndex >= totalFrames * 2)) && loopCount > 0;
+        return ((!loop && !pingpongWIP && currentIndex >= totalFrames) || (pingpongWIP && currentIndex >= totalFrames * 2)) && loopCount > 0;
     }
 
     void IncreaseLoopCount()

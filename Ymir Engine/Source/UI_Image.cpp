@@ -445,16 +445,6 @@ void UI_Image::SetNativeSize()
 
 void UI_Image::SetSpriteSize()
 {
-	//if (selectedTexture != nullptr)
-	//{
-	//	float2 ssSize = float2(selectedTexture->GetWidth() / ssRows, selectedTexture->GetHeight() / ssColumns);
-
-	//	boundsGame->vertices[0].textureCoordinates = float2(ssCoordsX * ssSize.x, ssCoordsY * ssSize.y + ssSize.y);	// 0, 1
-	//	boundsGame->vertices[1].textureCoordinates = float2(ssCoordsX * ssSize.x + ssSize.x, ssCoordsY * ssSize.y + ssSize.y);	// 1, 1
-	//	boundsGame->vertices[2].textureCoordinates = float2(ssCoordsX * ssSize.x, ssCoordsY * ssSize.y);	// 0, 0
-	//	boundsGame->vertices[3].textureCoordinates = float2(ssCoordsX * ssSize.x + ssSize.x, ssCoordsY * ssSize.y);	// 1, 0
-	//}
-
 	if (selectedTexture != nullptr)
 	{
 		// Calculate the size of each sprite cell in the sprite sheet
