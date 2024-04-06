@@ -1387,7 +1387,21 @@ void ModuleEditor::DrawEditor()
 
 			if (ImGui::BeginDragDropTarget())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
+				{
+					std::string assetsFilePathDrop = (const char*)payload->Data;
+					if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+						assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+						LOG("File path: %s", assetsFilePathDrop.c_str());
+
+						App->resourceManager->ImportFile(assetsFilePathDrop);
+					}
+
+				}
+
+				else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
 				{
 					std::string assetsFilePathDrop = (const char*)payload->Data;
 
@@ -1401,7 +1415,7 @@ void ModuleEditor::DrawEditor()
 
 					}
 
-					if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
+					else if (assetsFilePathDrop.find(".yscene") != std::string::npos) {
 
 						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
 
@@ -1414,7 +1428,7 @@ void ModuleEditor::DrawEditor()
 
 					}
 
-					if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
+					else if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
 
 						assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
 
@@ -1424,16 +1438,6 @@ void ModuleEditor::DrawEditor()
 						PhysfsEncapsule::SplitFilePath(assetsFilePathDrop.c_str(), &path, &name);
 
 						App->scene->LoadPrefab(path, name);
-
-					}
-
-					if (assetsFilePathDrop.find(".png") != std::string::npos) {
-
-						assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
-
-						LOG("File path: %s", assetsFilePathDrop.c_str());
-
-						App->resourceManager->ImportFile(assetsFilePathDrop);
 
 					}
 
@@ -3424,7 +3428,22 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
+			{
+				std::string assetsFilePathDrop = (const char*)payload->Data;
+				if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+					assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+					LOG("File path: %s", assetsFilePathDrop.c_str());
+
+				}
+
+				MoveAsset(assetsFilePathDrop);
+
+			}
+
+			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
 			{
 				std::string assetsFilePathDrop = (const char*)payload->Data;
 
@@ -3452,14 +3471,6 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 
-				else if (assetsFilePathDrop.find(".png") != std::string::npos) {
-
-					assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
-
-					LOG("File path: %s", assetsFilePathDrop.c_str());
-
-				}
-
 				else if (assetsFilePathDrop.find(".ttf") != std::string::npos) {
 
 					assetsFilePathDrop.erase(assetsFilePathDrop.find(".ttf") + 4);
@@ -3476,29 +3487,8 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 
-				// Extract the file name from the path
-				std::filesystem::path assetFilePath(assetsFilePathDrop);
-				std::string fileName = assetFilePath.filename().string();
 
-				// Calculate parent directory from current directory
-				std::filesystem::path parentDirPath(currentDir);
-				parentDirPath = parentDirPath.parent_path();
-				std::string parentDir = parentDirPath.string();
-
-				// Construct the new path by appending the file name to the parent directory
-				std::filesystem::path newFilePath = std::filesystem::path(parentDir) / fileName;
-
-				// Perform the move operation
-				std::error_code ec;
-				std::filesystem::rename(assetFilePath, newFilePath, ec);
-
-				if (!ec) {
-					LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), currentDir.c_str());
-				}
-				else {
-					LOG("[ERROR] moving asset: %s", ec.message().c_str());
-				}
-
+				MoveAsset(assetsFilePathDrop);
 			}
 
 			ImGui::EndDragDropTarget();
@@ -3541,7 +3531,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 			std::string entryName = entry.path().filename().string();
 
 			if (entry.is_directory() && (entryName != "." && entryName != "..") && filter.PassFilter(entryName.c_str())) {
-				
+
 				ImGui::TableNextColumn();
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.8f, 0.3f, 1.0f));
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color
@@ -3571,7 +3561,22 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 					if (ImGui::BeginDragDropTarget())
 					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
+						{
+							std::string assetsFilePathDrop = (const char*)payload->Data;
+							if (assetsFilePathDrop.find(".png") != std::string::npos) {
+
+								assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
+
+								LOG("File path: %s", assetsFilePathDrop.c_str());
+
+							}
+
+							MoveAsset(assetsFilePathDrop);
+
+						}
+
+						else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))
 						{
 							std::string assetsFilePathDrop = (const char*)payload->Data;
 
@@ -3588,20 +3593,12 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yscene") + 7);
 
 								LOG("File path: %s", assetsFilePathDrop.c_str());
-							
+
 							}
 
 							else if (assetsFilePathDrop.find(".yfab") != std::string::npos) {
 
 								assetsFilePathDrop.erase(assetsFilePathDrop.find(".yfab") + 5);
-
-								LOG("File path: %s", assetsFilePathDrop.c_str());
-
-							}
-
-							else if (assetsFilePathDrop.find(".png") != std::string::npos) {
-
-								assetsFilePathDrop.erase(assetsFilePathDrop.find(".png") + 4);
 
 								LOG("File path: %s", assetsFilePathDrop.c_str());
 
@@ -3623,23 +3620,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 							}
 
-							// Extract the file name from the path
-							std::filesystem::path assetFilePath(assetsFilePathDrop);
-							std::string fileName = assetFilePath.filename().string();
-
-							// Construct the new path by appending the file name to the current directory
-							std::filesystem::path newFilePath = entry.path() / fileName;
-
-							// Perform the move operation
-							std::error_code ec;
-							std::filesystem::rename(assetFilePath, newFilePath, ec);
-
-							if (!ec) {
-								LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), entryName.c_str());
-							}
-							else {
-								LOG("[ERROR] moving asset: %s", ec.message().c_str());
-							}
+							MoveAsset(assetsFilePathDrop);
 
 						}
 
@@ -3684,7 +3665,7 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 			std::string entryName = entry.path().filename().string();
 
 			if (!entry.is_directory() && (entryName != "." && entryName != ".." && (shouldIgnoreMeta ? entryName.find(".meta") == std::string::npos : true)) && filter.PassFilter(entryName.c_str())) {
-				
+
 				ImGui::TableNextColumn();
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Default text color for files
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.14f, 0.14f, 0.14f, 1.0f)); // Default button color for files
@@ -3705,7 +3686,6 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 					if (ImGui::BeginDragDropSource())
 					{
 						ImGui::SetDragDropPayload("tex", entry.path().string().data(), entry.path().string().length());
-						ImGui::SetDragDropPayload("asset", entry.path().string().data(), entry.path().string().length());
 
 						ImGui::Text("Import Texture: %s", entry.path().string().c_str());
 
@@ -3806,10 +3786,11 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 				}
 				break;
-				case ResourceType::MATERIAL: {
+				case ResourceType::MATERIAL:
+				{
 
 				}
-					break;
+				break;
 				case ResourceType::ALL_TYPES:
 					break;
 				default:
@@ -3883,6 +3864,32 @@ void ModuleEditor::DrawAssetsWindow(const std::string& assetsFolder)
 
 	}
 
+}
+
+void ModuleEditor::MoveAsset(const std::string& assetsFilePathDrop)
+{
+	// Extract the file name from the path
+	std::filesystem::path assetFilePath(assetsFilePathDrop);
+	std::string fileName = assetFilePath.filename().string();
+
+	// Calculate parent directory from current directory
+	std::filesystem::path parentDirPath(currentDir);
+	parentDirPath = parentDirPath.parent_path();
+	std::string parentDir = parentDirPath.string();
+
+	// Construct the new path by appending the file name to the parent directory
+	std::filesystem::path newFilePath = std::filesystem::path(parentDir) / fileName;
+
+	// Perform the move operation
+	std::error_code ec;
+	std::filesystem::rename(assetFilePath, newFilePath, ec);
+
+	if (!ec) {
+		LOG("Moved asset '%s' to directory '%s'", fileName.c_str(), currentDir.c_str());
+	}
+	else {
+		LOG("[ERROR] moving asset: %s", ec.message().c_str());
+	}
 }
 
 static bool showDeleteAssetPopup = false;

@@ -2069,8 +2069,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		}
 		case UI_TYPE::IMAGE:
 		{
-			//UI_Image* ui_comp = gameObject->AddImage(json_object_get_string(componentObject, "Path"));
-
 			UI_Image* ui_comp = new UI_Image(gameObject);
 			ui_comp->width = json_object_get_number(componentObject, "Width");
 			ui_comp->height = json_object_get_number(componentObject, "Height");
