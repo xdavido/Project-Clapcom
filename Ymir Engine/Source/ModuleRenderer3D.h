@@ -92,6 +92,8 @@ public:
 
 	void DrawLightsDebug();
 
+	void DrawOutline(ResourceMesh* rMeshReference, float4x4 transform);
+
 public:
 
 	GL_Light gl_lights[MAX_GL_LIGHTS];
@@ -110,5 +112,8 @@ public:
 
 	//font
 	Font* defaultFont;
+
+	// Outline Shader
+	Shader* outlineShader;
 
 };

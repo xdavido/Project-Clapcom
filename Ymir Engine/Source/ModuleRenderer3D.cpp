@@ -142,7 +142,11 @@ bool ModuleRenderer3D::Init()
 
 		// Enable OpenGL initial configurations
 
+		// Stencil Buffer (outline)
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_STENCIL_TEST);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 		glEnable(GL_CULL_FACE);
 		gl_lights[0].Active(true);
 		glEnable(GL_LIGHTING);
@@ -150,12 +154,13 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glEnable(GL_ALPHA_TEST);
+		
+
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
 
 		glDisable(GL_MULTISAMPLE);
-		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
 		glDisable(GL_POINT_SPRITE);
 		glDisable(GL_FOG);
@@ -219,6 +224,9 @@ bool ModuleRenderer3D::Init()
 	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
 	delete lightingShader;
 
+	outlineShader = new Shader;
+	outlineShader->LoadShader("Assets/Shaders/OutlineShader.glsl");
+
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
@@ -258,7 +266,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
@@ -298,7 +306,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 #endif // _STANDALONE
 
 	// Clear color buffer and depth buffer before each PostUpdate call
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// Your rendering code here
@@ -818,6 +826,44 @@ void ModuleRenderer3D::DrawLightsDebug()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+void ModuleRenderer3D::DrawOutline(ResourceMesh* rMeshReference, float4x4 transform)
+{
+	glEnable(GL_DEPTH_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00);
+
+	// Stencil Testing (outline)
+	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	glStencilMask(0xFF);
+
+	rMeshReference->Render();
+
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilMask(0x00);
+	glDisable(GL_DEPTH_TEST);
+	App->editor->gl_DepthTesting = false;
+
+	outlineShader->UseShader(true);
+
+	// Scale the transformation matrix slightly (this should be done scaling smoothed normals)
+
+	float scaleFactor = 1.05f;
+	float3 scaleVector(scaleFactor, scaleFactor, scaleFactor);
+	float4x4 scaledMatrix = transform * float4x4::Scale(scaleVector, rMeshReference->aabb.CenterPoint());
+
+	outlineShader->SetShaderUniforms(&scaledMatrix, false);
+
+	rMeshReference->Render();
+
+	glStencilMask(0xFF);
+	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	glEnable(GL_DEPTH_TEST);
+	App->editor->gl_DepthTesting = true;
+
+	outlineShader->UseShader(false);
+}
+
 void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
@@ -868,7 +914,16 @@ void ModuleRenderer3D::DrawGameObjects()
 					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
 				}
 
-				meshComponent->rMeshReference->Render();
+				if ((*it)->selected) {
+
+					DrawOutline(meshComponent->rMeshReference, transformComponent->mGlobalMatrix);
+
+				}
+				else {
+
+					meshComponent->rMeshReference->Render();
+
+				}
 
 				if (materialComponent != nullptr && materialComponent->active) {
 

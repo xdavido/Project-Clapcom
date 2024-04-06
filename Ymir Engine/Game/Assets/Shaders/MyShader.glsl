@@ -33,7 +33,7 @@
 
     out vec4 FragColor;
 
-    uniform sampler2D texture_diffuse;
+    uniform sampler2D texture_diffuse1;
 	uniform sampler2D texture_specular;
 	uniform sampler2D texture_normal;
 	uniform sampler2D texture_height;
@@ -66,11 +66,11 @@
 
         // Sample the neighboring pixels
 
-        vec2 pixelSize = 1.0 / textureSize(texture_diffuse, 0);
-        vec4 leftColor = texture(texture_diffuse, TexCoords - vec2(outlineWidth, 0) * pixelSize);
-        vec4 rightColor = texture(texture_diffuse, TexCoords + vec2(outlineWidth, 0) * pixelSize);
-        vec4 topColor = texture(texture_diffuse, TexCoords + vec2(0, outlineWidth) * pixelSize);
-        vec4 bottomColor = texture(texture_diffuse, TexCoords - vec2(0, outlineWidth) * pixelSize);
+        vec2 pixelSize = 1.0 / textureSize(texture_diffuse1, 0);
+        vec4 leftColor = texture(texture_diffuse1, TexCoords - vec2(outlineWidth, 0) * pixelSize);
+        vec4 rightColor = texture(texture_diffuse1, TexCoords + vec2(outlineWidth, 0) * pixelSize);
+        vec4 topColor = texture(texture_diffuse1, TexCoords + vec2(0, outlineWidth) * pixelSize);
+        vec4 bottomColor = texture(texture_diffuse1, TexCoords - vec2(0, outlineWidth) * pixelSize);
 
         // Check if the current pixel is on the border
 
@@ -107,7 +107,7 @@
 		    vec2 inten = blinnPhongDir(lightDir, lightInt, 0.2, 0.8, 0.3, 80.0);
     
 		    // Sample the diffuse texture
-		    vec3 textureColor = texture(texture_diffuse, TexCoords).rgb;
+		    vec3 textureColor = texture(texture_diffuse1, TexCoords).rgb;
 
 		    // Multiply the texture color with the light intensity and add ambient term
 		    vec3 finalColor = textureColor * inten.x + vec3(1.0) * inten.y;
@@ -118,50 +118,30 @@
 		    // Output the final color
 		    FragColor = vec4(finalColor, transparency);
 
-            //if (selected) {
+            if (selected) {
 
-                //FragColor = AddOutline(vec4(finalColor, transparency), vec4(1.0, 0.5, 0.0, transparency), 0.1);
+                FragColor = AddOutline(vec4(finalColor, transparency), vec4(1.0, 0.5, 0.0, transparency), 0.1);
 
-            //}
+            }
 
         }
         else {
-            
-            //vec4 mainTexture = texture(texture_diffuse, TexCoords);
-    		//mainTexture.a *= transparency;
+
+            vec4 mainTexture = texture(texture_diffuse1, TexCoords);
+    		mainTexture.a *= transparency;
     		
-            //FragColor = mainTexture;
+            FragColor = mainTexture;
 
-            //if (selected) {
+            if (selected) {
 
-                //FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
+                FragColor = AddOutline(mainTexture, vec4(1.0, 0.5, 0.0, transparency), 0.2);
 
-            //}
-
-            // Ambient
-            vec3 ambient = vec3(0.1); // Example ambient color
-    
-            // Diffuse
-            vec3 norm = normalize(Normal);
-            vec3 lightDir = normalize(vec3(0.0, 0.0, -1.0)); // Example light direction
-            float diff = max(dot(norm, lightDir), 0.0);
-            vec3 diffuse = diff * texture(texture_diffuse, TexCoords).rgb;
-
-            // Specular
-            vec3 viewDir = normalize(-Position); // Example view direction
-            vec3 reflectDir = reflect(-lightDir, norm);
-            float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Example shininess
-            float specular = spec * texture(texture_specular, TexCoords).r;
-
-            // Final color
-            vec3 result = (ambient + diffuse + specular) * texture(texture_diffuse, TexCoords).rgb;
-            FragColor = vec4(result, 1.0);
+            }
 
         }
     }
 
 #endif
-
 
 
 
