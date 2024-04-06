@@ -50,11 +50,11 @@ public:
 	void SetCylinderCollider();
 	void SetMeshCollider();
 
-	void RemovePhysbody();
-
+	void AdaptSizeToShape(ColliderType prevType);
+	void SetDefaultValues(PhysicsType type);
 	void SetAsSensor(bool is_sensor);
 
-	void SetDefaultValues(PhysicsType type);
+	void RemovePhysbody();
 
 	// Conversion function from btVector3 to float3
 	float3 btVector3_to_float3(const btVector3& v) {
@@ -75,8 +75,6 @@ public:
 
 	float3 size;
 	btVector3 btSize;
-	float radius;
-	float height;
 	float3 offset;
 
 	float mass;

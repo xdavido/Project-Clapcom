@@ -70,15 +70,11 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 			size = componentMesh->rMeshReference->obb.Size();
 			btSize = float3_to_btVector3(size);
-			radius = size.Length() / 2;
-			height = size.y;
 		}
 		else {
 
 			size = float3(10, 10, 10);
 			btSize = float3_to_btVector3(size);
-			radius = 5;
-			height = 10;
 		}
 
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
@@ -101,26 +97,15 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 			physBody->SetPosition(pos);
 			physBody->SetRotation(componentTransform->GetLocalRotation());
 
-			/*if (ImGuizmo::IsUsing())
-			{*/
 			if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 			else size = componentMesh->rMeshReference->obb.Size();
-
-			radius = size.Length() / 2;
-			height = size.y;
-			/*}*/
-
 		}
 		else {
 
 			physBody->SetPosition(componentTransform->GetGlobalTransform().TranslatePart());
 			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
-			/*if (ImGuizmo::IsUsing())
-			{*/
 			size = componentTransform->GetGlobalTransform().GetScale();
-			/*}*/
-
 		}
 
 		if (size.x == 0) size.x = 0.1;
@@ -342,9 +327,6 @@ void CCollider::Update()
 			{
 				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 				else size = componentMesh->rMeshReference->obb.Size();
-
-				radius = size.Length() / 2;
-				height = size.y;
 			}
 		}
 		else {
@@ -368,7 +350,6 @@ void CCollider::Update()
 
 		btSize = float3_to_btVector3(size);
 		shape->setLocalScaling(btSize);
-
 	}
 
 }
@@ -397,7 +378,6 @@ void CCollider::OnInspector()
 		ImGui::SeparatorText("COLLIDER");
 		ImGui::Spacing();
 
-
 		bool auxIsSensor = isSensor;
 		if (ImGui::Checkbox("Is Sensor", &auxIsSensor))
 		{
@@ -414,119 +394,89 @@ void CCollider::OnInspector()
 		int hasNotMesh = 0;
 		if (mOwner->GetComponent(ComponentType::MESH) == nullptr) hasNotMesh = 1; // if mesh = false -> value = 1
 
+		// For operations related with previous collierType after changing it
+		ColliderType currentType = collType;
+
 		if (ImGui::Combo("##Collider Type", reinterpret_cast<int*>(&collType), titles, IM_ARRAYSIZE(titles) - hasNotMesh)) 
 		{
-			switch (collType)	
+			if (currentType != collType)
 			{
-			case ColliderType::BOX:
-				RemovePhysbody();
-				SetBoxCollider();
-				break;
-			case ColliderType::SPHERE:
-				RemovePhysbody();
-				SetSphereCollider();
-				break;
-			case ColliderType::CAPSULE:
-				RemovePhysbody();
-				SetCapsuleCollider();
-				break;
-			case ColliderType::CONE:
-				RemovePhysbody(); 
-				SetConeCollider();
-				break;
-			case ColliderType::CYLINDER:
-				RemovePhysbody();
-				SetCylinderCollider();
-				break;
-			case ColliderType::MESH_COLLIDER:
-				RemovePhysbody();
-				SetMeshCollider();
-				break;
-			default:
-				break;
+				switch (collType)
+				{
+				case ColliderType::BOX:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetBoxCollider();
+					break;
+				case ColliderType::SPHERE:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetSphereCollider();
+					break;
+				case ColliderType::CAPSULE:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetCapsuleCollider();
+					break;
+				case ColliderType::CONE:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetConeCollider();
+					break;
+				case ColliderType::CYLINDER:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetCylinderCollider();
+					break;
+				case ColliderType::MESH_COLLIDER:
+					RemovePhysbody();
+					AdaptSizeToShape(currentType);
+					SetMeshCollider();
+					break;
+				default:
+					break;
+				}
 			}
 		}
 
-		if (shape != nullptr) {
-
+		if (shape != nullptr && collType != ColliderType::MESH_COLLIDER) 
+		{
 			switch (collType)
 			{
 			case ColliderType::BOX: 
-
 				ImGui::Text("Scale: "); ImGui::SameLine();
 				ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
-
-				ImGui::Text("Offset"); ImGui::SameLine();
-				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 				break;
 
 			case ColliderType::SPHERE:
-
 				ImGui::Text("Radius: "); ImGui::SameLine();
-
-				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
-				{
-					size.x = radius;
-					size.y = radius;
-					size.z = radius;
-				}
-
-				ImGui::Text("Offset"); ImGui::SameLine();
-				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
-
+				ImGui::DragFloat("##Radius", &size.x, 0.1f, 0.1f);
 				break;
+
 			case ColliderType::CAPSULE:
 				ImGui::Text("Radius: "); ImGui::SameLine();
-				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
-				{
-					if (radius == 0) radius = 0.1f;
-
-					size.x = radius;
-					size.z = radius;
-				}
-
+				ImGui::DragFloat("##Radius", &size.x, 0.1f, 0.1f);
 				ImGui::Text("Height: "); ImGui::SameLine();
-				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
-
-				ImGui::Text("Offset"); ImGui::SameLine();
-				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
-
+				ImGui::DragFloat("##Height", &size.y, 0.1f, 0.1f);
 				break;
 
 			case ColliderType::CONE:
 				ImGui::Text("Radius: "); ImGui::SameLine();
-				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
-				{
-					if (radius == 0) radius = 0.1f;
-
-					size.x = radius;
-					size.z = radius;
-				}
-
+				ImGui::DragFloat("##Radius", &size.x, 0.1f, 0.1f);
 				ImGui::Text("Height: "); ImGui::SameLine();
-				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
-
+				ImGui::DragFloat("##Height", &size.y, 0.1f, 0.1f);
 				break;
 
 			case ColliderType::CYLINDER:
 				ImGui::Text("Radius: "); ImGui::SameLine();
-				if (ImGui::DragFloat("##Radius", &radius, 0.1f, 0.1f))
-				{
-					if (radius == 0) radius = 0.1f;
-
-					size.x = radius;
-					size.z = radius;
-				}
-
+				ImGui::DragFloat("##Radius", &size.x, 0.1f, 0.1f);
 				ImGui::Text("Height: "); ImGui::SameLine();
-				ImGui::DragFloat("##height", &size.y, 0.1f, 0.1f);
-
-				ImGui::Text("Offset"); ImGui::SameLine();
-				ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
-
+				ImGui::DragFloat("##Height", &size.y, 0.1f, 0.1f);
 				break;
 			}
 
+			ImGui::Text("Offset"); ImGui::SameLine();
+			ImGui::DragFloat3("##Offset", offset.ptr(), 0.1f, 0.1f);
 
 			if (ImGui::Button("Reset Collider Size")) {
 
@@ -536,11 +486,7 @@ void CCollider::OnInspector()
 
 					if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 					else size = componentMesh->rMeshReference->obb.Size();
-
-					radius = size.Length();
-					height = size.y;
 				}
-
 			}
 		}
 
@@ -644,17 +590,13 @@ void CCollider::SetBoxCollider()
 	collType = ColliderType::BOX;
 
 	CCube cube;
-	//cube.size.x = size.x;
-	//cube.size.y = size.y;
-	//cube.size.z = size.z;
-	
-	if (mOwner) {
 
+	if (mOwner) 
+	{
 		transform = mOwner->mTransform;
 
 		physBody = External->physics->AddBody(cube, PhysicsType::DYNAMIC, mass, true, shape);
 		physBody->SetGameObject(mOwner);
-
 	}
 }
 
@@ -726,6 +668,36 @@ void CCollider::SetMeshCollider()
 	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
 	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));
 	//convexShape->setImplicitShapeDimensions(btVector3(size.x, size.y, size.z));
+}
+
+void CCollider::AdaptSizeToShape(ColliderType prevType)
+{
+	switch (collType) // Hardcode maestro
+	{
+	case ColliderType::BOX:
+		if		(prevType == ColliderType::SPHERE) { size.x *= 2; size.y = size.x; size.z = size.x; }
+		else if (prevType == ColliderType::CAPSULE) { size.x *= 2; size.y *= 2; size.z = size.x; }
+		else if (prevType == ColliderType::CYLINDER) { size.x *= 4; size.y *= 2; size.z = size.x; }
+		break;
+	case ColliderType::SPHERE:
+		if		(prevType == ColliderType::BOX) { size.x *= 0.5f; size.y = size.x; size.z = size.x; } 
+		else if (prevType == ColliderType::CYLINDER) { size.x *= 2; size.z = size.x; } 
+		break;
+	case ColliderType::CAPSULE:
+		if		(prevType == ColliderType::BOX) { size.x *= 0.5f; size.y *= 0.5f; size.z = size.x; }
+		else if (prevType == ColliderType::CYLINDER) { size.x *= 2; size.z = size.x; } 
+		break;
+	case ColliderType::CONE:
+		//if (prevType == ColliderType::BOX) { size.x *= 0.5f; size.z = size.x; } 
+		//else if (prevType == ColliderType::CYLINDER) { size.x *= 2; size.z = size.x; } 
+		break;
+	case ColliderType::CYLINDER:
+		if		(prevType == ColliderType::BOX) { size.x *= 0.25f; size.y *= 0.5f; size.z = size.x; }
+		else if (prevType == ColliderType::CAPSULE || prevType == ColliderType::SPHERE) { size.x *= 0.5; size.z = size.x; }
+		break;
+	case ColliderType::MESH_COLLIDER:
+		break;
+	}
 }
 
 void CCollider::SetDefaultValues(PhysicsType type)

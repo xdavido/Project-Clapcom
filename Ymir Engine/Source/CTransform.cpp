@@ -232,8 +232,6 @@ void CTransform::UpdateGlobalMatrix()
 
 		col->physBody->SetRotation(rotation);
 	}
-
-
 }
 
 void CTransform::UpdateLocalMatrix()
