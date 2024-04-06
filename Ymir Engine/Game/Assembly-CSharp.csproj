@@ -70,6 +70,7 @@
 		<Compile Include="Assets\Scripts\Button_Exit.cs" />
 		<Compile Include="Assets\Scripts\Basic_Movment.cs" />
 		<Compile Include="Assets\Scripts\Door.cs" />
+		<Compile Include="Assets\Scripts\Tp_Player.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -465,7 +465,6 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 		<< std::endl << ""
 		<< std::endl <<	"public class " << className.c_str() << " : YmirComponent" 
 		<< std::endl <<	"{" 
-		<< std::endl << "bool start = true;"
 		<< std::endl << ""
 		<< std::endl << "	public void Start()"
 		<< std::endl << "	{"
