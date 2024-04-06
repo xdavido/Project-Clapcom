@@ -337,10 +337,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
-		DrawGameObjects();
-
-		DrawUIElements(false, false);
-
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes)
@@ -355,7 +351,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawPhysicsColliders();
 		}
 
-		DrawGameObjects();
+		DrawGameObjects(false);
 
 		DrawLightsDebug();
 
@@ -380,7 +376,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 				DrawPhysicsColliders();
 			}
 
-			DrawGameObjects();
+			DrawGameObjects(true);
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
@@ -416,7 +412,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 				DrawPhysicsColliders();
 			}
 
-			DrawGameObjects();
+			DrawGameObjects(true);
 
 			DrawUIElements(true, true);
 
@@ -864,7 +860,7 @@ void ModuleRenderer3D::DrawOutline(ResourceMesh* rMeshReference, float4x4 transf
 	outlineShader->UseShader(false);
 }
 
-void ModuleRenderer3D::DrawGameObjects()
+void ModuleRenderer3D::DrawGameObjects(bool isGame)
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
@@ -914,7 +910,7 @@ void ModuleRenderer3D::DrawGameObjects()
 					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
 				}
 
-				if ((*it)->selected) {
+				if ((*it)->selected && !isGame) {
 
 					DrawOutline(meshComponent->rMeshReference, transformComponent->mGlobalMatrix);
 
