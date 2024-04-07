@@ -73,9 +73,11 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
+	float fixedTimeStep = 1 / App->GetFPS();
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
 	{
-		world->stepSimulation(dt);
+		world->stepSimulation(dt, 10, fixedTimeStep);
 	}
 	else
 	{
