@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        -36,
-        48,
-        100
+        5.3171768188476562,
+        247.847900390625,
+        5.2583909034729004
     ],
     "Editor Camera Right (X)": [
-        0.94088733196258545,
+        0.70710670948028564,
         0,
-        0.33871945738792419
+        -0.70710670948028564
     ],
     "Editor Camera Up (Y)": [
-        0.13941577076911926,
-        0.91136610507965088,
-        -0.38726601004600525
+        -0.40824830532073975,
+        0.81649661064147949,
+        -0.40824830532073975
     ],
     "Editor Camera Front (Z)": [
-        0.30869746208190918,
-        -0.41159659624099731,
-        -0.85749292373657227
+        -0.5773501992225647,
+        -0.5773501992225647,
+        -0.5773501992225647
     ],
     "Hierarchy": [
         {
@@ -68,9 +68,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -95,17 +95,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -149,10 +149,10 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 669,
+                    "Width": 475,
                     "Height": 658,
                     "UI Type": 0,
-                    "UI State": 5,
+                    "UI State": 1,
                     "Drag Limits": [
                         0,
                         0,
@@ -162,15 +162,111 @@
                 }
             ],
             "Children UID": [
-                608182684
+                1244282571,
+                2037762685,
+                459053386,
+                808576725
             ]
         },
         {
-            "Name": "Button",
-            "UID": 608182684,
+            "Name": "Image",
+            "UID": 1244282571,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 1430011173,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1.7000000476837158,
+                        1.7000000476837158,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 1122,
+                    "Height": 629,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        1122,
+                        629
+                    ],
+                    "Path": "Assets\/UI\/UpgradeWeaponWireframe.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "STAPLER",
+            "UID": 2037762685,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1430011173,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1993436445,
+                2049058481
+            ]
+        },
+        {
+            "Name": "1Upgrade0",
+            "UID": 1993436445,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2037762685,
             "Components": [
                 {
                     "Type": "Transform",
@@ -195,19 +291,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
+                    "Position X": 281,
+                    "Position Y": 238,
+                    "Width": 195,
+                    "Height": 56,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        0,
-                        0,
-                        300,
-                        50
+                        281,
+                        238,
+                        195,
+                        56
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -241,8 +337,8 @@
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 1467954273,
-                    "Image": 608182684,
+                    "Text": 4294967295,
+                    "Image": 1993436445,
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
@@ -273,17 +369,14 @@
                         1
                     ]
                 }
-            ],
-            "Children UID": [
-                1467954273
             ]
         },
         {
-            "Name": "Text",
-            "UID": 1467954273,
+            "Name": "Stapler-Text",
+            "UID": 2049058481,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 608182684,
+            "Parent UID": 2037762685,
             "Components": [
                 {
                     "Type": "Transform",
@@ -308,19 +401,423 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 20,
-                    "Position Y": 16,
-                    "Width": 300,
+                    "Position X": 274,
+                    "Position Y": 177,
+                    "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        20,
-                        16,
-                        300,
+                        274,
+                        177,
+                        200,
                         50
                     ],
                     "Text": "S.T.A.P.L.E.R.",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 18.799999237060547,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "FSAD",
+            "UID": 459053386,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1430011173,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                582770001,
+                1487432863
+            ]
+        },
+        {
+            "Name": "2Upgrade0",
+            "UID": 582770001,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 459053386,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 852,
+                    "Position Y": 238,
+                    "Width": 192,
+                    "Height": 56,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        852,
+                        238,
+                        192,
+                        56
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 582770001,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/Lava.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Water.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "FSAD-Text",
+            "UID": 1487432863,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 459053386,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 898,
+                    "Position Y": 177,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        898,
+                        177,
+                        200,
+                        50
+                    ],
+                    "Text": "FSAD",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Mk-Mk2",
+            "UID": 808576725,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1430011173,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1156110965,
+                1706754414
+            ]
+        },
+        {
+            "Name": "3Upgrade0",
+            "UID": 1156110965,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 808576725,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 1423,
+                    "Position Y": 238,
+                    "Width": 195,
+                    "Height": 56,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1423,
+                        238,
+                        195,
+                        56
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1156110965,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/Lava.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Water.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Text",
+            "UID": 1706754414,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 808576725,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 1451,
+                    "Position Y": 177,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1451,
+                        177,
+                        200,
+                        50
+                    ],
+                    "Text": "Mk-Mk2",
                     "Font name": "arial.ttf",
                     "Font path": "Assets\\Fonts",
                     "Font size": 21,
