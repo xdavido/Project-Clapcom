@@ -393,7 +393,7 @@ bool ModuleAudio::LoadBank(std::string& name)
 	}
 	else
 	{
-		LOG("[ERROR]Error loading '%s'", name.c_str());
+		LOG("[ERROR] Error loading '%s'", name.c_str());
 		return false;
 	}
 

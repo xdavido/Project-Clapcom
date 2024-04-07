@@ -19,7 +19,7 @@ UI_Text::UI_Text(GameObject* g, float x, float y, const char* t, float fs, float
 	}
 	else
 	{
-		font = new Font(fontName, fontPath);
+		SetFont(fontName, fontPath);
 	}
 
 	boundsEditor = new UI_Bounds;
@@ -172,7 +172,7 @@ void UI_Text::OnInspector()
 				PhysfsEncapsule::SplitFilePath(path.c_str(), &p, &n, &e);
 
 				p.erase(p.find_last_of("/"));
-				font = new Font(n + "." + e, p);
+				SetFont(n + "." + e, p);
 			}
 
 			ImGui::EndDragDropTarget();
@@ -561,12 +561,7 @@ void UI_Text::SetText(const char* t)
 	text = t;
 }
 
-void UI_Text::ChangeFontSize(float size)
-{
-	fontSize = size;
-}
-
-Font::Font(std::string name, std::string fontPath)
+void UI_Text::SetFont(std::string name, std::string fontPath)
 {
 	bool isImported = false;
 	for (auto it = External->renderer3D->mFonts.begin(); it != External->renderer3D->mFonts.end(); ++it)
@@ -574,81 +569,93 @@ Font::Font(std::string name, std::string fontPath)
 		if ((*it)->name == name)
 		{
 			isImported = true;
+			font = (*it);
 		}
 	}
 
 	if (!isImported)
 	{
-		InitFont(name, fontPath);
+		font = new Font(name, fontPath);
+	}
+}
 
-		// 128 --> number of characters in a font
-		FT_Set_Pixel_Sizes(face, 0, 128);
+void UI_Text::ChangeFontSize(float size)
+{
+	fontSize = size;
+}
 
-		// disable byte-alignment restriction
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+Font::Font(std::string name, std::string fontPath)
+{
+	InitFont(name, fontPath);
 
-		// load first 128 characters of ASCII set
-		for (unsigned char c = 0; c < 128; c++)
+	// 128 --> number of characters in a font
+	FT_Set_Pixel_Sizes(face, 0, 128);
+
+	// disable byte-alignment restriction
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	// load first 128 characters of ASCII set
+	for (unsigned char c = 0; c < 128; c++)
+	{
+		// Load character glyph 
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
 		{
-			// Load character glyph 
-			if (FT_Load_Char(face, c, FT_LOAD_RENDER))
-			{
-				LOG("[ERROR] Failed to load glyph");
-				continue;
-			}
-
-			// generate texture
-			GLuint texture;
-			glGenTextures(1, &texture);
-			glBindTexture(GL_TEXTURE_2D, texture);
-
-			// Allocate a new buffer for RGBA data
-			GLubyte* rgbaBuffer = new GLubyte[4 * face->glyph->bitmap.width * face->glyph->bitmap.rows];
-
-			// Copy the glyph data into the RGBA buffer
-			for (int y = 0; y < face->glyph->bitmap.rows; ++y)
-			{
-				for (int x = 0; x < face->glyph->bitmap.width; ++x)
-				{
-					GLubyte value = face->glyph->bitmap.buffer[y * face->glyph->bitmap.width + x];
-					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x)] = value;  // Red
-					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 1] = value;  // Green
-					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 2] = value;  // Blue
-					rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 3] = value;  // Alpha
-				}
-			}
-
-			// Use the RGBA buffer for texture data
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0,
-				GL_RGBA, GL_UNSIGNED_BYTE, rgbaBuffer);
-
-			// Clean up the temporary buffer
-			delete[] rgbaBuffer;
-
-			// set texture options
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			// TODO: MEMORY LEAK -> Smart pointers don't work here
-			Character* chara(new Character
-				{
-					texture,
-					float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
-					float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-					static_cast<unsigned int>(face->glyph->advance.x),
-				});
-
-			mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
+			LOG("[ERROR] Failed to load glyph");
+			continue;
 		}
 
-		// destroy FreeType once we're finished
-		FT_Done_Face(face);
-		FT_Done_FreeType(ft);
+		// generate texture
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
 
-		External->renderer3D->mFonts.push_back(this);
+		// Allocate a new buffer for RGBA data
+		GLubyte* rgbaBuffer = new GLubyte[4 * face->glyph->bitmap.width * face->glyph->bitmap.rows];
+
+		// Copy the glyph data into the RGBA buffer
+		for (int y = 0; y < face->glyph->bitmap.rows; ++y)
+		{
+			for (int x = 0; x < face->glyph->bitmap.width; ++x)
+			{
+				GLubyte value = face->glyph->bitmap.buffer[y * face->glyph->bitmap.width + x];
+				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x)] = value;  // Red
+				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 1] = value;  // Green
+				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 2] = value;  // Blue
+				rgbaBuffer[4 * (y * face->glyph->bitmap.width + x) + 3] = value;  // Alpha
+			}
+		}
+
+		// Use the RGBA buffer for texture data
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, rgbaBuffer);
+
+		// Clean up the temporary buffer
+		delete[] rgbaBuffer;
+
+		// set texture options
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		// TODO: MEMORY LEAK -> Smart pointers don't work here
+		Character* chara(new Character
+			{
+				texture,
+				float2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+				float2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+				static_cast<unsigned int>(face->glyph->advance.x),
+			});
+
+		mCharacters.insert(std::pair<GLchar, Character*>(c, chara));
 	}
+
+	// destroy FreeType once we're finished
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+
+	LOG("Font loaded: %s", name.c_str());
+	External->renderer3D->mFonts.push_back(this);
 }
 
 Font::~Font()
