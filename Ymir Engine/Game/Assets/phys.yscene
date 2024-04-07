@@ -26,7 +26,7 @@
             "UID": 1969420291,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1198359902,
+            "Parent UID": 1969420291,
             "Components": [
                 {
                     "Type": "Transform",
@@ -208,10 +208,10 @@
                         0.10000000149011612,
                         168.36555480957031
                     ],
-                    "Radius": 119.05242919921875,
-                    "Height": 0,
                     "Physics Type": 2,
                     "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": false,
                     "IsSensor": false,
                     "LockX": false,
@@ -263,14 +263,14 @@
                     "Active": 1,
                     "Collider Type": 0,
                     "Size": [
+                        4.0999999046325684,
                         4,
-                        4,
-                        4
+                        3.4000000953674316
                     ],
-                    "Radius": 5,
-                    "Height": 10,
                     "Physics Type": 0,
                     "Mass": 1,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": true,
                     "IsSensor": false,
                     "LockX": false,

@@ -93,7 +93,7 @@ public:
 	PhysBody* physBody;
 
 	CTransform* transform;
-
+	float4x4 trans;
 	//btCollisionObject* collider;
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform�?
