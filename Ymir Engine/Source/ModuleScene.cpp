@@ -61,7 +61,9 @@ bool ModuleScene::Init()
 	selectedGO = nullptr;
 	godMode = false;
 
-	selectedUI = 0;
+	onHoverUI = 0;
+	selectedUIGO = nullptr;
+	focusedUIGO = nullptr;
 	canTab = true;
 
 	return ret;
@@ -811,7 +813,8 @@ void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
 	{
 		for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
 		{
-			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_)
+			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_ && 
+				static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->state != UI_STATE::DISABLED)
 			{
 				listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
 			}
@@ -849,6 +852,26 @@ GameObject* ModuleScene::GetUISelected(GameObject* go)
 	return nullptr;
 }
 
+void ModuleScene::ResetSelected()
+{
+	// Get UI elements to navigate
+	std::vector<C_UI*> listUI;
+
+	for (int i = 0; i < vCanvas.size(); ++i)
+	{
+		GetUINaviagte(vCanvas[i], listUI);
+	}
+
+	for (auto i = 0; i < listUI.size(); i++)
+	{
+		if (listUI[i]->state == UI_STATE::SELECTED)
+		{
+			listUI[i]->state = UI_STATE::NORMAL;
+		}
+
+	}
+}
+
 
 bool ModuleScene::TabNavigate(bool isForward)
 {
@@ -862,27 +885,44 @@ bool ModuleScene::TabNavigate(bool isForward)
 
 	for (auto i = 0; i < listUI.size(); i++)
 	{
-
 		if (isForward)
 		{
-			if (selectedUI == listUI.size() - 1)
+			if (onHoverUI == listUI.size() - 1)
 			{
 				App->scene->SetSelected(listUI[0]->mOwner);
 
-				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[0]->SetState(UI_STATE::FOCUSED);
+				focusedUIGO = listUI[0]->mOwner;
 
-				selectedUI = 0;
+				if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[0]->state != UI_STATE::SELECTED)
+				{
+					listUI[0]->SetState(UI_STATE::FOCUSED);
+				}
+
+				onHoverUI = 0;
 			}
 
 			else
 			{
-				App->scene->SetSelected(listUI[selectedUI + 1]->mOwner);
+				App->scene->SetSelected(listUI[onHoverUI + 1]->mOwner);
 
-				listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-				listUI[selectedUI + 1]->SetState(UI_STATE::FOCUSED);
+				focusedUIGO = listUI[onHoverUI + 1]->mOwner;
 
-				selectedUI += 1;
+				if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[onHoverUI + 1]->state != UI_STATE::SELECTED)
+				{
+					listUI[onHoverUI + 1]->SetState(UI_STATE::FOCUSED);
+				}
+
+				onHoverUI += 1;
 			}
 		}
 
@@ -890,24 +930,41 @@ bool ModuleScene::TabNavigate(bool isForward)
 		{
 			for (auto i = 0; i < listUI.size(); i++)
 			{
-				if (selectedUI == 0)
+				if (onHoverUI == 0)
 				{
 					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
+					focusedUIGO = listUI[listUI.size() - 1]->mOwner;
 
-					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[listUI.size() - 1]->SetState(UI_STATE::FOCUSED);
+					if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+					{
+						listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+					}
 
-					selectedUI = listUI.size() - 1;
+					if (listUI[listUI.size() - 1]->state != UI_STATE::SELECTED)
+					{
+						listUI[listUI.size() - 1]->SetState(UI_STATE::FOCUSED);
+					}
+
+					onHoverUI = listUI.size() - 1;
 				}
 
 				else
 				{
-					App->scene->SetSelected(listUI[selectedUI - 1]->mOwner);
+					App->scene->SetSelected(listUI[onHoverUI - 1]->mOwner);
 
-					listUI[selectedUI]->SetState(UI_STATE::NORMAL);
-					listUI[selectedUI - 1]->SetState(UI_STATE::FOCUSED);
+					focusedUIGO = listUI[onHoverUI - 1]->mOwner;
 
-					selectedUI -= 1;
+					if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+					{
+						listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+					}
+
+					if (listUI[onHoverUI - 1]->state != UI_STATE::SELECTED)
+					{
+						listUI[onHoverUI - 1]->SetState(UI_STATE::FOCUSED);
+					}
+
+					onHoverUI -= 1;
 				}
 				return true;
 			}

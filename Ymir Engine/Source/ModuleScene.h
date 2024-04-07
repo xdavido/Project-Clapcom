@@ -97,6 +97,7 @@ public:
 	// UI navigation
 	void GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo);
 	GameObject* GetUISelected(GameObject* go);
+	void ResetSelected();
 	bool TabNavigate(bool isForward);
 
 	// Handle both keyboard and gamepad control of all UI game objects
@@ -133,10 +134,11 @@ public:
 
 	// God mode
 	bool godMode;
-
+	GameObject* selectedUIGO;
+	GameObject* focusedUIGO;
 private:
 	G_UI* canvas;
-	int selectedUI;
+	int onHoverUI;
 
 	std::vector<GameObject*> vSelectedGOs;
 

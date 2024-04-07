@@ -796,7 +796,10 @@ MonoObject* GetSelected()
 
 MonoObject* GetFocused()
 {
-	return External->moduleMono->GoToCSGO(External->scene->selectedGO);
+	if (External->scene->selectedGO != nullptr)
+	{
+		return External->moduleMono->GoToCSGO(External->scene->selectedGO);
+	}
 }
 
 void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)

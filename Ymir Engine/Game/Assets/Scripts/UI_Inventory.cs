@@ -18,14 +18,12 @@ public class UI_Inventory : YmirComponent
         _show = false;
     }
 
-    public void Update() 
+    public void Update()
     {
         _focusedGO = UI.GetFocused();// call this when menu starts or when changed, not efficient rn
 
         if (_focusedGO != null)
         {
-            Debug.Log(_focusedGO.ToString());
-
             if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
             {
                 SwitchItems();

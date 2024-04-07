@@ -209,13 +209,6 @@ void C_UI::DebugDraw()
 
 void C_UI::StateLogic()
 {
-	//if (External->editor->g->HoveredWindow != nullptr)
-	//{
-		//std::string name = External->editor->g->HoveredWindow->Name;
-		//if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
-		//{
-	float2 mousePos = float2(External->editor->mouse.x, External->editor->mouse.y);
-
 	switch (state)
 	{
 	case UI_STATE::DISABLED:
@@ -227,10 +220,6 @@ void C_UI::StateLogic()
 	{
 		//LOG("NORMAL");
 		OnNormal();
-		if (MouseCheck(mousePos))
-		{
-			state = UI_STATE::FOCUSED;
-		}
 	}
 	break;
 	case UI_STATE::FOCUSED:	// On hover
@@ -238,14 +227,9 @@ void C_UI::StateLogic()
 		//LOG("FOCUSED");
 
 		OnFocused();
-		if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
-			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN))
 		{
 			state = UI_STATE::PRESSED;
-		}
-		if (!MouseCheck(mousePos))
-		{
-			state = UI_STATE::NORMAL;
 		}
 	}
 	break;
@@ -254,15 +238,32 @@ void C_UI::StateLogic()
 		//LOG("PRESSED");
 
 		OnPressed();
-		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_UP) || (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
-			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+
+		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_UP))
 		{
-			state = UI_STATE::RELEASE;
+			if (External->scene->focusedUIGO != nullptr && External->scene->focusedUIGO->UID != mOwner->UID)
+			{
+				state = UI_STATE::NORMAL;
+			}
+			else
+			{
+				if (External->scene->selectedUIGO != nullptr && External->scene->selectedUIGO->UID != mOwner->UID)
+				{
+					for (int i = 0; i < External->scene->selectedUIGO->mComponents.size(); i++)
+					{
+						if (External->scene->selectedUIGO->mComponents[i]->ctype == ComponentType::UI)
+						{
+							if (static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state == UI_STATE::SELECTED)
+							{
+								static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state = UI_STATE::NORMAL;
+							}
+						}
+					}
+				}
+				state = UI_STATE::RELEASE;
+			}
 		}
-		else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && !MouseCheck(mousePos))
-		{
-			state = UI_STATE::NORMAL;
-		}
+
 	}
 	break;
 	case UI_STATE::RELEASE:
@@ -278,15 +279,33 @@ void C_UI::StateLogic()
 		//LOG("SELECTED");
 
 		OnSelected();
-		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN) || External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
-			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN))
 		{
-			state = UI_STATE::PRESSED;
+			if (External->scene->focusedUIGO != nullptr && External->scene->focusedUIGO->UID != mOwner->UID)
+			{
+				state = UI_STATE::NORMAL;
+			}
+
+			else
+			{
+				if (External->scene->selectedUIGO != nullptr && External->scene->selectedUIGO->UID != mOwner->UID)
+				{
+					for (int i = 0; i < External->scene->selectedUIGO->mComponents.size(); i++)
+					{
+						if (External->scene->selectedUIGO->mComponents[i]->ctype == ComponentType::UI)
+						{
+							if (static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state == UI_STATE::SELECTED)
+							{
+								static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state = UI_STATE::NORMAL;
+							}
+						}
+					}
+				}
+				state = UI_STATE::PRESSED;
+			}
+
 		}
-		else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !MouseCheck(mousePos))
-		{
-			state = UI_STATE::NORMAL;
-		}
+
 	}
 	break;
 	case UI_STATE::NONE:
@@ -294,8 +313,7 @@ void C_UI::StateLogic()
 	default:
 		break;
 	}
-	//}
-//}
+
 }
 
 void C_UI::OnNormal()
