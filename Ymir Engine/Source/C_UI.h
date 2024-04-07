@@ -77,13 +77,14 @@ public:
 	virtual void Draw(bool game);
 	virtual void DebugDraw();
 
-	//UI logic
+	// UI logic
 	void StateLogic();
 	virtual void OnNormal();
 	virtual void OnFocused();
 	virtual void OnPressed();
 	virtual void OnRelease();
 	virtual void OnSelected();
+	virtual void OnDisabled();
 
 	void SetState(UI_STATE uiState);
 	bool MouseCheck(float2 mouse);

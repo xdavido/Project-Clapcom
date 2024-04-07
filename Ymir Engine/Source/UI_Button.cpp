@@ -152,21 +152,18 @@ void UI_Button::OnFocused()
 {
 	image->color = focusedColor;
 	image->selectedTexture = image->mapTextures.find(state)->second;
-
 }
 
 void UI_Button::OnPressed()
 {
 	image->color = pressedColor;
 	image->selectedTexture = image->mapTextures.find(state)->second;
-
 }
 
 void UI_Button::OnSelected()
 {
 	image->color = selectedColor;
 	image->selectedTexture = image->mapTextures.find(state)->second;
-
 }
 
 void UI_Button::OnRelease()
@@ -180,7 +177,11 @@ void UI_Button::OnRelease()
 			aux->ExecuteButton();
 		}
 	}
+}
 
+void UI_Button::OnDisabled()
+{
+	image->selectedTexture = image->mapTextures.find(state)->second;
 }
 
 void UI_Button::SetStateImg(const char* label, UI_STATE s)

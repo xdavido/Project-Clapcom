@@ -214,85 +214,88 @@ void C_UI::StateLogic()
 		//std::string name = External->editor->g->HoveredWindow->Name;
 		//if (name == "Game" && !static_cast<G_UI*>(mOwner)->canvas->fade)
 		//{
-			float2 mousePos = float2(External->editor->mouse.x, External->editor->mouse.y);
+	float2 mousePos = float2(External->editor->mouse.x, External->editor->mouse.y);
 
-			switch (state)
-			{
-			case UI_STATE::DISABLED:
-				break;
-			case UI_STATE::NORMAL:
-			{
-				//LOG("NORMAL");
-				OnNormal();
-				if (MouseCheck(mousePos))
-				{
-					state = UI_STATE::FOCUSED;
-				}
-			}
-			break;
-			case UI_STATE::FOCUSED:	// On hover
-			{
-				//LOG("FOCUSED");
+	switch (state)
+	{
+	case UI_STATE::DISABLED:
+	{
+		OnDisabled();
+	}
+	break;
+	case UI_STATE::NORMAL:
+	{
+		//LOG("NORMAL");
+		OnNormal();
+		if (MouseCheck(mousePos))
+		{
+			state = UI_STATE::FOCUSED;
+		}
+	}
+	break;
+	case UI_STATE::FOCUSED:	// On hover
+	{
+		//LOG("FOCUSED");
 
-				OnFocused();
-				if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
-					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
-				{
-					state = UI_STATE::PRESSED;
-				}
-				if (!MouseCheck(mousePos))
-				{
-					state = UI_STATE::NORMAL;
-				}
-			}
-			break;
-			case UI_STATE::PRESSED: // On hold
-			{
-				//LOG("PRESSED");
+		OnFocused();
+		if ((External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) ||
+			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+		{
+			state = UI_STATE::PRESSED;
+		}
+		if (!MouseCheck(mousePos))
+		{
+			state = UI_STATE::NORMAL;
+		}
+	}
+	break;
+	case UI_STATE::PRESSED: // On hold
+	{
+		//LOG("PRESSED");
 
-				OnPressed();
-				if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_UP) || (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
-					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
-				{
-					state = UI_STATE::RELEASE;
-				}
-				else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && !MouseCheck(mousePos))
-				{
-					state = UI_STATE::NORMAL;
-				}
-			}
-			break;
-			case UI_STATE::RELEASE:
-			{
-				//LOG("RELEASE");
+		OnPressed();
+		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_UP) || (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && MouseCheck(mousePos)) ||
+			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+		{
+			state = UI_STATE::RELEASE;
+		}
+		else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && !MouseCheck(mousePos))
+		{
+			state = UI_STATE::NORMAL;
+		}
+	}
+	break;
+	case UI_STATE::RELEASE:
+	{
+		//LOG("RELEASE");
 
-				OnRelease();
-				state = UI_STATE::SELECTED;
-			}
-			break;
-			case UI_STATE::SELECTED:
-			{
-				//LOG("SELECTED");
+		OnRelease();
+		state = UI_STATE::SELECTED;
+	}
+	break;
+	case UI_STATE::SELECTED:
+	{
+		//LOG("SELECTED");
 
-				OnSelected();
-				if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN) || External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
-					(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
-				{
-					state = UI_STATE::PRESSED;
-				}
-				else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !MouseCheck(mousePos))
-				{
-					state = UI_STATE::NORMAL;
-				}
-			}
-			break;
-			case UI_STATE::NONE:
-				break;
-			default:
-				break;
-			}
-		//}
+		OnSelected();
+		if (External->input->IsGamepadButtonPressed(SDL_CONTROLLER_BUTTON_A, KEY_DOWN) || External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && MouseCheck(mousePos) ||
+			(External->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive()))
+		{
+			state = UI_STATE::PRESSED;
+		}
+		else if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && !MouseCheck(mousePos))
+		{
+			state = UI_STATE::NORMAL;
+		}
+	}
+	break;
+	case UI_STATE::NONE:
+		break;
+	default:
+		break;
+	}
 	//}
+//}
 }
 
 void C_UI::OnNormal()
@@ -317,6 +320,10 @@ void C_UI::OnRelease()
 }
 
 void C_UI::OnSelected()
+{
+}
+
+void C_UI::OnDisabled()
 {
 }
 
