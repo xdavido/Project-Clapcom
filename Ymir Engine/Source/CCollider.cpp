@@ -157,46 +157,6 @@ void CCollider::Update()
 		newMat.SetCol(1, float4(matrix[4], matrix[5], matrix[6], matrix[7]));
 		newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
 		newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
-
-
-		// INTENTO DE ANADIR LA ROTACION DEL PARENT CON LA MATRIZ GLOBAL DE TRANSFORMACION
-		// 
-		//float4x4 parentRotationMatrix = float4x4::identity; // Matriz de identidad si no hay padre
-		//if (parentTransform != nullptr) {
-		//	parentRotationMatrix = parentTransform->mGlobalMatrix;
-		//}
-
-		//LOG("\n");
-		//LOG("NEW MAT");
-
-		//// Aplicar la rotación del padre a la matriz de transformación newMat
-		//float4x4 totalMatrix = newMat + parentRotationMatrix;
-		////newMat = newMat * parentRotationMatrix;
-		////newMat = newMat.Mul(parentRotationMatrix);
-
-		//for (int i = 0; i < 4; ++i) {
-		//	for (int j = 0; j < 4; ++j) {
-		//		LOG("%f ", totalMatrix.v[i][j]);
-		//	}
-		//	LOG("\n");
-		//}
-		//LOG("\n");
-	
-
-		//LOG("\n");
-		//LOG("PARENT RMATRIX");
-		//for (int i = 0; i < 4; ++i) {
-		//	for (int j = 0; j < 4; ++j) {
-		//		LOG("%f ", parentRotationMatrix.v[i][j]);
-		//	}
-		//	LOG("\n");
-		//}
-		//LOG("\n");
-
-
-
-
-		// -------------------------------------------------------------------------------------------------
 		
 		// FIX TRANSFORM MATRIX ADDING THE PARENT TRANSFORMATION
 
@@ -240,6 +200,35 @@ void CCollider::Update()
 			}
 
 		}
+
+		Quat quat;
+		quat.Set(newMat);
+
+		//mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
+		//mOwner->mTransform->SetOrientation(btQuat);
+		
+		float x;
+		float y;
+		float z;
+		float w;
+
+		if (mOwner->mParent != nullptr)
+		{
+			x = quat.x - mOwner->mParent->mTransform->GetGlobalRotation().x;
+			y = quat.y - mOwner->mParent->mTransform->GetGlobalRotation().y;
+			z = quat.z - mOwner->mParent->mTransform->GetGlobalRotation().z;
+			w = quat.w - mOwner->mParent->mTransform->GetGlobalRotation().w;
+		}
+		else
+		{
+			x = quat.x;
+			y = quat.y;
+			z = quat.z;
+			w = quat.w;
+		}
+
+		//quaternion rotatedPositionQuaternion = rotationQuaternion * positionQuaternion * conjugateRotation;
+
 		float3 pos = newMat.TranslatePart();
 		//float3 pos = totalMatrix.TranslatePart();
 
@@ -250,23 +239,17 @@ void CCollider::Update()
 			pos.z /= parentTransform->scale.z;
 		}
 
-		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
-		mOwner->mTransform->SetPosition(pos);
+		Quat positionQuat = Quat(pos.x, pos.y, pos.z, 0);  
+		Quat rotationQuat = mOwner->mTransform->GetLocalRotation() * parentTransform->GetLocalRotation();
+		Quat rotatedPosQuat = rotationQuat * positionQuat * rotationQuat.Conjugated();
 
-		Quat quat;
-		quat.Set(newMat);
+		float3 rotatedPosition = float3(rotatedPosQuat.x, rotatedPosQuat.y, rotatedPosQuat.z);
 
-		float x = quat.x;
-		float y = quat.y;
-		float z = quat.z;
-		float w = quat.w;
+		btQuaternion btQuat = btQuaternion(x, y, z, w);
+		mOwner->mTransform->SetOrientation(btQuat);
+		mOwner->mTransform->SetPosition(rotatedPosition); 
 
-		btQuaternion btQuat(x, y, z, w);
-
-		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
-		//mOwner->mTransform->SetOrientation(btQuat);
-
-		mOwner->mTransform->UpdateTransformsChilds();
+		mOwner->mTransform->UpdateTransformsChilds(); 
 
 		if (lockX) {
 			UpdateLockRotation();
@@ -288,6 +271,7 @@ void CCollider::Update()
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
+		CTransform* parentTransform = (CTransform*)mOwner->mParent->GetComponent(ComponentType::TRANSFORM);
 
 		if (componentMesh != nullptr) 
 		{
@@ -308,7 +292,6 @@ void CCollider::Update()
 			pos += offset;
 				
 			physBody->SetPosition(pos);
-			physBody->SetRotation(componentTransform->GetLocalRotation());
 
 			if (ImGuizmo::IsUsing()) 
 			{
@@ -323,14 +306,26 @@ void CCollider::Update()
 			pos += offset;
 
 			physBody->SetPosition(pos);
-			physBody->SetRotation(componentTransform->GetGlobalRotation());
 
 			if (ImGuizmo::IsUsing()) 
 			{
 				// TODO: que esto solo pase si se este manipulando unicamente la escala
 				//size = componentTransform->GetGlobalTransform().GetScale();
 			}
+		}
 
+		if (mOwner->mParent != nullptr)
+		{
+			Quat rot;
+			rot.x = mOwner->mTransform->GetGlobalRotation().x + mOwner->mParent->mTransform->GetGlobalRotation().x;
+			rot.y = mOwner->mTransform->GetGlobalRotation().y + mOwner->mParent->mTransform->GetGlobalRotation().y;
+			rot.z = mOwner->mTransform->GetGlobalRotation().z + mOwner->mParent->mTransform->GetGlobalRotation().z;
+			rot.w = mOwner->mTransform->GetGlobalRotation().w + mOwner->mParent->mTransform->GetGlobalRotation().w;
+			physBody->SetRotation(rot);
+		}
+		else 
+		{
+			physBody->SetRotation(componentTransform->GetLocalRotation());
 		}
 
 		if (size.x == 0) size.x = 0.1;
