@@ -51,9 +51,9 @@ bool CParticleSystem::Update(float dt)
 {
 	bool ret = true;
 
-	if (localPlay)
+	//if (localPlay)
 	{
-		if (dt > 0.0f)
+		if (dt > 0.00f && (localPlay || TimeManager::gameTimer.GetState() != TimerState::STOPPED)) //Si no esta parado sino que esta paused tambien ha de hacer cosas
 		{
 			for (unsigned int i = 0; i < allEmitters.size(); ++i)
 			{
@@ -68,13 +68,13 @@ bool CParticleSystem::Update(float dt)
 			}
 		}
 	}
-	else
+	/*else
 	{
 		for (unsigned int i = 0; i < allEmitters.size(); ++i)
 		{
 			allEmitters.at(i)->Reset();
 		}
-	}
+	}*/
 
 	return ret;
 }
@@ -117,18 +117,23 @@ void CParticleSystem::OnInspector()
 		int treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		int leafFlags = treeFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
-		std::string playButtonName = localPlay ? "Pause: " : "Play: ";
-		if (ImGui::Button(playButtonName.c_str())) {
-			if (localPlay)
-			{
-				Stop();
+		//Activate particles if and only if timer is stopped
+		if(TimeManager::gameTimer.GetState() == TimerState::STOPPED) 
+		{
+			std::string playButtonName = localPlay ? "Pause: " : "Play: ";
+			if (ImGui::Button(playButtonName.c_str())) {
+				if (localPlay)
+				{
+					Stop();
+				}
+				else
+				{
+					Play();
+				}
 			}
-			else
-			{
-				Play();
-			}
+			ImGui::SameLine();
 		}
-		ImGui::SameLine();
+		
 		ImGui::Text("Playback time: %.2f", timer.ReadSec());
 
 		ImGui::Separator();
