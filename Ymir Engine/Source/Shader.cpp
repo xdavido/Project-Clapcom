@@ -352,6 +352,11 @@ void Shader::SetFloat(const std::string& name, float value) const
 	glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
 }
 
+void Shader::SetFloat3(const std::string& name, float3 value) const
+{
+	glUniform3fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, value.ptr());
+}
+
 void Shader::SetMatrix4x4(const std::string& name, float4x4 value) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_TRUE, value.ptr());
@@ -412,21 +417,51 @@ void Shader::SetShaderUniforms(float4x4* matrix, bool isSelected)
 	// Time uniform management
 	this->SetFloat("time", TimeManager::graphicsTimer.ReadSec());
 
-	if (!External->lightManager->lights.empty()) 
-	{
-		this->SetInt("numLights", External->lightManager->lights.size());
-		this->SetUniformValue("lightDir", External->lightManager->lights[0]->lightGO->mTransform->GetGlobalPosition().ptr());
-		this->SetFloat("lightInt", External->lightManager->lights[0]->GetIntensity());
-		this->SetUniformValue("lightColor", External->lightManager->lights[0]->GetColor().ptr());
-	}
-	else {
-
-		this->SetInt("numLights", 0);
-
-	}
-
-	// Specular Light
+	// Game Camera Position
 	this->SetUniformValue("camPos", External->scene->gameCameraComponent->mOwner->mTransform->GetGlobalPosition().ptr());
+
+	// ----------------- Multiple Light Management ----------------- 
+
+	// Point Lights
+
+	std::vector<Light*> pointLights;
+
+	for (auto& it = External->lightManager->lights.begin(); it != External->lightManager->lights.end(); ++it)
+	{
+		if ((*it)->GetType() == LightType::POINT_LIGHT) 
+		{
+			pointLights.push_back((*it));
+		}
+	}
+
+	this->SetInt("numLights", pointLights.size());
+
+	for (size_t i = 0; i < pointLights.size(); ++i)
+	{
+		std::string lightDir = std::string("pointLights[") + std::to_string(i) + std::string("].lightDir");
+		this->SetFloat3(lightDir, pointLights[i]->lightGO->mTransform->GetGlobalPosition());
+		this->SetUniformValue("lightDir", pointLights[i]->lightGO->mTransform->GetGlobalPosition().ptr());
+
+		std::string lightInt = std::string("pointLights[") + std::to_string(i) + std::string("].lightInt");
+		this->SetFloat(lightInt, pointLights[i]->GetIntensity());
+		this->SetFloat("lightInt", pointLights[i]->GetIntensity());
+
+		std::string lightColor = std::string("pointLights[") + std::to_string(i) + std::string("].lightColor");
+		this->SetFloat3(lightColor, pointLights[i]->GetColor());
+		this->SetUniformValue("lightColor", pointLights[i]->GetColor().ptr());
+	}
+
+	// Directional Lights (TODO: FRANCESC)
+
+
+
+	// Spot Lights (TODO: FRANCESC)
+
+
+
+	// Area Lights (TODO: FRANCESC)
+
+
 	
 }
 
@@ -727,7 +762,7 @@ void Shader::ExtractUniformsFromShaderCode(const std::string& shaderCode)
 				}
 				else if (type == "bool") {
 
-					std::unique_ptr<bool> value = std::make_unique<bool>(false);
+					std::unique_ptr<bool> value = std::make_unique<bool>(true);
 					this->AddUniform(name, std::move(value), UniformType::boolean, 1);
 					
 				}

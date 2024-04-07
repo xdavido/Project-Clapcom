@@ -9,10 +9,24 @@
 	layout(location = 5) in vec3 aTangents;
 	layout(location = 6) in vec3 aBitangents;
 	
+    struct PointLight {    
+        vec3 lightDir;
+        float lightInt;
+	    vec3 lightColor;
+    };  
+
+    struct TangentPointLight {    
+        vec3 TangentLightPos;
+        vec3 lightColor;
+        float lightInt;
+    }; 
+
+    #define MAX_POINT_LIGHTS 9
+
 	out vec3 Normal;
 	out vec2 TexCoords;
 
-	out vec3 TangentLightPos;
+    out TangentPointLight tPointLights[MAX_POINT_LIGHTS];
     out vec3 TangentViewPos;
     out vec3 TangentFragPos;
 	
@@ -20,8 +34,10 @@
 	uniform mat4 view;
 	uniform mat4 model;
 	
-	uniform vec3 lightDir;
 	uniform vec3 camPos;
+
+    uniform int numLights;
+    uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
 	void main()
 	{
@@ -37,20 +53,36 @@
    		mat3 TBN = mat3(T, B, N);
    		TBN = transpose(TBN);
    		
-   		TangentLightPos = TBN * lightDir;
-    	TangentViewPos = TBN * camPos;
+        TangentViewPos = TBN * camPos;
     	TangentFragPos = TBN * Position;
+
+        for (int i = 0; i < numLights; i++) {
+
+            tPointLights[i].TangentLightPos = TBN * pointLights[i].lightDir;
+            tPointLights[i].lightInt = pointLights[i].lightInt;
+            tPointLights[i].lightColor =  pointLights[i].lightColor;
+
+        }
    		
 	}
 
 #endif
 
 #ifdef FRAGMENT_SHADER
+	
+    struct TangentPointLight {    
+        vec3 TangentLightPos;
+        vec3 lightColor;
+        float lightInt;
+    }; 
+    
+    #define MAX_POINT_LIGHTS 9
+    in TangentPointLight tPointLights[MAX_POINT_LIGHTS];
+    uniform int numLights;
 
 	in vec3 Normal;
 	in vec2 TexCoords;
 	
-	in vec3 TangentLightPos;
     in vec3 TangentViewPos;
     in vec3 TangentFragPos;
 
@@ -62,13 +94,6 @@
 	uniform sampler2D texture_height;
 	uniform sampler2D texture_ambient;
 	uniform sampler2D texture_emissive;
-
-	uniform float lightInt;
-	uniform vec3 lightColor;
-    uniform int numLights;
-
-    uniform bool displayNormalMap; // Boolean uniform to toggle between normal visualization and texture display
-    uniform bool selected;
     
    	uniform bool enableDiffuse;
     uniform bool enableSpecular;
@@ -82,59 +107,24 @@
     uniform float specularLight = 0.50f;
     uniform float normalIntensity = 1.0f;
 	uniform float emissive = 1.0f;
-
-    vec4 DisplayNormalMap() {
-
-        // Normalize the interpolated normal since it's interpolated across the surface
-        vec3 norm = normalize(Normal);
-    
-        // Adjust the normalized normal to be in the range [0, 1] for visualization purposes
-        vec3 color = 0.5 * (norm + vec3(1.0));
-
-        return vec4(color, transparency);
-
-    }
-
-    vec4 AddOutline(vec4 mainTexture, vec4 color, float outlineWidth) {
-
-        // Sample the neighboring pixels
-
-        vec2 pixelSize = 1.0 / textureSize(texture_diffuse, 0);
-        vec4 leftColor = texture(texture_diffuse, TexCoords - vec2(outlineWidth, 0) * pixelSize);
-        vec4 rightColor = texture(texture_diffuse, TexCoords + vec2(outlineWidth, 0) * pixelSize);
-        vec4 topColor = texture(texture_diffuse, TexCoords + vec2(0, outlineWidth) * pixelSize);
-        vec4 bottomColor = texture(texture_diffuse, TexCoords - vec2(0, outlineWidth) * pixelSize);
-
-        // Check if the current pixel is on the border
-
-        bool isBorder = any(notEqual(mainTexture, leftColor)) || any(notEqual(mainTexture, rightColor)) ||
-                        any(notEqual(mainTexture, topColor)) || any(notEqual(mainTexture, bottomColor));
-
-        // Set the outline color if it's a border pixel, otherwise use the main color
-
-        return isBorder ? color : mainTexture;
-    }
 	
-	vec4 PointLight() {
+	vec4 CalculatePointLight(TangentPointLight light, vec3 normal, vec3 TangentFragPos, vec3 viewDirection) {
 		
         // Point Light Attenuation
 
-		vec3 lightVec = TangentLightPos - TangentFragPos;
+		vec3 lightVec = light.TangentLightPos - TangentFragPos;
 		float dist = length(lightVec);
 		float a = 0.005;
 		float b = 0.0001;
 		float intensity = 1.0f / (a * dist * dist + b * dist + 1.0f);
             
         // Normal
-		
-        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
-        vec3 normal = (enableNormal ? normalize(normalMap) : normalize(Normal)) * normalIntensity;
-        vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
+
+        vec3 lightDirection = normalize(light.TangentLightPos - TangentFragPos);
         float diffuse = max(dot(normal, lightDirection), 0.0f);
         
         // Specular
         
-        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
         vec3 reflectionDirection = reflect(-lightDirection, normal);
         float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
         float specular = specAmount * specularLight;
@@ -144,7 +134,7 @@
         vec3 finalColor = vec3(0.0); // Initialize the final color variable
 
         // Apply diffuse and ambient texture
-        finalColor += (enableDiffuse ? texture(texture_diffuse, TexCoords).rgb : vec3(1.0f)) * lightColor * (diffuse * intensity +
+        finalColor += (enableDiffuse ? texture(texture_diffuse, TexCoords).rgb : vec3(1.0f)) * light.lightColor * (diffuse * intensity +
         ambient * intensity * (enableAmbient ? texture(texture_ambient, TexCoords).r : 1.0f));
 
         // Apply specular texture
@@ -165,7 +155,8 @@
         //vec3 normal = normalize(Normal);
         vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
         vec3 normal = normalize(normalMap);
-        vec3 lightDirection = normalize(TangentLightPos);
+        //vec3 lightDirection = normalize(TangentLightPos);
+        vec3 lightDirection = normalize(vec3(0.0f));
             
         float specularLight = 0.50f;
         vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
@@ -176,7 +167,7 @@
         float diffuse = max(dot(normal, lightDirection), 0.0f);
          
         return vec4(
-            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse+ ambient) + 
+            texture(texture_diffuse, TexCoords).rgb * /*light.lightColor **/ (diffuse+ ambient) + 
             texture(texture_specular, TexCoords).r * specular, transparency
         );
 	
@@ -192,7 +183,9 @@
         //vec3 normal = normalize(Normal);
         vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
         vec3 normal = normalize(normalMap);
-        vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
+        //vec3 lightDirection = normalize(TangentLightPos - TangentFragPos);
+        vec3 lightDirection = normalize(vec3(0.0f));
+        
         float diffuse = max(dot(normal, lightDirection), 0.0f);
         
         float specularLight = 0.50f;
@@ -205,28 +198,81 @@
         float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
          
         return vec4(
-            texture(texture_diffuse, TexCoords).rgb * lightColor * (diffuse * intensity + ambient) + 
+            texture(texture_diffuse, TexCoords).rgb * /*light.lightColor **/ (diffuse * intensity + ambient) + 
             texture(texture_specular, TexCoords).r * specular * intensity, transparency
         );
 	
 	}
 
+    vec4 AreaLight() {
+
+        return vec4(0.0f);
+
+    }
+
+    vec4 CalculateBaseLight(vec3 normal, vec3 TangentFragPos, vec3 viewDirection) {
+            
+        // Normal
+
+        vec3 lightDirection = normalize(TangentFragPos);
+        float diffuse = max(dot(normal, lightDirection), 0.0f);
+        
+        // Specular
+        
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+        float specular = specAmount * specularLight;
+		
+		// Apply texture maps
+
+        vec3 finalColor = vec3(0.0); // Initialize the final color variable
+
+        // Apply diffuse and ambient texture
+        finalColor += (enableDiffuse ? texture(texture_diffuse, TexCoords).rgb : vec3(1.0f)) * (diffuse +
+        ambient * (enableAmbient ? texture(texture_ambient, TexCoords).r : 1.0f));
+
+        // Apply specular texture
+        if (enableSpecular) finalColor += texture(texture_specular, TexCoords).a * specular;
+
+        // Apply emissive texture
+        if (enableEmissive) finalColor += texture(texture_emissive, TexCoords).rgb * emissive;
+
+        // Apply transparency
+        return vec4(finalColor,transparency);
+    }
+
     void main()
     {   
-        if (displayNormalMap) {
-    
-            FragColor = DisplayNormalMap();
+        vec3 normalMap = texture(texture_normal, TexCoords).xyz * 2.0f - 1.0f;
+        vec3 normal = (enableNormal ? normalize(normalMap) : normalize(Normal)) * normalIntensity;
 
-        } 
-        else {
-            
-            FragColor = PointLight();
+        vec3 viewDirection = normalize(TangentViewPos - TangentFragPos);
 
+        vec4 finalColor;
+		
+		if (numLights > 0) // Point Light Management
+        {
+	        for (int i = 0; i < numLights; i++) 
+            {
+	            finalColor += CalculatePointLight(tPointLights[i], normal, TangentFragPos, viewDirection);
+	        }    
         }
-        
+        else 
+        { 
+            // Base Light Management
+            finalColor += CalculateBaseLight(normal, TangentFragPos, viewDirection);
+        }
+
+        FragColor = finalColor;
     }
 
 #endif
+
+
+
+
+
+
 
 
 

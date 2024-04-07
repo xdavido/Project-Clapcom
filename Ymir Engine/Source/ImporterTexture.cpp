@@ -46,8 +46,8 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	case 'H':
 	{
 		ourTexture->type = TextureType::HEIGHT;
-		format = GL_RGBA;
-		ILformat = IL_RGBA;
+		format = GL_LUMINANCE;
+		ILformat = IL_LUMINANCE;
 		break;
 	}
 	case 'A':
@@ -160,7 +160,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	//glGenerateMipmap(GL_TEXTURE_2D);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// 6. Save texture on Library as .dds
 
