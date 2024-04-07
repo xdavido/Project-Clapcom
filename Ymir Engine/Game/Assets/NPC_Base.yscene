@@ -1,0 +1,870 @@
+{
+    "Editor Camera Position": [
+        4.532839298248291,
+        6.1714682579040527,
+        9.0743675231933594
+    ],
+    "Editor Camera Right (X)": [
+        0.83763521909713745,
+        -3.4272670745849609e-07,
+        -0.54622018337249756
+    ],
+    "Editor Camera Up (Y)": [
+        -0.21493512392044067,
+        0.91932493448257446,
+        -0.32960617542266846
+    ],
+    "Editor Camera Front (Z)": [
+        -0.50215590000152588,
+        -0.39349427819252014,
+        -0.77006185054779053
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Tag": "Untagged",
+            "UID": 885964314,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1070715497,
+                1009784856,
+                1009784856,
+                165230177,
+                534943696
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "Tag": "Untagged",
+            "UID": 1070715497,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        180,
+                        40.000007629394531,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        -6.696972576492044e-08,
+                        1,
+                        -1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        -6.696972576492044e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Suelo",
+            "Tag": "Untagged",
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        -0.48213481903076172,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        254.5819091796875,
+                        1,
+                        480.36392211914062
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "1553236809",
+            "Tag": "Untagged",
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "color": [
+                                6.5,
+                                6.8000001907348633,
+                                5.5999999046325684
+                            ],
+                            "light": false
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        254.5819091796875,
+                        1,
+                        480.36392211914062
+                    ],
+                    "Radius": 271.82827758789062,
+                    "Height": 1,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Player",
+            "Tag": "Player",
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        4.0341768264770508,
+                        1.8895442485809326,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "Player",
+            "Tag": "Player",
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0.18817973136901855,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        3.0166831016540527,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "Basic_Movment.cs",
+                    "Active": 1,
+                    "UID": 0
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        3.0166831016540527,
+                        1
+                    ],
+                    "Radius": 1.6658613681793213,
+                    "Height": 3.0166831016540527,
+                    "Physics Type": 1,
+                    "Mass": 1,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "NPC",
+            "Tag": "Untagged",
+            "UID": 165230177,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cylinder.fbx",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -1.9003207683563232,
+                        2.1624112129211426,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        2.0584156513214111,
+                        1
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        2.0584156513214111,
+                        1
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": true,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "Caius.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name_gameObject": 1364986222,
+                    "line1_gameObject": 980193511,
+                    "line2_gameObject": 1266866924,
+                    "line3_gameObject": 543540170,
+                    "ui_gameObject": 534943696
+                }
+            ],
+            "Children UID": [
+                1094188326
+            ]
+        },
+        {
+            "Name": "Cylinder (1)",
+            "Tag": "Untagged",
+            "UID": 1094188326,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 165230177,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "color": [
+                                0.80000001192092896,
+                                0.69999998807907104,
+                                1.5
+                            ],
+                            "light": false
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 90,
+                    "Index Count": 240
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        2.0000002384185791,
+                        4.1168313026428223,
+                        2.0000004768371582
+                    ],
+                    "Radius": 2.4974136352539062,
+                    "Height": 4.1168313026428223,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "Canvas",
+            "Tag": "Untagged",
+            "UID": 534943696,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 1385,
+                    "Height": 1002,
+                    "UI Type": 0,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        456,
+                        686
+                    ]
+                }
+            ],
+            "Children UID": [
+                1735516951,
+                1364986222,
+                980193511,
+                1266866924,
+                543540170
+            ]
+        },
+        {
+            "Name": "Image",
+            "Tag": "Untagged",
+            "UID": 1735516951,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 534943696,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 1920,
+                    "Height": 1080,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        1920,
+                        1080
+                    ],
+                    "Path": "Assets\/Dialogue\/Dialogo.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "NPC Name",
+            "Tag": "Untagged",
+            "UID": 1364986222,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 534943696,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        485.39999389648438,
+                        791.29998779296875,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        485.39999389648438,
+                        791.29998779296875,
+                        200,
+                        50
+                    ],
+                    "Text": "Juan",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Text Line 1",
+            "Tag": "Untagged",
+            "UID": 980193511,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 534943696,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        434.20001220703125,
+                        875,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        434.20001220703125,
+                        875,
+                        200,
+                        50
+                    ],
+                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Text Line 2",
+            "Tag": "Untagged",
+            "UID": 1266866924,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 534943696,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        434.20001220703125,
+                        925,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        434.20001220703125,
+                        925,
+                        200,
+                        50
+                    ],
+                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Text Line 3",
+            "Tag": "Untagged",
+            "UID": 543540170,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 534943696,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        434.20001220703125,
+                        975,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        434.20001220703125,
+                        975,
+                        200,
+                        50
+                    ],
+                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        }
+    ]
+}
