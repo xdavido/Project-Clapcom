@@ -5,6 +5,9 @@
 #include "ModuleCamera3D.h"
 #include "ImporterTexture.h"
 
+//SHAPES
+#include "EmitterShapeArea.h"
+
 EmitterSetting::EmitterSetting()
 {
 }
@@ -439,7 +442,7 @@ void EmitterImage::OnInspector()
 {
 	ImGui::Separator();
 
-	ImGui::Text("Selecciona una particula:");
+	ImGui::Text("Select particle:");
 	
 	ImGui::Spacing();
 
@@ -463,4 +466,143 @@ void EmitterImage::OnInspector()
 	}
 
 	ImGui::Image((ImTextureID*)rTexTemp->ID, ImVec2(128, 128));
+}
+
+EmitterShape::EmitterShape(ParticleEmitter* parent)
+{
+	CTransform* parentTransform = (CTransform*)parent->owner->mOwner->GetComponent(ComponentType::TRANSFORM);
+	eTransform = parentTransform;
+
+	shapeParent = parent;
+}
+
+void EmitterShape::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
+
+}
+
+void EmitterShape::Update(float dt, ParticleEmitter* emitter)
+{
+
+}
+
+void EmitterShape::OnInspector()
+{
+	ImGui::Separator();
+
+	ImGui::Text("Select shape");
+
+	ImGui::Spacing();
+
+	if (ImGui::Button("AREA"))
+	{
+		CreateSpawnShape(typeShape::AREA);
+	}
+
+	if (ImGui::BeginCombo("NONE", "Select Shape", ImGuiComboFlags_PopupAlignLeft))
+	{
+
+
+		ImGui::EndCombo();
+	}
+
+}
+
+void EmitterShape::CreateSpawnShape(typeShape shape)
+{
+	EmitterShapeArea* newShape = nullptr;
+
+	switch (shape)
+	{
+	case typeShape::AREA:
+		newShape = new EmitterShapeArea();
+		shapeParent->modules.push_back(newShape);
+		break;
+	case typeShape::CONE:
+		//newShape = new EmitterShapeCone();
+		break;
+	case typeShape::CIRCUMFERENCE:
+		//newShape = new EmmiterShapeCircumference();
+		break;
+	case typeShape::SPHERE:
+		//newShape = new EmitterShapeSphere();
+		break;
+	}
+}
+
+EmitterShapeArea::EmitterShapeArea()
+{
+	angle = 0;
+	useDirection = false;
+}
+
+void EmitterShapeArea::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
+
+	//Get a random spawn point inside of a quad defined by a point and a radius
+
+	float3 localPos;
+	localPos.x = offset.x + Random::GenerateRandomFloat(minRange, maxRange);
+	localPos.y = offset.y + Random::GenerateRandomFloat(minRange, maxRange);
+	localPos.z = offset.z + Random::GenerateRandomFloat(minRange, maxRange);
+	particle->position = localPos;
+
+	if (hasInitialSpeed)
+	{
+		float3 localSpeed = (localPos - float3(offset[0], offset[1], offset[2])).Normalized();
+		particle->velocity = float4(float3(emitter->owner->mOwner->mTransform->GetGlobalTransform().TransformDir(localSpeed).Normalized()), speed);	//TONI: estoy delirando
+
+		if (useDirection)
+		{
+			float3 direction = (localPos - float3(offset[0], offset[1], offset[2]));
+			direction = emitter->owner->mOwner->mTransform->GetGlobalTransform().TransformDir(direction).Normalized();
+
+#ifndef STANDALONE
+			float4x4 cameraView = External->camera->editorCamera->GetViewMatrix().Transposed();
+#else
+			float4x4 cameraView = External->moduleRenderer3D->GetGameRenderTarget()->ViewMatrixOpenGL().Transposed();
+#endif // !STANDALONE
+
+			direction = cameraView.TransformDir(direction);
+
+			float2 directionViewProj = float2(direction.x, direction.y).Normalized();
+			float2 xAxis = float2(1, 0);
+			float finalAngle = xAxis.AngleBetween(directionViewProj);
+			if (directionViewProj.y < 0)
+				finalAngle = 360 * DEGTORAD - finalAngle;
+			finalAngle += angle * DEGTORAD;
+
+			//particle->worldRotation = finalAngle;
+		}
+	}
+
+}
+
+void EmitterShapeArea::Update(float dt, ParticleEmitter* emitter)
+{
+	for (int i = 0; i < emitter->listParticles.size(); i++)
+	{
+		//Acceleration
+		float actualLT = emitter->listParticles.at(i)->lifetime;
+		emitter->listParticles.at(i)->velocity.w = speed + ((speed - speed) * (actualLT / 1.0f));
+
+		emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+		emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+		emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
+	}
+}
+
+void EmitterShapeArea::OnInspector()
+{
+	std::string suffixLabel = "Dimensions##PaShapeArea";
+	ImGui::DragFloat3("Position", &(this->direccion[0]), 0.1f);
+
+	suffixLabel = "Face Direction##PaShapeCone";
+	ImGui::Checkbox(suffixLabel.c_str(), &useDirection);
+
+	if (useDirection)
+	{
+		suffixLabel = "Set Angle##PaShapeCone";
+		ImGui::DragFloat(suffixLabel.c_str(), &angle);
+	}
 }

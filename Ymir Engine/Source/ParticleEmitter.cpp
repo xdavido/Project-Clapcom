@@ -1,5 +1,7 @@
 #include "ParticleEmitter.h"
 #include "EmitterSetting.h"
+#include "EmitterShape.h"
+
 
 #include "Application.h"
 #include "CTransform.h"
@@ -88,6 +90,13 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 		nuevoEmitter->type = EmiterType::IMAGE;
 		nuevoEmitter->unique = true;
 
+		break;
+	}
+	case SHAPE:
+	{
+		nuevoEmitter = new EmitterShape(this);
+		nuevoEmitter->type = EmiterType::SHAPE;
+		nuevoEmitter->unique = true;
 		break;
 	}
 	case MAX:

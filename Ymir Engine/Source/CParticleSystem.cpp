@@ -103,7 +103,7 @@ void CParticleSystem::OnInspector()
 	//Give an ID to each colapsing header to be able to have more than one of the same time
 	//This must be done due to ImGui using the names as the ids of all menus and things
 	//int myPosInComponents = mOwner->GetComponentPosition(this); //TODO TONI: Probably it has another way to do this //ERIC: Nada de esto hacia falta, basta con el UID, si que habra que hacer algo para si hay mas de un particle emmiter
-	
+
 	butonChar.append(butonChar.append(std::to_string(UID)).c_str());
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
@@ -112,13 +112,13 @@ void CParticleSystem::OnInspector()
 
 	ImGui::Checkbox(("##" + std::to_string(UID)).c_str(), &active);
 	ImGui::SameLine();
-	if (ImGui::CollapsingHeader(("ParticleSystem##" + std::to_string(UID)).c_str(),&exists,flags))
+	if (ImGui::CollapsingHeader(("ParticleSystem##" + std::to_string(UID)).c_str(), &exists, flags))
 	{
 		int treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 		int leafFlags = treeFlags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
 		//Activate particles if and only if timer is stopped
-		if(TimeManager::gameTimer.GetState() == TimerState::STOPPED) 
+		if (TimeManager::gameTimer.GetState() == TimerState::STOPPED)
 		{
 			std::string playButtonName = localPlay ? "Pause: " : "Play: ";
 			if (ImGui::Button(playButtonName.c_str())) {
@@ -133,7 +133,7 @@ void CParticleSystem::OnInspector()
 			}
 			ImGui::SameLine();
 		}
-		
+
 		ImGui::Text("Playback time: %.2f", timer.ReadSec());
 
 		ImGui::Separator();
@@ -169,9 +169,9 @@ void CParticleSystem::OnInspector()
 					int securityCheckTree = 999;
 					for (int j = 0; j < listModule.size(); j++)
 					{
-
 						std::string particleModule; //Les opciones
 						std::string deleteButton; //Lo creamos aqui fuera para evitar petadas, pero como la ID va por nombre ha de ser un string para diferenciarlos
+
 						switch (listModule.at(j)->type)
 						{
 						case BASE:
@@ -191,7 +191,7 @@ void CParticleSystem::OnInspector()
 							break;
 						}
 						case SPAWN:
-						{	
+						{
 							ImGui::Text(particleModule.append("Spawn ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
@@ -215,7 +215,7 @@ void CParticleSystem::OnInspector()
 								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
 							}
 							deleteButton.clear();
-							
+
 							EmitterPosition* ePosition = (EmitterPosition*)listModule.at(j);
 							ePosition->OnInspector();
 							break;
@@ -252,8 +252,6 @@ void CParticleSystem::OnInspector()
 						}
 						case COLOR:
 						{
-							
-
 							ImGui::Text(particleModule.append("Color ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
@@ -284,6 +282,22 @@ void CParticleSystem::OnInspector()
 
 							break;
 						}
+						case SHAPE:
+						{
+							ImGui::Text(particleModule.append("Shape ##").append(std::to_string(j)).c_str());
+							ImGui::SameLine();
+							deleteButton.append("Delete ##").append(std::to_string(j));
+							if (ImGui::SmallButton(deleteButton.c_str()))
+							{
+								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
+							}
+							deleteButton.clear();
+
+							EmitterShape* eShape = (EmitterShape*)listModule.at(j);
+							eShape->OnInspector();
+
+							break;
+						}
 						case MAX:
 							//Esto existe para que sea generico el recorrer el switch de emitters
 							break;
@@ -297,7 +311,7 @@ void CParticleSystem::OnInspector()
 					}
 				}
 				std::string CEid;
-				if (ImGui::CollapsingHeader(CEid.append("Create Emitter ##").append(std::to_string(i)).c_str()))
+				if (ImGui::CollapsingHeader(CEid.append("Emitter Options ##").append(std::to_string(i)).c_str()))
 				{
 					for (int k = 0; k < EmiterType::MAX; k++)
 					{
@@ -326,6 +340,9 @@ void CParticleSystem::OnInspector()
 						case IMAGE:
 							emitterType.assign("Image Emitter");
 							break;
+						case SHAPE:
+							emitterType.assign("Shape Emitter");
+							break;
 						case MAX:
 							break;
 						default:
@@ -335,7 +352,6 @@ void CParticleSystem::OnInspector()
 						{
 							allEmitters.at(i)->CreateEmitterSettingByType((EmiterType)k);
 						}
-
 					}
 					//ImGui::End();
 					//ImGui::TreePop();

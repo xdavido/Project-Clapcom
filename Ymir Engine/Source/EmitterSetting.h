@@ -16,6 +16,7 @@ enum EmiterType
 	SIZEPARTICLE,
 	COLOR,
 	IMAGE,
+	SHAPE,
 	MAX,
 };
 
@@ -150,6 +151,70 @@ struct EmitterImage : EmitterSetting
 	CMaterial* mat;
 };
 
+enum class typeShape : int
+{
+	CIRCUMFERENCE,
+	AREA,
+	CONE,
+	SPHERE,
+	NONE,
+};
 
+struct EmitterShape : EmitterSetting
+{
+	EmitterShape(ParticleEmitter* parent);
+
+	void Spawn(ParticleEmitter* emitter, Particle* particle);
+	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
+
+	void CreateSpawnShape(typeShape shape);
+
+	EmitterShape* myShape;
+	CTransform* eTransform;
+	ParticleEmitter* shapeParent;
+};
+
+struct EmitterShapeArea : EmitterSetting
+{
+	EmitterShapeArea();
+	void Spawn(ParticleEmitter* emitter, Particle* particle);
+	void Update(float dt, ParticleEmitter* emitter);
+	void OnInspector();
+
+	float3 offset{ 0,0,0 };
+	bool hasInitialSpeed = true;
+	float speed;
+	float minRange = -1.0f;
+	float maxRange = 1.0f;
+	float3 direccion;
+	float angle;
+	bool useDirection = true;
+};
+
+//struct EmmiterShapeCircumference : EmitterShape
+//{
+//	EmmiterShapeCircumference();
+//	void Spawn(ParticleEmitter* emitter, Particle* particle);
+//	void Update(float dt, ParticleEmitter* emitter);
+//	void OnInspector();
+//};
+//
+//struct EmitterShapeCone : EmitterShape
+//{
+//	EmitterShapeCone();
+//	void Spawn(ParticleEmitter* emitter, Particle* particle);
+//	void Update(float dt, ParticleEmitter* emitter);
+//	void OnInspector();
+//};
+//
+//
+//struct EmitterShapeSphere : EmitterShape
+//{
+//	EmitterShapeSphere();
+//	void Spawn(ParticleEmitter* emitter, Particle* particle);
+//	void Update(float dt, ParticleEmitter* emitter);
+//	void OnInspector();
+//};
 
 #endif //__EMITTER_INSTANCE_H__

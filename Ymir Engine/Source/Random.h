@@ -8,4 +8,6 @@ namespace Random {
 
     unsigned int Generate();
 
+    float GenerateRandomFloat(float min, float max);
+
 }
