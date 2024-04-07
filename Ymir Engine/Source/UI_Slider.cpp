@@ -228,10 +228,20 @@ void UI_Slider::SetReference()
 		if (it->first == "Fill image")
 		{
 			fillImage = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+
+			if (fillImage != nullptr)
+			{
+				fillImage->vReferences.push_back(this);
+			}
 		}
 		else if (it->first == "Handle image")
 		{
 			handleImage = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+
+			if (handleImage != nullptr)
+			{
+				handleImage->vReferences.push_back(this);
+			}
 		}
 
 		++it;
@@ -330,7 +340,7 @@ void UI_Slider::SetValue(float val)
 	{
 		if (val < minValue.fValue)
 		{
-			value.fValue = minValue.fValue;			
+			value.fValue = minValue.fValue;
 			val = minValue.fValue;
 		}
 		else if (val > maxValue.fValue)
@@ -355,7 +365,7 @@ void UI_Slider::SetValue(float val)
 				case SLIDER_DIRECTION::LEFT_TO_RIGHT:
 				{
 					img.height = dragLimits.w;
-					img.width = ((dragLimits.x + dragLimits.z) *val / maxValue.fValue);
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
 
 					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
 					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
@@ -367,7 +377,7 @@ void UI_Slider::SetValue(float val)
 				{
 					// TODO: Sara
 					img.height = dragLimits.w;
-					img.width = ((dragLimits.x + dragLimits.z) *val / maxValue.fValue);
+					img.width = ((dragLimits.x + dragLimits.z) * val / maxValue.fValue);
 
 					img.boundsGame->vertices[0].position = float3(img.posX, img.posY + (img.height * img.scaleBounds.y), 0);
 					img.boundsGame->vertices[1].position = float3((img.width * img.scaleBounds.x), img.posY + (img.height * img.scaleBounds.y), 0);
@@ -392,7 +402,7 @@ void UI_Slider::SetValue(float val)
 				{
 					img.posY = dragLimits.y;
 					img.width = dragLimits.z;
-					img.height = ((dragLimits.y + dragLimits.w) *val / maxValue.fValue);
+					img.height = ((dragLimits.y + dragLimits.w) * val / maxValue.fValue);
 
 					img.boundsGame->vertices[0].position = float3(img.posX, (img.height * img.scaleBounds.y), 0);
 					img.boundsGame->vertices[1].position = float3(img.posX + (img.width * img.scaleBounds.x), (img.height * img.scaleBounds.y), 0);

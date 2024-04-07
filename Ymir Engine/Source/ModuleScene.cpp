@@ -471,17 +471,18 @@ void ModuleScene::Destroy(GameObject* gm)
 {
 	for (std::vector<GameObject*>::iterator i = gm->mParent->mChildren.begin(); i != gm->mParent->mChildren.end(); ++i)
 	{
+		(*i._Ptr)->ClearReferences();
+
 		if (*i._Ptr == gm)
 		{
 			gm->mParent->mChildren.erase(i);
 			break;
 		}
 	}
+
 	gm->mParent->mChildren.shrink_to_fit();
 
-
-	delete gm;
-	gm = nullptr;
+	RELEASE(gm);
 }
 
 //

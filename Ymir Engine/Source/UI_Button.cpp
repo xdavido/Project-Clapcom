@@ -97,10 +97,18 @@ void UI_Button::SetReference()
 		if (it->first == "Text")
 		{
 			displayText = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+			if (displayText != nullptr)
+			{
+				displayText->vReferences.push_back(this);
+			}
 		}
 		else if (it->first == "Image")
 		{
 			image = (UI_Image*)static_cast<G_UI*>(External->scene->mRootNode->FindChild(it->second))->GetComponentUI(UI_TYPE::IMAGE);
+			if (image != nullptr)
+			{
+				image->mOwner->vReferences.push_back(this);
+			}
 
 			image->SetImg(mPaths[UI_STATE::NORMAL], UI_STATE::NORMAL);
 			image->SetImg(mPaths[UI_STATE::FOCUSED], UI_STATE::FOCUSED);

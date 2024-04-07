@@ -415,5 +415,6 @@ void GameObject::ClearReferences()
 	{
 		(*it)->OnReferenceDestroyed(this);
 	}
+
 	ClearVec(vReferences);
 }

@@ -60,6 +60,7 @@ GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonCli
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, ENGINE_COLOR);
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ENGINE_COLOR);
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.059f, 0.059f, 0.059f, 1.0f));
 	if (ImGui::Button(go == nullptr ? "<null>" : (go)->name.c_str()))
 	{
 		if (buttonClicked != nullptr)
@@ -86,7 +87,7 @@ GameObject* Component::ImGui_GameObjectReference(GameObject* go, bool* buttonCli
 		}
 		ImGui::EndDragDropTarget();
 	}
-	ImGui::PopStyleColor(2);
+	ImGui::PopStyleColor(3);
 
 	return go;
 }
