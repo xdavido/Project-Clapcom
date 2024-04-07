@@ -341,13 +341,6 @@ void CParticleSystem::OnInspector()
 				{
 					allEmitters.at(i)->name.assign(textInfo);
 				}*/
-				std::string SEid;
-				ImGui::PushStyleColor(ImGuiCol_::ImGuiCol_Button, ImVec4(0.7, 0.3, 0, 1)); //ERIC: Sara no me pegues, es temporal para diferenciarse de los settings
-				if (ImGui::Button(SEid.append("Save Emitter ##").append(std::to_string(i)).c_str()))
-				{
-					SaveEmmiterJSON(allEmitters.at(i));
-				}
-				ImGui::PopStyleColor();
 			}
 
 			if (ImGui::Button("Create Particle Emitter"))
@@ -413,7 +406,7 @@ const char* CParticleSystem::SaveMetaEmitters()
 	}
 }
 
-//Save just one emmiter
+//Save just one emmiter (ESTO es codigo antiguo, si los prefabs van bien supongo que se puede petar)
 uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 {
 	JSON_Value* root_value = json_value_init_object();
@@ -612,7 +605,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 	return UID;
 }
 
-//Save just one emmiter
+//Save emmiter on JSON scene
 JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 {
 	JSON_Value* root_value = json_value_init_object();
