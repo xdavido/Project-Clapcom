@@ -3050,105 +3050,122 @@ void ModuleEditor::DrawInspector()
 			// Set the cursor position to center the button within the menu
 			ImGui::SetCursorPosX(xPos);
 
+			static bool click = false;
 
 			if (ImGui::Button("Add Component", ImVec2(110, 30)))
 			{
 				ImGui::OpenPopup("AddComponents");
-				ImGui::SameLine();
+				click = false;
 			}
 
-			if (ImGui::BeginPopup("AddComponents"))
+			if (!click)
 			{
-				ImGui::SeparatorText("Components");
-
-				// Skip transform
-				// --- Add component Mesh ---
-
-				/*if (mesh == nullptr)
+				if (ImGui::BeginPopup("AddComponents"))
 				{
-					if (ImGui::BeginMenu("Mesh"))
+					ImGui::SeparatorText("Components");
+
+					// Skip transform
+					// --- Add component Mesh ---
+
+					/*if (mesh == nullptr)
 					{
-						App->editor->PrimitivesMenu();
-						ImGui::EndMenu();
-					}
-				}*/
+						if (ImGui::BeginMenu("Mesh"))
+						{
+							App->editor->PrimitivesMenu();
+							ImGui::EndMenu();
+						}
+					}*/
 
-				// --- Add component Material ---
-				if ((CMaterial*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
-				{
-					if (ImGui::MenuItem("Material"))
+					// --- Add component Material ---
+					if ((CMaterial*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
 					{
-						App->scene->selectedGO->AddComponent(ComponentType::MATERIAL);
-					}
-				}
-
-				//// --- Add component Camera ---
-
-				if ((CCamera*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
-				{
-					if (ImGui::MenuItem("Camera"))
-					{
-						App->scene->selectedGO->AddComponent(ComponentType::CAMERA);
-					}
-				}
-
-				//// --- Add component Physics ---
-
-				if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::PHYSICS) == nullptr)
-				{
-					if (ImGui::MenuItem("Physics"))
-					{
-						App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
-					}
-				}
-
-				if ((CAudioSource*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
-				{
-					if (ImGui::MenuItem("Audio_Source"))
-					{
-						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_SOURCE);
-					}
-				}
-
-				if ((CAudioListener*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
-				{
-					if (ImGui::MenuItem("Audio_Listener"))
-					{
-						App->scene->selectedGO->AddComponent(ComponentType::AUDIO_LISTENER);
-					}
-				}
-
-				if (ImGui::BeginMenu("Script"))
-				{
-					if (ImGui::MenuItem("Add New Script")) {
-
-						//Todo: Add NewScript
-						showNewScriptPopUp = true;
-
-					}
-
-					ImGui::Separator();
-
-					for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
-
-						if (!entry.is_directory()) {
-
-							std::string entryName = entry.path().filename().string();
-							if (ImGui::MenuItem(entryName.c_str()))
-							{
-								script_name = entryName.c_str();
-								App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
-							}
-
+						if (ImGui::MenuItem("Material"))
+						{
+							App->scene->selectedGO->AddComponent(ComponentType::MATERIAL);
 						}
 					}
 
-					ImGui::EndMenu();
-				}
+					//// --- Add component Camera ---
 
-				//delete physics;
-				ImGui::EndPopup();
+					if ((CCamera*)App->scene->selectedGO->GetComponent(ComponentType::CAMERA) == nullptr)
+					{
+						if (ImGui::MenuItem("Camera"))
+						{
+							App->scene->selectedGO->AddComponent(ComponentType::CAMERA);
+						}
+					}
+
+					//// --- Add component Physics ---
+
+					if ((CCollider*)App->scene->selectedGO->GetComponent(ComponentType::PHYSICS) == nullptr)
+					{
+						if (ImGui::MenuItem("Physics"))
+						{
+							App->scene->selectedGO->AddComponent(ComponentType::PHYSICS);
+						}
+					}
+
+					if ((CAudioSource*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_SOURCE) == nullptr)
+					{
+						if (ImGui::MenuItem("Audio_Source"))
+						{
+							App->scene->selectedGO->AddComponent(ComponentType::AUDIO_SOURCE);
+						}
+					}
+
+					if ((CAudioListener*)App->scene->selectedGO->GetComponent(ComponentType::AUDIO_LISTENER) == nullptr)
+					{
+						if (ImGui::MenuItem("Audio_Listener"))
+						{
+							App->scene->selectedGO->AddComponent(ComponentType::AUDIO_LISTENER);
+						}
+					}
+
+					if (ImGui::BeginMenu("Script"))
+					{
+						if (ImGui::MenuItem("Add New Script")) {
+
+							//Todo: Add NewScript
+							showNewScriptPopUp = true;
+
+						}
+
+						static ImGuiTextFilter scriptFilter;
+
+						scriptFilter.Draw("Search", ImGui::GetFontSize() * 15);
+
+						ImGui::Separator();
+
+						for (const auto& entry : std::filesystem::directory_iterator("Assets/Scripts")) {
+
+							std::string entryName = entry.path().filename().string();
+
+							if (!entry.is_directory() && scriptFilter.PassFilter(entryName.c_str())) {
+
+								if (ImGui::BeginChild("##ScriptsAddComponent", ImVec2(0, 300), true))
+								{
+									if (ImGui::MenuItem(entryName.c_str()))
+									{
+										script_name = entryName.c_str();
+										App->scene->selectedGO->AddComponent(ComponentType::SCRIPT);
+
+										click = true;
+									}
+								}
+
+								ImGui::EndChild();
+
+							}
+						}
+
+						ImGui::EndMenu();
+					}
+
+					//delete physics;
+					ImGui::EndPopup();
+				}
 			}
+
 			if (!App->scene->selectedGO->active) { ImGui::EndDisabled(); }
 		}
 	}
