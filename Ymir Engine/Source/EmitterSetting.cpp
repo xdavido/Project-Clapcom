@@ -376,8 +376,8 @@ void EmitterColor::OnInspector()
 		{
 			this->color2 = this->color2;
 		}
-		ImGui::SliderFloat("Start ReSize ##COLOR", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
-		ImGui::SliderFloat("Stop ReSize ##COLOR", &(this->stopChange), this->startChange + 0.05f, 1.0f);
+		ImGui::SliderFloat("Initial Color ##COLOR", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
+		ImGui::SliderFloat("Final Color ##COLOR", &(this->stopChange), this->startChange + 0.05f, 1.0f);
 	}
 }
 
