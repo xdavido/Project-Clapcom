@@ -260,6 +260,7 @@ void C_UI::StateLogic()
 						}
 					}
 				}
+				External->scene->selectedUIGO = mOwner;
 				state = UI_STATE::RELEASE;
 			}
 		}
@@ -301,6 +302,7 @@ void C_UI::StateLogic()
 						}
 					}
 				}
+				External->scene->selectedUIGO = mOwner;
 				state = UI_STATE::PRESSED;
 			}
 
