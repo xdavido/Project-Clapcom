@@ -676,7 +676,7 @@ void NavMeshBuilder::HandleSettings()
 }
 
 
-#ifndef STANDALONE
+#ifndef _STANDALONE
 void NavMeshBuilder::DebugDraw()
 {
 	if (m_geom != nullptr)
