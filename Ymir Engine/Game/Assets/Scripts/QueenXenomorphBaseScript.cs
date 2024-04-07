@@ -64,6 +64,9 @@ public class QueenXenomorphBaseScript : YmirComponent
     private bool randomSelected = false;
     private float selectedAttack = 0f;
     private float randomCounter = 0f;
+
+    private bool randomMovSelected = false;
+    private float selectedMovement = 0f;
     
     private Vector3 vectorToPlayer = null;
 
@@ -119,11 +122,11 @@ public class QueenXenomorphBaseScript : YmirComponent
 		axeTimer = axeAttackCooldown;
 		dashTimer = dashAttackCooldown;
         clawTimer = clawAttackCooldown;
-        acidSpitTimer = acidSpitAttackCooldown;
+        acidSpitTimer = 5f;
         clawReady = true;
         axeReady = false;
         dashReady = false;
-        acidSpitReady = true;
+        acidSpitReady = false;
     }
 
     public void Update()
@@ -156,10 +159,26 @@ public class QueenXenomorphBaseScript : YmirComponent
 			break;
 			case QueenState.IDLE_PHASE_2:
 
+                if (!randomMovSelected)
+                {
+                    selectedMovement = random.Next(0, 3);
+                    randomMovSelected = true;
+                }
+
                 if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius)) && (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, clawRadius)))
                 {
-                    Debug.Log("[ERROR] BOSS STATE WALKING TO PLAYER");
-                    queenState = QueenState.WALKING_TO_PLAYER;
+                    if (selectedMovement < 2)
+                    {
+                        Debug.Log("[ERROR] BOSS STATE WALKING TO PLAYER");
+                        randomMovSelected = false;
+                        queenState = QueenState.WALKING_TO_PLAYER;
+                    }
+                    else
+                    {
+                        Debug.Log("[ERROR] BOSS STATE WALKING SIDEWAYS");
+                        randomMovSelected = false;
+                        queenState = QueenState.WALKING_SIDEWAYS;
+                    }
                 }
                 else
                 {
@@ -168,6 +187,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
                 break;
 			case QueenState.WALKING_TO_PLAYER:
+
                 vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
                 vectorToPlayer = Vector3.Normalize(vectorToPlayer);
 
@@ -179,11 +199,13 @@ public class QueenXenomorphBaseScript : YmirComponent
                 CheckAttackDistance();
 
                 break;
-			case QueenState.WALKING_SIDEWAYS: 
-				//Might be removed
+			case QueenState.WALKING_SIDEWAYS:
 
-			break;
+                gameObject.SetVelocity(new Vector3(-(gameObject.transform.GetForward().z * speed * 2), 0, (gameObject.transform.GetForward().x * speed * 2)));
+
+                break;
             case QueenState.WALK_BACKWARDS:
+
                 gameObject.SetVelocity(gameObject.transform.GetForward() * -speed * 2);
 
                 backwardsTimer += Time.deltaTime;
@@ -199,6 +221,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
                 break;
 			case QueenState.CLAW:
+
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
                 clawAniCounter += Time.deltaTime;
@@ -212,6 +235,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
             break;
             case QueenState.ACID_SPIT:
+
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
                 acidSpitAniCounter += Time.deltaTime;
@@ -226,6 +250,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
                 break;
 			case QueenState.AXE_TAIL:
+
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
                 axeAniCounter += Time.deltaTime;
@@ -239,6 +264,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
             break;
 			case QueenState.PREPARE_DASH:
+
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
 
                 dashAniCounter1 += Time.deltaTime;
@@ -252,6 +278,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
             break;
 			case QueenState.DASH: 
+
 				if (!dashDone)
                 {
                     dashDone = true;
@@ -286,9 +313,9 @@ public class QueenXenomorphBaseScript : YmirComponent
 		//If player too far away stay idle
         if (!CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius))
         {
-            Debug.Log("[ERROR] BOSS STATE ACID SPIT");
+            Debug.Log("[ERROR] BOSS STATE IDLE");
 
-            queenState = QueenState.ACID_SPIT;
+            queenState = QueenState.IDLE_PHASE_2;
         }
 
     }
@@ -366,7 +393,7 @@ public class QueenXenomorphBaseScript : YmirComponent
             queenState = QueenState.ACID_SPIT;
 
         }
-        else if (acidSpitReady == true)
+        else if ((CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, clawRadius)) && acidSpitReady == true)
         {
             Debug.Log("[ERROR] BOSS STATE WALK BACKWARDS");
             queenState = QueenState.WALK_BACKWARDS;
