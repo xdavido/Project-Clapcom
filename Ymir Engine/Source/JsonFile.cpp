@@ -677,6 +677,9 @@ void JsonFile::SetGameObject(const char* key, const GameObject& gameObject)
 
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
+
+	json_object_set_boolean(gameObjectObject, "Static", gameObject.isStatic);
+
 	// Set Position
 
 	//JSON_Value* positionValue = json_value_init_array();
@@ -779,6 +782,16 @@ GameObject* JsonFile::GetGameObject(const char* key) const
 		const char* name = json_object_get_string(gameObjectObject, "Name");
 		gameObject->name = (name != nullptr) ? name : "";
 
+		//Get isStatic
+		bool _isStatic;
+		if (json_object_has_value(gameObjectObject, "Static") == 1) {
+			_isStatic = json_object_get_boolean(gameObjectObject, "Static");
+		}
+		else {
+			_isStatic = false;
+		}
+		gameObject->isStatic = _isStatic;
+
 		// Get UID
 		gameObject->UID = static_cast<int>(json_object_get_number(gameObjectObject, "UID"));
 
@@ -865,6 +878,8 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 
 	// Set Name
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
+
+	json_object_set_boolean(gameObjectObject, "Static", gameObject.isStatic);
 
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
@@ -1634,6 +1649,15 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	gameObject.name = (name != nullptr) ? name : "";
 
 	// Get Position, Rotation, Scale
+
+	bool _isStatic;
+	if (json_object_has_value(gameObjectObject, "Static") == 1) {
+		_isStatic = json_object_get_boolean(gameObjectObject, "Static");
+	}
+	else {
+		_isStatic = false;
+	}
+	gameObject.isStatic = _isStatic;
 
 	// Get UID
 
