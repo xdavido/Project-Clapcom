@@ -129,6 +129,10 @@ EmitterPosition::EmitterPosition()
 	acceleration = false;
 	particleSpeed1 = 1.0f;
 	particleSpeed2 = 0.0f;
+	newDirection = { 0,0,0 };
+	actualSpeedChange = SpeedChangeMode::NONE;
+	changeSpeed1 = 0.0f;
+	changeSpeed2 = 0.0f;
 
 }
 

@@ -80,6 +80,20 @@ struct EmitterPosition : EmitterSetting
 	bool acceleration;
 	float particleSpeed1;
 	float particleSpeed2;
+	float3 newDirection;
+	enum SpeedChangeMode
+	{
+		NONE,
+		IFTIMEADD, //Si en el time añadir el vector a la direccion
+		ADDOVERTIME, //Añadir paulatinamente el nuevo vector
+		IFTIMESUBSTITUTE, //Si el time cuadra position substituir velocidad
+		SUBSTITUTEOVERTIME, //Sobre el tiempo cambia la direccion
+		
+		MAX
+	};
+	SpeedChangeMode actualSpeedChange;
+	float changeSpeed1;
+	float changeSpeed2;
 };
 
 struct EmitterRotation : EmitterSetting
