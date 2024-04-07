@@ -135,19 +135,6 @@ C_UI* G_UI::GetComponentUI(UI_TYPE type)
 	return nullptr;
 }
 
-std::vector<C_UI*> G_UI::GetComponentsUI_ByType(UI_TYPE type)
-{
-	std::vector<C_UI*> vec = {};
-	for (auto i = 0; i < mComponents.size(); i++)
-	{
-		if (mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(mComponents[i])->UI_type == type)
-		{
-			vec.push_back((C_UI*)mComponents[i]);
-		}
-	}
-	return vec;
-}
-
 bool G_UI::AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent)
 {
 	bool ret = true;

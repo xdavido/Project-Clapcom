@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace YmirEngine
 {
+    enum UI_STATE
+    {
+        DISABLED,
+        NORMAL,
+        FOCUSED,
+        PRESSED,
+        RELEASE,
+        SELECTED,
+
+        NONE
+    };
+
     public enum ITEM_SLOT
     {
         ARMOR,

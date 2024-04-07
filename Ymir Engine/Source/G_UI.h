@@ -29,7 +29,6 @@ public:
 
 	update_status Update(float dt);
 	C_UI* GetComponentUI(UI_TYPE type);
-	std::vector<C_UI*> GetComponentsUI_ByType(UI_TYPE type);
 
 	bool AddUIComponent(UI_TYPE type, float x, float y, GameObject* parent = External->scene->mRootNode);
 

@@ -53,6 +53,8 @@ void UI_Button::OnInspector()
 
 		ImGui::Dummy(ImVec2(0, 10));
 
+		ImGui::Text(("State: " + std::to_string((int)state)).c_str());
+
 		// Text reference
 		ImGui::Text("Text: ");	ImGui::SameLine();
 		displayText = static_cast<G_UI*>(ImGui_GameObjectReference(displayText));

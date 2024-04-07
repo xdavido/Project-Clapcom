@@ -110,6 +110,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 #pragma region UI
 
+	mono_add_internal_call("YmirEngine.UI::ChangeUIState", ChangeUIState);
+
 	// Image
 	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);
 	mono_add_internal_call("YmirEngine.UI::ChangeImageUI", ChangeImageUI);
@@ -119,6 +121,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.UI::GetImageCurrentFrameX", GetImageCurrentFrameX);
 	mono_add_internal_call("YmirEngine.UI::GetImageCurrentFrameY", GetImageCurrentFrameY);
 	mono_add_internal_call("YmirEngine.UI::SetImageCurrentFrame", SetImageCurrentFrame);
+
+	// Button
 
 	// Text
 	mono_add_internal_call("YmirEngine.UI::TextEdit", TextEdit);

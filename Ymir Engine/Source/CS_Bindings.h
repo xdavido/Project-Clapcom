@@ -618,20 +618,6 @@ void SetTag(MonoObject* cs_Object, MonoString* string)
 	strcpy(cpp_gameObject->tag, newTag.c_str());
 }
 
-MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
-{
-	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
-	std::string _newImage = mono_string_to_utf8(newImage);
-
-	G_UI* tempGameObject = new G_UI(External->scene->mRootNode, 0, 0);
-
-	tempGameObject->AddImage(_newImage, x, y, 100, 100);
-
-	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
-
-	return External->moduleMono->GoToCSGO(tempGameObject);
-}
-
 void Rumble_Controller(int time)
 {
 	if (External != nullptr) {
@@ -645,6 +631,32 @@ void Rumble_Controller(int time)
 	}
 }
 
+//
+void ChangeUIState(MonoObject* object, int uiState)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	std::vector<Component*> vec = go->GetAllComponentsByType(ComponentType::UI);
+
+	for (auto it = vec.begin(); it != vec.end(); ++it)
+	{
+		((C_UI*)(*it))->SetState((UI_STATE)uiState);
+	}
+
+}
+
+MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)
+{
+	GameObject* ui_gameObject = External->moduleMono->GameObject_From_CSGO(pParent);
+	std::string _newImage = mono_string_to_utf8(newImage);
+
+	G_UI* tempGameObject = new G_UI(External->scene->mRootNode, 0, 0);
+
+	tempGameObject->AddImage(_newImage, x, y, 100, 100);
+
+	External->scene->PostUpdateCreateGameObject_UI((GameObject*)tempGameObject);
+
+	return External->moduleMono->GoToCSGO(tempGameObject);
+}
 void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
 {
 	//Falta meter automaticamente que haga el change de Image
