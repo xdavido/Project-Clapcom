@@ -34,6 +34,15 @@ namespace YmirEngine
         public static extern GameObject GetGameObjectByName(string name);
 
         /// <summary>
+        /// Retrieves a game object by its name.
+        /// </summary>
+        /// <param name="go">Parent from which we search for the game object.</param>
+        /// <param name="name">Name of the game object being searched for.</param>
+        /// <returns>The children as game object if found, otherwise null.</returns>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetChildrenByName(object parentGO, string name);
+
+        /// <summary>
         /// Loads a scene.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -125,7 +134,13 @@ namespace YmirEngine
         /// Get UI go that is in selected state.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject GetSelected(object go);
+        public static extern GameObject GetSelected();
+
+        /// <summary>
+        /// Get UI go that is in focused state.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetFocused();
 
         /// <summary>
         /// Switch position of two game objects.

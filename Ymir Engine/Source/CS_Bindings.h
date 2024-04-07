@@ -25,6 +25,7 @@
 #include "UI_InputBox.h"
 #include "UI_CheckBox.h"
 #include "UI_Slider.h"
+#include "UI_Transform.h"
 
 #include "MathGeoLib/include/Math/float3.h"
 
@@ -223,6 +224,34 @@ MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
 	External->scene->mRootNode->CollectChilds(gameObjectVec);
+
+	if (name == NULL) {
+		assert("The name you passed is null. >:/");
+		return nullptr;
+	}
+
+	char* _name = mono_string_to_utf8(name);
+
+	for (int i = 0; i < gameObjectVec.size(); i++) {
+
+		if (strcmp(gameObjectVec[i]->name.c_str(), _name) == 0) {
+
+			return External->moduleMono->GoToCSGO(gameObjectVec[i]);
+
+		}
+
+	}
+	mono_free(_name);
+
+	assert("The object you searched for doesn't exist. :/");
+
+	return nullptr;
+}
+
+MonoObject* FindChildrenWithName(MonoObject* obj, MonoString* name) {
+
+	std::vector<GameObject*> gameObjectVec;
+	External->moduleMono->GameObject_From_CSGO(obj)->CollectChilds(gameObjectVec);
 
 	if (name == NULL) {
 		assert("The name you passed is null. >:/");
@@ -724,9 +753,31 @@ void SliderSetMax(MonoObject* object, double value)
 }
 
 // Inventory
-MonoObject* GetSelected(MonoObject* object)
+
+MonoObject* GetSelected()
 {
-	return External->moduleMono->GoToCSGO(External->scene->GetUISelected(External->moduleMono->GameObject_From_CSGO(object)));
+	// Get UI elements to navigate
+	std::vector<C_UI*> listUI;
+
+	for (int i = 0; i < External->scene->vCanvas.size(); ++i)
+	{
+		External->scene->GetUINaviagte(External->scene->vCanvas[i], listUI);
+	}
+
+	for (auto i = 0; i < listUI.size(); i++)
+	{
+		if (listUI[i]->state == UI_STATE::SELECTED)
+		{
+			return External->moduleMono->GoToCSGO(listUI[i]->mOwner);
+		}
+	}
+
+	return nullptr;
+}
+
+MonoObject* GetFocused()
+{
+	return External->moduleMono->GoToCSGO(External->scene->selectedGO);
 }
 
 void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
@@ -742,6 +793,12 @@ void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
 
 	selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posX = auxPosX;
 	selectedgo->GetComponentUI(UI_TYPE::BUTTON)->posY = auxPosY;
+
+	static_cast<UI_Transform*>(targetgo->GetComponentUI(UI_TYPE::BUTTON)->transformUI)->UpdateUITransformChilds();
+	targetgo->GetComponentUI(UI_TYPE::BUTTON)->dirty_ = true;
+
+	static_cast<UI_Transform*>(selectedgo->GetComponentUI(UI_TYPE::BUTTON)->transformUI)->UpdateUITransformChilds();
+	selectedgo->GetComponentUI(UI_TYPE::BUTTON)->dirty_ = true;
 }
 
 #pragma endregion
