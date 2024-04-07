@@ -281,8 +281,9 @@ UI_Button* G_UI::AddButton(const char* text, float x, float y, std::string imgPa
 	// States
 	comp->image->SetImg("Assets/Lava.png", UI_STATE::FOCUSED);
 	comp->image->SetImg("Assets/pato.png", UI_STATE::PRESSED);
-	comp->image->SetImg("Assets/Baker_house.png", UI_STATE::RELEASE);
 	comp->image->SetImg("Assets/Water.png", UI_STATE::SELECTED);
+	comp->image->SetImg("Assets/Baker_house.png", UI_STATE::RELEASE);
+	comp->image->SetImg("Assets/Water.png", UI_STATE::DISABLED);
 
 	name = "Button";
 

@@ -110,7 +110,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 #pragma region UI
 
-	mono_add_internal_call("YmirEngine.UI::ChangeUIState", ChangeUIState);
+	mono_add_internal_call("YmirEngine.UI::SetUIState", SetUIState);
 
 	// Image
 	mono_add_internal_call("YmirEngine.UI::CreateImageUI", CreateImageUI);

@@ -1341,6 +1341,9 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_string(componentObject, "Release", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
 				image)->mapTextures[UI_STATE::RELEASE]->GetAssetsFilePath().c_str());
 
+			json_object_set_string(componentObject, "Disabled", static_cast<UI_Image*>(static_cast<const UI_Button&>(component).
+				image)->mapTextures[UI_STATE::DISABLED]->GetAssetsFilePath().c_str());
+
 			// Colors
 			SetColor(componentObject, component);
 		}
@@ -2180,6 +2183,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::PRESSED, json_object_get_string(componentObject, "Pressed")));
 			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::SELECTED, json_object_get_string(componentObject, "Selected")));
 			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::RELEASE, json_object_get_string(componentObject, "Release")));
+			ui_comp->mPaths.insert(std::pair<UI_STATE, std::string>(UI_STATE::DISABLED, json_object_get_string(componentObject, "Disabled")));
 
 			// Colors
 			JSON_Value* focusedColorArrayValue = json_object_get_value(componentObject, "Focused color");

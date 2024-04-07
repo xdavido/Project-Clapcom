@@ -632,7 +632,13 @@ void Rumble_Controller(int time)
 }
 
 //
-void ChangeUIState(MonoObject* object, int uiState)
+int GetUIState(MonoObject* object, int uiState)
+{
+	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
+	return (int)((C_UI*)(go->GetComponent(ComponentType::UI)))->state;
+}
+
+void SetUIState(MonoObject* object, int uiState)
 {
 	G_UI* go = (G_UI*)External->moduleMono->GameObject_From_CSGO(object);
 	std::vector<Component*> vec = go->GetAllComponentsByType(ComponentType::UI);
@@ -641,7 +647,6 @@ void ChangeUIState(MonoObject* object, int uiState)
 	{
 		((C_UI*)(*it))->SetState((UI_STATE)uiState);
 	}
-
 }
 
 MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)

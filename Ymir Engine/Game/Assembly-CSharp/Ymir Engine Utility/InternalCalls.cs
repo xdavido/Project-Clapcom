@@ -64,7 +64,13 @@ namespace YmirEngine
         /// Change UI state.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject ChangeUIState(object go, int uiState);
+        public static extern int GetUIState(object go);
+
+        /// <summary>
+        /// Change UI state.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void SetUIState(object go, int uiState);
 
         /// <summary>
         /// Creates an image UI element.

@@ -8,7 +8,7 @@ using YmirEngine;
 
 public class SelectWeapon : YmirComponent
 {
-    public int weapon;  // TODO: Sara --> change to enum
+    public int weapon = 0;  // TODO: Sara --> change to enum
     private BaseTeleporter levelSelector;
 
     public void Start()
@@ -23,6 +23,13 @@ public class SelectWeapon : YmirComponent
 
     public void OnExecuteButton()
     {
-        levelSelector.selectedLvl = (LEVELS)weapon;
+        if (levelSelector.selectedWeapon != (WEAPON_TYPE)weapon)
+        {
+            levelSelector.selectedWeapon = (WEAPON_TYPE)weapon;
+        }
+        else
+        {
+            levelSelector.selectedWeapon = WEAPON_TYPE.NONE;
+        }
     }
 }

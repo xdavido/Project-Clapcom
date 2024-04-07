@@ -117,6 +117,7 @@ void UI_Button::SetReference()
 			image->SetImg(mPaths[UI_STATE::PRESSED], UI_STATE::PRESSED);
 			image->SetImg(mPaths[UI_STATE::SELECTED], UI_STATE::SELECTED);
 			image->SetImg(mPaths[UI_STATE::RELEASE], UI_STATE::RELEASE);
+			image->SetImg(mPaths[UI_STATE::DISABLED], UI_STATE::DISABLED);
 		}
 
 		++it;
