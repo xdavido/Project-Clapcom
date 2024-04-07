@@ -17,6 +17,57 @@ bool ResourceTexture::LoadInMemory()
 {
 	bool ret = true;
 
+	// 0. Set texture properties
+
+	GLenum format;
+	ILenum ILformat;
+
+	switch (type)
+	{
+		case TextureType::DIFFUSE:
+
+			format = GL_RGBA;
+			ILformat = IL_RGBA;
+
+			break;
+
+		case TextureType::SPECULAR:
+
+			format = GL_ALPHA;
+			ILformat = IL_ALPHA;
+
+			break;
+
+		case TextureType::AMBIENT:
+
+			format = GL_LUMINANCE;
+			ILformat = IL_LUMINANCE;
+
+			break;
+
+		case TextureType::EMISSIVE:
+
+			format = GL_RGBA;
+			ILformat = IL_RGBA;
+
+			break;
+
+		case TextureType::HEIGHT:
+
+			format = GL_LUMINANCE;
+			ILformat = IL_LUMINANCE;
+
+			break;
+
+		case TextureType::NORMAL:
+
+			format = GL_RGB;
+			ILformat = IL_RGB;
+
+			break;
+
+	}
+
 	// 1. Load DevIL Image
 
 	ILuint imageID;
@@ -35,7 +86,7 @@ bool ResourceTexture::LoadInMemory()
 
 	// 2. Convert the Image to OpenGL Texture Format
 
-	if (ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
+	if (ilConvertImage(ILformat, IL_UNSIGNED_BYTE)) {
 		// Image converted successfully
 		LOG("Image converted successfully at %s", libraryFilePath.c_str());
 	}
@@ -60,7 +111,7 @@ bool ResourceTexture::LoadInMemory()
 
 	glGenTextures(1, &ID);
 	glBindTexture(GL_TEXTURE_2D, ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
 
 	// 5. Set Texture Parameters
 

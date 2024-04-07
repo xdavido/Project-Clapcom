@@ -689,7 +689,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 	return tmpResource;
 }
 
-Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
+Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID, TextureType rTexType)
 {
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
@@ -751,6 +751,12 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 		//	tmpResource->IncreaseReferenceCount();
 
 		//}
+
+		if (rTexType != TextureType::UNKNOWN) {
+
+			static_cast<ResourceTexture*>(tmpResource)->type = rTexType;
+
+		}
 
 		// FRANCESC: Disparo arreglado por algún motivo si comentas esta línea
 		resources.emplace(UID, tmpResource);

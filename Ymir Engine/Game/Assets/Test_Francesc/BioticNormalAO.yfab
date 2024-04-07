@@ -1,12 +1,12 @@
 {
     "Prefab": [
         {
-            "Name": "Group",
+            "Name": "BioticNormalAO",
             "Tag": "Untagged",
-            "UID": 1361962392,
+            "UID": 190670681,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 252752563,
+            "Parent UID": 1082110935,
             "Components": [
                 {
                     "Type": "Transform",
@@ -29,50 +29,8 @@
                 }
             ],
             "Children UID": [
-                424365152,
-                634023144
-            ]
-        },
-        {
-            "Name": "Point Light",
-            "Tag": "Untagged",
-            "UID": 424365152,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1361962392,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        11.040679931640625,
-                        22.607303619384766,
-                        8.6834049224853516
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Light",
-                    "Active": 1,
-                    "Debug": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Intensity": 1,
-                    "Light Type": 0,
-                    "Radius": 1
-                }
+                634023144,
+                1666890916
             ]
         },
         {
@@ -82,7 +40,7 @@
             "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
-            "Parent UID": 1361962392,
+            "Parent UID": 190670681,
             "Components": [
                 {
                     "Type": "Transform",
@@ -141,36 +99,91 @@
                     "Shader": "Assets\/Shaders\/SpecularLight.glsl",
                     "Uniforms": [
                         {
-                            "lightDir": [
-                                11.040679931640625,
-                                22.607303619384766,
-                                8.6834049224853516
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                1,
-                                1,
-                                1
-                            ],
                             "numLights": 1,
-                            "displayNormalMap": false,
                             "transparency": 1,
                             "camPos": [
-                                0,
-                                0,
-                                0
-                            ]
+                                -21.088438034057617,
+                                40.267772674560547,
+                                30.757843017578125
+                            ],
+                            "enableDiffuse": false,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": false,
+                            "ambient": 0.30000001192092896,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
                         }
                     ],
-                    "Diffuse_ID": 164,
+                    "Diffuse_ID": 166,
                     "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
-                    "Diffuse_UID": 899405632
+                    "Diffuse_UID": 899405632,
+                    "Specular_ID": 180,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 447910140,
+                    "Normal_ID": 177,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 318925041,
+                    "Height_ID": 173,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 1616692184,
+                    "Ambient_ID": 164,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1019738428,
+                    "Emissive_ID": 170,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1923458125
                 },
                 {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 2673,
                     "Index Count": 5898
+                }
+            ]
+        },
+        {
+            "Name": "Point Light",
+            "Tag": "Untagged",
+            "UID": 1666890916,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 190670681,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        17.64879035949707,
+                        15.815242767333984
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Light",
+                    "Active": 1,
+                    "Debug": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "Intensity": 1,
+                    "Light Type": 0,
+                    "Radius": 1
                 }
             ]
         }
