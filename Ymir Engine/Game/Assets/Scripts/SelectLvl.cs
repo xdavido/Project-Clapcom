@@ -9,7 +9,7 @@ using YmirEngine;
 public class SelectLvl : YmirComponent
 {
     public int lvl = 0;  // TODO: Sara --> change to enum
-    //private BaseTeleporter levelSelector;
+    private BaseTeleporter levelSelector;
 
     public void Start()
     {
@@ -23,13 +23,13 @@ public class SelectLvl : YmirComponent
 
     public void OnExecuteButton()
     {
-        //if (levelSelector.selectedLvl != (LEVELS)lvl)
-        //{
-        //    levelSelector.selectedLvl = (LEVELS)lvl;
-        //}
-        //else
-        //{
-        //    levelSelector.selectedLvl = LEVELS.NONE;
-        //}
+        if (levelSelector.selectedLvl != (LEVELS)lvl)
+        {
+            levelSelector.selectedLvl = (LEVELS)lvl;
+        }
+        else
+        {
+            levelSelector.selectedLvl = LEVELS.NONE;
+        }
     }
 }
