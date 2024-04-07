@@ -281,7 +281,7 @@ void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 	
 	m_mesh->vertices.clear();
 
-	for (int i = 0; i < new_mesh->vertices.size(); i++) {
+	for (int i = 0; i < merged_vertices.size(); i++) {
 		Vertex vertex; 
 		m_mesh->vertices.push_back(vertex);
 		m_mesh->vertices.at(i).position = merged_vertices[i];
