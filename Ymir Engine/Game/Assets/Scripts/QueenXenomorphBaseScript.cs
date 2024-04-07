@@ -60,14 +60,18 @@ public class QueenXenomorphBaseScript : YmirComponent
     private GameObject player;
 
     //For attacks
+    //Random attack
     private Random random = new Random();
     private bool randomSelected = false;
     private float selectedAttack = 0f;
     private float randomCounter = 0f;
 
+    //Random movement
     private bool randomMovSelected = false;
     private float selectedMovement = 0f;
-    
+    private float sidewaysDuration = 0f;
+    private float sidewaysTimer = 0f;
+
     private Vector3 vectorToPlayer = null;
 
     private int baseAttacks = 0;
@@ -127,6 +131,11 @@ public class QueenXenomorphBaseScript : YmirComponent
         axeReady = false;
         dashReady = false;
         acidSpitReady = false;
+
+        //Make sure it starts by walking towards the player
+        selectedMovement = 1;
+        randomMovSelected = true;
+
     }
 
     public void Update()
@@ -161,7 +170,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
                 if (!randomMovSelected)
                 {
-                    selectedMovement = random.Next(0, 3);
+                    selectedMovement = random.Next(0, 4);
                     randomMovSelected = true;
                 }
 
@@ -177,6 +186,8 @@ public class QueenXenomorphBaseScript : YmirComponent
                     {
                         Debug.Log("[ERROR] BOSS STATE WALKING SIDEWAYS");
                         randomMovSelected = false;
+                        sidewaysDuration = random.Next(1, 4);
+                        sidewaysTimer = 0f;
                         queenState = QueenState.WALKING_SIDEWAYS;
                     }
                 }
@@ -201,7 +212,29 @@ public class QueenXenomorphBaseScript : YmirComponent
                 break;
 			case QueenState.WALKING_SIDEWAYS:
 
-                gameObject.SetVelocity(new Vector3(-(gameObject.transform.GetForward().z * speed * 2), 0, (gameObject.transform.GetForward().x * speed * 2)));
+                if (selectedMovement == 2)
+                {
+                    //Walk to the right side
+                    gameObject.SetVelocity(new Vector3(-(gameObject.transform.GetForward().z * speed * 2), 0, (gameObject.transform.GetForward().x * speed * 2)));
+                }
+                else
+                {
+                    //Walk to the left side
+                    gameObject.SetVelocity(new Vector3((gameObject.transform.GetForward().z * speed * 2), 0, -(gameObject.transform.GetForward().x * speed * 2)));
+                }
+
+                sidewaysTimer += Time.deltaTime;
+
+                if (sidewaysTimer >= sidewaysDuration)
+                {
+                    CheckAttackDistance();
+
+                    if (sidewaysTimer >= sidewaysDuration+2)
+                    {
+                        Debug.Log("[ERROR] BOSS STATE WALKING TO PLAYER");
+                        queenState = QueenState.WALKING_TO_PLAYER;
+                    }
+                }
 
                 break;
             case QueenState.WALK_BACKWARDS:
