@@ -106,6 +106,7 @@ bool ModuleScene::Start()
 	//CreateGUI(UI_TYPE::CHECKBOX, nullptr, 500, 500);
 	//CreateGUI(UI_TYPE::INPUTBOX, nullptr, 500, 500);
 	//CreateGUI(UI_TYPE::TEXT);
+	LoadSceneFromStart("Assets/Scenes", "GameUI");
 
 	return false;
 }

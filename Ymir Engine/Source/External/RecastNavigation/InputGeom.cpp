@@ -247,61 +247,52 @@ void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 	std::vector<float3> merged_vertices;
 
 	// Reserve vertex size
-	merged_vertices.reserve(m_mesh->vertices.size() + new_mesh->vertices.size());
+	merged_vertices.reserve((m_mesh->vertices.size() + new_mesh->vertices.size()));
 
 	int indices_offset = m_mesh->vertices.size();
 
+	
 	// Pass vertex info from m_mesh to merged_vertices
 	for (const auto& vertex : m_mesh->vertices) {
 
 		merged_vertices.push_back(vertex.position);
 
 	}
+	// Fill the vector with (0,0,0) so there is no crash
+	for (int i = 0; i < new_mesh->vertices.size(); i++) {
+		merged_vertices.push_back({ 0,0,0 });
+	}
 	
 	// Pass vertex from new_mesh
 	std::vector<float3> new_mesh_vertices;
 	new_mesh_vertices.reserve(new_mesh->vertices.size());
-
-	int index = m_mesh->vertices.size();
-	for (size_t i = 0; i < new_mesh->vertices.size(); i++)
-	{
-		new_mesh_vertices[i] = new_mesh_transform.MulPos(new_mesh_vertices[i]);
-
-		merged_vertices[index * 3]     = new_mesh_vertices[i * 3];
-		merged_vertices[index * 3 + 1] = new_mesh_vertices[i * 3 + 1];
-		merged_vertices[index * 3 + 2] = new_mesh_vertices[i * 3 + 2];
-		index++;
+	for (int i = 0; i < new_mesh->vertices.size(); i++) {
+		new_mesh_vertices.push_back(new_mesh->vertices[i].position);
 	}
 
-	new_mesh_vertices.clear();
+	
+	for (size_t i = 0; i < new_mesh->vertices.size(); i++)
+	{
+		new_mesh_vertices.at(i) = new_mesh_transform.MulPos(new_mesh_vertices.at(i));
+
+		merged_vertices[i] = new_mesh_vertices[i];
+	}
+
+	
 	m_mesh->vertices.clear();
 
-	for (int i = 0; i < m_mesh->vertices.size(); i++) {
+	for (int i = 0; i < new_mesh->vertices.size(); i++) {
+		Vertex vertex; 
+		m_mesh->vertices.push_back(vertex);
 		m_mesh->vertices.at(i).position = merged_vertices[i];
 	}
 
+	new_mesh_vertices.clear();
+
 	//Indices Merging =====================================================================
 
-	int total_indices = m_mesh->indices.size() + new_mesh->indices.size();
-	uint* merged_indices = new uint[total_indices];
-
-	index = 0;
-	for (size_t i = 0; i < m_mesh->indices.size(); i++)
-	{
-		merged_indices[i] = m_mesh->indices[i];
-		index++;
-	}
-
 	for (size_t i = 0; i < new_mesh->indices.size(); i++)
-	{
-		merged_indices[index + i] = new_mesh->indices[i] + indices_offset;
-	}
-
-	m_mesh->indices.clear();
-
-	for (int i = 0; i < m_mesh->indices.size(); i++) {
-		m_mesh->indices.at(i) = merged_indices[i];
-	}
+		m_mesh->indices.push_back(new_mesh->indices[i] + indices_offset);
 }
 
 #ifndef STANDALONE

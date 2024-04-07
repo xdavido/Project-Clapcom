@@ -730,7 +730,7 @@ void NavMeshBuilder::OnEditor()
 
 		//ImGui::SameLine();
 		ImGui::Text("Verts: %d", m_geom->getMesh()->vertices.size());
-		ImGui::Text("Indices: %d", m_geom->getMesh()->vertices.size());
+		ImGui::Text("Indices: %d", m_geom->getMesh()->indices.size());
 
 		ImGui::Spacing();
 		ImGui::Separator();
