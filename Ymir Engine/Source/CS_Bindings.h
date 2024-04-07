@@ -251,7 +251,9 @@ MonoObject* FindObjectWithName(MonoString* name) {
 MonoObject* FindChildrenWithName(MonoObject* obj, MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
-	External->moduleMono->GameObject_From_CSGO(obj)->CollectChilds(gameObjectVec);
+
+	GameObject* GO = External->moduleMono->GameObject_From_CSGO(obj);
+	GO->CollectChilds(gameObjectVec);
 
 	if (name == NULL) {
 		assert("The name you passed is null. >:/");

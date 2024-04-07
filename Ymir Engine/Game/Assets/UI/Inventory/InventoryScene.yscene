@@ -25,7 +25,7 @@
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 2060817159,
+            "Parent UID": 499664044,
             "Components": [
                 {
                     "Type": "Transform",
@@ -68,9 +68,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -95,17 +95,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -149,16 +149,26 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1048,
+                    "Width": 697,
                     "Height": 603,
                     "UI Type": 0,
-                    "UI State": 1,
+                    "UI State": 2,
                     "Drag Limits": [
                         0,
                         0,
                         1213,
                         618
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory.cs",
+                    "UID": 0
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory.cs",
+                    "UID": 0
                 }
             ],
             "Children UID": [
@@ -309,6 +319,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "ARMOR"
                 }
             ],
             "Children UID": [
@@ -482,6 +501,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "CHIP1"
                 }
             ],
             "Children UID": [
@@ -655,6 +683,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "CHIP2"
                 }
             ],
             "Children UID": [
@@ -828,6 +865,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "CONSUMABLE1"
                 }
             ],
             "Children UID": [
@@ -1001,6 +1047,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "CONSUMABLE2"
                 }
             ],
             "Children UID": [
@@ -1174,6 +1229,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "SAVE"
                 }
             ],
             "Children UID": [
@@ -1269,8 +1333,8 @@
             ],
             "Children UID": [
                 1649563615,
-                1801770687,
-                1041267262
+                1995946548,
+                1023312370
             ]
         },
         {
@@ -1380,6 +1444,15 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "ARMOR",
+                    "noHayEnumSlot": "NONE"
                 }
             ],
             "Children UID": [
@@ -1493,8 +1566,8 @@
                         50
                     ],
                     "Text": "Item Description",
-                    "Font name": "",
-                    "Font path": "",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -1511,8 +1584,8 @@
             ]
         },
         {
-            "Name": "EmptyItem1",
-            "UID": 1801770687,
+            "Name": "Item Empty",
+            "UID": 1995946548,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 730604888,
@@ -1540,19 +1613,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 912,
-                    "Position Y": 111,
-                    "Width": 100,
-                    "Height": 100,
+                    "Position X": 853,
+                    "Position Y": 116,
+                    "Width": 122,
+                    "Height": 99,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        912,
-                        111,
-                        100,
-                        100
+                        853,
+                        116,
+                        122,
+                        99
                     ],
-                    "Path": "Assets\/InGameConeptPng.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -1568,18 +1641,76 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 843042817,
+                    "Image": 1995946548,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/Lava.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Water.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "NONE"
                 }
             ],
             "Children UID": [
-                954724036
+                1512174703
             ]
         },
         {
             "Name": "Description",
-            "UID": 954724036,
+            "UID": 1512174703,
             "Active": false,
             "Element_Type": "None",
-            "Parent UID": 1801770687,
+            "Parent UID": 1995946548,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1604,17 +1735,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 650,
-                    "Position Y": 81,
-                    "Width": 269,
-                    "Height": 229,
+                    "Position X": 590,
+                    "Position Y": 116,
+                    "Width": 283,
+                    "Height": 263,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        650,
-                        81,
-                        269,
-                        229
+                        590,
+                        116,
+                        283,
+                        263
                     ],
                     "Path": "Assets\/InGameConeptPng.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1635,15 +1766,15 @@
                 }
             ],
             "Children UID": [
-                2140414006
+                843042817
             ]
         },
         {
             "Name": "Text",
-            "UID": 2140414006,
+            "UID": 843042817,
             "Active": false,
             "Element_Type": "None",
-            "Parent UID": 954724036,
+            "Parent UID": 1512174703,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1668,21 +1799,21 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 778,
-                    "Position Y": 198,
-                    "Width": 249,
+                    "Position X": 694,
+                    "Position Y": 183,
+                    "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        778,
-                        198,
-                        249,
+                        694,
+                        183,
+                        300,
                         50
                     ],
                     "Text": "Empty",
-                    "Font name": "",
-                    "Font path": "",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -1699,8 +1830,8 @@
             ]
         },
         {
-            "Name": "EmptyItem2",
-            "UID": 1041267262,
+            "Name": "Item Empty",
+            "UID": 1023312370,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 730604888,
@@ -1728,19 +1859,19 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 1085,
-                    "Position Y": 114,
-                    "Width": 100,
+                    "Position X": 981,
+                    "Position Y": 119,
+                    "Width": 157,
                     "Height": 100,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        1085,
-                        114,
-                        100,
+                        981,
+                        119,
+                        157,
                         100
                     ],
-                    "Path": "Assets\/InGameConeptPng.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -1756,18 +1887,76 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 233419383,
+                    "Image": 1023312370,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/Lava.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Water.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Item_Button.cs",
+                    "UID": 0,
+                    "currentSlot": 0,
+                    "itemType": 0,
+                    "noHayEnumItem": "NONE",
+                    "noHayEnumSlot": "NONE"
                 }
             ],
             "Children UID": [
-                740977843
+                2101603239
             ]
         },
         {
             "Name": "Description",
-            "UID": 740977843,
+            "UID": 2101603239,
             "Active": false,
             "Element_Type": "None",
-            "Parent UID": 1041267262,
+            "Parent UID": 1023312370,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1792,17 +1981,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 814,
-                    "Position Y": 83,
-                    "Width": 270,
-                    "Height": 235,
+                    "Position X": 785,
+                    "Position Y": 109,
+                    "Width": 207,
+                    "Height": 222,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        814,
-                        83,
-                        270,
-                        235
+                        785,
+                        109,
+                        207,
+                        222
                     ],
                     "Path": "Assets\/InGameConeptPng.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1823,15 +2012,15 @@
                 }
             ],
             "Children UID": [
-                1925034018
+                233419383
             ]
         },
         {
             "Name": "Text",
-            "UID": 1925034018,
+            "UID": 233419383,
             "Active": false,
             "Element_Type": "None",
-            "Parent UID": 740977843,
+            "Parent UID": 2101603239,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1856,21 +2045,21 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 934,
-                    "Position Y": 196,
-                    "Width": 200,
+                    "Position X": 842,
+                    "Position Y": 234,
+                    "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        934,
-                        196,
-                        200,
+                        842,
+                        234,
+                        300,
                         50
                     ],
                     "Text": "Empty",
-                    "Font name": "",
-                    "Font path": "",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [

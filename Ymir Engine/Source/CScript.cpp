@@ -17,7 +17,7 @@
 #include "External/mmgr/mmgr.h"
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm,  ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr),startMethod(nullptr), onExecuteButtonMethod(nullptr), isStarting(true)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm, ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr), startMethod(nullptr), onExecuteButtonMethod(nullptr), isStarting(true)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
@@ -59,7 +59,7 @@ void CScript::Update()
 	MonoObject* exec2 = nullptr;
 
 	if (startMethod && isStarting) {
-			mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
+		mono_runtime_invoke(startMethod, mono_gchandle_get_target(noGCobject), NULL, &exec2);
 		isStarting = false;
 	}
 	MonoObject* exec = nullptr;
@@ -83,7 +83,7 @@ void CScript::ReloadComponent() {
 
 	LoadScriptData(name);
 
-}	
+}
 
 void CScript::OnRecursiveUIDChange(std::map<uint, GameObject*> gameObjects)
 {
@@ -269,7 +269,7 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), (field.fiValue.goValue != nullptr) ? field.fiValue.goValue->name.c_str() : "this");
 
-				
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(dropType))
@@ -287,7 +287,7 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 		}
 
 		//Hardcodeado para que asigne el GO del objeto del script a todos los campos
-		
+
 		//field.fiValue.goValue = mOwner;
 		//SetField(field.field, field.fiValue.goValue);
 
@@ -312,7 +312,6 @@ void CScript::DropField(SerializedField& field, const char* dropType)
 
 	case MonoTypeEnum::MONO_TYPE_STRING:
 	{
-
 		MonoString* str = nullptr;
 		mono_field_get_value(mono_gchandle_get_target(noGCobject), field.field, &str);
 
@@ -342,7 +341,7 @@ void CScript::LoadScriptData(std::string scriptName)
 {
 	methods.clear();
 	fields.clear();
-	
+
 	scriptName.find_first_of('.');
 	size_t pos = scriptName.find_last_of('.');
 
@@ -375,7 +374,7 @@ void CScript::LoadScriptData(std::string scriptName)
 	MonoMethodDesc* oncDesc = mono_method_desc_new(":OnCollisionStay", false);
 	onCollisionStayMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
-	
+
 	oncDesc = mono_method_desc_new(":OnCollisionEnter", false);
 	onCollisionEnterMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);

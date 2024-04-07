@@ -22,6 +22,8 @@ namespace YmirEngine
     {
         public ITEM_SLOT currentSlot;
         public ITEM_SLOT itemType;
+        public float defense, healingEficiency, speed, reloadSpeed, skillDamage;
+
         public Item(ITEM_SLOT currentSlot, ITEM_SLOT itemType)
         {
             this.currentSlot = currentSlot;

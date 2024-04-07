@@ -24,6 +24,8 @@ public class UI_Inventory : YmirComponent
 
         if (_focusedGO != null)
         {
+            Debug.Log(_focusedGO.ToString());
+
             if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
             {
                 SwitchItems();
