@@ -14,6 +14,12 @@ public class SelectWeapon : YmirComponent
     public void Start()
     {
         Debug.Log("HelloWorld");
+
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Screen");
+        if (gameObject != null)
+        {
+            levelSelector = gameObject.GetComponent<BaseTeleporter>();
+        }
     }
 
     public void Update()
