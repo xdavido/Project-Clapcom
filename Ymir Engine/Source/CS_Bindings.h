@@ -662,6 +662,7 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
+
 void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
 {
 	//Falta meter automaticamente que haga el change de Image

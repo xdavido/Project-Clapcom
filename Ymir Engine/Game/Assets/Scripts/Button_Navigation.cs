@@ -10,7 +10,7 @@ public class Button_Navigation : YmirComponent
 {
     public string sceneName = "Assets/Scenes/GameUI.yscene";
 
-    public void OnExecuteButton()
+    public void OnClickButton()
     {
         Debug.Log("Go to scene" + sceneName);
         InternalCalls.LoadScene(sceneName);

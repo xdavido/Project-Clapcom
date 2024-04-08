@@ -57,8 +57,8 @@ namespace YmirEngine
 
         static readonly Vector2 zeroVector = new Vector2(0F, 0F);
         static readonly Vector2 oneVector = new Vector2(1F, 1F);
-        static readonly Vector2 downVector = new Vector2(1F, 0F);
         static readonly Vector2 upVector = new Vector2(0F, 1F);
+        static readonly Vector2 downVector = new Vector2(1F, 0F);
         static readonly Vector2 positiveInfinityVector = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
         static readonly Vector2 negativeInfinityVector = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
 

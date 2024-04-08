@@ -17,7 +17,7 @@ public class Button_Exit : YmirComponent
         return;
     }
 
-    public void OnExecuteButton()
+    public void OnClickButton()
     {
         InternalCalls.ExitGame();
     }

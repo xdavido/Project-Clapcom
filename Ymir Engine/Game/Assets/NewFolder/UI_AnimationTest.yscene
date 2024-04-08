@@ -25,7 +25,7 @@
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1331549595,
+            "Parent UID": 879811075,
             "Components": [
                 {
                     "Type": "Transform",
@@ -68,9 +68,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -95,17 +95,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -149,8 +149,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 655,
-                    "Height": 435,
+                    "Width": 841,
+                    "Height": 517,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -231,7 +231,7 @@
                     "ScriptName": "UI_Animation.cs",
                     "UID": 0,
                     "loop": true,
-                    "pingpongWIP": true,
+                    "pingpongWIP": false,
                     "backwards": false,
                     "delay": 0.10000000149011612,
                     "loopCount": 0,
@@ -351,25 +351,25 @@
                     "Value max": 10,
                     "Direction": 0,
                     "Focused color": [
+                        0,
                         -1.5816255460782938e+38,
                         0,
-                        0,
-                        1
-                    ],
-                    "Pressed color": [
-                        0,
-                        1,
-                        1,
                         0
                     ],
-                    "Selected color": [
-                        1,
+                    "Pressed color": [
                         1,
                         0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        1,
+                        1,
                         0
                     ],
                     "Disabled color": [
-                        1,
+                        0,
                         1,
                         1,
                         1

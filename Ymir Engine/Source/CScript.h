@@ -37,7 +37,8 @@ public:
 
 	void CollisionExitCallback(bool isTrigger, GameObject* collidedGameObject);
 
-	void ExecuteButton();
+	void OnClickButton();
+	void OnHoverButton();
 
 public:
 
@@ -51,7 +52,8 @@ public:
 	MonoMethod* onCollisionExitMethod;
 	MonoMethod* onTriggerEnterMethod;
 	MonoMethod* onTriggerExitMethod;
-	MonoMethod* onExecuteButtonMethod;
+	MonoMethod* onClickButtonMethod;
+	MonoMethod* onHoverButtonMethod;
 
 	uint32_t noGCobject;
 	std::string name;

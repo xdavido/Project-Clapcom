@@ -17,7 +17,7 @@
 #include "External/mmgr/mmgr.h"
 
 CScript* CScript::runningScript = nullptr;
-CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm, ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr), startMethod(nullptr), onExecuteButtonMethod(nullptr), isStarting(true)
+CScript::CScript(GameObject* _gm, const char* scriptName) : Component(_gm, ComponentType::SCRIPT), noGCobject(0), updateMethod(nullptr), startMethod(nullptr), onClickButtonMethod(nullptr), onHoverButtonMethod(nullptr), isStarting(true)
 {
 	name = scriptName;
 	//strcpy(name, scriptName);
@@ -383,14 +383,22 @@ void CScript::LoadScriptData(std::string scriptName)
 	onCollisionExitMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
-	MonoMethodDesc* oncBut = mono_method_desc_new(":OnExecuteButton", false);
-	onExecuteButtonMethod = mono_method_desc_search_in_class(oncBut, klass);
+	MonoMethodDesc* oncBut = mono_method_desc_new(":OnClickButton", false);
+	onClickButtonMethod = mono_method_desc_search_in_class(oncBut, klass);
 	mono_method_desc_free(oncBut);
 
 	oncDesc = mono_method_desc_new(":Start", false);
 	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
 	mono_method_desc_free(oncDesc);
 
+	
+	MonoMethodDesc* onhBut = mono_method_desc_new(":OnHoverButton", false);
+	onHoverButtonMethod = mono_method_desc_search_in_class(onhBut, klass);
+	mono_method_desc_free(onhBut);
+
+	oncDesc = mono_method_desc_new(":Start", false);
+	startMethod = mono_method_desc_search_in_class(oncDesc, klass);
+	mono_method_desc_free(oncDesc);
 
 
 	MonoClass* baseClass = mono_class_get_parent(klass);
@@ -446,11 +454,20 @@ void CScript::CollisionExitCallback(bool isTrigger, GameObject* collidedGameObje
 		mono_runtime_invoke(onCollisionExitMethod, mono_gchandle_get_target(noGCobject), params, NULL);
 	}
 }
-void CScript::ExecuteButton() {
 
-	if (onExecuteButtonMethod != nullptr) {
+void CScript::OnClickButton() {
 
-		mono_runtime_invoke(onExecuteButtonMethod, mono_gchandle_get_target(noGCobject), NULL, NULL);
+	if (onClickButtonMethod != nullptr) {
+
+		mono_runtime_invoke(onClickButtonMethod, mono_gchandle_get_target(noGCobject), NULL, NULL);
+	}
+}
+
+void CScript::OnHoverButton() {
+
+	if (onHoverButtonMethod != nullptr) {
+
+		mono_runtime_invoke(onHoverButtonMethod, mono_gchandle_get_target(noGCobject), NULL, NULL);
 	}
 }
 

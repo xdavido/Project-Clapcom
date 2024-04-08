@@ -153,6 +153,15 @@ void UI_Button::OnFocused()
 {
 	image->color = focusedColor;
 	image->selectedTexture = image->mapTextures.find(state)->second;
+
+	if (mOwner != nullptr)
+	{
+		CScript* aux = dynamic_cast<CScript*>(mOwner->GetComponent(ComponentType::SCRIPT));
+
+		if (aux != nullptr) {
+			aux->OnHoverButton();
+		}
+	}
 }
 
 void UI_Button::OnPressed()
@@ -171,11 +180,12 @@ void UI_Button::OnRelease()
 {
 	image->selectedTexture = image->mapTextures.find(state)->second;
 
-	if (mOwner != nullptr) {
+	if (mOwner != nullptr) 
+	{
 		CScript* aux = dynamic_cast<CScript*>(mOwner->GetComponent(ComponentType::SCRIPT));
 
 		if (aux != nullptr) {
-			aux->ExecuteButton();
+			aux->OnClickButton();
 		}
 	}
 }
