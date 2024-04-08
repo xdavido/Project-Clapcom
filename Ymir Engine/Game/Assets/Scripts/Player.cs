@@ -44,6 +44,8 @@ public class Player : YmirComponent
         I_JUMP_END,
         I_PRED,
         I_PRED_END,
+        I_ACID,
+        I_ACID_END,
     }
 
     enum WEAPON : int
@@ -66,7 +68,7 @@ public class Player : YmirComponent
 
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
-    public float movementSpeed = 35.0f;   
+    public float movementSpeed = 35.0f;
     //private double angle = 0.0f;
     private float deathZone = 0.5f;
 
@@ -119,6 +121,9 @@ public class Player : YmirComponent
 
     //--------------------- Predatory Rush ---------------------\\
     private float PredatoryTimer;
+
+    //--------------------- Acidic Spit ------------------------\\
+    private float acidicTimer;
 
     #endregion
 
@@ -192,7 +197,7 @@ public class Player : YmirComponent
             dashTimer -= Time.deltaTime;
 
             if (dashTimer <= 0)
-            {  
+            {
                 inputsList.Add(INPUT.I_DASH_END);
             }
         }
@@ -223,9 +228,9 @@ public class Player : YmirComponent
 
                 if (reloadTimer <= 0)
                 {
-                    ammo = magsize; 
+                    ammo = magsize;
                     csBullets.UseBullets();
-                    isReloading = false;    
+                    isReloading = false;
                 }
             }
         }
@@ -238,6 +243,17 @@ public class Player : YmirComponent
             if (PredatoryTimer <= 0)
             {
                 inputsList.Add(INPUT.I_PRED_END);
+            }
+        }
+
+        //--------------------- Acidic Spit Timer ---------------------\\
+        if (acidicTimer > 0)
+        {
+            acidicTimer -= Time.deltaTime;
+
+            if (acidicTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_ACID_END);
             }
         }
 
@@ -286,6 +302,12 @@ public class Player : YmirComponent
         if (Input.GetGamepadLeftTrigger() > 0)
         {
             inputsList.Add(INPUT.I_DASH);
+        }
+
+        //----------------- Predatory Rush (Skill 1) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        {
+            inputsList.Add(INPUT.I_ACID);
         }
 
         //----------------- Predatory Rush (Skill 2) -----------------\\
@@ -368,6 +390,14 @@ public class Player : YmirComponent
                             EndPredRush();
                             break;
 
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
+                            break;
+
                         case INPUT.I_JUMP:
                             currentState = STATE.JUMP;
                             StartJump();
@@ -414,6 +444,14 @@ public class Player : YmirComponent
 
                         case INPUT.I_PRED_END:
                             EndPredRush();
+                            break;
+
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
                             break;
 
                         case INPUT.I_JUMP:
@@ -686,8 +724,8 @@ public class Player : YmirComponent
         }
 
         // Añadir efecto de sonido
-        Audio.PlayAudio(gameObject,"P_Shoot");
-        Input.Rumble_Controller(shootRumbleDuration,shootRumbleIntensity);
+        Audio.PlayAudio(gameObject, "P_Shoot");
+        Input.Rumble_Controller(shootRumbleDuration, shootRumbleIntensity);
         //Debug.Log("Shoot!");
 
         if (!godMode)
@@ -780,8 +818,8 @@ public class Player : YmirComponent
 
     private void SwapWeapon(WEAPON type)
     {
-       weaponType = type;
-       GetWeaponVars();
+        weaponType = type;
+        GetWeaponVars();
     }
     #endregion
 
@@ -813,7 +851,7 @@ public class Player : YmirComponent
     }
     private void UpdateJump()
     {
-        gameObject.SetImpulse(new Vector3(0,1,0) * dashSpeed);
+        gameObject.SetImpulse(new Vector3(0, 1, 0) * dashSpeed);
     }
     private void EndJump()
     {
@@ -881,7 +919,7 @@ public class Player : YmirComponent
         Debug.Log("Stopping");
         gameObject.SetVelocity(new Vector3(0, 0, 0));
     }
-    
+
     private void HandleRotation()
     {
         Vector3 aX = new Vector3(gamepadInput.x, 0, gamepadInput.y);
@@ -889,7 +927,7 @@ public class Player : YmirComponent
 
         Quaternion targetRotation = Quaternion.identity;
 
-        Vector3 aY = new Vector3(0,1,0);
+        Vector3 aY = new Vector3(0, 1, 0);
 
         if (aX != Vector3.zero)
         {
@@ -955,6 +993,34 @@ public class Player : YmirComponent
         fireRate = fireRate / 0.7f;
         reloadDuration = reloadDuration / 0.5f;
         //Increase dash CD / 0,5
+    }
+
+    #endregion
+
+    #region ACIDIC SPIT
+
+    private void StartAcidicSpit()
+    {
+        //Trigger del sonido
+        Audio.PlayAudio(gameObject, "P_AcidSpit");
+
+        //Trigger de la animación
+
+        // --- Creación de la bola de acido ---
+
+        //Offset para que la bola salga a la altura del torso del player
+        Vector3 offset = new Vector3(0, 15, 0); 
+
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+        
+        //Crea la bola de acido
+        InternalCalls.CreateAcidicSpit("AcidSpit", pos);
+    }
+
+    private void EndAcidicSpit()
+    {
+
     }
 
     #endregion

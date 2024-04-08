@@ -162,6 +162,7 @@ void CSCreateGameObject(MonoObject* name, MonoObject* position)
 
 
 }
+
 MonoObject* CS_GetComponent(MonoObject* ref, MonoString* type, int inputType)
 {
 	ComponentType sType = static_cast<ComponentType>(inputType);
@@ -549,6 +550,97 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 	go->AddComponent(c);
 
 }
+
+void CreateAcidicSpit(MonoObject* name, MonoObject* position)
+{
+	float3 goPosition = External->moduleMono->UnboxVector(position);
+	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
+
+	if (External == nullptr) return;
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
+	go->UID = Random::Generate();
+
+	//Settea el transform a la bullet
+	go->mTransform->SetPosition(goPosition);
+
+	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
+
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
+
+	//Añade la mesh a la bullet
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID));
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
+
+	//Añade el material a la Bullet
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->useGravity = false;
+	physBody->size = go->mTransform->scale;
+	physBody->physBody->SetPosition(goPosition);
+	go->AddComponent(physBody);
+
+	//Añade el script Bullet al gameObject Bullet
+	const char* t = "BH_Acidic";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+}
+
+void CreateAcidPuddle(MonoObject* name, MonoObject* position)
+{
+	float3 goPosition = External->moduleMono->UnboxVector(position);
+	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
+
+	if (External == nullptr) return;
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
+	go->UID = Random::Generate();
+
+	//Settea el transform a la bullet
+	go->mTransform->SetPosition(goPosition);
+
+	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
+
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
+
+	//Añade la mesh a la bullet
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID));
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
+
+	//Añade el material a la Bullet
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->useGravity = false;
+	physBody->size = go->mTransform->scale;
+	physBody->physBody->SetPosition(goPosition);
+	go->AddComponent(physBody);
+
+	//Añade el script Bullet al gameObject Bullet
+	const char* t = "BH_AcidicPuddle";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+}
+
 
 //---------- GLOBAL GETTERS ----------//
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
