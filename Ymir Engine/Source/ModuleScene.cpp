@@ -269,22 +269,53 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 std::string ModuleScene::GetUniqueName(std::string name)
 {
-	//Check if a Game Object with same name exists
+	// Check if a Game Object with the same name exists
 	bool exists = false;
 	int counter = 0;
-	if (gameObjects.size() > 0)
-	{
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			if (name == gameObjects[i]->name)    //If the name exists, add 1 to counter
-			{
-				counter++;
-				name = ReName(name, counter);
-			}
+
+	// Iterate through existing game object names
+	for (auto gameObject : gameObjects) {
+
+		if (name == gameObject->name) {
+
+			exists = true;
+
+			break;
+
 		}
-		return name;
+
 	}
-	else return name;
+
+	// If the name already exists, rename it
+	if (exists) {
+
+		do {
+
+			counter++;
+
+			name = ReName(name, counter);
+
+			exists = false;
+
+			// Check if the new name already exists
+
+			for (auto gameObject : gameObjects) {
+
+				if (name == gameObject->name) {
+
+					exists = true;
+
+					break;
+
+				}
+
+			}
+
+		} while (exists);
+
+	}
+
+	return name;
 }
 
 std::string ModuleScene::ReName(std::string name, uint counter)
@@ -593,10 +624,10 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 		if (meshToTest != nullptr)
 		{
 			// Check for intersection between the ray and the global axis-aligned bounding box (AABB) of the mesh.
-			if (ray.Intersects(meshToTest->rMeshReference->globalAABB, closest, furthest)) {
+			if (ray.Intersects(meshToTest->globalAABB, closest, furthest)) {
 
 				// Test if the mesh is inside another AABB (avoid Skybox selection).
-				if (!IsInsideAABB(ray.a, meshToTest->rMeshReference->globalAABB))
+				if (!IsInsideAABB(ray.a, meshToTest->globalAABB))
 				{
 					// Store the mesh in the map based on the closest intersection distance.
 					meshCandidates[closest] = meshToTest;

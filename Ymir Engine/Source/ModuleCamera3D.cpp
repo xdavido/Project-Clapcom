@@ -143,10 +143,10 @@ void ModuleCamera3D::Focus()
 			if ((*meshComponent).mOwner->selected)
 			{
 				//Reference = selectedList[i]->mesh->global_aabb.CenterPoint();
-				float3 size = meshComponent->rMeshReference->globalAABB.Size();
-				center = meshComponent->rMeshReference->globalAABB.CenterPoint();
+				float3 size = meshComponent->globalAABB.Size();
+				center = meshComponent->globalAABB.CenterPoint();
 				editorCamera->frustum.pos.Set(center.x + size.x, center.y + size.y, center.z + size.z);
-				editorCamera->LookAt(meshComponent->rMeshReference->globalAABB.CenterPoint());
+				editorCamera->LookAt(meshComponent->globalAABB.CenterPoint());
 			}
 		}
 	}

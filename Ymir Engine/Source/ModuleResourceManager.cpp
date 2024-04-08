@@ -93,8 +93,43 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
 
-	if (CheckExtensionType(assetsFilePath.c_str()) != ResourceType::TEXTURE)
+	if (CheckExtensionType(assetsFilePath.c_str()) == ResourceType::TEXTURE)
 	{
+		for (auto it = App->scene->GetSelectedGOs().begin(); it != App->scene->GetSelectedGOs().end(); ++it)
+		{
+			for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
+			{
+				if ((*jt)->ctype == ComponentType::MATERIAL)
+				{
+					ResourceTexture* rTexTemp = new ResourceTexture();
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
+					static_cast<CMaterial*>((*jt))->rTextures.clear();
+					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+				}
+				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
+				{
+					ResourceTexture* rTexTemp = new ResourceTexture();
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
+					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
+				}
+
+			}
+
+		}
+
+	}
+	else
+	{
+
 		// If meta file doesn't exist
 		if (metaFile == nullptr)
 		{
@@ -158,13 +193,13 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 			{
 				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
-				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
+				//if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
 
-					// Rework to ImporterModel::Import(path);
-					ReImportModel(path, onlyReimport);
+				//	// Rework to ImporterModel::Import(path);
+				//	ReImportModel(path, onlyReimport);
 
-					break;
-				}
+				//	break;
+				//}
 
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
@@ -176,6 +211,14 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
 				{
+					std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[i]) + ".ymesh";
+
+					if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+						ReImportModel(modelGO->originPath, true);
+
+					}
+
 					// Search resource: if it exists --> create a game object with a reference to it
 					// else --> create the resource from library and the game object to contain it
 					auto itr = resources.find(resourcesIds[i]);
@@ -185,6 +228,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
 						meshGO->UID = ids[i];
 						meshGO->type = "Mesh";
+
 						ResourceMesh* rMesh = static_cast<ResourceMesh*>
 							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(resourcesIds[i]) + ".ymesh").c_str(), ResourceType::MESH, resourcesIds[i]));
 
@@ -194,6 +238,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						cmesh->nVertices = rMesh->vertices.size();
 						cmesh->nIndices = rMesh->indices.size();
 
+						cmesh->InitBoundingBoxes();
 						meshGO->AddComponent(cmesh);
 
 						// Apply Checker Image
@@ -226,6 +271,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						cmesh->rMeshReference = tmpMesh;
 						cmesh->nVertices = tmpMesh->vertices.size();
 						cmesh->nIndices = tmpMesh->indices.size();
+
+						cmesh->InitBoundingBoxes();
 
 						meshGO->AddComponent(cmesh);
 
@@ -278,40 +325,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 				//ImporterShader::Import(assetsFilePath.c_str(), (ResourceShader*)resource);
 
-
-			}
-
-		}
-
-	}
-	else
-	{
-		for (auto it = App->scene->GetSelectedGOs().begin(); it != App->scene->GetSelectedGOs().end(); ++it)
-		{
-			for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
-			{
-				if ((*jt)->ctype == ComponentType::MATERIAL)
-				{
-					ResourceTexture* rTexTemp = new ResourceTexture();
-					ImporterTexture::Import(assetsFilePath, rTexTemp);
-
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
-					static_cast<CMaterial*>((*jt))->rTextures.clear();
-					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
-				}
-				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
-				{
-					ResourceTexture* rTexTemp = new ResourceTexture();
-					ImporterTexture::Import(assetsFilePath, rTexTemp);
-
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
-					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
-					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
-				}
 
 			}
 

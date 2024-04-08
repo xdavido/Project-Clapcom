@@ -638,10 +638,9 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 		if (meshComponent != nullptr) {
 
-			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->globalAABB))
 			{
-				//meshComponent->rMeshReference->UpdateBoundingBoxes();
-				meshComponent->rMeshReference->RenderBoundingBoxes();
+				meshComponent->RenderBoundingBoxes();
 			}
 		}
 
@@ -844,9 +843,8 @@ void ModuleRenderer3D::DrawGameObjects()
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->globalAABB))
 			{
-
 				if (materialComponent != nullptr && materialComponent->active) {
 
 					for (auto& textures : materialComponent->rTextures) {

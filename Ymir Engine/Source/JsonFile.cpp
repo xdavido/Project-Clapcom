@@ -1862,7 +1862,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		if (!PhysfsEncapsule::FileExists(libraryPath)) {
 
-			External->resourceManager->ImportFile(gameObject->originPath, true);
+			External->resourceManager->ReImportModel(gameObject->originPath, true);
 
 		}
 
@@ -1889,6 +1889,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		cmesh->nIndices = json_object_get_number(componentObject, "Index Count");
 
 		cmesh->rMeshReference = rMesh;
+
+		cmesh->InitBoundingBoxes();
 
 		gameObject->AddComponent(cmesh);
 
