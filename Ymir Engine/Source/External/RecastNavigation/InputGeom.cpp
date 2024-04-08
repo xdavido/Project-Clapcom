@@ -205,9 +205,9 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 
 	std::vector<float3> floatArray;
 
-	floatArray.reserve(mesh->vertices.size());
+	floatArray.reserve(m_mesh->vertices.size());
 
-	for (const auto& vertex : mesh->vertices) {
+	for (const auto& vertex : m_mesh->vertices) {
 
 		floatArray.push_back(vertex.position);
 

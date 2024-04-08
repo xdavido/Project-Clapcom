@@ -698,21 +698,21 @@ void NavMeshBuilder::DebugDraw()
 void NavMeshBuilder::DrawBoundaries(float minx, float miny, float minz, float maxx, float maxy, float maxz)
 {
 	//Top
-	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(maxx, miny, minz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(minx, miny, maxz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, miny, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(maxx, miny, minz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, miny, maxz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(minx, miny, maxz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, miny, minz), float3(255.0f, 255.0f, 255.0f));
 			  
 	//Bottome 
-	External->renderer3D->AddDebugLines(float3(minx, maxy, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, maxy, minz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, maxy, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(minx, maxy, maxz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, maxy, minz), float3(maxx, maxy, minz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, maxy, minz), float3(maxx, maxy, maxz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, maxy, maxz), float3(minx, maxy, maxz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(minx, maxy, maxz), float3(minx, maxy, minz), float3(255.0f, 255.0f, 255.0f));
 	
-	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(minx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, maxy, minz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(maxx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
-	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, maxy, maxz), float3(1.0f, 1.0f, 1.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, minz), float3(minx, maxy, minz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, minz), float3(maxx, maxy, minz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(maxx, miny, maxz), float3(maxx, maxy, maxz), float3(255.0f, 255.0f, 255.0f));
+	External->renderer3D->AddDebugLines(float3(minx, miny, maxz), float3(minx, maxy, maxz), float3(255.0f, 255.0f, 255.0f));
 }
 
 
