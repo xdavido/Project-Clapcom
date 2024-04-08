@@ -61,7 +61,7 @@ public:
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
-	bool CompareTag(const char* _tag);
+	bool CompareTag(std::string _tag);
 
 	// Clear references
 	void ClearReferences();
@@ -88,7 +88,7 @@ public:
 	bool selected;
 	bool hidden;
 
-	char tag[32] = "Untagged";
+	std::string tag = "Untagged";
 
 	std::vector<Component*> vReferences;
 };
