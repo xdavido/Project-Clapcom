@@ -680,6 +680,12 @@ void ModuleRenderer3D::DrawPhysicsColliders()
 				break;
 			case BroadphaseNativeTypes::CAPSULE_SHAPE_PROXYTYPE: // RENDER CAPSULE ==================
 				App->physics->RenderCapsuleCollider(colliderComponent->physBody);
+				break;			
+			case BroadphaseNativeTypes::CONE_SHAPE_PROXYTYPE: // RENDER CONE ========================
+				App->physics->RenderConeCollider(colliderComponent->physBody);
+				break;
+			case BroadphaseNativeTypes::CYLINDER_SHAPE_PROXYTYPE: // RENDER CYLINDER ==================
+				App->physics->RenderCylinderCollider(colliderComponent->physBody);
 				break;
 			case BroadphaseNativeTypes::CONVEX_TRIANGLEMESH_SHAPE_PROXYTYPE: // RENDER MESH =========
 				App->physics->RenderMeshCollider(colliderComponent->physBody);

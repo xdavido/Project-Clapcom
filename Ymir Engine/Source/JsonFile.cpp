@@ -1167,14 +1167,6 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_value(componentObject, "Size", sizeArrayValue);
 
-		// Radius
-
-		json_object_set_number(componentObject, "Radius", ccollider->radius);
-
-		//Height
-
-		json_object_set_number(componentObject, "Height", ccollider->height);
-
 		// Physics type
 
 		json_object_set_number(componentObject, "Physics Type", (int)static_cast<const CCollider&>(component).physType);
@@ -1182,6 +1174,14 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		// Mass
 
 		json_object_set_number(componentObject, "Mass", ccollider->mass);
+
+		//Friction
+
+		json_object_set_number(componentObject, "Friction", ccollider->friction);
+
+		//Angular Friction
+
+		json_object_set_number(componentObject, "Angular Friction", ccollider->angularFriction);
 
 		// Gravity
 
@@ -1197,7 +1197,16 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		json_object_set_boolean(componentObject, "LockY", ccollider->lockY);
 		json_object_set_boolean(componentObject, "LockZ", ccollider->lockZ);
 
+		// Offset
 
+		JSON_Value* offsetArrayValue = json_value_init_array();
+		JSON_Array* offsetArray = json_value_get_array(offsetArrayValue);
+
+		json_array_append_number(offsetArray, ccollider->offset.x);
+		json_array_append_number(offsetArray, ccollider->offset.y);
+		json_array_append_number(offsetArray, ccollider->offset.z);
+
+		json_object_set_value(componentObject, "Offset", offsetArrayValue);
 
 		break;
 	}
@@ -1966,19 +1975,36 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		ccollider->size = size;
 
-		ccollider->shape->setLocalScaling(btVector3(size.x, size.y, size.z));
+		// Offset
+		
+		JSON_Value* jsonOffsetValue = json_object_get_value(componentObject, "Offset");
 
-		// Radius
+		if (jsonOffsetValue == nullptr || json_value_get_type(jsonOffsetValue) != JSONArray) {
 
-		ccollider->radius = json_object_get_number(componentObject, "Radius");
+			return;
+		}
 
-		// Height
+		JSON_Array* jsonOffsetArray = json_value_get_array(jsonOffsetValue);
 
-		ccollider->height = json_object_get_number(componentObject, "Height");
+		float3 _offset;
+
+		_offset.x = static_cast<float>(json_array_get_number(jsonOffsetArray, 0));
+		_offset.y = static_cast<float>(json_array_get_number(jsonOffsetArray, 1));
+		_offset.z = static_cast<float>(json_array_get_number(jsonOffsetArray, 2));
+
+		ccollider->offset = _offset;
 
 		// Mass
 
 		ccollider->mass = static_cast<float>(json_object_get_number(componentObject, "Mass"));
+
+		// Friction
+		
+		ccollider->friction = static_cast<float>(json_object_get_number(componentObject, "Friction"));
+
+		// Angular Friction
+
+		ccollider->angularFriction = static_cast<float>(json_object_get_number(componentObject, "Angular Friction"));
 
 		// Gravity
 
