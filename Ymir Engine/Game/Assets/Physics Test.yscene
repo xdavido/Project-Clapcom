@@ -22,9 +22,32 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 889196418,
+            "Active": true,
             "Element_Type": "None",
-            "Components": [],
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
             "Children UID": [
                 936762954,
                 1621732659,
@@ -33,7 +56,9 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 936762954,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 889196418,
             "Components": [
@@ -97,7 +122,9 @@
         },
         {
             "Name": "BakerHouse",
+            "Tag": "Untagged",
             "UID": 1621732659,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/BakerHouse.fbx",
             "Parent UID": 889196418,
@@ -123,54 +150,14 @@
                 }
             ],
             "Children UID": [
-                1602157225,
                 835802751
             ]
         },
         {
-            "Name": "Chimney",
-            "UID": 1602157225,
-            "Element_Type": "None",
-            "Parent UID": 1621732659,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
-                    "UID": 792489800
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 160,
-                    "Index Count": 324
-                }
-            ]
-        },
-        {
             "Name": "Baker_house",
+            "Tag": "Untagged",
             "UID": 835802751,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1621732659,
             "Components": [
@@ -218,24 +205,31 @@
                     "Collider Type": 0,
                     "Size": [
                         3.2137579917907715,
-                        3.542975902557373,
+                        26.343000411987305,
                         3.9672598838806152
                     ],
-                    "Radius": 3.1072523593902588,
-                    "Height": 3.542975902557373,
                     "Physics Type": 0,
                     "Mass": 1,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": true,
                     "IsSensor": false,
                     "LockX": false,
                     "LockY": false,
-                    "LockZ": false
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
         {
             "Name": "Plane",
+            "Tag": "Untagged",
             "UID": 935998235,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Primitives\/Plane.fbx",
             "Parent UID": 889196418,
@@ -265,8 +259,10 @@
             ]
         },
         {
-            "Name": "Plane (1)",
+            "Name": "1482273603",
+            "Tag": "Untagged",
             "UID": 1482273603,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 935998235,
             "Components": [
@@ -284,24 +280,24 @@
                         -0
                     ],
                     "Scale": [
-                        27.740163803100586,
-                        1,
-                        24.222671508789062
+                        37.534496307373047,
+                        37.534496307373047,
+                        37.534496307373047
                     ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "ID": 0,
-                    "Diffuse": "",
-                    "UID": 0
                 },
                 {
                     "Type": "Mesh",
                     "Active": 1,
                     "Vertex Count": 121,
                     "Index Count": 600
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
                 },
                 {
                     "World gravity": [
@@ -311,21 +307,26 @@
                     ],
                     "Type": "Physics",
                     "Active": 1,
-                    "Collider Type": 3,
+                    "Collider Type": 0,
                     "Size": [
-                        27.740163803100586,
-                        1,
-                        24.222671508789062
+                        37.534496307373047,
+                        0.10000000149011612,
+                        37.534496307373047
                     ],
-                    "Radius": 18.413679122924805,
-                    "Height": 0,
                     "Physics Type": 2,
                     "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": false,
                     "IsSensor": false,
                     "LockX": false,
                     "LockY": false,
-                    "LockZ": false
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

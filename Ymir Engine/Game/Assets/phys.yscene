@@ -1,30 +1,53 @@
 {
     "Editor Camera Position": [
-        10.109046936035156,
-        23.092971801757812,
-        13.714387893676758
+        -2.8581986427307129,
+        20.952169418334961,
+        9.1371250152587891
     ],
     "Editor Camera Right (X)": [
-        0.86273729801177979,
-        1.4901161193847656e-08,
-        -0.50565999746322632
+        0.98619771003723145,
+        6.7055225372314453e-08,
+        0.16558973491191864
     ],
     "Editor Camera Up (Y)": [
-        -0.23202399909496307,
-        0.88851255178451538,
-        -0.39587023854255676
+        0.090255483984947205,
+        0.83840054273605347,
+        -0.53753215074539185
     ],
     "Editor Camera Front (Z)": [
-        -0.44928386807441711,
-        -0.45885610580444336,
-        -0.76655060052871704
+        0.13883018493652344,
+        -0.54505759477615356,
+        -0.82682645320892334
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 1969420291,
+            "Active": true,
             "Element_Type": "None",
-            "Components": [],
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
             "Children UID": [
                 1821566857,
                 935998235,
@@ -33,7 +56,9 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 1821566857,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1969420291,
             "Components": [
@@ -46,9 +71,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -73,17 +98,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -97,7 +122,9 @@
         },
         {
             "Name": "Plane",
+            "Tag": "Untagged",
             "UID": 935998235,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/Primitives\/Plane.fbx",
             "Parent UID": 1969420291,
@@ -128,7 +155,9 @@
         },
         {
             "Name": "Plane (1)",
+            "Tag": "Untagged",
             "UID": 1482273603,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 935998235,
             "Components": [
@@ -179,21 +208,28 @@
                         0.10000000149011612,
                         168.36555480957031
                     ],
-                    "Radius": 119.05242919921875,
-                    "Height": 0,
                     "Physics Type": 2,
                     "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": false,
                     "IsSensor": false,
                     "LockX": false,
                     "LockY": false,
-                    "LockZ": false
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
         {
             "Name": "BakerHouse",
+            "Tag": "Untagged",
             "UID": 1621732659,
+            "Active": true,
             "Element_Type": "Model",
             "Origin_Path": "Assets\/BakerHouse.fbx",
             "Parent UID": 1969420291,
@@ -216,6 +252,35 @@
                         0.97000002861022949,
                         0.97000044584274292
                     ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        4.0999999046325684,
+                        4,
+                        3.4000000953674316
+                    ],
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Friction": 0,
+                    "Angular Friction": 0,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ],
             "Children UID": [
@@ -225,7 +290,9 @@
         },
         {
             "Name": "Chimney",
+            "Tag": "Untagged",
             "UID": 1602157225,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1621732659,
             "Components": [
@@ -266,7 +333,9 @@
         },
         {
             "Name": "Baker_house",
+            "Tag": "Untagged",
             "UID": 835802751,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1621732659,
             "Components": [
@@ -302,30 +371,6 @@
                     "Active": 1,
                     "Vertex Count": 1641,
                     "Index Count": 2751
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        3.1173470020294189,
-                        3.4366867542266846,
-                        3.8482439517974854
-                    ],
-                    "Radius": 3.0140359401702881,
-                    "Height": 3.4366867542266846,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "UseGravity": true,
-                    "IsSensor": false,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false
                 }
             ]
         }
