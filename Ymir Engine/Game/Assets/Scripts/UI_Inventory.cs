@@ -40,6 +40,9 @@ public class UI_Inventory : YmirComponent
                 _show = !_show;
                 _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
             }
+
+            Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
+            Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
         }
 
         return;
@@ -51,8 +54,12 @@ public class UI_Inventory : YmirComponent
 
         if (_selectedGO != null)
         {
-            if (_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot ||
-                _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE)
+            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
+            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());            
+
+            if ((_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot && 
+                _selectedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE )||
+                (_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE && _focusedGO.GetComponent<UI_Item_Button>().item.itemType == ITEM_SLOT.NONE))
             {
                 UI.SwitchPosition(_selectedGO, _focusedGO);
 
@@ -63,6 +70,11 @@ public class UI_Inventory : YmirComponent
                 ITEM_SLOT aux = _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot;
                 _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot = _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot;
                 _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot = aux;
+            }
+
+            else
+            {
+                UI.SwitchPosition(_focusedGO, _focusedGO);// maybe error sound?
             }
         }
     }

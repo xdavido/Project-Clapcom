@@ -12,17 +12,75 @@ public class UI_Item_Button : YmirComponent
     public ITEM_SLOT currentSlot;
     public ITEM_SLOT itemType;
 
-    public string noHayEnumItem = "";
-    public string noHayEnumSlot = "";
+    public string enumItem = "";
+    public string enumSlot = "";
 
     private GameObject _text;
 
     public void Start()
     {
-        item = new Item(currentSlot, itemType);
         _text = InternalCalls.GetChildrenByName(gameObject, "Description");
-        SetType(noHayEnumItem, itemType);
-        SetType(noHayEnumSlot, currentSlot);
+
+        // Function doesn't work, sorry for this
+        switch (enumItem)
+        {
+            case "ARMOR":
+                itemType = ITEM_SLOT.ARMOR;
+                break;
+            case "CHIP1":
+                itemType = ITEM_SLOT.CHIP1;
+                break;
+            case "CHIP2":
+                itemType = ITEM_SLOT.CHIP2;
+                break;
+            case "CONSUMABLE1":
+                itemType = ITEM_SLOT.CONSUMABLE1;
+                break;
+            case "CONSUMABLE2":
+                itemType = ITEM_SLOT.CONSUMABLE2;
+                break;
+            case "SAVE":
+                itemType = ITEM_SLOT.SAVE;
+                break;
+            case "NONE":
+                itemType = ITEM_SLOT.NONE;
+                break;
+            default:
+                break;
+        }
+        switch (enumSlot)
+        {
+            case "ARMOR":
+                currentSlot = ITEM_SLOT.ARMOR;
+                break;
+            case "CHIP1":
+                currentSlot = ITEM_SLOT.CHIP1;
+                break;
+            case "CHIP2":
+                currentSlot = ITEM_SLOT.CHIP2;
+                break;
+            case "CONSUMABLE1":
+                currentSlot = ITEM_SLOT.CONSUMABLE1;
+                break;
+            case "CONSUMABLE2":
+                currentSlot = ITEM_SLOT.CONSUMABLE2;
+                break;
+            case "SAVE":
+                currentSlot = ITEM_SLOT.SAVE;
+                break;
+            case "NONE":
+                currentSlot = ITEM_SLOT.NONE;
+                break;
+            default:
+                break;
+        }
+
+        //SetType(enumItem, itemType);
+        //SetType(enumSlot, currentSlot)
+
+        item = new Item(currentSlot, itemType);
+        Debug.Log(item.currentSlot.ToString());
+        Debug.Log(item.itemType.ToString());
     }
 
     public void Update()
