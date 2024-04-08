@@ -24,25 +24,32 @@ public class UI_Inventory : YmirComponent
 
         if (_focusedGO != null)
         {
+            if (Input.GetGamepadButton(GamePadButton.RIGHTSHOULDER) == KeyState.KEY_REPEAT)
+            {
+                if (!_show)
+                {
+                    _show = true;
+                    _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
+                }
+            }
+
+            else if (Input.GetGamepadButton(GamePadButton.RIGHTSHOULDER) == KeyState.KEY_UP)
+            {
+                if (_show)
+                {
+                    _show = false;
+                    _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
+                }
+            }
+
             if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
             {
                 SwitchItems();
             }
 
-            if (Input.GetLeftAxisX() != 0 || Input.GetLeftAxisY() != 0)
-            {
-                _show = false;
-                _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
-            }
-
-            if (Input.GetGamepadButton(GamePadButton.RIGHTSHOULDER) == KeyState.KEY_DOWN)
-            {
-                _show = !_show;
-                _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
-            }
-
-            if (_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE
-                && Input.GetGamepadButton(GamePadButton.LEFTSHOULDER) == KeyState.KEY_DOWN)
+            if ((_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE ||
+                _focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.SAVE) &&
+                Input.GetGamepadButton(GamePadButton.LEFTSHOULDER) == KeyState.KEY_DOWN)
             {
                 _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot = ITEM_SLOT.NONE;
                 _focusedGO.GetComponent<UI_Item_Button>().item.itemType = ITEM_SLOT.NONE;
@@ -54,8 +61,8 @@ public class UI_Inventory : YmirComponent
                 UI.TextEdit(InternalCalls.GetChildrenByName(_focusedGO, "Text"), " ");
             }
 
-            Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
-            Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
+            //Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
+            //Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
         }
 
         if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
@@ -77,7 +84,8 @@ public class UI_Inventory : YmirComponent
 
             if ((_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot &&
                 _selectedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE) ||
-                (_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE && _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE))
+                (_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE && _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE) ||
+                _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.SAVE)
             {
                 UI.SwitchPosition(_selectedGO, _focusedGO);
 
