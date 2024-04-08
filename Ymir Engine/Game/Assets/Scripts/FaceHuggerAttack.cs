@@ -23,7 +23,7 @@ public class FaceHuggerAttack : YmirComponent
     public void Start()
 	{
         damageTimer = 0f;
-        attackDamage = 3f;
+        attackDamage = 1f;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
 
@@ -42,17 +42,14 @@ public class FaceHuggerAttack : YmirComponent
         }
         else if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer < 0.5f)
         {
-            gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
+            //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
+            gameObject.SetVelocity(gameObject.transform.GetForward() * 50f);
         }
 
     }
+
     public void OnCollisionStay(GameObject other)
     {
-        if (other.name == "Player")
-        {
-            Debug.Log("[ERROR] COLLISION " + damageTimer);
-        }
-
         if (other.Name == "Player" && damageTimer <= 0)
         {
             Debug.Log("[ERROR] HIT");
@@ -60,4 +57,15 @@ public class FaceHuggerAttack : YmirComponent
             healthScript.TakeDmg(attackDamage);
         }
     }
+
+    //public void OnCollisionEnter(GameObject other)
+    //{
+    //    if (other.Name == "Player")
+    //    {
+    //        Debug.Log("[ERROR] HIT");
+    //        damageTimer = 1.5f;
+    //        healthScript.TakeDmg(attackDamage);
+    //    }
+    //}
+
 }

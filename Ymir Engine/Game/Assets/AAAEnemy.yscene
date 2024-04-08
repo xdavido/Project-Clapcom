@@ -22,10 +22,11 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1063479454,
+            "Parent UID": 1903480521,
             "Components": [
                 {
                     "Type": "Transform",
@@ -59,6 +60,7 @@
         },
         {
             "Name": "Point Light",
+            "Tag": "Untagged",
             "UID": 1058808307,
             "Active": true,
             "Element_Type": "None",
@@ -100,6 +102,7 @@
         },
         {
             "Name": "Player_Camera_Suelo",
+            "Tag": "Untagged",
             "UID": 1858338460,
             "Active": true,
             "Element_Type": "None",
@@ -133,6 +136,7 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 1270585162,
             "Active": true,
             "Element_Type": "None",
@@ -197,12 +201,14 @@
                 {
                     "Type": "Script",
                     "ScriptName": "CameraRot.cs",
+                    "Active": 0,
                     "UID": 0
                 }
             ]
         },
         {
             "Name": "Player",
+            "Tag": "Untagged",
             "UID": 1589760253,
             "Active": true,
             "Element_Type": "Model",
@@ -262,6 +268,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Health.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentHealth": 7,
                     "maxHealth": 7,
@@ -271,11 +278,13 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Bullets.cs",
+                    "Active": 1,
                     "UID": 0
                 },
                 {
                     "Type": "Script",
                     "ScriptName": "Player.cs",
+                    "Active": 1,
                     "UID": 0,
                     "movementSpeed": 35,
                     "dashCD": 0.10000000149011612,
@@ -297,6 +306,7 @@
         },
         {
             "Name": "Backpack",
+            "Tag": "Untagged",
             "UID": 433503244,
             "Active": true,
             "Element_Type": "None",
@@ -335,6 +345,7 @@
         },
         {
             "Name": "backpack",
+            "Tag": "Untagged",
             "UID": 328689476,
             "Active": true,
             "Element_Type": "None",
@@ -363,6 +374,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Assets\/TEX_backpack__D.png",
                     "UID": 0
@@ -377,6 +406,7 @@
         },
         {
             "Name": "beltD",
+            "Tag": "Untagged",
             "UID": 28280604,
             "Active": true,
             "Element_Type": "None",
@@ -405,6 +435,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -419,6 +467,7 @@
         },
         {
             "Name": "beltI.001",
+            "Tag": "Untagged",
             "UID": 824516471,
             "Active": true,
             "Element_Type": "None",
@@ -447,6 +496,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -461,6 +528,7 @@
         },
         {
             "Name": "lightD",
+            "Tag": "Untagged",
             "UID": 566477109,
             "Active": true,
             "Element_Type": "None",
@@ -489,6 +557,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -503,6 +589,7 @@
         },
         {
             "Name": "lightI",
+            "Tag": "Untagged",
             "UID": 1693908760,
             "Active": true,
             "Element_Type": "None",
@@ -531,6 +618,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -545,6 +650,7 @@
         },
         {
             "Name": "metalD",
+            "Tag": "Untagged",
             "UID": 114144529,
             "Active": true,
             "Element_Type": "None",
@@ -573,6 +679,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -587,6 +711,7 @@
         },
         {
             "Name": "metalI",
+            "Tag": "Untagged",
             "UID": 1814991651,
             "Active": true,
             "Element_Type": "None",
@@ -615,6 +740,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -629,6 +772,7 @@
         },
         {
             "Name": "radio",
+            "Tag": "Untagged",
             "UID": 2030945739,
             "Active": true,
             "Element_Type": "None",
@@ -657,6 +801,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -671,6 +833,7 @@
         },
         {
             "Name": "Body",
+            "Tag": "Untagged",
             "UID": 109009799,
             "Active": true,
             "Element_Type": "None",
@@ -699,6 +862,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Assets\/TEX_CHAR_Body_DBC.png",
                     "UID": 0
@@ -713,6 +894,7 @@
         },
         {
             "Name": "Eyes",
+            "Tag": "Untagged",
             "UID": 1060511610,
             "Active": true,
             "Element_Type": "None",
@@ -741,6 +923,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Assets\/TEX_CHAR_Eyes_DBC.png",
                     "UID": 0
@@ -755,6 +955,7 @@
         },
         {
             "Name": "Tail",
+            "Tag": "Untagged",
             "UID": 873998742,
             "Active": true,
             "Element_Type": "None",
@@ -783,6 +984,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Assets\/TEX_CHAR_Tail_DBC.png",
                     "UID": 0
@@ -797,6 +1016,7 @@
         },
         {
             "Name": "Suelo",
+            "Tag": "Untagged",
             "UID": 2128342503,
             "Active": true,
             "Element_Type": "None",
@@ -849,6 +1069,7 @@
         },
         {
             "Name": "Game Canva",
+            "Tag": "Untagged",
             "UID": 1398847280,
             "Active": true,
             "Element_Type": "None",
@@ -908,6 +1129,7 @@
         },
         {
             "Name": "Background",
+            "Tag": "Untagged",
             "UID": 1206971064,
             "Active": true,
             "Element_Type": "None",
@@ -965,6 +1187,7 @@
         },
         {
             "Name": "Skill1",
+            "Tag": "Untagged",
             "UID": 567052357,
             "Active": true,
             "Element_Type": "None",
@@ -1022,6 +1245,7 @@
         },
         {
             "Name": "Skill2",
+            "Tag": "Untagged",
             "UID": 1597692316,
             "Active": true,
             "Element_Type": "None",
@@ -1079,6 +1303,7 @@
         },
         {
             "Name": "Skill3",
+            "Tag": "Untagged",
             "UID": 1163739394,
             "Active": true,
             "Element_Type": "None",
@@ -1136,6 +1361,7 @@
         },
         {
             "Name": "Dash",
+            "Tag": "Untagged",
             "UID": 1710342307,
             "Active": true,
             "Element_Type": "None",
@@ -1193,6 +1419,7 @@
         },
         {
             "Name": "Dpad_Down",
+            "Tag": "Untagged",
             "UID": 1749880555,
             "Active": true,
             "Element_Type": "None",
@@ -1250,6 +1477,7 @@
         },
         {
             "Name": "Dpad_Right",
+            "Tag": "Untagged",
             "UID": 1378669993,
             "Active": true,
             "Element_Type": "None",
@@ -1307,6 +1535,7 @@
         },
         {
             "Name": "Dpad_Up",
+            "Tag": "Untagged",
             "UID": 823303942,
             "Active": true,
             "Element_Type": "None",
@@ -1364,6 +1593,7 @@
         },
         {
             "Name": "Bullets Text",
+            "Tag": "Untagged",
             "UID": 1647798137,
             "Active": true,
             "Element_Type": "None",
@@ -1424,6 +1654,7 @@
         },
         {
             "Name": "Item",
+            "Tag": "Untagged",
             "UID": 118355006,
             "Active": true,
             "Element_Type": "None",
@@ -1481,6 +1712,7 @@
         },
         {
             "Name": "Heal",
+            "Tag": "Untagged",
             "UID": 1843557112,
             "Active": true,
             "Element_Type": "None",
@@ -1538,6 +1770,7 @@
         },
         {
             "Name": "Health_Frame",
+            "Tag": "Untagged",
             "UID": 1408335669,
             "Active": true,
             "Element_Type": "None",
@@ -1598,6 +1831,7 @@
         },
         {
             "Name": "Health Bar",
+            "Tag": "Untagged",
             "UID": 664762359,
             "Active": true,
             "Element_Type": "None",
@@ -1684,6 +1918,7 @@
         },
         {
             "Name": "Background",
+            "Tag": "Untagged",
             "UID": 995673855,
             "Active": true,
             "Element_Type": "None",
@@ -1741,6 +1976,7 @@
         },
         {
             "Name": "Fill",
+            "Tag": "Untagged",
             "UID": 1746115142,
             "Active": true,
             "Element_Type": "None",
@@ -1798,6 +2034,7 @@
         },
         {
             "Name": "Handle",
+            "Tag": "Untagged",
             "UID": 256935145,
             "Active": false,
             "Element_Type": "None",
@@ -1855,6 +2092,7 @@
         },
         {
             "Name": "Death Canvas",
+            "Tag": "Untagged",
             "UID": 1676754095,
             "Active": false,
             "Element_Type": "None",
@@ -1885,8 +2123,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 999,
-                    "Height": 614,
+                    "Width": 437,
+                    "Height": 618,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -1906,6 +2144,7 @@
         },
         {
             "Name": "Background",
+            "Tag": "Untagged",
             "UID": 1076335875,
             "Active": false,
             "Element_Type": "None",
@@ -1963,6 +2202,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 604314097,
             "Active": false,
             "Element_Type": "None",
@@ -2023,6 +2263,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 43054277,
             "Active": false,
             "Element_Type": "None",
@@ -2083,6 +2324,7 @@
         },
         {
             "Name": "Empty",
+            "Tag": "Untagged",
             "UID": 199456300,
             "Active": false,
             "Element_Type": "None",
@@ -2115,6 +2357,7 @@
         },
         {
             "Name": "Respawn",
+            "Tag": "Untagged",
             "UID": 1541707194,
             "Active": false,
             "Element_Type": "None",
@@ -2220,6 +2463,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 0,
                     "UID": 0,
                     "sceneName": "Assets\/VS2 Release.yscene"
                 }
@@ -2230,6 +2474,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1641626881,
             "Active": false,
             "Element_Type": "None",
@@ -2290,6 +2535,7 @@
         },
         {
             "Name": "Back To Menu",
+            "Tag": "Untagged",
             "UID": 150558645,
             "Active": false,
             "Element_Type": "None",
@@ -2395,6 +2641,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 0,
                     "UID": 0,
                     "sceneName": "Assets\/Scenes\/Start_scene.yscene"
                 }
@@ -2405,6 +2652,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1500166531,
             "Active": false,
             "Element_Type": "None",
@@ -2465,6 +2713,7 @@
         },
         {
             "Name": "Win Canvas",
+            "Tag": "Untagged",
             "UID": 1676754095,
             "Active": false,
             "Element_Type": "None",
@@ -2495,8 +2744,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 0,
-                    "Height": 0,
+                    "Width": 437,
+                    "Height": 618,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -2514,6 +2763,7 @@
         },
         {
             "Name": "Background",
+            "Tag": "Untagged",
             "UID": 1076335875,
             "Active": false,
             "Element_Type": "None",
@@ -2547,7 +2797,7 @@
                     "Width": 1920,
                     "Height": 1080,
                     "UI Type": 1,
-                    "UI State": 1,
+                    "UI State": 5,
                     "Drag Limits": [
                         0,
                         0,
@@ -2571,6 +2821,7 @@
         },
         {
             "Name": "Back To Menu",
+            "Tag": "Untagged",
             "UID": 1984199107,
             "Active": false,
             "Element_Type": "None",
@@ -2676,6 +2927,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 0,
                     "UID": 0,
                     "sceneName": "Assets\/Scenes\/Start_scene.yscene"
                 }
@@ -2686,6 +2938,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1850778591,
             "Active": false,
             "Element_Type": "None",
@@ -2746,6 +2999,7 @@
         },
         {
             "Name": "ANIM_CHAR_Facehugger_All",
+            "Tag": "Untagged",
             "UID": 1286993888,
             "Active": true,
             "Element_Type": "Model",
@@ -2790,6 +3044,7 @@
         },
         {
             "Name": "Central",
+            "Tag": "Untagged",
             "UID": 2031517303,
             "Active": true,
             "Element_Type": "None",
@@ -2825,6 +3080,7 @@
         },
         {
             "Name": "Leg_R",
+            "Tag": "Untagged",
             "UID": 497316965,
             "Active": true,
             "Element_Type": "None",
@@ -2859,6 +3115,7 @@
         },
         {
             "Name": "Leg_R_1_Botom",
+            "Tag": "Untagged",
             "UID": 123742240,
             "Active": true,
             "Element_Type": "None",
@@ -2890,6 +3147,7 @@
         },
         {
             "Name": "Leg_R_1_Midle",
+            "Tag": "Untagged",
             "UID": 391424329,
             "Active": true,
             "Element_Type": "None",
@@ -2921,6 +3179,7 @@
         },
         {
             "Name": "Leg_R_1_Top",
+            "Tag": "Untagged",
             "UID": 814187907,
             "Active": true,
             "Element_Type": "None",
@@ -2952,6 +3211,7 @@
         },
         {
             "Name": "Leg_R_1_Tip",
+            "Tag": "Untagged",
             "UID": 586595161,
             "Active": true,
             "Element_Type": "None",
@@ -2980,6 +3240,7 @@
         },
         {
             "Name": "Leg_R_2_Botom",
+            "Tag": "Untagged",
             "UID": 1243895730,
             "Active": true,
             "Element_Type": "None",
@@ -3011,6 +3272,7 @@
         },
         {
             "Name": "Leg_R_2_Midle",
+            "Tag": "Untagged",
             "UID": 1905821251,
             "Active": true,
             "Element_Type": "None",
@@ -3042,6 +3304,7 @@
         },
         {
             "Name": "Leg_R_2_Top",
+            "Tag": "Untagged",
             "UID": 759494672,
             "Active": true,
             "Element_Type": "None",
@@ -3073,6 +3336,7 @@
         },
         {
             "Name": "Leg_R_2_Tip",
+            "Tag": "Untagged",
             "UID": 1389448933,
             "Active": true,
             "Element_Type": "None",
@@ -3101,6 +3365,7 @@
         },
         {
             "Name": "Leg_R_3_Botom",
+            "Tag": "Untagged",
             "UID": 706229143,
             "Active": true,
             "Element_Type": "None",
@@ -3132,6 +3397,7 @@
         },
         {
             "Name": "Leg_R_3_Midle",
+            "Tag": "Untagged",
             "UID": 922711617,
             "Active": true,
             "Element_Type": "None",
@@ -3163,6 +3429,7 @@
         },
         {
             "Name": "Leg_R_3_Top",
+            "Tag": "Untagged",
             "UID": 396793871,
             "Active": true,
             "Element_Type": "None",
@@ -3194,6 +3461,7 @@
         },
         {
             "Name": "Leg_R_3_Tip",
+            "Tag": "Untagged",
             "UID": 403397514,
             "Active": true,
             "Element_Type": "None",
@@ -3222,6 +3490,7 @@
         },
         {
             "Name": "Leg_R_4_Botom",
+            "Tag": "Untagged",
             "UID": 1796864357,
             "Active": true,
             "Element_Type": "None",
@@ -3236,9 +3505,9 @@
                         0.88629341125488281
                     ],
                     "Rotation": [
-                        1.2846426963806152,
-                        -8.0567150115966797,
-                        9.0904750823974609
+                        1.2846428155899048,
+                        -8.0567159652709961,
+                        9.0904760360717773
                     ],
                     "Scale": [
                         1,
@@ -3253,6 +3522,7 @@
         },
         {
             "Name": "Leg_R_4_Midle",
+            "Tag": "Untagged",
             "UID": 725976134,
             "Active": true,
             "Element_Type": "None",
@@ -3284,6 +3554,7 @@
         },
         {
             "Name": "Leg_R_4_Top",
+            "Tag": "Untagged",
             "UID": 1525612051,
             "Active": true,
             "Element_Type": "None",
@@ -3315,6 +3586,7 @@
         },
         {
             "Name": "Leg_R_4_Tip",
+            "Tag": "Untagged",
             "UID": 1626823825,
             "Active": true,
             "Element_Type": "None",
@@ -3343,6 +3615,7 @@
         },
         {
             "Name": "Ala_L_1",
+            "Tag": "Untagged",
             "UID": 1573122994,
             "Active": true,
             "Element_Type": "None",
@@ -3374,6 +3647,7 @@
         },
         {
             "Name": "Ala_L_2",
+            "Tag": "Untagged",
             "UID": 1716860338,
             "Active": true,
             "Element_Type": "None",
@@ -3405,6 +3679,7 @@
         },
         {
             "Name": "Ala_L_3",
+            "Tag": "Untagged",
             "UID": 1584309077,
             "Active": true,
             "Element_Type": "None",
@@ -3433,6 +3708,7 @@
         },
         {
             "Name": "Ala_R_1",
+            "Tag": "Untagged",
             "UID": 1652275851,
             "Active": true,
             "Element_Type": "None",
@@ -3464,6 +3740,7 @@
         },
         {
             "Name": "Ala_R_2",
+            "Tag": "Untagged",
             "UID": 949669708,
             "Active": true,
             "Element_Type": "None",
@@ -3495,6 +3772,7 @@
         },
         {
             "Name": "Ala_R_3",
+            "Tag": "Untagged",
             "UID": 1011731892,
             "Active": true,
             "Element_Type": "None",
@@ -3523,6 +3801,7 @@
         },
         {
             "Name": "Leg_L",
+            "Tag": "Untagged",
             "UID": 63721548,
             "Active": true,
             "Element_Type": "None",
@@ -3557,6 +3836,7 @@
         },
         {
             "Name": "Leg_L_1_Botom1",
+            "Tag": "Untagged",
             "UID": 728268359,
             "Active": true,
             "Element_Type": "None",
@@ -3588,6 +3868,7 @@
         },
         {
             "Name": "Leg_L_1_Midle1",
+            "Tag": "Untagged",
             "UID": 152129960,
             "Active": true,
             "Element_Type": "None",
@@ -3619,6 +3900,7 @@
         },
         {
             "Name": "Leg_L_1_Top1",
+            "Tag": "Untagged",
             "UID": 842841259,
             "Active": true,
             "Element_Type": "None",
@@ -3650,6 +3932,7 @@
         },
         {
             "Name": "Leg_L_1_Tip1",
+            "Tag": "Untagged",
             "UID": 362010321,
             "Active": true,
             "Element_Type": "None",
@@ -3678,6 +3961,7 @@
         },
         {
             "Name": "Leg_L_2_Botom1",
+            "Tag": "Untagged",
             "UID": 1375865273,
             "Active": true,
             "Element_Type": "None",
@@ -3709,6 +3993,7 @@
         },
         {
             "Name": "Leg_L_2_Midle1",
+            "Tag": "Untagged",
             "UID": 1263848849,
             "Active": true,
             "Element_Type": "None",
@@ -3740,6 +4025,7 @@
         },
         {
             "Name": "Leg_L_2_Top1",
+            "Tag": "Untagged",
             "UID": 1814642237,
             "Active": true,
             "Element_Type": "None",
@@ -3771,6 +4057,7 @@
         },
         {
             "Name": "Leg_L_2_Tip1",
+            "Tag": "Untagged",
             "UID": 710900528,
             "Active": true,
             "Element_Type": "None",
@@ -3799,6 +4086,7 @@
         },
         {
             "Name": "Leg_L_3_Botom1",
+            "Tag": "Untagged",
             "UID": 1404248839,
             "Active": true,
             "Element_Type": "None",
@@ -3830,6 +4118,7 @@
         },
         {
             "Name": "Leg_L_3_Midle1",
+            "Tag": "Untagged",
             "UID": 731027236,
             "Active": true,
             "Element_Type": "None",
@@ -3861,6 +4150,7 @@
         },
         {
             "Name": "Leg_L_3_Top1",
+            "Tag": "Untagged",
             "UID": 1191795565,
             "Active": true,
             "Element_Type": "None",
@@ -3892,6 +4182,7 @@
         },
         {
             "Name": "Leg_L_3_Tip1",
+            "Tag": "Untagged",
             "UID": 1398012013,
             "Active": true,
             "Element_Type": "None",
@@ -3920,6 +4211,7 @@
         },
         {
             "Name": "Leg_L_4_Botom1",
+            "Tag": "Untagged",
             "UID": 1234484319,
             "Active": true,
             "Element_Type": "None",
@@ -3951,6 +4243,7 @@
         },
         {
             "Name": "Leg_L_4_Midle1",
+            "Tag": "Untagged",
             "UID": 515911261,
             "Active": true,
             "Element_Type": "None",
@@ -3982,6 +4275,7 @@
         },
         {
             "Name": "Leg_L_4_Top1",
+            "Tag": "Untagged",
             "UID": 2034961297,
             "Active": true,
             "Element_Type": "None",
@@ -4013,6 +4307,7 @@
         },
         {
             "Name": "Leg_L_4_Tip1",
+            "Tag": "Untagged",
             "UID": 1871817634,
             "Active": true,
             "Element_Type": "None",
@@ -4041,6 +4336,7 @@
         },
         {
             "Name": "Tail_1",
+            "Tag": "Untagged",
             "UID": 407246915,
             "Active": true,
             "Element_Type": "None",
@@ -4072,6 +4368,7 @@
         },
         {
             "Name": "Tail_2",
+            "Tag": "Untagged",
             "UID": 1414999922,
             "Active": true,
             "Element_Type": "None",
@@ -4103,6 +4400,7 @@
         },
         {
             "Name": "Tail_3",
+            "Tag": "Untagged",
             "UID": 781566530,
             "Active": true,
             "Element_Type": "None",
@@ -4134,6 +4432,7 @@
         },
         {
             "Name": "Tail_4",
+            "Tag": "Untagged",
             "UID": 825184354,
             "Active": true,
             "Element_Type": "None",
@@ -4165,6 +4464,7 @@
         },
         {
             "Name": "Tail_5",
+            "Tag": "Untagged",
             "UID": 1612670428,
             "Active": true,
             "Element_Type": "None",
@@ -4196,6 +4496,7 @@
         },
         {
             "Name": "Tail_6",
+            "Tag": "Untagged",
             "UID": 1503058637,
             "Active": true,
             "Element_Type": "None",
@@ -4227,6 +4528,7 @@
         },
         {
             "Name": "Tail_7",
+            "Tag": "Untagged",
             "UID": 727561211,
             "Active": true,
             "Element_Type": "None",
@@ -4255,6 +4557,7 @@
         },
         {
             "Name": "Enemy",
+            "Tag": "Untagged",
             "UID": 1384088557,
             "Active": true,
             "Element_Type": "None",
@@ -4306,6 +4609,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "FaceHuggerBaseScript.cs",
+                    "Active": 1,
                     "UID": 0,
                     "movementSpeed": 20,
                     "life": 100,
@@ -4329,6 +4633,7 @@
         },
         {
             "Name": "Repo",
+            "Tag": "Untagged",
             "UID": 268083481,
             "Active": true,
             "Element_Type": "None",
@@ -4344,8 +4649,8 @@
                     ],
                     "Rotation": [
                         -90.000030517578125,
-                        2.0355550198972866e-13,
-                        -180
+                        -2.0355550198972866e-13,
+                        180
                     ],
                     "Scale": [
                         0.086206905543804169,
@@ -4357,6 +4662,21 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "color": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "light": false
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "",
                     "UID": 0
@@ -4371,6 +4691,7 @@
         },
         {
             "Name": "Sensor",
+            "Tag": "Untagged",
             "UID": 1617197167,
             "Active": true,
             "Element_Type": "None",
@@ -4422,6 +4743,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "FaceHuggerAttack.cs",
+                    "Active": 1,
                     "UID": 0,
                     "facehugger": 1384088557
                 }
