@@ -717,11 +717,10 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				ePosition->direction1;
 				//SecondDirection
-				JSON_Array* arrInitialDir2;
-
+				
 				//Position
 				JSON_Value* jValueDir2 = json_value_init_array();
-				arrInitialDir2 = json_value_get_array(jValueDir2);
+				JSON_Array* arrInitialDir2 = json_value_get_array(jValueDir2);
 
 				json_object_dotset_value(child_object, "Direction2", jValueDir2);
 				json_array_append_number(arrInitialDir2, ePosition->direction2.x);
@@ -738,10 +737,13 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 				//Speed changes
 				json_object_set_number(child_object, "ChangeSpeedMode", (int)ePosition->actualSpeedChange);
 
-				json_object_dotset_value(child_object, "NewDirection", jValueDir2);
-				json_array_append_number(arrInitialDir2, ePosition->newDirection.x);
-				json_array_append_number(arrInitialDir2, ePosition->newDirection.y);
-				json_array_append_number(arrInitialDir2, ePosition->newDirection.z);
+				JSON_Value* jValueNewDir = json_value_init_array();
+				JSON_Array* arrInitialNewDir = json_value_get_array(jValueDir2);
+
+				json_object_dotset_value(child_object, "NewDirection", jValueNewDir);
+				json_array_append_number(arrInitialNewDir, ePosition->newDirection.x);
+				json_array_append_number(arrInitialNewDir, ePosition->newDirection.y);
+				json_array_append_number(arrInitialNewDir, ePosition->newDirection.z);
 
 				json_object_set_number(child_object, "ChangeSpeed1", ePosition->changeSpeed1);
 				json_object_set_number(child_object, "ChangeSpeed2", ePosition->changeSpeed2);
