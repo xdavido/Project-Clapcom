@@ -352,6 +352,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		DrawLightsDebug();
 
+		DebugLine(pickingDebug);
+		DrawDebugLines();
+
 		DrawUIElements(false,false);
 
 	}

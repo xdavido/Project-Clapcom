@@ -1,0 +1,286 @@
+{
+    "Editor Camera Position": [
+        -11.940767288208008,
+        10.89983081817627,
+        0.50689482688903809
+    ],
+    "Editor Camera Right (X)": [
+        0.19257897138595581,
+        4.0978193283081055e-08,
+        0.98072713613510132
+    ],
+    "Editor Camera Up (Y)": [
+        0.26805731654167175,
+        0.9613988995552063,
+        -0.052636701613664627
+    ],
+    "Editor Camera Front (Z)": [
+        0.94389748573303223,
+        -0.2733188271522522,
+        -0.18534696102142334
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Static": false,
+            "UID": 381266425,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1009784856,
+                1741438873,
+                1009784856
+            ]
+        },
+        {
+            "Name": "Cube",
+            "Static": false,
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        -6.3760333061218262
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "1553236809",
+            "Static": true,
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        3.5390748977661133,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        5.0649075508117676,
+                        5.7523298263549805,
+                        5.4101753234863281
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Pyramid",
+            "Static": false,
+            "UID": 1741438873,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Pyramid.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                312671090
+            ]
+        },
+        {
+            "Name": "Pyramid (1)",
+            "Static": false,
+            "UID": 312671090,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1741438873,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 16,
+                    "Index Count": 18
+                }
+            ]
+        },
+        {
+            "Name": "Cube (1)",
+            "Static": false,
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        2.1851749420166016,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "1553236809 (1)",
+            "Static": true,
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        }
+    ]
+}

@@ -39,7 +39,7 @@ randomPointSet(false), randomRadius(0.0f)
 
 	randomPoint = float3::inf;
 
-#ifndef STANDALONE
+#ifndef _STANDALONE
 	debugDraw = true;
 #endif // !STANDALONE
 }
@@ -56,7 +56,7 @@ bool ModulePathFinding::Init()
 
 update_status ModulePathFinding::Update(float dt)
 {
-#ifndef STANDALONE
+#ifndef _STANDALONE
 	if (navMeshBuilder != nullptr && External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_STATE::KEY_DOWN)
 	{
 		float hitTime;
@@ -150,7 +150,7 @@ void ModulePathFinding::Load(int navMeshResourceUID)
 
 
 
-#ifndef STANDALONE
+#ifndef _STANDALONE
 
 void ModulePathFinding::DebugDraw()
 {

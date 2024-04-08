@@ -168,7 +168,7 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 
 	m_mesh = mesh;
 
-	rcCalcBounds((float*)floatArray.data(), m_mesh->vertices.size(), m_meshBMin, m_meshBMax);
+	rcCalcBounds((float*)mesh->vertices.data(), m_mesh->vertices.size(), m_meshBMin, m_meshBMax);
 
 	m_chunkyMesh = new rcChunkyTriMesh();
 	if (!m_chunkyMesh)
@@ -177,7 +177,7 @@ bool InputGeom::loadMesh(ResourceMesh* mesh)
 		return false;
 	}
 
-	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
+	if (!rcCreateChunkyTriMesh((float*)mesh->vertices.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
 		LOG( "buildTiledNavigation: Failed to build chunky mesh.");
 		floatArray.clear();
@@ -213,6 +213,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 
 	}
 
+	
 	rcCalcBounds((float*)floatArray.data(), m_mesh->vertices.size(), m_meshBMin, m_meshBMax);
 
 	m_chunkyMesh = new rcChunkyTriMesh();
@@ -223,7 +224,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 
 		return false;
 	}
-	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
+	if (!rcCreateChunkyTriMesh((float*)mesh->vertices.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
 
 		LOG("buildTiledNavigation: Failed to build chunky mesh.");
@@ -296,7 +297,7 @@ void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 		m_mesh->indices.push_back(new_mesh->indices[i] + indices_offset);
 }
 
-#ifndef STANDALONE
+#ifndef _STANDALONE
 void InputGeom::DrawMesh()
 {
 	if (m_mesh != nullptr)
