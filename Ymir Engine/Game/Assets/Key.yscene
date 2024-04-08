@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        4.532839298248291,
-        6.1714682579040527,
-        9.0743675231933594
+        3.9845817089080811,
+        7.3351068496704102,
+        6.936276912689209
     ],
     "Editor Camera Right (X)": [
-        0.91731536388397217,
-        -3.5762786865234375e-07,
-        -0.39814728498458862
+        0.97960352897644043,
+        -5.4016709327697754e-07,
+        -0.20092090964317322
     ],
     "Editor Camera Up (Y)": [
-        -0.15011084079742432,
-        0.92620193958282471,
-        -0.34585016965866089
+        -0.041093286126852036,
+        0.97885900735855103,
+        -0.20035573840141296
     ],
     "Editor Camera Front (Z)": [
-        -0.36876633763313293,
-        -0.37702265381813049,
-        -0.84962254762649536
+        -0.19667413830757141,
+        -0.20452618598937988,
+        -0.95889753103256226
     ],
     "Hierarchy": [
         {
@@ -52,8 +52,8 @@
                 1070715497,
                 1009784856,
                 1009784856,
-                165230177,
-                534943696
+                1009784856,
+                1009784856
             ]
         },
         {
@@ -73,9 +73,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -100,17 +100,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -362,20 +362,20 @@
             ]
         },
         {
-            "Name": "NPC",
+            "Name": "Key",
             "Tag": "Untagged",
-            "UID": 165230177,
+            "UID": 1009784856,
             "Active": true,
             "Element_Type": "Model",
-            "Origin_Path": "Assets\/Primitives\/Cylinder.fbx",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
             "Parent UID": 885964314,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -1.9003207683563232,
-                        2.1624112129211426,
+                        0,
+                        1.104331374168396,
                         0
                     ],
                     "Rotation": [
@@ -385,7 +385,7 @@
                     ],
                     "Scale": [
                         1,
-                        2.0584156513214111,
+                        1,
                         1
                     ]
                 },
@@ -400,7 +400,7 @@
                     "Collider Type": 0,
                     "Size": [
                         1,
-                        2.0584156513214111,
+                        1,
                         1
                     ],
                     "Radius": 5,
@@ -415,27 +415,23 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "Caius.cs",
+                    "ScriptName": "Key.cs",
                     "Active": 1,
                     "UID": 0,
-                    "name_gameObject": 1364986222,
-                    "line1_gameObject": 980193511,
-                    "line2_gameObject": 1266866924,
-                    "line3_gameObject": 543540170,
-                    "ui_gameObject": 534943696
+                    "door": 1009784856
                 }
             ],
             "Children UID": [
-                1094188326
+                1553236809
             ]
         },
         {
-            "Name": "Cylinder (1)",
+            "Name": "1553236809 (1)",
             "Tag": "Untagged",
-            "UID": 1094188326,
+            "UID": 1553236809,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 165230177,
+            "Parent UID": 1009784856,
             "Components": [
                 {
                     "Type": "Transform",
@@ -455,6 +451,106 @@
                         1,
                         1
                     ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Locked Door",
+            "Tag": "Untagged",
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 885964314,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -3.2363443374633789,
+                        2.4614033699035645,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        4.4389047622680664,
+                        4.9374656677246094
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "1553236809 (2)",
+            "Tag": "Untagged",
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -2.1326899528503418,
+                        0,
+                        -1.7672320604324341
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
                 },
                 {
                     "Type": "Material",
@@ -468,9 +564,9 @@
                                 0
                             ],
                             "color": [
-                                0.80000001192092896,
-                                0.69999998807907104,
-                                1.5
+                                0.89999997615814209,
+                                0.60000002384185791,
+                                0
                             ],
                             "light": false
                         }
@@ -478,12 +574,6 @@
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 90,
-                    "Index Count": 240
                 },
                 {
                     "World gravity": [
@@ -495,12 +585,12 @@
                     "Active": 1,
                     "Collider Type": 0,
                     "Size": [
-                        2.0000002384185791,
-                        4.1168313026428223,
-                        2.0000004768371582
+                        1,
+                        4.4389047622680664,
+                        4.9374656677246094
                     ],
-                    "Radius": 2.4974136352539062,
-                    "Height": 4.1168313026428223,
+                    "Radius": 3.357172966003418,
+                    "Height": 4.4389047622680664,
                     "Physics Type": 2,
                     "Mass": 0,
                     "UseGravity": false,
@@ -508,361 +598,6 @@
                     "LockX": false,
                     "LockY": false,
                     "LockZ": false
-                }
-            ]
-        },
-        {
-            "Name": "Canvas",
-            "Tag": "Untagged",
-            "UID": 534943696,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 885964314,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 1385,
-                    "Height": 1002,
-                    "UI Type": 0,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        456,
-                        686
-                    ]
-                }
-            ],
-            "Children UID": [
-                1735516951,
-                1364986222,
-                980193511,
-                1266866924,
-                543540170
-            ]
-        },
-        {
-            "Name": "Image",
-            "Tag": "Untagged",
-            "UID": 1735516951,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 534943696,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 1920,
-                    "Height": 1080,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        1920,
-                        1080
-                    ],
-                    "Path": "Assets\/Dialogue\/Dialogo.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 1
-                }
-            ]
-        },
-        {
-            "Name": "NPC Name",
-            "Tag": "Untagged",
-            "UID": 1364986222,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 534943696,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        485.39999389648438,
-                        791.29998779296875,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        485.39999389648438,
-                        791.29998779296875,
-                        200,
-                        50
-                    ],
-                    "Text": "Juan",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\\Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
-            ]
-        },
-        {
-            "Name": "Text Line 1",
-            "Tag": "Untagged",
-            "UID": 980193511,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 534943696,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        434.20001220703125,
-                        875,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        434.20001220703125,
-                        875,
-                        200,
-                        50
-                    ],
-                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\\Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
-            ]
-        },
-        {
-            "Name": "Text Line 2",
-            "Tag": "Untagged",
-            "UID": 1266866924,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 534943696,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        434.20001220703125,
-                        925,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        434.20001220703125,
-                        925,
-                        200,
-                        50
-                    ],
-                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\\Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
-            ]
-        },
-        {
-            "Name": "Text Line 3",
-            "Tag": "Untagged",
-            "UID": 543540170,
-            "Active": false,
-            "Element_Type": "None",
-            "Parent UID": 534943696,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        434.20001220703125,
-                        975,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        434.20001220703125,
-                        975,
-                        200,
-                        50
-                    ],
-                    "Text": "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstu",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\\Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
                 }
             ]
         }

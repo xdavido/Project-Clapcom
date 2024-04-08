@@ -18,11 +18,17 @@ public class Caius : YmirComponent
 	private bool talked = false;
 	private bool dialogue_ui = false;
 
+	private Player csPlayer;
+
 
     public void Start()
 	{
-		
-	}
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
+        if (gameObject != null)
+        {
+            csPlayer = gameObject.GetComponent<Player>();
+        }
+    }
 
 	public void Update()
 	{
@@ -37,13 +43,13 @@ public class Caius : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Tag == "Player" && talked == false)
+        if (other.Tag == "Player" && talked == false && Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
         {
             //TODO: Don't let the player move
-			
+            //csPlayer
 
-			//Show the dialogue UI
-			dialogue_ui = true;
+            //Show the dialogue UI
+            dialogue_ui = true;
 
 			//Don't let repeat the dialogue
 			talked = true;
