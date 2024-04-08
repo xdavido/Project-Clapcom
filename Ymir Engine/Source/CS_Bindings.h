@@ -796,22 +796,49 @@ MonoObject* GetFocused()
 void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
 {
 	G_UI* selectedgo = (G_UI*)External->moduleMono->GameObject_From_CSGO(selectedObject);
+	UI_Transform* selectedTransform = static_cast<UI_Transform*>(selectedgo->GetComponent(ComponentType::UI_TRAMSFORM));
+
 	G_UI* targetgo = (G_UI*)External->moduleMono->GameObject_From_CSGO(targetObject);
+	UI_Transform* targetTransform = static_cast<UI_Transform*>(targetgo->GetComponent(ComponentType::UI_TRAMSFORM));
 
-	float auxPosX = static_cast<UI_Button*>(targetgo->GetComponentUI(UI_TYPE::IMAGE))->posX;
-	float auxPosY = static_cast<UI_Button*>(targetgo->GetComponentUI(UI_TYPE::IMAGE))->posY;
+	float auxPosX = targetTransform->componentReference->posX;
+	float auxPosY = targetTransform->componentReference->posY;
+	//float auxWidth = targetTransform->componentReference->width;
+	//float auxHeight = targetTransform->componentReference->height;
 
-	targetgo->GetComponentUI(UI_TYPE::IMAGE)->posX = selectedgo->GetComponentUI(UI_TYPE::IMAGE)->posX;
-	targetgo->GetComponentUI(UI_TYPE::IMAGE)->posY = selectedgo->GetComponentUI(UI_TYPE::IMAGE)->posY;
+	targetTransform->componentReference->posX = selectedTransform->componentReference->posX;
+	targetTransform->componentReference->posY = selectedTransform->componentReference->posY;
 
-	selectedgo->GetComponentUI(UI_TYPE::IMAGE)->posX = auxPosX;
-	selectedgo->GetComponentUI(UI_TYPE::IMAGE)->posY = auxPosY;
+	selectedTransform->componentReference->posX = auxPosX;
+	selectedTransform->componentReference->posY = auxPosY;
 
-	static_cast<UI_Transform*>(targetgo->GetComponentUI(UI_TYPE::IMAGE)->transformUI)->UpdateUITransformChilds();
-	targetgo->GetComponentUI(UI_TYPE::IMAGE)->dirty_ = true;
+	//targetTransform->componentReference->width = selectedTransform->componentReference->width;
+	//targetTransform->componentReference->height = selectedTransform->componentReference->height;
 
-	static_cast<UI_Transform*>(selectedgo->GetComponentUI(UI_TYPE::IMAGE)->transformUI)->UpdateUITransformChilds();
-	selectedgo->GetComponentUI(UI_TYPE::IMAGE)->dirty_ = true;
+	//selectedTransform->componentReference->width = auxWidth;
+	//selectedTransform->componentReference->height = auxHeight;
+
+	targetTransform->UpdateUITransformChilds();
+	targetTransform->componentReference->dirty_ = true;
+
+	selectedTransform->UpdateUITransformChilds();
+	selectedTransform->componentReference->dirty_ = true;
+
+
+	for (int i = 0; i < External->scene->selectedUIGO->mComponents.size(); i++)
+	{
+		if (External->scene->selectedUIGO->mComponents[i]->ctype == ComponentType::UI)
+		{
+			if (static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state == UI_STATE::SELECTED)
+			{
+				static_cast<C_UI*>(External->scene->selectedUIGO->mComponents[i])->state = UI_STATE::FOCUSED;
+			}
+		}
+	}
+
+	External->scene->focusedUIGO = External->scene->selectedUIGO;
+	External->scene->selectedUIGO = nullptr;
+
 }
 
 #pragma endregion
