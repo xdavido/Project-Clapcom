@@ -2864,6 +2864,18 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 					float posZ2 = json_array_get_number(dirArr2, 2);
 					ePos->direction2 = { posX2,posY2,posZ2 };
 
+					//Speed changes ERIC TODO
+					//json_object_set_number(child_object, "ChangeSpeedMode", (int)ePosition->actualSpeedChange);
+					//ePos->actualSpeedChange = (SpeedChangeMode)json_object_get_number(modulo, "ChangeSpeedMode");
+
+					/*json_object_dotset_value(child_object, "NewDirection", jValueDir2);
+					json_array_append_number(arrInitialDir2, ePosition->newDirection.x);
+					json_array_append_number(arrInitialDir2, ePosition->newDirection.y);
+					json_array_append_number(arrInitialDir2, ePosition->newDirection.z);
+
+					json_object_set_number(child_object, "ChangeSpeed1", ePosition->changeSpeed1);
+					json_object_set_number(child_object, "ChangeSpeed2", ePosition->changeSpeed2);*/
+
 					break;
 				}
 				case ROTATION:

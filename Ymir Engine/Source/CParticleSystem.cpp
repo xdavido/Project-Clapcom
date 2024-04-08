@@ -735,6 +735,18 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 				json_object_set_number(child_object, "Speed1", ePosition->particleSpeed1);
 				json_object_set_number(child_object, "Speed2", ePosition->particleSpeed2);
 
+				//Speed changes
+				json_object_set_number(child_object, "ChangeSpeedMode", (int)ePosition->actualSpeedChange);
+
+				json_object_dotset_value(child_object, "NewDirection", jValueDir2);
+				json_array_append_number(arrInitialDir2, ePosition->newDirection.x);
+				json_array_append_number(arrInitialDir2, ePosition->newDirection.y);
+				json_array_append_number(arrInitialDir2, ePosition->newDirection.z);
+
+				json_object_set_number(child_object, "ChangeSpeed1", ePosition->changeSpeed1);
+				json_object_set_number(child_object, "ChangeSpeed2", ePosition->changeSpeed2);
+
+
 				break;
 			}
 			case ROTATION:
@@ -798,6 +810,11 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 				json_object_set_number(child_object, "TimeStart", eColor->startChange);
 				json_object_set_number(child_object, "TimeStop", eColor->stopChange);
 
+				break;
+			}
+			case IMAGE:
+			{
+				//TODO ERIC: QUE HA DE GUARDARSE PARA LA CARGA?
 				break;
 			}
 			case MAX:

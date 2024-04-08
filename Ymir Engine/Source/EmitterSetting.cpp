@@ -248,21 +248,61 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y + newDirection.y) * emitter->listParticles.at(i)->velocity.w * dt;
 				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z + newDirection.z) * emitter->listParticles.at(i)->velocity.w * dt;
 			}
+			else
+			{
+				emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
+			}
 		}
 			break;
 		case EmitterPosition::ADDOVERTIME:
 		{
 
+			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
+			{
+				emitter->listParticles.at(i)->position.x += (emitter->listParticles.at(i)->velocity.x + newDirection.x * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y + newDirection.y * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z + newDirection.z * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+			}
+			else
+			{
+				emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
+			}
 		}
 			break;
 		case EmitterPosition::IFTIMESUBSTITUTE: 
 		{
-		
+			if (changeSpeed1 <= actualLT && changeSpeed2 >= actualLT)
+			{
+				emitter->listParticles.at(i)->position.x += newDirection.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += newDirection.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += newDirection.z * emitter->listParticles.at(i)->velocity.w * dt;
+			}
+			else
+			{
+				emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
+			}
 		}
 			break;
 		case EmitterPosition::SUBSTITUTEOVERTIME:
 		{
-
+			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
+			{
+				emitter->listParticles.at(i)->position.x += (emitter->listParticles.at(i)->velocity.x * (1- ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.x * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y * (1 - ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.y * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z * (1 - ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.z * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+			}
+			else
+			{
+				emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
+			}
 		}
 			break;
 		case EmitterPosition::MAX:
@@ -270,9 +310,6 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 		default:
 			break;
 		}
-		emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
-		emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
-		emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
 	}
 }
 
@@ -300,11 +337,37 @@ void EmitterPosition::OnInspector()
 		ImGui::DragFloat("Speed ##POSITION", &(this->particleSpeed1), 0.2F);
 	}
 
-	if (ImGui::BeginCombo("##ChangeSpeed", "tEST"))
+	std::string modeName;
+
+	switch (actualSpeedChange)
+	{
+	case EmitterPosition::NONE:
+		modeName = "None";
+		break;
+	case EmitterPosition::IFTIMEADD:
+		modeName = "Add during time";
+		break;
+	case EmitterPosition::ADDOVERTIME:
+		modeName = "Add over time";
+		break;
+	case EmitterPosition::IFTIMESUBSTITUTE:
+		modeName = "Change during time";
+		break;
+	case EmitterPosition::SUBSTITUTEOVERTIME:
+		modeName = "Change over time";
+		break;
+	case EmitterPosition::MAX:
+		modeName = "";
+		break;
+	default:
+		break;
+	}
+
+	if (ImGui::BeginCombo("##ChangeSpeed", modeName.c_str()))
 	{
 		for (int i = 0; i < SpeedChangeMode::MAX; i++)
 		{
-			std::string modeName;
+			/*std::string modeName;*/
 
 			switch ((SpeedChangeMode)i)
 			{
@@ -336,6 +399,37 @@ void EmitterPosition::OnInspector()
 		}
 
 		ImGui::EndCombo();
+	}
+
+	switch (actualSpeedChange)
+	{
+	case EmitterPosition::NONE:
+		//Nothing
+		break;
+	case EmitterPosition::IFTIMEADD:
+		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
+		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
+		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
+		break;
+	case EmitterPosition::ADDOVERTIME:
+		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
+		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
+		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
+		break;
+	case EmitterPosition::IFTIMESUBSTITUTE:
+		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
+		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
+		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
+		break;
+	case EmitterPosition::SUBSTITUTEOVERTIME:
+		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
+		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
+		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
+		break;
+	case EmitterPosition::MAX:
+		break;
+	default:
+		break;
 	}
 }
 
