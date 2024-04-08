@@ -29,6 +29,12 @@ public class UI_Inventory : YmirComponent
                 SwitchItems();
             }
 
+            if (Input.GetLeftAxisX() != 0 || Input.GetLeftAxisY() != 0)
+            {
+                _show = false;
+                _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
+            }
+
             if (Input.GetGamepadButton(GamePadButton.RIGHTSHOULDER) == KeyState.KEY_DOWN)
             {
                 _show = !_show;
@@ -49,6 +55,11 @@ public class UI_Inventory : YmirComponent
                 _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE)
             {
                 UI.SwitchPosition(_selectedGO, _focusedGO);
+
+                _show = false;
+                _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
+                _selectedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
+
                 ITEM_SLOT aux = _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot;
                 _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot = _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot;
                 _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot = aux;

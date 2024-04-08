@@ -20,7 +20,7 @@ public class UI_Item_Button : YmirComponent
     public void Start()
     {
         item = new Item(currentSlot, itemType);
-        _text = InternalCalls.GetChildrenByName(gameObject, "Text");
+        _text = InternalCalls.GetChildrenByName(gameObject, "Description");
         SetType(noHayEnumItem, itemType);
         SetType(noHayEnumSlot, currentSlot);
     }
@@ -33,7 +33,10 @@ public class UI_Item_Button : YmirComponent
 
     public void ShowInfo(bool isShowing)
     {
-        _text.SetActive(isShowing);
+        if (_text != null)
+        {
+            _text.SetActive(isShowing);
+        }
     }
 
     private void SetType(string type, ITEM_SLOT elementChanged)
