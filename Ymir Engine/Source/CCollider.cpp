@@ -245,13 +245,13 @@ void CCollider::Update()
 
 		if (parentTransform)
 		{
-			pos.x /= parentTransform->scale.x;
-			pos.y /= parentTransform->scale.y;
-			pos.z /= parentTransform->scale.z;
+			pos.x -= parentTransform->translation.x;
+			pos.y -= parentTransform->translation.y;
+			pos.z -= parentTransform->translation.z;
 		}
 
 		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
-		mOwner->mTransform->SetPosition(newMat.TranslatePart() - offset);
+		mOwner->mTransform->SetPosition(pos - offset);
 		
 		Quat quat;
 		quat.Set(newMat);
@@ -267,7 +267,7 @@ void CCollider::Update()
 		//mOwner->mTransform->SetOrientation(btQuat);
 
 		//shape->setLocalScaling(btVector3(size.x, size.y, size.z));
-		shape->setLocalScaling(btVector3(trans.GetScale().x * size.x, trans.GetScale().y * size.y, trans.GetScale().z * size.z));
+		shape->setLocalScaling(btVector3(trans.GetScale().x + size.x, trans.GetScale().y + size.y, trans.GetScale().z + size.z));
 
 		//mOwner->mTransform->UpdateTransformsChilds();
 
