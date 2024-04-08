@@ -663,22 +663,14 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 
-void ChangeImageUI(MonoObject* pParent, MonoString* newImage, MonoString* imageToChange, int x, int y)
+void ChangeImageUI(MonoObject* go, MonoString* newImage, int state)
 {
 	//Falta meter automaticamente que haga el change de Image
-	GameObject* go_image_to_change = External->moduleMono->GameObject_From_CSGO(pParent);
+	GameObject* go_image_to_change = External->moduleMono->GameObject_From_CSGO(go);
 	std::string _newImage = mono_string_to_utf8(newImage);
-	std::string _findbyname = mono_string_to_utf8(imageToChange);
 
-	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it)
-	{
-		if ((*it)->name == _findbyname)
-		{
-			UI_Image* image_to_change = static_cast<UI_Image*>(static_cast<G_UI*>((*it))->GetComponentUI(UI_TYPE::IMAGE));
-
-			image_to_change->SetImg(_newImage, UI_STATE::NORMAL);
-		}
-	}
+	UI_Image* image_to_change = static_cast<UI_Image*>(static_cast<G_UI*>(go_image_to_change)->GetComponentUI(UI_TYPE::IMAGE));
+	image_to_change->SetImg(_newImage, (UI_STATE)state);
 }
 
 // Image Animations

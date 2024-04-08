@@ -21,62 +21,8 @@ public class UI_Item_Button : YmirComponent
     {
         _text = InternalCalls.GetChildrenByName(gameObject, "Description");
 
-        // Function doesn't work, sorry for this
-        switch (enumItem)
-        {
-            case "ARMOR":
-                itemType = ITEM_SLOT.ARMOR;
-                break;
-            case "CHIP1":
-                itemType = ITEM_SLOT.CHIP1;
-                break;
-            case "CHIP2":
-                itemType = ITEM_SLOT.CHIP2;
-                break;
-            case "CONSUMABLE1":
-                itemType = ITEM_SLOT.CONSUMABLE1;
-                break;
-            case "CONSUMABLE2":
-                itemType = ITEM_SLOT.CONSUMABLE2;
-                break;
-            case "SAVE":
-                itemType = ITEM_SLOT.SAVE;
-                break;
-            case "NONE":
-                itemType = ITEM_SLOT.NONE;
-                break;
-            default:
-                break;
-        }
-        switch (enumSlot)
-        {
-            case "ARMOR":
-                currentSlot = ITEM_SLOT.ARMOR;
-                break;
-            case "CHIP1":
-                currentSlot = ITEM_SLOT.CHIP1;
-                break;
-            case "CHIP2":
-                currentSlot = ITEM_SLOT.CHIP2;
-                break;
-            case "CONSUMABLE1":
-                currentSlot = ITEM_SLOT.CONSUMABLE1;
-                break;
-            case "CONSUMABLE2":
-                currentSlot = ITEM_SLOT.CONSUMABLE2;
-                break;
-            case "SAVE":
-                currentSlot = ITEM_SLOT.SAVE;
-                break;
-            case "NONE":
-                currentSlot = ITEM_SLOT.NONE;
-                break;
-            default:
-                break;
-        }
-
-        //SetType(enumItem, itemType);
-        //SetType(enumSlot, currentSlot)
+        itemType = SetType(enumItem);
+        currentSlot = SetType(enumSlot);
 
         item = new Item(currentSlot, itemType);
         Debug.Log(item.currentSlot.ToString());
@@ -97,8 +43,10 @@ public class UI_Item_Button : YmirComponent
         }
     }
 
-    private void SetType(string type, ITEM_SLOT elementChanged)
+    private ITEM_SLOT SetType(string type)
     {
+        ITEM_SLOT elementChanged = ITEM_SLOT.NONE;
+
         switch (type)
         {
             case "ARMOR":
@@ -125,5 +73,7 @@ public class UI_Item_Button : YmirComponent
             default:
                 break;
         }
+
+        return elementChanged;
     }
 }

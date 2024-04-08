@@ -41,6 +41,19 @@ public class UI_Inventory : YmirComponent
                 _focusedGO.GetComponent<UI_Item_Button>().ShowInfo(_show);
             }
 
+            if (_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE
+                && Input.GetGamepadButton(GamePadButton.LEFTSHOULDER) == KeyState.KEY_DOWN)
+            {
+                _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot = ITEM_SLOT.NONE;
+                _focusedGO.GetComponent<UI_Item_Button>().item.itemType = ITEM_SLOT.NONE;
+
+                // Add real art and other stuff
+                UI.ChangeImageUI(_focusedGO, "Assets/juan.png", (int)UI_STATE.NORMAL);
+
+                //GameObject text = InternalCalls.GetChildrenByName(_focusedGO, "Text");
+                UI.TextEdit(InternalCalls.GetChildrenByName(_focusedGO, "Text"), " ");
+            }
+
             Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
             Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
         }
@@ -55,11 +68,11 @@ public class UI_Inventory : YmirComponent
         if (_selectedGO != null)
         {
             Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
-            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());            
+            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
 
-            if ((_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot && 
-                _selectedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE )||
-                (_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE && _focusedGO.GetComponent<UI_Item_Button>().item.itemType == ITEM_SLOT.NONE))
+            if ((_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot &&
+                _selectedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE) ||
+                (_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE && _selectedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE))
             {
                 UI.SwitchPosition(_selectedGO, _focusedGO);
 

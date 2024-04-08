@@ -82,7 +82,7 @@ namespace YmirEngine
         /// Changes an image UI element.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject ChangeImageUI(object go, string name, string findGo, int x, int y);
+        public static extern GameObject ChangeImageUI(object go, string name, int state);
 
         /// <summary>
         /// Get sprite sheet rows.
