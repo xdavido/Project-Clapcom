@@ -17,6 +17,7 @@ public class Player : YmirComponent
 
         IDLE,
         MOVE,
+        STOP,
         DASH,
         SHOOTING,
         RELOANDING,
@@ -26,10 +27,11 @@ public class Player : YmirComponent
 
         All_TYPES
     }
-    enum INPUT : int
+    public enum INPUT : int
     {
         I_IDLE,
         I_MOVE,
+        I_STOP,
         I_DASH,
         I_DASH_END,
         I_SHOOTING,
@@ -60,7 +62,7 @@ public class Player : YmirComponent
 
     //--------------------- State ---------------------\\
     private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
-    private List<INPUT> inputsList = new List<INPUT>();
+    public List<INPUT> inputsList = new List<INPUT>();
 
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
@@ -348,6 +350,11 @@ public class Player : YmirComponent
                             StartMove();
                             break;
 
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
@@ -391,6 +398,11 @@ public class Player : YmirComponent
                             //StartIdle(); //Trigger de la animacion //Arreglar esto
                             break;
 
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
@@ -430,6 +442,11 @@ public class Player : YmirComponent
                     //Debug.Log("DASH");
                     switch (input)
                     {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_DASH_END:
                             currentState = STATE.IDLE;
                             EndDash();
@@ -449,6 +466,11 @@ public class Player : YmirComponent
                     //Debug.Log("JUMP");
                     switch (input)
                     {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_JUMP_END:
                             currentState = STATE.IDLE;
                             EndJump();
@@ -469,6 +491,11 @@ public class Player : YmirComponent
                     //Debug.Log("SHOOTING");
                     switch (input)
                     {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
@@ -509,6 +536,11 @@ public class Player : YmirComponent
                     //Debug.Log("SHOOT");
                     switch (input)
                     {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
                         case INPUT.I_SHOOT_END:
                             currentState = STATE.SHOOTING;
                             StartShooting();
@@ -530,6 +562,11 @@ public class Player : YmirComponent
                         case INPUT.I_MOVE:
                             currentState = STATE.MOVE;
                             StartMove();
+                            break;
+
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
                             break;
 
                         case INPUT.I_DASH:
@@ -561,6 +598,22 @@ public class Player : YmirComponent
                     }
                     break;
 
+                case STATE.STOP:
+                    //Debug.Log("Stop");
+                    switch (input)
+                    {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
+                        case INPUT.I_IDLE:
+                            currentState = STATE.IDLE;
+                            //StartIdle(); //Trigger de la animacion //Arreglar esto
+                            break;
+                    }
+                    break;
+
                 default:
                     Debug.Log("No State? :(");
                     break;
@@ -578,6 +631,9 @@ public class Player : YmirComponent
                 break;
             case STATE.MOVE:
                 UpdateMove();
+                break;
+            case STATE.STOP:
+                StopPlayer();
                 break;
             case STATE.DASH:
                 UpdateDash();
@@ -611,6 +667,24 @@ public class Player : YmirComponent
     }
     private void StartShoot()
     {
+
+        //TO DO
+        //Logica del disparo depende del arma equipada
+        switch (weaponType)
+        {
+            case WEAPON.SMG:
+                //SmgShoot();
+                break;
+
+            case WEAPON.SHOTGUN:
+                //ShotgunShoot();
+                break;
+
+            case WEAPON.TRACE:
+                //TraceShoot();
+                break;
+        }
+
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject,"P_Shoot");
         Input.Rumble_Controller(shootRumbleDuration,shootRumbleIntensity);
