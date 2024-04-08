@@ -58,6 +58,11 @@ public class UI_Inventory : YmirComponent
             Debug.Log(_focusedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
         }
 
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        {
+            gameObject.SetActive(false);
+        }
+
         return;
     }
 
