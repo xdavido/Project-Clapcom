@@ -129,6 +129,7 @@ public:
 	bool isLocked;
 	GameObject* selectedGO;
 	std::vector<G_UI*> vCanvas;
+	int onHoverUI;
 
 	std::multimap<uint, SerializedField*> referenceMap;
 
@@ -138,7 +139,6 @@ public:
 	GameObject* focusedUIGO;
 private:
 	G_UI* canvas;
-	int onHoverUI;
 
 	std::vector<GameObject*> vSelectedGOs;
 

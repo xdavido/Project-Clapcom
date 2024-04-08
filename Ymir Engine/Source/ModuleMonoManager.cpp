@@ -138,6 +138,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.UI::GetSelected", GetSelected);
 	mono_add_internal_call("YmirEngine.UI::GetFocused", GetFocused);
 	mono_add_internal_call("YmirEngine.UI::SwitchPosition", SwitchPosition);
+	mono_add_internal_call("YmirEngine.UI::NavigateGrid", NavigateGrid);
+
 
 
 #pragma endregion

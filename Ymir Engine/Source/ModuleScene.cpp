@@ -237,8 +237,6 @@ update_status ModuleScene::PostUpdate(float dt)
 		destroyList.clear();
 	}
 
-
-
 	return UPDATE_CONTINUE;
 }
 
@@ -813,7 +811,7 @@ void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
 	{
 		for (auto i = 0; i < static_cast<G_UI*>(go)->mComponents.size(); i++)
 		{
-			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_ && 
+			if (static_cast<G_UI*>(go)->mComponents[i]->ctype == ComponentType::UI && static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->tabNav_ &&
 				static_cast<C_UI*>(static_cast<G_UI*>(go)->mComponents[i])->state != UI_STATE::DISABLED)
 			{
 				listgo.push_back((C_UI*)static_cast<G_UI*>(go)->mComponents[i]);
@@ -883,91 +881,84 @@ bool ModuleScene::TabNavigate(bool isForward)
 		GetUINaviagte(vCanvas[i], listUI);
 	}
 
-	for (auto i = 0; i < listUI.size(); i++)
+	if (isForward)
 	{
-		if (isForward)
+		if (onHoverUI == listUI.size() - 1)
 		{
-			if (onHoverUI == listUI.size() - 1)
+			SetSelected(listUI[0]->mOwner);
+
+			focusedUIGO = listUI[0]->mOwner;
+
+			if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
 			{
-				App->scene->SetSelected(listUI[0]->mOwner);
-
-				focusedUIGO = listUI[0]->mOwner;
-
-				if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
-				{
-					listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
-				}
-
-				if (listUI[0]->state != UI_STATE::SELECTED)
-				{
-					listUI[0]->SetState(UI_STATE::FOCUSED);
-				}
-
-				onHoverUI = 0;
+				listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
 			}
 
-			else
+			if (listUI[0]->state != UI_STATE::SELECTED)
 			{
-				App->scene->SetSelected(listUI[onHoverUI + 1]->mOwner);
-
-				focusedUIGO = listUI[onHoverUI + 1]->mOwner;
-
-				if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
-				{
-					listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
-				}
-
-				if (listUI[onHoverUI + 1]->state != UI_STATE::SELECTED)
-				{
-					listUI[onHoverUI + 1]->SetState(UI_STATE::FOCUSED);
-				}
-
-				onHoverUI += 1;
+				listUI[0]->SetState(UI_STATE::FOCUSED);
 			}
+
+			onHoverUI = 0;
 		}
 
 		else
 		{
-			for (auto i = 0; i < listUI.size(); i++)
+			SetSelected(listUI[onHoverUI + 1]->mOwner);
+
+			focusedUIGO = listUI[onHoverUI + 1]->mOwner;
+
+			if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
 			{
-				if (onHoverUI == 0)
-				{
-					App->scene->SetSelected(listUI[listUI.size() - 1]->mOwner);
-					focusedUIGO = listUI[listUI.size() - 1]->mOwner;
-
-					if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
-					{
-						listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
-					}
-
-					if (listUI[listUI.size() - 1]->state != UI_STATE::SELECTED)
-					{
-						listUI[listUI.size() - 1]->SetState(UI_STATE::FOCUSED);
-					}
-
-					onHoverUI = listUI.size() - 1;
-				}
-
-				else
-				{
-					App->scene->SetSelected(listUI[onHoverUI - 1]->mOwner);
-
-					focusedUIGO = listUI[onHoverUI - 1]->mOwner;
-
-					if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
-					{
-						listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
-					}
-
-					if (listUI[onHoverUI - 1]->state != UI_STATE::SELECTED)
-					{
-						listUI[onHoverUI - 1]->SetState(UI_STATE::FOCUSED);
-					}
-
-					onHoverUI -= 1;
-				}
-				return true;
+				listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
 			}
+
+			if (listUI[onHoverUI + 1]->state != UI_STATE::SELECTED)
+			{
+				listUI[onHoverUI + 1]->SetState(UI_STATE::FOCUSED);
+			}
+
+			onHoverUI += 1;
+		}
+	}
+
+	else
+	{
+
+		if (onHoverUI == 0)
+		{
+			SetSelected(listUI[listUI.size() - 1]->mOwner);
+			focusedUIGO = listUI[listUI.size() - 1]->mOwner;
+
+			if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+			{
+				listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+			}
+
+			if (listUI[listUI.size() - 1]->state != UI_STATE::SELECTED)
+			{
+				listUI[listUI.size() - 1]->SetState(UI_STATE::FOCUSED);
+			}
+
+			onHoverUI = listUI.size() - 1;
+		}
+
+		else
+		{
+			SetSelected(listUI[onHoverUI - 1]->mOwner);
+			focusedUIGO = listUI[onHoverUI - 1]->mOwner;
+
+			if (listUI[onHoverUI]->state != UI_STATE::SELECTED)
+			{
+				listUI[onHoverUI]->SetState(UI_STATE::NORMAL);
+			}
+
+			if (listUI[onHoverUI - 1]->state != UI_STATE::SELECTED)
+			{
+				listUI[onHoverUI - 1]->SetState(UI_STATE::FOCUSED);
+			}
+
+			onHoverUI -= 1;
 		}
 
 		return true;

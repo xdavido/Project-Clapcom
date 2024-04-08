@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Button_Exit.cs" />
     <Compile Include="Assets\Scripts\UI_Animation.cs" />
     <Compile Include="Assets\Scripts\UI_Inventory.cs" />
+    <Compile Include="Assets\Scripts\UI_Inventory_Grid.cs" />
     <Compile Include="Assets\Scripts\UI_Item_Button.cs" />
     <Compile Include="Assets\Scripts\BaseTeleporter.cs" />
     <Compile Include="Assets\Scripts\SelectLvl.cs" />
