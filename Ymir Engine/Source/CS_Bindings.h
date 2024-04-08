@@ -703,4 +703,21 @@ void SliderSetMax(MonoObject* object, double value)
 		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.iValue = value;
 	}
 }
+
+// Función para procesar los strings y generar el output deseado
+MonoString* CSVToString(MonoString* filePath, MonoString* csFields[], int numFields) {
+	std::string filename = mono_string_to_utf8(filePath); // Nombre del archivo a procesar
+	std::vector<std::string> fields;
+
+	// Convertir cada MonoString a std::string y agregarlo al vector fields
+	for (int i = 0; i < numFields; ++i) {
+		std::string fieldStr = mono_string_to_utf8(csFields[i]);
+		fields.push_back(fieldStr);
+	}
+
+	std::string output = PhysfsEncapsule::ExtractStringFromSVG(filename, fields);
+
+	return mono_string_new(External->moduleMono->domain, output.c_str());
+}
+
 #pragma endregion

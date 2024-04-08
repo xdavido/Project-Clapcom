@@ -4,6 +4,11 @@
 #include <string>
 #include <fstream>
 #include <filesystem>
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
 
 #include "Globals.h"
 
@@ -69,4 +74,7 @@ namespace PhysfsEncapsule {
 
     //Get name from any asset path
     std::string GetAssetName(const std::string& path);
+
+    //Convert CSV to String
+    std::string ExtractStringFromSVG(const std::string& filename, const std::vector<std::string>& fieldNames);
 }

@@ -50,6 +50,12 @@ namespace YmirEngine
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject ExitGame();
+
+        /// <summary>
+        /// Retrieves a string with the values of the fields of the CSV.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern string CSVToString(string filePath, string csField, int numFields);
     }
 
     /// <summary>

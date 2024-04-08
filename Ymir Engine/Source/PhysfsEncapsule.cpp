@@ -4,6 +4,7 @@
 
 #include "External/mmgr/mmgr.h"
 
+
 void PhysfsEncapsule::InitializePhysFS()
 {
 	if (PHYSFS_init(NULL) == 0) {
@@ -486,4 +487,61 @@ std::string PhysfsEncapsule::GetAssetName(const std::string& path) {
 
 	// Return only the name without extension
 	return name.substr(0, dotPos);
+}
+
+// Función genérica para procesar un archivo y combinar los valores según los campos especificados
+std::string PhysfsEncapsule::ExtractStringFromSVG(const std::string& filename, const std::vector<std::string>& fieldNames) {
+	std::ifstream file(filename);
+	std::string line;
+	std::vector<std::unordered_map<std::string, std::string>> data; // Vector de mapas (campo -> valor)
+
+	if (!file.is_open()) {
+		std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
+		return "";
+	}
+
+	// Leer cada línea del archivo
+	while (std::getline(file, line)) {
+		std::unordered_map<std::string, std::string> record; // Mapa para almacenar los valores de cada línea
+
+		// Procesar la línea para cada nombre de campo especificado
+		for (const auto& fieldName : fieldNames) {
+			size_t pos = line.find(fieldName);
+			if (pos != std::string::npos) {
+				// Encontrar el valor después del nombre del campo
+				std::string value = line.substr(pos + fieldName.length());
+				// Eliminar espacios en blanco al principio y al final del valor
+				value.erase(0, value.find_first_not_of(" \t\r\n"));
+				value.erase(value.find_last_not_of(" \t\r\n") + 1);
+
+				// Almacenar el par (campo, valor) en el mapa
+				record[fieldName] = value;
+			}
+		}
+
+		if (!record.empty()) {
+			// Agregar el mapa de esta línea al vector de datos
+			data.push_back(record);
+		}
+	}
+
+	file.close();
+
+	// Construir la cadena de salida en el formato deseado
+	std::stringstream result;
+	for (const auto& record : data) {
+		bool firstField = true;
+		for (const auto& fieldName : fieldNames) {
+			if (record.find(fieldName) != record.end()) {
+				if (!firstField) {
+					result << ",";
+				}
+				result << record.at(fieldName);
+				firstField = false;
+			}
+		}
+		result << ";";
+	}
+
+	return result.str();
 }
