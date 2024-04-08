@@ -271,11 +271,12 @@ void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 	}
 
 	
-	for (size_t i = 0; i < new_mesh->vertices.size(); i++)
+	for (size_t i = 0; i < merged_vertices.size(); i++)
 	{
-		new_mesh_vertices.at(i) = new_mesh_transform.MulPos(new_mesh_vertices.at(i));
-
-		merged_vertices[i] = new_mesh_vertices[i];
+		if (i >= m_mesh->vertices.size()) {
+			new_mesh_vertices.at(i - m_mesh->vertices.size()) = new_mesh_transform.MulPos(new_mesh_vertices.at(i - m_mesh->vertices.size()));
+			merged_vertices[i] = new_mesh_vertices[i - m_mesh->vertices.size()];
+		}
 	}
 
 	
