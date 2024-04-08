@@ -47,7 +47,7 @@ public class SelectLvl : YmirComponent
         //UI.TextEdit(levelSelector.lvlText, levelSelector.lvlDescriptions[(int)levelSelector.selectedLvl]);
     }
 
-    void OnHoverButton()
+    public void OnHoverButton()
     {
         switch ((LEVELS)lvl)
         {
