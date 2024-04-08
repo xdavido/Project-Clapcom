@@ -13,23 +13,11 @@ enum EmiterType
 	SPAWN,
 	POSITION,
 	ROTATION,
-	SIZE,
+	SIZEPARTICLE,
 	COLOR,
 	IMAGE,
 	SHAPE,
 	MAX,
-};
-
-//Enum of the modes as positions change after spawn
-enum SpeedChangeMode
-{
-	NONE,
-	IF_TIME_ADD, //Si en el time añadir el vector a la direccion
-	ADD_OVER_TIME, //Añadir paulatinamente el nuevo vector
-	IF_TIME_SUBSTITUTE, //Si el time cuadra position substituir velocidad
-	SUBSTITUTE_OVER_TIME, //Sobre el tiempo cambia la direccion
-
-	MAX
 };
 
 class ParticleEmitter;
@@ -96,7 +84,18 @@ struct EmitterPosition : EmitterSetting
 	float3 newDirection;
 	float changeSpeed1;
 	float changeSpeed2;
-	
+
+public:
+	enum SpeedChangeMode
+	{
+		NONE,
+		IFTIMEADD, //Si en el time añadir el vector a la direccion
+		ADDOVERTIME, //Añadir paulatinamente el nuevo vector
+		IFTIMESUBSTITUTE, //Si el time cuadra position substituir velocidad
+		SUBSTITUTEOVERTIME, //Sobre el tiempo cambia la direccion
+		
+		MAX
+	};
 	SpeedChangeMode actualSpeedChange;
 
 };

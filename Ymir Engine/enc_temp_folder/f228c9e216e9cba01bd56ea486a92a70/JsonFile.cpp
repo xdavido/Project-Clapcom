@@ -2865,9 +2865,43 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 					ePos->direction2 = { posX2,posY2,posZ2 };
 
 					//Speed changes ERIC TODO
-					ePos->actualSpeedChange = (SpeedChangeMode)json_object_get_number(modulo, "ChangeSpeedMode");
+					int modeAsInt = json_object_get_number(modulo, "ChangeSpeedMode");
+
+					switch(modeAsInt)
+					{
+						case (int)ePos->NONE:
+						{
+							ePos->actualSpeedChange = ePos->NONE;
+							break;
+						}
+						case (int)ePos->IFTIMEADD:
+						{
+							ePos->actualSpeedChange = ePos->IFTIMEADD;
+							break;
+						}
+						case (int)ePos->ADDOVERTIME:
+						{
+							ePos->actualSpeedChange = ePos->ADDOVERTIME;
+							break;
+						}
+						case (int)ePos->IFTIMESUBSTITUTE:
+						{
+							ePos->actualSpeedChange = ePos->IFTIMESUBSTITUTE;
+							break;
+						}
+						case (int)ePos->SUBSTITUTEOVERTIME:
+						{
+							ePos->actualSpeedChange = ePos->SUBSTITUTEOVERTIME;
+							break;
+						}
+						case (int)ePos->MAX:
+						{
+							ePos->actualSpeedChange = ePos->MAX;
+							break;
+						}
+					}
 					
-					//Get newPosition array
+					//Get position array
 					JSON_Array* newDirArr = json_object_get_array(modulo, "NewDirection");
 
 					//Get elements of position
@@ -2885,7 +2919,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				{
 					break;
 				}
-				case SIZE:
+				case SIZEPARTICLE:
 				{
 					EmitterSize* eSize = (EmitterSize*)instancia;
 

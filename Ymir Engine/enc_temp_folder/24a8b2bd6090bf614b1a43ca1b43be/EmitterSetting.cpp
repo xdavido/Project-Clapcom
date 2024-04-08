@@ -240,7 +240,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt; 
 		}
 			break;
-		case EmitterPosition::IF_TIME_ADD:
+		case EmitterPosition::IFTIMEADD:
 		{
 			if (changeSpeed1<=actualLT && changeSpeed2 >= actualLT)
 			{
@@ -256,7 +256,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::ADD_OVER_TIME:
+		case EmitterPosition::ADDOVERTIME:
 		{
 
 			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
@@ -273,7 +273,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::IF_TIME_SUBSTITUTE: 
+		case EmitterPosition::IFTIMESUBSTITUTE: 
 		{
 			if (changeSpeed1 <= actualLT && changeSpeed2 >= actualLT)
 			{
@@ -289,7 +289,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::SUBSTITUTE_OVER_TIME:
+		case EmitterPosition::SUBSTITUTEOVERTIME:
 		{
 			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
 			{
@@ -344,16 +344,16 @@ void EmitterPosition::OnInspector()
 	case EmitterPosition::NONE:
 		modeName = "None";
 		break;
-	case EmitterPosition::IF_TIME_ADD:
+	case EmitterPosition::IFTIMEADD:
 		modeName = "Add during time";
 		break;
-	case EmitterPosition::ADD_OVER_TIME:
+	case EmitterPosition::ADDOVERTIME:
 		modeName = "Add over time";
 		break;
-	case EmitterPosition::IF_TIME_SUBSTITUTE:
+	case EmitterPosition::IFTIMESUBSTITUTE:
 		modeName = "Change during time";
 		break;
-	case EmitterPosition::SUBSTITUTE_OVER_TIME:
+	case EmitterPosition::SUBSTITUTEOVERTIME:
 		modeName = "Change over time";
 		break;
 	case EmitterPosition::MAX:
@@ -374,16 +374,16 @@ void EmitterPosition::OnInspector()
 			case EmitterPosition::NONE:
 				modeName = "None";
 				break;
-			case EmitterPosition::IF_TIME_ADD:
+			case EmitterPosition::IFTIMEADD:
 				modeName = "Add during time";
 				break;
-			case EmitterPosition::ADD_OVER_TIME:
+			case EmitterPosition::ADDOVERTIME:
 				modeName = "Add over time";
 				break;
-			case EmitterPosition::IF_TIME_SUBSTITUTE:
+			case EmitterPosition::IFTIMESUBSTITUTE:
 				modeName = "Change during time";
 				break;
-			case EmitterPosition::SUBSTITUTE_OVER_TIME:
+			case EmitterPosition::SUBSTITUTEOVERTIME:
 				modeName = "Change over time";
 				break;
 			case EmitterPosition::MAX:
@@ -406,22 +406,22 @@ void EmitterPosition::OnInspector()
 	case EmitterPosition::NONE:
 		//Nothing
 		break;
-	case EmitterPosition::IF_TIME_ADD:
+	case EmitterPosition::IFTIMEADD:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::ADD_OVER_TIME:
+	case EmitterPosition::ADDOVERTIME:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::IF_TIME_SUBSTITUTE:
+	case EmitterPosition::IFTIMESUBSTITUTE:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::SUBSTITUTE_OVER_TIME:
+	case EmitterPosition::SUBSTITUTEOVERTIME:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
