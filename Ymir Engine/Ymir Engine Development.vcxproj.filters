@@ -1206,6 +1206,9 @@
     <ClInclude Include="Source\CNavMeshAgent.h">
       <Filter>Sources\Features\GameObjects &amp; Components</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CS_NavMesh_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
