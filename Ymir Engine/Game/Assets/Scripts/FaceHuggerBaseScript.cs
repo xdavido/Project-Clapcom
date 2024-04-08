@@ -19,7 +19,7 @@ enum EnemyState
     Dead
 }
 
-enum WanderState
+public enum WanderState
 {
     REACHED,
     GOING,
@@ -96,8 +96,9 @@ public class FaceHuggerBaseScript : YmirComponent
     private float cumTimer2;
     public float cumDuration2 = 5f;
 
-    private float attackTimer;
-    public float attackDuration = 1.5f;
+    public float attackTimer;
+    private float attackDuration = 1.5f;
+    public bool attackSensor = false;
 
     public void Start()
     {
@@ -113,6 +114,8 @@ public class FaceHuggerBaseScript : YmirComponent
         wanderRadius = 10f;
         cumDuration = 2f;
         cumDuration2 = 5f;
+
+        attackTimer = attackDuration;
 
         cumTimer = cumDuration2;
 
@@ -152,6 +155,7 @@ public class FaceHuggerBaseScript : YmirComponent
                 break;
 
                 case WanderState.GOING:
+                    attackSensor = false;
                     HandleRotation();
                     //Debug.Log("[ERROR] Current State: GOING");
                     ProcessMovement();
@@ -186,7 +190,7 @@ public class FaceHuggerBaseScript : YmirComponent
                 break;
 
                 case WanderState.ATTACK:
-                    //FUIM for now, MUST BE CHANGED
+
                     Attack();
                 break;
             }
@@ -276,6 +280,11 @@ public class FaceHuggerBaseScript : YmirComponent
             }
         }
     }
+
+    public WanderState GetState()
+    {
+        return wanderState;
+    }
     private void Attack()
     {
         if (attackTimer > 0)
@@ -287,7 +296,7 @@ public class FaceHuggerBaseScript : YmirComponent
                 ////IF HIT, Do damage
                 //healthScript.TakeDmg(3);
                 //Debug.Log("[ERROR] DID DAMAGE");
-
+                attackSensor = true;
                 attackTimer = attackDuration;
                 actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;

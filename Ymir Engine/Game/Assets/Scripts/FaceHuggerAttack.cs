@@ -8,9 +8,11 @@ using YmirEngine;
 
 public class FaceHuggerAttack : YmirComponent
 {
-    private float damageTimer, damageTime;
+    public GameObject thisReference = null;
 
-    private float timeSinceCollision;
+    public GameObject facehugger;
+
+    private float damageTimer;
 
     private float attackDamage;
 
@@ -20,10 +22,8 @@ public class FaceHuggerAttack : YmirComponent
 
     public void Start()
 	{
-        damageTimer = 30f;
-        damageTime = 0f;
+        damageTimer = 0f;
         attackDamage = 3f;
-        timeSinceCollision = 1f;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
 
@@ -31,28 +31,33 @@ public class FaceHuggerAttack : YmirComponent
 
     public void Update()
 	{
-        //So that it resets after some small amount of time out of the collision
-        if (damageTime > 0f)
+        damageTimer -= Time.deltaTime;
+
+        gameObject.SetRotation(facehugger.transform.globalRotation);
+
+        //Since there's a small bug before attacking which causes the sensor not to move, the conditional is done this way for now
+        if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer > 0.5f)
         {
-            timeSinceCollision++;
-            if (timeSinceCollision - damageTime > 10)
-            {
-                timeSinceCollision = 1f;
-                damageTime = 0f;
-            }
+            gameObject.SetPosition(facehugger.transform.globalPosition);
         }
-	}
+        else if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer < 0.5f)
+        {
+            gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
+        }
+
+    }
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Name == "Player")
+        if (other.name == "Player")
         {
-            damageTime++;
-            if (damageTime > damageTimer)
-            {
-                Debug.Log("[ERROR] HIT");
-                healthScript.TakeDmg(attackDamage);
-                damageTime = 0f;
-            }
+            Debug.Log("[ERROR] COLLISION " + damageTimer);
+        }
+
+        if (other.Name == "Player" && damageTimer <= 0)
+        {
+            Debug.Log("[ERROR] HIT");
+            damageTimer = 1.5f;
+            healthScript.TakeDmg(attackDamage);
         }
     }
 }
