@@ -59,6 +59,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		break;
 	}
 
+	SetOBBSize();
 	// Get info at start (chuekada espectacular)
 
 	if (physBody != nullptr) {
@@ -450,13 +451,7 @@ void CCollider::OnInspector()
 
 			if (ImGui::Button("Set size from OBB")) {
 
-				CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-
-				if (componentMesh != nullptr) {
-
-					if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-					else size = componentMesh->rMeshReference->obb.Size();
-				}
+				SetOBBSize();
 			}
 		}
 
@@ -722,6 +717,17 @@ void CCollider::UpdateLockRotation()
 
 	physBody->body->setAngularFactor(rot);
 
+}
+
+void CCollider::SetOBBSize()
+{
+	CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+	if (componentMesh != nullptr) {
+
+		if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
+		else size = componentMesh->rMeshReference->obb.Size();
+	}
 }
 
 void CCollider::RemovePhysbody()
