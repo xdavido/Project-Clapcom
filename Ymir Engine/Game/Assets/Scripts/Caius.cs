@@ -37,19 +37,22 @@ public class Caius : YmirComponent
 		{
 			UI.TextEdit(name_gameObject, "Lorem ipsum");
 			ui_gameObject.SetActive(true);
-			
+
+
+            //TODO: Set de dialogue_ui = false; y csPlayer.inputsList.Add(Player.INPUT.I_IDLE); cuando acabe el dialogo
+
         }
-	}
+    }
 
     public void OnCollisionStay(GameObject other)
     {
         if (other.Tag == "Player" && talked == false && Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
         {
-            //TODO: Don't let the player move
-            //csPlayer
+			//TODO: Descomentar Don't let the player move
+			//csPlayer.inputsList.Add(Player.INPUT.I_STOP);
 
-            //Show the dialogue UI
-            dialogue_ui = true;
+			//Show the dialogue UI
+			dialogue_ui = true;
 
 			//Don't let repeat the dialogue
 			talked = true;
