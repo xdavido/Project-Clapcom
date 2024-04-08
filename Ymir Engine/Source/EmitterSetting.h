@@ -9,27 +9,26 @@
 
 enum EmiterType
 {
-	BASE,
-	SPAWN,
-	POSITION,
-	ROTATION,
-	SIZE,
-	COLOR,
-	IMAGE,
+	PARTICLE_BASE,
+	PARTICLE_SPAWN,
+	PARTICLE_POSITION,
+	PARTICLE_ROTATION,
+	PARTICLE_SIZE,
+	PARTICLE_COLOR,
+	PARTICLE_IMAGE,
 	SHAPE,
-	MAX,
+	PARTICLES_MAX,
 };
 
 //Enum of the modes as positions change after spawn
 enum SpeedChangeMode
 {
-	NONE,
+	NO_SPEED_CHANGE,
 	IF_TIME_ADD, //Si en el time añadir el vector a la direccion
 	ADD_OVER_TIME, //Añadir paulatinamente el nuevo vector
 	IF_TIME_SUBSTITUTE, //Si el time cuadra position substituir velocidad
 	SUBSTITUTE_OVER_TIME, //Sobre el tiempo cambia la direccion
-
-	MAX
+	SPEED_CHANGE_MODE_END,
 };
 
 class ParticleEmitter;
@@ -161,7 +160,7 @@ enum class typeShape : int
 	AREA,
 	CONE,
 	SPHERE,
-	NONE,
+	NO_SHAPE,
 };
 
 struct EmitterShape : EmitterSetting

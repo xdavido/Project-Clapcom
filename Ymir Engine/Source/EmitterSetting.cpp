@@ -133,7 +133,7 @@ EmitterPosition::EmitterPosition()
 	particleSpeed1 = 1.0f;
 	particleSpeed2 = 0.0f;
 	newDirection = { 0,0,0 };
-	actualSpeedChange = SpeedChangeMode::NONE;
+	actualSpeedChange = SpeedChangeMode::NO_SPEED_CHANGE;
 	changeSpeed1 = 0.0f;
 	changeSpeed2 = 1.0f;
 
@@ -233,14 +233,14 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 		emitter->listParticles.at(i)->velocity.w = particleSpeed1 + ((particleSpeed2 - particleSpeed1) * (actualLT / 1.0f));
 		switch (actualSpeedChange)
 		{
-		case EmitterPosition::NONE:
+		case SpeedChangeMode::NO_SPEED_CHANGE:
 		{
 			emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
 			emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
 			emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt; 
 		}
 			break;
-		case EmitterPosition::IF_TIME_ADD:
+		case SpeedChangeMode::IF_TIME_ADD:
 		{
 			if (changeSpeed1<=actualLT && changeSpeed2 >= actualLT)
 			{
@@ -256,7 +256,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::ADD_OVER_TIME:
+		case SpeedChangeMode::ADD_OVER_TIME:
 		{
 
 			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
@@ -273,7 +273,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::IF_TIME_SUBSTITUTE: 
+		case SpeedChangeMode::IF_TIME_SUBSTITUTE:
 		{
 			if (changeSpeed1 <= actualLT && changeSpeed2 >= actualLT)
 			{
@@ -289,7 +289,7 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 			}
 		}
 			break;
-		case EmitterPosition::SUBSTITUTE_OVER_TIME:
+		case SpeedChangeMode::SUBSTITUTE_OVER_TIME:
 		{
 			if (changeSpeed1 <= actualLT && actualLT <= changeSpeed2)
 			{
@@ -304,8 +304,6 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 				emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
 			}
 		}
-			break;
-		case EmitterPosition::MAX:
 			break;
 		default:
 			break;
@@ -341,23 +339,20 @@ void EmitterPosition::OnInspector()
 
 	switch (actualSpeedChange)
 	{
-	case EmitterPosition::NONE:
+	case SpeedChangeMode::NO_SPEED_CHANGE:
 		modeName = "None";
 		break;
-	case EmitterPosition::IF_TIME_ADD:
+	case SpeedChangeMode::IF_TIME_ADD:
 		modeName = "Add during time";
 		break;
-	case EmitterPosition::ADD_OVER_TIME:
+	case SpeedChangeMode::ADD_OVER_TIME:
 		modeName = "Add over time";
 		break;
-	case EmitterPosition::IF_TIME_SUBSTITUTE:
+	case SpeedChangeMode::IF_TIME_SUBSTITUTE:
 		modeName = "Change during time";
 		break;
-	case EmitterPosition::SUBSTITUTE_OVER_TIME:
+	case SpeedChangeMode::SUBSTITUTE_OVER_TIME:
 		modeName = "Change over time";
-		break;
-	case EmitterPosition::MAX:
-		modeName = "";
 		break;
 	default:
 		break;
@@ -365,28 +360,28 @@ void EmitterPosition::OnInspector()
 
 	if (ImGui::BeginCombo("##ChangeSpeed", modeName.c_str()))
 	{
-		for (int i = 0; i < SpeedChangeMode::MAX; i++)
+		for (int i = 0; i < SpeedChangeMode::SPEED_CHANGE_MODE_END; i++)
 		{
 			/*std::string modeName;*/
 
 			switch ((SpeedChangeMode)i)
 			{
-			case EmitterPosition::NONE:
+			case SpeedChangeMode::NO_SPEED_CHANGE:
 				modeName = "None";
 				break;
-			case EmitterPosition::IF_TIME_ADD:
+			case SpeedChangeMode::IF_TIME_ADD:
 				modeName = "Add during time";
 				break;
-			case EmitterPosition::ADD_OVER_TIME:
+			case SpeedChangeMode::ADD_OVER_TIME:
 				modeName = "Add over time";
 				break;
-			case EmitterPosition::IF_TIME_SUBSTITUTE:
+			case SpeedChangeMode::IF_TIME_SUBSTITUTE:
 				modeName = "Change during time";
 				break;
-			case EmitterPosition::SUBSTITUTE_OVER_TIME:
+			case SpeedChangeMode::SUBSTITUTE_OVER_TIME:
 				modeName = "Change over time";
 				break;
-			case EmitterPosition::MAX:
+			case SpeedChangeMode::SPEED_CHANGE_MODE_END:
 				modeName = "";
 				break;
 			default:
@@ -403,30 +398,30 @@ void EmitterPosition::OnInspector()
 
 	switch (actualSpeedChange)
 	{
-	case EmitterPosition::NONE:
+	case SpeedChangeMode::NO_SPEED_CHANGE:
 		//Nothing
 		break;
-	case EmitterPosition::IF_TIME_ADD:
+	case SpeedChangeMode::IF_TIME_ADD:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::ADD_OVER_TIME:
+	case SpeedChangeMode::ADD_OVER_TIME:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::IF_TIME_SUBSTITUTE:
+	case SpeedChangeMode::IF_TIME_SUBSTITUTE:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Adding ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Adding ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::SUBSTITUTE_OVER_TIME:
+	case SpeedChangeMode::SUBSTITUTE_OVER_TIME:
 		ImGui::DragFloat3("New Direction", &(this->newDirection[0]), 0.1f);
 		ImGui::SliderFloat("Start Change ##PositionsChange", &(this->changeSpeed1), 0.0f, (this->changeSpeed2 - 0.05f));
 		ImGui::SliderFloat("Stop Change ##PositionsChange", &(this->changeSpeed2), this->changeSpeed1 + 0.05f, 1.0f);
 		break;
-	case EmitterPosition::MAX:
+	case SpeedChangeMode::SPEED_CHANGE_MODE_END:
 		break;
 	default:
 		break;

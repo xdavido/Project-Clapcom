@@ -36,58 +36,58 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 	EmitterSetting* nuevoEmitter = nullptr;
 	switch ((EmiterType)type)
 	{
-	case BASE:
+	case PARTICLE_BASE:
 	{
 		nuevoEmitter = new EmitterBase;
-		nuevoEmitter->type = EmiterType::BASE;
+		nuevoEmitter->type = EmiterType::PARTICLE_BASE;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case SPAWN:
+	case PARTICLE_SPAWN:
 	{
 		nuevoEmitter = new EmitterSpawner;
-		nuevoEmitter->type = EmiterType::SPAWN;
+		nuevoEmitter->type = EmiterType::PARTICLE_SPAWN;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case POSITION:
+	case PARTICLE_POSITION:
 	{
 		nuevoEmitter = new EmitterPosition;
-		nuevoEmitter->type = EmiterType::POSITION;
+		nuevoEmitter->type = EmiterType::PARTICLE_POSITION;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case ROTATION:
+	case PARTICLE_ROTATION:
 	{
 		nuevoEmitter = new EmitterRotation;
-		nuevoEmitter->type = EmiterType::ROTATION;
+		nuevoEmitter->type = EmiterType::PARTICLE_ROTATION;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case SIZEPARTICLE:
+	case PARTICLE_SIZE:
 	{
 		nuevoEmitter = new EmitterSize;
-		nuevoEmitter->type = EmiterType::SIZEPARTICLE;
+		nuevoEmitter->type = EmiterType::PARTICLE_SIZE;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case COLOR:
+	case PARTICLE_COLOR:
 	{
 		nuevoEmitter = new EmitterColor;
-		nuevoEmitter->type = EmiterType::COLOR;
+		nuevoEmitter->type = EmiterType::PARTICLE_COLOR;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case IMAGE:
+	case PARTICLE_IMAGE:
 	{
 		nuevoEmitter = new EmitterImage(this);
-		nuevoEmitter->type = EmiterType::IMAGE;
+		nuevoEmitter->type = EmiterType::PARTICLE_IMAGE;
 		nuevoEmitter->unique = true;
 
 		break;
@@ -99,7 +99,7 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 		nuevoEmitter->unique = true;
 		break;
 	}
-	case MAX:
+	case PARTICLES_MAX:
 		break;
 	default:
 		break;
@@ -163,8 +163,8 @@ void ParticleEmitter::Init(CParticleSystem* component)
 	//particleIndices = new unsigned int[MAXPARTICLES]
 	// 
 	//Todo particle system necesita estos elementos de antes y no tenerlos puede tener problems asi que se les crea uno de base
-	CreateEmitterSettingByType(EmiterType::BASE);
-	CreateEmitterSettingByType(EmiterType::SPAWN);
+	CreateEmitterSettingByType(EmiterType::PARTICLE_BASE);
+	CreateEmitterSettingByType(EmiterType::PARTICLE_SPAWN);
 }
 
 void ParticleEmitter::Update(float dt)
