@@ -59,7 +59,6 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		break;
 	}
 
-	SetOBBSize();
 	// Get info at start (chuekada espectacular)
 
 	if (physBody != nullptr) {
@@ -67,8 +66,6 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		External->physics->RecalculateInertia(physBody, mass, useGravity);
 
 		CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-
-		btSize = float3_to_btVector3(size);
 
 		CTransform* componentTransform = (CTransform*)mOwner->GetComponent(ComponentType::TRANSFORM);
 
@@ -101,6 +98,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 		if (size.z == 0) size.z = 0.1;
 
 		btSize = float3_to_btVector3(size);
+		//btSize.dot(btVector3(mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z));
 		shape->setLocalScaling(btSize);
 	}
 	
@@ -267,8 +265,7 @@ void CCollider::Update()
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
 		//mOwner->mTransform->SetOrientation(btQuat);
 
-		shape->setLocalScaling(btVector3(size.x, size.y, size.z));
-
+		shape->setLocalScaling(btVector3(trans.GetScale().x * size.x, trans.GetScale().y * size.y, trans.GetScale().z * size.z));
 		//mOwner->mTransform->UpdateTransformsChilds();
 
 		if (lockX) {
