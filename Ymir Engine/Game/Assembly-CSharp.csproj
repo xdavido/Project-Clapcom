@@ -74,6 +74,7 @@
 		<Compile Include="Assets\Scripts\Electric_trap.cs" />
 		<Compile Include="Assets\Scripts\Caius.cs" />
 		<Compile Include="Assets\Scripts\Key.cs" />
+		<Compile Include="Assets\Scripts\Loot_Chest.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
