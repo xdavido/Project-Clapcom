@@ -299,6 +299,44 @@ void EmitterPosition::OnInspector()
 	{
 		ImGui::DragFloat("Speed ##POSITION", &(this->particleSpeed1), 0.2F);
 	}
+
+	if (ImGui::BeginCombo("##ChangeSpeed", "tEST"))
+	{
+		for (int i = 0; i < SpeedChangeMode::MAX; i++)
+		{
+			std::string modeName;
+
+			switch ((SpeedChangeMode)i)
+			{
+			case EmitterPosition::NONE:
+				modeName = "None";
+				break;
+			case EmitterPosition::IFTIMEADD:
+				modeName = "Add during time";
+				break;
+			case EmitterPosition::ADDOVERTIME:
+				modeName = "Add over time";
+				break;
+			case EmitterPosition::IFTIMESUBSTITUTE:
+				modeName = "Change during time";
+				break;
+			case EmitterPosition::SUBSTITUTEOVERTIME:
+				modeName = "Change over time";
+				break;
+			case EmitterPosition::MAX:
+				modeName = "";
+				break;
+			default:
+				break;
+			}
+			if (ImGui::Selectable(modeName.c_str()))
+			{
+				actualSpeedChange = (SpeedChangeMode)i;
+			}
+		}
+
+		ImGui::EndCombo();
+	}
 }
 
 float EmitterPosition::GetModuleVec(float3 vec)
@@ -326,6 +364,7 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterRotation::OnInspector()
 {
+	ImGui::Separator();
 }
 
 EmitterSize::EmitterSize()
