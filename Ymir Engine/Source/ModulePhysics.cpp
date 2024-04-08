@@ -77,7 +77,7 @@ update_status ModulePhysics::PreUpdate(float dt)
 
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
 	{
-		world->stepSimulation(dt, 10, fixedTimeStep);
+		world->stepSimulation(dt, 1, fixedTimeStep);
 	}
 	else
 	{
@@ -92,8 +92,6 @@ update_status ModulePhysics::Update(float dt)
 {
 	//LOG("Bodies in list: %d", bodiesList.size());
 	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
-
-
 
 	return UPDATE_CONTINUE;
 }
