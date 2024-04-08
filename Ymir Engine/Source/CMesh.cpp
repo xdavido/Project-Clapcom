@@ -50,6 +50,12 @@ void CMesh::OnInspector()
 
 		ImGui::Spacing();
 
+		ImGui::Text("UID: %d", rMeshReference->GetUID());
+
+		ImGui::Spacing();
+
+		ImGui::Spacing();
+
 		ImGui::Text("Vertices: %d", nVertices);
 
 		ImGui::Spacing();

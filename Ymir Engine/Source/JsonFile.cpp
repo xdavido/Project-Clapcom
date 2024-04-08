@@ -879,7 +879,7 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 	// Set Type 
 	json_object_set_string(gameObjectObject, "Element_Type", gameObject.type.c_str());
 
-	if (gameObject.type == "Model") {
+	if (gameObject.type == "Mesh") {
 
 		// Set Origin Path
 		json_object_set_string(gameObjectObject, "Origin_Path", gameObject.originPath.c_str());
@@ -1010,7 +1010,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_number(componentObject, "Active", cmesh->active);
 
-		//json_object_set_string(componentObject, "Model Path", cmesh->originModelPath.c_str());
+		json_object_set_number(componentObject, "UID", cmesh->rMeshReference->GetUID());
 
 		json_object_set_number(componentObject, "Vertex Count", cmesh->nVertices);
 		json_object_set_number(componentObject, "Index Count", cmesh->nIndices);
@@ -1693,12 +1693,20 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 {
 	// Get Name
 
-	const char* name = json_object_get_string(gameObjectObject, "Name");
-	gameObject.name = (name != nullptr) ? name : "";
+	gameObject.name = json_object_get_string(gameObjectObject, "Name");
 
 	// Get Position, Rotation, Scale
 	// Get Name
-	
+
+	gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
+
+	if (gameObject.type == "Mesh") {
+
+		// Get Origin Path
+		gameObject.originPath = json_object_get_string(gameObjectObject, "Origin_Path");
+
+	}
+
 	// Get Tag
 
 	if (json_object_has_value_of_type(gameObjectObject, "Tag", JSONString)) {
@@ -1720,21 +1728,6 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	// Get Type
 
 	gameObject.type = json_object_get_string(gameObjectObject, "Element_Type");
-
-	// Re import if necessary (needs an improvement in the future)
-
-	if (gameObject.type == "Model") {
-
-		// Get Origin Path
-		gameObject.originPath = json_object_get_string(gameObjectObject, "Origin_Path");
-
-		if (!PhysfsEncapsule::FileExists(External->fileSystem->libraryModelsPath + std::to_string(gameObject.UID) + ".ymodel")) {
-
-			External->resourceManager->ImportFile(gameObject.originPath, true);
-
-		}
-
-	}
 
 	// Get Components Info
 
@@ -1863,8 +1856,32 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 	}
 	else if (type == "Mesh") {
 
-		std::string libraryPath = "Library/Meshes/" + std::to_string(gameObject->UID) + ".ymesh";
-		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, gameObject->UID);
+		uint UID = json_object_get_number(componentObject, "UID");
+
+		std::string libraryPath = "Library/Meshes/" + std::to_string(UID) + ".ymesh";
+
+		if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+			External->resourceManager->ImportFile(gameObject->originPath, true);
+
+		}
+
+		auto itr = External->resourceManager->resources.find(UID);
+
+		ResourceMesh* rMesh = nullptr;
+
+		if (itr == External->resourceManager->resources.end()) {
+
+			rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID);
+
+		}
+		else {
+
+			rMesh = static_cast<ResourceMesh*>(itr->second);
+
+			itr->second->IncreaseReferenceCount();
+
+		}
 
 		CMesh* cmesh = new CMesh(gameObject);
 

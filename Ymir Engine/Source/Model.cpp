@@ -109,7 +109,11 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
 
-		GenerateModelMetaFile();
+		if (!PhysfsEncapsule::FileExists(path + ".meta")) {
+
+			GenerateModelMetaFile();
+
+		}
 
 		LOG("Model created: %s", name.c_str());
 
@@ -133,6 +137,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 	// Link Assimp to GameObjects Hierarchy
 	GameObject* currentNodeGO = nullptr;
+	int currentResourceUID = 0;
 
 	// If the current node is not to be skipped, proceed with processing it.
 	if (!shouldSkip) {
@@ -180,6 +185,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			// Create the game object since the substring "$AssimpFbx$" doesn't exist in mName
 			currentNodeGO = External->scene->CreateGameObject(mNameStr, parentGO);
+			currentNodeGO->type = "Mesh";
+			currentNodeGO->originPath = path;
 
 			// Model Meta File and Library File Creation
 			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
@@ -188,6 +195,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 				// The meta file exists; it's not the first time we load the model.
 				currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+				currentResourceUID = tmpMetaFile->GetIntArray("Resources Embedded UID")[iteration];
+
 				iteration++;
 
 			}
@@ -195,10 +204,12 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 				// The meta file doesn't exists; first time loading the model.
 				currentNodeGO->UID = Random::Generate();
+				currentResourceUID = Random::Generate();
 
 			}
-
+			
 			embeddedMeshesUID.push_back(currentNodeGO->UID);
+			resourcesUID.push_back(currentResourceUID);
 
 			delete tmpMetaFile;
 
@@ -209,7 +220,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
+			ProcessMesh(mesh, scene, currentNodeGO, currentResourceUID, &tmpNodeTransform, shaderPath);
 			processedMeshes++;
 		}
 
@@ -283,7 +294,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 }
 
-void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, int rMeshUID, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -356,6 +367,43 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			}
 
 		}
+
+	}
+
+	// Process Bones
+
+	if (mesh->HasBones())
+	{
+		ExtractBoneWeightForVertices(vertices, mesh, scene);
+		LOG("Mesh with %i bones", mesh->mNumBones);
+	}
+	else {
+		LOG("Mesh with no bones");
+	}
+
+	// Create the mesh
+
+	std::string filename = std::to_string(rMeshUID) + ".ymesh";
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
+
+	if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+		External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
+
+	}
+
+	if (!onlyReimport) {
+
+		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, rMeshUID);
+
+		CMesh* cmesh = new CMesh(linkGO);
+
+		cmesh->rMeshReference = rMesh;
+
+		cmesh->nVertices = vertices.size();
+		cmesh->nIndices = indices.size();
+
+		linkGO->AddComponent(cmesh);
 
 	}
 
@@ -523,43 +571,6 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	}
 
-	// Process Bones
-
-	if (mesh->HasBones())
-	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene);
-		LOG("Mesh with %i bones", mesh->mNumBones);
-	}
-	else {
-		LOG("Mesh with no bones");
-	}
-
-	// Create the mesh
-
-	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
-	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
-
-	if (!PhysfsEncapsule::FileExists(libraryPath)) {
-
-		External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
-
-	}
-
-	if (!onlyReimport) {
-
-		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
-
-		CMesh* cmesh = new CMesh(linkGO);
-
-		cmesh->rMeshReference = rMesh;
-
-		cmesh->nVertices = vertices.size();
-		cmesh->nIndices = indices.size();
-
-		linkGO->AddComponent(cmesh);
-
-	}
-
 }
 
 void Model::GenerateModelMetaFile()
@@ -573,6 +584,7 @@ void Model::GenerateModelMetaFile()
 	modelMetaFile.SetString("Type", "Model");
 	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
 	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
+	modelMetaFile.SetIntArray("Resources Embedded UID", resourcesUID.data(), resourcesUID.size());
 
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);
 }

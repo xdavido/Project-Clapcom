@@ -246,7 +246,7 @@ bool ModuleRenderer3D::Init()
 
 	if (!PhysfsEncapsule::FileExists(libraryPath)) {
 
-		External->resourceManager->ImportFile("Assets/Primitives/Cube.fbx", true);
+		//External->resourceManager->ImportFile("Assets/Primitives/Cube.fbx", true);
 
 	}
 

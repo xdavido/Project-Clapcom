@@ -62,9 +62,11 @@ public:
 
 	void ReImportModel(const std::string& modelPath, bool onlyReimport);
 
-private:
+public:
 
 	std::map<uint, Resource*> resources;
+
+private:
 
 	// Utility maps
 

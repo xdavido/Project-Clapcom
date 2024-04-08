@@ -339,6 +339,8 @@ void ModuleScene::ClearScene()
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
 	//RELEASE(mRootNode);
 
+	External->resourceManager->resources.clear();
+
 	External->lightManager->lights.clear();
 
 	External->physics->DeleteWorld(); // It was this or nothing :(
