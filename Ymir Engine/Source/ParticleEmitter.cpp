@@ -1,6 +1,6 @@
 #include "ParticleEmitter.h"
 #include "EmitterSetting.h"
-#include "EmitterShape.h"
+//#include "EmitterShape.h"
 
 
 #include "Application.h"

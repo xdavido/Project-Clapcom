@@ -6,7 +6,7 @@
 #include "ImporterTexture.h"
 
 //SHAPES
-#include "EmitterShapeArea.h"
+//#include "EmitterShapeArea.h"
 
 EmitterSetting::EmitterSetting()
 {
@@ -231,7 +231,45 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 		//Acceleration
 		float actualLT = emitter->listParticles.at(i)->lifetime;
 		emitter->listParticles.at(i)->velocity.w = particleSpeed1 + ((particleSpeed2 - particleSpeed1) * (actualLT / 1.0f));
+		switch (actualSpeedChange)
+		{
+		case EmitterPosition::NONE:
+		{
+			emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
+			emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
+			emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt; 
+		}
+			break;
+		case EmitterPosition::IFTIMEADD:
+		{
+			if (changeSpeed1<=actualLT && changeSpeed2 >= actualLT)
+			{
+				emitter->listParticles.at(i)->position.x += (emitter->listParticles.at(i)->velocity.x + newDirection.x) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y + newDirection.y) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z + newDirection.z) * emitter->listParticles.at(i)->velocity.w * dt;
+			}
+		}
+			break;
+		case EmitterPosition::ADDOVERTIME:
+		{
 
+		}
+			break;
+		case EmitterPosition::IFTIMESUBSTITUTE: 
+		{
+		
+		}
+			break;
+		case EmitterPosition::SUBSTITUTEOVERTIME:
+		{
+
+		}
+			break;
+		case EmitterPosition::MAX:
+			break;
+		default:
+			break;
+		}
 		emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
 		emitter->listParticles.at(i)->position.y += emitter->listParticles.at(i)->velocity.y * emitter->listParticles.at(i)->velocity.w * dt;
 		emitter->listParticles.at(i)->position.z += emitter->listParticles.at(i)->velocity.z * emitter->listParticles.at(i)->velocity.w * dt;
