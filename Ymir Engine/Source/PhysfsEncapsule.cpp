@@ -497,6 +497,7 @@ std::string PhysfsEncapsule::ExtractStringFromSVG(const std::string& filename, c
 
 	if (!file.is_open()) {
 		std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
+		LOG("[ERROR] No se pudo abrir el archivo %s", filename);
 		return "";
 	}
 
