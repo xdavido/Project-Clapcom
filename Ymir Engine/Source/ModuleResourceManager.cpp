@@ -107,6 +107,16 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 						ImporterTexture::Import(assetsFilePath, rTexTemp);
 
+						// Get meta
+
+						JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
+
+						std::string libraryPath = metaFile->GetString("Library Path");
+						uint UID = metaFile->GetInt("UID");
+						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+						rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
+
 					}
 					else {
 
@@ -118,8 +128,12 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 						if (itr == resources.end())
 						{
+							// We are maintaining to Assets for now
+							// 
+							//rTexTemp = static_cast<ResourceTexture*>
+								//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
 							rTexTemp = static_cast<ResourceTexture*>
-								(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+								(CreateResourceFromLibrary(assetsFilePath.c_str(), ResourceType::TEXTURE, UID, type));
 						}
 						else
 						{
