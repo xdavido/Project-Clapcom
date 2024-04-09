@@ -567,6 +567,8 @@ void CCollider::SetBoxCollider()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::SetSphereCollider()
@@ -583,6 +585,8 @@ void CCollider::SetSphereCollider()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::SetCapsuleCollider()
@@ -599,6 +603,8 @@ void CCollider::SetCapsuleCollider()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::SetConeCollider()
@@ -615,6 +621,8 @@ void CCollider::SetConeCollider()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::SetCylinderCollider()
@@ -631,6 +639,8 @@ void CCollider::SetCylinderCollider()
 
 	btSize = float3_to_btVector3(size);
 	shape->setLocalScaling(btSize);
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::SetMeshCollider()
@@ -650,6 +660,8 @@ void CCollider::SetMeshCollider()
 	//float3 size = auxMesh->rMeshReference->globalAABB.CenterPoint();
 	////convexShape->setLocalScaling(btVector3(size.x, size.y, size.z));
 	//convexShape->setImplicitShapeDimensions(btVector3(size.x, size.y, size.z));
+
+	shape->setMargin(0.0f);
 }
 
 void CCollider::AdaptSizeToShape(ColliderType prevType)
