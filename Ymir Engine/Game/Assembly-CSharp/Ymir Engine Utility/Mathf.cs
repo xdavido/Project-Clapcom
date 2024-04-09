@@ -91,5 +91,11 @@ namespace YmirEngine
             return 0.000001f; // A very small float value
         }
 
+        public static float Round(float value)
+        {
+            int intValue = (int)((value*100)/100.00000f); // Sumamos 0.5 para asegurar el redondeo adecuado
+            return intValue;
+        }
+
     }
 }

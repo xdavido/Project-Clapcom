@@ -21,7 +21,8 @@ namespace YmirEngine
         ANIMATION,
         UI_TRAMSFORM,
         UI,
-        LIGHT
+        LIGHT,
+        NAVMESHAGENT
     }
     public class YmirComponent
     {       
@@ -30,6 +31,7 @@ namespace YmirEngine
         public ComponentType type;
         public static Dictionary<System.Type, ComponentType> componentTable = new Dictionary<Type, ComponentType> {
             { typeof(Transform), ComponentType.TRANSFORM},
+            { typeof(PathFinding), ComponentType.NAVMESHAGENT  },
         };
 
 

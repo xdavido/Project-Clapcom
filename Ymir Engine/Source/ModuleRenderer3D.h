@@ -82,6 +82,7 @@ public:
 	void SetGameCamera(CCamera* cam = nullptr);
 
 	void DrawGameObjects();
+	bool IsWalkable(float3 pointToCheck);
 	void ClearModels();
 
 	void EnableAssimpDebugger();

@@ -18,6 +18,7 @@
 #include "CS_Input_Bindings.h"
 #include "CS_Audio_Bindings.h"
 #include "CS_Animation_Bindings.h"
+#include "CS_NavMesh_Bindings.h"
 
 #include "PhysfsEncapsule.h"
 #include "ModuleEditor.h"
@@ -172,6 +173,27 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Animation::SetPingPong", SetPingPong);
 	mono_add_internal_call("YmirEngine.Animation::AddBlendOption", AddBlendOption);
 #pragma endregion
+
+
+#pragma region Pathfinder
+	mono_add_internal_call("YmirEngine.PathFinding::CalculateRandomPath", CS_CalculateRandomPath);
+	mono_add_internal_call("YmirEngine.PathFinding::CalculatePath", CS_CalculatePath);
+	mono_add_internal_call("YmirEngine.PathFinding::GetDestination", CS_GetDestination);
+	mono_add_internal_call("YmirEngine.PathFinding::GetPointAt", CS_GetPointAt);
+	mono_add_internal_call("YmirEngine.PathFinding::GetPathSize", CS_GetPathSize);
+	mono_add_internal_call("YmirEngine.PathFinding::ClearPath", CS_ClearPath);
+	mono_add_internal_call("YmirEngine.PathFinding::GetLastVector", CS_GetLastVector);
+	mono_add_internal_call("YmirEngine.PathFinding::get_speed", CS_GetSpeed);
+	mono_add_internal_call("YmirEngine.PathFinding::set_speed", CS_SetSpeed);
+	mono_add_internal_call("YmirEngine.PathFinding::get_angularSpeed", CS_GetAngularSpeed);
+	mono_add_internal_call("YmirEngine.PathFinding::set_angularSpeed", CS_SetAngularSpeed);
+	mono_add_internal_call("YmirEngine.PathFinding::get_stoppingDistance", CS_GetStoppingDistance);
+	mono_add_internal_call("YmirEngine.PathFinding::set_stoppingDistance", CS_SetStoppingDistance);
+	mono_add_internal_call("YmirEngine.PathFinding::IsPathPossible", CS_PathIsPossible);
+
+	mono_add_internal_call("YmirEngine.InternalCalls::GetWalkablePointAround", GetWalkablePointAround);
+#pragma endregion
+
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
 
