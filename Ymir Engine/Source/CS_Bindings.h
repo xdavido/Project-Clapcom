@@ -839,90 +839,103 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 	// Get UI elements to navigate
 	std::vector<C_UI*> listUI;
 	GameObject* gameObject = External->moduleMono->GameObject_From_CSGO(go);
-	External->scene->GetUINaviagte(gameObject, listUI);
+	External->scene->GetUINaviagte(gameObject, listUI); bool isInGO = false;
 
-	if (isRight)
+	for (auto i = 0; i < listUI.size(); i++)
 	{
-		if (External->scene->onHoverUI + rows >= listUI.size())
+		if (listUI[i]->mOwner->UID == External->scene->focusedUIGO->UID)
 		{
-			External->scene->SetSelected(listUI[External->scene->onHoverUI - (rows * (columns - 1))]->mOwner);
+			isInGO = true;
+			break;
+		}
+	}
 
-			External->scene->focusedUIGO = listUI[External->scene->onHoverUI - (rows * (columns - 1))]->mOwner;
-
-			if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+	if (isInGO)
+	{
+		if (isRight)
+		{
+			if (External->scene->onHoverUI + rows >= listUI.size())
 			{
-				listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				External->scene->SetSelected(listUI[External->scene->onHoverUI - (rows * (columns - 1))]->mOwner);
+
+				External->scene->focusedUIGO = listUI[External->scene->onHoverUI - (rows * (columns - 1))]->mOwner;
+
+				if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[External->scene->onHoverUI - (rows * (columns - 1))]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI - (rows * (columns - 1))]->SetState(UI_STATE::FOCUSED);
+				}
+
+				External->scene->onHoverUI -= (rows * (columns - 1));
 			}
 
-			if (listUI[External->scene->onHoverUI - (rows * (columns - 1))]->state != UI_STATE::SELECTED)
+			else
 			{
-				listUI[External->scene->onHoverUI - (rows * (columns - 1))]->SetState(UI_STATE::FOCUSED);
-			}
+				External->scene->SetSelected(listUI[External->scene->onHoverUI + rows]->mOwner);
 
-			External->scene->onHoverUI -= (rows * (columns - 1));
+				External->scene->focusedUIGO = listUI[External->scene->onHoverUI + rows]->mOwner;
+
+				if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[External->scene->onHoverUI + rows]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI + rows]->SetState(UI_STATE::FOCUSED);
+				}
+
+				External->scene->onHoverUI += rows;
+			}
 		}
 
 		else
 		{
-			External->scene->SetSelected(listUI[External->scene->onHoverUI + rows]->mOwner);
 
-			External->scene->focusedUIGO = listUI[External->scene->onHoverUI + rows]->mOwner;
-
-			if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+			if (External->scene->onHoverUI - rows < 0)
 			{
-				listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				External->scene->SetSelected(listUI[External->scene->onHoverUI + (rows * (columns - 1))]->mOwner);
+				External->scene->focusedUIGO = listUI[External->scene->onHoverUI + (rows * (columns - 1))]->mOwner;
+
+				if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[External->scene->onHoverUI + (rows * (columns - 1))]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI + (rows * (columns - 1))]->SetState(UI_STATE::FOCUSED);
+				}
+
+				External->scene->onHoverUI += (rows * (columns - 1));
 			}
 
-			if (listUI[External->scene->onHoverUI + rows]->state != UI_STATE::SELECTED)
+			else
 			{
-				listUI[External->scene->onHoverUI + rows]->SetState(UI_STATE::FOCUSED);
+				External->scene->SetSelected(listUI[External->scene->onHoverUI - rows]->mOwner);
+				External->scene->focusedUIGO = listUI[External->scene->onHoverUI - rows]->mOwner;
+
+				if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
+				}
+
+				if (listUI[External->scene->onHoverUI - rows]->state != UI_STATE::SELECTED)
+				{
+					listUI[External->scene->onHoverUI - rows]->SetState(UI_STATE::FOCUSED);
+				}
+
+				External->scene->onHoverUI -= rows;
 			}
 
-			External->scene->onHoverUI += rows;
 		}
+		return true;
 	}
-
-	else
-	{
-
-		if (External->scene->onHoverUI - rows < 0)
-		{
-			External->scene->SetSelected(listUI[External->scene->onHoverUI + (rows * (columns - 1))]->mOwner);
-			External->scene->focusedUIGO = listUI[External->scene->onHoverUI + (rows * (columns - 1))]->mOwner;
-
-			if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
-			{
-				listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
-			}
-
-			if (listUI[External->scene->onHoverUI + (rows * (columns - 1))]->state != UI_STATE::SELECTED)
-			{
-				listUI[External->scene->onHoverUI + (rows * (columns - 1))]->SetState(UI_STATE::FOCUSED);
-			}
-
-			External->scene->onHoverUI += (rows * (columns - 1));
-		}
-
-		else
-		{
-			External->scene->SetSelected(listUI[External->scene->onHoverUI - rows]->mOwner);
-			External->scene->focusedUIGO = listUI[External->scene->onHoverUI - rows]->mOwner;
-
-			if (listUI[External->scene->onHoverUI]->state != UI_STATE::SELECTED)
-			{
-				listUI[External->scene->onHoverUI]->SetState(UI_STATE::NORMAL);
-			}
-
-			if (listUI[External->scene->onHoverUI - rows]->state != UI_STATE::SELECTED)
-			{
-				listUI[External->scene->onHoverUI - rows]->SetState(UI_STATE::FOCUSED);
-			}
-
-			External->scene->onHoverUI -= rows;
-		}
-
-	}
-	return true;
+	return false;
 }
 
 #pragma endregion
