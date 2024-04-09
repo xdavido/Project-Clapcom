@@ -497,7 +497,7 @@ std::string PhysfsEncapsule::ExtractStringFromCSV(const std::string& filename, c
 
 	// Verificar si se pudo abrir el archivo
 	if (!file.is_open()) {
-		std::cerr << "No se pudo abrir el archivo: " << filename << std::endl;
+		std::cerr << "Unable to open the CSV file: " << filename << std::endl;
 		LOG("[ERROR] Unable to open CSV file");
 		return "";
 	}
@@ -534,7 +534,7 @@ std::string PhysfsEncapsule::ExtractStringFromCSV(const std::string& filename, c
 					// Obtener el siguiente token como el valor asociado
 					auto nextTokenPos = std::find(tokens.begin(), tokens.end(), token) + 1;
 					if (nextTokenPos != tokens.end()) {
-						result << cleanedToken << "," << *nextTokenPos << ";";
+						result << *nextTokenPos << ";";
 					}
 				}
 			}
