@@ -1,8 +1,8 @@
 {
     "Editor Camera Position": [
-        -36.104957580566406,
-        48.139942169189453,
-        100.29154968261719
+        -35.796260833740234,
+        47.728347778320312,
+        99.434051513671875
     ],
     "Editor Camera Right (X)": [
         0.94088733196258545,
@@ -22,6 +22,7 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
@@ -54,6 +55,7 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 598771385,
             "Active": true,
             "Element_Type": "None",
@@ -119,6 +121,7 @@
         },
         {
             "Name": "Canvas",
+            "Tag": "Untagged",
             "UID": 1904908806,
             "Active": true,
             "Element_Type": "None",
@@ -149,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 966,
-                    "Height": 891,
+                    "Width": 1200,
+                    "Height": 619,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -163,6 +166,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Inventory.cs",
+                    "Active": 1,
                     "UID": 0
                 }
             ],
@@ -173,6 +177,7 @@
         },
         {
             "Name": "Character",
+            "Tag": "Untagged",
             "UID": 1421884452,
             "Active": true,
             "Element_Type": "None",
@@ -209,6 +214,7 @@
         },
         {
             "Name": "Armor",
+            "Tag": "Untagged",
             "UID": 294962486,
             "Active": true,
             "Element_Type": "None",
@@ -288,7 +294,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -319,6 +325,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -331,7 +338,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (1)",
+            "Tag": "Untagged",
             "UID": 146834625,
             "Active": false,
             "Element_Type": "None",
@@ -396,6 +404,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1001448237,
             "Active": false,
             "Element_Type": "None",
@@ -456,6 +465,7 @@
         },
         {
             "Name": "Chip1",
+            "Tag": "Untagged",
             "UID": 1671257493,
             "Active": true,
             "Element_Type": "None",
@@ -535,7 +545,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -566,6 +576,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -578,7 +589,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (2)",
+            "Tag": "Untagged",
             "UID": 667252368,
             "Active": false,
             "Element_Type": "None",
@@ -643,6 +655,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 428551072,
             "Active": false,
             "Element_Type": "None",
@@ -703,6 +716,7 @@
         },
         {
             "Name": "Chip2",
+            "Tag": "Untagged",
             "UID": 541837697,
             "Active": true,
             "Element_Type": "None",
@@ -782,7 +796,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -813,6 +827,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -825,7 +840,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (3)",
+            "Tag": "Untagged",
             "UID": 1538892489,
             "Active": false,
             "Element_Type": "None",
@@ -890,6 +906,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 352767713,
             "Active": false,
             "Element_Type": "None",
@@ -950,6 +967,7 @@
         },
         {
             "Name": "Consumable1",
+            "Tag": "Untagged",
             "UID": 1708915839,
             "Active": true,
             "Element_Type": "None",
@@ -1029,7 +1047,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -1060,6 +1078,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -1072,7 +1091,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (4)",
+            "Tag": "Untagged",
             "UID": 558349741,
             "Active": false,
             "Element_Type": "None",
@@ -1137,6 +1157,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 2044207875,
             "Active": false,
             "Element_Type": "None",
@@ -1197,6 +1218,7 @@
         },
         {
             "Name": "Consumable2",
+            "Tag": "Untagged",
             "UID": 2060313977,
             "Active": true,
             "Element_Type": "None",
@@ -1276,7 +1298,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -1307,6 +1329,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -1319,7 +1342,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (5)",
+            "Tag": "Untagged",
             "UID": 1076932744,
             "Active": false,
             "Element_Type": "None",
@@ -1384,6 +1408,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 368922602,
             "Active": false,
             "Element_Type": "None",
@@ -1444,6 +1469,7 @@
         },
         {
             "Name": "Save Item",
+            "Tag": "Untagged",
             "UID": 1799950518,
             "Active": true,
             "Element_Type": "None",
@@ -1523,7 +1549,7 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -1554,6 +1580,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -1566,7 +1593,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (6)",
+            "Tag": "Untagged",
             "UID": 865153585,
             "Active": false,
             "Element_Type": "None",
@@ -1631,6 +1659,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1617470444,
             "Active": false,
             "Element_Type": "None",
@@ -1691,6 +1720,7 @@
         },
         {
             "Name": "Inventory",
+            "Tag": "Untagged",
             "UID": 730604888,
             "Active": true,
             "Element_Type": "None",
@@ -1718,6 +1748,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
                     "UID": 0,
                     "rows": 5,
                     "cols": 3
@@ -1743,6 +1774,7 @@
         },
         {
             "Name": "Item Armor",
+            "Tag": "Untagged",
             "UID": 1649563615,
             "Active": true,
             "Element_Type": "None",
@@ -1783,7 +1815,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Baker_house.png",
+                    "Path": "Assets\/juan.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -1819,10 +1851,10 @@
                     "Is interactable": true,
                     "Text": 1131207758,
                     "Image": 1649563615,
-                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Normal": "Assets\/juan.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -1853,6 +1885,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -1865,7 +1898,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (7)",
+            "Tag": "Untagged",
             "UID": 555681420,
             "Active": false,
             "Element_Type": "None",
@@ -1930,6 +1964,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1131207758,
             "Active": false,
             "Element_Type": "None",
@@ -1989,7 +2024,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (1)",
+            "Tag": "Untagged",
             "UID": 859937820,
             "Active": true,
             "Element_Type": "None",
@@ -2030,7 +2066,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -2069,9 +2105,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -2100,6 +2136,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -2112,7 +2149,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (8)",
+            "Tag": "Untagged",
             "UID": 569092409,
             "Active": false,
             "Element_Type": "None",
@@ -2177,6 +2215,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 218868507,
             "Active": false,
             "Element_Type": "None",
@@ -2236,7 +2275,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (2)",
+            "Tag": "Untagged",
             "UID": 1263838880,
             "Active": true,
             "Element_Type": "None",
@@ -2277,7 +2317,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -2316,9 +2356,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -2347,6 +2387,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -2359,7 +2400,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (9)",
+            "Tag": "Untagged",
             "UID": 1526782472,
             "Active": false,
             "Element_Type": "None",
@@ -2424,6 +2466,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1717747725,
             "Active": false,
             "Element_Type": "None",
@@ -2483,7 +2526,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (3)",
+            "Tag": "Untagged",
             "UID": 1294683051,
             "Active": true,
             "Element_Type": "None",
@@ -2524,7 +2568,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -2563,9 +2607,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -2594,6 +2638,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -2606,7 +2651,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (10)",
+            "Tag": "Untagged",
             "UID": 273253275,
             "Active": false,
             "Element_Type": "None",
@@ -2671,6 +2717,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1439520452,
             "Active": false,
             "Element_Type": "None",
@@ -2730,7 +2777,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (4)",
+            "Tag": "Untagged",
             "UID": 914218921,
             "Active": true,
             "Element_Type": "None",
@@ -2771,7 +2819,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -2810,9 +2858,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -2841,6 +2889,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -2853,7 +2902,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (11)",
+            "Tag": "Untagged",
             "UID": 1766720529,
             "Active": false,
             "Element_Type": "None",
@@ -2918,6 +2968,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1297611138,
             "Active": false,
             "Element_Type": "None",
@@ -2978,6 +3029,7 @@
         },
         {
             "Name": "Item Chip1",
+            "Tag": "Untagged",
             "UID": 1995946548,
             "Active": true,
             "Element_Type": "None",
@@ -3018,7 +3070,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Baker_house.png",
+                    "Path": "Assets\/juan.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -3054,10 +3106,10 @@
                     "Is interactable": true,
                     "Text": 843042817,
                     "Image": 1995946548,
-                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Normal": "Assets\/juan.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -3088,6 +3140,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -3100,7 +3153,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (12)",
+            "Tag": "Untagged",
             "UID": 1512174703,
             "Active": false,
             "Element_Type": "None",
@@ -3165,6 +3219,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 843042817,
             "Active": false,
             "Element_Type": "None",
@@ -3224,7 +3279,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (5)",
+            "Tag": "Untagged",
             "UID": 631059356,
             "Active": true,
             "Element_Type": "None",
@@ -3265,7 +3321,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -3304,9 +3360,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -3335,6 +3391,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -3347,7 +3404,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (13)",
+            "Tag": "Untagged",
             "UID": 1592071308,
             "Active": false,
             "Element_Type": "None",
@@ -3412,6 +3470,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1101949662,
             "Active": false,
             "Element_Type": "None",
@@ -3471,7 +3530,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (6)",
+            "Tag": "Untagged",
             "UID": 381666577,
             "Active": true,
             "Element_Type": "None",
@@ -3512,7 +3572,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -3551,9 +3611,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -3582,6 +3642,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -3594,7 +3655,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (14)",
+            "Tag": "Untagged",
             "UID": 1166172480,
             "Active": false,
             "Element_Type": "None",
@@ -3659,6 +3721,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 644224063,
             "Active": false,
             "Element_Type": "None",
@@ -3718,7 +3781,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (7)",
+            "Tag": "Untagged",
             "UID": 981694012,
             "Active": true,
             "Element_Type": "None",
@@ -3759,7 +3823,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -3798,9 +3862,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -3829,6 +3893,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -3841,7 +3906,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (15)",
+            "Tag": "Untagged",
             "UID": 708266849,
             "Active": false,
             "Element_Type": "None",
@@ -3906,6 +3972,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 654116996,
             "Active": false,
             "Element_Type": "None",
@@ -3965,7 +4032,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (8)",
+            "Tag": "Untagged",
             "UID": 533956899,
             "Active": true,
             "Element_Type": "None",
@@ -4006,16 +4074,16 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
                     "Rows": 1,
                     "Columns": 1,
                     "Color": [
+                        0,
                         1,
-                        1,
-                        1,
+                        0,
                         1
                     ]
                 },
@@ -4032,7 +4100,7 @@
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 3,
-                    "UI State": 1,
+                    "UI State": 2,
                     "Drag Limits": [
                         0,
                         0,
@@ -4045,9 +4113,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -4076,6 +4144,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -4088,7 +4157,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (16)",
+            "Tag": "Untagged",
             "UID": 1587236607,
             "Active": false,
             "Element_Type": "None",
@@ -4153,6 +4223,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 547711246,
             "Active": false,
             "Element_Type": "None",
@@ -4213,6 +4284,7 @@
         },
         {
             "Name": "Item Chip2",
+            "Tag": "Untagged",
             "UID": 1023312370,
             "Active": true,
             "Element_Type": "None",
@@ -4289,10 +4361,10 @@
                     "Is interactable": true,
                     "Text": 233419383,
                     "Image": 1023312370,
-                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Normal": "Assets\/juan.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -4323,6 +4395,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -4335,7 +4408,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (17)",
+            "Tag": "Untagged",
             "UID": 2101603239,
             "Active": false,
             "Element_Type": "None",
@@ -4400,6 +4474,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 233419383,
             "Active": false,
             "Element_Type": "None",
@@ -4459,7 +4534,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (9)",
+            "Tag": "Untagged",
             "UID": 1420247647,
             "Active": true,
             "Element_Type": "None",
@@ -4500,7 +4576,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -4539,9 +4615,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -4570,6 +4646,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -4582,7 +4659,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (18)",
+            "Tag": "Untagged",
             "UID": 437053924,
             "Active": false,
             "Element_Type": "None",
@@ -4647,6 +4725,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 41022260,
             "Active": false,
             "Element_Type": "None",
@@ -4706,7 +4785,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (10)",
+            "Tag": "Untagged",
             "UID": 102710654,
             "Active": true,
             "Element_Type": "None",
@@ -4747,7 +4827,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -4786,9 +4866,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -4817,6 +4897,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -4829,7 +4910,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (19)",
+            "Tag": "Untagged",
             "UID": 1165671783,
             "Active": false,
             "Element_Type": "None",
@@ -4894,6 +4976,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1759668415,
             "Active": false,
             "Element_Type": "None",
@@ -4953,7 +5036,8 @@
             ]
         },
         {
-            "Name": "Item",
+            "Name": "Item (11)",
+            "Tag": "Untagged",
             "UID": 1249812674,
             "Active": true,
             "Element_Type": "None",
@@ -4994,7 +5078,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -5033,9 +5117,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -5064,6 +5148,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -5076,7 +5161,8 @@
             ]
         },
         {
-            "Name": "Description",
+            "Name": "Description (20)",
+            "Tag": "Untagged",
             "UID": 407680558,
             "Active": false,
             "Element_Type": "None",
@@ -5141,6 +5227,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1229207877,
             "Active": false,
             "Element_Type": "None",
@@ -5201,6 +5288,7 @@
         },
         {
             "Name": "Item",
+            "Tag": "Untagged",
             "UID": 58850297,
             "Active": true,
             "Element_Type": "None",
@@ -5241,7 +5329,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/Water.png",
+                    "Path": "Assets\/pato.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -5280,9 +5368,9 @@
                     "Normal": "Assets\/InGameConeptPng.png",
                     "Focused": "Assets\/Lava.png",
                     "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
+                    "Selected": "Assets\/pato.png",
                     "Release": "Assets\/Baker_house.png",
-                    "Disabled": "Assets\/Water.png",
+                    "Disabled": "Assets\/pato.png",
                     "Focused color": [
                         0,
                         1,
@@ -5311,6 +5399,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Item_Button.cs",
+                    "Active": 1,
                     "UID": 0,
                     "currentSlot": 0,
                     "itemType": 0,
@@ -5324,6 +5413,7 @@
         },
         {
             "Name": "Description",
+            "Tag": "Untagged",
             "UID": 1738432521,
             "Active": false,
             "Element_Type": "None",
@@ -5388,6 +5478,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1216183641,
             "Active": false,
             "Element_Type": "None",

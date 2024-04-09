@@ -864,10 +864,13 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 
 	for (auto i = 0; i < listUI.size(); i++)
 	{
-		if (listUI[i]->mOwner->UID == External->scene->focusedUIGO->UID)
+		if (External->scene->focusedUIGO != nullptr)
 		{
-			isInGO = true;
-			break;
+			if (listUI[i]->mOwner->UID == External->scene->focusedUIGO->UID)
+			{
+				isInGO = true;
+				break;
+			}
 		}
 	}
 

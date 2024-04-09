@@ -25,8 +25,8 @@ public class UI_Item_Button : YmirComponent
         currentSlot = SetType(enumSlot);
 
         item = new Item(currentSlot, itemType);
-        Debug.Log(item.currentSlot.ToString());
-        Debug.Log(item.itemType.ToString());
+        //Debug.Log(item.currentSlot.ToString());
+        //Debug.Log(item.itemType.ToString());
     }
 
     public void Update()
