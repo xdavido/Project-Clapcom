@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleResourceManager.h"
 #include "ImporterTexture.h"
 
 //#include "External/ImGui/imgui_custom.h"
@@ -382,8 +383,53 @@ update_status UI_Image::Update(float dt)
 
 void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 {
+	std::string metaFilePath = imgPath + ".meta"; // Assuming the meta file exists.
+
 	ResourceTexture* rTexTemp = new ResourceTexture();
-	ImporterTexture::Import(imgPath, rTexTemp);
+
+	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
+
+	if (metaFile == nullptr) {
+
+		ImporterTexture::Import(imgPath, rTexTemp);
+
+		// Get meta
+
+		JsonFile* metaFile = JsonFile::GetJSON(imgPath + ".meta");
+
+		std::string libraryPath = metaFile->GetString("Library Path");
+		uint UID = metaFile->GetInt("UID");
+		TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+		rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
+
+	}
+	else {
+
+		std::string libraryPath = metaFile->GetString("Library Path");
+		uint UID = metaFile->GetInt("UID");
+		TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+		auto itr = External->resourceManager->resources.find(UID);
+
+		if (itr == External->resourceManager->resources.end())
+		{
+			// We are maintaining to Assets for now
+
+			//rTexTemp = static_cast<ResourceTexture*>
+				//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+			rTexTemp = static_cast<ResourceTexture*>
+				(External->resourceManager->CreateResourceFromLibrary(imgPath.c_str(), ResourceType::TEXTURE, UID, type));
+		}
+		else
+		{
+			rTexTemp = static_cast<ResourceTexture*>(itr->second);
+			rTexTemp->type = type;
+			itr->second->IncreaseReferenceCount();
+		}
+
+	}
+
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
 

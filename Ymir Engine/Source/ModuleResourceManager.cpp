@@ -129,7 +129,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						if (itr == resources.end())
 						{
 							// We are maintaining to Assets for now
-							// 
+							
 							//rTexTemp = static_cast<ResourceTexture*>
 								//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
 							rTexTemp = static_cast<ResourceTexture*>
@@ -211,7 +211,46 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
 
-					ImporterTexture::Import(assetsFilePath, rTexTemp);
+					if (metaFile == nullptr) {
+
+						ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+						// Get meta
+
+						JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
+
+						std::string libraryPath = metaFile->GetString("Library Path");
+						uint UID = metaFile->GetInt("UID");
+						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+						rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
+
+					}
+					else {
+
+						std::string libraryPath = metaFile->GetString("Library Path");
+						uint UID = metaFile->GetInt("UID");
+						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+						auto itr = resources.find(UID);
+
+						if (itr == resources.end())
+						{
+							// We are maintaining to Assets for now
+
+							//rTexTemp = static_cast<ResourceTexture*>
+								//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+							rTexTemp = static_cast<ResourceTexture*>
+								(CreateResourceFromLibrary(assetsFilePath.c_str(), ResourceType::TEXTURE, UID, type));
+						}
+						else
+						{
+							rTexTemp = static_cast<ResourceTexture*>(itr->second);
+							rTexTemp->type = type;
+							itr->second->IncreaseReferenceCount();
+						}
+
+					}
 
 					static_cast<UI_Image*>((*jt))->mat->diffuse_path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();

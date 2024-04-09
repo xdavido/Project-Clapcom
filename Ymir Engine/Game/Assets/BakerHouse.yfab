@@ -3,10 +3,10 @@
         {
             "Name": "BakerHouse",
             "Tag": "Untagged",
-            "UID": 226209792,
+            "UID": 1876283405,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 685540534,
+            "Parent UID": 763606240,
             "Components": [
                 {
                     "Type": "Transform",
@@ -29,18 +29,18 @@
                 }
             ],
             "Children UID": [
-                1176354039,
-                175456528
+                27805483,
+                1417807273
             ]
         },
         {
             "Name": "Chimney",
             "Tag": "Untagged",
-            "UID": 1176354039,
+            "UID": 27805483,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 226209792,
+            "Parent UID": 1876283405,
             "Components": [
                 {
                     "Type": "Transform",
@@ -64,7 +64,7 @@
                 {
                     "Type": "Mesh",
                     "Active": 1,
-                    "UID": 1106057539,
+                    "UID": 1594312590,
                     "Vertex Count": 160,
                     "Index Count": 324
                 },
@@ -86,24 +86,24 @@
                                 0
                             ],
                             "numLights": 1,
-                            "displayNormalMap": false,
+                            "displayNormalMap": true,
                             "transparency": 1
                         }
                     ],
-                    "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
-                    "UID": 792489800
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": ".\/Library\/Textures\/1855726045.dds",
+                    "Diffuse_UID": 1855726045
                 }
             ]
         },
         {
             "Name": "Baker_house",
             "Tag": "Untagged",
-            "UID": 175456528,
+            "UID": 1417807273,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 226209792,
+            "Parent UID": 1876283405,
             "Components": [
                 {
                     "Type": "Transform",
@@ -127,7 +127,7 @@
                 {
                     "Type": "Mesh",
                     "Active": 1,
-                    "UID": 578733022,
+                    "UID": 1238949346,
                     "Vertex Count": 1641,
                     "Index Count": 2751
                 },
@@ -149,13 +149,13 @@
                                 0
                             ],
                             "numLights": 1,
-                            "displayNormalMap": false,
+                            "displayNormalMap": true,
                             "transparency": 1
                         }
                     ],
-                    "ID": 0,
-                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
-                    "UID": 792489800
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": ".\/Library\/Textures\/1855726045.dds",
+                    "Diffuse_UID": 1855726045
                 }
             ]
         }
