@@ -8,10 +8,8 @@ using YmirEngine;
 
 public class Loot_Chest : YmirComponent
 {
-	public GameObject item;
 	public void Start()
 	{
-		List<GameObject> list = new List<GameObject>();
 		
 	}
 
@@ -30,6 +28,29 @@ public class Loot_Chest : YmirComponent
             foreach (var sublist in result)
             {
                 Debug.Log("(" + string.Join(", ", sublist) + ")");
+
+                // Check if sublist has at least two values
+                if (sublist.Count >= 2)
+                {
+                    // Extract the first two values
+                    string name = sublist[0];
+                    int probability;
+
+                    // Try parsing the probability value
+                    if (int.TryParse(sublist[1], out probability))
+                    {
+                        // Call SpawnPrefab with extracted values
+                        SpawnPrefab(name, probability);
+                    }
+                    else
+                    {
+                        Debug.Log("[ERROR] Invalid probability value in sublist: " + string.Join(", ", sublist));
+                    }
+                }
+                else
+                {
+                    Debug.Log("[ERROR] Sublist does not contain enough elements: " + string.Join(", ", sublist));
+                }
             }
         }
     }
@@ -60,6 +81,17 @@ public class Loot_Chest : YmirComponent
         }
 
         return output;
+    }
+
+    private void SpawnPrefab(string name, int probability)
+    {
+        Random random = new Random();
+        int randNum = random.Next(0, 101);  //Generate a random number between 0 and 100
+
+        if (randNum <= probability)
+        {
+            InternalCalls.CreateGOFromPrefab("Assets/Prefabs", name);
+        }
     }
 }
 
