@@ -247,24 +247,30 @@ void CCollider::Update()
 			pos.x -= parentTransform->translation.x;
 			pos.y -= parentTransform->translation.y;
 			pos.z -= parentTransform->translation.z;
+
+			pos.x /= parentTransform->scale.x;
+			pos.y /= parentTransform->scale.y;
+			pos.z /= parentTransform->scale.z;
 		}
 
 		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
 		mOwner->mTransform->SetPosition(pos - offset);
 		
-		Quat quat;
-		quat.Set(newMat);
+		//Quat quat;
+		//quat.Set(newMat);
 
-		float x = quat.x;
-		float y = quat.y;
-		float z = quat.z;
-		float w = quat.w;
+		//float x = quat.x;
+		//float y = quat.y;
+		//float z = quat.z;
+		//float w = quat.w;
 
-		btQuaternion btQuat(x, y, z, w);
+		//btQuaternion btQuat(x, y, z, w);
 
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
 		//mOwner->mTransform->SetOrientation(btQuat);
 
+		//btSize = float3_to_btVector3(size);
+		//shape->setLocalScaling(btSize);
 		shape->setLocalScaling(btVector3(trans.GetScale().x * size.x, trans.GetScale().y * size.y, trans.GetScale().z * size.z));
 		//mOwner->mTransform->UpdateTransformsChilds();
 
@@ -406,8 +412,8 @@ void CCollider::OnInspector()
 			switch (collType)
 			{
 			case ColliderType::BOX: 
-				ImGui::Text("Scale: "); ImGui::SameLine();
-				ImGui::DragFloat3("##Scale", size.ptr(), 0.1f, 0.1f);
+				ImGui::Text("Size: "); ImGui::SameLine();
+				ImGui::DragFloat3("##Size", size.ptr(), 0.1f, 0.1f);
 				break;
 
 			case ColliderType::SPHERE:
@@ -725,6 +731,9 @@ void CCollider::SetOBBSize()
 		if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
 		else size = componentMesh->rMeshReference->obb.Size();
 	}
+	if (size.x == 0) size.x = 0.1;
+	if (size.y == 0) size.y = 0.1;
+	if (size.z == 0) size.z = 0.1;
 }
 
 void CCollider::RemovePhysbody()
