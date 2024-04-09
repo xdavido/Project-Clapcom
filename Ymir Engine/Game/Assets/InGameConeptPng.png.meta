@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/InGameConeptPng.png",
-    "Library Path": ".\/Library\/Textures\/1357981399.dds",
-    "UID": 1357981399,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/1749903772.dds",
+    "UID": 1749903772,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }

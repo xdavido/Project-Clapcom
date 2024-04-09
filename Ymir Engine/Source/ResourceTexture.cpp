@@ -1,11 +1,17 @@
 #include "ResourceTexture.h"
 #include "Log.h"
 
+#include "PhysfsEncapsule.h"
+#include "Application.h"
+#include "ModuleFileSystem.h"
+
 #include "External/mmgr/mmgr.h"
 
 ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE)
 {
 	ID = 0;
+
+	this->UID = UID;
 
 	type = TextureType::UNKNOWN;
 
@@ -122,7 +128,17 @@ bool ResourceTexture::LoadInMemory()
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	// 6. Clean Up
+	// 6. Save to Library if it isn't there
+
+	//std::string libraryPath = External->fileSystem->libraryTexturesPath + std::to_string(this->UID) + ".dds";
+
+	//if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+	//	External->fileSystem->SaveTextureToFile(this, libraryPath);
+
+	//}
+
+	// 7. Clean Up
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
