@@ -206,7 +206,17 @@ unsigned char* NavMeshBuilder::BuildTile(const int tx, const int ty, const float
 	            
 	CleanUp();
 
-	const float* verts = (float*)m_geom->getMesh()->vertices.data();
+	std::vector<float3> floatArray;
+
+	floatArray.reserve(m_geom->getMesh()->vertices.size());
+
+	for (const auto& vertex : m_geom->getMesh()->vertices) {
+
+		floatArray.push_back(vertex.position);
+
+	}
+
+	const float* verts = (float*)floatArray.data();
 	const int nverts = m_geom->getMesh()->vertices.size();
 	const int ntris = m_geom->getMesh()->indices.size() / 3;
 	const rcChunkyTriMesh* chunkyMesh = m_geom->getChunkyMesh();

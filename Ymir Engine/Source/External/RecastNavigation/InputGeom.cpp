@@ -224,7 +224,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 
 		return false;
 	}
-	if (!rcCreateChunkyTriMesh((float*)mesh->vertices.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
+	if (!rcCreateChunkyTriMesh((float*)floatArray.data(), (int*)m_mesh->indices.data(), m_mesh->indices.size() / 3, 256, m_chunkyMesh))
 	{
 
 		LOG("buildTiledNavigation: Failed to build chunky mesh.");
@@ -232,7 +232,7 @@ bool InputGeom::AddMesh(ResourceMesh* mesh, float4x4 new_mesh_transform)
 		//RELEASE_ARRAY(vertices);
 		return false;
 	}
-
+	floatArray.clear();
 	return true;
 }
 
@@ -293,8 +293,24 @@ void InputGeom::MergeToMesh(ResourceMesh* new_mesh, float4x4 new_mesh_transform)
 
 	//Indices Merging =====================================================================
 
-	for (size_t i = 0; i < new_mesh->indices.size(); i++)
-		m_mesh->indices.push_back(new_mesh->indices[i] + indices_offset);
+	int total_indices = m_mesh->indices.size() + new_mesh->indices.size();
+	uint* merged_indices = new uint[total_indices];
+
+	int index = 0; 
+	for (size_t i = 0; i < m_mesh->indices.size(); i++) {
+		merged_indices[i] = m_mesh->indices[i];
+		index++;
+	}
+
+	for (size_t i = 0; i < new_mesh->indices.size(); i++) {
+		merged_indices[index + i] = new_mesh->indices[i] + indices_offset;
+	}
+
+	m_mesh->indices.clear();
+
+	for (size_t i = 0; i < total_indices; i++) {
+		m_mesh->indices.push_back(merged_indices[i]);
+	}
 }
 
 #ifndef _STANDALONE
