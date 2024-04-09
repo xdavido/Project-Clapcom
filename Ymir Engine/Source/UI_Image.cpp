@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleResourceManager.h"
 #include "ImporterTexture.h"
 
 //#include "External/ImGui/imgui_custom.h"
@@ -33,8 +34,10 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 
 UI_Image::~UI_Image()
 {
-	RELEASE(mat);
 	RELEASE(selectedTexture);
+	RELEASE(mat);
+
+	mapTextures.clear();
 	//RELEASE(mapTextures);
 }
 
@@ -297,12 +300,12 @@ void UI_Image::OnInspector()
 
 		ImVec2 textureMapSize(20, 20);
 
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->diffuse_ID)), textureMapSize);
 		mat->DdsDragDropTarget();
 		ImGui::SameLine();
 		ImGui::Text("Diffuse");
 		ImGui::SameLine();
-		ImGui::Text("(%s)", mat->path.c_str());
+		ImGui::Text("(%s)", mat->diffuse_path.c_str());
 
 		ImGui::Spacing();
 
@@ -371,11 +374,10 @@ void UI_Image::Draw(bool game)
 {
 	UI_Bounds* boundsDrawn = nullptr;
 
-	selectedTexture->BindTexture(true);
+	selectedTexture->BindTexture(true, 0);
 
 	mat->shader.UseShader(true);
 	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
-
 
 	if (game)
 	{
@@ -405,7 +407,8 @@ void UI_Image::Draw(bool game)
 	boundsDrawn = nullptr;
 
 	mat->shader.UseShader(false);
-	selectedTexture->BindTexture(false);
+	selectedTexture->BindTexture(false, 0);
+
 }
 
 update_status UI_Image::Update(float dt)
@@ -415,8 +418,53 @@ update_status UI_Image::Update(float dt)
 
 void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 {
+	std::string metaFilePath = imgPath + ".meta"; // Assuming the meta file exists.
+
 	ResourceTexture* rTexTemp = new ResourceTexture();
-	ImporterTexture::Import(imgPath, rTexTemp);
+
+	JsonFile* metaFile = JsonFile::GetJSON(metaFilePath);
+
+	if (metaFile == nullptr) {
+
+		ImporterTexture::Import(imgPath, rTexTemp);
+
+		// Get meta
+
+		JsonFile* metaFile = JsonFile::GetJSON(imgPath + ".meta");
+
+		std::string libraryPath = metaFile->GetString("Library Path");
+		uint UID = metaFile->GetInt("UID");
+		TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+		rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
+
+	}
+	else {
+
+		std::string libraryPath = metaFile->GetString("Library Path");
+		uint UID = metaFile->GetInt("UID");
+		TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+		auto itr = External->resourceManager->resources.find(UID);
+
+		if (itr == External->resourceManager->resources.end())
+		{
+			// We are maintaining to Assets for now
+
+			//rTexTemp = static_cast<ResourceTexture*>
+				//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+			rTexTemp = static_cast<ResourceTexture*>
+				(External->resourceManager->CreateResourceFromLibrary(imgPath.c_str(), ResourceType::TEXTURE, UID, type));
+		}
+		else
+		{
+			rTexTemp = static_cast<ResourceTexture*>(itr->second);
+			rTexTemp->type = type;
+			itr->second->IncreaseReferenceCount();
+		}
+
+	}
+
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
 
@@ -429,7 +477,7 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 		mapTextures.erase(state);
 	}
 
-	mat->path = imgPath;
+	mat->diffuse_path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 
 	mapTextures.insert({ state, rTexTemp });

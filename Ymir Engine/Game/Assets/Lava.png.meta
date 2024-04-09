@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/Lava.png",
-    "Library Path": ".\/Library\/Textures\/795507024.dds",
-    "UID": 795507024,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/1756246345.dds",
+    "UID": 1756246345,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }

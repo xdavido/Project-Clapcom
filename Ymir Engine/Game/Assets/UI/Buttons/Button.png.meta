@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/UI\/Buttons\/Button.png",
-    "Library Path": ".\/Library\/Textures\/1635082088.dds",
-    "UID": 1635082088,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/2111557965.dds",
+    "UID": 2111557965,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }

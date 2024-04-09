@@ -41,6 +41,10 @@ namespace YmirEngine
         /// <returns>The children as game object if found, otherwise null.</returns>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject GetChildrenByName(object parentGO, string name);
+        /// Retrieves a game object by its UID.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject GetGameObjectByUID(int id);
 
         /// <summary>
         /// Loads a scene.

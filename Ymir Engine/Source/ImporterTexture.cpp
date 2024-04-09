@@ -10,6 +10,71 @@
 
 void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 {
+	// -1. Set texture properties
+
+	GLenum format;
+	ILenum ILformat;
+
+	std::string textureName;
+	PhysfsEncapsule::SplitFilePath(path.c_str(), nullptr, &textureName);
+
+	ourTexture->SetAssetsFilePath(path);
+
+	char typeChar = textureName.back();
+
+	switch (typeChar) {
+
+	case 'D':
+	{
+		ourTexture->type = TextureType::DIFFUSE;
+		format = GL_RGBA;
+		ILformat = IL_RGBA;
+		break;
+	}
+	case 'S':
+	{
+		ourTexture->type = TextureType::SPECULAR;
+		format = GL_ALPHA;
+		ILformat = IL_ALPHA;
+		break;
+	}
+	case 'N':
+	{
+		ourTexture->type = TextureType::NORMAL;
+		format = GL_RGB;
+		ILformat = IL_RGB;
+		break;
+	}
+	case 'H':
+	{
+		ourTexture->type = TextureType::HEIGHT;
+		format = GL_LUMINANCE;
+		ILformat = IL_LUMINANCE;
+		break;
+	}
+	case 'A':
+	{
+		ourTexture->type = TextureType::AMBIENT;
+		format = GL_LUMINANCE;
+		ILformat = IL_LUMINANCE;
+		break;
+	}
+	case 'E':
+	{
+		ourTexture->type = TextureType::EMISSIVE;
+		format = GL_RGBA;
+		ILformat = IL_RGBA;
+		break;
+	}
+	default:
+	{
+		ourTexture->type = TextureType::DIFFUSE;
+		format = GL_RGBA;
+		ILformat = IL_RGBA;
+		break;
+	}
+
+	}
 
 	// Andreu: IDK if this should be here
 	ourTexture->SetAssetsFilePath(path);
@@ -35,6 +100,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		textureMetaFile.SetString("Library Path", (External->fileSystem->libraryTexturesPath + std::to_string(ourTexture->UID) + ".dds").c_str());
 		textureMetaFile.SetInt("UID", ourTexture->UID);
 		textureMetaFile.SetString("Type", "Texture");
+		textureMetaFile.SetString("TextureType", ResourceTexture::GetNameFromTextureType(ourTexture->type).c_str());
 
 		External->fileSystem->CreateMetaFileFromAsset(path, textureMetaFile);
 
@@ -60,7 +126,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	// 2. Convert the Image to OpenGL Texture Format
 
-	if (ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
+	if (ilConvertImage(ILformat, IL_UNSIGNED_BYTE)) {
 		// Image converted successfully
 		LOG("Image converted successfully at %s", path.c_str());
 	}
@@ -88,7 +154,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	glGenTextures(1, &ourTexture->ID);
 	glBindTexture(GL_TEXTURE_2D, ourTexture->ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
 
 	// 5. Set Texture Parameters
 

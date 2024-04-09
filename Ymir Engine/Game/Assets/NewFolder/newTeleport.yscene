@@ -22,10 +22,11 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1959623361,
+            "Parent UID": 1406306264,
             "Components": [
                 {
                     "Type": "Transform",
@@ -54,6 +55,7 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 598771385,
             "Active": true,
             "Element_Type": "None",
@@ -119,6 +121,7 @@
         },
         {
             "Name": "Level Selection Canvas",
+            "Tag": "Untagged",
             "UID": 365492027,
             "Active": true,
             "Element_Type": "None",
@@ -149,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1087,
-                    "Height": 775,
+                    "Width": 636,
+                    "Height": 628,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -167,6 +170,7 @@
         },
         {
             "Name": "Screen",
+            "Tag": "Untagged",
             "UID": 1008796905,
             "Active": true,
             "Element_Type": "None",
@@ -194,6 +198,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "BaseTeleporter.cs",
+                    "Active": 1,
                     "UID": 0,
                     "selectedLvl": 0,
                     "selectedWeapon": 0
@@ -210,6 +215,7 @@
         },
         {
             "Name": "Lvl Selector",
+            "Tag": "Untagged",
             "UID": 1384942655,
             "Active": true,
             "Element_Type": "None",
@@ -270,6 +276,7 @@
         },
         {
             "Name": "Weapon Selector",
+            "Tag": "Untagged",
             "UID": 1514367215,
             "Active": true,
             "Element_Type": "None",
@@ -330,6 +337,7 @@
         },
         {
             "Name": "Lvl description",
+            "Tag": "Untagged",
             "UID": 1445816975,
             "Active": true,
             "Element_Type": "None",
@@ -390,6 +398,7 @@
         },
         {
             "Name": "Weapon description",
+            "Tag": "Untagged",
             "UID": 642862657,
             "Active": true,
             "Element_Type": "None",
@@ -450,6 +459,7 @@
         },
         {
             "Name": "Grid",
+            "Tag": "Untagged",
             "UID": 73189607,
             "Active": true,
             "Element_Type": "None",
@@ -477,6 +487,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
                     "UID": 0,
                     "rows": 3,
                     "cols": 2
@@ -493,6 +504,7 @@
         },
         {
             "Name": "Lvl1",
+            "Tag": "Untagged",
             "UID": 732552863,
             "Active": true,
             "Element_Type": "None",
@@ -562,12 +574,12 @@
                     "UI State": 1,
                     "Drag Limits": [
                         0,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 4294967295,
+                    "Text": 1066954428,
                     "Image": 732552863,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
@@ -603,6 +615,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
                     "UID": 0,
                     "lvl": 0,
                     "isLocked": false
@@ -614,7 +627,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (1)",
+            "Tag": "Untagged",
             "UID": 1066954428,
             "Active": true,
             "Element_Type": "None",
@@ -674,7 +688,8 @@
             ]
         },
         {
-            "Name": "Image",
+            "Name": "Image (1)",
+            "Tag": "Untagged",
             "UID": 285761193,
             "Active": true,
             "Element_Type": "None",
@@ -736,6 +751,7 @@
         },
         {
             "Name": "Lvl2",
+            "Tag": "Untagged",
             "UID": 860866676,
             "Active": true,
             "Element_Type": "None",
@@ -805,7 +821,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         0,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
@@ -846,6 +862,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
                     "UID": 0,
                     "lvl": 1,
                     "isLocked": false
@@ -857,7 +874,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (2)",
+            "Tag": "Untagged",
             "UID": 1454772037,
             "Active": true,
             "Element_Type": "None",
@@ -917,7 +935,8 @@
             ]
         },
         {
-            "Name": "Image",
+            "Name": "Image (2)",
+            "Tag": "Untagged",
             "UID": 320903230,
             "Active": true,
             "Element_Type": "None",
@@ -979,6 +998,7 @@
         },
         {
             "Name": "Lvl3",
+            "Tag": "Untagged",
             "UID": 1101211752,
             "Active": true,
             "Element_Type": "None",
@@ -1048,7 +1068,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         0,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
@@ -1089,6 +1109,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
                     "UID": 0,
                     "lvl": 2,
                     "isLocked": true
@@ -1100,7 +1121,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (3)",
+            "Tag": "Untagged",
             "UID": 114530474,
             "Active": true,
             "Element_Type": "None",
@@ -1161,6 +1183,7 @@
         },
         {
             "Name": "Image",
+            "Tag": "Untagged",
             "UID": 1296165784,
             "Active": true,
             "Element_Type": "None",
@@ -1222,6 +1245,7 @@
         },
         {
             "Name": "Shotgun",
+            "Tag": "Untagged",
             "UID": 314406228,
             "Active": true,
             "Element_Type": "None",
@@ -1291,7 +1315,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         500,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
@@ -1332,6 +1356,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
                     "UID": 0,
                     "weapon": 0
                 }
@@ -1339,6 +1364,7 @@
         },
         {
             "Name": "SMG",
+            "Tag": "Untagged",
             "UID": 1489064132,
             "Active": true,
             "Element_Type": "None",
@@ -1408,7 +1434,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         500,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
@@ -1449,6 +1475,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
                     "UID": 0,
                     "weapon": 1
                 }
@@ -1456,6 +1483,7 @@
         },
         {
             "Name": "Plasma",
+            "Tag": "Untagged",
             "UID": 1271137560,
             "Active": true,
             "Element_Type": "None",
@@ -1525,7 +1553,7 @@
                     "UI State": 1,
                     "Drag Limits": [
                         500,
-                        57.099998474121094,
+                        0,
                         300,
                         50
                     ],
@@ -1566,6 +1594,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
                     "UID": 0,
                     "weapon": 2
                 }
@@ -1573,6 +1602,7 @@
         },
         {
             "Name": "Go to raid",
+            "Tag": "Untagged",
             "UID": 927696833,
             "Active": true,
             "Element_Type": "None",
@@ -1683,6 +1713,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 1,
                     "UID": 0,
                     "sceneName": "Assets\/Scenes\/GameUI.yscene"
                 }
@@ -1693,6 +1724,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1331519439,
             "Active": true,
             "Element_Type": "None",

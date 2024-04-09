@@ -43,10 +43,26 @@ G_UI::~G_UI()
 
 update_status G_UI::Update(float dt)
 {
-	if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
-	{
-		LOG("Break!");
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
+
+		if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
+
+			this->UID = Random::Generate();
+
+		}
+
+		if ((*it)->name == this->name && (*it) != this) { // If it is repeated, regenerate
+
+			this->name = External->scene->GetUniqueName(this->name);
+
+		}
+
 	}
+
+	//if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
+	//{
+	//	LOG("Break!");
+	//}
 
 	update_status ret = UPDATE_CONTINUE;
 
@@ -279,11 +295,11 @@ UI_Button* G_UI::AddButton(const char* text, float x, float y, std::string imgPa
 	comp->displayText = aux;
 
 	// States
-	comp->image->SetImg("Assets/Lava.png", UI_STATE::FOCUSED);
+	comp->image->SetImg("Assets/juan.png", UI_STATE::FOCUSED);
 	comp->image->SetImg("Assets/pato.png", UI_STATE::PRESSED);
-	comp->image->SetImg("Assets/Water.png", UI_STATE::SELECTED);
+	comp->image->SetImg("Assets/Lava.png", UI_STATE::SELECTED);
 	comp->image->SetImg("Assets/Baker_house.png", UI_STATE::RELEASE);
-	comp->image->SetImg("Assets/Water.png", UI_STATE::DISABLED);
+	comp->image->SetImg("Assets/Lava.png", UI_STATE::DISABLED);
 
 	name = "Button";
 

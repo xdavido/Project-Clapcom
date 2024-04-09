@@ -22,11 +22,11 @@ enum class TextureType {
     EMISSIVE,
     HEIGHT,
     NORMAL,
-    SHININESS,
-    OPACITY,
-    DISPLACEMENT,
-    LIGHTMAP,
-    REFLECTION,
+    //SHININESS,
+    //OPACITY,
+    //DISPLACEMENT,
+    //LIGHTMAP,
+    //REFLECTION,
 
     NUM_TYPES       // Total Quantity of Types
 
@@ -40,7 +40,7 @@ public:
 	bool LoadInMemory() override;
 	bool UnloadFromMemory() override;
 
-    void BindTexture(bool bind);
+    void BindTexture(bool bind, GLuint unit);
 
     // Getters
     uint GetWidth();
@@ -52,6 +52,13 @@ public:
 
     // Checker Texture
     void LoadCheckerImage();
+
+    // Get Sampler Name
+    std::string GetSamplerName() const;
+
+    // Get TextureType from Name
+    static TextureType GetTextureTypeFromName(const std::string& name);
+    static std::string GetNameFromTextureType(const TextureType& type);
 
 public:
 

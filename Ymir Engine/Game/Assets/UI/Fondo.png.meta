@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/UI\/Fondo.png",
-    "Library Path": ".\/Library\/Textures\/1043283725.dds",
-    "UID": 1043283725,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/1239808706.dds",
+    "UID": 1239808706,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }

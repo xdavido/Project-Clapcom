@@ -220,6 +220,11 @@ MonoString* Get_GO_Name(MonoObject* go)
 		External->moduleMono->GameObject_From_CSGO(go)->name.c_str());
 }
 
+MonoObject* FindObjectWithUID(int id)
+{
+	return External->moduleMono->GoToCSGO(External->scene->mRootNode->FindChild(id));
+}
+
 MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
@@ -261,16 +266,20 @@ MonoObject* FindChildrenWithName(MonoObject* obj, MonoString* name) {
 	}
 
 	char* _name = mono_string_to_utf8(name);
+	std::string _nameString = _name;
 
 	for (int i = 0; i < gameObjectVec.size(); i++) {
 
-		if (strcmp(gameObjectVec[i]->name.c_str(), _name) == 0) {
+		//size_t found = gameObjectVec[i]->name.find(_name);
 
+		if (gameObjectVec[i]->name.find(_name) != std::string::npos) {
+
+			mono_free(_name);
 			return External->moduleMono->GoToCSGO(gameObjectVec[i]);
-
 		}
 
 	}
+
 	mono_free(_name);
 
 	assert("The object you searched for doesn't exist. :/");
@@ -514,6 +523,11 @@ float GetDT()
 	return External->GetDT();
 }
 
+float GetTimeCS()
+{
+	return TimeManager::gameTimer.ReadSec();
+}
+
 void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 {
 	//Crea un game object temporal llamado "Bullet"
@@ -592,7 +606,7 @@ MonoString* GetTag(MonoObject* cs_Object)
 {
 	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(cs_Object);
 
-	return mono_string_new(External->moduleMono->domain, cpp_gameObject->tag);
+	return mono_string_new(External->moduleMono->domain, cpp_gameObject->tag.c_str());
 }
 
 void SetTag(MonoObject* cs_Object, MonoString* string)
@@ -615,7 +629,7 @@ void SetTag(MonoObject* cs_Object, MonoString* string)
 	{
 		External->scene->tags.push_back(newTag);
 	}
-	strcpy(cpp_gameObject->tag, newTag.c_str());
+	cpp_gameObject->tag = newTag.c_str();
 }
 
 void Rumble_Controller(int time)

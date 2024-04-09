@@ -382,12 +382,12 @@ void UI_Text::OnInspector()
 
 		ImVec2 textureMapSize(20, 20);
 
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->diffuse_ID)), textureMapSize);
 		mat->DdsDragDropTarget();
 		ImGui::SameLine();
 		ImGui::Text("Diffuse");
 		ImGui::SameLine();
-		ImGui::Text("(%s)", mat->path.c_str());
+		ImGui::Text("(%s)", mat->diffuse_path.c_str());
 
 		ImGui::Spacing();
 

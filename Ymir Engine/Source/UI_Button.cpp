@@ -49,7 +49,7 @@ void UI_Button::OnInspector()
 		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		// Image reference
-		ImGui::Text(("Image: " + (image == nullptr ? "<null>" : image->mat->path)).c_str());	ImGui::SameLine();
+		ImGui::Text(("Image: " + (image == nullptr ? "<null>" : image->mat->diffuse_path)).c_str());	ImGui::SameLine();
 
 		ImGui::Dummy(ImVec2(0, 10));
 
@@ -98,7 +98,7 @@ void UI_Button::SetReference()
 	{
 		if (it->first == "Text")
 		{
-			displayText = (G_UI*)External->scene->mRootNode->FindChild(it->second);
+			displayText = (G_UI*)mOwner->FindChild(it->second);
 			if (displayText != nullptr)
 			{
 				displayText->vReferences.push_back(this);
@@ -106,7 +106,7 @@ void UI_Button::SetReference()
 		}
 		else if (it->first == "Image")
 		{
-			image = (UI_Image*)static_cast<G_UI*>(External->scene->mRootNode->FindChild(it->second))->GetComponentUI(UI_TYPE::IMAGE);
+			image = (UI_Image*)static_cast<G_UI*>(mOwner)->GetComponentUI(UI_TYPE::IMAGE);
 			if (image != nullptr)
 			{
 				image->mOwner->vReferences.push_back(this);
