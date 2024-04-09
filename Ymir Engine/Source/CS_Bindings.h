@@ -735,4 +735,12 @@ MonoString* CSVToString(MonoString* _filePath, MonoString* _csFields) {
 	return mono_string_new(External->moduleMono->domain, output.c_str());
 }
 
+void CreateGOFromPrefabCS(MonoString* _prefabPath, MonoString* _prefabName)
+{
+	std::string prefabName = mono_string_to_utf8(_prefabName);
+	std::string prefabPath = mono_string_to_utf8(_prefabPath);
+
+	External->scene->pendingToAddPrefab.emplace_back(prefabPath, prefabName);
+}
+
 #pragma endregion

@@ -64,6 +64,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.InternalCalls::Destroy", Destroy);
 
 	mono_add_internal_call("YmirEngine.InternalCalls::CSVToString", CSVToString);
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateGOFromPrefab", CreateGOFromPrefabCS);
 
 #pragma region GameObject
 

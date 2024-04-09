@@ -217,6 +217,15 @@ update_status ModuleScene::PostUpdate(float dt)
 		pendingToAddScene.clear();
 	}
 
+	if (!pendingToAddPrefab.empty())
+	{
+		for (const auto& tuple : pendingToAddPrefab) 
+		{
+			LoadPrefab(std::get<0>(tuple), std::get<1>(tuple));
+		}
+		pendingToAddPrefab.clear();
+	}
+
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());
 	pendingToAdd.clear();
 

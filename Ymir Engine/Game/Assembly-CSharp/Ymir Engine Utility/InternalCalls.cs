@@ -59,6 +59,14 @@ namespace YmirEngine
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern string CSVToString(string filePath, string csFields);
 
+        /// <summary>
+        /// Creates a GameObject in the Engine as the prefab indicated
+        /// </summary>
+        /// <param name="prefabPath">The path to the prefab folder (in this format: "Assets/Prefabs").</param>
+        /// <param name="prefabName">The name of the prefab inside of the prefabPath (in this format: "Player").</param>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void CreateGOFromPrefab(string prefabPath, string prefabName);
+
     }
 
     /// <summary>
