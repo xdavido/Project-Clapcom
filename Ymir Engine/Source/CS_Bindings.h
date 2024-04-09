@@ -563,7 +563,7 @@ void CreateAcidicSpit(MonoObject* name, MonoObject* position)
 	//Settea el transform a la bullet
 	go->mTransform->SetPosition(goPosition);
 
-	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
+	uint UID = 1431930153; // UID of Sphere.fbx mesh in meta (lo siento)
 
 	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
 
@@ -575,7 +575,7 @@ void CreateAcidicSpit(MonoObject* name, MonoObject* position)
 
 	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
-	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shaderPath = WATER_SHADER;
 	cmaterial->shader.LoadShader(cmaterial->shaderPath);
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
@@ -583,13 +583,14 @@ void CreateAcidicSpit(MonoObject* name, MonoObject* position)
 	//Añade RigidBody a la bala
 	CCollider* physBody;
 	physBody = new CCollider(go);
-	physBody->useGravity = false;
+	physBody->useGravity = true;
 	physBody->size = go->mTransform->scale;
+	physBody->SetSphereCollider();
 	physBody->physBody->SetPosition(goPosition);
 	go->AddComponent(physBody);
 
 	//Añade el script Bullet al gameObject Bullet
-	const char* t = "BH_Acidic";
+	const char* t = "AcidicSpit";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
@@ -607,8 +608,9 @@ void CreateAcidPuddle(MonoObject* name, MonoObject* position)
 
 	//Settea el transform a la bullet
 	go->mTransform->SetPosition(goPosition);
+	go->mTransform->SetScale(float3(12,1,12));
 
-	uint UID = 1553236809; // UID of Cube.fbx mesh in meta (lo siento)
+	uint UID = 1094188326; // UID of Cylinder.fbx mesh in meta (lo siento)
 
 	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
 
@@ -620,7 +622,7 @@ void CreateAcidPuddle(MonoObject* name, MonoObject* position)
 
 	//Añade el material a la Bullet
 	CMaterial* cmaterial = new CMaterial(go);
-	cmaterial->shaderPath = SHADER_VS_FS;
+	cmaterial->shaderPath = "Assets/Shaders/LavaShader.glsl";
 	cmaterial->shader.LoadShader(cmaterial->shaderPath);
 	cmaterial->shaderDirtyFlag = false;
 	go->AddComponent(cmaterial);
@@ -628,13 +630,14 @@ void CreateAcidPuddle(MonoObject* name, MonoObject* position)
 	//Añade RigidBody a la bala
 	CCollider* physBody;
 	physBody = new CCollider(go);
-	physBody->useGravity = false;
+	physBody->useGravity = true;
 	physBody->size = go->mTransform->scale;
+	physBody->SetSphereCollider();
 	physBody->physBody->SetPosition(goPosition);
 	go->AddComponent(physBody);
 
 	//Añade el script Bullet al gameObject Bullet
-	const char* t = "BH_AcidicPuddle";
+	const char* t = "AcidPuddle";
 	Component* c = nullptr;
 	c = new CScript(go, t);
 	go->AddComponent(c);
