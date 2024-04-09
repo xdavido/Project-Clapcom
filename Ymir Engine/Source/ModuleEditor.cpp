@@ -1403,7 +1403,7 @@ void ModuleEditor::DrawEditor()
 			{
 				if (ImGui::IsWindowHovered())
 				{
-					if (!ImGuizmo::IsUsing() && !App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
+					if (!ImGuizmo::IsUsing() && !App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)	
 					{
 
 

@@ -45,6 +45,7 @@
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Animation.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Audio.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Mathf.cs" />
+    <Compile Include="Assembly-CSharp\Ymir Engine Utility\PathFinding.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\Transform.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\YmirComponent.cs" />
     <Compile Include="Assembly-CSharp\Ymir Engine Utility\GameObject.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Prueba.cs" />
+    <Compile Include="Assets\Scripts\PruebaPathFinding.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
     <Compile Include="Assets\Scripts\Ui.cs" />
     <Compile Include="Assets\Scripts\UI_Bullets.cs" />

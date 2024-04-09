@@ -226,3 +226,28 @@ void CS_SetStoppingDistance(MonoObject* obj, float value)
 
 	comp->properties.stoppingDistance = value;
 }
+
+
+MonoObject* GetWalkablePointAround(MonoObject* position, float radius)
+{
+	float3 posVector = ModuleMonoManager::UnboxVector(position);
+	int randomStartingDegrees = Random::Generate() % 360;
+
+	for (size_t degrees = 0; degrees < 360; degrees += 45)
+	{
+		float3 walkablePoint = posVector;
+		walkablePoint.x += radius * Cos(degrees + randomStartingDegrees);
+		walkablePoint.z += radius * Sin(degrees + randomStartingDegrees);
+
+		float3 midPoint = posVector;
+		walkablePoint.x += (radius * Cos(degrees + randomStartingDegrees) * 0.5f);
+		walkablePoint.z += (radius * Sin(degrees + randomStartingDegrees) * 0.5f);
+
+		if (External->renderer3D->IsWalkable(walkablePoint) && External->renderer3D->IsWalkable(midPoint));
+		{
+			return External->moduleMono->Float3ToCS(walkablePoint);
+		}
+	}
+
+	return nullptr;
+}
