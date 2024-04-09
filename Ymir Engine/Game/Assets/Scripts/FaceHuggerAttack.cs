@@ -36,14 +36,21 @@ public class FaceHuggerAttack : YmirComponent
         gameObject.SetRotation(facehugger.transform.globalRotation);
 
         //Since there's a small bug before attacking which causes the sensor not to move, the conditional is done this way for now
-        if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer > 0.5f)
+        if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer > 0.4f)
         {
             gameObject.SetPosition(facehugger.transform.globalPosition);
         }
-        else if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer < 0.5f)
+        else if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer < 0.4f)
         {
             //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            gameObject.SetVelocity(gameObject.transform.GetForward() * 50f);
+            if (facehugger.GetComponent<FaceHuggerBaseScript>().CheckDistance(gameObject.transform.globalPosition, facehugger.transform.globalPosition, 10f))
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 100f);
+            }
+            else
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0f);
+            }
         }
 
     }
