@@ -269,9 +269,13 @@ void CCollider::Update()
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
 		//mOwner->mTransform->SetOrientation(btQuat);
 
-		//btSize = float3_to_btVector3(size);
-		//shape->setLocalScaling(btSize);
-		shape->setLocalScaling(btVector3(trans.GetScale().x * size.x, trans.GetScale().y * size.y, trans.GetScale().z * size.z));
+		btSize = float3_to_btVector3(size);
+		
+		if (physType != PhysicsType::STATIC)
+			shape->setLocalScaling(btVector3(trans.GetScale().x * btSize.x(), trans.GetScale().y * btSize.y(), trans.GetScale().z * btSize.z()));
+		
+		else shape->setLocalScaling(btSize);
+
 		//mOwner->mTransform->UpdateTransformsChilds();
 
 		if (lockX) {
