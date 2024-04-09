@@ -465,8 +465,9 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				std::string libraryPath = metaFile->GetString("Library Path");
 				uint UID = metaFile->GetInt("UID");
+				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
-				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
 
 				rTex->type = extractedType;
 
@@ -527,8 +528,9 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				std::string libraryPath = metaFile->GetString("Library Path");
 				uint UID = metaFile->GetInt("UID");
+				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
-				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
 
 				rTex->type = extractedType;
 

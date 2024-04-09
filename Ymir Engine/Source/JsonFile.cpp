@@ -2117,7 +2117,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 				ResourceTexture* rTex = new ResourceTexture();
 
-				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID, TextureType::DIFFUSE);
+				auto itr = External->resourceManager->resources.find(UID);
+
+				if (itr == External->resourceManager->resources.end()) {
+
+					rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID, TextureType::DIFFUSE);
+
+				}
+				else {
+
+					rTex = static_cast<ResourceTexture*>(itr->second);
+					rTex->type = TextureType::DIFFUSE;
+					itr->second->IncreaseReferenceCount();
+
+				}
 
 				cmaterial->rTextures.push_back(rTex);
 
@@ -2138,8 +2151,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			ResourceTexture* rTex = new ResourceTexture();
 
-			rTex->type = TextureType::SPECULAR;
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(specularPath, ResourceType::TEXTURE, UID, TextureType::SPECULAR);
+			auto itr = External->resourceManager->resources.find(UID);
+
+			if (itr == External->resourceManager->resources.end()) {
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(specularPath, ResourceType::TEXTURE, UID, TextureType::SPECULAR);
+
+			}
+			else {
+
+				rTex = static_cast<ResourceTexture*>(itr->second);
+				rTex->type = TextureType::SPECULAR;
+				itr->second->IncreaseReferenceCount();
+
+			}
 
 			cmaterial->rTextures.push_back(rTex);
 
@@ -2158,9 +2183,21 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			ResourceTexture* rTex = new ResourceTexture();
 
-			rTex->type = TextureType::NORMAL;
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(normalPath, ResourceType::TEXTURE, UID, TextureType::NORMAL);
+			auto itr = External->resourceManager->resources.find(UID);
 
+			if (itr == External->resourceManager->resources.end()) {
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(normalPath, ResourceType::TEXTURE, UID, TextureType::NORMAL);
+
+			}
+			else {
+
+				rTex = static_cast<ResourceTexture*>(itr->second);
+				rTex->type = TextureType::NORMAL;
+				itr->second->IncreaseReferenceCount();
+
+			}
+			
 			cmaterial->rTextures.push_back(rTex);
 
 		}
@@ -2178,8 +2215,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			ResourceTexture* rTex = new ResourceTexture();
 
-			rTex->type = TextureType::HEIGHT;
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(heightPath, ResourceType::TEXTURE, UID, TextureType::HEIGHT);
+			auto itr = External->resourceManager->resources.find(UID);
+
+			if (itr == External->resourceManager->resources.end()) {
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(heightPath, ResourceType::TEXTURE, UID, TextureType::HEIGHT);
+
+			}
+			else {
+
+				rTex = static_cast<ResourceTexture*>(itr->second);
+				rTex->type = TextureType::HEIGHT;
+				itr->second->IncreaseReferenceCount();
+
+			}
 
 			cmaterial->rTextures.push_back(rTex);
 
@@ -2198,8 +2247,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			ResourceTexture* rTex = new ResourceTexture();
 
-			rTex->type = TextureType::AMBIENT;
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(ambientPath, ResourceType::TEXTURE, UID, TextureType::AMBIENT);
+			auto itr = External->resourceManager->resources.find(UID);
+
+			if (itr == External->resourceManager->resources.end()) {
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(ambientPath, ResourceType::TEXTURE, UID, TextureType::AMBIENT);
+
+			}
+			else {
+
+				rTex = static_cast<ResourceTexture*>(itr->second);
+				rTex->type = TextureType::AMBIENT;
+				itr->second->IncreaseReferenceCount();
+
+			}
 
 			cmaterial->rTextures.push_back(rTex);
 
@@ -2218,8 +2279,20 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			ResourceTexture* rTex = new ResourceTexture();
 
-			rTex->type = TextureType::EMISSIVE;
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(emissivePath, ResourceType::TEXTURE, UID, TextureType::EMISSIVE);
+			auto itr = External->resourceManager->resources.find(UID);
+
+			if (itr == External->resourceManager->resources.end()) {
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(emissivePath, ResourceType::TEXTURE, UID, TextureType::EMISSIVE);
+
+			}
+			else {
+
+				rTex = static_cast<ResourceTexture*>(itr->second);
+				rTex->type = TextureType::EMISSIVE;
+				itr->second->IncreaseReferenceCount();
+
+			}
 
 			cmaterial->rTextures.push_back(rTex);
 

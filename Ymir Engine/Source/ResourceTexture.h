@@ -56,6 +56,10 @@ public:
     // Get Sampler Name
     std::string GetSamplerName() const;
 
+    // Get TextureType from Name
+    static TextureType GetTextureTypeFromName(const std::string& name);
+    static std::string GetNameFromTextureType(const TextureType& type);
+
 public:
 
     TextureType type;

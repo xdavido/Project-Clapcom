@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
-    "Library Path": ".\/Library\/Textures\/1616692184.dds",
-    "UID": 1616692184,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/52765011.dds",
+    "UID": 52765011,
+    "Type": "Texture",
+    "TextureType": "Height"
 }

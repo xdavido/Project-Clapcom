@@ -98,6 +98,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 		textureMetaFile.SetString("Library Path", (External->fileSystem->libraryTexturesPath + std::to_string(ourTexture->UID) + ".dds").c_str());
 		textureMetaFile.SetInt("UID", ourTexture->UID);
 		textureMetaFile.SetString("Type", "Texture");
+		textureMetaFile.SetString("TextureType", ResourceTexture::GetNameFromTextureType(ourTexture->type).c_str());
 
 		External->fileSystem->CreateMetaFileFromAsset(path, textureMetaFile);
 

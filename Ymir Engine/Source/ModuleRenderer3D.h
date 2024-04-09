@@ -23,7 +23,6 @@
 #include "External/FreeType/include/freetype/ftglyph.h"
 #pragma comment(lib, "Source/External/FreeType/libx86/freetype.lib")
 
-
 #ifdef _DEBUG
 #pragma comment (lib, "Source/External/MathGeoLib/libx86/lib_Debug/MathGeoLib.lib") /* link Microsoft OpenGL lib   */
 #else

@@ -103,10 +103,32 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
 
-					ImporterTexture::Import(assetsFilePath, rTexTemp);
-					
-					//rTexTemp->type = TextureType::DIFFUSE;
-					//rTexTemp->UID = Random::Generate();
+					if (metaFile == nullptr) {
+
+						ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+					}
+					else {
+
+						std::string libraryPath = metaFile->GetString("Library Path");
+						uint UID = metaFile->GetInt("UID");
+						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
+
+						auto itr = resources.find(UID);
+
+						if (itr == resources.end())
+						{
+							rTexTemp = static_cast<ResourceTexture*>
+								(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+						}
+						else
+						{
+							rTexTemp = static_cast<ResourceTexture*>(itr->second);
+							rTexTemp->type = type;
+							itr->second->IncreaseReferenceCount();
+						}
+
+					}
 
 					switch (rTexTemp->type)
 					{
@@ -167,7 +189,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 					// If a texture of the same type exists, overwrite it
 					if (existingTexture) {
 						*existingTexture = *rTexTemp;  // Overwrite existing texture with the new one
-						delete rTexTemp;  // Delete the newly created texture since it's no longer needed
+						//delete rTexTemp;  // Delete the newly created texture since it's no longer needed
 					}
 					else {
 						static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add the new texture

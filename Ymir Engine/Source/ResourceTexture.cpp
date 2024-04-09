@@ -228,3 +228,79 @@ std::string ResourceTexture::GetSamplerName() const
 		break;
 	}
 }
+
+TextureType ResourceTexture::GetTextureTypeFromName(const std::string& name)
+{
+	TextureType type = TextureType::UNKNOWN;
+
+	if (name == "Diffuse") {
+
+		type = TextureType::DIFFUSE;
+
+	}
+	else if (name == "Specular") {
+
+		type = TextureType::SPECULAR;
+
+	}
+	else if (name == "Normal") {
+
+		type = TextureType::NORMAL;
+
+	}
+	else if (name == "Height") {
+
+		type = TextureType::HEIGHT;
+
+	}
+	else if (name == "Emissive") {
+
+		type = TextureType::EMISSIVE;
+
+	}
+	else if (name == "Ambient") {
+
+		type = TextureType::AMBIENT;
+
+	}
+
+	return type;
+}
+
+std::string ResourceTexture::GetNameFromTextureType(const TextureType& type)
+{
+	std::string name;
+
+	if (type == TextureType::DIFFUSE) {
+
+		name = "Diffuse";
+
+	}
+	else if (type == TextureType::SPECULAR) {
+
+		name = "Specular";
+
+	}
+	else if (type == TextureType::NORMAL) {
+
+		name = "Normal";
+
+	}
+	else if (type == TextureType::HEIGHT) {
+
+		name = "Height";
+
+	}
+	else if (type == TextureType::EMISSIVE) {
+
+		name = "Emissive";
+
+	}
+	else if (type == TextureType::AMBIENT) {
+
+		name = "Ambient";
+
+	}
+
+	return name;
+}
