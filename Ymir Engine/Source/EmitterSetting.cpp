@@ -100,6 +100,8 @@ void EmitterBase::OnInspector()
 	{
 		ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime1), 0.5F, 0.5F, 720.0F);
 	}
+
+	//ImGui::Separator();
 }
 
 EmitterSpawner::EmitterSpawner()
@@ -140,7 +142,6 @@ void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterSpawner::OnInspector()
 {
-	ImGui::Separator();
 	int numParticles = this->numParticlesToSpawn;
 	std::string numParticlesWithID = "Particles ##";
 
@@ -160,6 +161,8 @@ void EmitterSpawner::OnInspector()
 			this->numParticlesToSpawn = numParticles;
 		}
 	}
+	
+	ImGui::Separator();
 }
 
 EmitterPosition::EmitterPosition()
@@ -363,7 +366,6 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterPosition::OnInspector()
 {
-	ImGui::Separator();
 	ImGui::Checkbox("Random Movement ##POSITION", &this->randomized);
 	if (this->randomized)
 	{
@@ -476,6 +478,8 @@ void EmitterPosition::OnInspector()
 	default:
 		break;
 	}
+
+	ImGui::Separator();
 }
 
 float EmitterPosition::GetModuleVec(float3 vec)
@@ -542,7 +546,6 @@ void EmitterSize::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterSize::OnInspector()
 {
-	ImGui::Separator();
 	ImGui::Checkbox("Progresive Scaling", &(this->progresive));
 	ImGui::SliderFloat("First Scale", &(this->sizeMultiplier1), 0.1f, 10.0f);
 	if (this->progresive)
@@ -550,7 +553,9 @@ void EmitterSize::OnInspector()
 		ImGui::SliderFloat("End Scale", &(this->sizeMultiplier2), 0.1f, 10.0f);
 		ImGui::SliderFloat("Start Change ##SCALE", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
 		ImGui::SliderFloat("Stop Change ##SCALE", &(this->stopChange), this->startChange + 0.05f, 1.0f);
-	}
+	}	
+	
+	ImGui::Separator();
 }
 
 void EmitterColor::Spawn(ParticleEmitter* emitter, Particle* particle)
@@ -590,7 +595,6 @@ void EmitterColor::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterColor::OnInspector()
 {
-	ImGui::Separator();
 	ImGui::Checkbox("Progresive Color", &(this->progresive));
 	ImGui::ColorEdit4("First Color", &(this->color1));
 	if (this->progresive)
@@ -602,6 +606,8 @@ void EmitterColor::OnInspector()
 		ImGui::SliderFloat("Initial Color ##COLOR", &(this->startChange), 0.0f, (this->stopChange - 0.05f));
 		ImGui::SliderFloat("Final Color ##COLOR", &(this->stopChange), this->startChange + 0.05f, 1.0f);
 	}
+	
+	ImGui::Separator();
 }
 
 EmitterImage::EmitterImage(ParticleEmitter* parent)
@@ -656,8 +662,6 @@ std::vector<std::string> ListFilesInParticlesFolder() {
 
 void EmitterImage::OnInspector()
 {
-	ImGui::Separator();
-
 	ImGui::Text("Select particle:");
 	
 	ImGui::Spacing();
@@ -682,6 +686,8 @@ void EmitterImage::OnInspector()
 	}
 
 	ImGui::Image((ImTextureID*)rTexTemp->ID, ImVec2(128, 128));
+
+	ImGui::Separator();
 }
 
 EmitterShape::EmitterShape(ParticleEmitter* parent)
@@ -704,8 +710,6 @@ void EmitterShape::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterShape::OnInspector()
 {
-	ImGui::Separator();
-
 	ImGui::Text("Select shape");
 
 	ImGui::Spacing();
@@ -722,6 +726,7 @@ void EmitterShape::OnInspector()
 		ImGui::EndCombo();
 	}
 
+	ImGui::Separator();
 }
 
 void EmitterShape::CreateSpawnShape(typeShape shape)

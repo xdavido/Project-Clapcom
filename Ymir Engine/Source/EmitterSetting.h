@@ -7,7 +7,7 @@
 
 #include <vector>
 
-enum EmiterType
+enum EmitterType
 {
 	PARTICLE_BASE,
 	PARTICLE_SPAWN,
@@ -40,7 +40,7 @@ public:
 	EmitterSetting();
 	~EmitterSetting();
 
-	EmiterType type;
+	EmitterType type;
 
 	virtual void Spawn(ParticleEmitter* emitter, Particle* particle) = 0;
 	virtual void Update(float dt, ParticleEmitter* emitter) /*= 0*/;

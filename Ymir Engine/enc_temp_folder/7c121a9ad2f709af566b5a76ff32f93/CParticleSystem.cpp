@@ -174,40 +174,34 @@ void CParticleSystem::OnInspector()
 
 						switch (listModule.at(j)->type)
 						{
-						case PARTICLE_BASE:
+						case EmitterType::PARTICLE_BASE:
 						{
-							ImGui::Text(particleModule.append("Base ##").append(std::to_string(j)).c_str());
-							ImGui::SameLine();
-							/*deleteButton.append("Delete ##").append(std::to_string(j));
-							if (ImGui::SmallButton(deleteButton.c_str()))
-							{
-								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
-							}
-							deleteButton.clear();*/
+							ImGui::SeparatorText("BASE");
 
 							//Positions
 							EmitterBase* eBase = (EmitterBase*)listModule.at(j);
 							eBase->OnInspector();
 							break;
 						}
-						case PARTICLE_SPAWN:
+						case EmitterType::PARTICLE_SPAWN:
 						{
-							ImGui::Text(particleModule.append("Spawn ##").append(std::to_string(j)).c_str());
-							ImGui::SameLine();
+							//ImGui::Text(particleModule.append("SPAWN").c_str());
+							ImGui::SeparatorText("SPAWN");
+							/*ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
 							{
 								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
 							}
-							deleteButton.clear();
+							deleteButton.clear();*/
 
 							EmitterSpawner* eSpawner = (EmitterSpawner*)listModule.at(j);
 							eSpawner->OnInspector();
 							break;
 						}
-						case PARTICLE_POSITION:
+						case EmitterType::PARTICLE_POSITION:
 						{
-							ImGui::Text(particleModule.append("Position ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("POSITION").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -220,9 +214,9 @@ void CParticleSystem::OnInspector()
 							ePosition->OnInspector();
 							break;
 						}
-						case PARTICLE_ROTATION:
+						case EmitterType::PARTICLE_ROTATION:
 						{
-							ImGui::Text(particleModule.append("Rotation ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("ROTATION").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -235,9 +229,9 @@ void CParticleSystem::OnInspector()
 							eRotation->OnInspector(); //Todo, porque la rotation aun no existe bien , solo mira a camara
 							break;
 						}
-						case PARTICLE_SIZE:
+						case EmitterType::PARTICLE_SIZE:
 						{
-							ImGui::Text(particleModule.append("Scale ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("SIZE").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -250,9 +244,9 @@ void CParticleSystem::OnInspector()
 							eSize->OnInspector();
 							break;
 						}
-						case PARTICLE_COLOR:
+						case EmitterType::PARTICLE_COLOR:
 						{
-							ImGui::Text(particleModule.append("Color ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("COLOR").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -266,9 +260,9 @@ void CParticleSystem::OnInspector()
 
 							break;
 						}
-						case PARTICLE_IMAGE:
+						case EmitterType::PARTICLE_IMAGE:
 						{
-							ImGui::Text(particleModule.append("Image ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("IMAGE").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -282,9 +276,9 @@ void CParticleSystem::OnInspector()
 
 							break;
 						}
-						case SHAPE:
+						case EmitterType::SHAPE:
 						{
-							ImGui::Text(particleModule.append("Shape ##").append(std::to_string(j)).c_str());
+							ImGui::Text(particleModule.append("SHAPE").c_str());
 							ImGui::SameLine();
 							deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
@@ -298,7 +292,7 @@ void CParticleSystem::OnInspector()
 
 							break;
 						}
-						case PARTICLES_MAX:
+						case EmitterType::PARTICLES_MAX:
 							//Esto existe para que sea generico el recorrer el switch de emitters
 							break;
 						default:
@@ -313,44 +307,44 @@ void CParticleSystem::OnInspector()
 				std::string CEid;
 				if (ImGui::CollapsingHeader(CEid.append("Emitter Options ##").append(std::to_string(i)).c_str()))
 				{
-					for (int k = 0; k < EmiterType::PARTICLES_MAX; k++)
+					for (int k = 0; k < EmitterType::PARTICLES_MAX; k++)
 					{
 						std::string emitterType;
 
 						switch (k)
 						{
-						case PARTICLE_BASE:
+						case EmitterType::PARTICLE_BASE:
 							emitterType.assign("Base Emitter");
 							break;
-						case PARTICLE_SPAWN:
+						case EmitterType::PARTICLE_SPAWN:
 							emitterType.assign("Spawn Emitter");
 							break;
-						case PARTICLE_POSITION:
+						case EmitterType::PARTICLE_POSITION:
 							emitterType.assign("Position Emitter");
 							break;
-						case PARTICLE_ROTATION:
+						case EmitterType::PARTICLE_ROTATION:
 							emitterType.assign("Rotation Emitter");
 							break;
-						case PARTICLE_SIZE:
+						case EmitterType::PARTICLE_SIZE:
 							emitterType.assign("Scale Emitter");
 							break;
-						case PARTICLE_COLOR:
+						case EmitterType::PARTICLE_COLOR:
 							emitterType.assign("Color Emitter");
 							break;
-						case PARTICLE_IMAGE:
+						case EmitterType::PARTICLE_IMAGE:
 							emitterType.assign("Image Emitter");
 							break;
-						case SHAPE:
+						case EmitterType::SHAPE:
 							emitterType.assign("Shape Emitter");
 							break;
-						case PARTICLES_MAX:
+						case EmitterType::PARTICLES_MAX:
 							break;
 						default:
 							break;
 						}
 						if (ImGui::Button(emitterType.c_str()))
 						{
-							allEmitters.at(i)->CreateEmitterSettingByType((EmiterType)k);
+							allEmitters.at(i)->CreateEmitterSettingByType((EmitterType)k);
 						}
 					}
 					//ImGui::End();
@@ -463,12 +457,14 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 			//Y aqui un switch para crear en funcion del tipo
 			switch (emitter->modules.at(i)->type)
 			{
-			case PARTICLE_BASE:
+			case EmitterType::PARTICLE_BASE:
 			{
 				EmitterBase* eBase = (EmitterBase*)emitter->modules.at(i);
 
 				//Lifetime
 				json_object_set_number(child_object, "Lifetime", eBase->particlesLifeTime1);
+				json_object_set_number(child_object, "Lifetime2", eBase->particlesLifeTime2);
+				json_object_set_boolean(child_object, "RandomLT", eBase->randomLT);
 				//InitialPosition
 				JSON_Array* arrInitialPos;
 
@@ -483,7 +479,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_SPAWN:
+			case EmitterType::PARTICLE_SPAWN:
 			{
 				EmitterSpawner* eSpawn = (EmitterSpawner*)emitter->modules.at(i);
 
@@ -496,7 +492,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_POSITION:
+			case EmitterType::PARTICLE_POSITION:
 			{
 				EmitterPosition* ePosition = (EmitterPosition*)emitter->modules.at(i);
 
@@ -538,13 +534,13 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_ROTATION:
+			case EmitterType::PARTICLE_ROTATION:
 			{
 				//Doesn't store any value (Don't have different billboarding orientations)
 
 				break;
 			}
-			case PARTICLE_SIZE:
+			case EmitterType::PARTICLE_SIZE:
 			{
 				EmitterSize* eSize = (EmitterSize*)emitter->modules.at(i);
 
@@ -561,7 +557,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_COLOR:
+			case EmitterType::PARTICLE_COLOR:
 			{
 				EmitterColor* eColor = (EmitterColor*)emitter->modules.at(i);
 
@@ -601,7 +597,7 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLES_MAX:
+			case EmitterType::PARTICLES_MAX:
 				break;
 			default:
 				break;
@@ -662,7 +658,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 			//Y aqui un switch para crear en funcion del tipo
 			switch (emitter->modules.at(i)->type)
 			{
-			case PARTICLE_BASE:
+			case EmitterType::PARTICLE_BASE:
 			{
 				EmitterBase* eBase = (EmitterBase*)emitter->modules.at(i);
 
@@ -682,7 +678,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_SPAWN:
+			case EmitterType::PARTICLE_SPAWN:
 			{
 				EmitterSpawner* eSpawn = (EmitterSpawner*)emitter->modules.at(i);
 
@@ -695,7 +691,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_POSITION:
+			case EmitterType::PARTICLE_POSITION:
 			{
 				EmitterPosition* ePosition = (EmitterPosition*)emitter->modules.at(i);
 
@@ -751,13 +747,13 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_ROTATION:
+			case EmitterType::PARTICLE_ROTATION:
 			{
 				//Doesn't store any value (Don't have different billboarding orientations)
 
 				break;
 			}
-			case PARTICLE_SIZE:
+			case EmitterType::PARTICLE_SIZE:
 			{
 				EmitterSize* eSize = (EmitterSize*)emitter->modules.at(i);
 
@@ -774,7 +770,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_COLOR:
+			case EmitterType::PARTICLE_COLOR:
 			{
 				EmitterColor* eColor = (EmitterColor*)emitter->modules.at(i);
 
@@ -814,12 +810,12 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				break;
 			}
-			case PARTICLE_IMAGE:
+			case EmitterType::PARTICLE_IMAGE:
 			{
 				//TODO ERIC: QUE HA DE GUARDARSE PARA LA CARGA?
 				break;
 			}
-			case PARTICLES_MAX:
+			case EmitterType::PARTICLES_MAX:
 				break;
 			default:
 				break;
@@ -845,13 +841,13 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 	{
 		JSON_Object* modulo = json_array_get_object(arr, i);
 
-		EmiterType type = (EmiterType)json_object_get_number(modulo, "Type");
+		EmitterType type = (EmitterType)json_object_get_number(modulo, "Type");
 
 		EmitterSetting* instancia = pE->CreateEmitterSettingByType(type);
 
-		switch ((EmiterType)type)
+		switch ((EmitterType)type)
 		{
-		case PARTICLE_BASE:
+		case EmitterType::PARTICLE_BASE:
 		{
 			EmitterBase* eBase = (EmitterBase*)instancia;
 			eBase->particlesLifeTime1 = (float)json_object_get_number(modulo, "Lifetime");
@@ -867,7 +863,7 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 
 			break;
 		}
-		case PARTICLE_SPAWN:
+		case EmitterType::PARTICLE_SPAWN:
 		{
 			EmitterSpawner* eSpawn = (EmitterSpawner*)instancia;
 
@@ -877,7 +873,7 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 
 			break;
 		}
-		case PARTICLE_POSITION:
+		case EmitterType::PARTICLE_POSITION:
 		{
 			EmitterPosition* ePos = (EmitterPosition*)instancia;
 
@@ -906,11 +902,11 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 
 			break;
 		}
-		case PARTICLE_ROTATION:
+		case EmitterType::PARTICLE_ROTATION:
 		{
 			break;
 		}
-		case PARTICLE_SIZE:
+		case EmitterType::PARTICLE_SIZE:
 		{
 			EmitterSize* eSize = (EmitterSize*)instancia;
 
@@ -921,7 +917,7 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 			eSize->stopChange = (float)json_object_get_number(modulo, "TimeStop");
 			break;
 		}
-		case PARTICLE_COLOR:
+		case EmitterType::PARTICLE_COLOR:
 		{
 			EmitterColor* eColor = (EmitterColor*)instancia;
 
@@ -950,7 +946,7 @@ ParticleEmitter* CParticleSystem::LoadEmitterFromMeta(const char* pathMeta)
 
 			break;
 		}
-		case PARTICLES_MAX:
+		case EmitterType::PARTICLES_MAX:
 			break;
 		default:
 			break;

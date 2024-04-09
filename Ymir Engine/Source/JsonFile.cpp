@@ -2800,7 +2800,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			{
 				JSON_Object* modulo = json_array_get_object(settingsArray, j);
 
-				EmiterType type = (EmiterType)json_object_get_number(modulo, "Type");
+				EmitterType type = (EmitterType)json_object_get_number(modulo, "Type");
 
 				//No se si es lo mas correcto pero es para evitar los problemas con los settings que se crean automaticos por defecto (base + spawner)
 				EmitterSetting* instancia = pEmmiter->CreateEmitterSettingByType(type);
