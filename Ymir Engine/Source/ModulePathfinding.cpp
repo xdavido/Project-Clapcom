@@ -27,6 +27,8 @@
 #include "mmgr/mmgr.h"
 #include "RecastNavigation/DebugUtils/SampleInterfaces.h"
 
+#include "PhysfsEncapsule.h"
+
 #include "Random.h"
 
 ModulePathFinding::ModulePathFinding(Application* app, bool start_enabled) : Module(app, start_enabled),
@@ -108,12 +110,22 @@ update_status ModulePathFinding::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-int ModulePathFinding::Save(const char* scene_path)
+uint ModulePathFinding::Save(const char* scene_path)
 {
 	std::string navMeshPath;
 	//Falta mirar si esto es correcto!!!!
-	External->scene->GetUniqueName(navMeshPath);
-	navMeshPath = "Assets/NavMeshes/" + navMeshPath + ".nav";
+	External->scene->GetUniqueName(navMeshPath); // no funciona 
+
+	uint UID = Random::Generate();
+	navMeshPath = std::to_string(UID) + ".nav";
+	std::string libraryPath = External->fileSystem->libraryNavMeshPath + navMeshPath;
+
+	if (PhysfsEncapsule::FileExists(navMeshPath)) {
+		uint UID = Random::Generate();
+		navMeshPath = std::to_string(UID) + ".nav";
+		std::string libraryPath = External->fileSystem->libraryNavMeshPath + navMeshPath;
+
+	}
 
 	BuildSettings settings;
 
@@ -125,10 +137,10 @@ int ModulePathFinding::Save(const char* scene_path)
 
 	navMeshBuilder->CollectSettings(settings);
 
-	return ImporterNavMesh::Save(navMeshPath.c_str(), navMeshBuilder->GetNavMesh(), settings);
+	return ImporterNavMesh::Save(libraryPath.c_str(), navMeshBuilder->GetNavMesh(), settings, UID);
 }
 
-void ModulePathFinding::Load(int navMeshResourceUID)
+void ModulePathFinding::Load(uint navMeshResourceUID)
 {
 	BuildSettings settings;
 	dtNavMesh* navMesh = ImporterNavMesh::Load(navMeshResourceUID, settings);

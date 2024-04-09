@@ -7,6 +7,7 @@
 #include "RecastNavigation/Detour/DetourNavMeshQuery.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
+#include "Globals.h"
 
 class dtNavMesh;
 class dtNavMeshQuery;
@@ -85,8 +86,8 @@ public:
 	bool Init() override;
 	update_status Update(float dt);
 
-	int Save(const char* scene_path);
-	void Load(int navMeshResourceUID);
+	uint Save(const char* scene_path);
+	void Load(uint navMeshResourceUID);
 
 #ifndef STANDALONE
 	void DebugDraw();

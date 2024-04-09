@@ -6,7 +6,7 @@
 
 #include <vcruntime_string.h>
 
-int ImporterNavMesh::Save(const char* assets_path, dtNavMesh* navMesh, BuildSettings& buildSettings)
+uint ImporterNavMesh::Save(const char* assets_path, dtNavMesh* navMesh, BuildSettings& buildSettings, uint UID)
 {
 	if (!navMesh)
 		return -1;
@@ -52,10 +52,10 @@ int ImporterNavMesh::Save(const char* assets_path, dtNavMesh* navMesh, BuildSett
 	EngineExternal->moduleResources->GenerateMeta(assets_path, EngineExternal->moduleResources->GenLibraryPath(uid, Resource::Type::NAVMESH).c_str(),
 		uid, Resource::Type::NAVMESH);*/
 
-	return 1;
+	return UID;
 }
 
-dtNavMesh* ImporterNavMesh::Load(int navMeshResourceUID, BuildSettings& buildSettings)
+dtNavMesh* ImporterNavMesh::Load(uint navMeshResourceUID, BuildSettings& buildSettings)
 {
 	std::string libraryPath = External->fileSystem->libraryNavMeshPath + std::to_string(navMeshResourceUID);
 

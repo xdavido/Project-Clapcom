@@ -362,7 +362,9 @@ void ModuleScene::ClearScene()
 
 void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 {
-	ysceneFile.SetInt("NavMesh", App->pathFinding->Save(fileName.c_str()));
+	char str[20];
+	sprintf(str, "%u", App->pathFinding->Save(fileName.c_str()));
+	ysceneFile.SetString("NavMesh", str);
 	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
@@ -411,10 +413,14 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 
 	JSON_Object* sceneObj = json_value_get_object(scene);
 
-
-	int navMeshId = json_object_get_number(sceneObj, "NavMesh");
-	if (navMeshId != -1)
-		External->pathFinding->Load(navMeshId);
+	const char *str = json_object_get_string(sceneObj, "NavMesh");
+	if (str != nullptr) {
+		uint navMeshId = (uint)strtoul(str, NULL, 10);
+		if (navMeshId != -1)
+			External->pathFinding->Load(navMeshId);
+	}
+	
+	
 
 	LoadScriptsData();
 

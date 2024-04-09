@@ -5,6 +5,7 @@ typedef unsigned int dtTileRef;
 
 #include "RecastNavigation/Detour/DetourNavMesh.h"
 #include "RecastNavigation/InputGeom.h"
+#include "Globals.h"
 
 static const int NAVMESHSET_MAGIC = 'M' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'MSET';
 static const int NAVMESHSET_VERSION = 1;
@@ -34,6 +35,6 @@ struct GeometryData
 
 namespace ImporterNavMesh
 {
-	int Save(const char* assets_path, dtNavMesh* navMesh, BuildSettings& buildSettings);
-	dtNavMesh* Load(int navMeshResourceUID, BuildSettings& buildSettings);
+	uint Save(const char* assets_path, dtNavMesh* navMesh, BuildSettings& buildSettings, uint UID);
+	dtNavMesh* Load(uint navMeshResourceUID, BuildSettings& buildSettings);
 }
