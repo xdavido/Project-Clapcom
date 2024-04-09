@@ -14,7 +14,10 @@ public class QueenXenomorphAttack : YmirComponent
 
     private float damageTimer;
 
-    private float attackDamage;
+
+    private float clawDamage = 1f;
+    private float axeDamage = 1f;
+    private float dashDamage = 1f;
 
     private GameObject player;
 
@@ -23,7 +26,6 @@ public class QueenXenomorphAttack : YmirComponent
     public void Start()
     {
         damageTimer = 0f;
-        attackDamage = 1f;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
 
@@ -43,7 +45,7 @@ public class QueenXenomorphAttack : YmirComponent
         else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.CLAW)
         {
             //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 20f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 25f))
             {
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 150f);
             }
@@ -54,8 +56,7 @@ public class QueenXenomorphAttack : YmirComponent
         }
         else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
         {
-            //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 30f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 45f))
             {
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 200f);
             }
@@ -71,10 +72,26 @@ public class QueenXenomorphAttack : YmirComponent
     {
         if (other.Name == "Player" && damageTimer <= 0)
         {
-            //Debug.Log("[ERROR] HIT");
-            damageTimer = 1.5f;
-            healthScript.TakeDmg(attackDamage);
+            if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.CLAW)
+            {
+                Debug.Log("[ERROR] CLAWhit");
+                damageTimer = 2.5f;
+                healthScript.TakeDmg(clawDamage);
+            }
+            if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
+            {
+                Debug.Log("[ERROR] AXEhit");
+                damageTimer = 3.5f;
+                healthScript.TakeDmg(axeDamage);
+            }
+            if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.DASH)
+            {
+                Debug.Log("[ERROR] DASHhit");
+                damageTimer = 2.5f;
+                healthScript.TakeDmg(dashDamage);
+            }
         }
+
     }
 
 }
