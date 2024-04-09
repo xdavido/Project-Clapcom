@@ -70,6 +70,7 @@
 		<Compile Include="Assets\Scripts\Button_Exit.cs" />
 		<Compile Include="Assets\Scripts\FaceHuggerAttack.cs" />
 		<Compile Include="Assets\Scripts\QueenXenomorphBaseScript.cs" />
+		<Compile Include="Assets\Scripts\QueenXenomorphAttack.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

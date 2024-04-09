@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 
 using YmirEngine;
 
-public class FaceHuggerAttack : YmirComponent
+public class QueenXenomorphAttack : YmirComponent
 {
     public GameObject thisReference = null;
 
-    public GameObject facehugger;
+    public GameObject queen;
 
     private float damageTimer;
 
@@ -21,7 +21,7 @@ public class FaceHuggerAttack : YmirComponent
     private Health healthScript;
 
     public void Start()
-	{
+    {
         damageTimer = 0f;
         attackDamage = 1f;
         player = InternalCalls.GetGameObjectByName("Player");
@@ -30,20 +30,32 @@ public class FaceHuggerAttack : YmirComponent
     }
 
     public void Update()
-	{
+    {
         damageTimer -= Time.deltaTime;
 
-        gameObject.SetRotation(facehugger.transform.globalRotation);
+        gameObject.SetRotation(queen.transform.globalRotation);
 
         //Since there's a small bug before attacking which causes the sensor not to move, the conditional is done this way for now
-        if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer > 0.4f)
+        if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.CLAW && queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.AXE_TAIL)
         {
-            gameObject.SetPosition(facehugger.transform.globalPosition);
+            gameObject.SetPosition(queen.transform.globalPosition);
         }
-        else if (facehugger.GetComponent<FaceHuggerBaseScript>().attackTimer < 0.4f)
+        else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.CLAW)
         {
             //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            if (facehugger.GetComponent<FaceHuggerBaseScript>().CheckDistance(gameObject.transform.globalPosition, facehugger.transform.globalPosition, 10f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 10f))
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 100f);
+            }
+            else
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0f);
+            }
+        }
+        else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
+        {
+            //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 10f))
             {
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 100f);
             }

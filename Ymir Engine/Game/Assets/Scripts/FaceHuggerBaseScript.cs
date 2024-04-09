@@ -174,12 +174,12 @@ public class FaceHuggerBaseScript : YmirComponent
                     ySpeed = vectorToPlayer.z;
 
                     RotateEnemy();
-                    Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
+                    //Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
                     gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
                     break;
 
                 case WanderState.STOPED:
-                    Debug.Log("[ERROR] Current State: STOPED");
+                    //Debug.Log("[ERROR] Current State: STOPED");
                     ProcessStopped();
                 break;
 
@@ -214,7 +214,7 @@ public class FaceHuggerBaseScript : YmirComponent
 
                         if (wanderState == WanderState.CHASING && wanderState != WanderState.ATTACK)
                         {
-                            Debug.Log("[ERROR] ATTACKING");
+                            //Debug.Log("[ERROR] ATTACKING");
                             attackTimer = attackDuration;
                             gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
                             wanderState = WanderState.ATTACK;
@@ -247,7 +247,7 @@ public class FaceHuggerBaseScript : YmirComponent
             cumTimer -= Time.deltaTime;
             if(cumTimer<=0)
             {
-                Debug.Log("[ERROR] Reached");
+                //Debug.Log("[ERROR] Reached");
                 wanderState = WanderState.REACHED;
             }
         }
@@ -272,7 +272,7 @@ public class FaceHuggerBaseScript : YmirComponent
             if (wanderTimer <= 0)
             {
 
-                Debug.Log("[ERROR] AAAA");
+                //Debug.Log("[ERROR] AAAA");
                 actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;
                 wanderState = WanderState.STOPED;

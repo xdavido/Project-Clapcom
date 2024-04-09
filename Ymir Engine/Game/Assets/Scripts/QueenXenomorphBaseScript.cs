@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 using YmirEngine;
 
-enum QueenState
+public enum QueenState
 {
 	//PHASE 1
 
@@ -59,12 +59,18 @@ public class QueenXenomorphBaseScript : YmirComponent
 
     private GameObject player;
 
+    private Health healthScript;
+
     //For attacks
     //Random attack
     private Random random = new Random();
     private bool randomSelected = false;
     private float selectedAttack = 0f;
     private float randomCounter = 0f;
+
+    private float clawDamage = 600f;
+    private float axeDamage = 1200f;
+    private float dashDamage = 800f;
 
     //Random movement
     private bool randomMovSelected = false;
@@ -517,5 +523,19 @@ public class QueenXenomorphBaseScript : YmirComponent
 
         return deltaX <= checkRadius && deltaY <= checkRadius && deltaZ <= checkRadius;
     }
+    public QueenState GetState()
+    {
+        return queenState;
+    }
+
+    public void OnCollisionEnter(GameObject other)
+    {
+        if (other.Name == "Player" && queenState == QueenState.DASH)
+        {
+            //Debug.Log("[ERROR] HIT");
+            healthScript.TakeDmg(dashDamage);
+        }
+    }
+
 
 }
