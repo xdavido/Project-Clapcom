@@ -106,7 +106,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 					rTexTemp->type = TextureType::DIFFUSE;
 					rTexTemp->UID = Random::Generate();
-					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
 					static_cast<CMaterial*>((*jt))->rTextures.clear();
 					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
 				}
@@ -117,7 +116,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 					rTexTemp->type = TextureType::DIFFUSE;
 					rTexTemp->UID = Random::Generate();
-					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
 				}
@@ -139,11 +137,36 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 			case ResourceType::TEXTURE:
 			{
+				//for (auto it = App->scene->GetSelectedGOs().begin(); it != App->scene->GetSelectedGOs().end(); ++it)
+				//{
+				//	for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
+				//	{
+				//		if ((*jt)->ctype == ComponentType::MATERIAL)
+				//		{
+				//			ResourceTexture* rTexTemp = new ResourceTexture();
+				//			ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-				/*for (auto itr = 0; itr != App->editor.; itr++)
-				{
+				//			rTexTemp->type = TextureType::DIFFUSE;
+				//			rTexTemp->UID = Random::Generate();
+				//			static_cast<CMaterial*>((*jt))->rTextures.clear();
+				//			static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+				//		}
+				//		else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
+				//		{
+				//			static_cast<UI_Image*>((*jt))->SetImg(assetsFilePath, UI_STATE::NORMAL);
+				//			/*ResourceTexture* rTexTemp = new ResourceTexture();
+				//			ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-				}*/
+				//			rTexTemp->type = TextureType::DIFFUSE;
+				//			rTexTemp->UID = Random::Generate();
+				//			static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+				//			static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);*/
+				//		}
+
+				//	}
+
+				//}
+
 			}
 			break;
 			case ResourceType::MESH:
@@ -308,9 +331,117 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 
 			case ResourceType::TEXTURE:
+			{
+				// Search resource: if it exists --> create a game object with a reference to it
+				// else --> create the resource from library and the game object to contain it
+				int id = metaFile->GetInt("UID");
+				auto itr = resources.find(id);
 
-				//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
-				break;
+				//if (itr == resources.end())
+				//{
+				//	ResourceTexture* rTex = static_cast<ResourceTexture*>
+				//		(CreateResourceFromLibrary((".\/Library\/Textures\/" + std::to_string(id) + ".dds").c_str(), ResourceType::TEXTURE, id));
+
+				//	//ResourceMesh* rMesh = static_cast<ResourceMesh*>
+				//	//	(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(resourcesIds[i]) + ".ymesh").c_str(), ResourceType::MESH, resourcesIds[i]));
+
+				//	//CMesh* cmesh = new CMesh(meshGO);
+
+				//	//cmesh->rMeshReference = rMesh;
+				//	//cmesh->nVertices = rMesh->vertices.size();
+				//	//cmesh->nIndices = rMesh->indices.size();
+
+				//	//cmesh->InitBoundingBoxes();
+				//	//meshGO->AddComponent(cmesh);
+
+				//	//// Apply Checker Image
+
+				//	//CMaterial* cmat = new CMaterial(meshGO);
+
+				//	//ResourceTexture* rTex = new ResourceTexture();
+
+				//	//rTex->LoadCheckerImage();
+
+				//	//rTex->type = TextureType::DIFFUSE;
+
+				//	//cmat->UID = rTex->UID;
+				//	//cmat->path = "Checker Image";
+				//	//cmat->rTextures.push_back(rTex);
+
+				//	//meshGO->AddComponent(cmat);
+
+				//}
+				//else
+				//{
+				//	GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+				//	meshGO->UID = ids[i];
+				//	meshGO->type = "Mesh";
+
+				//	ResourceMesh* tmpMesh = static_cast<ResourceMesh*>(itr->second);
+
+				//	CMesh* cmesh = new CMesh(meshGO);
+
+				//	cmesh->rMeshReference = tmpMesh;
+				//	cmesh->nVertices = tmpMesh->vertices.size();
+				//	cmesh->nIndices = tmpMesh->indices.size();
+
+				//	cmesh->InitBoundingBoxes();
+
+				//	meshGO->AddComponent(cmesh);
+
+				//	// Apply Checker Image
+
+				//	CMaterial* cmat = new CMaterial(meshGO);
+
+				//	ResourceTexture* rTex = new ResourceTexture();
+
+				//	rTex->LoadCheckerImage();
+
+				//	rTex->type = TextureType::DIFFUSE;
+
+				//	cmat->UID = rTex->UID;
+				//	cmat->path = "Checker Image";
+				//	cmat->rTextures.push_back(rTex);
+
+				//	meshGO->AddComponent(cmat);
+
+				//	itr->second->IncreaseReferenceCount();
+				//}
+
+				//for (auto it = App->scene->GetSelectedGOs().begin(); it != App->scene->GetSelectedGOs().end(); ++it)
+				//{
+				//	for (auto jt = (*it)->mComponents.begin(); jt != (*it)->mComponents.end(); ++jt)
+				//	{
+				//		if ((*jt)->ctype == ComponentType::MATERIAL)
+				//		{
+				//			ResourceTexture* rTexTemp = new ResourceTexture();
+				//			ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+				//			rTexTemp->type = TextureType::DIFFUSE;
+				//			rTexTemp->UID = Random::Generate();
+				//			static_cast<CMaterial*>((*jt))->path = assetsFilePath;
+				//			static_cast<CMaterial*>((*jt))->rTextures.clear();
+				//			static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+				//		}
+				//		else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
+				//		{
+				//			ResourceTexture* rTexTemp = new ResourceTexture();
+				//			ImporterTexture::Import(assetsFilePath, rTexTemp);
+
+				//			rTexTemp->type = TextureType::DIFFUSE;
+				//			rTexTemp->UID = Random::Generate();
+				//			static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+				//			static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
+				//			static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
+				//		}
+
+				//	}
+
+				//}
+
+			}
+			//ImporterTexture::Import(assetsFilePath.c_str(), (ResourceTexture*)resource);
+			break;
 
 			case ResourceType::MATERIAL:
 
@@ -682,13 +813,13 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 	case ResourceType::ANIMATION:
 
 		tmpResource = new ResourceAnimation(UID);
-		break; 
+		break;
 	}
 
 	if (tmpResource != nullptr)
 	{
 		// Fix Resource Texture
-		
+
 		//if (resources.find(UID) != resources.end()) {
 
 		//	tmpResource->IncreaseReferenceCount();
