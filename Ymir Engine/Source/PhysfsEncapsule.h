@@ -75,6 +75,7 @@ namespace PhysfsEncapsule {
     //Get name from any asset path
     std::string GetAssetName(const std::string& path);
 
-    //Convert CSV to String
-    std::string ExtractStringFromSVG(const std::string& filename, const std::vector<std::string>& fieldNames);
+    //Convert CVS to string with the C# scripting format
+    std::string ExtractStringFromCSV(const std::string& filename, const std::vector<std::string>& keys);
+
 }

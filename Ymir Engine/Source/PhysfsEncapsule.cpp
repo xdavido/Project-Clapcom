@@ -489,59 +489,56 @@ std::string PhysfsEncapsule::GetAssetName(const std::string& path) {
 	return name.substr(0, dotPos);
 }
 
-// Función genérica para procesar un archivo y combinar los valores según los campos especificados
-std::string PhysfsEncapsule::ExtractStringFromSVG(const std::string& filename, const std::vector<std::string>& fieldNames) {
+// Función para extraer el string de un archivo CSV dado las claves
+std::string PhysfsEncapsule::ExtractStringFromCSV(const std::string& filename, const std::vector<std::string>& keys) {
 	std::ifstream file(filename);
 	std::string line;
-	std::vector<std::unordered_map<std::string, std::string>> data; // Vector de mapas (campo -> valor)
+	std::stringstream result;
 
+	// Verificar si se pudo abrir el archivo
 	if (!file.is_open()) {
-		std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
-		LOG("[ERROR] No se pudo abrir el archivo %s", filename);
+		std::cerr << "No se pudo abrir el archivo: " << filename << std::endl;
+		LOG("[ERROR] Unable to open CSV file");
 		return "";
 	}
 
-	// Leer cada línea del archivo
 	while (std::getline(file, line)) {
-		std::unordered_map<std::string, std::string> record; // Mapa para almacenar los valores de cada línea
+		std::stringstream ss(line);
+		std::string token;
+		std::vector<std::string> tokens;
 
-		// Procesar la línea para cada nombre de campo especificado
-		for (const auto& fieldName : fieldNames) {
-			size_t pos = line.find(fieldName);
-			if (pos != std::string::npos) {
-				// Encontrar el valor después del nombre del campo
-				std::string value = line.substr(pos + fieldName.length());
-				// Eliminar espacios en blanco al principio y al final del valor
-				value.erase(0, value.find_first_not_of(" \t\r\n"));
-				value.erase(value.find_last_not_of(" \t\r\n") + 1);
+		// Separar la línea por comas para obtener los campos
+		while (std::getline(ss, token, ',')) {
+			tokens.push_back(token);
+		}
 
-				// Almacenar el par (campo, valor) en el mapa
-				record[fieldName] = value;
+		// Verificar si la línea contiene las claves esperadas
+		bool validLine = true;
+		for (const auto& key : keys) {
+			if (std::find(tokens.begin(), tokens.end(), key) == tokens.end()) {
+				validLine = false;
+				break;
 			}
 		}
 
-		if (!record.empty()) {
-			// Agregar el mapa de esta línea al vector de datos
-			data.push_back(record);
-		}
-	}
+		// Si la línea es válida, construir el string de salida
+		if (validLine) {
+			for (const auto& token : tokens) {
+				// Eliminar el carácter ':' de los tokens
+				auto cleanedToken = token;
+				cleanedToken.erase(std::remove(cleanedToken.begin(), cleanedToken.end(), ':'), cleanedToken.end());
 
-	file.close();
-
-	// Construir la cadena de salida en el formato deseado
-	std::stringstream result;
-	for (const auto& record : data) {
-		bool firstField = true;
-		for (const auto& fieldName : fieldNames) {
-			if (record.find(fieldName) != record.end()) {
-				if (!firstField) {
-					result << ",";
+				// Concatenar solo los valores correspondientes a las claves
+				auto it = std::find(keys.begin(), keys.end(), token);
+				if (it != keys.end()) {
+					// Obtener el siguiente token como el valor asociado
+					auto nextTokenPos = std::find(tokens.begin(), tokens.end(), token) + 1;
+					if (nextTokenPos != tokens.end()) {
+						result << cleanedToken << "," << *nextTokenPos << ";";
+					}
 				}
-				result << record.at(fieldName);
-				firstField = false;
 			}
 		}
-		result << ";";
 	}
 
 	return result.str();

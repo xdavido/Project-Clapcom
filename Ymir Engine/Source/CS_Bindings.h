@@ -704,19 +704,34 @@ void SliderSetMax(MonoObject* object, double value)
 	}
 }
 
-// Función para procesar los strings y generar el output deseado
-MonoString* CSVToString(MonoString* filePath, MonoString* csFields[], int numFields) {
-	std::string filename = mono_string_to_utf8(filePath); // Nombre del archivo a procesar
+MonoString* CSVToString(MonoString* _filePath, MonoString* _csFields) {
+
+	std::string filename = mono_string_to_utf8(_filePath); // File name to process
+	std::string csFields = mono_string_to_utf8(_csFields); // CSV fields to extract
 	std::vector<std::string> fields;
 
-	// Convertir cada MonoString a std::string y agregarlo al vector fields
-	for (int i = 0; i < numFields; ++i) {
-		std::string fieldStr = mono_string_to_utf8(csFields[i]);
-		fields.push_back(fieldStr);
+	// Process csFields to extract elements separated by commas
+	std::string field;
+	for (char c : csFields) {
+		if (c == ',') {
+			// When encountering a comma, add the current field to the vector
+			fields.push_back(field);
+			field.clear();
+		}
+		else {
+			// Append the character to the current field
+			field += c;
+		}
 	}
 
-	std::string output = PhysfsEncapsule::ExtractStringFromSVG(filename, fields);
+	// Add the last field after the last comma (or the only field if no commas are present)
+	if (!field.empty()) {
+		fields.push_back(field);
+	}
 
+	std::string output = PhysfsEncapsule::ExtractStringFromCSV(filename, fields);
+
+	// Convert the resulting output string back to MonoString
 	return mono_string_new(External->moduleMono->domain, output.c_str());
 }
 

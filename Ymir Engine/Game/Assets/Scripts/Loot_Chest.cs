@@ -17,11 +17,12 @@ public class Loot_Chest : YmirComponent
 
 	public void Update()
 	{
-        if(Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
+		if (Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
 		{
-            string[] fields = new string[] { "Name:,", "Probability:," };
-            Debug.Log(InternalCalls.CSVToString("C:/Users/cacah/OneDrive/Documentos/GitHub/Project-Clapcom/Ymir Engine/Game/Assets/Loot Tables/loot_table.csv", fields[0], 1));
-		}
+			string keys = "Nombre:,Probabilidad:";
 
+            string output = InternalCalls.CSVToString("Assets/Loot Tables/loot_table.csv", keys);
+			Debug.Log("Output :" + output);
+		}
     }
 }

@@ -52,10 +52,13 @@ namespace YmirEngine
         public static extern GameObject ExitGame();
 
         /// <summary>
-        /// Retrieves a string with the values of the fields of the CSV.
+        /// Retrieves a string with the values of the fields of the CSV, every field end with "," and every item with ";"
         /// </summary>
+        /// <param name="filePath">The path to the CSV file (in this format: "Assets/Loot Tables/loot_table.csv").</param>
+        /// <param name="csFields">The CSV field names with their corresponding delimiters (in this format: "Nombre:,Probabilidad:") every field end with a comma ",".</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern string CSVToString(string filePath, string csField, int numFields);
+        public static extern string CSVToString(string filePath, string csFields);
+
     }
 
     /// <summary>
