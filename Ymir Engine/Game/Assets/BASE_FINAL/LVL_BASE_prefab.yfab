@@ -1,0 +1,4731 @@
+{
+    "Prefab": [
+        {
+            "Name": "BASE_MAP",
+            "Tag": "Untagged",
+            "UID": 124833289,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 379278140,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1576030869,
+                597699074,
+                460169788,
+                1036132460,
+                1854657964,
+                2022478351,
+                1524418472,
+                1930677151,
+                1600884251,
+                1464599879,
+                1246532437,
+                2011095595,
+                1043191971
+            ]
+        },
+        {
+            "Name": "Teleport_Room",
+            "Tag": "Untagged",
+            "UID": 1576030869,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1338822311,
+                384897898,
+                1585717449,
+                362298392
+            ]
+        },
+        {
+            "Name": "Platform",
+            "Tag": "Untagged",
+            "UID": 1338822311,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1576030869,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1601409098,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Stairs1",
+            "Tag": "Untagged",
+            "UID": 384897898,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1576030869,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1616088946,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Stairs2",
+            "Tag": "Untagged",
+            "UID": 1585717449,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1576030869,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1429704020,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Stairs3",
+            "Tag": "Untagged",
+            "UID": 362298392,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1576030869,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1642522176,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Android",
+            "Tag": "Untagged",
+            "UID": 597699074,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 679251691,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Floor",
+            "Tag": "Untagged",
+            "UID": 460169788,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 817610740,
+                    "Vertex Count": 4,
+                    "Index Count": 6
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/DefaultShader.glsl",
+                    "Uniforms": [
+                        {}
+                    ],
+                    "Diffuse_ID": 429,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
+                    "Diffuse_UID": 1204100406
+                }
+            ]
+        },
+        {
+            "Name": "Mother_Chair",
+            "Tag": "Untagged",
+            "UID": 1036132460,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 380311917,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Workstation_Low",
+            "Tag": "Untagged",
+            "UID": 1854657964,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 646549349,
+                    "Vertex Count": 1867,
+                    "Index Count": 3315
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 419,
+                    "Diffuse_Path": "Assets\/BASE_FINAL\/Base_Textures\/Workstation\/TEX_PROP_Workbench_D.png",
+                    "Diffuse_UID": 430837287
+                }
+            ]
+        },
+        {
+            "Name": "Console_LOW",
+            "Tag": "Untagged",
+            "UID": 2022478351,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1213661812,
+                    "Vertex Count": 1228,
+                    "Index Count": 2424
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 343,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Monitoring Console\/TEX_PROP_Console_D.png",
+                    "Diffuse_UID": 878195702
+                }
+            ]
+        },
+        {
+            "Name": "Walls_BASE",
+            "Tag": "Untagged",
+            "UID": 1524418472,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1232227639,
+                1216351579,
+                1363948118,
+                504661290,
+                192699574,
+                1058924925,
+                205390546,
+                1953977233,
+                382511030,
+                2080592802,
+                603332741,
+                1090633458,
+                684142770,
+                2141531648,
+                1255379630,
+                791848832,
+                1129306035,
+                502233411,
+                5033502,
+                833535683,
+                142078955,
+                767899155,
+                1987425560,
+                127902526,
+                1718644862,
+                872982874,
+                298138447,
+                1424700672
+            ]
+        },
+        {
+            "Name": "Wall_Low2",
+            "Tag": "Untagged",
+            "UID": 1232227639,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1208816454,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low3",
+            "Tag": "Untagged",
+            "UID": 1216351579,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2052824512,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low4",
+            "Tag": "Untagged",
+            "UID": 1363948118,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1525068616,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low5",
+            "Tag": "Untagged",
+            "UID": 504661290,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1004281198,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low6",
+            "Tag": "Untagged",
+            "UID": 192699574,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1871310938,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low7",
+            "Tag": "Untagged",
+            "UID": 1058924925,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 229864010,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low8",
+            "Tag": "Untagged",
+            "UID": 205390546,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 899761177,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low9",
+            "Tag": "Untagged",
+            "UID": 1953977233,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2086553113,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low10",
+            "Tag": "Untagged",
+            "UID": 382511030,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1702307817,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low11",
+            "Tag": "Untagged",
+            "UID": 2080592802,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1476068910,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low12",
+            "Tag": "Untagged",
+            "UID": 603332741,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1294384856,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low",
+            "Tag": "Untagged",
+            "UID": 1090633458,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1306176413,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low1",
+            "Tag": "Untagged",
+            "UID": 684142770,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1106345344,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low13",
+            "Tag": "Untagged",
+            "UID": 2141531648,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1813323301,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low14",
+            "Tag": "Untagged",
+            "UID": 1255379630,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1752652467,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low15",
+            "Tag": "Untagged",
+            "UID": 791848832,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 538635133,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low16",
+            "Tag": "Untagged",
+            "UID": 1129306035,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 775791862,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low17",
+            "Tag": "Untagged",
+            "UID": 502233411,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 344109385,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low18",
+            "Tag": "Untagged",
+            "UID": 5033502,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1052107274,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low19",
+            "Tag": "Untagged",
+            "UID": 833535683,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 638644245,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low20",
+            "Tag": "Untagged",
+            "UID": 142078955,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 326191875,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low21",
+            "Tag": "Untagged",
+            "UID": 767899155,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 853490273,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low22",
+            "Tag": "Untagged",
+            "UID": 1987425560,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1670359502,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low23",
+            "Tag": "Untagged",
+            "UID": 127902526,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 646978195,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low24",
+            "Tag": "Untagged",
+            "UID": 1718644862,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1453741512,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low25",
+            "Tag": "Untagged",
+            "UID": 872982874,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 283324955,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low26",
+            "Tag": "Untagged",
+            "UID": 298138447,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1884370110,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Low27",
+            "Tag": "Untagged",
+            "UID": 1424700672,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1524418472,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 118569925,
+                    "Vertex Count": 352,
+                    "Index Count": 696
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 341,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Basic_Wall\/BASE COLOR HERE\/TEX_PROP_BasicWall_D.png",
+                    "Diffuse_UID": 586011931
+                }
+            ]
+        },
+        {
+            "Name": "Interior_Columns",
+            "Tag": "Untagged",
+            "UID": 1930677151,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                270118319,
+                1001141712,
+                2128861016,
+                1253730310,
+                418207751,
+                1220062743,
+                1505878804,
+                464986751,
+                1237269809,
+                1552302991,
+                786796355,
+                502558377,
+                1522447915,
+                1899952079
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low1",
+            "Tag": "Untagged",
+            "UID": 270118319,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1814026104,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low2",
+            "Tag": "Untagged",
+            "UID": 1001141712,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 508589262,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low3",
+            "Tag": "Untagged",
+            "UID": 2128861016,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1393142278,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low",
+            "Tag": "Untagged",
+            "UID": 1253730310,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1341266694,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low4",
+            "Tag": "Untagged",
+            "UID": 418207751,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 661192175,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low5",
+            "Tag": "Untagged",
+            "UID": 1220062743,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2090816048,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low6",
+            "Tag": "Untagged",
+            "UID": 1505878804,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 400688539,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low7",
+            "Tag": "Untagged",
+            "UID": 464986751,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 558973875,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low8",
+            "Tag": "Untagged",
+            "UID": 1237269809,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1699485667,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low9",
+            "Tag": "Untagged",
+            "UID": 1552302991,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 229883410,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low10",
+            "Tag": "Untagged",
+            "UID": 786796355,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1971460625,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low11",
+            "Tag": "Untagged",
+            "UID": 502558377,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1059461162,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low12",
+            "Tag": "Untagged",
+            "UID": 1522447915,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1175220542,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "ColumnInterior_Low13",
+            "Tag": "Untagged",
+            "UID": 1899952079,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1930677151,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 840406255,
+                    "Vertex Count": 353,
+                    "Index Count": 672
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 423,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Interior\/TEX_PROP_WallColumnInterior_D.png",
+                    "Diffuse_UID": 498384931
+                }
+            ]
+        },
+        {
+            "Name": "Doors",
+            "Tag": "Untagged",
+            "UID": 1600884251,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1480580317,
+                1619777934,
+                1139117405,
+                1992121789
+            ]
+        },
+        {
+            "Name": "Door_LowPoly2",
+            "Tag": "Untagged",
+            "UID": 1480580317,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1600884251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 731936411,
+                    "Vertex Count": 550,
+                    "Index Count": 1272
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 431,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Door\/TEX_PROP_Door__D.png",
+                    "Diffuse_UID": 539466227
+                }
+            ]
+        },
+        {
+            "Name": "Door_LowPoly1",
+            "Tag": "Untagged",
+            "UID": 1619777934,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1600884251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 343644670,
+                    "Vertex Count": 550,
+                    "Index Count": 1272
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 431,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Door\/TEX_PROP_Door__D.png",
+                    "Diffuse_UID": 539466227
+                }
+            ]
+        },
+        {
+            "Name": "Door_LowPoly",
+            "Tag": "Untagged",
+            "UID": 1139117405,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1600884251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1275278703,
+                    "Vertex Count": 552,
+                    "Index Count": 1272
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 431,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Door\/TEX_PROP_Door__D.png",
+                    "Diffuse_UID": 539466227
+                }
+            ]
+        },
+        {
+            "Name": "Door_LowPoly3",
+            "Tag": "Untagged",
+            "UID": 1992121789,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1600884251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1696181116,
+                    "Vertex Count": 552,
+                    "Index Count": 1272
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 431,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Door\/TEX_PROP_Door__D.png",
+                    "Diffuse_UID": 539466227
+                }
+            ]
+        },
+        {
+            "Name": "Exterior_Columns",
+            "Tag": "Untagged",
+            "UID": 1464599879,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2135832951,
+                1656988491,
+                1656627209,
+                251826414,
+                1545458546,
+                1132520546,
+                1189493696,
+                1686147761
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low1",
+            "Tag": "Untagged",
+            "UID": 2135832951,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 14240385,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low2",
+            "Tag": "Untagged",
+            "UID": 1656988491,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2004370820,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low3",
+            "Tag": "Untagged",
+            "UID": 1656627209,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1071626909,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low",
+            "Tag": "Untagged",
+            "UID": 251826414,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 672648984,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low4",
+            "Tag": "Untagged",
+            "UID": 1545458546,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2059141078,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low5",
+            "Tag": "Untagged",
+            "UID": 1132520546,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 782813104,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low6",
+            "Tag": "Untagged",
+            "UID": 1189493696,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 81303686,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "ColumnExterior_Low7",
+            "Tag": "Untagged",
+            "UID": 1686147761,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1464599879,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1881371821,
+                    "Vertex Count": 280,
+                    "Index Count": 504
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 425,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/Column_Exterior\/WallColumnExterior_D.png",
+                    "Diffuse_UID": 1719118856
+                }
+            ]
+        },
+        {
+            "Name": "Normal_Columns",
+            "Tag": "Untagged",
+            "UID": 1246532437,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1539956202,
+                829600435,
+                1985011333,
+                1753480733
+            ]
+        },
+        {
+            "Name": "Column_Low1",
+            "Tag": "Untagged",
+            "UID": 1539956202,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1246532437,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1789587576,
+                    "Vertex Count": 152,
+                    "Index Count": 276
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 427,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Column\/BASE COLOR HERE\/TEX_PROP_Column_D.png",
+                    "Diffuse_UID": 1692008630
+                }
+            ]
+        },
+        {
+            "Name": "Column_Low",
+            "Tag": "Untagged",
+            "UID": 829600435,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1246532437,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 694144751,
+                    "Vertex Count": 152,
+                    "Index Count": 276
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 427,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Column\/BASE COLOR HERE\/TEX_PROP_Column_D.png",
+                    "Diffuse_UID": 1692008630
+                }
+            ]
+        },
+        {
+            "Name": "Column_Low2",
+            "Tag": "Untagged",
+            "UID": 1985011333,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1246532437,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 599900678,
+                    "Vertex Count": 152,
+                    "Index Count": 276
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 427,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Column\/BASE COLOR HERE\/TEX_PROP_Column_D.png",
+                    "Diffuse_UID": 1692008630
+                }
+            ]
+        },
+        {
+            "Name": "Column_Low3",
+            "Tag": "Untagged",
+            "UID": 1753480733,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 1246532437,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 846739819,
+                    "Vertex Count": 152,
+                    "Index Count": 276
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 427,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Walls\/-_Column\/BASE COLOR HERE\/TEX_PROP_Column_D.png",
+                    "Diffuse_UID": 1692008630
+                }
+            ]
+        },
+        {
+            "Name": "Chest_BASE",
+            "Tag": "Untagged",
+            "UID": 2011095595,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2087743877,
+                4496631
+            ]
+        },
+        {
+            "Name": "PROP_Base_Chest_Base",
+            "Tag": "Untagged",
+            "UID": 2087743877,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 2011095595,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1890334185,
+                    "Vertex Count": 452,
+                    "Index Count": 840
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 403,
+                    "Diffuse_Path": "Assets\/BASE_FINAL\/Base_Textures\/Chest\/PROP_Base_Chest_D.png",
+                    "Diffuse_UID": 215826196
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Base_Chest_Lid",
+            "Tag": "Untagged",
+            "UID": 4496631,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 2011095595,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 432377280,
+                    "Vertex Count": 388,
+                    "Index Count": 690
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 407,
+                    "Diffuse_Path": "Assets\/BASE_FINAL\/Base_Textures\/Chest\/PROP_Base_Chest_D.png",
+                    "Diffuse_UID": 215826196
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Teleport",
+            "Tag": "Untagged",
+            "UID": 1043191971,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_FINAL\/BASE_MAP.fbx",
+            "Parent UID": 124833289,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 426256241,
+                    "Vertex Count": 2322,
+                    "Index Count": 4488
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 411,
+                    "Diffuse_Path": "Assets\/BASE_FINAL\/Base_Textures\/Teleporter\/PROP_Base_Teleporter_D.png",
+                    "Diffuse_UID": 1749556651
+                }
+            ]
+        }
+    ]
+}
