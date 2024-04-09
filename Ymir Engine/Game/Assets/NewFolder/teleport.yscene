@@ -22,10 +22,11 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 2063964624,
+            "Parent UID": 1865183869,
             "Components": [
                 {
                     "Type": "Transform",
@@ -54,6 +55,7 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 598771385,
             "Active": true,
             "Element_Type": "None",
@@ -68,9 +70,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -95,17 +97,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -119,6 +121,7 @@
         },
         {
             "Name": "Level Selection Canvas",
+            "Tag": "Untagged",
             "UID": 365492027,
             "Active": true,
             "Element_Type": "None",
@@ -149,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 841,
-                    "Height": 662,
+                    "Width": 1904,
+                    "Height": 1050,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -167,6 +170,7 @@
         },
         {
             "Name": "Screen",
+            "Tag": "Untagged",
             "UID": 1008796905,
             "Active": true,
             "Element_Type": "None",
@@ -194,6 +198,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "BaseTeleporter.cs",
+                    "Active": 0,
                     "UID": 0,
                     "selectedLvl": 0,
                     "selectedWeapon": 0
@@ -211,6 +216,7 @@
         },
         {
             "Name": "Lvl Selector",
+            "Tag": "Untagged",
             "UID": 1384942655,
             "Active": true,
             "Element_Type": "None",
@@ -271,6 +277,7 @@
         },
         {
             "Name": "Weapon Selector",
+            "Tag": "Untagged",
             "UID": 1514367215,
             "Active": true,
             "Element_Type": "None",
@@ -331,6 +338,7 @@
         },
         {
             "Name": "Level Selection",
+            "Tag": "Untagged",
             "UID": 1061151580,
             "Active": true,
             "Element_Type": "None",
@@ -364,6 +372,7 @@
         },
         {
             "Name": "Lvl1",
+            "Tag": "Untagged",
             "UID": 732552863,
             "Active": true,
             "Element_Type": "None",
@@ -474,6 +483,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 0,
                     "UID": 0,
                     "lvl": 0,
                     "isLocked": false
@@ -485,7 +495,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (1)",
+            "Tag": "Untagged",
             "UID": 1066954428,
             "Active": true,
             "Element_Type": "None",
@@ -545,7 +556,8 @@
             ]
         },
         {
-            "Name": "Image",
+            "Name": "Image (1)",
+            "Tag": "Untagged",
             "UID": 285761193,
             "Active": true,
             "Element_Type": "None",
@@ -607,6 +619,7 @@
         },
         {
             "Name": "Lvl2",
+            "Tag": "Untagged",
             "UID": 860866676,
             "Active": true,
             "Element_Type": "None",
@@ -717,6 +730,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 0,
                     "UID": 0,
                     "lvl": 1,
                     "isLocked": false
@@ -728,7 +742,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (2)",
+            "Tag": "Untagged",
             "UID": 1454772037,
             "Active": true,
             "Element_Type": "None",
@@ -788,7 +803,8 @@
             ]
         },
         {
-            "Name": "Image",
+            "Name": "Image (2)",
+            "Tag": "Untagged",
             "UID": 320903230,
             "Active": true,
             "Element_Type": "None",
@@ -850,6 +866,7 @@
         },
         {
             "Name": "Lvl3",
+            "Tag": "Untagged",
             "UID": 1101211752,
             "Active": true,
             "Element_Type": "None",
@@ -960,6 +977,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectLvl.cs",
+                    "Active": 0,
                     "UID": 0,
                     "lvl": 2,
                     "isLocked": true
@@ -971,7 +989,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (3)",
+            "Tag": "Untagged",
             "UID": 114530474,
             "Active": true,
             "Element_Type": "None",
@@ -1032,6 +1051,7 @@
         },
         {
             "Name": "Image",
+            "Tag": "Untagged",
             "UID": 1296165784,
             "Active": true,
             "Element_Type": "None",
@@ -1093,6 +1113,7 @@
         },
         {
             "Name": "Weapon Selection",
+            "Tag": "Untagged",
             "UID": 809169591,
             "Active": true,
             "Element_Type": "None",
@@ -1126,6 +1147,7 @@
         },
         {
             "Name": "Shotgun",
+            "Tag": "Untagged",
             "UID": 314406228,
             "Active": true,
             "Element_Type": "None",
@@ -1236,6 +1258,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 0,
                     "UID": 0,
                     "weapon": 0
                 }
@@ -1243,6 +1266,7 @@
         },
         {
             "Name": "SMG",
+            "Tag": "Untagged",
             "UID": 1489064132,
             "Active": true,
             "Element_Type": "None",
@@ -1353,6 +1377,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 0,
                     "UID": 0,
                     "weapon": 1
                 }
@@ -1360,6 +1385,7 @@
         },
         {
             "Name": "Plasma",
+            "Tag": "Untagged",
             "UID": 1271137560,
             "Active": true,
             "Element_Type": "None",
@@ -1470,6 +1496,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "SelectWeapon.cs",
+                    "Active": 0,
                     "UID": 0,
                     "weapon": 2
                 }
@@ -1477,6 +1504,7 @@
         },
         {
             "Name": "Lvl description",
+            "Tag": "Untagged",
             "UID": 1445816975,
             "Active": true,
             "Element_Type": "None",
@@ -1537,6 +1565,7 @@
         },
         {
             "Name": "Weapon description",
+            "Tag": "Untagged",
             "UID": 642862657,
             "Active": true,
             "Element_Type": "None",
@@ -1597,6 +1626,7 @@
         },
         {
             "Name": "Go to raid",
+            "Tag": "Untagged",
             "UID": 927696833,
             "Active": true,
             "Element_Type": "None",
@@ -1707,6 +1737,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 0,
                     "UID": 0,
                     "sceneName": "Assets\/Scenes\/GameUI.yscene"
                 }
@@ -1717,6 +1748,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1331519439,
             "Active": true,
             "Element_Type": "None",

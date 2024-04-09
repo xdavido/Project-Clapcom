@@ -1,8 +1,8 @@
 {
     "Editor Camera Position": [
-        -36,
-        48,
-        100
+        -36.037044525146484,
+        48.049392700195312,
+        100.10289764404297
     ],
     "Editor Camera Right (X)": [
         0.94088733196258545,
@@ -26,7 +26,6 @@
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1406306264,
             "Components": [
                 {
                     "Type": "Transform",
@@ -120,7 +119,7 @@
             ]
         },
         {
-            "Name": "Level Selection Canvas",
+            "Name": "UpgradeWeaponCanvas",
             "Tag": "Untagged",
             "UID": 365492027,
             "Active": true,
@@ -152,8 +151,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1907,
-                    "Height": 1058,
+                    "Width": 1904,
+                    "Height": 1050,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -170,7 +169,7 @@
             ]
         },
         {
-            "Name": "Image",
+            "Name": "Backgound",
             "Tag": "Untagged",
             "UID": 1393704197,
             "Active": true,
@@ -268,133 +267,14 @@
                 }
             ],
             "Children UID": [
-                1384942655,
-                1514367215,
                 1445816975,
+                1720936076,
                 73189607,
-                927696833
-            ]
-        },
-        {
-            "Name": "Stapler-text",
-            "Tag": "Untagged",
-            "UID": 1384942655,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1008796905,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 293,
-                    "Position Y": 128,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        293,
-                        185.10000610351562,
-                        200,
-                        50
-                    ],
-                    "Text": "S.T.A.P.L.E.R.",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
-                    "Font size": 24.399999618530273,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
-            ]
-        },
-        {
-            "Name": "Weapon Selector",
-            "Tag": "Untagged",
-            "UID": 1514367215,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1008796905,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 620,
-                    "Position Y": 0,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        620,
-                        57.099998474121094,
-                        200,
-                        50
-                    ],
-                    "Text": "Select weapon",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
+                1290862463,
+                2023088914,
+                927696833,
+                526554355,
+                975014005
             ]
         },
         {
@@ -459,7 +339,68 @@
             ]
         },
         {
-            "Name": "Grid",
+            "Name": "Em-mk2-text",
+            "Tag": "Untagged",
+            "UID": 1720936076,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1008796905,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 1478,
+                    "Position Y": 126,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1478,
+                        183.10000610351562,
+                        200,
+                        50
+                    ],
+                    "Text": "EM-MK2",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\/Fonts",
+                    "Font size": 24.399999618530273,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "StaplerGrid",
             "Tag": "Untagged",
             "UID": 73189607,
             "Active": true,
@@ -471,7 +412,7 @@
                     "Active": 1,
                     "Translation": [
                         190.80000305175781,
-                        105.90000152587891,
+                        101.80000305175781,
                         0
                     ],
                     "Rotation": [
@@ -490,7 +431,7 @@
                     "ScriptName": "UI_Inventory_Grid.cs",
                     "Active": 1,
                     "UID": 0,
-                    "rows": 3,
+                    "rows": 4,
                     "cols": 2
                 }
             ],
@@ -498,13 +439,13 @@
                 732552863,
                 860866676,
                 1101211752,
-                314406228,
-                1489064132,
-                1271137560
+                13922671,
+                1992080246,
+                1384942655
             ]
         },
         {
-            "Name": "Lvl1",
+            "Name": "StaplerUpgrade0",
             "Tag": "Untagged",
             "UID": 732552863,
             "Active": true,
@@ -534,17 +475,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 282,
-                    "Height": 107,
+                    "Position X": 82,
+                    "Position Y": 10,
+                    "Width": 224,
+                    "Height": 101,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        190.80000305175781,
-                        220.10000610351562,
-                        282,
-                        107
+                        272.79998779296875,
+                        226,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -574,13 +515,13 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        0,
-                        0,
+                        190.80000305175781,
+                        159,
                         300,
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 1066954428,
+                    "Text": 4294967295,
                     "Image": 732552863,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
@@ -623,69 +564,7 @@
                 }
             ],
             "Children UID": [
-                1066954428,
                 285761193
-            ]
-        },
-        {
-            "Name": "Text (1)",
-            "Tag": "Untagged",
-            "UID": 1066954428,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 732552863,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 125,
-                    "Position Y": 78,
-                    "Width": 200,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        315.79998779296875,
-                        298.10000610351562,
-                        200,
-                        50
-                    ],
-                    "Text": "The Warehouse",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
             ]
         },
         {
@@ -719,17 +598,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 166,
-                    "Position Y": 15,
-                    "Width": 100,
-                    "Height": 100,
+                    "Position X": 176,
+                    "Position Y": 33,
+                    "Width": 39,
+                    "Height": 38,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        356.79998779296875,
-                        235.10000610351562,
-                        100,
-                        100
+                        366.79998779296875,
+                        249,
+                        39,
+                        38
                     ],
                     "Path": "Assets\/Lava.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -751,7 +630,7 @@
             ]
         },
         {
-            "Name": "Lvl2",
+            "Name": "StaplerUpgrade1",
             "Tag": "Untagged",
             "UID": 860866676,
             "Active": true,
@@ -781,17 +660,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 133,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": 82,
+                    "Position Y": 165,
+                    "Width": 224,
+                    "Height": 101,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        190.80000305175781,
-                        353.10000610351562,
-                        424,
-                        152
+                        272.79998779296875,
+                        381,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -821,13 +700,13 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        0,
-                        0,
+                        190.80000305175781,
+                        159,
                         300,
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 1454772037,
+                    "Text": 4294967295,
                     "Image": 860866676,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
@@ -870,69 +749,7 @@
                 }
             ],
             "Children UID": [
-                1454772037,
                 320903230
-            ]
-        },
-        {
-            "Name": "Text (2)",
-            "Tag": "Untagged",
-            "UID": 1454772037,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 860866676,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 166,
-                    "Position Y": 208,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        356.79998779296875,
-                        428.10000610351562,
-                        300,
-                        50
-                    ],
-                    "Text": "The Lab",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
             ]
         },
         {
@@ -966,17 +783,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 166,
-                    "Position Y": 150,
-                    "Width": 100,
-                    "Height": 100,
+                    "Position X": 182,
+                    "Position Y": 190,
+                    "Width": 42,
+                    "Height": 44,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        356.79998779296875,
-                        370.10000610351562,
-                        100,
-                        100
+                        372.79998779296875,
+                        406,
+                        42,
+                        44
                     ],
                     "Path": "Assets\/Lava.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -998,7 +815,7 @@
             ]
         },
         {
-            "Name": "Lvl3",
+            "Name": "StaplerUpgrade2",
             "Tag": "Untagged",
             "UID": 1101211752,
             "Active": true,
@@ -1028,17 +845,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 271,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": 82,
+                    "Position Y": 320,
+                    "Width": 224,
+                    "Height": 101,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        190.80000305175781,
-                        491.10000610351562,
-                        424,
-                        152
+                        272.79998779296875,
+                        536,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1068,13 +885,13 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        0,
-                        0,
+                        190.80000305175781,
+                        159,
                         300,
                         50
                     ],
                     "Is interactable": true,
-                    "Text": 114530474,
+                    "Text": 4294967295,
                     "Image": 1101211752,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
@@ -1117,69 +934,7 @@
                 }
             ],
             "Children UID": [
-                114530474,
                 1296165784
-            ]
-        },
-        {
-            "Name": "Text (3)",
-            "Tag": "Untagged",
-            "UID": 114530474,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1101211752,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 131,
-                    "Position Y": 349,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 2,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        321.79998779296875,
-                        569.0999755859375,
-                        300,
-                        50
-                    ],
-                    "Text": "The Hatchery",
-                    "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
-                    "Font size": 21,
-                    "Line Spacing": 0.5,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 2
-                }
             ]
         },
         {
@@ -1213,17 +968,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 166,
-                    "Position Y": 287,
-                    "Width": 100,
-                    "Height": 100,
+                    "Position X": 186,
+                    "Position Y": 344,
+                    "Width": 34,
+                    "Height": 40,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        356.79998779296875,
-                        507.10000610351562,
-                        100,
-                        100
+                        376.79998779296875,
+                        560,
+                        34,
+                        40
                     ],
                     "Path": "Assets\/Lava.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1245,9 +1000,9 @@
             ]
         },
         {
-            "Name": "Shotgun",
+            "Name": "StaplerUpgrade3A",
             "Tag": "Untagged",
-            "UID": 314406228,
+            "UID": 13922671,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 73189607,
@@ -1256,8 +1011,8 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        500,
-                        57.099998474121094,
+                        0,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -1275,17 +1030,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": -43,
+                    "Position Y": 562,
+                    "Width": 224,
+                    "Height": 101,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        690.79998779296875,
-                        220.10000610351562,
-                        424,
-                        152
+                        147.80000305175781,
+                        720.9000244140625,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1315,14 +1070,14 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        500,
                         0,
+                        57.099998474121094,
                         300,
                         50
                     ],
                     "Is interactable": true,
                     "Text": 4294967295,
-                    "Image": 314406228,
+                    "Image": 13922671,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
@@ -1356,27 +1111,31 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "SelectWeapon.cs",
+                    "ScriptName": "SelectLvl.cs",
                     "Active": 1,
                     "UID": 0,
-                    "weapon": 0
+                    "lvl": 2,
+                    "isLocked": true
                 }
+            ],
+            "Children UID": [
+                1762392453
             ]
         },
         {
-            "Name": "SMG",
+            "Name": "Image (4)",
             "Tag": "Untagged",
-            "UID": 1489064132,
+            "UID": 1762392453,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 73189607,
+            "Parent UID": 13922671,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        500,
-                        57.099998474121094,
+                        0,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -1394,17 +1153,79 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 133,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": 61,
+                    "Position Y": 586,
+                    "Width": 34,
+                    "Height": 40,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        690.79998779296875,
-                        353.10000610351562,
-                        424,
-                        152
+                        251.80000305175781,
+                        744.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "StaplerUpgrade3B",
+            "Tag": "Untagged",
+            "UID": 1992080246,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 73189607,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 208,
+                    "Position Y": 560,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        398.79998779296875,
+                        718.9000244140625,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1434,14 +1255,14 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        500,
                         0,
+                        57.099998474121094,
                         300,
                         50
                     ],
                     "Is interactable": true,
                     "Text": 4294967295,
-                    "Image": 1489064132,
+                    "Image": 1992080246,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
@@ -1475,17 +1296,83 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "SelectWeapon.cs",
+                    "ScriptName": "SelectLvl.cs",
                     "Active": 1,
                     "UID": 0,
-                    "weapon": 1
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                436168278
+            ]
+        },
+        {
+            "Name": "Image (5)",
+            "Tag": "Untagged",
+            "UID": 436168278,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1992080246,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 312,
+                    "Position Y": 584,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        502.79998779296875,
+                        742.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
                 }
             ]
         },
         {
-            "Name": "Plasma",
+            "Name": "Stapler-text",
             "Tag": "Untagged",
-            "UID": 1271137560,
+            "UID": 1384942655,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 73189607,
@@ -1494,7 +1381,113 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        500,
+                        -190.80000305175781,
+                        -101.90000152587891,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 293,
+                    "Position Y": 126,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        293,
+                        183,
+                        200,
+                        50
+                    ],
+                    "Text": "S.T.A.P.L.E.R.",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\/Fonts",
+                    "Font size": 24.399999618530273,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "FsadGrid",
+            "Tag": "Untagged",
+            "UID": 1290862463,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1008796905,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        759.9000244140625,
+                        101.80000305175781,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 4,
+                    "cols": 2
+                }
+            ],
+            "Children UID": [
+                1776691251,
+                11550555,
+                1615270906,
+                259830718,
+                1716082797,
+                1514367215
+            ]
+        },
+        {
+            "Name": "FsadUpgrade0",
+            "Tag": "Untagged",
+            "UID": 1776691251,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
                         57.099998474121094,
                         0
                     ],
@@ -1513,17 +1506,17 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 271,
-                    "Width": 424,
-                    "Height": 152,
+                    "Position X": 82,
+                    "Position Y": 10,
+                    "Width": 224,
+                    "Height": 101,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        690.79998779296875,
-                        491.10000610351562,
-                        424,
-                        152
+                        841.9000244140625,
+                        226,
+                        224,
+                        101
                     ],
                     "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
@@ -1553,14 +1546,14 @@
                     "UI Type": 3,
                     "UI State": 1,
                     "Drag Limits": [
-                        500,
-                        0,
+                        190.80000305175781,
+                        159,
                         300,
                         50
                     ],
                     "Is interactable": true,
                     "Text": 4294967295,
-                    "Image": 1271137560,
+                    "Image": 1776691251,
                     "Normal": "Assets\/UI\/Buttons\/Button.png",
                     "Focused": "Assets\/UI\/Buttons\/Button.png",
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
@@ -1594,18 +1587,1916 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "SelectWeapon.cs",
+                    "ScriptName": "SelectLvl.cs",
                     "Active": 1,
                     "UID": 0,
-                    "weapon": 2
+                    "lvl": 0,
+                    "isLocked": false
+                }
+            ],
+            "Children UID": [
+                50085803
+            ]
+        },
+        {
+            "Name": "Image (6)",
+            "Tag": "Untagged",
+            "UID": 50085803,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1776691251,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 176,
+                    "Position Y": 33,
+                    "Width": 39,
+                    "Height": 38,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        935.9000244140625,
+                        249,
+                        39,
+                        38
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
                 }
             ]
         },
         {
-            "Name": "Go to raid",
+            "Name": "FsadUpgrade1",
+            "Tag": "Untagged",
+            "UID": 11550555,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 82,
+                    "Position Y": 165,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        841.9000244140625,
+                        381,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        190.80000305175781,
+                        159,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 11550555,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 1,
+                    "isLocked": false
+                }
+            ],
+            "Children UID": [
+                875718005
+            ]
+        },
+        {
+            "Name": "Image (7)",
+            "Tag": "Untagged",
+            "UID": 875718005,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 11550555,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 182,
+                    "Position Y": 190,
+                    "Width": 42,
+                    "Height": 44,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        941.9000244140625,
+                        406,
+                        42,
+                        44
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "FsadUpgrade2",
+            "Tag": "Untagged",
+            "UID": 1615270906,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 82,
+                    "Position Y": 321,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        841.9000244140625,
+                        537,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        190.80000305175781,
+                        159,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1615270906,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                147870622
+            ]
+        },
+        {
+            "Name": "Image (8)",
+            "Tag": "Untagged",
+            "UID": 147870622,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1615270906,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 186,
+                    "Position Y": 345,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        945.9000244140625,
+                        561,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "FsadUpgrade3A",
+            "Tag": "Untagged",
+            "UID": 259830718,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": -43,
+                    "Position Y": 562,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        716.9000244140625,
+                        720.9000244140625,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        190.80000305175781,
+                        101.90000152587891,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 259830718,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                2016927800
+            ]
+        },
+        {
+            "Name": "Image (9)",
+            "Tag": "Untagged",
+            "UID": 2016927800,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 259830718,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 61,
+                    "Position Y": 586,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        820.9000244140625,
+                        744.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "FsadUpgrade3B",
+            "Tag": "Untagged",
+            "UID": 1716082797,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 208,
+                    "Position Y": 560,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        967.9000244140625,
+                        718.9000244140625,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        190.80000305175781,
+                        101.90000152587891,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1716082797,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                1055490537
+            ]
+        },
+        {
+            "Name": "Image (10)",
+            "Tag": "Untagged",
+            "UID": 1055490537,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716082797,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 312,
+                    "Position Y": 584,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1071.9000244140625,
+                        742.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Fsad-text",
+            "Tag": "Untagged",
+            "UID": 1514367215,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1290862463,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -759.9000244140625,
+                        -101.79999542236328,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 924,
+                    "Position Y": 126,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        924,
+                        183.10000610351562,
+                        200,
+                        50
+                    ],
+                    "Text": "FSAD",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\/Fonts",
+                    "Font size": 24.399999618530273,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "EM-Mk2Grid",
+            "Tag": "Untagged",
+            "UID": 2023088914,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1008796905,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        1340.9000244140625,
+                        101.80000305175781,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 4,
+                    "cols": 2
+                }
+            ],
+            "Children UID": [
+                1914104123,
+                1273116583,
+                1299223155,
+                83752634,
+                2040318455,
+                1719516823
+            ]
+        },
+        {
+            "Name": "Mk2Upgrade0",
+            "Tag": "Untagged",
+            "UID": 1914104123,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 82,
+                    "Position Y": 10,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1422.9000244140625,
+                        226,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        759.9000244140625,
+                        158.89999389648438,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1914104123,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 0,
+                    "isLocked": false
+                }
+            ],
+            "Children UID": [
+                1602049967
+            ]
+        },
+        {
+            "Name": "Image (11)",
+            "Tag": "Untagged",
+            "UID": 1602049967,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1914104123,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 176,
+                    "Position Y": 33,
+                    "Width": 39,
+                    "Height": 38,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1516.9000244140625,
+                        249,
+                        39,
+                        38
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Mk2Upgrade1",
+            "Tag": "Untagged",
+            "UID": 1273116583,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 82,
+                    "Position Y": 165,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1422.9000244140625,
+                        381,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        759.9000244140625,
+                        158.89999389648438,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1273116583,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 1,
+                    "isLocked": false
+                }
+            ],
+            "Children UID": [
+                1834142834
+            ]
+        },
+        {
+            "Name": "Image (12)",
+            "Tag": "Untagged",
+            "UID": 1834142834,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1273116583,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 182,
+                    "Position Y": 190,
+                    "Width": 42,
+                    "Height": 44,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1522.9000244140625,
+                        406,
+                        42,
+                        44
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Mk2Upgrade2",
+            "Tag": "Untagged",
+            "UID": 1299223155,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 82,
+                    "Position Y": 321,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1422.9000244140625,
+                        537,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        759.9000244140625,
+                        158.89999389648438,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1299223155,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                781513583
+            ]
+        },
+        {
+            "Name": "Image (13)",
+            "Tag": "Untagged",
+            "UID": 781513583,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1299223155,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 186,
+                    "Position Y": 345,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1526.9000244140625,
+                        561,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Mk2Upgrade3A",
+            "Tag": "Untagged",
+            "UID": 83752634,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": -43,
+                    "Position Y": 562,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1297.9000244140625,
+                        720.9000244140625,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        759.9000244140625,
+                        101.80000305175781,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 83752634,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                351450209
+            ]
+        },
+        {
+            "Name": "Image (14)",
+            "Tag": "Untagged",
+            "UID": 351450209,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 83752634,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 61,
+                    "Position Y": 586,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1401.9000244140625,
+                        744.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Mk2Upgrade3B",
+            "Tag": "Untagged",
+            "UID": 2040318455,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 208,
+                    "Position Y": 560,
+                    "Width": 224,
+                    "Height": 101,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1548.9000244140625,
+                        718.9000244140625,
+                        224,
+                        101
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        759.9000244140625,
+                        101.80000305175781,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 2040318455,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectLvl.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "lvl": 2,
+                    "isLocked": true
+                }
+            ],
+            "Children UID": [
+                1928776285
+            ]
+        },
+        {
+            "Name": "Image (15)",
+            "Tag": "Untagged",
+            "UID": 1928776285,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2040318455,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 312,
+                    "Position Y": 584,
+                    "Width": 34,
+                    "Height": 40,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1652.9000244140625,
+                        742.9000244140625,
+                        34,
+                        40
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "Fsad-text (1)",
+            "Tag": "Untagged",
+            "UID": 1719516823,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2023088914,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -759.9000244140625,
+                        -101.79999542236328,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 924,
+                    "Position Y": 126,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1505,
+                        183.10000610351562,
+                        200,
+                        50
+                    ],
+                    "Text": "FSAD",
+                    "Font name": "de-valencia-beta.otf",
+                    "Font path": "Assets\/Fonts",
+                    "Font size": 24.399999618530273,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "ToDelete",
             "Tag": "Untagged",
             "UID": 927696833,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 1008796905,
             "Components": [
@@ -1720,14 +3611,17 @@
                 }
             ],
             "Children UID": [
-                1331519439
+                1331519439,
+                314406228,
+                1271137560,
+                1489064132
             ]
         },
         {
             "Name": "Text (4)",
             "Tag": "Untagged",
             "UID": 1331519439,
-            "Active": true,
+            "Active": false,
             "Element_Type": "None",
             "Parent UID": 927696833,
             "Components": [
@@ -1770,6 +3664,485 @@
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\/Fonts",
                     "Font size": 15,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Shotgun",
+            "Tag": "Untagged",
+            "UID": 314406228,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 927696833,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        690.79998779296875,
+                        159,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 424,
+                    "Height": 152,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        216.10000610351562,
+                        424,
+                        152
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        159,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 314406228,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "weapon": 0
+                }
+            ]
+        },
+        {
+            "Name": "Plasma",
+            "Tag": "Untagged",
+            "UID": 1271137560,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 927696833,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        690.79998779296875,
+                        159,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 271,
+                    "Width": 424,
+                    "Height": 152,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        487.10000610351562,
+                        424,
+                        152
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        159,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1271137560,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "weapon": 2
+                }
+            ]
+        },
+        {
+            "Name": "SMG",
+            "Tag": "Untagged",
+            "UID": 1489064132,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 927696833,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        690.79998779296875,
+                        159,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 133,
+                    "Width": 424,
+                    "Height": 152,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        349.10000610351562,
+                        424,
+                        152
+                    ],
+                    "Path": "Assets\/Baker_house.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        690.79998779296875,
+                        159,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 4294967295,
+                    "Image": 1489064132,
+                    "Normal": "Assets\/UI\/Buttons\/Button.png",
+                    "Focused": "Assets\/UI\/Buttons\/Button.png",
+                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                    "Selected": "Assets\/UI\/Buttons\/Button.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "SelectWeapon.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "weapon": 1
+                }
+            ]
+        },
+        {
+            "Name": "AlienCoreAmmount",
+            "Tag": "Untagged",
+            "UID": 526554355,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1008796905,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        -57.099998474121094,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 193,
+                    "Position Y": 113,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        193,
+                        113,
+                        200,
+                        50
+                    ],
+                    "Text": "2",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "AlienCorePrice",
+            "Tag": "Untagged",
+            "UID": 975014005,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1008796905,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 1252,
+                    "Position Y": 885,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1252,
+                        942.0999755859375,
+                        200,
+                        50
+                    ],
+                    "Text": "1",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 15.600000381469727,
                     "Line Spacing": 0.5,
                     "Color": [
                         1,
