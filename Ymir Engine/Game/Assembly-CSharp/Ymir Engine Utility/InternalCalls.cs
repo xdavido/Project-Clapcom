@@ -164,7 +164,7 @@ namespace YmirEngine
         /// Switch position of two game objects.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject NavigateGrid(int rows, int columns, bool isRight);
+        public static extern GameObject NavigateGrid(object go, int rows, int columns, bool isRight);
     }
 
     /// <summary>

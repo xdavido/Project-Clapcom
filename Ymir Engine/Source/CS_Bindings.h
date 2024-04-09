@@ -834,15 +834,12 @@ void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
 
 }
 
-bool NavigateGrid(int rows, int columns, bool isRight)
+bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 {
 	// Get UI elements to navigate
 	std::vector<C_UI*> listUI;
-
-	for (int i = 0; i < External->scene->vCanvas.size(); ++i)
-	{
-		External->scene->GetUINaviagte(External->scene->vCanvas[i], listUI);
-	}
+	GameObject* gameObject = External->moduleMono->GameObject_From_CSGO(go);
+	External->scene->GetUINaviagte(gameObject, listUI);
 
 	if (isRight)
 	{

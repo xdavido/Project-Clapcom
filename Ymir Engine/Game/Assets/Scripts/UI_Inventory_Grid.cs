@@ -28,13 +28,13 @@ public class UI_Inventory_Grid : YmirComponent
         if (Input.GetLeftAxisX() > 0 && _canTab)
         {
             _canTab = false;
-            UI.NavigateGrid(rows, cols, true);
+            UI.NavigateGrid(gameObject,rows, cols, true);
         }
 
         else if (Input.GetLeftAxisX() < 0 && _canTab)
         {
             _canTab = false;
-            UI.NavigateGrid(rows, cols, false);
+            UI.NavigateGrid(gameObject, rows, cols, false);
         }
 
         return;
