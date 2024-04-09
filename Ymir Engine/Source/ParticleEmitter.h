@@ -37,6 +37,7 @@ public:
 	void SpawnParticle(uint particlesToAdd = 1);
 
 	EmitterSetting* CreateEmitterSettingByType(uint type);
+	bool EmitterSettingExist(uint typeS, bool excludeNonUniques = true);
 	int DestroyEmitter(uint pos);
 
 private:

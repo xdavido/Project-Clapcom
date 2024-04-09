@@ -23,14 +23,11 @@ ParticleEmitter::~ParticleEmitter()
 
 EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 {
-	//MOST emittter instances cannot be made twice so have an unique value
+	//MOST emittter instances cannot be made twice so have an unique value //ERIC TODO: TENGO QUE REVISAR SI PUEDE EXISTIR ALGUN SETTING QUE NO SEA UNIQUE
 
-	for (int i = 0; i < modules.size(); i++)
+	if (EmitterSettingExist((EmitterType)type))
 	{
-		if (modules.at(i)->unique && modules.at(i)->type == type)
-		{
-			return nullptr;
-		}
+		return nullptr;
 	}
 
 	EmitterSetting* nuevoEmitter = nullptr;
@@ -108,6 +105,22 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 	modules.push_back(nuevoEmitter);
 
 	return nuevoEmitter;
+}
+
+bool ParticleEmitter::EmitterSettingExist(uint typeS, bool excludeNonUniques)
+{
+	bool ret = false;
+
+	for (int i = 0; i < modules.size(); i++)
+	{
+		//If exclude uniques is true the function will return false even if alreadyExists on the list
+		if(modules.at(i)->type == (EmitterType)typeS && !(excludeNonUniques && !modules.at(i)->unique))
+		{
+			ret = true;
+		}
+	}
+
+	return ret;
 }
 
 int ParticleEmitter::DestroyEmitter(uint pos)

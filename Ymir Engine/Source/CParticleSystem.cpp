@@ -29,6 +29,8 @@ CParticleSystem::CParticleSystem(GameObject* own)
 	active = true;
 	Enable();
 	ctype = ComponentType::PARTICLE;
+
+	CreateEmitter();
 }
 
 
@@ -333,10 +335,14 @@ void CParticleSystem::OnInspector()
 						default:
 							break;
 						}
-						if (ImGui::Button(emitterType.c_str()))
+						if (!allEmitters.at(i)->EmitterSettingExist((EmitterType)k)) //If the setting already exist on the 
 						{
-							allEmitters.at(i)->CreateEmitterSettingByType((EmitterType)k);
+							if (ImGui::Button(emitterType.c_str()))
+							{
+								allEmitters.at(i)->CreateEmitterSettingByType((EmitterType)k);
+							}
 						}
+						
 					}
 					//ImGui::End();
 					//ImGui::TreePop();
@@ -348,11 +354,12 @@ void CParticleSystem::OnInspector()
 					allEmitters.at(i)->name.assign(textInfo);
 				}*/
 			}
-
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7,0.3,0,1));
 			if (ImGui::Button("Create Particle Emitter"))
 			{
 				CreateEmitter();
 			}
+			ImGui::PopStyleColor();
 
 			ImGui::TreePop();
 		}
