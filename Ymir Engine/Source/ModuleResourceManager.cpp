@@ -202,9 +202,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-					//rTexTemp->type = TextureType::DIFFUSE;
-					//rTexTemp->UID = Random::Generate();
-
 					static_cast<UI_Image*>((*jt))->mat->diffuse_path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);

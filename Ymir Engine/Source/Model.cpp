@@ -416,7 +416,19 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	if (!onlyReimport) {
 
-		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, rMeshUID);
+		ResourceMesh* rMesh = nullptr;
+
+		auto itr = External->resourceManager->resources.find(rMeshUID);
+
+		if (itr == External->resourceManager->resources.end())
+		{
+			rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, rMeshUID);
+		}
+		else
+		{
+			rMesh = static_cast<ResourceMesh*>(itr->second);
+			itr->second->IncreaseReferenceCount();
+		}
 
 		CMesh* cmesh = new CMesh(linkGO);
 
@@ -448,16 +460,11 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
-			ResourceTexture* rTexTemp = new ResourceTexture(0);
-			
-			ImporterTexture::Import(path, rTexTemp);
-
-			TextureType extractedType = rTexTemp->type;
-
-			delete rTexTemp;
-			rTexTemp = nullptr;
+			ResourceTexture* rTexTemp = new ResourceTexture();
 
 			if (metaFile == nullptr) {
+
+				ImporterTexture::Import(path, rTexTemp);
 
 				// Get meta
 
@@ -468,8 +475,6 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
 				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
-
-				rTex->type = extractedType;
 
 				switch (rTex->type)
 				{
@@ -530,11 +535,29 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 				uint UID = metaFile->GetInt("UID");
 				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
-				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
+				// Need to reimport?
 
-				rTex->type = extractedType;
+				if (!PhysfsEncapsule::FileExists(libraryPath)) {
 
-				switch (rTex->type)
+					ImporterTexture::Import(path, rTexTemp);
+
+				}
+
+				auto itr = External->resourceManager->resources.find(UID);
+
+				if (itr == External->resourceManager->resources.end())
+				{
+					rTexTemp = static_cast<ResourceTexture*>
+						(External->resourceManager->CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+				}
+				else
+				{
+					rTexTemp = static_cast<ResourceTexture*>(itr->second);
+					rTexTemp->type = type;
+					itr->second->IncreaseReferenceCount();
+				}
+
+				switch (rTexTemp->type)
 				{
 				case TextureType::DIFFUSE:
 					cmaterial->diffuse_UID = UID;
@@ -573,7 +596,7 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				}
 
-				cmaterial->rTextures.push_back(rTex);
+				cmaterial->rTextures.push_back(rTexTemp);
 
 			}
 
