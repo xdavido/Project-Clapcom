@@ -60,7 +60,9 @@ struct EmitterBase : EmitterSetting
 
 	//Variable unica, posicion donde spawnean
 	float3 emitterOrigin;
-	float particlesLifeTime;
+	float particlesLifeTime1;
+	bool randomLT;
+	float particlesLifeTime2;
 };
 
 struct EmitterSpawner : EmitterSetting

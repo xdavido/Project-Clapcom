@@ -29,12 +29,40 @@ void EmitterSetting::OnInspector()
 EmitterBase::EmitterBase()
 {
 	emitterOrigin = float3::zero;
-	particlesLifeTime = 1.0f;
+	randomLT = false;
+	particlesLifeTime1 = 1.0f;
+	particlesLifeTime2 = 2.0f;
 }
 
 void EmitterBase::Spawn(ParticleEmitter* emitter, Particle* particle)
 {
-	particle->oneOverMaxLifetime = 1 / particlesLifeTime;
+	if (randomLT)
+	{
+		//Lifetime
+		float maxLT;
+		float minLT;
+		if (particlesLifeTime1 > particlesLifeTime2)
+		{
+			maxLT = particlesLifeTime1;
+			minLT = particlesLifeTime2;
+		}
+		else
+		{
+			maxLT = particlesLifeTime2;
+			minLT = particlesLifeTime1;
+		}
+
+		float randomLT = ((float)rand()) / (float)RAND_MAX;
+		float rangeLT = maxLT - minLT;
+		float fLT = (randomLT * rangeLT) + minLT;
+
+		particle->oneOverMaxLifetime = 1 / fLT;
+	}
+	else
+	{
+		particle->oneOverMaxLifetime = 1 / particlesLifeTime1;
+	}
+	
 
 	CTransform* cTra = (CTransform*)emitter->owner->mOwner->GetComponent(ComponentType::TRANSFORM);
 	if (cTra != nullptr) {
@@ -61,7 +89,17 @@ void EmitterBase::Update(float dt, ParticleEmitter* emitter)
 void EmitterBase::OnInspector()
 {
 	ImGui::DragFloat3("Initial Pos. ## BASE", &(this->emitterOrigin[0]), 0.1f);
-	ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime), 0.5F, 1.0F, 720.0F);
+	
+	ImGui::Checkbox("Random Lifetime ##BASE", &this->randomLT);
+	if (this->randomLT)
+	{
+		ImGui::DragFloat("Life Time1 ## BASE", &(this->particlesLifeTime1), 0.5F, 0.1F, 720.0F);
+		ImGui::DragFloat("Life Time2 ## BASE", &(this->particlesLifeTime2), 0.5F, 0.1F, 720.0F);
+	}
+	else
+	{
+		ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime1), 0.5F, 0.5F, 720.0F);
+	}
 }
 
 EmitterSpawner::EmitterSpawner()
@@ -110,7 +148,7 @@ void EmitterSpawner::OnInspector()
 
 	if (this->basedTimeSpawn)
 	{
-		if (ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.1f, 1.0f))
+		if (ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.02f, 1.0f))
 		{
 
 		}

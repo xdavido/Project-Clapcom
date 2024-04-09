@@ -469,8 +469,6 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 
 				//Lifetime
 				json_object_set_number(child_object, "Lifetime", eBase->particlesLifeTime1);
-				json_object_set_number(child_object, "Lifetime2", eBase->particlesLifeTime2);
-				json_object_set_boolean(child_object, "RandomLT", eBase->randomLT);
 				//InitialPosition
 				JSON_Array* arrInitialPos;
 

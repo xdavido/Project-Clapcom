@@ -2815,8 +2815,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				{
 					EmitterBase* eBase = (EmitterBase*)instancia;
 					eBase->particlesLifeTime1 = (float)json_object_get_number(modulo, "Lifetime");
-					eBase->particlesLifeTime2 = (float)json_object_get_number(modulo, "Lifetime2");
-					eBase->randomLT = json_object_get_boolean(modulo, "RandomLT");
 
 					//Get position array
 					JSON_Array* posArr = json_object_get_array(modulo, "Position");
