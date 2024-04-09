@@ -15,6 +15,7 @@
 #include "ModuleFileSystem.h"
 #include "PhysfsEncapsule.h"
 #include "ModuleMonoManager.h"
+#include "ModulePathfinding.h"
 #include "CScript.h"
 
 #include "External/Optick/include/optick.h"
@@ -361,6 +362,7 @@ void ModuleScene::ClearScene()
 
 void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 {
+	ysceneFile.SetInt("NavMesh", App->pathFinding->Save(fileName.c_str()));
 	ysceneFile.SetFloat3("Editor Camera Position", App->camera->editorCamera->GetPos());
 	ysceneFile.SetFloat3("Editor Camera Right (X)", App->camera->editorCamera->GetRight());
 	ysceneFile.SetFloat3("Editor Camera Up (Y)", App->camera->editorCamera->GetUp());
@@ -386,6 +388,7 @@ void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
 
 void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 {
+	JSON_Value* scene = json_parse_file(fileName.c_str());
 	if (dir != External->fileSystem->libraryScenesPath)
 	{
 		App->scene->currentSceneDir = dir;
@@ -405,7 +408,17 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
+
+	JSON_Object* sceneObj = json_value_get_object(scene);
+
+
+	int navMeshId = json_object_get_number(sceneObj, "NavMesh");
+	if (navMeshId != -1)
+		External->pathFinding->Load(navMeshId);
+
 	LoadScriptsData();
+
+
 
 	RELEASE(sceneToLoad);
 }
