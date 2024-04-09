@@ -11,14 +11,34 @@ public class Basic_Movment : YmirComponent
 
     //bool start = true;
     //float movementSpeed = 0.01f;
+    private bool teleport = false;
+    private float x, y, z;
 
-	public void Start()
+    public void Start()
 	{
 			
 	}
+    public void SetTeleport(bool value) //no va por ahora
+    {
+        teleport = value;
+    }
 
-	public void Update()
+    public void SetCoordinates(float newX, float newY, float newZ)
+    {
+        x = newX;
+        y = newY;
+        z = newZ;
+    }
+
+    public void Update()
 	{
+
+        if (teleport)
+        {
+            gameObject.SetPosition(new Vector3(x, y, z));
+            teleport = false;
+        }
+
         //-------------- Keyboard --------------//
         if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
         {
