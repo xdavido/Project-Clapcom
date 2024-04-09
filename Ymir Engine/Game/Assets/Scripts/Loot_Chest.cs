@@ -8,21 +8,28 @@ using YmirEngine;
 
 public class Loot_Chest : YmirComponent
 {
-	public void Start()
+    public string keys = "Nombre:,Probabilidad:";
+    public string path = "Assets/Loot Tables/loot_table.csv";
+    public int numFields = 2;
+
+    public void Start()
 	{
 		
 	}
 
 	public void Update()
 	{
-		if (Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
-		{
-			string keys = "Nombre:,Probabilidad:";
 
-            string output = InternalCalls.CSVToString("Assets/Loot Tables/loot_table.csv", keys);
-			//Debug.Log("Output :" + output);
+    }
 
-            List<List<string>> result = DeconstructString(output, 2);
+    public void OnCollisionStay(GameObject other)
+    {
+        if (other.Tag == "Player" && (Input.IsGamepadButtonAPressedCS() || Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN))
+        {
+            string output = InternalCalls.CSVToString(path, keys);
+            //Debug.Log("Output :" + output);
+
+            List<List<string>> result = DeconstructString(output, numFields);
 
             Debug.Log("Result:");
             foreach (var sublist in result)
