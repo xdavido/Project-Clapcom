@@ -176,24 +176,21 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 					}
 
-					ResourceTexture* existingTexture = nullptr;
+					// Handle new imported textures
 
-					// Check if a texture of the same type already exists
 					for (auto& texture : static_cast<CMaterial*>((*jt))->rTextures) {
 						if (texture->type == rTexTemp->type) {
-							existingTexture = texture;
-							break;
+							// Clean up old texture resource
+							UnloadResource(texture->UID); // Assuming ResourceTexture has a Cleanup() method
+
+							// Update existing texture data with the new texture
+							texture = rTexTemp;
+							return; // Exit the loop since we've found and updated the texture
 						}
 					}
 
-					// If a texture of the same type exists, overwrite it
-					if (existingTexture) {
-						*existingTexture = *rTexTemp;  // Overwrite existing texture with the new one
-						//delete rTexTemp;  // Delete the newly created texture since it's no longer needed
-					}
-					else {
-						static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add the new texture
-					}
+					// If a texture of the same type doesn't exist, add it
+					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add a copy of the new texture
 
 				}
 				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
