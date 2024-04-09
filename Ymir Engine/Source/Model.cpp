@@ -586,6 +586,7 @@ void Model::GenerateModelMetaFile()
 	modelMetaFile.SetString("Type", "Model");
 	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
 	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
+	modelMetaFile.SetInt("Resources num", resourcesUID.size());
 	modelMetaFile.SetIntArray("Resources Embedded UID", resourcesUID.data(), resourcesUID.size());
 
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);

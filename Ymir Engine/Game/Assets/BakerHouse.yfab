@@ -3,10 +3,10 @@
         {
             "Name": "BakerHouse",
             "Tag": "Untagged",
-            "UID": 1723562700,
+            "UID": 226209792,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 548149979,
+            "Parent UID": 685540534,
             "Components": [
                 {
                     "Type": "Transform",
@@ -29,18 +29,18 @@
                 }
             ],
             "Children UID": [
-                2135371567,
-                1523680978
+                1176354039,
+                175456528
             ]
         },
         {
             "Name": "Chimney",
             "Tag": "Untagged",
-            "UID": 2135371567,
+            "UID": 1176354039,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 1723562700,
+            "Parent UID": 226209792,
             "Components": [
                 {
                     "Type": "Transform",
@@ -64,7 +64,7 @@
                 {
                     "Type": "Mesh",
                     "Active": 1,
-                    "UID": 1113685402,
+                    "UID": 1106057539,
                     "Vertex Count": 160,
                     "Index Count": 324
                 },
@@ -99,11 +99,11 @@
         {
             "Name": "Baker_house",
             "Tag": "Untagged",
-            "UID": 1523680978,
+            "UID": 175456528,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/BakerHouse.fbx",
-            "Parent UID": 1723562700,
+            "Parent UID": 226209792,
             "Components": [
                 {
                     "Type": "Transform",
@@ -127,7 +127,7 @@
                 {
                     "Type": "Mesh",
                     "Active": 1,
-                    "UID": 1220976970,
+                    "UID": 578733022,
                     "Vertex Count": 1641,
                     "Index Count": 2751
                 },

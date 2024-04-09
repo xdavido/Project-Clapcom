@@ -221,20 +221,31 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
 				{
-					std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[i]) + ".ymesh";
-
 					// Search resource: if it exists --> create a game object with a reference to it
 					// else --> create the resource from library and the game object to contain it
+
+					std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[i]) + ".ymesh";
+
+					ResourceMesh* rMesh = nullptr;
+
 					auto itr = resources.find(resourcesIds[i]);
 
 					if (itr == resources.end())
 					{
-						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
-						meshGO->UID = ids[i];
-						meshGO->type = "Mesh";
-
-						ResourceMesh* rMesh = static_cast<ResourceMesh*>
+						rMesh = static_cast<ResourceMesh*>
 							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(resourcesIds[i]) + ".ymesh").c_str(), ResourceType::MESH, resourcesIds[i]));
+					}
+					else
+					{
+						rMesh = static_cast<ResourceMesh*>(itr->second);
+						itr->second->IncreaseReferenceCount();
+					}
+
+					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+					meshGO->UID = ids[i];
+					meshGO->type = "Mesh";
+
+					if (rMesh != nullptr) {
 
 						CMesh* cmesh = new CMesh(meshGO);
 
@@ -245,59 +256,21 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						cmesh->InitBoundingBoxes();
 						meshGO->AddComponent(cmesh);
 
-						// Apply Checker Image
-
-						CMaterial* cmat = new CMaterial(meshGO);
-
-						ResourceTexture* rTex = new ResourceTexture();
-
-						rTex->LoadCheckerImage();
-
-						rTex->type = TextureType::DIFFUSE;
-
-						cmat->UID = rTex->UID;
-						cmat->path = "Checker Image";
-						cmat->rTextures.push_back(rTex);
-
-						meshGO->AddComponent(cmat);
-
 					}
-					else
-					{
-						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
-						meshGO->UID = ids[i];
-						meshGO->type = "Mesh";
 
-						ResourceMesh* tmpMesh = static_cast<ResourceMesh*>(itr->second);
+					CMaterial* cmat = new CMaterial(meshGO);
 
-						CMesh* cmesh = new CMesh(meshGO);
+					ResourceTexture* rTex = new ResourceTexture();
 
-						cmesh->rMeshReference = tmpMesh;
-						cmesh->nVertices = tmpMesh->vertices.size();
-						cmesh->nIndices = tmpMesh->indices.size();
+					rTex->LoadCheckerImage();
 
-						cmesh->InitBoundingBoxes();
+					rTex->type = TextureType::DIFFUSE;
 
-						meshGO->AddComponent(cmesh);
+					cmat->UID = rTex->UID;
+					cmat->path = "Checker Image";
+					cmat->rTextures.push_back(rTex);
 
-						// Apply Checker Image
-
-						CMaterial* cmat = new CMaterial(meshGO);
-
-						ResourceTexture* rTex = new ResourceTexture();
-
-						rTex->LoadCheckerImage();
-
-						rTex->type = TextureType::DIFFUSE;
-
-						cmat->UID = rTex->UID;
-						cmat->path = "Checker Image";
-						cmat->rTextures.push_back(rTex);
-
-						meshGO->AddComponent(cmat);
-
-						itr->second->IncreaseReferenceCount();
-					}
+					meshGO->AddComponent(cmat);
 
 				}
 
