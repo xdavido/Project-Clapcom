@@ -520,6 +520,7 @@ void CCollider::OnInspector()
             break;
 
         case PhysicsType::STATIC:			
+
             break;
 
         default:

@@ -367,7 +367,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		if (App->scene->gameCameraObject->active) {
 
-			if (App->scene->godMode)
+			if (App->scene->godMode || App->physics->debugGame)
 			{
 				DrawPhysicsColliders();
 			}
@@ -403,7 +403,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		if (App->scene->gameCameraObject->active) {
 
-			if (App->scene->godMode)
+			if (App->scene->godMode || App->physics->debugGame)
 			{
 				DrawPhysicsColliders();
 			}
