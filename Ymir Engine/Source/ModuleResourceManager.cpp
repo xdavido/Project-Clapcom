@@ -201,23 +201,27 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				//	break;
 				//}
 
+				int* resourcesIds = metaFile->GetIntArray("Resources Embedded UID");
+
+				std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[0]) + ".ymesh";
+
+				if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+					ReImportModel(assetsFilePath, onlyReimport);
+					break;
+
+				}
+
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
 				modelGO->UID = metaFile->GetInt("UID");
 				modelGO->type = "Model";
 				modelGO->originPath = assetsFilePath;
 
 				int* ids = metaFile->GetIntArray("Meshes Embedded UID");
-				int* resourcesIds = metaFile->GetIntArray("Resources Embedded UID");
 
 				for (int i = 0; i < metaFile->GetInt("Meshes num"); i++)
 				{
 					std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[i]) + ".ymesh";
-
-					if (!PhysfsEncapsule::FileExists(libraryPath)) {
-
-						ReImportModel(modelGO->originPath, true);
-
-					}
 
 					// Search resource: if it exists --> create a game object with a reference to it
 					// else --> create the resource from library and the game object to contain it
