@@ -1,0 +1,739 @@
+{
+    "Prefab": [
+        {
+            "Name": "Empty",
+            "Tag": "Untagged",
+            "UID": 598982076,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 978915737,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0.32373589277267456,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                387888137,
+                1723562700,
+                1477646603,
+                1386395284,
+                1758432595,
+                1417454027
+            ]
+        },
+        {
+            "Name": "BakerHouse (1)",
+            "Tag": "Untagged",
+            "UID": 387888137,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        8.6258697509765625,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1252665504,
+                1314045240
+            ]
+        },
+        {
+            "Name": "Chimney (1)",
+            "Tag": "Untagged",
+            "UID": 1252665504,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 387888137,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1113685402,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house (1)",
+            "Tag": "Untagged",
+            "UID": 1314045240,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 387888137,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1220976970,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "Tag": "Untagged",
+            "UID": 1723562700,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -4.2743139266967773,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2135371567,
+                1523680978
+            ]
+        },
+        {
+            "Name": "Chimney",
+            "Tag": "Untagged",
+            "UID": 2135371567,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 1723562700,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1113685402,
+                    "Vertex Count": 160,
+                    "Index Count": 324
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                }
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "Tag": "Untagged",
+            "UID": 1523680978,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 1723562700,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1220976970,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                }
+            ]
+        },
+        {
+            "Name": "Cube (4)",
+            "Tag": "Untagged",
+            "UID": 1477646603,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        5.6384944915771484,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                479301142
+            ]
+        },
+        {
+            "Name": "479301142 (2)",
+            "Tag": "Untagged",
+            "UID": 479301142,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "",
+            "Parent UID": 1477646603,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 163121003,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Cube (3)",
+            "Tag": "Untagged",
+            "UID": 1386395284,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        4.0094141960144043,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1683592879
+            ]
+        },
+        {
+            "Name": "479301142 (1)",
+            "Tag": "Untagged",
+            "UID": 1683592879,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "",
+            "Parent UID": 1386395284,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 163121003,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Cube (2)",
+            "Tag": "Untagged",
+            "UID": 1758432595,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        1.9740755558013916,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                828952918
+            ]
+        },
+        {
+            "Name": "479301142",
+            "Tag": "Untagged",
+            "UID": 828952918,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "",
+            "Parent UID": 1758432595,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 163121003,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Cube",
+            "Tag": "Untagged",
+            "UID": 1417454027,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 598982076,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                375617834
+            ]
+        },
+        {
+            "Name": "Cube (1)",
+            "Tag": "Untagged",
+            "UID": 375617834,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 1417454027,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 163121003,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        }
+    ]
+}

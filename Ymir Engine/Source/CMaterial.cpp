@@ -10,13 +10,30 @@
 #include "GameObject.h"
 
 #include "ShaderEditor.h"
+#include "PhysfsEncapsule.h"
 
 #include "External/mmgr/mmgr.h"
 
 CMaterial::CMaterial(GameObject* owner) : Component(owner, ComponentType::MATERIAL)
 {
-    ID = 0;
-    UID = 0;
+    diffuse_UID = 0;
+    diffuse_ID = 0;
+
+    specular_UID = 0;
+    specular_ID = 0;
+
+    normal_UID = 0;
+    normal_ID = 0;
+
+    height_UID = 0;
+    height_ID = 0;
+
+    ambient_UID = 0;
+    ambient_ID = 0;
+
+    emissive_UID = 0;
+    emissive_ID = 0;
+
     selectedShader = 0;
 
     this->owner = owner;
@@ -245,47 +262,85 @@ void CMaterial::OnInspector()
 
         ImVec2 textureMapSize(20, 20);
 
-        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(ID)), textureMapSize);
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(diffuse_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Diffuse");
         ImGui::SameLine();
-        ImGui::Text("(%s)", path.c_str());
+
+        std::string diffuseName;
+        PhysfsEncapsule::SplitFilePath(diffuse_path.c_str(), nullptr, &diffuseName);
+        ImGui::Text("(%s)", diffuseName.c_str());
 
         ImGui::Spacing();
 
-        ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        //ImGui::ColorButton("Specular", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(specular_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Specular");
+        ImGui::SameLine();
+        
+        std::string specularName;
+        PhysfsEncapsule::SplitFilePath(specular_path.c_str(), nullptr, &specularName);
+        ImGui::Text("(%s)", specularName.c_str());
 
         ImGui::Spacing();
 
-        ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        //ImGui::ColorButton("Normal", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(normal_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Normal");
+        ImGui::SameLine();
+        
+        std::string normalName;
+        PhysfsEncapsule::SplitFilePath(normal_path.c_str(), nullptr, &normalName);
+        ImGui::Text("(%s)", normalName.c_str());
 
         ImGui::Spacing();
 
-        ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        //ImGui::ColorButton("Height", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(height_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Height");
+        ImGui::SameLine();
+        
+        std::string heightName;
+        PhysfsEncapsule::SplitFilePath(height_path.c_str(), nullptr, &heightName);
+        ImGui::Text("(%s)", heightName.c_str());
 
         ImGui::Spacing();
 
-        ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        //ImGui::ColorButton("Ambient", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(ambient_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Ambient");
+        ImGui::SameLine();
+        
+        std::string ambientName;
+        PhysfsEncapsule::SplitFilePath(ambient_path.c_str(), nullptr, &ambientName);
+        ImGui::Text("(%s)", ambientName.c_str());
 
         ImGui::Spacing();
 
-        ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+        //ImGui::ColorButton("Emissive", ImVec4(0, 0, 0, 0), ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoBorder, textureMapSize);
+
+        ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(emissive_ID)), textureMapSize);
         DdsDragDropTarget();
         ImGui::SameLine();
         ImGui::Text("Emissive");
+        ImGui::SameLine();
+        
+        std::string emissiveName;
+        PhysfsEncapsule::SplitFilePath(emissive_path.c_str(), nullptr, &emissiveName);
+        ImGui::Text("(%s)", emissiveName.c_str());
 
         ImGui::Spacing();
 
@@ -299,9 +354,15 @@ void CMaterial::OnInspector()
 
         ImGui::Spacing();
 
-        if (ImGui::Button("Clear Actual Texture")) {
+        if (ImGui::Button("Clear All Textures")) {
 
-            External->renderer3D->ClearActualTexture();
+            for (auto it = rTextures.begin(); it != rTextures.end(); ++it)
+            {
+                External->resourceManager->UnloadResource((*it)->GetUID());
+                
+            }
+
+            rTextures.clear();
 
         }
 
@@ -319,7 +380,7 @@ void CMaterial::DdsDragDropTarget()
 {
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("dds"))
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
         {
             std::string* libraryFilePathDrop = (std::string*)payload->Data;
 

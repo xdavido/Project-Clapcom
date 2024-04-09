@@ -1,0 +1,3146 @@
+{
+    "Prefab": [
+        {
+            "Name": "BASE_BLOCKOUT",
+            "Tag": "Untagged",
+            "UID": 1932460759,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1231696874,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                128081861,
+                1319778354,
+                1996290615,
+                1243061627,
+                371444650
+            ]
+        },
+        {
+            "Name": "Teleport_Room",
+            "Tag": "Untagged",
+            "UID": 128081861,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1932460759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                927490822,
+                610915809,
+                1808130820,
+                290593961,
+                61311335,
+                1069599178,
+                1582031959,
+                447671245
+            ]
+        },
+        {
+            "Name": "Platform",
+            "Tag": "Untagged",
+            "UID": 927490822,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 224457681,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Teleport",
+            "Tag": "Untagged",
+            "UID": 610915809,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1245473112,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Stairs1",
+            "Tag": "Untagged",
+            "UID": 1808130820,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 306183497,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Stairs2",
+            "Tag": "Untagged",
+            "UID": 290593961,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 463895520,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Stairs3",
+            "Tag": "Untagged",
+            "UID": 61311335,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1719608587,
+                    "Vertex Count": 20,
+                    "Index Count": 24
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Door1",
+            "Tag": "Untagged",
+            "UID": 1069599178,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 803129423,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Control_Computers",
+            "Tag": "Untagged",
+            "UID": 1582031959,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 809857260,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Walls_Teleport_Room",
+            "Tag": "Untagged",
+            "UID": 447671245,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 128081861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                176388553,
+                176328463,
+                1907536777,
+                1499308328,
+                2111737939,
+                1537888409,
+                1155780067,
+                1587841755,
+                282759772,
+                2060912926
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room1",
+            "Tag": "Untagged",
+            "UID": 176388553,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1251829910,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room2",
+            "Tag": "Untagged",
+            "UID": 176328463,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1401379183,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room3",
+            "Tag": "Untagged",
+            "UID": 1907536777,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 511972364,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room4",
+            "Tag": "Untagged",
+            "UID": 1499308328,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 412312880,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room5",
+            "Tag": "Untagged",
+            "UID": 2111737939,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1224717544,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room6",
+            "Tag": "Untagged",
+            "UID": 1537888409,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 648284805,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room7",
+            "Tag": "Untagged",
+            "UID": 1155780067,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2029877416,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room8",
+            "Tag": "Untagged",
+            "UID": 1587841755,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1729625750,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room9",
+            "Tag": "Untagged",
+            "UID": 282759772,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 676402336,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Teleport_Room10",
+            "Tag": "Untagged",
+            "UID": 2060912926,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 447671245,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2109637353,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade_Room",
+            "Tag": "Untagged",
+            "UID": 1319778354,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1932460759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                135857214,
+                1917495800,
+                2045321626,
+                1867923981,
+                1691450705,
+                1160598177,
+                2089672019
+            ]
+        },
+        {
+            "Name": "Door3",
+            "Tag": "Untagged",
+            "UID": 135857214,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1875758572,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Door4",
+            "Tag": "Untagged",
+            "UID": 1917495800,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 238049546,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Door2",
+            "Tag": "Untagged",
+            "UID": 2045321626,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1785018894,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Loot_Box",
+            "Tag": "Untagged",
+            "UID": 1867923981,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1020640347,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade_Table",
+            "Tag": "Untagged",
+            "UID": 1691450705,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 886383623,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Android",
+            "Tag": "Untagged",
+            "UID": 1160598177,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1964262402,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Walls_Upgrade_Room",
+            "Tag": "Untagged",
+            "UID": 2089672019,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1319778354,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1818208464,
+                1934632583,
+                709373799,
+                1731180198,
+                1916655494,
+                1256152817,
+                474226745
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room1",
+            "Tag": "Untagged",
+            "UID": 1818208464,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1421154607,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room2",
+            "Tag": "Untagged",
+            "UID": 1934632583,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 654483518,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room3",
+            "Tag": "Untagged",
+            "UID": 709373799,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1845096007,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room4",
+            "Tag": "Untagged",
+            "UID": 1731180198,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1288710269,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room5",
+            "Tag": "Untagged",
+            "UID": 1916655494,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1062931482,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room6",
+            "Tag": "Untagged",
+            "UID": 1256152817,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 427136149,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Upgrade_Room7",
+            "Tag": "Untagged",
+            "UID": 474226745,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 2089672019,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 324732525,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Hallways",
+            "Tag": "Untagged",
+            "UID": 1996290615,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1932460759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1925870823
+            ]
+        },
+        {
+            "Name": "Walls_Hallways",
+            "Tag": "Untagged",
+            "UID": 1925870823,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1996290615,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1209760874,
+                1662409270,
+                121271203,
+                1009272949,
+                8817286,
+                726641830,
+                974041718,
+                1033616539
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_1_1",
+            "Tag": "Untagged",
+            "UID": 1209760874,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1088709098,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_1_2",
+            "Tag": "Untagged",
+            "UID": 1662409270,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 991524397,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_2_1",
+            "Tag": "Untagged",
+            "UID": 121271203,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1454117118,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_2_2",
+            "Tag": "Untagged",
+            "UID": 1009272949,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1731011815,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_3_1",
+            "Tag": "Untagged",
+            "UID": 8817286,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 815452027,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_3_2",
+            "Tag": "Untagged",
+            "UID": 726641830,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 585935143,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_4_1",
+            "Tag": "Untagged",
+            "UID": 974041718,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 650859416,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Hallway_4_2",
+            "Tag": "Untagged",
+            "UID": 1033616539,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1925870823,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1564298792,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Mother_Room",
+            "Tag": "Untagged",
+            "UID": 1243061627,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1932460759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                448733160,
+                85446377,
+                1120615648,
+                2129385152,
+                2038025349,
+                888157578
+            ]
+        },
+        {
+            "Name": "Wall_Mother5",
+            "Tag": "Untagged",
+            "UID": 448733160,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 990042623,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Mother4",
+            "Tag": "Untagged",
+            "UID": 85446377,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1060021249,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Mother3",
+            "Tag": "Untagged",
+            "UID": 1120615648,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1543839802,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Mother2",
+            "Tag": "Untagged",
+            "UID": 2129385152,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 676109061,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Wall_Mother1",
+            "Tag": "Untagged",
+            "UID": 2038025349,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1258669556,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Mother_Chair",
+            "Tag": "Untagged",
+            "UID": 888157578,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1243061627,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1702525271,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        },
+        {
+            "Name": "Floor",
+            "Tag": "Untagged",
+            "UID": 371444650,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/BASE_BLOCKOUT.fbx",
+            "Parent UID": 1932460759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        457.87872314453125,
+                        0,
+                        -112.76811218261719
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        45.337543487548828,
+                        0.016657711938023567,
+                        24.144638061523438
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1844031571,
+                    "Vertex Count": 4,
+                    "Index Count": 6
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                }
+            ]
+        }
+    ]
+}

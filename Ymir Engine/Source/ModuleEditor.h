@@ -182,7 +182,7 @@ public:
 	bool showNodeEditor = false;
 
 	bool showScriptingEditor = true;
-	bool showShaderEditor = false;
+	bool showShaderEditor = true;
 
 	// OpenGL settings checkbox toggle booleans
 	bool gl_DepthTesting = true;
@@ -193,7 +193,7 @@ public:
 	bool gl_TextureMapping3D = false;
 	bool gl_Blending = false;
 	bool gl_MSAA = false;
-	bool gl_StencilTesting = false;
+	bool gl_StencilTesting = true;
 	bool gl_ScissorTesting = false;
 	bool gl_AlphaTesting = false;
 	bool gl_PointSprites = false;

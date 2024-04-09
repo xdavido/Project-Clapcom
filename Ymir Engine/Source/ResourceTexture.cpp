@@ -1,11 +1,17 @@
 #include "ResourceTexture.h"
 #include "Log.h"
 
+#include "PhysfsEncapsule.h"
+#include "Application.h"
+#include "ModuleFileSystem.h"
+
 #include "External/mmgr/mmgr.h"
 
 ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE)
 {
 	ID = 0;
+
+	this->UID = UID;
 
 	type = TextureType::UNKNOWN;
 
@@ -16,6 +22,57 @@ ResourceTexture::ResourceTexture(uint UID) : Resource(UID, ResourceType::TEXTURE
 bool ResourceTexture::LoadInMemory()
 {
 	bool ret = true;
+
+	// 0. Set texture properties
+
+	GLenum format;
+	ILenum ILformat;
+
+	switch (type)
+	{
+		case TextureType::DIFFUSE:
+
+			format = GL_RGBA;
+			ILformat = IL_RGBA;
+
+			break;
+
+		case TextureType::SPECULAR:
+
+			format = GL_ALPHA;
+			ILformat = IL_ALPHA;
+
+			break;
+
+		case TextureType::AMBIENT:
+
+			format = GL_LUMINANCE;
+			ILformat = IL_LUMINANCE;
+
+			break;
+
+		case TextureType::EMISSIVE:
+
+			format = GL_RGBA;
+			ILformat = IL_RGBA;
+
+			break;
+
+		case TextureType::HEIGHT:
+
+			format = GL_LUMINANCE;
+			ILformat = IL_LUMINANCE;
+
+			break;
+
+		case TextureType::NORMAL:
+
+			format = GL_RGB;
+			ILformat = IL_RGB;
+
+			break;
+
+	}
 
 	// 1. Load DevIL Image
 
@@ -35,7 +92,7 @@ bool ResourceTexture::LoadInMemory()
 
 	// 2. Convert the Image to OpenGL Texture Format
 
-	if (ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE)) {
+	if (ilConvertImage(ILformat, IL_UNSIGNED_BYTE)) {
 		// Image converted successfully
 		LOG("Image converted successfully at %s", libraryFilePath.c_str());
 	}
@@ -60,7 +117,7 @@ bool ResourceTexture::LoadInMemory()
 
 	glGenTextures(1, &ID);
 	glBindTexture(GL_TEXTURE_2D, ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, imageData);
 
 	// 5. Set Texture Parameters
 
@@ -71,7 +128,17 @@ bool ResourceTexture::LoadInMemory()
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	// 6. Clean Up
+	// 6. Save to Library if it isn't there
+
+	//std::string libraryPath = External->fileSystem->libraryTexturesPath + std::to_string(this->UID) + ".dds";
+
+	//if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+	//	External->fileSystem->SaveTextureToFile(this, libraryPath);
+
+	//}
+
+	// 7. Clean Up
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
@@ -84,15 +151,17 @@ bool ResourceTexture::UnloadFromMemory()
 	return false;
 }
 
-void ResourceTexture::BindTexture(bool bind)
+void ResourceTexture::BindTexture(bool bind, GLuint unit)
 {
 	if (bind) {
 
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, ID);
 
 	}
 	else {
 
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 	}
@@ -146,4 +215,108 @@ void ResourceTexture::LoadCheckerImage()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkerImage);
+}
+
+std::string ResourceTexture::GetSamplerName() const
+{
+	switch (type)
+	{
+	case TextureType::DIFFUSE:
+		return "texture_diffuse";
+		break;
+	case TextureType::SPECULAR:
+		return "texture_specular";
+		break;
+	case TextureType::AMBIENT:
+		return "texture_ambient";
+		break;
+	case TextureType::EMISSIVE:
+		return "texture_emissive";
+		break;
+	case TextureType::HEIGHT:
+		return "texture_height";
+		break;
+	case TextureType::NORMAL:
+		return "texture_normal";
+		break;
+	default:
+		return "texture_diffuse";
+		break;
+	}
+}
+
+TextureType ResourceTexture::GetTextureTypeFromName(const std::string& name)
+{
+	TextureType type = TextureType::UNKNOWN;
+
+	if (name == "Diffuse") {
+
+		type = TextureType::DIFFUSE;
+
+	}
+	else if (name == "Specular") {
+
+		type = TextureType::SPECULAR;
+
+	}
+	else if (name == "Normal") {
+
+		type = TextureType::NORMAL;
+
+	}
+	else if (name == "Height") {
+
+		type = TextureType::HEIGHT;
+
+	}
+	else if (name == "Emissive") {
+
+		type = TextureType::EMISSIVE;
+
+	}
+	else if (name == "Ambient") {
+
+		type = TextureType::AMBIENT;
+
+	}
+
+	return type;
+}
+
+std::string ResourceTexture::GetNameFromTextureType(const TextureType& type)
+{
+	std::string name;
+
+	if (type == TextureType::DIFFUSE) {
+
+		name = "Diffuse";
+
+	}
+	else if (type == TextureType::SPECULAR) {
+
+		name = "Specular";
+
+	}
+	else if (type == TextureType::NORMAL) {
+
+		name = "Normal";
+
+	}
+	else if (type == TextureType::HEIGHT) {
+
+		name = "Height";
+
+	}
+	else if (type == TextureType::EMISSIVE) {
+
+		name = "Emissive";
+
+	}
+	else if (type == TextureType::AMBIENT) {
+
+		name = "Ambient";
+
+	}
+
+	return name;
 }

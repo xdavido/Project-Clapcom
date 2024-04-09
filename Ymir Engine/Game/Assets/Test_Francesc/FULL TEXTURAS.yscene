@@ -1,0 +1,2402 @@
+{
+    "Editor Camera Position": [
+        -87.685348510742188,
+        145.44473266601562,
+        158.03257751464844
+    ],
+    "Editor Camera Right (X)": [
+        0.83489513397216797,
+        4.4703483581542969e-08,
+        0.55041050910949707
+    ],
+    "Editor Camera Up (Y)": [
+        0.33308091759681702,
+        0.79611140489578247,
+        -0.50523686408996582
+    ],
+    "Editor Camera Front (Z)": [
+        0.43818771839141846,
+        -0.60515099763870239,
+        -0.6646689772605896
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Tag": "Untagged",
+            "UID": 1037263551,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1727349993,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                422508722,
+                1681321970,
+                563297257,
+                928891845,
+                1448076732,
+                1227864808,
+                264198326,
+                2090877327,
+                148849162,
+                780647086,
+                103542765,
+                1527929208,
+                1257234976,
+                1271100186,
+                302835355,
+                2021031533,
+                423056409,
+                243936852,
+                1360171648,
+                1757912137,
+                601346222
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "Tag": "Untagged",
+            "UID": 422508722,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -66.383003234863281,
+                        113.86638641357422,
+                        96.68133544921875
+                    ],
+                    "Rotation": [
+                        136.18748474121094,
+                        31.194730758666992,
+                        -153.57652282714844
+                    ],
+                    "Scale": [
+                        1.0000081062316895,
+                        1.0000001192092896,
+                        1.0000067949295044
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604658365249634,
+                        -2.2500753402709961e-06,
+                        0.64278507232666016
+                    ],
+                    "Up": [
+                        0.38066026568412781,
+                        0.80578923225402832,
+                        -0.45365345478057861
+                    ],
+                    "Front": [
+                        0.51794832944869995,
+                        -0.59220242500305176,
+                        -0.61727297306060791
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 0,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 1681321970,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                618673027
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank",
+            "Tag": "Untagged",
+            "UID": 618673027,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1681321970,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (1)",
+            "Tag": "Untagged",
+            "UID": 563297257,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        29.238605499267578,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                214308580
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (1)",
+            "Tag": "Untagged",
+            "UID": 214308580,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 563297257,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0.33299827575683594
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (2)",
+            "Tag": "Untagged",
+            "UID": 928891845,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -27.14390754699707,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1823564716
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (2)",
+            "Tag": "Untagged",
+            "UID": 1823564716,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 928891845,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (3)",
+            "Tag": "Untagged",
+            "UID": 1448076732,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        64.363037109375,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                518123153
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (3)",
+            "Tag": "Untagged",
+            "UID": 518123153,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1448076732,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (4)",
+            "Tag": "Untagged",
+            "UID": 1227864808,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        101.84760284423828,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1199687904
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (4)",
+            "Tag": "Untagged",
+            "UID": 1199687904,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1227864808,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (5)",
+            "Tag": "Untagged",
+            "UID": 264198326,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        65.307472229003906,
+                        0,
+                        -35.859909057617188
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                648431497
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (5)",
+            "Tag": "Untagged",
+            "UID": 648431497,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 264198326,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (6)",
+            "Tag": "Untagged",
+            "UID": 2090877327,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -57.118873596191406,
+                        0,
+                        -36.682846069335938
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1041060250
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (6)",
+            "Tag": "Untagged",
+            "UID": 1041060250,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 2090877327,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (7)",
+            "Tag": "Untagged",
+            "UID": 148849162,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        38.201717376708984,
+                        0,
+                        68.631729125976562
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1090778696
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (7)",
+            "Tag": "Untagged",
+            "UID": 1090778696,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 148849162,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (8)",
+            "Tag": "Untagged",
+            "UID": 780647086,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        5.0606584548950195,
+                        0,
+                        68.791007995605469
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                968227765
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (8)",
+            "Tag": "Untagged",
+            "UID": 968227765,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 780647086,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (9)",
+            "Tag": "Untagged",
+            "UID": 103542765,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -28.102357864379883,
+                        0,
+                        67.8985595703125
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1072193783
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (9)",
+            "Tag": "Untagged",
+            "UID": 1072193783,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 103542765,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (10)",
+            "Tag": "Untagged",
+            "UID": 1527929208,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -58.324504852294922,
+                        0,
+                        66.126846313476562
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1658369199
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (10)",
+            "Tag": "Untagged",
+            "UID": 1658369199,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1527929208,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (11)",
+            "Tag": "Untagged",
+            "UID": 1257234976,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -29.046024322509766,
+                        0,
+                        -37.750045776367188
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                841403
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (11)",
+            "Tag": "Untagged",
+            "UID": 841403,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1257234976,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (12)",
+            "Tag": "Untagged",
+            "UID": 1271100186,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        32.759105682373047,
+                        0,
+                        -35.898895263671875
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                969688581
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (12)",
+            "Tag": "Untagged",
+            "UID": 969688581,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1271100186,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (13)",
+            "Tag": "Untagged",
+            "UID": 302835355,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -57.994144439697266,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                599204907
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (13)",
+            "Tag": "Untagged",
+            "UID": 599204907,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 302835355,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (14)",
+            "Tag": "Untagged",
+            "UID": 2021031533,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -57.919517517089844,
+                        0,
+                        34.044563293457031
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                791790637
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (14)",
+            "Tag": "Untagged",
+            "UID": 791790637,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 2021031533,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (15)",
+            "Tag": "Untagged",
+            "UID": 423056409,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        61.836620330810547,
+                        0,
+                        37.5523681640625
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                608230806
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (15)",
+            "Tag": "Untagged",
+            "UID": 608230806,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 423056409,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (16)",
+            "Tag": "Untagged",
+            "UID": 243936852,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        28.985874176025391,
+                        0,
+                        36.214866638183594
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2078379494
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (16)",
+            "Tag": "Untagged",
+            "UID": 2078379494,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 243936852,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (17)",
+            "Tag": "Untagged",
+            "UID": 1360171648,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        -2.2669687271118164
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1092639421
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (17)",
+            "Tag": "Untagged",
+            "UID": 1092639421,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1360171648,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -29.557689666748047,
+                        0,
+                        36.038017272949219
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (18)",
+            "Tag": "Untagged",
+            "UID": 1757912137,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1809322214
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (18)",
+            "Tag": "Untagged",
+            "UID": 1809322214,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 1757912137,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        36.327560424804688
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Biotic_Liquid_Tank (19)",
+            "Tag": "Untagged",
+            "UID": 601346222,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1037263551,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        -35.397171020507812
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1191121010
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank (19)",
+            "Tag": "Untagged",
+            "UID": 1191121010,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+            "Parent UID": 601346222,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 843779113,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/SpecularLight.glsl",
+                    "Uniforms": [
+                        {
+                            "numLights": 1,
+                            "transparency": 1,
+                            "camPos": [
+                                -66.383003234863281,
+                                113.86638641357422,
+                                96.68133544921875
+                            ],
+                            "enableDiffuse": true,
+                            "enableSpecular": true,
+                            "enableNormal": true,
+                            "enableAmbient": true,
+                            "enableHeight": true,
+                            "enableEmissive": true,
+                            "ambient": 1,
+                            "specularLight": 1,
+                            "normalIntensity": 1,
+                            "emissive": 1
+                        }
+                    ],
+                    "Diffuse_ID": 152,
+                    "Diffuse_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 2055516695,
+                    "Specular_ID": 160,
+                    "Specular_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_S.png",
+                    "Specular_UID": 1095538949,
+                    "Normal_ID": 158,
+                    "Normal_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_N.png",
+                    "Normal_UID": 1583421896,
+                    "Height_ID": 156,
+                    "Height_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_H.png",
+                    "Height_UID": 52765011,
+                    "Ambient_ID": 150,
+                    "Ambient_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_A.png",
+                    "Ambient_UID": 1955741541,
+                    "Emissive_ID": 154,
+                    "Emissive_Path": "Assets\/Test_Francesc\/TEX_PROP_LiquidTank_E.png",
+                    "Emissive_UID": 1036066201
+                }
+            ]
+        }
+    ]
+}

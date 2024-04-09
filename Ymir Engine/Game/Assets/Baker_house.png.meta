@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/Baker_house.png",
-    "Library Path": ".\/Library\/Textures\/792489800.dds",
-    "UID": 792489800,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/1855726045.dds",
+    "UID": 1855726045,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }
