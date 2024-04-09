@@ -1401,6 +1401,42 @@ void ModuleEditor::DrawEditor()
 
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
 			{
+				if (ImGui::IsWindowHovered())
+				{
+					if (!ImGuizmo::IsUsing() && !App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
+					{
+
+
+						App->camera->mousePickingRay.Transform(App->pathFinding->matrizglobal.Inverted());
+
+						if (External->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+								External->pathFinding->CheckNavMeshIntersection(App->camera->mousePickingRay, SDL_BUTTON_LEFT);
+	
+					}
+				}
+			}
+
+			if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
+			{
+				if (ImGui::IsWindowHovered())
+				{
+					if (!ImGuizmo::IsUsing() && !App->input->GetKey(SDL_SCANCODE_LALT) == KEY_DOWN)
+					{
+
+						App->camera->mousePickingRay.Transform(App->pathFinding->matrizglobal.Inverted());
+
+
+						if (External->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+							External->pathFinding->CheckNavMeshIntersection(App->camera->mousePickingRay, SDL_BUTTON_RIGHT);
+
+					}
+				}
+			}
+
+
+
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && !ImGuizmo::IsUsing())
+			{
 				MousePickingManagement(mousePosition, sceneWindowPos, sceneWindowSize, sceneFrameHeightOffset);
 			}
 
@@ -1514,6 +1550,17 @@ void ModuleEditor::DrawEditor()
 		SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
 
 	}
+
+}
+
+ImVec2 ModuleEditor::NormalizeOnSceneWindow(float x, float y, float z, float h, float w, ImVec2 point) {
+
+	ImVec2 normalizePoint;
+
+	normalizePoint.x = (point.x - x) / ((x + w) - x);
+	normalizePoint.y = (point.y - y) / ((y + h) - y);
+
+	return normalizePoint;
 
 }
 

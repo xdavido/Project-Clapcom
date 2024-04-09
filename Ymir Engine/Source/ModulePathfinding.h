@@ -112,12 +112,15 @@ public:
 	NavAgent bakedNav;
 	Pathfinder pathfinder;
 	bool debugDraw;
+	float4x4 matrizglobal;
 
 private:
 	NavMeshBuilder* navMeshBuilder;
 	InputGeom* geometry;
 
 	GameObject* walkabilityPoint;
+
+	
 
 	//Random Point Finding
 	bool randomPointSet;

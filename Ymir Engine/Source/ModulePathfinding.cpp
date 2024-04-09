@@ -339,6 +339,8 @@ void ModulePathFinding::AddGameObjectToNavMesh(GameObject* objectToAdd)
 	if (mesh == nullptr)
 		return;
 
+	matrizglobal = objectToAdd->mTransform->mGlobalMatrix;
+
 	float4x4 globalTransform = objectToAdd->mTransform->GetGlobalTransform();
 
 	geometry->AddMesh(mesh, globalTransform);

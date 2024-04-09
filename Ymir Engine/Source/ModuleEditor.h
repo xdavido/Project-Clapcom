@@ -42,6 +42,7 @@ public:
 
 	// Draws the editor on the window
 	void DrawEditor();
+	ImVec2 NormalizeOnSceneWindow(float x, float y, float z, float h, float w, ImVec2 point);
 	void PrimitivesMenu();
 	void CreateCameraMenu();
 	void UIMenu();
