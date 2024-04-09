@@ -842,10 +842,10 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 	External->scene->GetUINaviagte(gameObject, listUI); bool isInGO = false;
 	int offset = 0;
 
-	std::vector<C_UI*> listFea;
+	std::vector<C_UI*> listOffset;
 	for (int i = 0; i < External->scene->vCanvas.size(); ++i)
 	{
-		External->scene->GetUINaviagte(External->scene->vCanvas[i], listFea);
+		External->scene->GetUINaviagte(External->scene->vCanvas[i], listOffset);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
@@ -859,9 +859,9 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 
 	if (isInGO)
 	{
-		for (auto i = 0; i < listFea.size(); i++)
+		for (auto i = 0; i < listOffset.size(); i++)
 		{
-			if (listFea[i]->mOwner->UID != gameObject->mChildren[0]->UID)
+			if (listOffset[i]->mOwner->UID != gameObject->mChildren[0]->UID)
 			{
 				offset++;
 			}
