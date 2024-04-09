@@ -18,6 +18,7 @@ public class QueenXenomorphAttack : YmirComponent
     private float clawDamage = 1f;
     private float axeDamage = 1f;
     private float dashDamage = 1f;
+    private float acidDamage = 1f;
 
     private GameObject player;
 
@@ -56,9 +57,21 @@ public class QueenXenomorphAttack : YmirComponent
         }
         else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
         {
-            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 45f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 50f))
             {
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 200f);
+            }
+            else
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 0f);
+            }
+        }
+        
+        if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.ACID_SPIT)
+        {
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 80f))
+            {
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 300f);
             }
             else
             {
@@ -74,21 +87,23 @@ public class QueenXenomorphAttack : YmirComponent
         {
             if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.CLAW)
             {
-                Debug.Log("[ERROR] CLAWhit");
                 damageTimer = 2.5f;
                 healthScript.TakeDmg(clawDamage);
             }
             if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
             {
-                Debug.Log("[ERROR] AXEhit");
                 damageTimer = 3.5f;
                 healthScript.TakeDmg(axeDamage);
             }
             if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.DASH)
             {
-                Debug.Log("[ERROR] DASHhit");
                 damageTimer = 2.5f;
                 healthScript.TakeDmg(dashDamage);
+            }
+            if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.ACID_SPIT)
+            {
+                damageTimer = 2f;
+                healthScript.TakeDmg(acidDamage);
             }
         }
 
