@@ -430,7 +430,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			
 			ImporterTexture::Import(path, rTexTemp);
 
-			RELEASE(rTexTemp);
+			delete rTexTemp;
+			rTexTemp = nullptr;
 
 			if (metaFile == nullptr) {
 

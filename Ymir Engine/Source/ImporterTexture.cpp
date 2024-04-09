@@ -10,6 +10,8 @@
 
 void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 {
+
+	// Andreu: IDK if this should be here
 	ourTexture->SetAssetsFilePath(path);
 
 	// 0. Handle UID
@@ -111,6 +113,7 @@ void ImporterTexture::Import(std::string path, ResourceTexture* ourTexture)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	ilDeleteImages(1, &imageID);
+
 }
 
 uint ImporterTexture::Save(const Texture* ourTexture, char** fileBuffer)

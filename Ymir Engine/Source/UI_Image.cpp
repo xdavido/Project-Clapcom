@@ -396,6 +396,7 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 		mapTextures.erase(state);
 	}
 
+	mat->path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 
 	mapTextures.insert({ state, rTexTemp });
