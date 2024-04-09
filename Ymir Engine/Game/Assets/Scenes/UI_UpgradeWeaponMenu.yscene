@@ -320,55 +320,56 @@
                     "Type": "UI Transform",
                     "Component reference": 1
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 3,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        300,
-                        50
-                    ],
-                    "Is interactable": true,
-                    "Text": 4294967295,
-                    "Image": 1993436445,
-                    "Normal": "Assets\/InGameConeptPng.png",
-                    "Focused": "Assets\/Lava.png",
-                    "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
-                    "Release": "Assets\/Baker_house.png",
-                    "Focused color": [
-                        0,
-                        1,
-                        0,
-                        1
-                    ],
-                    "Pressed color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Selected color": [
-                        0,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Disabled color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                }
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 0,
+                "Position Y": 0,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 3,
+                "UI State": 1,
+                "Drag Limits": [
+                  0,
+                  0,
+                  300,
+                  50
+                ],
+                "Is interactable": true,
+                "Text": 4294967295,
+                "Image": 1993436445,
+                "Normal": "Assets\/InGameConeptPng.png",
+                "Focused": "Assets\/Lava.png",
+                "Pressed": "Assets\/pato.png",
+                "Selected": "Assets\/Water.png",
+                "Release": "Assets\/Baker_house.png",
+                "Disabled": "Assets\/Baker_house.png",
+                "Focused color": [
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "Pressed color": [
+                  1,
+                  0,
+                  1,
+                  1
+                ],
+                "Selected color": [
+                  0,
+                  0,
+                  1,
+                  1
+                ],
+                "Disabled color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              }
             ]
         },
         {
@@ -522,55 +523,56 @@
                     "Type": "UI Transform",
                     "Component reference": 1
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 3,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        300,
-                        50
-                    ],
-                    "Is interactable": true,
-                    "Text": 4294967295,
-                    "Image": 582770001,
-                    "Normal": "Assets\/InGameConeptPng.png",
-                    "Focused": "Assets\/Lava.png",
-                    "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
-                    "Release": "Assets\/Baker_house.png",
-                    "Focused color": [
-                        0,
-                        1,
-                        0,
-                        1
-                    ],
-                    "Pressed color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Selected color": [
-                        0,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Disabled color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                }
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 0,
+                "Position Y": 0,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 3,
+                "UI State": 1,
+                "Drag Limits": [
+                  0,
+                  0,
+                  300,
+                  50
+                ],
+                "Is interactable": true,
+                "Text": 4294967295,
+                "Image": 582770001,
+                "Normal": "Assets\/InGameConeptPng.png",
+                "Focused": "Assets\/Lava.png",
+                "Pressed": "Assets\/pato.png",
+                "Selected": "Assets\/Water.png",
+                "Release": "Assets\/Baker_house.png",
+                "Disabled": "Assets\/Baker_house.png",
+                "Focused color": [
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "Pressed color": [
+                  1,
+                  0,
+                  1,
+                  1
+                ],
+                "Selected color": [
+                  0,
+                  0,
+                  1,
+                  1
+                ],
+                "Disabled color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              }
             ]
         },
         {
@@ -724,55 +726,56 @@
                     "Type": "UI Transform",
                     "Component reference": 1
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 3,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        300,
-                        50
-                    ],
-                    "Is interactable": true,
-                    "Text": 4294967295,
-                    "Image": 1156110965,
-                    "Normal": "Assets\/InGameConeptPng.png",
-                    "Focused": "Assets\/Lava.png",
-                    "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/Water.png",
-                    "Release": "Assets\/Baker_house.png",
-                    "Focused color": [
-                        0,
-                        1,
-                        0,
-                        1
-                    ],
-                    "Pressed color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Selected color": [
-                        0,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Disabled color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                }
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 0,
+                "Position Y": 0,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 3,
+                "UI State": 1,
+                "Drag Limits": [
+                  0,
+                  0,
+                  300,
+                  50
+                ],
+                "Is interactable": true,
+                "Text": 4294967295,
+                "Image": 1156110965,
+                "Normal": "Assets\/InGameConeptPng.png",
+                "Focused": "Assets\/Lava.png",
+                "Pressed": "Assets\/pato.png",
+                "Selected": "Assets\/Water.png",
+                "Release": "Assets\/Baker_house.png",
+                "Disabled": "Assets\/Baker_house.png",
+                "Focused color": [
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "Pressed color": [
+                  1,
+                  0,
+                  1,
+                  1
+                ],
+                "Selected color": [
+                  0,
+                  0,
+                  1,
+                  1
+                ],
+                "Disabled color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              }
             ]
         },
         {
