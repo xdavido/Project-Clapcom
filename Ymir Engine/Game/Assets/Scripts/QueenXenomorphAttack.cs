@@ -43,9 +43,9 @@ public class QueenXenomorphAttack : YmirComponent
         else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.CLAW)
         {
             //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 10f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 20f))
             {
-                gameObject.SetVelocity(gameObject.transform.GetForward() * 100f);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 150f);
             }
             else
             {
@@ -55,9 +55,9 @@ public class QueenXenomorphAttack : YmirComponent
         else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.AXE_TAIL)
         {
             //gameObject.SetPosition(new Vector3(gameObject.transform.globalPosition.x, gameObject.transform.globalPosition.y, gameObject.transform.GetForward().z + 5));
-            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 10f))
+            if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 30f))
             {
-                gameObject.SetVelocity(gameObject.transform.GetForward() * 100f);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * 200f);
             }
             else
             {
