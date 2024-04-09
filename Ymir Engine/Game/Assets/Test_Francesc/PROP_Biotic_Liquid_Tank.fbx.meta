@@ -1,0 +1,11 @@
+{
+    "Name": "PROP_Biotic_Liquid_Tank",
+    "Assets Path": "Assets\/Test_Francesc\/PROP_Biotic_Liquid_Tank.fbx",
+    "Library Path": ".\/Library\/Models\/634023144.ymodel",
+    "UID": 634023144,
+    "Type": "Model",
+    "Meshes num": 1,
+    "Meshes Embedded UID": [
+        517947247
+    ]
+}

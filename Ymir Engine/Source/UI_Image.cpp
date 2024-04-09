@@ -262,12 +262,12 @@ void UI_Image::OnInspector()
 
 		ImVec2 textureMapSize(20, 20);
 
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->ID)), textureMapSize);
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(mat->diffuse_ID)), textureMapSize);
 		mat->DdsDragDropTarget();
 		ImGui::SameLine();
 		ImGui::Text("Diffuse");
 		ImGui::SameLine();
-		ImGui::Text("(%s)", mat->path.c_str());
+		ImGui::Text("(%s)", mat->diffuse_path.c_str());
 
 		ImGui::Spacing();
 
@@ -337,7 +337,7 @@ void UI_Image::Draw(bool game)
 	UI_Bounds* boundsDrawn = nullptr;
 
 
-	selectedTexture->BindTexture(true);
+	selectedTexture->BindTexture(true, 0);
 
 	mat->shader.UseShader(true);
 	mat->shader.SetShaderUniforms(&transformUI->mMatrixUI, mOwner->selected);
@@ -371,7 +371,7 @@ void UI_Image::Draw(bool game)
 	boundsDrawn = nullptr;
 
 	mat->shader.UseShader(false);
-	selectedTexture->BindTexture(false);
+	selectedTexture->BindTexture(false, 0);
 
 }
 
@@ -396,7 +396,7 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 		mapTextures.erase(state);
 	}
 
-	mat->path = imgPath;
+	mat->diffuse_path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 
 	mapTextures.insert({ state, rTexTemp });

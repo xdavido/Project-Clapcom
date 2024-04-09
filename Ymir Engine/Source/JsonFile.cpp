@@ -1101,9 +1101,53 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		// Texture maps
 
-		json_object_set_number(componentObject, "ID", cmaterial->ID);
-		json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
-		json_object_set_number(componentObject, "UID", cmaterial->UID);
+		if (!cmaterial->diffuse_path.empty()) {
+
+			json_object_set_number(componentObject, "Diffuse_ID", cmaterial->diffuse_ID);
+			json_object_set_string(componentObject, "Diffuse_Path", cmaterial->diffuse_path.c_str());
+			json_object_set_number(componentObject, "Diffuse_UID", cmaterial->diffuse_UID);
+
+		}
+
+		if (!cmaterial->specular_path.empty()) {
+
+			json_object_set_number(componentObject, "Specular_ID", cmaterial->specular_ID);
+			json_object_set_string(componentObject, "Specular_Path", cmaterial->specular_path.c_str());
+			json_object_set_number(componentObject, "Specular_UID", cmaterial->specular_UID);
+
+		}
+
+		if (!cmaterial->normal_path.empty()) {
+
+			json_object_set_number(componentObject, "Normal_ID", cmaterial->normal_ID);
+			json_object_set_string(componentObject, "Normal_Path", cmaterial->normal_path.c_str());
+			json_object_set_number(componentObject, "Normal_UID", cmaterial->normal_UID);
+
+		}
+
+		if (!cmaterial->height_path.empty()) {
+
+			json_object_set_number(componentObject, "Height_ID", cmaterial->height_ID);
+			json_object_set_string(componentObject, "Height_Path", cmaterial->height_path.c_str());
+			json_object_set_number(componentObject, "Height_UID", cmaterial->height_UID);
+
+		}
+
+		if (!cmaterial->ambient_path.empty()) {
+
+			json_object_set_number(componentObject, "Ambient_ID", cmaterial->ambient_ID);
+			json_object_set_string(componentObject, "Ambient_Path", cmaterial->ambient_path.c_str());
+			json_object_set_number(componentObject, "Ambient_UID", cmaterial->ambient_UID);
+
+		}
+
+		if (!cmaterial->emissive_path.empty()) {
+
+			json_object_set_number(componentObject, "Emissive_ID", cmaterial->emissive_ID);
+			json_object_set_string(componentObject, "Emissive_Path", cmaterial->emissive_path.c_str());
+			json_object_set_number(componentObject, "Emissive_UID", cmaterial->emissive_UID);
+
+		}
 
 	}
 	break;
@@ -1354,7 +1398,7 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 			json_object_set_number(componentObject, "Width", static_cast<const UI_Image&>(component).width);
 			json_object_set_number(componentObject, "Height", static_cast<const UI_Image&>(component).height);
 
-			json_object_set_string(componentObject, "Path", (static_cast<const UI_Image&>(component).mat->path == "" ? "" : static_cast<const UI_Image&>(component).mat->path).c_str());
+			json_object_set_string(componentObject, "Path", (static_cast<const UI_Image&>(component).mat->diffuse_path == "" ? "" : static_cast<const UI_Image&>(component).mat->diffuse_path).c_str());
 			json_object_set_string(componentObject, "Shader Path", (static_cast<const UI_Image&>(component).mat->shaderPath == "" ? "" : static_cast<const UI_Image&>(component).mat->shaderPath).c_str());
 
 			// Colors
@@ -2048,15 +2092,138 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		}
 
-		uint ID = json_object_get_number(componentObject, "ID");
-		cmaterial->ID = ID;
+		if (json_object_has_value_of_type(componentObject, "Diffuse_Path", JSONString)) {
 
-		std::string diffusePath = json_object_get_string(componentObject, "Diffuse");
+			uint ID = json_object_get_number(componentObject, "Diffuse_ID");
+			cmaterial->diffuse_ID = ID;
 
-		cmaterial->path = diffusePath;
+			std::string diffusePath = json_object_get_string(componentObject, "Diffuse_Path");
+			cmaterial->diffuse_path = diffusePath;
 
-		uint UID = json_object_get_number(componentObject, "UID");
-		cmaterial->UID = UID;
+			uint UID = json_object_get_number(componentObject, "Diffuse_UID");
+			cmaterial->diffuse_UID = UID;
+
+			if (diffusePath == "Checker Image") {
+
+				ResourceTexture* rTex = new ResourceTexture();
+
+				rTex->type = TextureType::DIFFUSE;
+				rTex->LoadCheckerImage();
+
+				cmaterial->rTextures.push_back(rTex);
+
+			}
+			else {
+
+				ResourceTexture* rTex = new ResourceTexture();
+
+				rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID, TextureType::DIFFUSE);
+
+				cmaterial->rTextures.push_back(rTex);
+
+			}
+
+		}
+
+		if (json_object_has_value_of_type(componentObject, "Specular_Path", JSONString)) {
+
+			uint ID = json_object_get_number(componentObject, "Specular_ID");
+			cmaterial->specular_ID = ID;
+
+			std::string specularPath = json_object_get_string(componentObject, "Specular_Path");
+			cmaterial->specular_path = specularPath;
+
+			uint UID = json_object_get_number(componentObject, "Specular_UID");
+			cmaterial->specular_UID = UID;
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->type = TextureType::SPECULAR;
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(specularPath, ResourceType::TEXTURE, UID, TextureType::SPECULAR);
+
+			cmaterial->rTextures.push_back(rTex);
+
+		}
+
+		if (json_object_has_value_of_type(componentObject, "Normal_Path", JSONString)) {
+
+			uint ID = json_object_get_number(componentObject, "Normal_ID");
+			cmaterial->normal_ID = ID;
+
+			std::string normalPath = json_object_get_string(componentObject, "Normal_Path");
+			cmaterial->normal_path = normalPath;
+
+			uint UID = json_object_get_number(componentObject, "Normal_UID");
+			cmaterial->normal_UID = UID;
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->type = TextureType::NORMAL;
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(normalPath, ResourceType::TEXTURE, UID, TextureType::NORMAL);
+
+			cmaterial->rTextures.push_back(rTex);
+
+		}
+
+		if (json_object_has_value_of_type(componentObject, "Height_Path", JSONString)) {
+
+			uint ID = json_object_get_number(componentObject, "Height_ID");
+			cmaterial->height_ID = ID;
+
+			std::string heightPath = json_object_get_string(componentObject, "Height_Path");
+			cmaterial->height_path = heightPath;
+
+			uint UID = json_object_get_number(componentObject, "Height_UID");
+			cmaterial->height_UID = UID;
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->type = TextureType::HEIGHT;
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(heightPath, ResourceType::TEXTURE, UID, TextureType::HEIGHT);
+
+			cmaterial->rTextures.push_back(rTex);
+
+		}
+
+		if (json_object_has_value_of_type(componentObject, "Ambient_Path", JSONString)) {
+
+			uint ID = json_object_get_number(componentObject, "Ambient_ID");
+			cmaterial->ambient_ID = ID;
+
+			std::string ambientPath = json_object_get_string(componentObject, "Ambient_Path");
+			cmaterial->ambient_path = ambientPath;
+
+			uint UID = json_object_get_number(componentObject, "Ambient_UID");
+			cmaterial->ambient_UID = UID;
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->type = TextureType::AMBIENT;
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(ambientPath, ResourceType::TEXTURE, UID, TextureType::AMBIENT);
+
+			cmaterial->rTextures.push_back(rTex);
+
+		}
+
+		if (json_object_has_value_of_type(componentObject, "Emissive_Path", JSONString)) {
+
+			uint ID = json_object_get_number(componentObject, "Emissive_ID");
+			cmaterial->emissive_ID = ID;
+
+			std::string emissivePath = json_object_get_string(componentObject, "Emissive_Path");
+			cmaterial->emissive_path = emissivePath;
+
+			uint UID = json_object_get_number(componentObject, "Emissive_UID");
+			cmaterial->emissive_UID = UID;
+
+			ResourceTexture* rTex = new ResourceTexture();
+
+			rTex->type = TextureType::EMISSIVE;
+			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(emissivePath, ResourceType::TEXTURE, UID, TextureType::EMISSIVE);
+
+			cmaterial->rTextures.push_back(rTex);
+
+		}
 
 		// FRANCESC: BUG WITH THE RESOURCETEXTURES HAVING UID 0, IT BREAKS THE MAP IF SOLVED
 		
@@ -2066,21 +2233,6 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		//	cmaterial->rTextures.push_back(rTex);
 
 		//}
-
-		ResourceTexture* rTex = new ResourceTexture();
-
-		if (diffusePath == "Checker Image") {
-
-			rTex->LoadCheckerImage();
-
-		}
-		else {
-
-			rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(diffusePath, ResourceType::TEXTURE, UID);
-
-		}
-		
-		cmaterial->rTextures.push_back(rTex);
 	
 		gameObject->AddComponent(cmaterial);
 
@@ -2321,7 +2473,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 			ui_comp->width = json_object_get_number(componentObject, "Width");
 			ui_comp->height = json_object_get_number(componentObject, "Height");
 
-			ui_comp->mat->path = json_object_get_string(componentObject, "Path");
+			ui_comp->mat->diffuse_path = json_object_get_string(componentObject, "Path");
 			ui_comp->mat->shaderPath = json_object_get_string(componentObject, "Shader Path");
 
 			if (External->scene->GetCanvas() == nullptr)
@@ -2335,7 +2487,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 			gameObject->canvas = static_cast<G_UI*>(gameObject->mParent)->canvas;
 
-			ui_comp->SetImg(ui_comp->mat->path, UI_STATE::NORMAL); 
+			ui_comp->SetImg(ui_comp->mat->diffuse_path, UI_STATE::NORMAL); 
 			ui_comp->selectedTexture = ui_comp->mapTextures.find(ui_comp->state)->second;
 
 			// Colors

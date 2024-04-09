@@ -78,6 +78,7 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 	/*LoadSceneFromStart("Assets", "Enemigo player"); */
+	//LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
 
 #endif // _RELEASE
 
@@ -86,7 +87,8 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
-	LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
 
 #endif // _STANDALONE
 
@@ -368,7 +370,7 @@ void ModuleScene::ClearScene()
 	SetSelected();
 
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
-	//RELEASE(mRootNode);
+	// RELEASE(mRootNode);
 
 	External->resourceManager->resources.clear();
 

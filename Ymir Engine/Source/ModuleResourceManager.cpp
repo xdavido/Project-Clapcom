@@ -102,22 +102,88 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				if ((*jt)->ctype == ComponentType::MATERIAL)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
-					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
-					static_cast<CMaterial*>((*jt))->rTextures.clear();
-					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
+					
+					//rTexTemp->type = TextureType::DIFFUSE;
+					//rTexTemp->UID = Random::Generate();
+
+					switch (rTexTemp->type)
+					{
+						case TextureType::DIFFUSE:
+							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::SPECULAR:
+							static_cast<CMaterial*>((*jt))->specular_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->specular_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->specular_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::AMBIENT:
+							static_cast<CMaterial*>((*jt))->ambient_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->ambient_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->ambient_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::EMISSIVE:
+							static_cast<CMaterial*>((*jt))->emissive_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->emissive_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->emissive_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::HEIGHT:
+							static_cast<CMaterial*>((*jt))->height_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->height_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->height_ID = rTexTemp->ID;
+							break;
+
+						case TextureType::NORMAL:
+							static_cast<CMaterial*>((*jt))->normal_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->normal_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->normal_ID = rTexTemp->ID;
+							break;
+
+						default:
+							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
+							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
+							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
+							break;
+
+					}
+
+					ResourceTexture* existingTexture = nullptr;
+
+					// Check if a texture of the same type already exists
+					for (auto& texture : static_cast<CMaterial*>((*jt))->rTextures) {
+						if (texture->type == rTexTemp->type) {
+							existingTexture = texture;
+							break;
+						}
+					}
+
+					// If a texture of the same type exists, overwrite it
+					if (existingTexture) {
+						*existingTexture = *rTexTemp;  // Overwrite existing texture with the new one
+						delete rTexTemp;  // Delete the newly created texture since it's no longer needed
+					}
+					else {
+						static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add the new texture
+					}
+
 				}
 				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
+
 					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-					rTexTemp->type = TextureType::DIFFUSE;
-					rTexTemp->UID = Random::Generate();
-					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
+					//rTexTemp->type = TextureType::DIFFUSE;
+					//rTexTemp->UID = Random::Generate();
+
+					static_cast<UI_Image*>((*jt))->mat->diffuse_path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
 				}
@@ -139,11 +205,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 			case ResourceType::TEXTURE:
 			{
-
-				/*for (auto itr = 0; itr != App->editor.; itr++)
-				{
-
-				}*/
 			}
 			break;
 			case ResourceType::MESH:
@@ -620,7 +681,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 	return tmpResource;
 }
 
-Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
+Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID, TextureType rTexType)
 {
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
@@ -683,7 +744,13 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		//}
 
-		// FRANCESC: Disparo arreglado por algún motivo si comentas esta línea
+		if (rTexType != TextureType::UNKNOWN) {
+
+			static_cast<ResourceTexture*>(tmpResource)->type = rTexType;
+
+		}
+
+		// FRANCESC: Disparo arreglado por algï¿½n motivo si comentas esta lï¿½nea
 		resources.emplace(UID, tmpResource);
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
