@@ -821,7 +821,7 @@ void ModuleRenderer3D::DrawLightsDebug()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ModuleRenderer3D::DrawOutline(ResourceMesh* rMeshReference, float4x4 transform)
+void ModuleRenderer3D::DrawOutline(CMesh* cmesh, float4x4 transform)
 {
 	glEnable(GL_DEPTH_TEST);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
@@ -832,7 +832,7 @@ void ModuleRenderer3D::DrawOutline(ResourceMesh* rMeshReference, float4x4 transf
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);
 	glStencilMask(0xFF);
 
-	rMeshReference->Render();
+	cmesh->rMeshReference->Render();
 
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	glStencilMask(0x00);
@@ -845,11 +845,11 @@ void ModuleRenderer3D::DrawOutline(ResourceMesh* rMeshReference, float4x4 transf
 
 	float scaleFactor = 1.05f;
 	float3 scaleVector(scaleFactor, scaleFactor, scaleFactor);
-	float4x4 scaledMatrix = transform * float4x4::Scale(scaleVector, rMeshReference->aabb.CenterPoint());
+	float4x4 scaledMatrix = transform * float4x4::Scale(scaleVector, cmesh->aabb.CenterPoint());
 
 	outlineShader->SetShaderUniforms(&scaledMatrix, false);
 
-	rMeshReference->Render();
+	cmesh->rMeshReference->Render();
 
 	glStencilMask(0xFF);
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -915,7 +915,7 @@ void ModuleRenderer3D::DrawGameObjects(bool isGame)
 
 				if ((*it)->selected && !isGame) {
 
-					DrawOutline(meshComponent->rMeshReference, transformComponent->mGlobalMatrix);
+					DrawOutline(meshComponent, transformComponent->mGlobalMatrix);
 
 				}
 				else {

@@ -41,6 +41,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "UI_Text.h"
+#include "CMesh.h"
 
 #define MAX_GL_LIGHTS 8
 
@@ -92,7 +93,7 @@ public:
 
 	void DrawLightsDebug();
 
-	void DrawOutline(ResourceMesh* rMeshReference, float4x4 transform);
+	void DrawOutline(CMesh* cMeshReference, float4x4 transform);
 
 public:
 

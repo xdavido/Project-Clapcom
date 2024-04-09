@@ -327,8 +327,8 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 					rTex->type = TextureType::DIFFUSE;
 
-					cmat->UID = rTex->UID;
-					cmat->path = "Checker Image";
+					cmat->diffuse_UID = rTex->UID;
+					cmat->diffuse_path = "Checker Image";
 					cmat->rTextures.push_back(rTex);
 
 					meshGO->AddComponent(cmat);
