@@ -265,6 +265,12 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y + newDirection.y * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
 				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z + newDirection.z * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
 			}
+			else if(actualLT >= changeSpeed2)
+			{
+				emitter->listParticles.at(i)->position.x += (emitter->listParticles.at(i)->velocity.x + newDirection.x) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y + newDirection.y) * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z + newDirection.z) * emitter->listParticles.at(i)->velocity.w * dt;
+			}
 			else
 			{
 				emitter->listParticles.at(i)->position.x += emitter->listParticles.at(i)->velocity.x * emitter->listParticles.at(i)->velocity.w * dt;
@@ -296,6 +302,12 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 				emitter->listParticles.at(i)->position.x += (emitter->listParticles.at(i)->velocity.x * (1- ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.x * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
 				emitter->listParticles.at(i)->position.y += (emitter->listParticles.at(i)->velocity.y * (1 - ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.y * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
 				emitter->listParticles.at(i)->position.z += (emitter->listParticles.at(i)->velocity.z * (1 - ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) + newDirection.z * ((actualLT - changeSpeed1) / (changeSpeed2 - changeSpeed1))) * emitter->listParticles.at(i)->velocity.w * dt;
+			}
+			else if (actualLT >= changeSpeed2)
+			{
+				emitter->listParticles.at(i)->position.x += newDirection.x * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.y += newDirection.y * emitter->listParticles.at(i)->velocity.w * dt;
+				emitter->listParticles.at(i)->position.z += newDirection.z * emitter->listParticles.at(i)->velocity.w * dt;
 			}
 			else
 			{

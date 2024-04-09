@@ -178,12 +178,12 @@ void CParticleSystem::OnInspector()
 						{
 							ImGui::Text(particleModule.append("Base ##").append(std::to_string(j)).c_str());
 							ImGui::SameLine();
-							deleteButton.append("Delete ##").append(std::to_string(j));
+							/*deleteButton.append("Delete ##").append(std::to_string(j));
 							if (ImGui::SmallButton(deleteButton.c_str()))
 							{
 								securityCheckTree = allEmitters.at(i)->DestroyEmitter(j);
 							}
-							deleteButton.clear();
+							deleteButton.clear();*/
 
 							//Positions
 							EmitterBase* eBase = (EmitterBase*)listModule.at(j);
@@ -738,7 +738,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 				json_object_set_number(child_object, "ChangeSpeedMode", (int)ePosition->actualSpeedChange);
 
 				JSON_Value* jValueNewDir = json_value_init_array();
-				JSON_Array* arrInitialNewDir = json_value_get_array(jValueDir2);
+				JSON_Array* arrInitialNewDir = json_value_get_array(jValueNewDir);
 
 				json_object_dotset_value(child_object, "NewDirection", jValueNewDir);
 				json_array_append_number(arrInitialNewDir, ePosition->newDirection.x);
