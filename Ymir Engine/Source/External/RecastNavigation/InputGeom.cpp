@@ -391,7 +391,18 @@ bool InputGeom::raycastMesh(float* src, float* dst, float& tmin)
 	
 	tmin = 1.0f;
 	bool hit = false;
-	float* verts = (float*)m_mesh->vertices.data();
+	
+	std::vector<float3> floatArray;
+
+	floatArray.reserve(m_mesh->vertices.size());
+
+	for (const auto& vertex : m_mesh->vertices) {
+
+		floatArray.push_back(vertex.position);
+
+	}
+
+	float* verts = (float*)floatArray.data();
 	
 	for (int i = 0; i < ncid; ++i)
 	{
