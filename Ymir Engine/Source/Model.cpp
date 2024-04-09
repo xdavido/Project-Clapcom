@@ -17,7 +17,7 @@
 
 #include "External/mmgr/mmgr.h"
 
-#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices | aiProcessPreset_TargetRealtime_MaxQuality)
+#define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices  | aiProcess_CalcTangentSpace | aiProcessPreset_TargetRealtime_MaxQuality)
 
 Model::Model()
 {
@@ -109,7 +109,11 @@ void Model::LoadModel(const std::string& path, const std::string& shaderPath)
 
 		ProcessNode(scene->mRootNode, scene, nullptr, shaderPath, it);
 
-		GenerateModelMetaFile();
+		if (!PhysfsEncapsule::FileExists(path + ".meta")) {
+
+			GenerateModelMetaFile();
+
+		}
 
 		LOG("Model created: %s", name.c_str());
 
@@ -133,6 +137,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 	// Link Assimp to GameObjects Hierarchy
 	GameObject* currentNodeGO = nullptr;
+	int currentResourceUID = 0;
 
 	// If the current node is not to be skipped, proceed with processing it.
 	if (!shouldSkip) {
@@ -180,6 +185,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			// Create the game object since the substring "$AssimpFbx$" doesn't exist in mName
 			currentNodeGO = External->scene->CreateGameObject(mNameStr, parentGO);
+			currentNodeGO->type = "Mesh";
+			currentNodeGO->originPath = path;
 
 			// Model Meta File and Library File Creation
 			JsonFile* tmpMetaFile = JsonFile::GetJSON(path + ".meta");
@@ -188,6 +195,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 				// The meta file exists; it's not the first time we load the model.
 				currentNodeGO->UID = tmpMetaFile->GetIntArray("Meshes Embedded UID")[iteration];
+				currentResourceUID = tmpMetaFile->GetIntArray("Resources Embedded UID")[iteration];
+
 				iteration++;
 
 			}
@@ -195,10 +204,12 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 				// The meta file doesn't exists; first time loading the model.
 				currentNodeGO->UID = Random::Generate();
+				currentResourceUID = Random::Generate();
 
 			}
-
+			
 			embeddedMeshesUID.push_back(currentNodeGO->UID);
+			resourcesUID.push_back(currentResourceUID);
 
 			delete tmpMetaFile;
 
@@ -209,7 +220,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 
-			ProcessMesh(mesh, scene, currentNodeGO, &tmpNodeTransform, shaderPath);
+			ProcessMesh(mesh, scene, currentNodeGO, currentResourceUID, &tmpNodeTransform, shaderPath);
 			processedMeshes++;
 		}
 
@@ -283,7 +294,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, GameObject* parentGO
 
 }
 
-void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, NodeTransform* transform, const std::string& shaderPath)
+void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, int rMeshUID, NodeTransform* transform, const std::string& shaderPath)
 {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
@@ -319,6 +330,28 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 			vNormals.z = mesh->mNormals[i].z;
 
 			vertex.normal = vNormals;
+		}
+
+		// Retrieve vertex tangents and bitangents
+
+		if (mesh->HasTangentsAndBitangents())
+		{
+			float3 vTangents;
+
+			vTangents.x = mesh->mTangents[i].x;
+			vTangents.y = mesh->mTangents[i].y;
+			vTangents.z = mesh->mTangents[i].z;
+
+			vertex.tangents = vTangents;
+
+			float3 vBitangents;
+
+			vBitangents.x = mesh->mBitangents[i].x;
+			vBitangents.y = mesh->mBitangents[i].y;
+			vBitangents.z = mesh->mBitangents[i].z;
+
+			vertex.bitangents = vBitangents;
+
 		}
 
 		// Retrieve vertex texture coordinates
@@ -359,6 +392,57 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	}
 
+	// Process Bones
+
+	if (mesh->HasBones())
+	{
+		ExtractBoneWeightForVertices(vertices, mesh, scene);
+		LOG("Mesh with %i bones", mesh->mNumBones);
+	}
+	else {
+		LOG("Mesh with no bones");
+	}
+
+	// Create the mesh
+
+	std::string filename = std::to_string(rMeshUID) + ".ymesh";
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
+
+	if (!PhysfsEncapsule::FileExists(libraryPath)) {
+
+		External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
+
+	}
+
+	if (!onlyReimport) {
+
+		ResourceMesh* rMesh = nullptr;
+
+		auto itr = External->resourceManager->resources.find(rMeshUID);
+
+		if (itr == External->resourceManager->resources.end())
+		{
+			rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, rMeshUID);
+		}
+		else
+		{
+			rMesh = static_cast<ResourceMesh*>(itr->second);
+			itr->second->IncreaseReferenceCount();
+		}
+
+		CMesh* cmesh = new CMesh(linkGO);
+
+		cmesh->rMeshReference = rMesh;
+
+		cmesh->nVertices = vertices.size();
+		cmesh->nIndices = indices.size();
+
+		cmesh->InitBoundingBoxes();
+
+		linkGO->AddComponent(cmesh);
+
+	}
+
 	// Process Texture Maps
 
 	if (mesh->mMaterialIndex >= 0)
@@ -376,14 +460,11 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
 
-			ResourceTexture* rTexTemp = new ResourceTexture(0);
-			
-			ImporterTexture::Import(path, rTexTemp);
-
-			delete rTexTemp;
-			rTexTemp = nullptr;
+			ResourceTexture* rTexTemp = new ResourceTexture();
 
 			if (metaFile == nullptr) {
+
+				ImporterTexture::Import(path, rTexTemp);
 
 				// Get meta
 
@@ -391,13 +472,56 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				std::string libraryPath = metaFile->GetString("Library Path");
 				uint UID = metaFile->GetInt("UID");
+				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
-				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
 
-				rTex->type = TextureType::DIFFUSE;
+				switch (rTex->type)
+				{
+				case TextureType::DIFFUSE:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_ID = rTex->ID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
 
-				cmaterial->UID = UID;
-				cmaterial->path = libraryPath;
+				case TextureType::SPECULAR:
+					cmaterial->specular_UID = UID;
+					cmaterial->specular_ID = rTex->ID;
+					cmaterial->specular_path = libraryPath;
+					break;
+
+				case TextureType::AMBIENT:
+					cmaterial->ambient_UID = UID;
+					cmaterial->ambient_ID = rTex->ID;
+					cmaterial->ambient_path = libraryPath;
+					break;
+
+				case TextureType::EMISSIVE:
+					cmaterial->emissive_UID = UID;
+					cmaterial->emissive_ID = rTex->ID;
+					cmaterial->emissive_path = libraryPath;
+					break;
+
+				case TextureType::HEIGHT:
+					cmaterial->height_UID = UID;
+					cmaterial->height_ID = rTex->ID;
+					cmaterial->height_path = libraryPath;
+					break;
+
+				case TextureType::NORMAL:
+					cmaterial->normal_UID = UID;
+					cmaterial->normal_ID = rTex->ID;
+					cmaterial->normal_path = libraryPath;
+					break;
+
+				default:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_ID = rTex->ID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				}
+
 				cmaterial->rTextures.push_back(rTex);
 
 				delete metaFile;
@@ -409,14 +533,70 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 				std::string libraryPath = metaFile->GetString("Library Path");
 				uint UID = metaFile->GetInt("UID");
+				TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
 
-				ResourceTexture* rTex = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID);
+				// Need to reimport?
 
-				rTex->type = TextureType::DIFFUSE;
+				if (!PhysfsEncapsule::FileExists(libraryPath)) {
 
-				cmaterial->UID = UID;
-				cmaterial->path = libraryPath;
-				cmaterial->rTextures.push_back(rTex);
+					ImporterTexture::Import(path, rTexTemp);
+
+				}
+
+				auto itr = External->resourceManager->resources.find(UID);
+
+				if (itr == External->resourceManager->resources.end())
+				{
+					rTexTemp = static_cast<ResourceTexture*>
+						(External->resourceManager->CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
+				}
+				else
+				{
+					rTexTemp = static_cast<ResourceTexture*>(itr->second);
+					rTexTemp->type = type;
+					itr->second->IncreaseReferenceCount();
+				}
+
+				switch (rTexTemp->type)
+				{
+				case TextureType::DIFFUSE:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				case TextureType::SPECULAR:
+					cmaterial->specular_UID = UID;
+					cmaterial->specular_path = libraryPath;
+					break;
+
+				case TextureType::AMBIENT:
+					cmaterial->ambient_UID = UID;
+					cmaterial->ambient_path = libraryPath;
+					break;
+
+				case TextureType::EMISSIVE:
+					cmaterial->emissive_UID = UID;
+					cmaterial->emissive_path = libraryPath;
+					break;
+
+				case TextureType::HEIGHT:
+					cmaterial->height_UID = UID;
+					cmaterial->height_path = libraryPath;
+					break;
+
+				case TextureType::NORMAL:
+					cmaterial->normal_UID = UID;
+					cmaterial->normal_path = libraryPath;
+					break;
+
+				default:
+					cmaterial->diffuse_UID = UID;
+					cmaterial->diffuse_path = libraryPath;
+					break;
+
+				}
+
+				cmaterial->rTextures.push_back(rTexTemp);
 
 			}
 
@@ -433,8 +613,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 			rTex->type = TextureType::DIFFUSE;
 
-			cmaterial->UID = rTex->UID;
-			cmaterial->path = "Checker Image";
+			cmaterial->diffuse_UID = rTex->UID;
+			cmaterial->diffuse_path = "Checker Image";
 			cmaterial->rTextures.push_back(rTex);
 
 		}
@@ -523,43 +703,6 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene, GameObject* linkGO, 
 
 	}
 
-	// Process Bones
-
-	if (mesh->HasBones())
-	{
-		ExtractBoneWeightForVertices(vertices, mesh, scene);
-		LOG("Mesh with %i bones", mesh->mNumBones);
-	}
-	else {
-		LOG("Mesh with no bones");
-	}
-
-	// Create the mesh
-
-	std::string filename = std::to_string(linkGO->UID) + ".ymesh";
-	std::string libraryPath = External->fileSystem->libraryMeshesPath + filename;
-
-	if (!PhysfsEncapsule::FileExists(libraryPath)) {
-
-		External->fileSystem->SaveMeshToFile(vertices, indices, libraryPath);
-
-	}
-
-	if (!onlyReimport) {
-
-		ResourceMesh* rMesh = (ResourceMesh*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, linkGO->UID);
-
-		CMesh* cmesh = new CMesh(linkGO);
-
-		cmesh->rMeshReference = rMesh;
-
-		cmesh->nVertices = vertices.size();
-		cmesh->nIndices = indices.size();
-
-		linkGO->AddComponent(cmesh);
-
-	}
-
 }
 
 void Model::GenerateModelMetaFile()
@@ -573,6 +716,8 @@ void Model::GenerateModelMetaFile()
 	modelMetaFile.SetString("Type", "Model");
 	modelMetaFile.SetInt("Meshes num", embeddedMeshesUID.size());
 	modelMetaFile.SetIntArray("Meshes Embedded UID", embeddedMeshesUID.data(), embeddedMeshesUID.size());
+	modelMetaFile.SetInt("Resources num", resourcesUID.size());
+	modelMetaFile.SetIntArray("Resources Embedded UID", resourcesUID.data(), resourcesUID.size());
 
 	External->fileSystem->CreateMetaFileFromAsset(path, modelMetaFile);
 }
