@@ -381,6 +381,7 @@ NavMeshBuilder* ModulePathFinding::GetNavMeshBuilder()
 
 static float frand()
 {
+	//srand((time(NULL)));
 	return (float)rand() / (float)RAND_MAX;
 }
 

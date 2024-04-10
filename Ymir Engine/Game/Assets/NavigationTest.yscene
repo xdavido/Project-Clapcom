@@ -1,29 +1,30 @@
 {
-    "NavMesh": "4294967295",
+    "NavMesh": "187460689",
     "Editor Camera Position": [
-        -17.316474914550781,
-        20.211807250976562,
-        42.236522674560547
+        -21.831228256225586,
+        16.244546890258789,
+        17.458244323730469
     ],
     "Editor Camera Right (X)": [
-        0.87296921014785767,
-        5.9604644775390625e-08,
-        0.48664319515228271
+        0.53088891506195068,
+        1.6391277313232422e-07,
+        0.84678977727890015
     ],
     "Editor Camera Up (Y)": [
-        0.21106554567813873,
-        0.9005553126335144,
-        -0.378621906042099
+        0.32154545187950134,
+        0.92459315061569214,
+        -0.20159085094928741
     ],
     "Editor Camera Front (Z)": [
-        0.43873298168182373,
-        -0.43370360136032104,
-        -0.78702497482299805
+        0.78379994630813599,
+        -0.37970906496047974,
+        -0.49139779806137085
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
@@ -60,6 +61,7 @@
         {
             "Name": "Cube",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 1009784856,
             "Active": true,
             "Element_Type": "Model",
@@ -93,6 +95,7 @@
         {
             "Name": "1553236809",
             "Static": true,
+            "Tag": "Untagged",
             "UID": 1553236809,
             "Active": true,
             "Element_Type": "None",
@@ -127,6 +130,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
@@ -160,6 +181,7 @@
         {
             "Name": "Capsule",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 2060736023,
             "Active": true,
             "Element_Type": "Model",
@@ -193,6 +215,7 @@
         {
             "Name": "Capsule (1)",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 1393634873,
             "Active": true,
             "Element_Type": "None",
@@ -221,6 +244,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
@@ -239,8 +280,33 @@
                     "Stopping Distance": 5
                 },
                 {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        2,
+                        1
+                    ],
+                    "Radius": 1.2247449159622192,
+                    "Height": 2,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": false,
+                    "LockZ": true
+                },
+                {
                     "Type": "Script",
                     "ScriptName": "PruebaPathFinding.cs",
+                    "Active": 1,
                     "UID": 0,
                     "wanderSpeed": 3.5,
                     "runningSpeed": 7.5,
@@ -267,36 +333,13 @@
                     "stopedDuration": 1,
                     "cumDuration": 2,
                     "cumDuration2": 5
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        1,
-                        2,
-                        1
-                    ],
-                    "Radius": 1.2247449159622192,
-                    "Height": 2,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "UseGravity": true,
-                    "IsSensor": false,
-                    "LockX": true,
-                    "LockY": false,
-                    "LockZ": true
                 }
             ]
         },
         {
             "Name": "Player",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 1614375652,
             "Active": true,
             "Element_Type": "Model",
@@ -330,6 +373,7 @@
         {
             "Name": "1431930153",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 1431930153,
             "Active": true,
             "Element_Type": "None",
@@ -364,6 +408,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
@@ -373,6 +435,7 @@
         {
             "Name": "Camera",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 553270870,
             "Active": true,
             "Element_Type": "None",
@@ -427,6 +490,7 @@
         {
             "Name": "Cylinder",
             "Static": false,
+            "Tag": "Untagged",
             "UID": 165230177,
             "Active": true,
             "Element_Type": "Model",
@@ -460,6 +524,7 @@
         {
             "Name": "1094188326",
             "Static": true,
+            "Tag": "Untagged",
             "UID": 1094188326,
             "Active": true,
             "Element_Type": "None",
@@ -494,6 +559,24 @@
                     "Type": "Material",
                     "Active": 1,
                     "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
