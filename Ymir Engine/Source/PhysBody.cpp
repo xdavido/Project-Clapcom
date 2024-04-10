@@ -74,21 +74,3 @@ void PhysBody::SetGameObject(GameObject* owner)
 {
 	this->owner = owner;
 }
-
-// ---------------------------------------------------------
-void PhysBody::SetAsSensor(bool isSensor)
-{
-	this->isSensor = isSensor;
-
-	if (this->isSensor) {
-
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-
-	}	
-	else {
-
-		body->setCollisionFlags(body->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
-
-	}
-
-}

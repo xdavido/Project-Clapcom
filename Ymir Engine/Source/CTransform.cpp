@@ -211,7 +211,7 @@ void CTransform::UpdateGlobalMatrix()
 	if (mOwner->mParent != nullptr && mOwner->mParent->mTransform != nullptr)
 	{
 		float4x4 Global_parent = mOwner->mParent->mTransform->mGlobalMatrix;
-		mGlobalMatrix = Global_parent * mLocalMatrix;// Your global matrix = your parent’s global matrix * your local Matrix
+		mGlobalMatrix = Global_parent * mLocalMatrix;// Your global matrix = your parentï¿½s global matrix * your local Matrix
 	}
 
 	else
@@ -220,20 +220,6 @@ void CTransform::UpdateGlobalMatrix()
 	}
 
 	UpdateBoundingBoxes();
-
-	// Update collider scale and rotation
-	CCollider* col = (CCollider*)mOwner->GetComponent(PHYSICS); 
-	CMesh* mesh = (CMesh*)mOwner->GetComponent(MESH); 
-
-	if (col != nullptr)
-	{
-		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
-		else col->size = mesh->obb.Size();
-
-		col->physBody->SetRotation(rotation);
-	}
-
-
 }
 
 void CTransform::UpdateLocalMatrix()

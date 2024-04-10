@@ -71,9 +71,11 @@ bool ModulePhysics::Start()
 // PRE-UPDATE ----------------------------------------------------------------
 update_status ModulePhysics::PreUpdate(float dt)
 {
+	float fixedTimeStep = 1 / App->GetFPS();
+
 	if (TimeManager::gameTimer.GetState() == TimerState::RUNNING) 
 	{
-		world->stepSimulation(dt);
+		world->stepSimulation(dt, 1, fixedTimeStep);
 	}
 	else
 	{
@@ -88,8 +90,6 @@ update_status ModulePhysics::Update(float dt)
 {
 	//LOG("Bodies in list: %d", bodiesList.size());
 	//LOG("Bodies in world: %d", world->getNumCollisionObjects());
-
-
 
 	return UPDATE_CONTINUE;
 }
@@ -306,6 +306,60 @@ PhysBody* ModulePhysics::AddBody(CCapsule capsule, PhysicsType physType, float m
 
 	btTransform startTransform;
 	startTransform.setFromOpenGLMatrix(capsule.transform.ptr());
+
+	btVector3 localInertia(0, 0, 0);
+
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
+// Capsule --------------------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CCone cone, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
+{
+	shape = new btConeShape(cone.height, cone.radius);
+
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(cone.transform.ptr());
+
+	btVector3 localInertia(0, 0, 0);
+
+	if (mass != 0.f)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, shape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody* pbody = new PhysBody(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodiesList.push_back(pbody);
+
+	return pbody;
+}
+
+// Cylinder --------------------------------------------------------------------------------------------------------------
+PhysBody* ModulePhysics::AddBody(CCylinder cylinder, PhysicsType physType, float mass, bool useGravity, btCollisionShape*& shape)
+{
+	btVector3 vec = btVector3(cylinder.radius * 2, cylinder.height, cylinder.radius * 2);
+	shape = new btCylinderShape(vec);
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(cylinder.transform.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 
@@ -713,6 +767,91 @@ void ModulePhysics::RenderCapsuleCollider(PhysBody* pbody)
 
 	glPopMatrix();
 }
+
+void ModulePhysics::RenderConeCollider(PhysBody* pbody)
+{
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	float radius = ((btConeShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btConeShape*)pbody->body->getCollisionShape())->getHeight() / 2;
+
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, 0);
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+
+void ModulePhysics::RenderCylinderCollider(PhysBody* pbody)
+{
+	float4x4 mat;
+	pbody->GetTransform(mat);
+
+	float radius = ((btCapsuleShape*)pbody->body->getCollisionShape())->getRadius();
+	float halfHeight = ((btCapsuleShape*)pbody->body->getCollisionShape())->getHalfHeight();
+
+	glPushMatrix();
+	glMultMatrixf(mat.ptr()); // translation and rotation
+
+	// Columnas
+	glBegin(GL_LINES);
+
+	glVertex3f(radius, halfHeight, 0);
+	glVertex3f(radius, -halfHeight, 0);
+
+	glVertex3f(-radius, halfHeight, 0);
+	glVertex3f(-radius, -halfHeight, 0);
+
+	glVertex3f(0, halfHeight, radius);
+	glVertex3f(0, -halfHeight, radius);
+
+	glVertex3f(0, halfHeight, -radius);
+	glVertex3f(0, -halfHeight, -radius);
+
+	glEnd();
+
+	// Dibujar la meridiana en el plano XZ (circulos completos)
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), -halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= 360; i += 10) {
+		float phi = i * DEGTORAD;
+		glVertex3f(radius * cos(phi), halfHeight, radius * sin(phi));
+	}
+	glEnd();
+
+	glPopMatrix();
+}
+
 void ModulePhysics::RenderMeshCollider(PhysBody* pbody)
 {
 	float4x4 mat;

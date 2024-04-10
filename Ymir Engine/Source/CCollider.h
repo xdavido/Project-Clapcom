@@ -18,6 +18,8 @@ enum ColliderType
 	BOX,
 	SPHERE,
 	CAPSULE,
+	CONE,
+	CYLINDER,
 	MESH_COLLIDER,
 };
 
@@ -44,13 +46,16 @@ public:
 	void SetBoxCollider();
 	void SetSphereCollider();
 	void SetCapsuleCollider();
+	void SetConeCollider();
+	void SetCylinderCollider();
 	void SetMeshCollider();
 
-	void RemovePhysbody();
-
+	void AdaptSizeToShape(ColliderType prevType);
+	void SetDefaultValues(PhysicsType type);
+	void SetOBBSize();
 	void SetAsSensor(bool is_sensor);
 
-	void SetDefaultValues(PhysicsType type);
+	void RemovePhysbody();
 
 	// Conversion function from btVector3 to float3
 	float3 btVector3_to_float3(const btVector3& v) {
@@ -71,10 +76,11 @@ public:
 
 	float3 size;
 	btVector3 btSize;
-	float radius;
-	float height;
+	float3 offset;
 
 	float mass;
+	float friction;
+	float angularFriction;
 	bool useGravity;
 	bool isSensor;
 
@@ -88,7 +94,7 @@ public:
 	PhysBody* physBody;
 
 	CTransform* transform;
-
+	float4x4 trans;
 	//btCollisionObject* collider;
 
 	//TODO: crear variables: hull, mesh, sensor, edit collider, transform�?

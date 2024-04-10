@@ -29,7 +29,7 @@ public:
 	void Push(const float3& pushVec) const;
 
 	void SetGameObject(GameObject* owner);
-	void SetAsSensor(bool is_sensor);
+	
 
 	btRigidBody* body;
 	p2List<Module*> collision_listeners;

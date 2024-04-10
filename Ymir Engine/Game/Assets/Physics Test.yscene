@@ -1,0 +1,334 @@
+{
+    "Editor Camera Position": [
+        -10.679473876953125,
+        24.869140625,
+        42.648834228515625
+    ],
+    "Editor Camera Right (X)": [
+        0.99867826700210571,
+        -3.3341348171234131e-07,
+        0.05132627859711647
+    ],
+    "Editor Camera Up (Y)": [
+        0.0077894935384392738,
+        0.98841524124145508,
+        -0.15155722200870514
+    ],
+    "Editor Camera Front (Z)": [
+        0.050731875002384186,
+        -0.15175840258598328,
+        -0.98711365461349487
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Tag": "Untagged",
+            "UID": 889196418,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1969420291,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                936762954,
+                1621732659,
+                935998235
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "Tag": "Untagged",
+            "UID": 936762954,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 889196418,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40,
+                        29,
+                        54
+                    ],
+                    "Rotation": [
+                        180,
+                        40.000007629394531,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604437828063965,
+                        1.4361705780174816e-07,
+                        0.64278769493103027
+                    ],
+                    "Up": [
+                        -6.696972576492044e-08,
+                        1,
+                        -1.4361705780174816e-07
+                    ],
+                    "Front": [
+                        0.64278769493103027,
+                        -6.696972576492044e-08,
+                        -0.76604437828063965
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 0,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "BakerHouse",
+            "Tag": "Untagged",
+            "UID": 1621732659,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/BakerHouse.fbx",
+            "Parent UID": 889196418,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                835802751
+            ]
+        },
+        {
+            "Name": "Baker_house",
+            "Tag": "Untagged",
+            "UID": 835802751,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1621732659,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        27.543003082275391,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": ".\/Library\/Textures\/792489800.dds",
+                    "UID": 792489800
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 1641,
+                    "Index Count": 2751
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        3.2137579917907715,
+                        26.343000411987305,
+                        3.9672598838806152
+                    ],
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "Friction": 0,
+                    "Angular Friction": 0,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Plane",
+            "Tag": "Untagged",
+            "UID": 935998235,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Plane.fbx",
+            "Parent UID": 889196418,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1482273603
+            ]
+        },
+        {
+            "Name": "1482273603",
+            "Tag": "Untagged",
+            "UID": 1482273603,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 935998235,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        37.534496307373047,
+                        37.534496307373047,
+                        37.534496307373047
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 121,
+                    "Index Count": 600
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        37.534496307373047,
+                        0.10000000149011612,
+                        37.534496307373047
+                    ],
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        }
+    ]
+}
