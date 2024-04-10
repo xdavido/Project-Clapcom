@@ -792,7 +792,7 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 			if (i == 0) { break; }
 		}
 	}
-
+	glAlphaFunc(GL_GREATER, 0.0f);
 }
 
 void ModuleRenderer3D::DrawLightsDebug()

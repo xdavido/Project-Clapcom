@@ -659,6 +659,43 @@ void SetUIState(MonoObject* object, int uiState)
 	for (auto it = vec.begin(); it != vec.end(); ++it)
 	{
 		((C_UI*)(*it))->SetState((UI_STATE)uiState);
+
+		if ((UI_STATE)uiState == UI_STATE::FOCUSED)
+		{
+			int offset = 0;
+			std::vector<C_UI*> listOffset;
+			for (int i = 0; i < External->scene->vCanvas.size(); ++i)
+			{
+				External->scene->GetUINaviagte(External->scene->vCanvas[i], listOffset);
+			}
+
+			for (auto i = 0; i < listOffset.size(); i++)
+			{
+				if (listOffset[i]->mOwner->UID != (int)(C_UI*)(*it)->GetUID())
+				{
+					offset++;
+				}
+
+				else
+				{
+					break;
+				}
+			}
+
+			External->scene->onHoverUI = offset;
+			std::vector<Component*> listComponents = External->scene->focusedUIGO->GetAllComponentsByType(ComponentType::UI);
+
+			for (auto it = listComponents.begin(); it != listComponents.end(); ++it)
+			{
+				if (((C_UI*)(*it))->tabNav_)
+				{
+					((C_UI*)(*it))->SetState(UI_STATE::NORMAL);
+				}
+			}
+			
+			External->scene->focusedUIGO = ((C_UI*)(*it))->mOwner;
+
+		}
 	}
 }
 

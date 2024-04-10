@@ -100,7 +100,7 @@ update_status G_UI::Update(float dt)
 			{
 				if (mComponents[i]->ctype == ComponentType::UI)
 				{
-					if (/*TimeManager::gameTimer.GetState() == TimerState::RUNNING*/ true)
+					if (TimeManager::gameTimer.GetState() == TimerState::RUNNING)
 					{
 						static_cast<C_UI*>(mComponents[i])->StateLogic();
 					}
