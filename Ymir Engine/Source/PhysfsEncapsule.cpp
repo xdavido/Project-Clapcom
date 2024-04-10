@@ -4,7 +4,6 @@
 
 #include "External/mmgr/mmgr.h"
 
-
 void PhysfsEncapsule::InitializePhysFS()
 {
 	if (PHYSFS_init(NULL) == 0) {
@@ -487,59 +486,4 @@ std::string PhysfsEncapsule::GetAssetName(const std::string& path) {
 
 	// Return only the name without extension
 	return name.substr(0, dotPos);
-}
-
-// Función para extraer el string de un archivo CSV dado las claves
-std::string PhysfsEncapsule::ExtractStringFromCSV(const std::string& filename, const std::vector<std::string>& keys) {
-	std::ifstream file(filename);
-	std::string line;
-	std::stringstream result;
-
-	// Verificar si se pudo abrir el archivo
-	if (!file.is_open()) {
-		std::cerr << "Unable to open the CSV file: " << filename << std::endl;
-		LOG("[ERROR] Unable to open CSV file");
-		return "";
-	}
-
-	while (std::getline(file, line)) {
-		std::stringstream ss(line);
-		std::string token;
-		std::vector<std::string> tokens;
-
-		// Separar la línea por comas para obtener los campos
-		while (std::getline(ss, token, ',')) {
-			tokens.push_back(token);
-		}
-
-		// Verificar si la línea contiene las claves esperadas
-		bool validLine = true;
-		for (const auto& key : keys) {
-			if (std::find(tokens.begin(), tokens.end(), key) == tokens.end()) {
-				validLine = false;
-				break;
-			}
-		}
-
-		// Si la línea es válida, construir el string de salida
-		if (validLine) {
-			for (const auto& token : tokens) {
-				// Eliminar el carácter ':' de los tokens
-				auto cleanedToken = token;
-				cleanedToken.erase(std::remove(cleanedToken.begin(), cleanedToken.end(), ':'), cleanedToken.end());
-
-				// Concatenar solo los valores correspondientes a las claves
-				auto it = std::find(keys.begin(), keys.end(), token);
-				if (it != keys.end()) {
-					// Obtener el siguiente token como el valor asociado
-					auto nextTokenPos = std::find(tokens.begin(), tokens.end(), token) + 1;
-					if (nextTokenPos != tokens.end()) {
-						result << *nextTokenPos << ";";
-					}
-				}
-			}
-		}
-	}
-
-	return result.str();
 }

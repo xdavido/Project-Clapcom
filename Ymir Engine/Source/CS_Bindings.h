@@ -438,11 +438,12 @@ void RecieveScale(MonoObject* obj, MonoObject* secObj)
 		return;
 
 	float3 omgItWorks = External->moduleMono->UnboxVector(secObj);
-	CTransform* workTrans = CS_CompToComp<CTransform*>(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
-	if (workTrans)
-	{
-		workTrans->SetScale(omgItWorks);
+	GameObject* workGO = External->moduleMono->GameObject_From_CSGO(obj); //TODO IMPORTANT: First parameter is the object reference, use that to find UID
 
+	if (workGO->mTransform)
+	{
+		//workGO->mTransform->SetTransformMatrix(workGO->mTransform->translation, workGO->mTransform->rotation, omgItWorks);
+		//workGO->mTransform->updateTransform = true; //TODO: No tenemos la variable esta "updateTransform"
 	}
 }
 
@@ -703,44 +704,4 @@ void SliderSetMax(MonoObject* object, double value)
 		static_cast<UI_Slider*>(go->GetComponentUI(UI_TYPE::SLIDER))->maxValue.iValue = value;
 	}
 }
-
-MonoString* CSVToString(MonoString* _filePath, MonoString* _csFields) {
-
-	std::string filename = mono_string_to_utf8(_filePath); // File name to process
-	std::string csFields = mono_string_to_utf8(_csFields); // CSV fields to extract
-	std::vector<std::string> fields;
-
-	// Process csFields to extract elements separated by commas
-	std::string field;
-	for (char c : csFields) {
-		if (c == ',') {
-			// When encountering a comma, add the current field to the vector
-			fields.push_back(field);
-			field.clear();
-		}
-		else {
-			// Append the character to the current field
-			field += c;
-		}
-	}
-
-	// Add the last field after the last comma (or the only field if no commas are present)
-	if (!field.empty()) {
-		fields.push_back(field);
-	}
-
-	std::string output = PhysfsEncapsule::ExtractStringFromCSV(filename, fields);
-
-	// Convert the resulting output string back to MonoString
-	return mono_string_new(External->moduleMono->domain, output.c_str());
-}
-
-void CreateGOFromPrefabCS(MonoString* _prefabPath, MonoString* _prefabName)
-{
-	std::string prefabName = mono_string_to_utf8(_prefabName);
-	std::string prefabPath = mono_string_to_utf8(_prefabPath);
-
-	External->scene->pendingToAddPrefab.emplace_back(prefabPath, prefabName);
-}
-
 #pragma endregion
