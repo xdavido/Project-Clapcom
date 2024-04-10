@@ -26,7 +26,7 @@
             "UID": 1818629686,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 611633915,
+            "Parent UID": 80109085,
             "Components": [
                 {
                     "Type": "Transform",
@@ -72,9 +72,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -99,17 +99,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -327,7 +327,7 @@
                 118355006,
                 1843557112,
                 1408335669,
-                1760279179
+                183930958
             ]
         },
         {
@@ -579,10 +579,10 @@
             ]
         },
         {
-            "Name": "Dash75242",
+            "Name": "Dash",
             "Tag": "Untagged",
             "UID": 1710342307,
-            "Active": false,
+            "Active": true,
             "Element_Type": "None",
             "Parent UID": 1398847280,
             "Components": [
@@ -621,7 +621,7 @@
                         29,
                         29
                     ],
-                    "Path": "Assets\/UI\/HUD Buttons\/BotonUnselected.png",
+                    "Path": "Assets\/UI\/Skills Icons\/Dash.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -637,6 +637,20 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Animation.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "loop": false,
+                    "pingpongWIP": false,
+                    "backwards": false,
+                    "animState": false,
+                    "delay": 1,
+                    "loopCount": 0,
+                    "totalFrames": 10,
+                    "currentIndex": 0
                 }
             ]
         },
@@ -1350,9 +1364,9 @@
             ]
         },
         {
-            "Name": "Dash",
+            "Name": "Frame1",
             "Tag": "Untagged",
-            "UID": 1760279179,
+            "UID": 183930958,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 1398847280,
@@ -1392,12 +1406,12 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/NewFolder\/penguin.png",
+                    "Path": "Assets\/InGameConeptPng.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
-                    "Rows": 16,
-                    "Columns": 16,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -1408,20 +1422,6 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Animation.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "loop": false,
-                    "pingpongWIP": false,
-                    "backwards": false,
-                    "animState": false,
-                    "delay": 0.10000000149011612,
-                    "loopCount": 0,
-                    "totalFrames": 10,
-                    "currentIndex": 0
                 }
             ]
         },

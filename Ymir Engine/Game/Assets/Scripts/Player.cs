@@ -255,7 +255,8 @@ public class Player : YmirComponent
                 
                 // With ping-pong
                 csUI_AnimationDash.Reset();
-                csUI_AnimationDash.backwards = true;
+                //csUI_AnimationDash.backwards = true;
+                csUI_AnimationDash.backwards = !csUI_AnimationDash.backwards;
             }
         }
 
@@ -990,7 +991,8 @@ public class Player : YmirComponent
         // SARA: start dash cooldown
 
         csUI_AnimationDash.Reset();
-        csUI_AnimationDash.backwards = false;
+        csUI_AnimationDash.backwards = !csUI_AnimationDash.backwards;
+        //csUI_AnimationDash.backwards = false;
         csUI_AnimationDash.SetAnimationState(true);
     }
 
