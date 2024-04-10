@@ -213,14 +213,10 @@ float Animator::CalculatePreviousTime(ResourceAnimation* lastAnimation, float tr
 
 	float time = lastCurrentTime + transitionTime;
 
-	LOG("before Prev Time: %f", time);
-
 	if (time > lastAnimation->duration) {
-		float timeDecimals = time - (int)time;
+		float timeDecimals = time - (int)time; // Illegal code
 		time = (int)time % (int)lastAnimation->duration;
 		time += timeDecimals;
-
-		LOG("Prev Time: %f", time);
 
 		return time;
 	}
