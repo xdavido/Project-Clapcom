@@ -127,6 +127,14 @@ struct EmitterPosition : EmitterSetting
 
 };
 
+enum class BILLBOARD_TYPE : int
+{
+	EDITORCAMERA,
+	GAMECAMERA,
+	WORLDALIGNED,
+	AXISALIGNED,
+};
+
 struct EmitterRotation : EmitterSetting
 {
 	EmitterRotation();
@@ -134,7 +142,18 @@ struct EmitterRotation : EmitterSetting
 	void Update(float dt, ParticleEmitter* emitter);
 	void OnInspector();
 
-	CCamera* cameraSelected;
+	void SetRotation(Quat rot);
+
+	void EditorCameraAlign();
+	void GameCameraAlign();
+	void WorldAlign();
+	void AxisAlign();
+
+	bool horAlign;
+	bool verAlign;
+
+	Quat rotation;
+	BILLBOARD_TYPE currentAlignment;
 };
 
 struct EmitterSize : EmitterSetting
