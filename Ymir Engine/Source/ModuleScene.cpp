@@ -64,7 +64,7 @@ bool ModuleScene::Init()
 
 	selectedUI = 0;
 	canTab = true;
-
+	
 	return ret;
 }
 
@@ -358,6 +358,8 @@ void ModuleScene::ClearScene()
 
 	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
 	mRootNode->UID = deletedSceneUID;
+
+	External->pathFinding->ClearNavMeshes();
 }
 
 void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
