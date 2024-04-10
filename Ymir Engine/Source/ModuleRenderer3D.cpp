@@ -814,7 +814,7 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
+		glAlphaFunc(GL_GREATER, 0.5f);
 
 		glColor4f(par->color.r, par->color.g, par->color.b, par->color.a);
 
