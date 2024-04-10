@@ -2374,15 +2374,15 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		JSON_Array* jsonSizeArray = json_value_get_array(jsonSizeValue);
 		JSON_Array* jsonSizeAssetsArray = json_value_get_array(jsonSizeAssetsValue);
 		for (int i = 0; i < json_object_get_number(componentObject, "NumPaths"); i++) {
-			if (json_array_get_string(jsonSizeArray, i) != "") {
+			if (json_array_get_string(jsonSizeArray, i) != "" && PhysfsEncapsule::FileExists(json_array_get_string(jsonSizeArray, i))) {
 				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(json_array_get_string(jsonSizeArray, i), ResourceType::ANIMATION, gameObject->UID);
 				cAnim->AddAnimation(*rAnim);
-				LOG("Loaded animation from Library");
+				LOG("Loaded animation '%s' from Library", rAnim->name.c_str());
 			}
-			else if(json_array_get_string(jsonSizeAssetsArray, i) != "") {
-				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromAssets(json_array_get_string(jsonSizeAssetsArray, i), ResourceType::ANIMATION, gameObject->UID);
+			else if(json_array_get_string(jsonSizeAssetsArray, i) != "" && PhysfsEncapsule::FileExists(json_array_get_string(jsonSizeAssetsArray, i))) {
+				ResourceAnimation* rAnim = (ResourceAnimation*)External->resourceManager->CreateResourceFromLibrary(json_array_get_string(jsonSizeAssetsArray, i), ResourceType::ANIMATION, gameObject->UID);
 				cAnim->AddAnimation(*rAnim);
-				LOG("Loaded animation from Assets");
+				LOG("Loaded animation '%s' from Assets", rAnim->name.c_str());
 			}
 			else {
 				LOG("[ERROR]Couldn't load animation");

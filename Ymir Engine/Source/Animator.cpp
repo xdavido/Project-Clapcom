@@ -31,6 +31,14 @@ void Animator::UpdateAnimation(float dt)
 		UpdateCurrentTime(currentAnimation);
 		CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
 	}
+
+	// Blending
+	if (previousAnimation != nullptr
+		&& CheckBlendMap(previousAnimation, currentAnimation->name)
+		&& transitionTime < previousAnimation->blendMap.at(currentAnimation->name)) {
+
+		transitionTime += previousAnimation->GetTickPerSecond() * deltaTime;
+	}
 }
 
 void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
@@ -160,8 +168,10 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 
 void Animator::PlayAnimation(ResourceAnimation* animation)
 {
-	if (previousAnimation)
+	if (previousAnimation) {
 		lastCurrentTime = previousAnimation->currentTime;
+		LOG("PrevAnim Time: %f", lastCurrentTime);
+	}
 
 	previousAnimation = currentAnimation;
 	currentAnimation = animation;
@@ -204,10 +214,12 @@ float Animator::CalculatePreviousTime(ResourceAnimation* lastAnimation, float tr
 	float time = lastCurrentTime + transitionTime;
 
 	if (time > lastAnimation->duration) {
-		time -= lastAnimation->duration;
-	}
+		float timeDecimals = time - (int)time; // Illegal code
+		time = (int)time % (int)lastAnimation->duration;
+		time += timeDecimals;
 
-	return time;
+		return time;
+	}
 }
 
 bool Animator::CheckBlendMap(ResourceAnimation* animation, std::string animationBlend) {
@@ -263,8 +275,6 @@ void Animator::CalculateBoneTransform(const AssimpNodeData* node, float4x4 paren
 		nodeTransform.SetRotatePart(rotation.ToFloat3x3());
 		nodeTransform.Scale(scale);
 		nodeTransform.SetTranslatePart(translate);
-
-		transitionTime += deltaTime;
 	}
 
 	float4x4 globalTransform = parentTransform * nodeTransform;
