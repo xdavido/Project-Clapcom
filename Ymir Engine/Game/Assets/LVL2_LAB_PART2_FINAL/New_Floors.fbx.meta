@@ -1,0 +1,21 @@
+{
+    "Name": "New_Floors",
+    "Assets Path": "Assets\/LVL2_LAB_PART2_FINAL\/New_Floors.fbx",
+    "Library Path": ".\/Library\/Models\/1406784881.ymodel",
+    "UID": 1406784881,
+    "Type": "Model",
+    "Meshes num": 4,
+    "Meshes Embedded UID": [
+        449610590,
+        955273090,
+        1116546490,
+        361056963
+    ],
+    "Resources num": 4,
+    "Resources Embedded UID": [
+        830872606,
+        1104391565,
+        220061594,
+        2010646097
+    ]
+}

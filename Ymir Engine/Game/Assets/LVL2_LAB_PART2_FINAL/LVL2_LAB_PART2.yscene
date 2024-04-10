@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        -285.07135009765625,
-        352.76974487304688,
-        245.42390441894531
+        -247.51402282714844,
+        338.96432495117188,
+        466.22518920898438
     ],
     "Editor Camera Right (X)": [
-        -0.6163480281829834,
-        1.0877847671508789e-06,
-        0.78748822212219238
+        -0.10981422662734985,
+        1.0617077350616455e-06,
+        0.99395507574081421
     ],
     "Editor Camera Up (Y)": [
-        0.59406083822250366,
-        0.65644562244415283,
-        0.46495622396469116
+        0.89206951856613159,
+        0.44102582335472107,
+        0.098557226359844208
     ],
     "Editor Camera Front (Z)": [
-        0.51693826913833618,
-        -0.75437784194946289,
-        0.40459617972373962
+        0.43835997581481934,
+        -0.89749395847320557,
+        0.0484318807721138
     ],
     "Hierarchy": [
         {
@@ -26,7 +26,7 @@
             "UID": 379278140,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1218049123,
+            "Parent UID": 338957951,
             "Components": [
                 {
                     "Type": "Transform",
@@ -50,7 +50,9 @@
             ],
             "Children UID": [
                 1012976392,
-                456674892
+                456674892,
+                1462968092,
+                1406784881
             ]
         },
         {
@@ -70,9 +72,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -97,17 +99,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -162,7 +164,6 @@
                 1683452266,
                 705092123,
                 1102595052,
-                635079184,
                 1105755793
             ]
         },
@@ -9141,9 +9142,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
+                        -24.256626129150391,
                         0,
-                        0,
-                        0
+                        -32.710880279541016
                     ],
                     "Rotation": [
                         -0,
@@ -9204,7 +9205,7 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        0,
+                        -24.256999969482422,
                         0,
                         0
                     ],
@@ -13319,230 +13320,6 @@
             ]
         },
         {
-            "Name": "Floors",
-            "Tag": "Untagged",
-            "UID": 635079184,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 456674892,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1956867509,
-                1768826688,
-                1593367682
-            ]
-        },
-        {
-            "Name": "BLOCK_Room4_Floor",
-            "Tag": "Untagged",
-            "UID": 1956867509,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1515650856,
-                    "Vertex Count": 77,
-                    "Index Count": 168
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
-                }
-            ]
-        },
-        {
-            "Name": "BLOCK_Room5_Floor1",
-            "Tag": "Untagged",
-            "UID": 1768826688,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1985985549,
-                    "Vertex Count": 4,
-                    "Index Count": 6
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
-                }
-            ]
-        },
-        {
-            "Name": "BLOCK_Room5_Floor",
-            "Tag": "Untagged",
-            "UID": 1593367682,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1248222916,
-                    "Vertex Count": 4,
-                    "Index Count": 6
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
-                }
-            ]
-        },
-        {
             "Name": "PROP_Tablet",
             "Tag": "Untagged",
             "UID": 1105755793,
@@ -13602,6 +13379,966 @@
                     "Diffuse_ID": 927,
                     "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Tablet\/TEX_PROP_Tablet_D.png",
                     "Diffuse_UID": 826300393
+                }
+            ]
+        },
+        {
+            "Name": "Biotic_Tanks",
+            "Tag": "Untagged",
+            "UID": 1462968092,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 379278140,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1773231398
+            ]
+        },
+        {
+            "Name": "Biotic_Tank",
+            "Tag": "Untagged",
+            "UID": 1773231398,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1462968092,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                383095581,
+                567872450,
+                1754156038,
+                549480850,
+                1964309615,
+                630961746,
+                1494990084,
+                747474731,
+                856624927,
+                1580774509
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank5",
+            "Tag": "Untagged",
+            "UID": 383095581,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -23.007534027099609,
+                        0,
+                        619.72198486328125
+                    ],
+                    "Rotation": [
+                        180,
+                        -5.0089561227650847e-06,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 748138118,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 209,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank4",
+            "Tag": "Untagged",
+            "UID": 567872450,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        10.524397850036621,
+                        0,
+                        618.6265869140625
+                    ],
+                    "Rotation": [
+                        180,
+                        -5.0089561227650847e-06,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1145271870,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 213,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank3",
+            "Tag": "Untagged",
+            "UID": 1754156038,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        45.693107604980469,
+                        0,
+                        618.6087646484375
+                    ],
+                    "Rotation": [
+                        180,
+                        -5.0089561227650847e-06,
+                        180
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1745014532,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 217,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank2",
+            "Tag": "Untagged",
+            "UID": 549480850,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        85.590263366699219,
+                        0,
+                        500.65213012695312
+                    ],
+                    "Rotation": [
+                        0,
+                        -89.980216979980469,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 204341618,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 221,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank1",
+            "Tag": "Untagged",
+            "UID": 1964309615,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        86.183921813964844,
+                        0,
+                        464.81997680664062
+                    ],
+                    "Rotation": [
+                        0,
+                        -89.980216979980469,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 214357726,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 225,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Tablet (1)",
+            "Tag": "Untagged",
+            "UID": 630961746,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1906734739,
+                    "Vertex Count": 551,
+                    "Index Count": 1392
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 229,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank6",
+            "Tag": "Untagged",
+            "UID": 1494990084,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        38.963401794433594,
+                        5.6843418860808015e-14,
+                        199.47709655761719
+                    ],
+                    "Rotation": [
+                        0,
+                        -89.980216979980469,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1048986180,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 233,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank7",
+            "Tag": "Untagged",
+            "UID": 747474731,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        39.639625549316406,
+                        5.6843418860808015e-14,
+                        324.58694458007812
+                    ],
+                    "Rotation": [
+                        0,
+                        -89.980216979980469,
+                        0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 607163607,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 237,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank8",
+            "Tag": "Untagged",
+            "UID": 856624927,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -40.526229858398438,
+                        5.6843418860808015e-14,
+                        327.4140625
+                    ],
+                    "Rotation": [
+                        -0,
+                        89.980216979980469,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1990356833,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 241,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "PROP_Liquid_Tank9",
+            "Tag": "Untagged",
+            "UID": 1580774509,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+            "Parent UID": 1773231398,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -41.20245361328125,
+                        5.6843418860808015e-14,
+                        202.30418395996094
+                    ],
+                    "Rotation": [
+                        -0,
+                        89.980216979980469,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1066948312,
+                    "Vertex Count": 2673,
+                    "Index Count": 5898
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 245,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/Biotic Liquid Tank\/TEX_PROP_LiquidTank_D.png",
+                    "Diffuse_UID": 861718311
+                }
+            ]
+        },
+        {
+            "Name": "New_Floors",
+            "Tag": "Untagged",
+            "UID": 1406784881,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 379278140,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                449610590
+            ]
+        },
+        {
+            "Name": "Floors (1)",
+            "Tag": "Untagged",
+            "UID": 449610590,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/New_Floors.fbx",
+            "Parent UID": 1406784881,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                955273090,
+                1116546490,
+                361056963
+            ]
+        },
+        {
+            "Name": "Floor_Elevator",
+            "Tag": "Untagged",
+            "UID": 955273090,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/New_Floors.fbx",
+            "Parent UID": 449610590,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0.78151726722717285,
+                        -0.19188806414604187,
+                        -49.023784637451172
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        146.03179931640625,
+                        0.10000000149011612,
+                        146.03179931640625
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1104391565,
+                    "Vertex Count": 39,
+                    "Index Count": 105
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 247,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Infraestructura\/Lab_Floor\/ElevatorRoom\/TEX_PROP_ElevatorRoom_D.png",
+                    "Diffuse_UID": 1708433015
+                }
+            ]
+        },
+        {
+            "Name": "Floor_Big",
+            "Tag": "Untagged",
+            "UID": 1116546490,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/New_Floors.fbx",
+            "Parent UID": 449610590,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 220061594,
+                    "Vertex Count": 96,
+                    "Index Count": 240
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 251,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/FloorLab\/BigFloor\/TEX_PROP_BigFloor_Lab2_D.png",
+                    "Diffuse_UID": 1445994359
+                }
+            ]
+        },
+        {
+            "Name": "Floor_Small",
+            "Tag": "Untagged",
+            "UID": 361056963,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/New_Floors.fbx",
+            "Parent UID": 449610590,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 2010646097,
+                    "Vertex Count": 36,
+                    "Index Count": 66
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 255,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/FloorLab\/SmallFloor\/TEX_PROP_SmallFloor_Lab2_D.png",
+                    "Diffuse_UID": 1717511894
                 }
             ]
         }

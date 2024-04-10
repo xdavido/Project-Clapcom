@@ -43,7 +43,6 @@
                 1683452266,
                 705092123,
                 1102595052,
-                635079184,
                 1105755793
             ]
         },
@@ -9022,9 +9021,9 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
+                        -24.256626129150391,
                         0,
-                        0,
-                        0
+                        -32.710880279541016
                     ],
                     "Rotation": [
                         -0,
@@ -9085,7 +9084,7 @@
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        0,
+                        -24.256999969482422,
                         0,
                         0
                     ],
@@ -13196,230 +13195,6 @@
                     "Diffuse_ID": 923,
                     "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Props\/MetalBox\/TEX_PROP_MetalBox__D.png",
                     "Diffuse_UID": 41190034
-                }
-            ]
-        },
-        {
-            "Name": "Floors",
-            "Tag": "Untagged",
-            "UID": 635079184,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 456674892,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1956867509,
-                1768826688,
-                1593367682
-            ]
-        },
-        {
-            "Name": "BLOCK_Room4_Floor",
-            "Tag": "Untagged",
-            "UID": 1956867509,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1515650856,
-                    "Vertex Count": 77,
-                    "Index Count": 168
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
-                }
-            ]
-        },
-        {
-            "Name": "BLOCK_Room5_Floor1",
-            "Tag": "Untagged",
-            "UID": 1768826688,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1985985549,
-                    "Vertex Count": 4,
-                    "Index Count": 6
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
-                }
-            ]
-        },
-        {
-            "Name": "BLOCK_Room5_Floor",
-            "Tag": "Untagged",
-            "UID": 1593367682,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_LAB_PART2_FINAL.fbx",
-            "Parent UID": 635079184,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1248222916,
-                    "Vertex Count": 4,
-                    "Index Count": 6
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 925,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART1_FINAL\/LVL2_PART1_Texturas\/Niebla.png",
-                    "Diffuse_UID": 1204100406
                 }
             ]
         },

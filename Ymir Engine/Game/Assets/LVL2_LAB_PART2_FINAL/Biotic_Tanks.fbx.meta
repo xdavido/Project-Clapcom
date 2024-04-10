@@ -1,0 +1,35 @@
+{
+    "Name": "Biotic_Tanks",
+    "Assets Path": "Assets\/LVL2_LAB_PART2_FINAL\/Biotic_Tanks.fbx",
+    "Library Path": ".\/Library\/Models\/1462968092.ymodel",
+    "UID": 1462968092,
+    "Type": "Model",
+    "Meshes num": 11,
+    "Meshes Embedded UID": [
+        1773231398,
+        383095581,
+        567872450,
+        1754156038,
+        549480850,
+        1964309615,
+        630961746,
+        1494990084,
+        747474731,
+        856624927,
+        1580774509
+    ],
+    "Resources num": 11,
+    "Resources Embedded UID": [
+        1167937548,
+        748138118,
+        1145271870,
+        1745014532,
+        204341618,
+        214357726,
+        1906734739,
+        1048986180,
+        607163607,
+        1990356833,
+        1066948312
+    ]
+}
