@@ -3287,14 +3287,14 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		//TODO ERIC. hacer la carga de cosas
 
 		CParticleSystem* cparticleSystem = new CParticleSystem(gameObject);
-		cparticleSystem->active = json_object_get_number(componentObject, "Active");
+		cparticleSystem->active = json_object_get_boolean(componentObject, "Active");
 
 		int numEmitters = json_object_get_number(componentObject, "NumEmitters");
 
 		JSON_Array* emittersArray = json_object_get_array(componentObject, "Emitters");
 		for (int i = 0; i < numEmitters; i++)
 		{
-			ParticleEmitter* pEmmiter = cparticleSystem->CreateEmitter();
+			ParticleEmitter* pEmmiter = cparticleSystem->allEmitters.at(i);
 
 			//JSON_Array* settingsArray = json_array_get_array(emittersArray, i); 
 			JSON_Array* settingsArray = json_object_get_array(json_array_get_object(emittersArray, i), "Settings");
@@ -3309,7 +3309,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				EmitterType type = (EmitterType)json_object_get_number(modulo, "Type");
 
 				//No se si es lo mas correcto pero es para evitar los problemas con los settings que se crean automaticos por defecto (base + spawner)
-				EmitterSetting* instancia = pEmmiter->CreateEmitterSettingByType(type);
+				EmitterSetting* instancia = pEmmiter->CreateEmitterSettingByType((uint)type);
 				if (instancia == nullptr && pEmmiter->modules.size()>j)
 				{
 					instancia = pEmmiter->modules[j]; //En caso de que ya exista el modulo se assigna a dicho modulo.
