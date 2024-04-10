@@ -29,6 +29,39 @@ bool CS_CalculateRandomPath(MonoObject* go, MonoObject* startPos, float radius)
 	return External->pathFinding->FindPath(External->moduleMono->UnboxVector(startPos), destination, comp->path);
 }
 
+float distance(const float3& p1, const float3& p2) {
+	return std::sqrt((p1.x - p2.x) * (p1.x - p2.x) +
+		(p1.y - p2.y) * (p1.y - p2.y) +
+		(p1.z - p2.z) * (p1.z - p2.z));
+}
+
+int CS_GetPathIndex(MonoObject* go, MonoObject* pos)
+{
+	if (External == nullptr || go == nullptr)
+		return false;
+
+	CNavMeshAgent* comp = CS_CompToComp<CNavMeshAgent*>(go);
+
+	if (comp == nullptr)
+		return false;
+
+	float3 position = External->moduleMono->UnboxVector(pos);
+
+	float minDistance = 10000000000000000000.0f;
+	int index;
+	for (int i = 0; i < comp->path.size(); ++i) {
+
+		float d = distance(comp->path[i], position);
+		if (d < minDistance) {
+			minDistance = d;
+			index = i;
+		}
+
+	}
+	
+
+	return index;
+}
 bool CS_CalculatePath(MonoObject* go, MonoObject* startPos, MonoObject* endPos)
 {
 	if (External == nullptr || go == nullptr)

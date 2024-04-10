@@ -1,24 +1,24 @@
 {
-    "NavMesh": -1,
+    "NavMesh": "4294967295",
     "Editor Camera Position": [
-        -11.91893196105957,
-        12.995772361755371,
-        -11.467753410339355
+        -17.316474914550781,
+        20.211807250976562,
+        42.236522674560547
     ],
     "Editor Camera Right (X)": [
-        -0.64680778980255127,
-        1.0430812835693359e-07,
-        0.76193904876708984
+        0.87296921014785767,
+        5.9604644775390625e-08,
+        0.48664319515228271
     ],
     "Editor Camera Up (Y)": [
-        0.32082122564315796,
-        0.9065394401550293,
-        0.27234405279159546
+        0.21106554567813873,
+        0.9005553126335144,
+        -0.378621906042099
     ],
     "Editor Camera Front (Z)": [
-        0.69148296117782593,
-        -0.42105227708816528,
-        0.5869978666305542
+        0.43873298168182373,
+        -0.43370360136032104,
+        -0.78702497482299805
     ],
     "Hierarchy": [
         {
@@ -53,7 +53,8 @@
                 1009784856,
                 2060736023,
                 1614375652,
-                553270870
+                553270870,
+                165230177
             ]
         },
         {
@@ -129,6 +130,30 @@
                     "ID": 0,
                     "Diffuse": "Checker Image",
                     "UID": 4277009102
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        22.24986457824707,
+                        1,
+                        62.267818450927734
+                    ],
+                    "Radius": 33.065608978271484,
+                    "Height": 1,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
                 }
             ]
         },
@@ -242,6 +267,30 @@
                     "stopedDuration": 1,
                     "cumDuration": 2,
                     "cumDuration2": 5
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        1,
+                        2,
+                        1
+                    ],
+                    "Radius": 1.2247449159622192,
+                    "Height": 2,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": true,
+                    "LockY": false,
+                    "LockZ": true
                 }
             ]
         },
@@ -372,6 +421,82 @@
                     "Frustum Culling": 0,
                     "Draw Bounding Boxes": 1,
                     "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Cylinder",
+            "Static": false,
+            "UID": 165230177,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cylinder.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        2.6369171142578125,
+                        0,
+                        -11.012689590454102
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        4.0887999534606934,
+                        21.205461502075195,
+                        4.0887999534606934
+                    ]
+                }
+            ],
+            "Children UID": [
+                1094188326
+            ]
+        },
+        {
+            "Name": "1094188326",
+            "Static": true,
+            "UID": 1094188326,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 165230177,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 90,
+                    "Index Count": 240
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
                 }
             ]
         }

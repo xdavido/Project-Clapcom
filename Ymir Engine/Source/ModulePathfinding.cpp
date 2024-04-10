@@ -392,7 +392,7 @@ float3 ModulePathFinding::FindRandomPointAround(float3 centerPoint, float radius
 	dtPolyRef polyRef;
 	navMeshBuilder->GetNavMeshQuery()->findNearestPoly(centerPoint.ptr(), pathfinder.m_polyPickExt, &pathfinder.m_filter, &polyRef, 0);
 
-	float3 randomPoint;
+	float3 randomPoint;	
 
 	dtPolyRef ref;
 	dtStatus status = navMeshBuilder->GetNavMeshQuery()->findRandomPointAroundCircle(polyRef, centerPoint.ptr(), radius, &pathfinder.m_filter, frand, &ref, randomPoint.ptr());

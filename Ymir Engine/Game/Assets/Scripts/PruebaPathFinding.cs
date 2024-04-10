@@ -102,8 +102,10 @@ using YmirEngine;
             agent = gameObject.GetComponent<PathFinding>();
             Debug.Log("Position"+ gameObject.transform.globalPosition);
 
-        agent.CalculateRandomPath(gameObject.transform.globalPosition, wanderRange);
+        
         Debug.Log("gola2");
+
+        agent.stoppingDistance = 1f;
 
         
 
@@ -115,7 +117,7 @@ using YmirEngine;
         cumTimer2 -= Time.deltaTime;
         if (cumTimer2 <= 0)
         {
-            switch (wanderState)
+            switch (wanderState)                
             {
                 case WanderState.REACHED:
 
@@ -127,12 +129,12 @@ using YmirEngine;
                     break;
 
                 case WanderState.GOING:
-                    agent.speed = 5f;
+                    agent.speed = 30f;
+
                     LookAt(agent.GetDestination());
-                    
                     MoveToCalculatedPos(agent.speed);
 
-                    //IsReached(gameObject.transform.globalPosition,agent.GetDestination());
+                    //  IsReached(gameObject.transform.globalPosition,agent.GetDestination());
                     break;
 
 
@@ -140,7 +142,7 @@ using YmirEngine;
 
                     //Debug.Log("[ERROR] Current State: CHASING");
                     agent.CalculatePath(gameObject.transform.globalPosition, player.transform.globalPosition);
-                    LookAt(agent.GetDestination());
+                    
                     MoveToCalculatedPos(agent.speed);
                     Debug.Log("[ERROR] Current State: CHASING");
                     break;
@@ -319,9 +321,8 @@ using YmirEngine;
 
         Quaternion dir = Quaternion.RotateAroundAxis(Vector3.up, angle);
 
-        float rotationSpeed = Time.deltaTime * agent.angularSpeed;
-        //Debug.Log("CS: Rotation speed: " + rotationSpeed.ToString());
-        //Debug.Log("CS: Time: " + Time.deltaTime);
+        float rotationSpeed = Time.deltaTime * agent.angularSpeed * 100;
+
 
         Quaternion desiredRotation = Quaternion.Slerp(gameObject.transform.localRotation, dir, rotationSpeed);
 
@@ -333,11 +334,10 @@ using YmirEngine;
     public void MoveToCalculatedPos(float speed)
     {
         Vector3 pos = gameObject.transform.globalPosition;
-        //Debug.Log("[WARNING] Position" + gameObject.transform.globalPosition);
-        Vector3 direction = agent.GetDestination() - pos;
-        Debug.Log("[WARNING] Destination" + agent.GetDestination());
-
-        gameObject.transform.localPosition += direction.normalized * speed * Time.deltaTime;
+        Vector3 destination = agent.GetDestination();
+        Vector3 direction = destination - pos;
+        
+        gameObject.SetVelocity(direction.normalized * 5f );
     }
 
 

@@ -190,6 +190,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.PathFinding::get_stoppingDistance", CS_GetStoppingDistance);
 	mono_add_internal_call("YmirEngine.PathFinding::set_stoppingDistance", CS_SetStoppingDistance);
 	mono_add_internal_call("YmirEngine.PathFinding::IsPathPossible", CS_PathIsPossible);
+	mono_add_internal_call("YmirEngine.PathFinding::GetPathIndex", CS_GetPathIndex);
+
 
 	mono_add_internal_call("YmirEngine.InternalCalls::GetWalkablePointAround", GetWalkablePointAround);
 #pragma endregion
