@@ -77,7 +77,6 @@
 		<Compile Include="Assets\Scripts\Loot_Chest.cs" />
 		<Compile Include="Assets\Scripts\PickUp.cs" />
 		<Compile Include="Assets\Scripts\TP_Maps_Test.cs" />
-		<Compile Include="Assets\Scripts\Inventory_Chest.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
