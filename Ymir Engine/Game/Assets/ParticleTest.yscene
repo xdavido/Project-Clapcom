@@ -1,0 +1,241 @@
+{
+    "Editor Camera Position": [
+        -4.4013524055480957,
+        9.0548925399780273,
+        8.7363252639770508
+    ],
+    "Editor Camera Right (X)": [
+        0.87169516086578369,
+        2.0861625671386719e-07,
+        0.48673367500305176
+    ],
+    "Editor Camera Up (Y)": [
+        0.18413770198822021,
+        0.92417865991592407,
+        -0.32977405190467834
+    ],
+    "Editor Camera Front (Z)": [
+        0.45128932595252991,
+        -0.37831312417984009,
+        -0.80821746587753296
+    ],
+    "Hierarchy": [
+        {
+            "Name": "Scene",
+            "Tag": "Untagged",
+            "UID": 804266685,
+            "Active": true,
+            "Element_Type": "None",
+            "Components": [],
+            "Children UID": [
+                1956602020,
+                1335686048
+            ]
+        },
+        {
+            "Name": "Main Camera",
+            "Tag": "Untagged",
+            "UID": 1956602020,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 804266685,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        -16.195707321166992,
+                        4.4726533889770508,
+                        20.360481262207031
+                    ],
+                    "Rotation": [
+                        -180,
+                        40,
+                        -180
+                    ],
+                    "Scale": [
+                        1.0000470876693726,
+                        1,
+                        1.0000470876693726
+                    ]
+                },
+                {
+                    "Type": "Audio listener",
+                    "Active": 1,
+                    "Default Listener": 1
+                },
+                {
+                    "Type": "Audio source",
+                    "Active": 1,
+                    "Bank Name": "",
+                    "Event Name": "",
+                    "Event ID": 0
+                },
+                {
+                    "Type": "Camera",
+                    "Active": 1,
+                    "Right": [
+                        0.76604461669921875,
+                        -1.4361711464516702e-07,
+                        0.64278757572174072
+                    ],
+                    "Up": [
+                        6.6969747081202513e-08,
+                        1,
+                        1.4361711464516702e-07
+                    ],
+                    "Front": [
+                        0.64278757572174072,
+                        6.6969782608339301e-08,
+                        -0.76604461669921875
+                    ],
+                    "FOV": 60.000003814697266,
+                    "Near Plane": 1,
+                    "Far Plane": 1000,
+                    "Frustum Culling": 1,
+                    "Draw Bounding Boxes": 1,
+                    "Game Camera": true
+                }
+            ]
+        },
+        {
+            "Name": "Paticle System",
+            "Tag": "Untagged",
+            "UID": 1335686048,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 804266685,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "ParticleSystem",
+                    "Active": 1,
+                    "NumEmitters": 1,
+                    "Emitters": [
+                        {
+                            "ModulesSize": 7,
+                            "Settings": [
+                                {
+                                    "Type": 0,
+                                    "Lifetime": 3,
+                                    "Position": [
+                                        0,
+                                        0,
+                                        0
+                                    ]
+                                },
+                                {
+                                    "Type": 1,
+                                    "TimeBased": false,
+                                    "NumParticles": 73,
+                                    "SpawnRatio": 0.20000000298023224
+                                },
+                                {
+                                    "Type": 2,
+                                    "Random": true,
+                                    "Direction1": [
+                                        -23.299999237060547,
+                                        -20.600000381469727,
+                                        -16.899999618530273
+                                    ],
+                                    "Direction2": [
+                                        17.399999618530273,
+                                        9.6000003814697266,
+                                        16.5
+                                    ],
+                                    "Accelerates": false,
+                                    "Speed1": 1,
+                                    "Speed2": 1.2000000476837158,
+                                    "ChangeSpeedMode": 4,
+                                    "NewDirection": [
+                                        0.80000001192092896,
+                                        5,
+                                        1.2000000476837158
+                                    ],
+                                    "ChangeSpeed1": 0.075000002980232239,
+                                    "ChangeSpeed2": 0.94499999284744263
+                                },
+                                {
+                                    "Type": 4,
+                                    "Progressive": true,
+                                    "Size1": 1.1699999570846558,
+                                    "Size2": 3.3689999580383301,
+                                    "TimeStart": 0,
+                                    "TimeStop": 1
+                                },
+                                {
+                                    "Type": 3
+                                },
+                                {
+                                    "Type": 5,
+                                    "Progressive": true,
+                                    "Color1": [
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "Color2": [
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "TimeStart": 0,
+                                    "TimeStop": 1
+                                },
+                                {
+                                    "Type": 6
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Assets\/Particles\/particle2.png",
+                    "Diffuse_UID": 0
+                }
+            ]
+        }
+    ]
+}
