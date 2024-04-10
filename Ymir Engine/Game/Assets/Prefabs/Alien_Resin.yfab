@@ -3,17 +3,17 @@
         {
             "Name": "Alien_Resin",
             "Tag": "Untagged",
-            "UID": 1454896491,
+            "UID": 1405534503,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 70262536,
+            "Parent UID": 1421778636,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        -3.8081698417663574,
-                        0.68619227409362793,
+                        0,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -29,17 +29,17 @@
                 }
             ],
             "Children UID": [
-                1987851955
+                855930628
             ]
         },
         {
-            "Name": "1987851955 (3)",
+            "Name": "Cube (1)",
             "Tag": "Untagged",
-            "UID": 1987851955,
+            "UID": 855930628,
             "Active": true,
             "Element_Type": "Mesh",
-            "Origin_Path": "",
-            "Parent UID": 1454896491,
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 1405534503,
             "Components": [
                 {
                     "Type": "Transform",
@@ -89,9 +89,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 279,
-                    "Diffuse_Path": "Assets\/pato.png",
-                    "Diffuse_UID": 954871370
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
                 },
                 {
                     "World gravity": [
@@ -107,15 +107,20 @@
                         1,
                         1
                     ],
-                    "Radius": 0.86602538824081421,
-                    "Height": 1,
                     "Physics Type": 2,
                     "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": false,
                     "IsSensor": true,
                     "LockX": false,
                     "LockY": false,
-                    "LockZ": false
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "Type": "Script",

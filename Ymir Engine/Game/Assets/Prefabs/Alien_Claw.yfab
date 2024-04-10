@@ -1,19 +1,19 @@
 {
     "Prefab": [
         {
-            "Name": "Alien_Claw (1)",
+            "Name": "Alien_Claw",
             "Tag": "Untagged",
-            "UID": 1195589774,
+            "UID": 1405534503,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 70262536,
+            "Parent UID": 1421778636,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        4.908543586730957,
-                        0.39060282707214355,
+                        0,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -29,24 +29,24 @@
                 }
             ],
             "Children UID": [
-                1552505960
+                855930628
             ]
         },
         {
-            "Name": "1987851955 (2)",
+            "Name": "Cube (1)",
             "Tag": "Untagged",
-            "UID": 1552505960,
+            "UID": 855930628,
             "Active": true,
             "Element_Type": "Mesh",
-            "Origin_Path": "",
-            "Parent UID": 1195589774,
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 1405534503,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
                         0,
-                        0.36305958032608032,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -107,15 +107,20 @@
                         1,
                         1
                     ],
-                    "Radius": 0.86602538824081421,
-                    "Height": 1,
                     "Physics Type": 2,
                     "Mass": 0,
+                    "Friction": 0,
+                    "Angular Friction": 0,
                     "UseGravity": false,
                     "IsSensor": true,
                     "LockX": false,
                     "LockY": false,
-                    "LockZ": false
+                    "LockZ": false,
+                    "Offset": [
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "Type": "Script",
