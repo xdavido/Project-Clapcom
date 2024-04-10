@@ -55,6 +55,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.YmirComponent::get_gameObject", CS_Component_Get_GO);
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
+	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByUID", FindObjectWithUID);
 	mono_add_internal_call("YmirEngine.GameObject::TryGetComponent", CS_GetComponent);
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
 
@@ -198,6 +199,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);
+	mono_add_internal_call("YmirEngine.Time::get_time", GetTimeCS);
 
 	InitMono();
 }
@@ -476,6 +478,8 @@ void ModuleMonoManager::CreateAssetsScript(const char* localPath)
 	className += localPath;
 	className = className.substr(className.find_last_of("/") + 1);
 	className = className.substr(0, className.find_last_of("."));
+
+	className = PhysfsEncapsule::ConvertFileName(className);
 
 	//Default Script Text
 	outfile << "using System;"

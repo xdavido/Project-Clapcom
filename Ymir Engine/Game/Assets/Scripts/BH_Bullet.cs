@@ -56,11 +56,41 @@ public class BH_Bullet : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if(other.Name == "Enemy" && !hit)
+        if(other.Name == "Facehugger" && !hit)
         {
-            InternalCalls.Destroy(other);
+            FaceHuggerBaseScript script;
+            //Do damage AND take into account armor
+           script = other.GetComponent<FaceHuggerBaseScript>();
+            script.life -= (5 * (1 - script.armor));
+            
+            //If health 0 then destroy enemy
+            if (script.life <= 0)
+            {
+                InternalCalls.Destroy(other);
+            }
+            Debug.Log("[ERROR] Life: " + script.life);
             hit = true;
+            //Destroy bullet when hit, REMOVE THIS IF THE BULLET SHOULD PIERCE
+            currentLifeTime = maxLifeTime;
         }
+        else if (other.Name == "Boss" && !hit)
+        {
+            QueenXenomorphBaseScript script;
+            //Do damage AND take into account armor
+            script = other.GetComponent<QueenXenomorphBaseScript>();
+            script.life -= (5 * (1 - script.armor));
+
+            //If health 0 then destroy enemy
+            if (script.life <= 0)
+            {
+                InternalCalls.Destroy(other);
+            }
+            Debug.Log("[ERROR] Life: " + script.life);
+            hit = true;
+            //Destroy bullet when hit, REMOVE THIS IF THE BULLET SHOULD PIERCE
+            currentLifeTime = maxLifeTime;
+        }
+
     }
 }
 

@@ -707,8 +707,10 @@ void JsonFile::SetGameObject(const char* key, const GameObject& gameObject)
 	json_array_append_number(scaleArray, gameObject.mTransform->scale.z);
 	json_object_set_value(gameObjectObject, "Scale", scaleValue);*/
 
-	// Set UID
+	// Get Tag
+	json_object_set_string(gameObjectObject, "Tag", gameObject.tag.c_str());
 
+	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
 
 	// Set Parent UID
@@ -880,6 +882,8 @@ void JsonFile::SetGameObject(JSON_Array* hArray, const GameObject& gameObject)
 	json_object_set_string(gameObjectObject, "Name", gameObject.name.c_str());
 
 	json_object_set_boolean(gameObjectObject, "Static", gameObject.isStatic);
+	// Set Tag
+	json_object_set_string(gameObjectObject, "Tag", gameObject.tag.c_str());
 
 	// Set UID
 	json_object_set_number(gameObjectObject, "UID", gameObject.UID);
@@ -1039,10 +1043,83 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 
 		json_object_set_string(componentObject, "Shader", cmaterial->shaderPath.c_str());
 
+		// Shader Uniforms Configuration
+
+		JSON_Value* uniformArrayValue = json_value_init_array();
+		JSON_Array* uniformArray = json_value_get_array(uniformArrayValue);
+
+		JSON_Value* uniformObjectValue = json_value_init_object();
+		JSON_Object* uniformObject = json_value_get_object(uniformObjectValue);
+
+		for (auto& kt = cmaterial->shader.uniforms.begin(); kt != cmaterial->shader.uniforms.end(); ++kt) {
+
+			switch (kt->type)
+			{
+			case UniformType::boolean:
+			{
+				json_object_set_boolean(uniformObject, kt->name.c_str(), *static_cast<bool*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::i1:
+			{
+				json_object_set_number(uniformObject, kt->name.c_str(), *static_cast<int*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::i2:
+			case UniformType::i3:
+			case UniformType::i4:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				for (int i = 0; i < kt->nElements; ++i) {
+
+					json_array_append_number(vectorArray, static_cast<int*>(kt->value.get())[i]);
+
+				}
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			case UniformType::f1:
+			{
+				json_object_set_number(uniformObject, kt->name.c_str(), *static_cast<float*>(kt->value.get()));
+
+				break;
+			}
+			case UniformType::f2:
+			case UniformType::f3:
+			case UniformType::f4:
+			{
+				JSON_Value* vectorArrayValue = json_value_init_array();
+				JSON_Array* vectorArray = json_value_get_array(vectorArrayValue);
+
+				for (int i = 0; i < kt->nElements; ++i) {
+
+					json_array_append_number(vectorArray, static_cast<float*>(kt->value.get())[i]);
+
+				}
+
+				json_object_set_value(uniformObject, kt->name.c_str(), vectorArrayValue);
+
+				break;
+			}
+			}
+
+		}
+
+		json_array_append_value(uniformArray, uniformObjectValue);
+		json_object_set_value(componentObject, "Uniforms", uniformArrayValue);
+
 		// Texture maps
+
 		json_object_set_number(componentObject, "ID", cmaterial->ID);
 		json_object_set_string(componentObject, "Diffuse", cmaterial->path.c_str());
 		json_object_set_number(componentObject, "UID", cmaterial->UID);
+
 	}
 	break;
 	case CAMERA:
@@ -1220,6 +1297,8 @@ void JsonFile::SetComponent(JSON_Object* componentObject, const Component& compo
 		json_object_set_string(componentObject, "Type", "Script");
 
 		json_object_set_string(componentObject, "ScriptName", cscript->name.c_str());
+
+		json_object_set_number(componentObject, "Active", component.active);
 
 		for (int i = 0; i < cscript->fields.size(); i++)
 		{
@@ -1659,6 +1738,9 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	gameObject.name = (name != nullptr) ? name : "";
 
 	// Get Position, Rotation, Scale
+	// Get Name
+	
+	// Get Tag
 
 	bool _isStatic;
 	if (json_object_has_value(gameObjectObject, "Static") == 1) {
@@ -1669,8 +1751,16 @@ void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const 
 	}
 	gameObject.isStatic = _isStatic;
 
-	// Get UID
+	if (json_object_has_value_of_type(gameObjectObject, "Tag", JSONString)) {
 
+		gameObject.tag = json_object_get_string(gameObjectObject, "Tag");
+
+		std::vector<std::string> tagsCopy = External->scene->tags;
+		External->scene->tags.push_back(gameObject.tag);
+
+	}
+	
+	// Get UID
 	gameObject.UID = json_object_get_number(gameObjectObject, "UID");
 
 	// Get UID
@@ -1820,6 +1910,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		//gameObject->AddComponent(gameObject->mTransform);
 
+		gameObject->mTransform->active = json_object_get_number(componentObject, "Active");
+
 	}
 	else if (type == "Mesh") {
 
@@ -1833,6 +1925,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		cmesh->rMeshReference = rMesh;
 
+		cmesh->active = json_object_get_number(componentObject, "Active");
+
 		gameObject->AddComponent(cmesh);
 
 	}
@@ -1844,6 +1938,150 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		std::string shaderPath = json_object_get_string(componentObject, "Shader");
 		cmaterial->shaderPath = shaderPath;
 		cmaterial->shader.LoadShader(shaderPath);
+
+		// Load Shader Uniforms
+
+		JSON_Value* jsonUniformValue = json_object_get_value(componentObject, "Uniforms");
+
+		if (jsonUniformValue != nullptr && json_value_get_type(jsonUniformValue) == JSONArray) {
+
+			JSON_Array* jsonUniformArray = json_value_get_array(jsonUniformValue);
+
+			for (auto& kt = cmaterial->shader.uniforms.begin(); kt != cmaterial->shader.uniforms.end(); ++kt) {
+
+				switch (kt->type)
+				{
+				case UniformType::boolean:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONBoolean)) {
+
+							bool value = json_object_get_boolean(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}		
+
+					break;
+				}
+				case UniformType::i1:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONNumber)) {
+
+							int value = json_object_get_number(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::i2:
+				case UniformType::i3:
+				case UniformType::i4:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONArray)) {
+
+							JSON_Array* jsonArray = json_object_get_array(uniformObject, kt->name.c_str());
+							
+							int arraySize = json_array_get_count(jsonArray);
+
+							// Allocate memory for the integer array
+							int* value = new int[arraySize];
+
+							// Copy values from the JSON array to the integer array
+							for (int j = 0; j < arraySize; ++j) {
+
+								value[j] = (int)json_array_get_number(jsonArray, j); // Assuming JSON array contains numbers
+
+							}
+
+							// Set uniform value
+							cmaterial->shader.SetUniformValue(kt->name, value);
+
+							// Delete memory when no longer needed
+							delete[] value;
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::f1:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONNumber)) {
+
+							float value = json_object_get_number(uniformObject, kt->name.c_str());
+
+							cmaterial->shader.SetUniformValue(kt->name, &value);
+
+						}
+
+					}
+
+					break;
+				}
+				case UniformType::f2:
+				case UniformType::f3:
+				case UniformType::f4:
+				{
+					for (int i = 0; i < json_array_get_count(jsonUniformArray) && kt != cmaterial->shader.uniforms.end(); ++i) {
+
+						JSON_Object* uniformObject = json_array_get_object(jsonUniformArray, i);
+
+						if (json_object_has_value_of_type(uniformObject, kt->name.c_str(), JSONArray)) {
+
+							JSON_Array* jsonArray = json_object_get_array(uniformObject, kt->name.c_str());
+
+							int arraySize = json_array_get_count(jsonArray);
+
+							// Allocate memory for the integer array
+							float* value = new float[arraySize];
+
+							// Copy values from the JSON array to the integer array
+							for (int j = 0; j < arraySize; ++j) {
+
+								value[j] = (float)json_array_get_number(jsonArray, j); // Assuming JSON array contains numbers
+
+							}
+
+							// Set uniform value
+							cmaterial->shader.SetUniformValue(kt->name, value);
+
+							// Delete memory when no longer needed
+							delete[] value;
+
+						}
+
+					}
+
+					break;
+				}
+				}
+
+			}
+
+		}
 
 		uint ID = json_object_get_number(componentObject, "ID");
 		cmaterial->ID = ID;
@@ -1879,6 +2117,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		
 		cmaterial->rTextures.push_back(rTex);
 	
+		cmaterial->active = json_object_get_number(componentObject, "Active");
 		gameObject->AddComponent(cmaterial);
 
 	}
@@ -1904,6 +2143,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 		// Game Camera
 		ccamera->isGameCam = json_object_get_boolean(componentObject, "Game Camera");
+
+		ccamera->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(ccamera);
 
@@ -1942,6 +2183,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				LOG("[ERROR]Couldn't load animation");
 			}
 		}
+
+		cAnim->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(cAnim);
 	}
@@ -2027,6 +2270,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 		ccollider->lockY = json_object_get_boolean(componentObject, "LockY");
 		ccollider->lockZ = json_object_get_boolean(componentObject, "LockZ");
 
+		ccollider->active = json_object_get_number(componentObject, "Active");
+
 		gameObject->AddComponent(ccollider);
 
 	}
@@ -2091,6 +2336,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				break;
 			}
 		}
+
+		cscript->active = json_object_get_number(componentObject, "Active");
 
 		gameObject->AddComponent(cscript);
 
@@ -2790,6 +3037,8 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				aLight->SetHeight(height);
 
 				CLight* componentLight = new CLight(gameObject, aLight);
+
+				componentLight->active = json_object_get_number(componentObject, "Active");
 
 				gameObject->AddComponent(componentLight);
 

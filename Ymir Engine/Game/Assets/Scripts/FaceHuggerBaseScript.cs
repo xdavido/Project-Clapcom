@@ -19,11 +19,12 @@ enum EnemyState
     Dead
 }
 
-enum WanderState
+public enum WanderState
 {
     REACHED,
     GOING,
     CHASING,
+    ATTACK,
     HIT,
     STOPED
 }
@@ -44,7 +45,7 @@ public class RandomPointGenerator
     }
 }
 
-public class EnemyBehaviour : YmirComponent
+public class FaceHuggerBaseScript : YmirComponent
 {
     public GameObject thisReference = null;
 
@@ -53,6 +54,12 @@ public class EnemyBehaviour : YmirComponent
     private float actualMovementSpeed;
 
     public float life = 100f;
+
+    //This may change depending on enemy rarity
+    public float armor = 0;
+
+    //0 = Common, 1 = Rare, 2 = Elite
+    public int rarity = 0;
 
     private float wanderRadius = 10f;
 
@@ -65,7 +72,8 @@ public class EnemyBehaviour : YmirComponent
 
     public bool PlayerDetected = false;
 
-    public float DetectionRadius = 15f;
+    public float DetectionRadius = 60f;
+    private float AttackDistance = 20f;
 
     //private EnemyState state = EnemyState.Idle;
 
@@ -88,6 +96,10 @@ public class EnemyBehaviour : YmirComponent
     private float cumTimer2;
     public float cumDuration2 = 5f;
 
+    public float attackTimer;
+    private float attackDuration = 1.5f;
+    public bool attackSensor = false;
+
     public void Start()
     {
         pointGenerator = new RandomPointGenerator();
@@ -96,16 +108,33 @@ public class EnemyBehaviour : YmirComponent
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
-        movementSpeed = 10f;
+        movementSpeed = 20f;
         stopedDuration = 1f;
-        DetectionRadius = 10f;
+        DetectionRadius = 60f;
         wanderRadius = 10f;
         cumDuration = 2f;
         cumDuration2 = 5f;
 
+        attackTimer = attackDuration;
+
         cumTimer = cumDuration2;
 
-        gameObject.SetPosition(new Vector3(-181,4,230));
+        //Enemy rarity stats
+        if (rarity == 1)
+        {
+            life = 350;
+            armor = 0.1f;
+            movementSpeed = 21.5f;
+        }
+        else if (rarity == 2)
+        {
+            life = 600;
+            armor = 0.2f;
+            movementSpeed = 23f;
+
+        }
+
+        //gameObject.SetPosition(new Vector3(-181,4,230));
 
     }
 
@@ -126,6 +155,7 @@ public class EnemyBehaviour : YmirComponent
                 break;
 
                 case WanderState.GOING:
+                    attackSensor = false;
                     HandleRotation();
                     //Debug.Log("[ERROR] Current State: GOING");
                     ProcessMovement();
@@ -144,12 +174,12 @@ public class EnemyBehaviour : YmirComponent
                     ySpeed = vectorToPlayer.z;
 
                     RotateEnemy();
-                    Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
+                    //Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
                     gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
-                break;
+                    break;
 
                 case WanderState.STOPED:
-                    Debug.Log("[ERROR] Current State: STOPED");
+                    //Debug.Log("[ERROR] Current State: STOPED");
                     ProcessStopped();
                 break;
 
@@ -158,25 +188,57 @@ public class EnemyBehaviour : YmirComponent
                     Proccescumdown();
 
                 break;
+
+                case WanderState.ATTACK:
+
+                    Attack();
+                break;
             }
 
-
-            if (player.transform.globalPosition.x - gameObject.transform.globalPosition.x < DetectionRadius && player.transform.globalPosition.z - gameObject.transform.globalPosition.z < DetectionRadius)
+            //Check if player is alive before chasing
+            if (wanderState != WanderState.ATTACK && healthScript.GetCurrentHealth() > 0)
             {
-                if (wanderState != WanderState.HIT)
-                {
-                    actualMovementSpeed = movementSpeed;
-                    wanderState = WanderState.CHASING;
-                }
 
+                if (CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, DetectionRadius))
+                {
+
+                    if (wanderState != WanderState.HIT)
+                    {
+                        actualMovementSpeed = movementSpeed;
+                        wanderState = WanderState.CHASING;
+                    }
+
+                    //Attack if in range
+                    if (CheckDistance(player.transform.globalPosition, gameObject.transform.globalPosition, AttackDistance))
+                    {
+
+                        if (wanderState == WanderState.CHASING && wanderState != WanderState.ATTACK)
+                        {
+                            //Debug.Log("[ERROR] ATTACKING");
+                            attackTimer = attackDuration;
+                            gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+                            wanderState = WanderState.ATTACK;
+                        }
+                    }
+
+                }
             }
+
 
         }
-        
-       
+
+
 
     }
 
+    public bool CheckDistance(Vector3 first, Vector3 second, float checkRadius)
+    {
+        float deltaX = Math.Abs(first.x - second.x);
+        float deltaY = Math.Abs(first.y - second.y);
+        float deltaZ = Math.Abs(first.z - second.z);
+
+        return deltaX <= checkRadius && deltaY <= checkRadius && deltaZ <= checkRadius;
+    }
 
     private void Proccescumdown()
     {
@@ -185,7 +247,7 @@ public class EnemyBehaviour : YmirComponent
             cumTimer -= Time.deltaTime;
             if(cumTimer<=0)
             {
-                Debug.Log("[ERROR] Reached");
+                //Debug.Log("[ERROR] Reached");
                 wanderState = WanderState.REACHED;
             }
         }
@@ -210,7 +272,32 @@ public class EnemyBehaviour : YmirComponent
             if (wanderTimer <= 0)
             {
 
-                Debug.Log("[ERROR] AAAA");
+                //Debug.Log("[ERROR] AAAA");
+                actualMovementSpeed = 0;
+                stopedTimer = stopedDuration;
+                wanderState = WanderState.STOPED;
+
+            }
+        }
+    }
+
+    public WanderState GetState()
+    {
+        return wanderState;
+    }
+    private void Attack()
+    {
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+
+            if (attackTimer <= 0)
+            {
+                ////IF HIT, Do damage
+                //healthScript.TakeDmg(3);
+                //Debug.Log("[ERROR] DID DAMAGE");
+                attackSensor = true;
+                attackTimer = attackDuration;
                 actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;
                 wanderState = WanderState.STOPED;
@@ -281,17 +368,17 @@ public class EnemyBehaviour : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Name == "Player" && wanderState != WanderState.HIT)
-        {
+        //if (other.Name == "Player" && wanderState != WanderState.HIT)
+        //{
 
-            Debug.Log("[ERROR] Name: " + other.Name);
-            Debug.Log("[ERROR] HIT!!!");
-            gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
+        //    Debug.Log("[ERROR] Name: " + other.Name);
+        //    Debug.Log("[ERROR] HIT!!!");
+        //    gameObject.SetVelocity(gameObject.transform.GetForward() * 0);
           
-            gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
-            healthScript.TakeDmg(3);
-            wanderState = WanderState.HIT;
-            cumTimer = cumDuration;
-        }
+        //    gameObject.SetImpulse(gameObject.transform.GetForward() * -10);
+        //    healthScript.TakeDmg(3);
+        //    wanderState = WanderState.HIT;
+        //    cumTimer = cumDuration;
+        //}
     }
 }

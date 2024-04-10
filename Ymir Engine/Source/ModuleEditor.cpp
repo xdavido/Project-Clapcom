@@ -3131,13 +3131,27 @@ void ModuleEditor::DrawInspector()
 
 			std::vector<std::string> tags = External->scene->tags;
 
-			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag))
+			for (std::vector<std::string>::iterator it = External->scene->tags.begin(); it != External->scene->tags.end(); ++it)
+			{
+				for (auto to = it + 1; to != External->scene->tags.end();)
+				{
+					if ((*it) == (*to))
+					{
+						to = External->scene->tags.erase(to);
+					}
+					else
+					{
+						++to;
+					}
+				}
+			}
+			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag.c_str()))
 			{
 				for (int t = 0; t < tags.size(); t++)
 				{
-					bool is_selected = strcmp(App->scene->selectedGO->tag, tags[t].c_str()) == 0;
+					bool is_selected = strcmp(App->scene->selectedGO->tag.c_str(), tags[t].c_str()) == 0;
 					if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
-						strcpy(App->scene->selectedGO->tag, tags[t].c_str());
+						App->scene->selectedGO->tag = tags[t];
 					}
 
 					if (is_selected)
@@ -3147,13 +3161,18 @@ void ModuleEditor::DrawInspector()
 				{
 					static char newTag[32];
 					ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
-
-					if (ImGui::Button("Save Tag")) {
-						char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
-						strcpy(tagToAdd, newTag);
-						External->scene->tags.push_back(tagToAdd);
-						newTag[0] = '\0';
-						delete[] tagToAdd;
+					bool estaVacio = (std::strlen(newTag) == 0);
+					
+					if(ImGui::Button("Save Tag")) 
+					{
+						if (!estaVacio)
+						{
+							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+							strcpy(tagToAdd, newTag);
+							External->scene->tags.push_back(tagToAdd);
+							newTag[0] = '\0';
+							delete[] tagToAdd;
+						}
 					}
 					ImGui::EndMenu();
 				}
