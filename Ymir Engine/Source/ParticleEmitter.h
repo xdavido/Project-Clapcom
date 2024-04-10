@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __PARTICLE_EMITTER_H__
-#define __PARTICLE_EMITTER_H__ 
+#ifndef __PAR_EMITTER_H__
+#define __PAR_EMITTER_H__ 
 
 #include "CParticleSystem.h"
 #include "EmitterSetting.h"
@@ -46,4 +46,4 @@ private:
 	void UpdateModules(float dt);
 
 };
-#endif //__PARTICLE_EMITTER_H__
+#endif //__PAR_EMITTER_H__
