@@ -368,57 +368,6 @@ void CParticleSystem::OnInspector()
 	if (!exists) { mOwner->RemoveComponent(this); }
 }
 
-//Save all emitters 
-const char* CParticleSystem::SaveMetaEmitters()
-{
-	std::string filePath;
-
-	JSON_Value* root_value = json_value_init_object();
-	JSON_Object* root_object = json_value_get_object(root_value);
-
-	//If there is no failure loading
-	if (root_value != nullptr && root_object != nullptr)
-	{
-
-		//Crear path
-		char* serialized_string = NULL;
-
-		json_object_set_string(root_object, "FilePath", filePath.c_str());
-		json_object_set_number(root_object, "NumEmitters", allEmitters.size());
-		json_object_set_number(root_object, "OwnerID", this->UID);
-
-		//Create array of all emitters UUID
-		JSON_Array* arr;
-		JSON_Value* new_val = json_value_init_array();
-
-		arr = json_value_get_array(new_val);
-		json_object_dotset_value(root_object, "Emitters", new_val);
-		//We create the value to assign and insert into the array
-		JSON_Value* arrayRecord;
-		arrayRecord = json_value_init_object();
-		//We call save Emitter in Json for each mesh and we save their UUID
-		for (int i = 0; i < allEmitters.size(); i++)
-		{
-			json_array_append_number(arr, SaveEmmiterJSON(allEmitters.at(i)));
-		}
-
-
-		serialized_string = json_serialize_to_string_pretty(root_value);
-		puts(serialized_string);
-
-		//Crear el archivo en assets
-		std::string nameMeta;
-		//nameMeta += ASSETS; //TODO TONI: Tronquito en Resource (nose hacerlo)
-		nameMeta += std::to_string(this->UID);
-		nameMeta += ".meta";
-		json_serialize_to_file(root_value, nameMeta.c_str());
-		json_free_serialized_string(serialized_string);
-		json_value_free(root_value);
-
-		return nameMeta.c_str();
-	}
-}
-
 //Save emmiter on JSON scene
 JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 {
