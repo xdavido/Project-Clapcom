@@ -157,88 +157,6 @@ void CCollider::Update()
 		newMat.SetCol(2, float4(matrix[8], matrix[9], matrix[10], matrix[11]));
 		newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
 
-
-		// INTENTO DE ANADIR LA ROTACION DEL PARENT CON LA MATRIZ GLOBAL DE TRANSFORMACION
-		// 
-		//float4x4 parentRotationMatrix = float4x4::identity; // Matriz de identidad si no hay padre
-		//if (parentTransform != nullptr) {
-		//	parentRotationMatrix = parentTransform->mGlobalMatrix;
-		//}
-
-		//LOG("\n");
-		//LOG("NEW MAT");
-
-		//// Aplicar la rotación del padre a la matriz de transformación newMat
-		//float4x4 totalMatrix = newMat + parentRotationMatrix;
-		////newMat = newMat * parentRotationMatrix;
-		////newMat = newMat.Mul(parentRotationMatrix);
-
-		//for (int i = 0; i < 4; ++i) {
-		//	for (int j = 0; j < 4; ++j) {
-		//		LOG("%f ", totalMatrix.v[i][j]);
-		//	}
-		//	LOG("\n");
-		//}
-		//LOG("\n");
-	
-
-		//LOG("\n");
-		//LOG("PARENT RMATRIX");
-		//for (int i = 0; i < 4; ++i) {
-		//	for (int j = 0; j < 4; ++j) {
-		//		LOG("%f ", parentRotationMatrix.v[i][j]);
-		//	}
-		//	LOG("\n");
-		//}
-		//LOG("\n");
-
-
-
-
-		// -------------------------------------------------------------------------------------------------
-		
-		// FIX TRANSFORM MATRIX ADDING THE PARENT TRANSFORMATION
-
-		//if (parentTransform == nullptr)
-		//{
-		//	if (collType != ColliderType::MESH_COLLIDER) {
-
-		//		newMat.SetCol(3,
-		//			float4(matrix[12] - meshOffsetX - offset.x,
-		//				matrix[13] - meshOffsetY - offset.y,
-		//				matrix[14] - meshOffsetZ - offset.z,
-		//				matrix[15]));
-
-		//	}
-		//	else {
-
-		//		newMat.SetCol(3, float4(matrix[12], matrix[13], matrix[14], matrix[15]));
-
-		//	}
-
-		//}
-		//else
-		//{
-		//	if (collType != ColliderType::MESH_COLLIDER) {
-
-		//		newMat.SetCol(3, float4(
-		//			matrix[12] - meshOffsetX - offset.x - parentTransform->GetGlobalPosition().x,
-		//			matrix[13] - meshOffsetY - offset.y - parentTransform->GetGlobalPosition().y,
-		//			matrix[14] - meshOffsetZ - offset.z - parentTransform->GetGlobalPosition().z,
-		//			matrix[15]));
-
-		//	}
-		//	else {
-
-		//		newMat.SetCol(3, float4(
-		//			matrix[12] - parentTransform->GetGlobalPosition().x,
-		//			matrix[13] - parentTransform->GetGlobalPosition().y,
-		//			matrix[14] - parentTransform->GetGlobalPosition().z,
-		//			matrix[15]));
-
-		//	}
-
-		//}
 		float3 pos = newMat.TranslatePart();
 		//float3 pos = totalMatrix.TranslatePart();
 
@@ -255,28 +173,7 @@ void CCollider::Update()
 
 		// Puede ser que a la matriz newMat le falte tener en cuenta la rotacion del parent (?)
 		mOwner->mTransform->SetPosition(pos - offset);
-		
-		//Quat quat;
-		//quat.Set(newMat);
-
-		//float x = quat.x;
-		//float y = quat.y;
-		//float z = quat.z;
-		//float w = quat.w;
-
-		//btQuaternion btQuat(x, y, z, w);
-
 		mOwner->mTransform->SetOrientation(physBody->body->getOrientation());
-		//mOwner->mTransform->SetOrientation(btQuat);
-
-		btSize = float3_to_btVector3(size);
-		
-		if (physType != PhysicsType::STATIC)
-			shape->setLocalScaling(btVector3(trans.GetScale().x * btSize.x(), trans.GetScale().y * btSize.y(), trans.GetScale().z * btSize.z()));
-		
-		else shape->setLocalScaling(btSize);
-
-		//mOwner->mTransform->UpdateTransformsChilds();
 
 		if (lockX) {
 			UpdateLockRotation();
@@ -294,7 +191,6 @@ void CCollider::Update()
 
 	// --------------------------- Physics Simulation Stopped ---------------------------
 
-
 	if (TimeManager::gameTimer.GetState() == TimerState::STOPPED && active && physBody != nullptr)
 	{
 		// Get ctransform global matrix
@@ -303,19 +199,29 @@ void CCollider::Update()
 
 		// Fix offset
 		trans.SetTranslatePart(trans.TranslatePart() + offset);
+		physBody->SetPosition(trans.TranslatePart());
 
-		// Set collider size
-		trans.Scale(size);
-		//shape->setLocalScaling(btVector3(trans.GetScale().x, trans.GetScale().y, trans.GetScale().z));
-		physBody->SetTransform(trans.Transposed());
+		physBody->SetRotation(Quat(trans.RotatePart()));
 
-		btSize = float3_to_btVector3(size);
+		if (collType != ColliderType::MESH_COLLIDER)
+		{
+			btSize = float3_to_btVector3(
+				{
+					size.x * trans.GetScale().x,
+					size.y * trans.GetScale().y,
+					size.z * trans.GetScale().z,
+				});
+		}
+		else
+		{
+			btSize = float3_to_btVector3(trans.GetScale());
+		}
+
 		shape->setLocalScaling(btSize);
 	}
 	if (size.x == 0) size.x = 0.1;
 	if (size.y == 0) size.y = 0.1;
 	if (size.z == 0) size.z = 0.1;
-	
 }
 
 void CCollider::OnInspector()
@@ -570,9 +476,6 @@ void CCollider::SetBoxCollider()
 		physBody->SetGameObject(mOwner);
 	}
 
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
-
 	shape->setMargin(0.0f);
 }
 
@@ -587,9 +490,6 @@ void CCollider::SetSphereCollider()
 
 	physBody = External->physics->AddBody(sphere, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
-
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
 
 	shape->setMargin(0.0f);
 }
@@ -606,9 +506,6 @@ void CCollider::SetCapsuleCollider()
 	physBody = External->physics->AddBody(capsule, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
 
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
-
 	shape->setMargin(0.0f);
 }
 
@@ -623,9 +520,6 @@ void CCollider::SetConeCollider()
 
 	physBody = External->physics->AddBody(cone, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
-
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
 
 	shape->setMargin(0.0f);
 }
@@ -642,9 +536,6 @@ void CCollider::SetCylinderCollider()
 	physBody = External->physics->AddBody(cylinder, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
 
-	btSize = float3_to_btVector3(size);
-	shape->setLocalScaling(btSize);
-
 	shape->setMargin(0.0f);
 }
 
@@ -655,9 +546,6 @@ void CCollider::SetMeshCollider()
 	collType = ColliderType::MESH_COLLIDER;
 	
 	CMesh* auxMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
-
-	size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-	shape->setLocalScaling(btSize);
 
 	physBody = External->physics->AddBody(auxMesh, PhysicsType::DYNAMIC, mass, true, shape);
 	physBody->SetGameObject(mOwner);
