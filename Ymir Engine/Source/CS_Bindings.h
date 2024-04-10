@@ -618,11 +618,13 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 
-void Rumble_Controller(int time)
+void Rumble_Controller(int time, int intenisty)
 {
+
 	if (External != nullptr) {
 
-		if (SDL_JoystickRumble(External->input->joystick, 0xFFFF, 0xFFFF, time) == -1) {
+		intenisty = intenisty * 6500;
+		if (SDL_JoystickRumble(External->input->joystick, intenisty, intenisty, time) == -1) {
 			printf("Rumble failed...?\n");
 		}
 		else {

@@ -1,0 +1,14 @@
+{
+    "Name": "CHAR_Raisen_Mixamo",
+    "Assets Path": "Assets\/CHAR_Raisen_Mixamo.fbx",
+    "Library Path": ".\/Library\/Models\/1299161216.ymodel",
+    "UID": 1299161216,
+    "Type": "Model",
+    "Meshes num": 4,
+    "Meshes Embedded UID": [
+        163459713,
+        2047684708,
+        2015192238,
+        1046474533
+    ]
+}
