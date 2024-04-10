@@ -101,6 +101,7 @@ public:
     // ---------- Load Scene
 
     std::vector<GameObject*> GetHierarchy(const char* key) const;
+    uint GetNavMeshID(const char* key) const;
     void GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const;
     void GetComponent(const JSON_Object* componentObject, G_UI* gameObject) const;
 

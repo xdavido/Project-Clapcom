@@ -57,7 +57,7 @@ uint ImporterNavMesh::Save(const char* assets_path, dtNavMesh* navMesh, BuildSet
 
 dtNavMesh* ImporterNavMesh::Load(uint navMeshResourceUID, BuildSettings& buildSettings)
 {
-	std::string libraryPath = External->fileSystem->libraryNavMeshPath + std::to_string(navMeshResourceUID);
+	std::string libraryPath = External->fileSystem->libraryNavMeshPath + std::to_string(navMeshResourceUID) + ".nav";
 
 	FILE* fp = fopen(libraryPath.c_str(), "rb");
 	if (!fp)

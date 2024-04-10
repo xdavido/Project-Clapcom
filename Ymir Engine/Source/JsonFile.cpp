@@ -1641,6 +1641,16 @@ std::vector<GameObject*> JsonFile::GetHierarchy(const char* key) const
 	return gameObjects;
 }
 
+uint JsonFile::GetNavMeshID(const char* key) const 
+{
+	const char* str = json_object_get_string(rootObject, key);
+	if (str != nullptr) {
+		uint navMeshId = (uint)strtoul(str, NULL, 10);
+		return navMeshId;
+	}
+	return -1;
+}
+
 void JsonFile::GetGameObject(const std::vector<GameObject*>& gameObjects, const JSON_Object* gameObjectObject, G_UI& gameObject) const
 {
 	// Get Name
