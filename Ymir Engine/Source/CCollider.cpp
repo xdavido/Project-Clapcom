@@ -199,8 +199,13 @@ void CCollider::Update()
 
 		// Fix offset
 		trans.SetTranslatePart(trans.TranslatePart() + offset);
-		physBody->SetPosition(trans.TranslatePart());
 
+		//CMesh* componentMesh = (CMesh*)mOwner->GetComponent(ComponentType::MESH);
+
+		//if (componentMesh != nullptr) physBody->SetPosition(trans.TranslatePart() + componentMesh->rMeshReference->obb.CenterPoint());
+		//else physBody->SetPosition(trans.TranslatePart());
+
+		physBody->SetPosition(trans.TranslatePart());
 		physBody->SetRotation(Quat(trans.RotatePart()));
 
 		if (collType != ColliderType::MESH_COLLIDER)
@@ -634,7 +639,11 @@ void CCollider::SetOBBSize()
 	if (componentMesh != nullptr) {
 
 		if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-		else size = componentMesh->rMeshReference->obb.Size();
+		else size = float3(
+			componentMesh->rMeshReference->obb.Size().x / trans.GetScale().x,
+			componentMesh->rMeshReference->obb.Size().y / trans.GetScale().y,
+			componentMesh->rMeshReference->obb.Size().z / trans.GetScale().z
+		);
 	}
 	if (size.x == 0) size.x = 0.1;
 	if (size.y == 0) size.y = 0.1;
