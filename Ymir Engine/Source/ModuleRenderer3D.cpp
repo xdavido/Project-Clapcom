@@ -823,7 +823,7 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 		{
 			for (auto& textures : par->mat->rTextures) {
 
-				textures->BindTexture(true, textures->ID);
+				textures->BindTexture(true, 0);
 			}
 		}
 
@@ -866,7 +866,7 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 		{
 			for (auto& textures : par->mat->rTextures) {
 
-				textures->BindTexture(false, textures->ID);
+				textures->BindTexture(false, 0);
 			}
 		}
 

@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/Particles\/particleExample.png",
-    "Library Path": ".\/Library\/Textures\/782089924.dds",
-    "UID": 782089924,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/783919815.dds",
+    "UID": 783919815,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }
