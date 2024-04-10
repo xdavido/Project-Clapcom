@@ -565,11 +565,7 @@ void CreateTailSensor(MonoObject* position, MonoObject* rotation)
 	//Hace unbox de los parametros de transform pasados
 	float3 posVector = External->moduleMono->UnboxVector(position);
 	Quat rotVector = External->moduleMono->UnboxQuat(rotation);
-	float3 scaleVector = float3(0, 0, 0);
-
-	//Settea el transform a la bullet
-	go->mTransform->SetPosition(posVector);
-	go->mTransform->rotation = rotVector.Normalized();
+	float3 scaleVector = float3(2, 1, 2);
 
 
 	//Añade RigidBody a la bala
@@ -578,7 +574,8 @@ void CreateTailSensor(MonoObject* position, MonoObject* rotation)
 	physBody->useGravity = false;
 	physBody->size = scaleVector;
 	physBody->physBody->SetPosition(posVector);
-	physBody->physBody->isSensor = true;
+	physBody->physBody->SetRotation(rotVector.Normalized());
+	physBody->SetAsSensor(true);
 
 	go->AddComponent(physBody);
 

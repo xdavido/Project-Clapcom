@@ -69,6 +69,7 @@
 		<Compile Include="Assets\Scripts\Button_Navigation.cs" />
 		<Compile Include="Assets\Scripts\Button_Exit.cs" />
 		<Compile Include="Assets\Scripts\Test_Anim.cs" />
+		<Compile Include="Assets\Scripts\BH_Tail.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -129,11 +129,11 @@ public class Player : YmirComponent
     private bool hasPred = false;
 
     //--------------------- Tail Swipe ---------------------\\
-    private float swipeTimer;
+    public float swipeTimer;
     private float swipeDuration = 3.0f;
     private float swipeCDTimer;
     private float swipeCD = 13.0f;
-    private bool hasSwipe = false;
+    public bool hasSwipe = false;
 
     #endregion
 
@@ -217,7 +217,7 @@ public class Player : YmirComponent
             godMode = !godMode;
         }
 
-        Debug.Log("swipeCD = " + swipeCDTimer);
+        //Debug.Log("swipeCD = " + swipeCDTimer);
     }
 
     #region FSM
@@ -1136,6 +1136,11 @@ public class Player : YmirComponent
         //Setup de todo lo necesario
 
         StopPlayer();
+    
+        Vector3 pos = gameObject.transform.globalPosition;
+        Quaternion rot = gameObject.transform.globalRotation;
+        InternalCalls.CreateTailSensor(pos, rot);
+
         swipeTimer = swipeDuration;
     }
 

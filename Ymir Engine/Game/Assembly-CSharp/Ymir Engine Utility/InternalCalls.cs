@@ -22,6 +22,12 @@ namespace YmirEngine
         public static extern void CreateBullet(object position, object rotation, object scale);
 
         /// <summary>
+        /// Creates Tail Sensor
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void CreateTailSensor(object position, object rotation);
+
+        /// <summary>
         /// Destroys a game object.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
