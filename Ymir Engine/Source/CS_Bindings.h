@@ -46,7 +46,6 @@ MonoObject* Ymir_Box_Vector(MonoObject* obj, const char* type, bool global)	//Re
 {
 	//TODO: Quitar esto mas adelante, cuando est� arreglado el Transform
 
-
 	if (External == nullptr)
 		return nullptr;
 

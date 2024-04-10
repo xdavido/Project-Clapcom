@@ -2809,7 +2809,7 @@ void ModuleEditor::CreateHierarchyTree(GameObject* node)
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | (node->selected ? ImGuiTreeNodeFlags_Selected : 0) | (node->mChildren.size() ? 0 : ImGuiTreeNodeFlags_Leaf);
 
-		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.4f));
+		if (!node->active) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.421f, 0.421f, 0.421f, 1.0f));
 
 		bool isNodeOpen = ImGui::TreeNodeEx((node->name + "##" + std::to_string(node->UID)).c_str(), flags);
 

@@ -73,10 +73,6 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
-	CreateGameObject("go1", mRootNode);
-	CreateGameObject("go2", mRootNode);
-	CreateGameObject("go3", mRootNode);
-
 #ifdef _RELEASE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
@@ -129,17 +125,6 @@ update_status ModuleScene::PreUpdate(float dt)
 	{
 		swapList.insert(std::pair<GameObject*, GameObject*>(mRootNode->mChildren[1], mRootNode->mChildren[3]));
 		//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
-	}
-	/*swap gameobjects inside the swap queue*/
-	if (swapList.size() > 0)
-	{
-		for (std::map<GameObject*, GameObject*>::iterator it = swapList.begin(); it != swapList.end(); ++it)
-		{
-			//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
-
-			it->first->SwapChildren(it->second);
-		}
-		swapList.clear();
 	}
 
 	return UPDATE_CONTINUE;
@@ -258,7 +243,19 @@ update_status ModuleScene::PostUpdate(float dt)
 		}
 		destroyList.clear();
 	}
-	
+
+	/*swap gameobjects inside the swap queue*/
+	if (swapList.size() > 0)
+	{
+		for (std::map<GameObject*, GameObject*>::iterator it = swapList.begin(); it != swapList.end(); ++it)
+		{
+			//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
+
+			it->first->SwapChildren(it->second);
+		}
+		swapList.clear();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -369,11 +366,6 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	pendingToAdd.push_back(tempGameObject);
 
 	return tempGameObject;
-}
-
-void ModuleScene::SwapGameObjects(GameObject* go1, GameObject* go2)
-{
-
 }
 
 void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)

@@ -134,6 +134,22 @@ GameObject* GameObject::FindChild(uint UID_ToFind, GameObject* go)
 	return go;
 }
 
+GameObject* GameObject::GetChildByUID(const uint& UID)
+{
+	GameObject* gameObjectWithUID = nullptr;
+
+	for (auto it = mChildren.begin(); it != mChildren.end(); ++it) {
+
+		if ((*it)->UID == UID) {
+
+			gameObjectWithUID = (*it);
+
+		}
+
+	}
+
+	return gameObjectWithUID;
+}
 
 void GameObject::SetParent(GameObject* newParent)
 {
@@ -168,23 +184,6 @@ void GameObject::ReParent(GameObject* newParent)
 		mTransform->ReparentTransform(mTransform->mGlobalMatrix);
 	}
 
-}
-
-GameObject* GameObject::GetChildByUID(const uint& UID)
-{
-	GameObject* gameObjectWithUID = nullptr;
-
-	for (auto it = mChildren.begin(); it != mChildren.end(); ++it) {
-
-		if ((*it)->UID == UID) {
-
-			gameObjectWithUID = (*it);
-
-		}
-
-	}
-
-	return gameObjectWithUID;
 }
 
 void GameObject::AddChild(GameObject* child)
@@ -223,8 +222,8 @@ void GameObject::SwapChildren(GameObject* go)
 	go->ReParent(mParent);
 	this->ReParent(aux);
 
-	move(mParent->mChildren, index2, index);
-	move(go->mParent->mChildren, index, index2);
+	move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
+	move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
 	
 
 	//mParent->mChildren.swap(this, go);

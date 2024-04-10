@@ -47,8 +47,6 @@ public:
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
 
-	void SwapGameObjects(GameObject* go1, GameObject* go2);
-
 	void PostUpdateCreateGameObject_UI(GameObject* go);
 	std::string GetUniqueName(std::string name);
 	std::string ReName(std::string name, uint counter);
