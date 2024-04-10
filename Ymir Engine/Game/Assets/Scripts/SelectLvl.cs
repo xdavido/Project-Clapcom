@@ -33,16 +33,19 @@ public class SelectLvl : YmirComponent
 
     public void OnClickButton()
     {
-        if (levelSelector.selectedLvl != (LEVELS)lvl)
+        if (!isLocked)
         {
-            levelSelector.selectedLvl = (LEVELS)lvl;
-        }
-        else
-        {
-            levelSelector.selectedLvl = LEVELS.NONE;
-        }
+            if (levelSelector.selectedLvl != (LEVELS)lvl)
+            {
+                levelSelector.selectedLvl = (LEVELS)lvl;
+            }
+            else
+            {
+                levelSelector.selectedLvl = LEVELS.NONE;
+            }
 
-        Debug.Log("Lvl: " + levelSelector.selectedLvl.ToString());
+            Debug.Log("Lvl: " + levelSelector.selectedLvl.ToString());
+        }
 
         //UI.TextEdit(levelSelector.lvlText, levelSelector.lvlDescriptions[(int)levelSelector.selectedLvl]);
     }

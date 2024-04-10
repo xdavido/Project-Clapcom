@@ -64,6 +64,33 @@ public class BaseTeleporter : YmirComponent
 
             UI.SetUIState(button, (int)UI_STATE.NORMAL);
             _setNormal = true;
+
+            string scene = "";
+
+            switch (selectedLvl)
+            {
+                case LEVELS.WAREHOUSE:
+                    {
+                        scene = "WAREHOUSE";
+                    }
+                    break;
+
+                case LEVELS.LAB:
+                    {
+                        scene = "LAB";
+                    }
+                    break;
+
+                case LEVELS.HATCHERY:
+                    {
+                        scene = "HATCHERY";
+                    }
+                    break;
+            }
+
+            button.GetComponent<Button_Navigation>().sceneName = "Assets/Scenes/" + scene + ".yscene";
+
+            Debug.Log("scene: " + button.GetComponent<Button_Navigation>().sceneName);
         }
         else if ((UI_STATE)UI.GetUIState(button) != UI_STATE.DISABLED &&
             (selectedLvl == LEVELS.NONE || selectedWeapon == WEAPON_TYPE.NONE))

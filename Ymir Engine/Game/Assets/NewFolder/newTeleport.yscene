@@ -26,7 +26,7 @@
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1406306264,
+            "Parent UID": 1818629686,
             "Components": [
                 {
                     "Type": "Transform",
@@ -153,7 +153,7 @@
                     "Position X": 0,
                     "Position Y": 0,
                     "Width": 636,
-                    "Height": 628,
+                    "Height": 667,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -258,7 +258,7 @@
                     ],
                     "Text": "Select Level",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -319,7 +319,7 @@
                     ],
                     "Text": "Select weapon",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -380,7 +380,7 @@
                     ],
                     "Text": "This is a text",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 15,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -441,7 +441,7 @@
                     ],
                     "Text": "This is a text",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 15,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -671,7 +671,7 @@
                     ],
                     "Text": "The Warehouse",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -918,7 +918,7 @@
                     ],
                     "Text": "The Lab",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -1165,7 +1165,7 @@
                     ],
                     "Text": "The Hatchery",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 21,
                     "Line Spacing": 0.5,
                     "Color": [
@@ -1767,7 +1767,7 @@
                     ],
                     "Text": "Go to raid",
                     "Font name": "de-valencia-beta.otf",
-                    "Font path": "Assets\/Fonts",
+                    "Font path": "Assets\\Fonts",
                     "Font size": 15,
                     "Line Spacing": 0.5,
                     "Color": [
