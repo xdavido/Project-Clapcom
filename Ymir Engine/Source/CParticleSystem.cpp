@@ -410,6 +410,7 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 
 				//Lifetime
 				json_object_set_number(child_object, "Lifetime", eBase->particlesLifeTime1);
+				json_object_set_number(child_object, "Lifetime2", eBase->particlesLifeTime2);
 				//InitialPosition
 				JSON_Array* arrInitialPos;
 
@@ -421,6 +422,9 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 				json_array_append_number(arrInitialPos, eBase->emitterOrigin.x);
 				json_array_append_number(arrInitialPos, eBase->emitterOrigin.y);
 				json_array_append_number(arrInitialPos, eBase->emitterOrigin.z);
+
+				json_object_set_number(child_object, "DistanceLimit", eBase->distanceLimit);
+				json_object_set_boolean(child_object, "HasDistanceLimit", eBase->hasDistanceLimit);
 
 				break;
 			}
