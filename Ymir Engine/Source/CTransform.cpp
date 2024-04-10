@@ -228,7 +228,7 @@ void CTransform::UpdateGlobalMatrix()
 	if (col != nullptr)
 	{
 		if (col->collType == ColliderType::MESH_COLLIDER || mesh == nullptr) col->size = { scale.x, scale.y, scale.z };
-		else col->size = mesh->rMeshReference->obb.Size();
+		else col->size = mesh->obb.Size();
 
 		col->physBody->SetRotation(rotation);
 	}
@@ -257,10 +257,10 @@ void CTransform::UpdateBoundingBoxes()
 
 	if (meshComponent != nullptr)
 	{
-		meshComponent->rMeshReference->obb = meshComponent->rMeshReference->aabb;
-		meshComponent->rMeshReference->obb.Transform(mOwner->mTransform->GetGlobalTransform());
-		meshComponent->rMeshReference->globalAABB.SetNegativeInfinity();
-		meshComponent->rMeshReference->globalAABB.Enclose(meshComponent->rMeshReference->obb);
+		meshComponent->obb = meshComponent->aabb;
+		meshComponent->obb.Transform(mOwner->mTransform->GetGlobalTransform());
+		meshComponent->globalAABB.SetNegativeInfinity();
+		meshComponent->globalAABB.Enclose(meshComponent->obb);
 	}
 }
 

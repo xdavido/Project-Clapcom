@@ -23,7 +23,6 @@
 #include "External/FreeType/include/freetype/ftglyph.h"
 #pragma comment(lib, "Source/External/FreeType/libx86/freetype.lib")
 
-
 #ifdef _DEBUG
 #pragma comment (lib, "Source/External/MathGeoLib/libx86/lib_Debug/MathGeoLib.lib") /* link Microsoft OpenGL lib   */
 #else
@@ -41,6 +40,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "UI_Text.h"
+#include "CMesh.h"
 
 #define MAX_GL_LIGHTS 8
 
@@ -63,7 +63,7 @@ public:
 	void OnResize(int width, int height);
 	void SetGameCamera(CCamera* cam = nullptr);
 
-	void DrawGameObjects();
+	void DrawGameObjects(bool isGame);
 	void ClearModels();
 
 	void EnableAssimpDebugger();
@@ -97,6 +97,7 @@ public:
 	//Habria que hacer que recorriera todos los game objects y si tiene component particles pues hacerle un draw particles (maybe se puede poner en el propio DrawGameObjects()
 	void DrawParticles();
 	void DrawParticles(ParticleEmitter* emitter);
+	void DrawOutline(CMesh* cMeshReference, float4x4 transform);
 
 public:
 
@@ -119,5 +120,7 @@ public:
 
 	std::vector<ParticleEmitter*> particleEmitters;
 	bool initParticles = false;
+	// Outline Shader
+	Shader* outlineShader;
 
 };

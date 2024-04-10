@@ -13,7 +13,6 @@
 #include "CCamera.h"
 #include "CAudioListener.h"
 #include "CAudioSource.h"
-#include "CRigidBody.h"
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CScript.h"
@@ -63,7 +62,7 @@ public:
 
 	static GameObject* GetGameObjectFromUID(const std::vector<GameObject*>& gameObjects, const uint& UID);
 
-	bool CompareTag(const char* _tag);
+	bool CompareTag(std::string _tag);
 
 	int GetComponentPosition(Component* component);
 	// Clear references
@@ -91,7 +90,7 @@ public:
 	bool selected;
 	bool hidden;
 
-	char tag[32] = "Untagged";
+	std::string tag = "Untagged";
 
 	std::vector<Component*> vReferences;
 };

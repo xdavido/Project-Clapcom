@@ -1505,9 +1505,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Plane")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Plane.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Plane.fbx");
 
 			LOG("Plane created successfully");
 
@@ -1515,9 +1513,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cube")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cube.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cube.fbx");
 
 			LOG("Cube created successfully");
 
@@ -1525,9 +1521,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Pyramid")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Pyramid.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Pyramid.fbx");
 
 			LOG("Pyramid created successfully");
 
@@ -1535,9 +1529,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cylinder")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cylinder.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cylinder.fbx");
 
 			LOG("Cylinder created successfully");
 
@@ -1545,9 +1537,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Cone")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Cone.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Cone.fbx");
 
 			LOG("Cone created successfully");
 
@@ -1555,9 +1545,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Sphere")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Sphere.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Sphere.fbx");
 
 			LOG("Sphere created successfully");
 
@@ -1565,9 +1553,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Torus")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Torus.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Torus.fbx");
 
 			LOG("Torus created successfully");
 
@@ -1575,9 +1561,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Capsule")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Capsule.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Capsule.fbx");
 
 			LOG("Capsule created successfully");
 
@@ -1585,9 +1569,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Disc")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Disc.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Disc.fbx");
 
 			LOG("Disc created successfully");
 
@@ -1595,9 +1577,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Platonic Solid")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/PlatonicSolid.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/PlatonicSolid.fbx");
 
 			LOG("Platonic Solid created successfully");
 
@@ -1605,9 +1585,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Prism")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Prism.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Prism.fbx");
 
 			LOG("Prism created successfully");
 
@@ -1615,9 +1593,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Pipe")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Pipe.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Pipe.fbx");
 
 			LOG("Pipe created successfully");
 
@@ -1625,9 +1601,7 @@ void ModuleEditor::PrimitivesMenu()
 
 		if (ImGui::MenuItem("Helix")) {
 
-			App->renderer3D->models.push_back(Model("Assets/Primitives/Helix.fbx"));
-
-			App->renderer3D->ReloadTextures();
+			App->resourceManager->ImportFile("Assets/Primitives/Helix.fbx");
 
 			LOG("Helix created successfully");
 
@@ -1636,6 +1610,7 @@ void ModuleEditor::PrimitivesMenu()
 		ImGui::EndMenu();
 
 	}
+
 }
 
 void ModuleEditor::CreateCameraMenu()
@@ -2995,13 +2970,27 @@ void ModuleEditor::DrawInspector()
 
 			std::vector<std::string> tags = External->scene->tags;
 
-			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag))
+			for (std::vector<std::string>::iterator it = External->scene->tags.begin(); it != External->scene->tags.end(); ++it)
+			{
+				for (auto to = it + 1; to != External->scene->tags.end();)
+				{
+					if ((*it) == (*to))
+					{
+						to = External->scene->tags.erase(to);
+					}
+					else
+					{
+						++to;
+					}
+				}
+			}
+			if (ImGui::BeginCombo("##tags", App->scene->selectedGO->tag.c_str()))
 			{
 				for (int t = 0; t < tags.size(); t++)
 				{
-					bool is_selected = strcmp(App->scene->selectedGO->tag, tags[t].c_str()) == 0;
+					bool is_selected = strcmp(App->scene->selectedGO->tag.c_str(), tags[t].c_str()) == 0;
 					if (ImGui::Selectable(tags[t].c_str(), is_selected)) {
-						strcpy(App->scene->selectedGO->tag, tags[t].c_str());
+						App->scene->selectedGO->tag = tags[t];
 					}
 
 					if (is_selected)
@@ -3011,13 +3000,18 @@ void ModuleEditor::DrawInspector()
 				{
 					static char newTag[32];
 					ImGui::InputText("##Juan", newTag, IM_ARRAYSIZE(newTag));
-
-					if (ImGui::Button("Save Tag")) {
-						char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
-						strcpy(tagToAdd, newTag);
-						External->scene->tags.push_back(tagToAdd);
-						newTag[0] = '\0';
-						delete[] tagToAdd;
+					bool estaVacio = (std::strlen(newTag) == 0);
+					
+					if(ImGui::Button("Save Tag")) 
+					{
+						if (!estaVacio)
+						{
+							char* tagToAdd = new char[IM_ARRAYSIZE(newTag)];
+							strcpy(tagToAdd, newTag);
+							External->scene->tags.push_back(tagToAdd);
+							newTag[0] = '\0';
+							delete[] tagToAdd;
+						}
 					}
 					ImGui::EndMenu();
 				}

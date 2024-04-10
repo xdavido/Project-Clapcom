@@ -216,6 +216,11 @@ MonoString* Get_GO_Name(MonoObject* go)
 		External->moduleMono->GameObject_From_CSGO(go)->name.c_str());
 }
 
+MonoObject* FindObjectWithUID(int id)
+{
+	return External->moduleMono->GoToCSGO(External->scene->mRootNode->FindChild(id));
+}
+
 MonoObject* FindObjectWithName(MonoString* name) {
 
 	std::vector<GameObject*> gameObjectVec;
@@ -489,6 +494,11 @@ float GetDT()
 	return External->GetDT();
 }
 
+float GetTimeCS()
+{
+	return TimeManager::gameTimer.ReadSec();
+}
+
 void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 {
 	//Crea un game object temporal llamado "Bullet"
@@ -568,7 +578,7 @@ MonoString* GetTag(MonoObject* cs_Object)
 {
 	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(cs_Object);
 
-	return mono_string_new(External->moduleMono->domain, cpp_gameObject->tag);
+	return mono_string_new(External->moduleMono->domain, cpp_gameObject->tag.c_str());
 }
 
 void SetTag(MonoObject* cs_Object, MonoString* string)
@@ -591,7 +601,7 @@ void SetTag(MonoObject* cs_Object, MonoString* string)
 	{
 		External->scene->tags.push_back(newTag);
 	}
-	strcpy(cpp_gameObject->tag, newTag.c_str());
+	cpp_gameObject->tag = newTag.c_str();
 }
 
 MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int y)

@@ -79,15 +79,21 @@ update_status GameObject::Update(float dt)
 	// FRANCESC: This shouldn't be commented, but it would need a rework in the future 
 	// (separate gameobject and resourcemesh UID)
 
-	//for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
 
-	//	if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
+		if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
 
-	//		this->UID = Random::Generate();
+			this->UID = Random::Generate();
 
-	//	}
+		}
 
-	//}
+		if ((*it)->name == this->name && (*it) != this) { // If it is repeated, regenerate
+
+			this->name = External->scene->GetUniqueName(this->name);
+
+		}
+
+	}
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -411,9 +417,17 @@ GameObject* GameObject::GetGameObjectFromUID(const std::vector<GameObject*>& gam
 	return gameObjectWithUID;
 }
 
-bool GameObject::CompareTag(const char* _tag)
+bool GameObject::CompareTag(std::string _tag)
 {
-	return strcmp(tag, _tag) == 0;
+	if (tag == _tag)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
 }
 
 //

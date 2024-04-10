@@ -43,10 +43,26 @@ G_UI::~G_UI()
 
 update_status G_UI::Update(float dt)
 {
-	if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
-	{
-		LOG("Break!");
+	for (auto it = External->scene->gameObjects.begin(); it != External->scene->gameObjects.end(); ++it) {
+
+		if ((*it)->UID == this->UID && (*it) != this) { // If it is repeated, regenerate
+
+			this->UID = Random::Generate();
+
+		}
+
+		if ((*it)->name == this->name && (*it) != this) { // If it is repeated, regenerate
+
+			this->name = External->scene->GetUniqueName(this->name);
+
+		}
+
 	}
+
+	//if (External->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !ImGui::GetIO().WantTextInput && !External->input->GetInputActive())
+	//{
+	//	LOG("Break!");
+	//}
 
 	update_status ret = UPDATE_CONTINUE;
 

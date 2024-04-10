@@ -25,7 +25,7 @@ CMesh::~CMesh()
 
 void CMesh::Update()
 {
-
+	
 }
 
 void CMesh::OnInspector()
@@ -47,6 +47,12 @@ void CMesh::OnInspector()
 
 		ImGui::Button("Drop .ymesh to change mesh", ImVec2(200, 50));
 		YmeshDragDropTarget();
+
+		ImGui::Spacing();
+
+		ImGui::Text("UID: %d", rMeshReference->GetUID());
+
+		ImGui::Spacing();
 
 		ImGui::Spacing();
 
@@ -106,4 +112,41 @@ void CMesh::YmeshDragDropTarget()
 
 		ImGui::EndDragDropTarget();
 	}
+}
+
+void CMesh::InitBoundingBoxes()
+{
+	obb.SetNegativeInfinity();
+	globalAABB.SetNegativeInfinity();
+
+	std::vector<float3> floatArray;
+
+	floatArray.reserve(rMeshReference->vertices.size());
+
+	for (const auto& vertex : rMeshReference->vertices) {
+
+		floatArray.push_back(vertex.position);
+
+	}
+
+	aabb.SetFrom(&floatArray[0], floatArray.size());
+}
+
+void CMesh::UpdateBoundingBoxes()
+{
+	obb = aabb;
+
+	globalAABB.SetNegativeInfinity();
+	globalAABB.Enclose(obb);
+}
+
+void CMesh::RenderBoundingBoxes()
+{
+	float3 verticesOBB[8];
+	obb.GetCornerPoints(verticesOBB);
+	External->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
+
+	float3 verticesAABB[8];
+	globalAABB.GetCornerPoints(verticesAABB);
+	External->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
 }
