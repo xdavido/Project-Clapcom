@@ -1,7 +1,7 @@
 {
     "Prefab": [
         {
-            "Name": "Door",
+            "Name": "Alien_Claw",
             "Tag": "Untagged",
             "UID": 1405534503,
             "Active": true,
@@ -13,7 +13,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        2.5,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -26,40 +26,6 @@
                         1,
                         1
                     ]
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        5,
-                        5,
-                        5
-                    ],
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "Friction": 0,
-                    "Angular Friction": 0,
-                    "UseGravity": false,
-                    "IsSensor": true,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false,
-                    "Offset": [
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "Missing script reference",
-                    "Active": 1
                 }
             ],
             "Children UID": [
@@ -90,8 +56,8 @@
                     ],
                     "Scale": [
                         1,
-                        5,
-                        5
+                        1,
+                        1
                     ]
                 },
                 {
@@ -146,7 +112,7 @@
                     "Friction": 0,
                     "Angular Friction": 0,
                     "UseGravity": false,
-                    "IsSensor": false,
+                    "IsSensor": true,
                     "LockX": false,
                     "LockY": false,
                     "LockZ": false,
@@ -158,7 +124,7 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "Door.cs",
+                    "ScriptName": "PickUp.cs",
                     "Active": 1,
                     "UID": 0
                 }

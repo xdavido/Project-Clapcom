@@ -144,12 +144,12 @@ public class EnemyBehaviour : YmirComponent
                     ySpeed = vectorToPlayer.z;
 
                     RotateEnemy();
-                    //Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
+                    Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
                     gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
                 break;
 
                 case WanderState.STOPED:
-                    //.Log("[ERROR] Current State: STOPED");
+                    Debug.Log("[ERROR] Current State: STOPED");
                     ProcessStopped();
                 break;
 
@@ -185,7 +185,7 @@ public class EnemyBehaviour : YmirComponent
             cumTimer -= Time.deltaTime;
             if(cumTimer<=0)
             {
-                //Debug.Log("[ERROR] Reached");
+                Debug.Log("[ERROR] Reached");
                 wanderState = WanderState.REACHED;
             }
         }
@@ -210,7 +210,7 @@ public class EnemyBehaviour : YmirComponent
             if (wanderTimer <= 0)
             {
 
-                //Debug.Log("[ERROR] AAAA");
+                Debug.Log("[ERROR] AAAA");
                 actualMovementSpeed = 0;
                 stopedTimer = stopedDuration;
                 wanderState = WanderState.STOPED;
