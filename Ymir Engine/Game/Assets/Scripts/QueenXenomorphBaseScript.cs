@@ -55,7 +55,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
 	private float queenRotationSpeed;
 
-    public float DetectionRadius = 120f;
+    public float DetectionRadius = 200f;
 
     private GameObject player;
 
@@ -119,7 +119,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 		//Temporary until we know for sure
 		queenState = QueenState.IDLE_PHASE_2;
 		phase = Phase.PHASE2;
-		life = 2000;
+		life = 10000;
 		speed = 12f;
 		queenRotationSpeed = 2f;
         player = InternalCalls.GetGameObjectByName("Player");
@@ -317,7 +317,7 @@ public class QueenXenomorphBaseScript : YmirComponent
                     dashDone = true;
                     dashNum++;
                 }
-                gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 5);
+                gameObject.SetVelocity(gameObject.transform.GetForward() * speed * 8);
 
                 dashAniCounter2 += Time.deltaTime;
 

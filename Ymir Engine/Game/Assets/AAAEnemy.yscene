@@ -5,19 +5,19 @@
         57.084819793701172
     ],
     "Editor Camera Right (X)": [
-        0.23222717642784119,
-        -6.2584877014160156e-07,
-        -0.97210431098937988
+        0.61562001705169678,
+        -6.3329935073852539e-07,
+        -0.78735500574111938
     ],
     "Editor Camera Up (Y)": [
-        -0.278758704662323,
-        0.95748221874237061,
-        -0.06659361720085144
+        -0.15984612703323364,
+        0.97864288091659546,
+        -0.12498185783624649
     ],
     "Editor Camera Front (Z)": [
-        -0.93178731203079224,
-        -0.28675180673599243,
-        -0.22259560227394104
+        -0.77137905359268188,
+        -0.20301026105880737,
+        -0.60312849283218384
     ],
     "Hierarchy": [
         {
@@ -26,7 +26,7 @@
             "UID": 381266425,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 19354722,
+            "Parent UID": 381266425,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1101,7 +1101,7 @@
                     "Position X": 0,
                     "Position Y": 0,
                     "Width": 437,
-                    "Height": 394,
+                    "Height": 610,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -3505,9 +3505,9 @@
                         0.88629341125488281
                     ],
                     "Rotation": [
-                        1.2846430540084839,
-                        -8.0567178726196289,
-                        9.0904779434204102
+                        1.284643292427063,
+                        -8.0567197799682617,
+                        9.0904817581176758
                     ],
                     "Scale": [
                         1,
@@ -4608,23 +4608,15 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "FaceHuggerBaseScript.cs",
+                    "ScriptName": "QueenXenomorphBaseScript.cs",
                     "Active": 1,
                     "UID": 0,
-                    "movementSpeed": 20,
-                    "life": 100,
+                    "life": 0,
+                    "speed": 0,
                     "armor": 0,
-                    "rarity": 0,
                     "xSpeed": 0,
                     "ySpeed": 0,
-                    "PlayerDetected": false,
-                    "DetectionRadius": 60,
-                    "wanderDuration": 5,
-                    "stopedDuration": 1,
-                    "cumDuration": 2,
-                    "cumDuration2": 5,
-                    "attackTimer": 0,
-                    "attackSensor": true
+                    "DetectionRadius": 120
                 }
             ],
             "Children UID": [
@@ -4732,8 +4724,8 @@
                     ],
                     "Radius": 5,
                     "Height": 10,
-                    "Physics Type": 1,
-                    "Mass": 1,
+                    "Physics Type": 2,
+                    "Mass": 0,
                     "UseGravity": false,
                     "IsSensor": true,
                     "LockX": false,
@@ -4742,10 +4734,10 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "FaceHuggerAttack.cs",
+                    "ScriptName": "QueenXenomorphAttack.cs",
                     "Active": 1,
                     "UID": 0,
-                    "facehugger": 1384088557
+                    "queen": 1384088557
                 }
             ]
         }

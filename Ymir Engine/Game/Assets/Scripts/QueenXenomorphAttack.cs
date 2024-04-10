@@ -15,10 +15,10 @@ public class QueenXenomorphAttack : YmirComponent
     private float damageTimer;
 
 
-    private float clawDamage = 1f;
-    private float axeDamage = 1f;
-    private float dashDamage = 1f;
-    private float acidDamage = 1f;
+    private float clawDamage = 0.1f;
+    private float axeDamage = 0.1f;
+    private float dashDamage = 0.1f;
+    private float acidDamage = 0.1f;
 
     private GameObject player;
 
@@ -39,7 +39,7 @@ public class QueenXenomorphAttack : YmirComponent
         gameObject.SetRotation(queen.transform.globalRotation);
 
         //Since there's a small bug before attacking which causes the sensor not to move, the conditional is done this way for now
-        if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.CLAW && queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.AXE_TAIL)
+        if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.CLAW && queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.AXE_TAIL && queen.GetComponent<QueenXenomorphBaseScript>().GetState() != QueenState.ACID_SPIT)
         {
             gameObject.SetPosition(queen.transform.globalPosition);
         }
@@ -66,8 +66,7 @@ public class QueenXenomorphAttack : YmirComponent
                 gameObject.SetVelocity(gameObject.transform.GetForward() * 0f);
             }
         }
-        
-        if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.ACID_SPIT)
+        else if (queen.GetComponent<QueenXenomorphBaseScript>().GetState() == QueenState.ACID_SPIT)
         {
             if (queen.GetComponent<QueenXenomorphBaseScript>().CheckDistance(gameObject.transform.globalPosition, queen.transform.globalPosition, 80f))
             {
