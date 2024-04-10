@@ -69,9 +69,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -96,17 +96,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -8457,9 +8457,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8520,9 +8520,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 220,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8583,9 +8583,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 224,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8646,9 +8646,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 228,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8709,9 +8709,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 232,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8809,9 +8809,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8872,9 +8872,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8935,9 +8935,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -8998,9 +8998,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
@@ -9061,9 +9061,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 813,
+                    "Diffuse_ID": 216,
                     "Diffuse_Path": "Assets\/LVL1_FINAL\/LVL1_Textures\/WarehouseDoor\/TEX_PROP_WareHouseDoor_D.png",
-                    "Diffuse_UID": 166675699
+                    "Diffuse_UID": 1553491581
                 }
             ]
         },
