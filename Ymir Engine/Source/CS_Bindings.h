@@ -317,6 +317,58 @@ void SetPosition(MonoObject* obj, MonoObject* pos) {
 
 }
 
+void SetColliderSize(MonoObject* obj, MonoObject* scale) {
+	if (External == nullptr)
+		return;
+
+	float3 hopeItWorks = External->moduleMono->UnboxVector(scale);
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+
+	if (rigidbody)
+	{
+		// ** Descomentar para escalar todo el game object
+		//rigidbody->mOwner->mTransform->SetScale(hopeItWorks);
+		rigidbody->GetShape()->setLocalScaling(btVector3(hopeItWorks.x, hopeItWorks.y, hopeItWorks.z));
+	}
+}
+
+float3 GetColliderSize(MonoObject* obj) {
+
+	float3 size = float3(0, 0, 0);
+
+	if (External == nullptr)
+		return size;
+
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+	
+	if (rigidbody)
+		size = float3(rigidbody->shape->getLocalScaling());
+
+	return size;
+}
+
+
+void ClearForces(MonoObject* obj) {
+
+	if (External == nullptr)
+		return;
+
+	GameObject* cpp_gameObject = External->moduleMono->GameObject_From_CSGO(obj);
+	CCollider* rigidbody = dynamic_cast<CCollider*>(cpp_gameObject->GetComponent(ComponentType::PHYSICS));
+
+	if (rigidbody)
+	{
+		rigidbody->physBody->body->clearForces();
+		rigidbody->physBody->body->getTotalTorque();
+		rigidbody->physBody->body->setLinearVelocity(btVector3(0, 0, 0));
+		rigidbody->physBody->body->setAngularVelocity(btVector3(0, 0, 0));
+	}
+	
+
+}
+
 MonoObject* SendPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
 	//return mono_value_box(External->moduleMono->domain, vecClass, External->moduleMono->Float3ToCS(C_Script::runningScript->GetGO()->transform->position)); //Use this method to send "object" types

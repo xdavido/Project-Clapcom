@@ -216,8 +216,6 @@ public class Player : YmirComponent
         {
             godMode = !godMode;
         }
-
-        Debug.Log("swipeCD = " + swipeCDTimer);
     }
 
     #region FSM
@@ -1045,6 +1043,10 @@ public class Player : YmirComponent
     {
         Debug.Log("Stopping");
         gameObject.SetVelocity(new Vector3(0, 0, 0));
+        gameObject.ClearForces();
+        Vector3 aa = gameObject.GetColliderSize();
+        Debug.Log("" + aa.x + aa.y + aa.z);
+        gameObject.SetColliderSize(aa);
     }
 
     private void HandleRotation()

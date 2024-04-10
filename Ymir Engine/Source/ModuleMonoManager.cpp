@@ -99,6 +99,9 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.GameObject::SetImpulse", SetImpulse);
 	mono_add_internal_call("YmirEngine.GameObject::SetRotation", SetRotation);
 	mono_add_internal_call("YmirEngine.GameObject::SetPosition", SetPosition);
+	mono_add_internal_call("YmirEngine.GameObject::SetColliderSize", SetColliderSize);
+	mono_add_internal_call("YmirEngine.GameObject::GetColliderSize", GetColliderSize);
+	mono_add_internal_call("YmirEngine.GameObject::ClearForces", ClearForces);
 
 #pragma endregion
 
