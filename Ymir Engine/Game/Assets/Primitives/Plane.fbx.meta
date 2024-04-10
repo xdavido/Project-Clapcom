@@ -1,0 +1,15 @@
+{
+    "Name": "Plane",
+    "Assets Path": "Assets\/Primitives\/Plane.fbx",
+    "Library Path": ".\/Library\/Models\/1541550596.ymodel",
+    "UID": 1541550596,
+    "Type": "Model",
+    "Meshes num": 1,
+    "Meshes Embedded UID": [
+        2065076985
+    ],
+    "Resources num": 1,
+    "Resources Embedded UID": [
+        551747778
+    ]
+}

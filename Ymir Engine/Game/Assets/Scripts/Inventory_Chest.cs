@@ -8,9 +8,7 @@ using YmirEngine;
 
 public class Inventory_Chest : YmirComponent
 {
-    private bool dialogue_ui = false;
-    public GameObject name_gameObject;
-    public GameObject ui_gameObject;
+    private bool inventory_ui = false;
     public void Start()
 	{
 			Debug.Log("HelloWorld");
@@ -20,23 +18,26 @@ public class Inventory_Chest : YmirComponent
 	public void Update()
 	{
 
-        if (dialogue_ui)
-        {
-            UI.TextEdit(name_gameObject, "Lorem ipsum");
-            ui_gameObject.SetActive(true);
+        if (inventory_ui) { //open inventory
+            InternalCalls.GetGameObjectByName("Inventory").SetActive(true); 
+            if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN || Input.GetKey(YmirKeyCode.ESCAPE) == KeyState.KEY_DOWN) {
+
+                InternalCalls.GetGameObjectByName("Inventory").SetActive(false);
+                inventory_ui = false;
+            }
         }
+
+       
 
             return;
 	}
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Tag == "Player" &&  Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN)
+        if (other.Tag == "Player" &&  Input.GetKey(YmirKeyCode.SPACE) == KeyState.KEY_DOWN || other.Tag == "Player" && Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
         {
-
-
-            //Show the dialogue UI
-            dialogue_ui = true;
+            //Show the inventory UI
+            inventory_ui = true;
 
 
         }
