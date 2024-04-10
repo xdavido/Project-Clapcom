@@ -63,6 +63,9 @@ struct EmitterBase : EmitterSetting
 	float particlesLifeTime1;
 	bool randomLT;
 	float particlesLifeTime2;
+
+	bool hasDistanceLimit;
+	float distanceLimit;
 };
 
 struct EmitterSpawner : EmitterSetting
