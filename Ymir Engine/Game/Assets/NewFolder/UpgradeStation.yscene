@@ -26,7 +26,7 @@
             "UID": 521471341,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 423476459,
+            "Parent UID": 1229753873,
             "Components": [
                 {
                     "Type": "Transform",
@@ -72,9 +72,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -99,17 +99,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -154,8 +154,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1226,
-                    "Height": 639,
+                    "Width": 785,
+                    "Height": 429,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -182,7 +182,7 @@
             ]
         },
         {
-            "Name": "Submachine Upgrade ",
+            "Name": "Sub Upgrade",
             "Tag": "Untagged",
             "UID": 633310999,
             "Active": true,
@@ -214,8 +214,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1226,
-                    "Height": 639,
+                    "Width": 785,
+                    "Height": 429,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -353,7 +353,7 @@
                     "description": "Start",
                     "cost": 0,
                     "isUnlocked": true,
-                    "stationName": "Submachine Upgrade"
+                    "stationName": "Sub Upgrade"
                 }
             ],
             "Children UID": [
@@ -540,7 +540,7 @@
                     "description": "Upgrade 1",
                     "cost": 1,
                     "isUnlocked": false,
-                    "stationName": "Submachine Upgrade"
+                    "stationName": "Sub Upgrade"
                 }
             ],
             "Children UID": [
@@ -727,7 +727,7 @@
                     "description": "Upgrade2",
                     "cost": 2,
                     "isUnlocked": false,
-                    "stationName": "Submachine Upgrade"
+                    "stationName": "Sub Upgrade"
                 }
             ],
             "Children UID": [
@@ -914,7 +914,7 @@
                     "description": "Upgrade 3",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "Submachine Upgrade"
+                    "stationName": "Sub Upgrade"
                 }
             ],
             "Children UID": [
@@ -1101,7 +1101,7 @@
                     "description": "Upgrade 4",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "Submachine Upgrade"
+                    "stationName": "Sub Upgrade"
                 }
             ],
             "Children UID": [
@@ -1234,8 +1234,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1226,
-                    "Height": 639,
+                    "Width": 785,
+                    "Height": 429,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -2343,14 +2343,14 @@
                     "Active": 1,
                     "Draggeable": false,
                     "Position X": 0,
-                    "Position Y": 0,
+                    "Position Y": 103,
                     "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
                         0,
-                        0,
+                        103,
                         200,
                         50
                     ],

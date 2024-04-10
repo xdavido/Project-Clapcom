@@ -42,13 +42,11 @@ public class UI_Upgrade_Button : YmirComponent
     {
         if (!upgrade.isUnlocked && currentStation.currentScore >= upgrade.cost)
         {
-            GameObject go = InternalCalls.GetGameObjectByName(stationName);
-
             switch (cost)
             {
                 case 1:
                     {
-                        GameObject go2 = InternalCalls.GetChildrenByName(go, "Upgrade 2");
+                        GameObject go2 = InternalCalls.GetChildrenByName(InternalCalls.GetGameObjectByName(stationName), "Upgrade 2");
                         UI.SetUIState(go2, (int)UI_STATE.NORMAL);
                         currentStation.currentScore -= upgrade.cost;
                         upgrade.isUnlocked = true;
@@ -56,9 +54,9 @@ public class UI_Upgrade_Button : YmirComponent
                     break;
                 case 2:
                     {
-                        GameObject go3 = InternalCalls.GetChildrenByName(go, "Upgrade 3");
+                        GameObject go3 = InternalCalls.GetChildrenByName(InternalCalls.GetGameObjectByName(stationName), "Upgrade 3");
 
-                        GameObject go4 = InternalCalls.GetChildrenByName(go, "Upgrade 4");
+                        GameObject go4 = InternalCalls.GetChildrenByName(InternalCalls.GetGameObjectByName(stationName), "Upgrade 4");
 
                         UI.SetUIState(go3, (int)UI_STATE.NORMAL);
                         UI.SetUIState(go4, (int)UI_STATE.NORMAL);
