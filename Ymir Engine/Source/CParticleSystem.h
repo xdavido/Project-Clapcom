@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
-#ifndef __COMPONENT_PARTICLE_H__
-#define __COMPONENT_PARTICLE_H__
+#ifndef __COMPONENT_PAR_H__
+#define __COMPONENT_PAR_H__
 
 #include "Globals.h"
 #include "GameObject.h"
@@ -63,4 +63,4 @@ private:
 
 };
 
-#endif //!__COMPONENT_PARTICLE_H__
+#endif //!__COMPONENT_PAR_H__

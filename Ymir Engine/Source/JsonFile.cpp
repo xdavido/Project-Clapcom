@@ -2811,7 +2811,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 				switch (type)
 				{
-				case PARTICLE_BASE:
+				case PAR_BASE:
 				{
 					EmitterBase* eBase = (EmitterBase*)instancia;
 					eBase->particlesLifeTime1 = (float)json_object_get_number(modulo, "Lifetime");
@@ -2829,7 +2829,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 					break;
 				}
-				case PARTICLE_SPAWN:
+				case PAR_SPAWN:
 				{
 					EmitterSpawner* eSpawn = (EmitterSpawner*)instancia;
 
@@ -2839,7 +2839,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 					break;
 				}
-				case PARTICLE_POSITION:
+				case PAR_POSITION:
 				{
 					EmitterPosition* ePos = (EmitterPosition*)instancia;
 
@@ -2883,11 +2883,11 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 
 					break;
 				}
-				case PARTICLE_ROTATION:
+				case PAR_ROTATION:
 				{
 					break;
 				}
-				case PARTICLE_SIZE:
+				case PAR_SIZE:
 				{
 					EmitterSize* eSize = (EmitterSize*)instancia;
 
@@ -2898,7 +2898,7 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 					eSize->stopChange = (float)json_object_get_number(modulo, "TimeStop");
 					break;
 				}
-				case PARTICLE_COLOR:
+				case PAR_COLOR:
 				{
 					EmitterColor* eColor = (EmitterColor*)instancia;
 

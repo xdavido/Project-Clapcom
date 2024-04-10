@@ -33,66 +33,66 @@ EmitterSetting* ParticleEmitter::CreateEmitterSettingByType(uint type)
 	EmitterSetting* nuevoEmitter = nullptr;
 	switch ((EmitterType)type)
 	{
-	case PARTICLE_BASE:
+	case PAR_BASE:
 	{
 		nuevoEmitter = new EmitterBase;
-		nuevoEmitter->type = EmitterType::PARTICLE_BASE;
+		nuevoEmitter->type = EmitterType::PAR_BASE;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_SPAWN:
+	case PAR_SPAWN:
 	{
 		nuevoEmitter = new EmitterSpawner;
-		nuevoEmitter->type = EmitterType::PARTICLE_SPAWN;
+		nuevoEmitter->type = EmitterType::PAR_SPAWN;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_POSITION:
+	case PAR_POSITION:
 	{
 		nuevoEmitter = new EmitterPosition;
-		nuevoEmitter->type = EmitterType::PARTICLE_POSITION;
+		nuevoEmitter->type = EmitterType::PAR_POSITION;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_ROTATION:
+	case PAR_ROTATION:
 	{
 		nuevoEmitter = new EmitterRotation;
-		nuevoEmitter->type = EmitterType::PARTICLE_ROTATION;
+		nuevoEmitter->type = EmitterType::PAR_ROTATION;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_SIZE:
+	case PAR_SIZE:
 	{
 		nuevoEmitter = new EmitterSize;
-		nuevoEmitter->type = EmitterType::PARTICLE_SIZE;
+		nuevoEmitter->type = EmitterType::PAR_SIZE;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_COLOR:
+	case PAR_COLOR:
 	{
 		nuevoEmitter = new EmitterColor;
-		nuevoEmitter->type = EmitterType::PARTICLE_COLOR;
+		nuevoEmitter->type = EmitterType::PAR_COLOR;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case PARTICLE_IMAGE:
+	case PAR_IMAGE:
 	{
 		nuevoEmitter = new EmitterImage(this);
-		nuevoEmitter->type = EmitterType::PARTICLE_IMAGE;
+		nuevoEmitter->type = EmitterType::PAR_IMAGE;
 		nuevoEmitter->unique = true;
 
 		break;
 	}
-	case SHAPE:
+	case PAR_SHAPE:
 	{
 		nuevoEmitter = new EmitterShape(this);
-		nuevoEmitter->type = EmitterType::SHAPE;
+		nuevoEmitter->type = EmitterType::PAR_SHAPE;
 		nuevoEmitter->unique = true;
 		break;
 	}
@@ -176,8 +176,8 @@ void ParticleEmitter::Init(CParticleSystem* component)
 	//particleIndices = new unsigned int[MAXPARTICLES]
 	// 
 	//Todo particle system necesita estos elementos de antes y no tenerlos puede tener problems asi que se les crea uno de base
-	CreateEmitterSettingByType(EmitterType::PARTICLE_BASE);
-	CreateEmitterSettingByType(EmitterType::PARTICLE_SPAWN);
+	CreateEmitterSettingByType(EmitterType::PAR_BASE);
+	CreateEmitterSettingByType(EmitterType::PAR_SPAWN);
 }
 
 void ParticleEmitter::Update(float dt)
