@@ -164,6 +164,13 @@ void CParticleSystem::OnInspector()
 				////ImGui::Text("ParticleEmmiter %i", i);
 				//nameEmitter.append("Particle Emitter ");
 				//nameEmitter.append(std::to_string(i+1));
+				
+				//Delete emmiter
+				if (ImGui::Button("Delete"))
+				{
+					allEmitters.erase(allEmitters.begin() + i);
+				}
+				ImGui::SameLine();
 
 				if (ImGui::TreeNodeEx((void*)(intptr_t)i, (!allEmitters.at(i)->modules.empty()) ? treeFlags : leafFlags, nameEmitter.c_str())) //nameEmitter.c_str()
 				{
@@ -296,12 +303,6 @@ void CParticleSystem::OnInspector()
 					{
 						ImGui::TreePop();
 					}
-				}
-				//Delete emmiter
-				ImGui::SameLine();
-				if(ImGui::Button("Delete"))
-				{
-					allEmitters.erase(allEmitters.begin() + i);
 				}
 
 				std::string CEid;
