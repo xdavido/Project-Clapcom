@@ -141,7 +141,7 @@ void ParticleEmitter::KillDeadParticles()
 	for (int i = 0; i < listParticles.size(); i++)
 	{
 		//Si la particula esta muerta eliminarla del vector
-		if (listParticles.at(i)->lifetime >= 1.0f)
+		if (listParticles.at(i)->lifetime >= 1.0f || (listParticles.at(i)->diesByDistance && (math::Distance3( float4(listParticles.at(i)->position,0.0f), float4(listParticles.at(i)->initialPosition,0.0f) ) ) > (listParticles.at(i)->distanceLimit) ) )
 		{
 			particlesToDelete.push_back(i);
 		}

@@ -32,6 +32,8 @@ EmitterBase::EmitterBase()
 	randomLT = false;
 	particlesLifeTime1 = 1.0f;
 	particlesLifeTime2 = 2.0f;
+	hasDistanceLimit = false;
+	distanceLimit = 0.0f;
 }
 
 void EmitterBase::Spawn(ParticleEmitter* emitter, Particle* particle)
@@ -62,6 +64,9 @@ void EmitterBase::Spawn(ParticleEmitter* emitter, Particle* particle)
 	{
 		particle->oneOverMaxLifetime = 1 / particlesLifeTime1;
 	}
+
+	particle->diesByDistance = hasDistanceLimit;
+	particle->distanceLimit = distanceLimit;
 	
 
 	CTransform* cTra = (CTransform*)emitter->owner->mOwner->GetComponent(ComponentType::TRANSFORM);
@@ -74,6 +79,8 @@ void EmitterBase::Spawn(ParticleEmitter* emitter, Particle* particle)
 		particle->position += position + emitterOrigin; //Se inicializan desde 0,0,0 asi que no deberia haber problema en hacer += pero deberia ser lo mismo.
 		particle->worldRotation = rotation;
 		particle->size = escale;
+
+		particle->initialPosition = particle->position;
 	}
 }
 
@@ -99,6 +106,13 @@ void EmitterBase::OnInspector()
 	else
 	{
 		ImGui::DragFloat("Life Time ## BASE", &(this->particlesLifeTime1), 0.5F, 0.5F, 720.0F);
+	}
+
+	ImGui::Checkbox("Dies by Distance ##BASE", &this->hasDistanceLimit);
+	if(this->hasDistanceLimit)
+	{
+		ImGui::SliderFloat("Max Distance ##BASE", &(this->distanceLimit), 0.1f, 100.0f);
+
 	}
 
 	//ImGui::Separator();
@@ -194,8 +208,7 @@ void EmitterPosition::Spawn(ParticleEmitter* emitter, Particle* particle)
 		float z1 = direction1.z;
 		float z2 = direction2.z;
 
-		float maxX;
-		float minX;
+		float maxX, minX;
 		if (x1 > x2)
 		{
 			maxX = x1;
@@ -207,8 +220,7 @@ void EmitterPosition::Spawn(ParticleEmitter* emitter, Particle* particle)
 			minX = x1;
 		}
 
-		float maxY;
-		float minY;
+		float maxY,minY;
 		if (y1 > y2)
 		{
 			maxY = y1;
@@ -220,8 +232,7 @@ void EmitterPosition::Spawn(ParticleEmitter* emitter, Particle* particle)
 			minY = y1;
 		}
 
-		float maxZ;
-		float minZ;
+		float maxZ, minZ;
 		if (z1 > z2)
 		{
 			maxZ = z1;
