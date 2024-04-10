@@ -17,12 +17,6 @@ public:
 
 	void YmeshDragDropTarget();
 
-	// AABB & OBB
-
-	void InitBoundingBoxes();
-	void UpdateBoundingBoxes();
-	void RenderBoundingBoxes();
-
 public:
 
 	uint nVertices;
@@ -30,12 +24,5 @@ public:
 
 	Mesh* meshReference;
 	ResourceMesh* rMeshReference;
-
-	// Bounding Boxes Handling
-	AABB globalAABB;
-	AABB aabb;
-	OBB obb;
-
-	bool initBoundingBoxes = false;
 
 };

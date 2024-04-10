@@ -96,7 +96,12 @@
 
     void main()
     {   
-        if (bool(numLights)) {
+        if (displayNormalMap) {
+    
+            FragColor = DisplayNormalMap();
+
+        } 
+        else if (bool(numLights)) {
             
             // Calculate the lighting intensity using Blinn-Phong
 		    vec2 inten = blinnPhongDir(lightDir, lightInt, 0.2, 0.8, 0.3, 80.0);
@@ -137,9 +142,6 @@
     }
 
 #endif
-
-
-
 
 
 

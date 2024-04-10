@@ -5,7 +5,6 @@
 
 #include "Module.h"
 #include "Resources.h"
-#include "ResourceTexture.h"
 
 class GameObject;
 
@@ -46,7 +45,7 @@ public:
 	bool UnloadResource(const uint& UID);
 
 	Resource* CreateResourceFromAssets(std::string assetsFilePath, ResourceType type, const uint& UID);
-	Resource* CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID, TextureType rTexType = TextureType::UNKNOWN);
+	Resource* CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID);
 
 	ResourceType GetTypeFromAssetsPath(std::string assetsFilePath);
 	ResourceType GetTypeFromLibraryPath(std::string libraryFilePath);
@@ -63,11 +62,9 @@ public:
 
 	void ReImportModel(const std::string& modelPath, bool onlyReimport);
 
-public:
+private:
 
 	std::map<uint, Resource*> resources;
-
-private:
 
 	// Utility maps
 

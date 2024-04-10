@@ -142,11 +142,7 @@ bool ModuleRenderer3D::Init()
 
 		// Enable OpenGL initial configurations
 
-		// Stencil Buffer (outline)
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_STENCIL_TEST);
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-
 		glEnable(GL_CULL_FACE);
 		gl_lights[0].Active(true);
 		glEnable(GL_LIGHTING);
@@ -154,13 +150,12 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glEnable(GL_ALPHA_TEST);
-		
-
 		// Additional OpenGL configurations (starting disabled)
 
 		glDisable(GL_TEXTURE_3D);
 
 		glDisable(GL_MULTISAMPLE);
+		glDisable(GL_STENCIL_TEST);
 		glDisable(GL_SCISSOR_TEST);
 		glDisable(GL_POINT_SPRITE);
 		glDisable(GL_FOG);
@@ -224,9 +219,6 @@ bool ModuleRenderer3D::Init()
 	lightingShader->LoadShader("Assets/Shaders/Lighting Shader.glsl");
 	delete lightingShader;
 
-	outlineShader = new Shader;
-	outlineShader->LoadShader("Assets/Shaders/OutlineShader.glsl");
-
 	// Load Editor and Game FrameBuffers
 
 	App->camera->editorCamera->framebuffer.Load();
@@ -254,7 +246,7 @@ bool ModuleRenderer3D::Init()
 
 	if (!PhysfsEncapsule::FileExists(libraryPath)) {
 
-		//External->resourceManager->ImportFile("Assets/Primitives/Cube.fbx", true);
+		External->resourceManager->ImportFile("Assets/Primitives/Cube.fbx", true);
 
 	}
 
@@ -266,7 +258,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
@@ -306,7 +298,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 #endif // _STANDALONE
 
 	// Clear color buffer and depth buffer before each PostUpdate call
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// Your rendering code here
@@ -337,6 +329,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		}
 
+		DrawGameObjects();
+
+		DrawUIElements(false, false);
+
 		// Render Bounding Boxes
 
 		if (External->scene->gameCameraComponent->drawBoundingBoxes)
@@ -351,7 +347,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 			DrawPhysicsColliders();
 		}
 
-		DrawGameObjects(false);
+		DrawGameObjects();
 
 		DrawLightsDebug();
 
@@ -376,7 +372,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 				DrawPhysicsColliders();
 			}
 
-			DrawGameObjects(true);
+			DrawGameObjects();
 
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
@@ -412,7 +408,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 				DrawPhysicsColliders();
 			}
 
-			DrawGameObjects(true);
+			DrawGameObjects();
 
 			DrawUIElements(true, true);
 
@@ -642,9 +638,10 @@ void ModuleRenderer3D::DrawBoundingBoxes()
 
 		if (meshComponent != nullptr) {
 
-			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->globalAABB))
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
-				meshComponent->RenderBoundingBoxes();
+				//meshComponent->rMeshReference->UpdateBoundingBoxes();
+				meshComponent->rMeshReference->RenderBoundingBoxes();
 			}
 		}
 
@@ -821,45 +818,7 @@ void ModuleRenderer3D::DrawLightsDebug()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ModuleRenderer3D::DrawOutline(CMesh* cmesh, float4x4 transform)
-{
-	glEnable(GL_DEPTH_TEST);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glStencilMask(0x00);
-
-	// Stencil Testing (outline)
-	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	glStencilMask(0xFF);
-
-	cmesh->rMeshReference->Render();
-
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00);
-	glDisable(GL_DEPTH_TEST);
-	App->editor->gl_DepthTesting = false;
-
-	outlineShader->UseShader(true);
-
-	// Scale the transformation matrix slightly (this should be done scaling smoothed normals)
-
-	float scaleFactor = 1.05f;
-	float3 scaleVector(scaleFactor, scaleFactor, scaleFactor);
-	float4x4 scaledMatrix = transform * float4x4::Scale(scaleVector, cmesh->aabb.CenterPoint());
-
-	outlineShader->SetShaderUniforms(&scaledMatrix, false);
-
-	cmesh->rMeshReference->Render();
-
-	glStencilMask(0xFF);
-	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	glEnable(GL_DEPTH_TEST);
-	App->editor->gl_DepthTesting = true;
-
-	outlineShader->UseShader(false);
-}
-
-void ModuleRenderer3D::DrawGameObjects(bool isGame)
+void ModuleRenderer3D::DrawGameObjects()
 {
 	for (auto it = App->scene->gameObjects.begin(); it != App->scene->gameObjects.end(); ++it)
 	{
@@ -885,24 +844,18 @@ void ModuleRenderer3D::DrawGameObjects(bool isGame)
 
 		if ((*it)->active && meshComponent != nullptr && meshComponent->active)
 		{
-			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->globalAABB))
+			if (IsInsideFrustum(External->scene->gameCameraComponent, meshComponent->rMeshReference->globalAABB))
 			{
+
 				if (materialComponent != nullptr && materialComponent->active) {
 
-					materialComponent->shader.UseShader(true);
+					for (auto& textures : materialComponent->rTextures) {
 
-					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
+						textures->BindTexture(true);
 
-						if (materialComponent->rTextures[i]) {
-
-							std::string samplerName = materialComponent->rTextures[i]->GetSamplerName();
-
-							materialComponent->shader.SetSampler2D(samplerName, i);
-							materialComponent->rTextures[i]->BindTexture(true, i);
-
-						}
-						
 					}
+
+					materialComponent->shader.UseShader(true);
 
 					if (animationComponent != nullptr && animationComponent->active) {
 						std::vector<float4x4> transforms = animationComponent->animator->GetFinalBoneMatrices();
@@ -913,30 +866,17 @@ void ModuleRenderer3D::DrawGameObjects(bool isGame)
 					materialComponent->shader.SetShaderUniforms(&transformComponent->mGlobalMatrix, (*it)->selected);
 				}
 
-				if ((*it)->selected && !isGame) {
-
-					DrawOutline(meshComponent, transformComponent->mGlobalMatrix);
-
-				}
-				else {
-
-					meshComponent->rMeshReference->Render();
-
-				}
+				meshComponent->rMeshReference->Render();
 
 				if (materialComponent != nullptr && materialComponent->active) {
 
-					for (size_t i = 0; i < materialComponent->rTextures.size(); ++i) {
+					materialComponent->shader.UseShader(false);
 
-						if (materialComponent->rTextures[i]) {
-
-							materialComponent->rTextures[i]->BindTexture(false, i);
-
-						}
+					for (auto& textures : materialComponent->rTextures) {
+							
+						textures->BindTexture(false);
 
 					}
-
-					materialComponent->shader.UseShader(false);
 
 				}
 

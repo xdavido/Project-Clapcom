@@ -495,11 +495,6 @@ float GetDT()
 	return External->GetDT();
 }
 
-float GetTimeCS()
-{
-	return TimeManager::gameTimer.ReadSec();
-}
-
 void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 {
 	//Crea un game object temporal llamado "Bullet"

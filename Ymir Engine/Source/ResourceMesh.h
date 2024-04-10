@@ -30,11 +30,22 @@ public:
 
 	bool Render();
 
+	// AABB & OBB
+
+	void InitBoundingBoxes();
+	void UpdateBoundingBoxes();
+	void RenderBoundingBoxes();
+
 public:
 
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	ResourceMaterial* material;
+
+	// Bounding Boxes Handling
+	AABB globalAABB;
+	AABB aabb;
+	OBB obb;
 
 private:
 

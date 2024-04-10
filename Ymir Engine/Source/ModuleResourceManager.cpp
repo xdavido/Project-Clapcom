@@ -102,160 +102,22 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				if ((*jt)->ctype == ComponentType::MATERIAL)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
-
-					if (metaFile == nullptr) {
-
-						ImporterTexture::Import(assetsFilePath, rTexTemp);
-
-						// Get meta
-
-						JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
-
-						std::string libraryPath = metaFile->GetString("Library Path");
-						uint UID = metaFile->GetInt("UID");
-						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
-
-						rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
-
-					}
-					else {
-
-						std::string libraryPath = metaFile->GetString("Library Path");
-						uint UID = metaFile->GetInt("UID");
-						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
-
-						auto itr = resources.find(UID);
-
-						if (itr == resources.end())
-						{
-							// We are maintaining to Assets for now
-							
-							//rTexTemp = static_cast<ResourceTexture*>
-								//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
-							rTexTemp = static_cast<ResourceTexture*>
-								(CreateResourceFromLibrary(assetsFilePath.c_str(), ResourceType::TEXTURE, UID, type));
-						}
-						else
-						{
-							rTexTemp = static_cast<ResourceTexture*>(itr->second);
-							rTexTemp->type = type;
-							itr->second->IncreaseReferenceCount();
-						}
-
-					}
-
-					switch (rTexTemp->type)
-					{
-						case TextureType::DIFFUSE:
-							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
-							break;
-
-						case TextureType::SPECULAR:
-							static_cast<CMaterial*>((*jt))->specular_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->specular_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->specular_ID = rTexTemp->ID;
-							break;
-
-						case TextureType::AMBIENT:
-							static_cast<CMaterial*>((*jt))->ambient_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->ambient_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->ambient_ID = rTexTemp->ID;
-							break;
-
-						case TextureType::EMISSIVE:
-							static_cast<CMaterial*>((*jt))->emissive_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->emissive_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->emissive_ID = rTexTemp->ID;
-							break;
-
-						case TextureType::HEIGHT:
-							static_cast<CMaterial*>((*jt))->height_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->height_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->height_ID = rTexTemp->ID;
-							break;
-
-						case TextureType::NORMAL:
-							static_cast<CMaterial*>((*jt))->normal_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->normal_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->normal_ID = rTexTemp->ID;
-							break;
-
-						default:
-							static_cast<CMaterial*>((*jt))->diffuse_path = assetsFilePath;
-							static_cast<CMaterial*>((*jt))->diffuse_UID = rTexTemp->UID;
-							static_cast<CMaterial*>((*jt))->diffuse_ID = rTexTemp->ID;
-							break;
-
-					}
-
-					// Handle new imported textures
-					bool textureUpdated = false;
-					for (auto& texture : static_cast<CMaterial*>((*jt))->rTextures) {
-						if (texture->type == rTexTemp->type) {
-							// Clean up old texture resource
-							UnloadResource(texture->UID); // Assuming ResourceTexture has a Cleanup() method
-
-							// Update existing texture data with the new texture
-							texture = rTexTemp;
-							textureUpdated = true;  // Mark that texture has been updated
-							break; // Exit the loop since we've found and updated the texture
-						}
-					}
-
-					// If a texture of the same type doesn't exist, add it
-					if (!textureUpdated) {
-						static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add a copy of the new texture
-					}
-
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
+					
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<CMaterial*>((*jt))->path = assetsFilePath;
+					static_cast<CMaterial*>((*jt))->rTextures.clear();
+					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp);
 				}
 				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
 				{
 					ResourceTexture* rTexTemp = new ResourceTexture();
+					ImporterTexture::Import(assetsFilePath, rTexTemp);
 
-					if (metaFile == nullptr) {
-
-						ImporterTexture::Import(assetsFilePath, rTexTemp);
-
-						// Get meta
-
-						JsonFile* metaFile = JsonFile::GetJSON(path + ".meta");
-
-						std::string libraryPath = metaFile->GetString("Library Path");
-						uint UID = metaFile->GetInt("UID");
-						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
-
-						rTexTemp = (ResourceTexture*)External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::TEXTURE, UID, type);
-
-					}
-					else {
-
-						std::string libraryPath = metaFile->GetString("Library Path");
-						uint UID = metaFile->GetInt("UID");
-						TextureType type = ResourceTexture::GetTextureTypeFromName(metaFile->GetString("TextureType"));
-
-						auto itr = resources.find(UID);
-
-						if (itr == resources.end())
-						{
-							// We are maintaining to Assets for now
-
-							//rTexTemp = static_cast<ResourceTexture*>
-								//(CreateResourceFromLibrary(libraryPath.c_str(), ResourceType::TEXTURE, UID, type));
-							rTexTemp = static_cast<ResourceTexture*>
-								(CreateResourceFromLibrary(assetsFilePath.c_str(), ResourceType::TEXTURE, UID, type));
-						}
-						else
-						{
-							rTexTemp = static_cast<ResourceTexture*>(itr->second);
-							rTexTemp->type = type;
-							itr->second->IncreaseReferenceCount();
-						}
-
-					}
-
-					static_cast<UI_Image*>((*jt))->mat->diffuse_path = assetsFilePath;
+					rTexTemp->type = TextureType::DIFFUSE;
+					rTexTemp->UID = Random::Generate();
+					static_cast<UI_Image*>((*jt))->mat->path = assetsFilePath;
 					static_cast<UI_Image*>((*jt))->mat->rTextures.clear();
 					static_cast<UI_Image*>((*jt))->mat->rTextures.push_back(rTexTemp);
 				}
@@ -267,7 +129,6 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 	}
 	else
 	{
-
 		// If meta file doesn't exist
 		if (metaFile == nullptr)
 		{
@@ -277,6 +138,11 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				break;
 			case ResourceType::TEXTURE:
 			{
+
+				/*for (auto itr = 0; itr != App->editor.; itr++)
+				{
+
+				}*/
 			}
 			break;
 			case ResourceType::MESH:
@@ -326,23 +192,12 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 			{
 				//ImporterMesh::Load(metaFile->GetString("Library Path").c_str(), (ResourceMesh*)resource);
 
-				//if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
+				if (!PhysfsEncapsule::FileExists(".\/Library\/Models\/" + std::to_string(metaFile->GetInt("UID")) + ".ymodel")) {
 
-				//	// Rework to ImporterModel::Import(path);
-				//	ReImportModel(path, onlyReimport);
+					// Rework to ImporterModel::Import(path);
+					ReImportModel(path, onlyReimport);
 
-				//	break;
-				//}
-
-				int* resourcesIds = metaFile->GetIntArray("Resources Embedded UID");
-
-				std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[0]) + ".ymesh";
-
-				if (!PhysfsEncapsule::FileExists(libraryPath)) {
-
-					ReImportModel(assetsFilePath, onlyReimport);
 					break;
-
 				}
 
 				GameObject* modelGO = App->scene->CreateGameObject(metaFile->GetString("Name").c_str(), App->scene->mRootNode);
@@ -356,29 +211,15 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 				{
 					// Search resource: if it exists --> create a game object with a reference to it
 					// else --> create the resource from library and the game object to contain it
-
-					std::string libraryPath = "Library/Meshes/" + std::to_string(resourcesIds[i]) + ".ymesh";
-
-					ResourceMesh* rMesh = nullptr;
-
-					auto itr = resources.find(resourcesIds[i]);
+					auto itr = resources.find(ids[i]);
 
 					if (itr == resources.end())
 					{
-						rMesh = static_cast<ResourceMesh*>
-							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(resourcesIds[i]) + ".ymesh").c_str(), ResourceType::MESH, resourcesIds[i]));
-					}
-					else
-					{
-						rMesh = static_cast<ResourceMesh*>(itr->second);
-						itr->second->IncreaseReferenceCount();
-					}
-
-					GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
-					meshGO->UID = ids[i];
-					meshGO->type = "Mesh";
-
-					if (rMesh != nullptr) {
+						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+						meshGO->UID = ids[i];
+					
+						ResourceMesh* rMesh = static_cast<ResourceMesh*>
+							(CreateResourceFromLibrary((".\/Library\/Meshes\/" + std::to_string(ids[i]) + ".ymesh").c_str(), ResourceType::MESH, ids[i]));
 
 						CMesh* cmesh = new CMesh(meshGO);
 
@@ -386,24 +227,58 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 						cmesh->nVertices = rMesh->vertices.size();
 						cmesh->nIndices = rMesh->indices.size();
 
-						cmesh->InitBoundingBoxes();
 						meshGO->AddComponent(cmesh);
 
+						// Apply Checker Image
+
+						CMaterial* cmat = new CMaterial(meshGO);
+
+						ResourceTexture* rTex = new ResourceTexture();
+
+						rTex->LoadCheckerImage();
+
+						rTex->type = TextureType::DIFFUSE;
+
+						cmat->UID = rTex->UID;
+						cmat->path = "Checker Image";
+						cmat->rTextures.push_back(rTex);
+
+						meshGO->AddComponent(cmat);
+
 					}
+					else
+					{
+						GameObject* meshGO = App->scene->CreateGameObject(std::to_string(ids[i]), modelGO);
+						meshGO->UID = ids[i];
 
-					CMaterial* cmat = new CMaterial(meshGO);
+						ResourceMesh* tmpMesh = static_cast<ResourceMesh*>(itr->second);
 
-					ResourceTexture* rTex = new ResourceTexture();
+						CMesh* cmesh = new CMesh(meshGO);
 
-					rTex->LoadCheckerImage();
+						cmesh->rMeshReference = tmpMesh;
+						cmesh->nVertices = tmpMesh->vertices.size();
+						cmesh->nIndices = tmpMesh->indices.size();
+			
+						meshGO->AddComponent(cmesh);
 
-					rTex->type = TextureType::DIFFUSE;
+						// Apply Checker Image
 
-					cmat->diffuse_UID = rTex->UID;
-					cmat->diffuse_path = "Checker Image";
-					cmat->rTextures.push_back(rTex);
+						CMaterial* cmat = new CMaterial(meshGO);
+						
+						ResourceTexture* rTex = new ResourceTexture();
 
-					meshGO->AddComponent(cmat);
+						rTex->LoadCheckerImage();
+
+						rTex->type = TextureType::DIFFUSE;
+
+						cmat->UID = rTex->UID;
+						cmat->path = "Checker Image";
+						cmat->rTextures.push_back(rTex);
+
+						meshGO->AddComponent(cmat);
+
+						itr->second->IncreaseReferenceCount();
+					}
 
 				}
 
@@ -753,7 +628,7 @@ Resource* ModuleResourceManager::CreateResourceFromAssets(std::string assetsFile
 	return tmpResource;
 }
 
-Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID, TextureType rTexType)
+Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFilePath, ResourceType type, const uint& UID)
 {
 	// TODO FRANCESC: Need a smart pointer to solve this memory leak;
 	Resource* tmpResource = nullptr;
@@ -816,14 +691,8 @@ Resource* ModuleResourceManager::CreateResourceFromLibrary(std::string libraryFi
 
 		//}
 
-		if (rTexType != TextureType::UNKNOWN) {
-
-			static_cast<ResourceTexture*>(tmpResource)->type = rTexType;
-
-		}
-
-		// FRANCESC: Disparo arreglado por algï¿½n motivo si comentas esta lï¿½nea
-		resources.emplace(UID, tmpResource);
+		// FRANCESC: Disparo arreglado por algún motivo si comentas esta línea
+		//resources.emplace(UID, tmpResource);
 
 		tmpResource->SetLibraryFilePath(libraryFilePath);
 

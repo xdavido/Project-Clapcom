@@ -33,11 +33,9 @@ struct Vertex {
 
     int boneIDs[MAX_BONE_INFLUENCE];
     float weights[MAX_BONE_INFLUENCE];
-
-    float3 tangents;
-    float3 bitangents;
-
 };
+
+
 
 class Mesh {
 public:

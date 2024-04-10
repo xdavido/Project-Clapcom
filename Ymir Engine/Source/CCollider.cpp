@@ -57,7 +57,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 		if (componentMesh != nullptr) {
 
-			size = componentMesh->obb.Size();
+			size = componentMesh->rMeshReference->obb.Size();
 			btSize = float3_to_btVector3(size);
 			radius = size.Length() / 2;
 			height = size.y;
@@ -78,7 +78,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				pos = componentMesh->obb.CenterPoint();
+				pos = componentMesh->rMeshReference->obb.CenterPoint();
 
 			}
 			else {
@@ -93,7 +93,7 @@ CCollider::CCollider(GameObject* owner, ColliderType collider, PhysicsType physi
 			/*if (ImGuizmo::IsUsing())
 			{*/
 			if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-			else size = componentMesh->obb.Size();
+			else size = componentMesh->rMeshReference->obb.Size();
 
 			radius = size.Length() / 2;
 			height = size.y;
@@ -152,9 +152,9 @@ void CCollider::Update()
 
 		if (componentMesh != nullptr)
 		{
-			offsetX = componentMesh->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
-			offsetY = componentMesh->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
-			offsetZ = componentMesh->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
+			offsetX = componentMesh->rMeshReference->obb.CenterPoint().x - componentTransform->GetGlobalPosition().x;
+			offsetY = componentMesh->rMeshReference->obb.CenterPoint().y - componentTransform->GetGlobalPosition().y;
+			offsetZ = componentMesh->rMeshReference->obb.CenterPoint().z - componentTransform->GetGlobalPosition().z;
 		}
 
 		float4x4 newMat;
@@ -241,7 +241,7 @@ void CCollider::Update()
 
 			if (collType != ColliderType::MESH_COLLIDER) {
 
-				pos = componentMesh->obb.CenterPoint();
+				pos = componentMesh->rMeshReference->obb.CenterPoint();
 
 			}
 			else {
@@ -256,7 +256,7 @@ void CCollider::Update()
 			if (ImGuizmo::IsUsing()) 
 			{
 				if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-				else size = componentMesh->obb.Size();
+				else size = componentMesh->rMeshReference->obb.Size();
 
 				radius = size.Length() / 2;
 				height = size.y;
@@ -399,7 +399,7 @@ void CCollider::OnInspector()
 				if (componentMesh != nullptr) {
 
 					if (collType == ColliderType::MESH_COLLIDER) size = { mOwner->mTransform->scale.x, mOwner->mTransform->scale.y, mOwner->mTransform->scale.z };
-					else size = componentMesh->obb.Size();
+					else size = componentMesh->rMeshReference->obb.Size();
 
 					radius = size.Length();
 					height = size.y;

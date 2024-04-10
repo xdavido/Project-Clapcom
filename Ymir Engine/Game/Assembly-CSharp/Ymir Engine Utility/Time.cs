@@ -13,14 +13,12 @@ namespace YmirEngine
             [MethodImplAttribute(MethodImplOptions.InternalCall)]
             get;
         }
-        /// <summary>
-        /// Returns the game timer in seconds
-        /// </summary>
-        public static extern float time
-        {
-            [MethodImplAttribute(MethodImplOptions.InternalCall)]
-            get;
-        }
+
+
+
+
+
+
 
     }
 }
