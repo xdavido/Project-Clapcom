@@ -78,6 +78,7 @@
 		<Compile Include="Assets\Scripts\SelectWeapon.cs" />
 		<Compile Include="Assets\Scripts\UI_Upgrade_Station.cs" />
 		<Compile Include="Assets\Scripts\UI_Upgrade_Button.cs" />
+		<Compile Include="Assets\Scripts\UI_Upgrade_Navigation.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
