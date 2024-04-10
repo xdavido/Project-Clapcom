@@ -161,5 +161,29 @@ namespace YmirEngine
         /// <param name="position">The position to set.</param>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern void SetPosition(Vector3 position);
+
+        /// <summary>
+        /// Sets the size of the collider *Not the game object scale*.
+        /// </summary>
+        /// <param name="size">The size to set.</param>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void SetColliderSize(Vector3 size);
+
+        /// <summary>
+        /// Get size of the collider.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern Vector3 GetColliderSize();
+        //public extern Vector3 GetColliderSize
+        //{
+        //    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        //    get;
+        //}
+
+        /// <summary>
+        /// Clear all forces of the game object's collider.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern void ClearForces();
     }
 }
