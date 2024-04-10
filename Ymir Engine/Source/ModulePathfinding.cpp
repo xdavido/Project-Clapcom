@@ -145,8 +145,15 @@ void ModulePathFinding::Load(uint navMeshResourceUID)
 	BuildSettings settings;
 	dtNavMesh* navMesh = ImporterNavMesh::Load(navMeshResourceUID, settings);
 
+	// If library exists
 	if (navMesh != nullptr)
 		ClearNavMeshes();
+
+	//If library do not exist
+	if (navMesh == nullptr) {
+		BakeNavMesh();
+		return;
+	}
 
 	rcVcopy(geometry->m_meshBMin, settings.navMeshBMin);
 	rcVcopy(geometry->m_meshBMax, settings.navMeshBMax);
