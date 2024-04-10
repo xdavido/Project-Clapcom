@@ -1,0 +1,674 @@
+{
+  "Prefab": [
+    {
+      "Name": "Pause Canvas",
+      "UID": 1923546604,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1406306264,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 655,
+          "Height": 435,
+          "UI Type": 0,
+          "UI State": 5,
+          "Drag Limits": [
+            0,
+            0,
+            655,
+            394
+          ]
+        }
+      ],
+      "Children UID": [
+        1658471293,
+        1432910433
+      ]
+    },
+    {
+      "Name": "Background",
+      "UID": 1658471293,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1923546604,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 1920,
+          "Height": 1080,
+          "UI Type": 1,
+          "UI State": 5,
+          "Drag Limits": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "Path": "Assets\/InGameConeptPng.png",
+          "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+          "Current Frame X": 0,
+          "Current Frame Y": 0,
+          "Rows": 1,
+          "Columns": 1,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 1
+        }
+      ]
+    },
+    {
+      "Name": "Buttons",
+      "UID": 1432910433,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1923546604,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "Children UID": [
+        1369403000,
+        429766787,
+        1933581334
+      ]
+    },
+    {
+      "Name": "Continue",
+      "UID": 1369403000,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1432910433,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            39.714202880859375,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 424,
+          "Height": 152,
+          "UI Type": 1,
+          "UI State": 1,
+          "Drag Limits": [
+            0,
+            39.714202880859375,
+            424,
+            152
+          ],
+          "Path": "Assets\/UI\/Buttons\/Button.png",
+          "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+          "Current Frame X": 0,
+          "Current Frame Y": 0,
+          "Rows": 1,
+          "Columns": 1,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 1
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 3,
+          "UI State": 1,
+          "Drag Limits": [
+            0,
+            0,
+            300,
+            50
+          ],
+          "Is interactable": true,
+          "Text": 1704203705,
+          "Image": 1369403000,
+          "Normal": "Assets\/UI\/Buttons\/Button.png",
+          "Focused": "Assets\/UI\/Buttons\/Button.png",
+          "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+          "Selected": "Assets\/UI\/Buttons\/Button.png",
+          "Release": "Assets\/Baker_house.png",
+          "Disabled": "Assets\/Baker_house.png",
+          "Focused color": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "Pressed color": [
+            1,
+            0,
+            1,
+            1
+          ],
+          "Selected color": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "Disabled color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "Children UID": [
+        1704203705
+      ]
+    },
+    {
+      "Name": "Text",
+      "UID": 1704203705,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1369403000,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 168,
+          "Position Y": 77,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 2,
+          "UI State": 1,
+          "Drag Limits": [
+            168,
+            116.71420288085938,
+            300,
+            50
+          ],
+          "Text": "Continue",
+          "Font name": "de-valencia-beta.otf",
+          "Font path": "Assets\/Fonts",
+          "Font size": 21,
+          "Line Spacing": 0.5,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 2
+        }
+      ]
+    },
+    {
+      "Name": "Settings",
+      "UID": 429766787,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1432910433,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 190,
+          "Width": 424,
+          "Height": 152,
+          "UI Type": 1,
+          "UI State": 1,
+          "Drag Limits": [
+            0,
+            190,
+            424,
+            152
+          ],
+          "Path": "Assets\/UI\/Buttons\/Button.png",
+          "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+          "Current Frame X": 0,
+          "Current Frame Y": 0,
+          "Rows": 1,
+          "Columns": 1,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 1
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 3,
+          "UI State": 1,
+          "Drag Limits": [
+            0,
+            0,
+            300,
+            50
+          ],
+          "Is interactable": true,
+          "Text": 481301075,
+          "Image": 429766787,
+          "Normal": "Assets\/UI\/Buttons\/Button.png",
+          "Focused": "Assets\/UI\/Buttons\/Button.png",
+          "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+          "Selected": "Assets\/UI\/Buttons\/Button.png",
+          "Release": "Assets\/Baker_house.png",
+          "Disabled": "Assets\/Baker_house.png",
+          "Focused color": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "Pressed color": [
+            1,
+            0,
+            1,
+            1
+          ],
+          "Selected color": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "Disabled color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "Children UID": [
+        481301075
+      ]
+    },
+    {
+      "Name": "Text",
+      "UID": 481301075,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 429766787,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 158,
+          "Position Y": 267,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 2,
+          "UI State": 1,
+          "Drag Limits": [
+            158,
+            267,
+            300,
+            50
+          ],
+          "Text": "Settings",
+          "Font name": "de-valencia-beta.otf",
+          "Font path": "Assets\/Fonts",
+          "Font size": 21,
+          "Line Spacing": 0.5,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 2
+        }
+      ]
+    },
+    {
+      "Name": "Exit",
+      "UID": 1933581334,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1432910433,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 351,
+          "Width": 424,
+          "Height": 152,
+          "UI Type": 1,
+          "UI State": 4,
+          "Drag Limits": [
+            0,
+            351,
+            424,
+            152
+          ],
+          "Path": "Assets\/UI\/Buttons\/Button_pressed.png",
+          "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+          "Current Frame X": 0,
+          "Current Frame Y": 0,
+          "Rows": 1,
+          "Columns": 1,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 1
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 0,
+          "Position Y": 0,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 3,
+          "UI State": 1,
+          "Drag Limits": [
+            0,
+            0,
+            300,
+            50
+          ],
+          "Is interactable": true,
+          "Text": 1993312702,
+          "Image": 1933581334,
+          "Normal": "Assets\/UI\/Buttons\/Button.png",
+          "Focused": "Assets\/UI\/Buttons\/Button.png",
+          "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+          "Selected": "Assets\/UI\/Buttons\/Button.png",
+          "Release": "Assets\/Baker_house.png",
+          "Disabled": "Assets\/Baker_house.png",
+          "Focused color": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "Pressed color": [
+            1,
+            0,
+            1,
+            1
+          ],
+          "Selected color": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "Disabled color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "Script",
+          "ScriptName": "Button_Exit.cs",
+          "UID": 0
+        }
+      ],
+      "Children UID": [
+        1993312702
+      ]
+    },
+    {
+      "Name": "Text",
+      "UID": 1993312702,
+      "Active": true,
+      "Element_Type": "None",
+      "Parent UID": 1933581334,
+      "Components": [
+        {
+          "Type": "Transform",
+          "Active": 1,
+          "Translation": [
+            0,
+            0,
+            0
+          ],
+          "Rotation": [
+            -0,
+            0,
+            -0
+          ],
+          "Scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI",
+          "Active": 1,
+          "Draggeable": false,
+          "Position X": 194,
+          "Position Y": 430,
+          "Width": 300,
+          "Height": 50,
+          "UI Type": 2,
+          "UI State": 1,
+          "Drag Limits": [
+            194,
+            430,
+            300,
+            50
+          ],
+          "Text": "Exit",
+          "Font name": "de-valencia-beta.otf",
+          "Font path": "Assets\/Fonts",
+          "Font size": 21,
+          "Line Spacing": 0.5,
+          "Color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "Type": "UI Transform",
+          "Component reference": 2
+        }
+      ]
+    }
+  ]
+}
