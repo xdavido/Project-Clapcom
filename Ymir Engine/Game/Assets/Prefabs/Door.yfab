@@ -3,10 +3,10 @@
         {
             "Name": "Door",
             "Tag": "Untagged",
-            "UID": 1405534503,
+            "UID": 1635466517,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 1421778636,
+            "Parent UID": 155772896,
             "Components": [
                 {
                     "Type": "Transform",
@@ -14,7 +14,7 @@
                     "Translation": [
                         0,
                         2.5,
-                        0
+                        8.420781135559082
                     ],
                     "Rotation": [
                         -0,
@@ -58,22 +58,23 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "Missing script reference",
-                    "Active": 1
+                    "ScriptName": "Door.cs",
+                    "Active": 1,
+                    "UID": 0
                 }
             ],
             "Children UID": [
-                855930628
+                1824777383
             ]
         },
         {
             "Name": "Cube (1)",
             "Tag": "Untagged",
-            "UID": 855930628,
+            "UID": 1824777383,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/Primitives\/Cube.fbx",
-            "Parent UID": 1405534503,
+            "Parent UID": 1635466517,
             "Components": [
                 {
                     "Type": "Transform",

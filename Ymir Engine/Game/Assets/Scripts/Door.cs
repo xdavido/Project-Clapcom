@@ -24,8 +24,9 @@ public class Door : YmirComponent
     {
         if (other.Tag == "Player")
         {
-			//gameObject.SetPosition(gameObject.transform.localPosition + new Vector3(0, 0, 0));
-			gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+			gameObject.SetPosition(gameObject.transform.globalPosition + new Vector3(0, -5, 0));
+			//gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+			//gameObject.SetActive(false);
 			
         }
     }
