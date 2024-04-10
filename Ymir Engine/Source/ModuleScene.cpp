@@ -411,15 +411,9 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	mRootNode = gameObjects[0];
 
 
-	JSON_Object* sceneObj = json_value_get_object(scene);
-
-	const char *str = json_object_get_string(sceneObj, "NavMesh");
-	if (str != nullptr) {
-		uint navMeshId = (uint)strtoul(str, NULL, 10);
-		if (navMeshId != -1)
-			External->pathFinding->Load(navMeshId);
-	}
-	
+	uint navMeshId = sceneToLoad->GetNavMeshID("NavMesh");
+	if (navMeshId != -1)
+		External->pathFinding->Load(navMeshId);
 	
 
 	LoadScriptsData();
