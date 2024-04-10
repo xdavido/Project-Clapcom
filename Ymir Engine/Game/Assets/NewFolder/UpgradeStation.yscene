@@ -26,7 +26,7 @@
             "UID": 521471341,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 538221863,
+            "Parent UID": 231185360,
             "Components": [
                 {
                     "Type": "Transform",
@@ -70,9 +70,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -97,17 +97,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -120,7 +120,7 @@
             ]
         },
         {
-            "Name": "UpgradeStation",
+            "Name": "Submachine Upgrade ",
             "Tag": "Untagged",
             "UID": 633310999,
             "Active": true,
@@ -152,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 918,
-                    "Height": 631,
+                    "Width": 793,
+                    "Height": 574,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -299,7 +299,8 @@
                     "name": "Level 0",
                     "description": "Start",
                     "cost": 0,
-                    "isUnlocked": true
+                    "isUnlocked": true,
+                    "stationName": "S.T.A.P.L.E.R. Upgrade"
                 }
             ],
             "Children UID": [
@@ -485,7 +486,8 @@
                     "name": "Level 1",
                     "description": "Upgrade 1",
                     "cost": 1,
-                    "isUnlocked": false
+                    "isUnlocked": false,
+                    "stationName": "S.T.A.P.L.E.R. Upgrade"
                 }
             ],
             "Children UID": [
@@ -671,7 +673,8 @@
                     "name": "Level 2",
                     "description": "Upgrade2",
                     "cost": 2,
-                    "isUnlocked": false
+                    "isUnlocked": false,
+                    "stationName": "S.T.A.P.L.E.R. Upgrade"
                 }
             ],
             "Children UID": [
@@ -857,7 +860,8 @@
                     "name": "Level 3",
                     "description": "Upgrade 3",
                     "cost": 4,
-                    "isUnlocked": false
+                    "isUnlocked": false,
+                    "stationName": "S.T.A.P.L.E.R. Upgrade"
                 }
             ],
             "Children UID": [
@@ -1043,7 +1047,8 @@
                     "name": "Level 4",
                     "description": "Upgrade 4",
                     "cost": 4,
-                    "isUnlocked": false
+                    "isUnlocked": false,
+                    "stationName": "S.T.A.P.L.E.R. Upgrade"
                 }
             ],
             "Children UID": [

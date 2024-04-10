@@ -13,6 +13,7 @@ public class UI_Upgrade_Button : YmirComponent
     public string name = "", description = "";
     public int cost;
     public bool isUnlocked;
+    public string stationName;
 
     public UI_Upgrade_Station upgradeStation;
 
@@ -25,7 +26,7 @@ public class UI_Upgrade_Button : YmirComponent
             UI.SetUIState(gameObject, (int)UI_STATE.DISABLED);
         }
 
-        GameObject go = InternalCalls.GetGameObjectByName("UpgradeStation");
+        GameObject go = InternalCalls.GetGameObjectByName(stationName);
         if (go != null)
         {
             upgradeStation = go.GetComponent<UI_Upgrade_Station>();
@@ -41,7 +42,7 @@ public class UI_Upgrade_Button : YmirComponent
     {
         if (!upgrade.isUnlocked && upgradeStation.currentScore >= upgrade.cost)
         {
-            GameObject go = InternalCalls.GetGameObjectByName("UpgradeStation");
+            GameObject go = InternalCalls.GetGameObjectByName(stationName);
 
             switch (cost)
             {
