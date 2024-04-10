@@ -475,6 +475,10 @@ uint32_t CParticleSystem::SaveEmmiterJSON(ParticleEmitter* emitter)
 				json_array_append_number(arrInitialPos, eBase->emitterOrigin.y);
 				json_array_append_number(arrInitialPos, eBase->emitterOrigin.z);
 
+				//Kill by distance
+				json_object_set_number(child_object, "DistanceLimit", eBase->distanceLimit);
+				json_object_set_boolean(child_object, "HasDistanceLimit", eBase->hasDistanceLimit);
+
 				break;
 			}
 			case EmitterType::PAR_SPAWN:
