@@ -13,9 +13,9 @@ public class UI_Upgrade_Button : YmirComponent
     public string name = "", description = "";
     public int cost;
     public bool isUnlocked;
-    public string stationName;
+    public string stationName = "";
 
-    public UI_Upgrade_Station upgradeStation;
+    public UI_Upgrade_Station currentStation;
 
     public void Start()
     {
@@ -26,12 +26,12 @@ public class UI_Upgrade_Button : YmirComponent
             UI.SetUIState(gameObject, (int)UI_STATE.DISABLED);
         }
 
-        GameObject go = InternalCalls.GetGameObjectByName(stationName);
+        GameObject go = InternalCalls.GetGameObjectByName("Upgrade Station");
+
         if (go != null)
         {
-            upgradeStation = go.GetComponent<UI_Upgrade_Station>();
+            currentStation = go.GetComponent<UI_Upgrade_Station>();
         }
-
     }
 
     public void Update()
@@ -40,7 +40,7 @@ public class UI_Upgrade_Button : YmirComponent
     }
     public void OnClickButton()
     {
-        if (!upgrade.isUnlocked && upgradeStation.currentScore >= upgrade.cost)
+        if (!upgrade.isUnlocked && currentStation.currentScore >= upgrade.cost)
         {
             GameObject go = InternalCalls.GetGameObjectByName(stationName);
 
@@ -50,7 +50,7 @@ public class UI_Upgrade_Button : YmirComponent
                     {
                         GameObject go2 = InternalCalls.GetChildrenByName(go, "Upgrade 2");
                         UI.SetUIState(go2, (int)UI_STATE.NORMAL);
-                        upgradeStation.currentScore -= upgrade.cost;
+                        currentStation.currentScore -= upgrade.cost;
                         upgrade.isUnlocked = true;
                     }
                     break;
@@ -63,23 +63,24 @@ public class UI_Upgrade_Button : YmirComponent
                         UI.SetUIState(go3, (int)UI_STATE.NORMAL);
                         UI.SetUIState(go4, (int)UI_STATE.NORMAL);
 
-                        upgradeStation.currentScore -= upgrade.cost;
+                        currentStation.currentScore -= upgrade.cost;
                         upgrade.isUnlocked = true;
                     }
                     break;
                 case 4:
                     {
-                        upgradeStation.currentScore -= upgrade.cost;
+                        currentStation.currentScore -= upgrade.cost;
                         upgrade.isUnlocked = true;
                     }
                     break;
             }
+            currentStation.UpdateCoins();
         }
     }
 
     public void OnHoverButton()
     {
-        UI.TextEdit(upgradeStation.description, upgrade.description);
-        UI.TextEdit(upgradeStation.cost, upgrade.cost.ToString());
+        UI.TextEdit(currentStation.description, upgrade.description);
+        UI.TextEdit(currentStation.cost, upgrade.cost.ToString());
     }
 }

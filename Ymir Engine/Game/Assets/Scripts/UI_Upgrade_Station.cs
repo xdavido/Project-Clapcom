@@ -11,13 +11,15 @@ public class UI_Upgrade_Station : YmirComponent
     private GameObject _focusedGO;
     public int currentScore;// Put in player
 
-    public GameObject description, cost;
+    public GameObject description, cost, coins;
 
     public void Start()
     {
         _focusedGO = UI.GetFocused();
         description = InternalCalls.GetChildrenByName(gameObject, "Description");
-        cost = InternalCalls.GetChildrenByName(gameObject, "Cost");
+        cost = InternalCalls.GetChildrenByName(gameObject, "Cost");        
+        coins = InternalCalls.GetChildrenByName(gameObject, "Coins");
+        UI.TextEdit(coins, currentScore.ToString());
     }
 
     public void Update()
@@ -49,5 +51,10 @@ public class UI_Upgrade_Station : YmirComponent
         }
 
         return;
+    }
+
+    public void UpdateCoins()
+    {
+        UI.TextEdit(coins, currentScore.ToString());
     }
 }

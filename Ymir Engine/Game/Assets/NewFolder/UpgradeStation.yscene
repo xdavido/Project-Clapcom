@@ -26,7 +26,7 @@
             "UID": 521471341,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 231185360,
+            "Parent UID": 423476459,
             "Components": [
                 {
                     "Type": "Transform",
@@ -50,7 +50,9 @@
             ],
             "Children UID": [
                 1938493676,
-                633310999
+                869362369,
+                1989425319,
+                1725371872
             ]
         },
         {
@@ -70,9 +72,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -97,17 +99,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -120,9 +122,9 @@
             ]
         },
         {
-            "Name": "Submachine Upgrade ",
+            "Name": "Upgrade Station",
             "Tag": "Untagged",
-            "UID": 633310999,
+            "UID": 869362369,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 521471341,
@@ -152,8 +154,68 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 793,
-                    "Height": 574,
+                    "Width": 1226,
+                    "Height": 639,
+                    "UI Type": 0,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        1226,
+                        639
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Station.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "currentScore": 10
+                }
+            ],
+            "Children UID": [
+                633310999,
+                439685750,
+                1841483514,
+                369905588,
+                81102519
+            ]
+        },
+        {
+            "Name": "Submachine Upgrade ",
+            "Tag": "Untagged",
+            "UID": 633310999,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 869362369,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 1226,
+                    "Height": 639,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -162,13 +224,6 @@
                         851,
                         631
                     ]
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Upgrade_Station.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "currentScore": 12
                 }
             ],
             "Children UID": [
@@ -176,9 +231,7 @@
                 1776631007,
                 570139881,
                 1508460498,
-                726324725,
-                1841483514,
-                369905588
+                726324725
             ]
         },
         {
@@ -300,7 +353,7 @@
                     "description": "Start",
                     "cost": 0,
                     "isUnlocked": true,
-                    "stationName": "S.T.A.P.L.E.R. Upgrade"
+                    "stationName": "Submachine Upgrade"
                 }
             ],
             "Children UID": [
@@ -487,7 +540,7 @@
                     "description": "Upgrade 1",
                     "cost": 1,
                     "isUnlocked": false,
-                    "stationName": "S.T.A.P.L.E.R. Upgrade"
+                    "stationName": "Submachine Upgrade"
                 }
             ],
             "Children UID": [
@@ -674,7 +727,7 @@
                     "description": "Upgrade2",
                     "cost": 2,
                     "isUnlocked": false,
-                    "stationName": "S.T.A.P.L.E.R. Upgrade"
+                    "stationName": "Submachine Upgrade"
                 }
             ],
             "Children UID": [
@@ -861,7 +914,7 @@
                     "description": "Upgrade 3",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "S.T.A.P.L.E.R. Upgrade"
+                    "stationName": "Submachine Upgrade"
                 }
             ],
             "Children UID": [
@@ -1048,7 +1101,7 @@
                     "description": "Upgrade 4",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "S.T.A.P.L.E.R. Upgrade"
+                    "stationName": "Submachine Upgrade"
                 }
             ],
             "Children UID": [
@@ -1117,12 +1170,1032 @@
             ]
         },
         {
+            "Name": "Empty",
+            "Tag": "Untagged",
+            "UID": 439685750,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 869362369,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        750,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                973145517
+            ]
+        },
+        {
+            "Name": "Shotgun  Upgrade  ",
+            "Tag": "Untagged",
+            "UID": 973145517,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 439685750,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 1226,
+                    "Height": 639,
+                    "UI Type": 0,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        851,
+                        631
+                    ]
+                }
+            ],
+            "Children UID": [
+                591818415,
+                1524045569,
+                1210495609,
+                584746059,
+                1182897050
+            ]
+        },
+        {
+            "Name": "Start (1)",
+            "Tag": "Untagged",
+            "UID": 591818415,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 973145517,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 246,
+                    "Position Y": 115,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        996,
+                        115,
+                        300,
+                        50
+                    ],
+                    "Path": "Assets\/Lava.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 448828685,
+                    "Image": 591818415,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/juan.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Lava.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Lava.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Button.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name": "Level 0",
+                    "description": "Start",
+                    "cost": 0,
+                    "isUnlocked": true,
+                    "stationName": "Shotgun  Upgrade  "
+                }
+            ],
+            "Children UID": [
+                448828685
+            ]
+        },
+        {
+            "Name": "Text (6)",
+            "Tag": "Untagged",
+            "UID": 448828685,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 591818415,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 266,
+                    "Position Y": 131,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1016,
+                        131,
+                        300,
+                        50
+                    ],
+                    "Text": "Start",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade 1   (1)",
+            "Tag": "Untagged",
+            "UID": 1524045569,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 973145517,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 246,
+                    "Position Y": 231,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        996,
+                        231,
+                        300,
+                        50
+                    ],
+                    "Path": "Assets\/juan.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 1893079825,
+                    "Image": 1524045569,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/juan.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Lava.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/juan.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Button.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name": "Level 1",
+                    "description": "Upgrade 1",
+                    "cost": 1,
+                    "isUnlocked": false,
+                    "stationName": "Shotgun  Upgrade  "
+                }
+            ],
+            "Children UID": [
+                1893079825
+            ]
+        },
+        {
+            "Name": "Text (7)",
+            "Tag": "Untagged",
+            "UID": 1893079825,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1524045569,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 266,
+                    "Position Y": 247,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1016,
+                        247,
+                        300,
+                        50
+                    ],
+                    "Text": "Upgrade1",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade 2   (1)",
+            "Tag": "Untagged",
+            "UID": 1210495609,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 973145517,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 251,
+                    "Position Y": 367,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1001,
+                        367,
+                        300,
+                        50
+                    ],
+                    "Path": "Assets\/juan.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 987327593,
+                    "Image": 1210495609,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/juan.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Lava.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/juan.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Button.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name": "Level 2",
+                    "description": "Upgrade2",
+                    "cost": 2,
+                    "isUnlocked": false,
+                    "stationName": "Shotgun  Upgrade  "
+                }
+            ],
+            "Children UID": [
+                987327593
+            ]
+        },
+        {
+            "Name": "Text (8)",
+            "Tag": "Untagged",
+            "UID": 987327593,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1210495609,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 271,
+                    "Position Y": 383,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1021,
+                        383,
+                        300,
+                        50
+                    ],
+                    "Text": "Upgrade2",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade 3   (1)",
+            "Tag": "Untagged",
+            "UID": 584746059,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 973145517,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 81,
+                    "Position Y": 495,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        831,
+                        495,
+                        300,
+                        50
+                    ],
+                    "Path": "Assets\/juan.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 2081167457,
+                    "Image": 584746059,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/juan.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Lava.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/juan.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Button.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name": "Level 3",
+                    "description": "Upgrade 3",
+                    "cost": 4,
+                    "isUnlocked": false,
+                    "stationName": "Shotgun  Upgrade  "
+                }
+            ],
+            "Children UID": [
+                2081167457
+            ]
+        },
+        {
+            "Name": "Text (9)",
+            "Tag": "Untagged",
+            "UID": 2081167457,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 584746059,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 101,
+                    "Position Y": 511,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        851,
+                        511,
+                        300,
+                        50
+                    ],
+                    "Text": "Upgrade3",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Upgrade 4 (1)",
+            "Tag": "Untagged",
+            "UID": 1182897050,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 973145517,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 492,
+                    "Position Y": 504,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1242,
+                        504,
+                        300,
+                        50
+                    ],
+                    "Path": "Assets\/juan.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 3,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        300,
+                        50
+                    ],
+                    "Is interactable": true,
+                    "Text": 1099191182,
+                    "Image": 1182897050,
+                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Focused": "Assets\/juan.png",
+                    "Pressed": "Assets\/pato.png",
+                    "Selected": "Assets\/Lava.png",
+                    "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/juan.png",
+                    "Focused color": [
+                        0,
+                        1,
+                        0,
+                        1
+                    ],
+                    "Pressed color": [
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Selected color": [
+                        0,
+                        0,
+                        1,
+                        1
+                    ],
+                    "Disabled color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Upgrade_Button.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "name": "Level 4",
+                    "description": "Upgrade 4",
+                    "cost": 4,
+                    "isUnlocked": false,
+                    "stationName": "Shotgun  Upgrade   "
+                }
+            ],
+            "Children UID": [
+                1099191182
+            ]
+        },
+        {
+            "Name": "Text (10)",
+            "Tag": "Untagged",
+            "UID": 1099191182,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1182897050,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 512,
+                    "Position Y": 520,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1262,
+                        520,
+                        300,
+                        50
+                    ],
+                    "Text": "Upgrade4",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
             "Name": "Description",
             "Tag": "Untagged",
             "UID": 1841483514,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 633310999,
+            "Parent UID": 869362369,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1183,7 +2256,7 @@
             "UID": 369905588,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 633310999,
+            "Parent UID": 869362369,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1217,6 +2290,189 @@
                     "Drag Limits": [
                         509,
                         33,
+                        200,
+                        50
+                    ],
+                    "Text": "This is a text",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Coins",
+            "Tag": "Untagged",
+            "UID": 81102519,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 869362369,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 0,
+                    "Position Y": 0,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        0,
+                        0,
+                        200,
+                        50
+                    ],
+                    "Text": "This is a text",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Cost (1)",
+            "Tag": "Untagged",
+            "UID": 1989425319,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 521471341,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        750,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 509,
+                    "Position Y": 33,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        1259,
+                        33,
+                        200,
+                        50
+                    ],
+                    "Text": "This is a text",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 21,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
+                }
+            ]
+        },
+        {
+            "Name": "Description (1)",
+            "Tag": "Untagged",
+            "UID": 1725371872,
+            "Active": false,
+            "Element_Type": "None",
+            "Parent UID": 521471341,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        750,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 245,
+                    "Position Y": 58,
+                    "Width": 200,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        995,
+                        58,
                         200,
                         50
                     ],
