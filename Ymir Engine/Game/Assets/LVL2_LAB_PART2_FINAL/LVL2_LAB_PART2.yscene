@@ -1,23 +1,23 @@
 {
     "Editor Camera Position": [
-        -211.75794982910156,
-        133.03071594238281,
-        568.205322265625
+        -285.07135009765625,
+        352.76974487304688,
+        245.42390441894531
     ],
     "Editor Camera Right (X)": [
-        0.42988750338554382,
-        1.6838312149047852e-06,
-        0.9028925895690918
+        -0.6163480281829834,
+        1.0877847671508789e-06,
+        0.78748822212219238
     ],
     "Editor Camera Up (Y)": [
-        0.57608127593994141,
-        0.77000504732131958,
-        -0.27428671717643738
+        0.59406083822250366,
+        0.65644562244415283,
+        0.46495622396469116
     ],
     "Editor Camera Front (Z)": [
-        0.69522553682327271,
-        -0.63804429769515991,
-        -0.33101135492324829
+        0.51693826913833618,
+        -0.75437784194946289,
+        0.40459617972373962
     ],
     "Hierarchy": [
         {
@@ -26,7 +26,7 @@
             "UID": 379278140,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 379278140,
+            "Parent UID": 1218049123,
             "Components": [
                 {
                     "Type": "Transform",
@@ -70,9 +70,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -97,24 +97,24 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
                     "Near Plane": 1,
                     "Far Plane": 1000,
                     "Frustum Culling": 0,
-                    "Draw Bounding Boxes": 1,
+                    "Draw Bounding Boxes": 0,
                     "Game Camera": true
                 }
             ]
@@ -1516,9 +1516,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 507,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -1642,9 +1642,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 515,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 220,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -1705,9 +1705,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 519,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -1768,9 +1768,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 523,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -2209,9 +2209,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 551,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 196,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -2272,9 +2272,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 555,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 216,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -2398,9 +2398,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 563,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 200,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -2461,9 +2461,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 567,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -2524,9 +2524,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 571,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 204,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -2650,9 +2650,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 579,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 224,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -2713,9 +2713,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 583,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -2839,9 +2839,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 591,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -2965,9 +2965,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 599,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -3154,9 +3154,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 611,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 236,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -3217,9 +3217,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 615,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 232,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -3343,9 +3343,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 623,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -3658,9 +3658,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 643,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 228,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -3784,9 +3784,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 651,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -3847,9 +3847,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 655,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -4162,9 +4162,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 675,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
@@ -4225,9 +4225,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 679,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 238,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V2\/TEX_PROP_WallInfected2_D.png",
+                    "Diffuse_UID": 1270420661
                 }
             ]
         },
@@ -4288,9 +4288,9 @@
                             "transparency": 1
                         }
                     ],
-                    "Diffuse_ID": 683,
-                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/TEX_PROP_WallInfected_D.png",
-                    "Diffuse_UID": 1884771714
+                    "Diffuse_ID": 212,
+                    "Diffuse_Path": "Assets\/LVL2_LAB_PART2_FINAL\/LVL2_PART2_Textures\/Infected Walls & Columns\/Wall Infected\/V3\/TEX_PROP_WallInfected3_D.png",
+                    "Diffuse_UID": 1774792755
                 }
             ]
         },
