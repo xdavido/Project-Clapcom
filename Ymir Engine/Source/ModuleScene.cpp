@@ -418,7 +418,6 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	LoadScriptsData();
 
 
-
 	uint navMeshId = sceneToLoad->GetNavMeshID("NavMesh");
 	if (navMeshId != -1)
 		External->pathFinding->Load(navMeshId);
@@ -478,7 +477,16 @@ void ModuleScene::LoadSceneFromStart(const std::string& dir, const std::string& 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
 
+	for (int i = 0; i < gameObjects.size(); i++) {
+		CTransform* ctrans = (CTransform*)gameObjects[i]->GetComponent(ComponentType::TRANSFORM);
+		ctrans->UpdateGlobalMatrix();
+	}
+
 	LoadScriptsData();
+
+	uint navMeshId = sceneToLoad->GetNavMeshID("NavMesh");
+	if (navMeshId != -1)
+		External->pathFinding->Load(navMeshId);
 
 	RELEASE(sceneToLoad);
 }
