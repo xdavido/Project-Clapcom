@@ -766,7 +766,7 @@ void ModuleRenderer3D::DrawUIElements(bool isGame, bool isBuild)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.0f);
+		glAlphaFunc(GL_GREATER, 0.5f);
 	}
 
 	//Get UI elements to draw
