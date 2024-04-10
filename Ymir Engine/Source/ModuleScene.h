@@ -23,6 +23,8 @@
 #include "UI_Image.h"
 
 #include <map>
+#include <tuple>
+#include <iostream>
 
 class GameObject;
 class CCamera;
@@ -112,6 +114,7 @@ public:
 	std::vector<GameObject*> destroyList;
 	std::vector<GameObject*> gameObjects;
 	std::vector<GameObject*> pendingToAdd;
+	std::vector<std::tuple<std::string, std::string>> pendingToAddPrefab;
 
 	std::vector<std::string> tags;
 

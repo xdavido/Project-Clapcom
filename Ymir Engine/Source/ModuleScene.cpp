@@ -88,7 +88,7 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
-	LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
+	//LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
 
 #endif // _STANDALONE
 
@@ -217,6 +217,15 @@ update_status ModuleScene::PostUpdate(float dt)
 		LoadScene(path, name);
 
 		pendingToAddScene.clear();
+	}
+
+	if (!pendingToAddPrefab.empty())
+	{
+		for (const auto& tuple : pendingToAddPrefab) 
+		{
+			LoadPrefab(std::get<0>(tuple), std::get<1>(tuple));
+		}
+		pendingToAddPrefab.clear();
 	}
 
 	gameObjects.insert(gameObjects.end(), pendingToAdd.begin(), pendingToAdd.end());

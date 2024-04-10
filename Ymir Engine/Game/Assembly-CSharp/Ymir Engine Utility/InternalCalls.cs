@@ -50,6 +50,23 @@ namespace YmirEngine
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject ExitGame();
+
+        /// <summary>
+        /// Retrieves a string with the values of the fields of the CSV, every field end with "," and every item with ";"
+        /// </summary>
+        /// <param name="filePath">The path to the CSV file (in this format: "Assets/Loot Tables/loot_table.csv").</param>
+        /// <param name="csFields">The CSV field names with their corresponding delimiters (in this format: "Nombre:,Probabilidad:") every field end with a comma ",".</param>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern string CSVToString(string filePath, string csFields);
+
+        /// <summary>
+        /// Creates a GameObject in the Engine as the prefab indicated
+        /// </summary>
+        /// <param name="prefabPath">The path to the prefab folder (in this format: "Assets/Prefabs").</param>
+        /// <param name="prefabName">The name of the prefab inside of the prefabPath (in this format: "Player").</param>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void CreateGOFromPrefab(string prefabPath, string prefabName);
+
     }
 
     /// <summary>

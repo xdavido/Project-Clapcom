@@ -24,7 +24,7 @@ public class Player : YmirComponent
 
         All_TYPES
     }
-    enum INPUT : int
+    public enum INPUT : int
     {
         I_IDLE,
         I_MOVE,
@@ -42,7 +42,7 @@ public class Player : YmirComponent
 
     //--------------------- State ---------------------\\
     private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
-    private List<INPUT> inputsList = new List<INPUT>();
+    public List<INPUT> inputsList = new List<INPUT>();
 
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
