@@ -56,7 +56,27 @@ namespace YmirEngine
         /// Exits the game.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern GameObject ExitGame();
+        public static extern GameObject ExitGame();            
+        
+        // TODO: PONER EN GAMEOBJECT.CS
+        /// <summary>
+        /// Get parent from go.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject CS_GetParent(object parentGO);
+
+        /// <summary>
+        /// Compare GameObjects by UID.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern bool CompareGameObjectsByUID(object go1, object go2);          
+        
+        /// <summary>
+        /// Compare string to go name.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern bool CompareStringToName(object go, string name);        
+
     }
 
     /// <summary>

@@ -853,7 +853,7 @@ void ModuleScene::LoadScriptsData(GameObject* rootObject)
 	referenceMap.clear();
 }
 
-void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
+void ModuleScene::GetUINavigate(GameObject* go, std::vector<C_UI*>& listgo)
 {
 	if (go->active)
 	{
@@ -871,7 +871,7 @@ void ModuleScene::GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo)
 	{
 		for (auto i = 0; i < go->mChildren.size(); i++)
 		{
-			GetUINaviagte(go->mChildren[i], listgo);
+			GetUINavigate(go->mChildren[i], listgo);
 		}
 	}
 }
@@ -905,7 +905,7 @@ void ModuleScene::ResetSelected()
 
 	for (int i = 0; i < vCanvas.size(); ++i)
 	{
-		GetUINaviagte(vCanvas[i], listUI);
+		GetUINavigate(vCanvas[i], listUI);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
@@ -928,7 +928,7 @@ bool ModuleScene::TabNavigate(bool isForward)
 
 		for (int i = 0; i < vCanvas.size(); ++i)
 		{
-			GetUINaviagte(vCanvas[i], listUI);
+			GetUINavigate(vCanvas[i], listUI);
 		}
 
 		if (isForward)

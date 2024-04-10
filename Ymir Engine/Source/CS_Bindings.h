@@ -286,6 +286,21 @@ MonoObject* FindChildrenWithName(MonoObject* obj, MonoString* name) {
 	return nullptr;
 }
 
+MonoObject* CS_GetParent(MonoObject* obj)
+{
+	GameObject* go = External->moduleMono->GameObject_From_CSGO(obj);
+
+	return External->moduleMono->GoToCSGO(go->mParent);
+}
+
+bool CompareGameObjectsByUID(MonoObject* obj1, MonoObject* obj2)
+{
+	GameObject* go1 = External->moduleMono->GameObject_From_CSGO(obj1);
+	GameObject* go2 = External->moduleMono->GameObject_From_CSGO(obj2);
+
+	return go1->UID == go2->UID;
+}
+
 void SetImpulse(MonoObject* obj, MonoObject* vel) {
 
 	if (External == nullptr)
@@ -666,12 +681,12 @@ void SetUIState(MonoObject* object, int uiState)
 			std::vector<C_UI*> listOffset;
 			for (int i = 0; i < External->scene->vCanvas.size(); ++i)
 			{
-				External->scene->GetUINaviagte(External->scene->vCanvas[i], listOffset);
+				External->scene->GetUINavigate(External->scene->vCanvas[i], listOffset);
 			}
 
 			for (auto i = 0; i < listOffset.size(); i++)
 			{
-				if (listOffset[i]->mOwner->UID != (int)(C_UI*)(*it)->GetUID())
+				if (listOffset[i]->GetUID() != (int)(C_UI*)(*it)->GetUID())
 				{
 					offset++;
 				}
@@ -692,9 +707,19 @@ void SetUIState(MonoObject* object, int uiState)
 					((C_UI*)(*it))->SetState(UI_STATE::NORMAL);
 				}
 			}
-			
-			External->scene->focusedUIGO = ((C_UI*)(*it))->mOwner;
 
+			External->scene->focusedUIGO = ((C_UI*)(*it))->mOwner;
+			External->scene->SetSelected(((C_UI*)(*it))->mOwner);
+
+			listComponents = External->scene->focusedUIGO->GetAllComponentsByType(ComponentType::UI);
+
+			for (auto it = listComponents.begin(); it != listComponents.end(); ++it)
+			{
+				if (((C_UI*)(*it))->tabNav_)
+				{
+					((C_UI*)(*it))->SetState(UI_STATE::FOCUSED);
+				}
+			}
 		}
 	}
 }
@@ -892,13 +917,13 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 	// Get UI elements to navigate
 	std::vector<C_UI*> listUI;
 	GameObject* gameObject = External->moduleMono->GameObject_From_CSGO(go);
-	External->scene->GetUINaviagte(gameObject, listUI); bool isInGO = false;
+	External->scene->GetUINavigate(gameObject, listUI); bool isInGO = false;
 	int offset = 0;
 
 	std::vector<C_UI*> listOffset;
 	for (int i = 0; i < External->scene->vCanvas.size(); ++i)
 	{
-		External->scene->GetUINaviagte(External->scene->vCanvas[i], listOffset);
+		External->scene->GetUINavigate(External->scene->vCanvas[i], listOffset);
 	}
 
 	for (auto i = 0; i < listUI.size(); i++)
@@ -1016,6 +1041,14 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 		return true;
 	}
 	return false;
+}
+
+bool CompareStringToName(MonoObject* go, MonoString* name)
+{
+	GameObject* gameObject = External->moduleMono->GameObject_From_CSGO(go);
+	std::string nameCompare = mono_string_to_utf8(name);
+
+	return nameCompare.compare(gameObject->name) == 0;
 }
 
 #pragma endregion

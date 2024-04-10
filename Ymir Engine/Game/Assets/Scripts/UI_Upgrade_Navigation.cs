@@ -9,12 +9,14 @@ using YmirEngine;
 public class UI_Upgrade_Navigation : YmirComponent
 {
     private bool _canTab;
-    //public string stationName = "";
+    public bool active;
+    public int stationName;
     private GameObject _focusedGO;
     public void Start()
     {
         _focusedGO = UI.GetFocused();
         _canTab = false;
+        active = true;
     }
 
     public void Update()
@@ -23,95 +25,136 @@ public class UI_Upgrade_Navigation : YmirComponent
 
         if (!_canTab && Input.GetLeftAxisX() == 0)
         {
+            EnableScripts(true, stationName);
             _canTab = true;
         }
 
-        if (Input.GetLeftAxisX() > 0 && _canTab)
+        if (active)
         {
-            NavigateRight();
-            _canTab = false;
-        }
+            if (Input.GetLeftAxisX() > 0 && _canTab)
+            {
+                NavigateRight();
 
-        else if (Input.GetLeftAxisX() < 0 && _canTab)
-        {
-            NavigateLeft();
-            _canTab = false;
+                _canTab = false;
+            }
+
+            else if (Input.GetLeftAxisX() < 0 && _canTab)
+            {
+                NavigateLeft();
+                _canTab = false;
+            }
         }
 
         return;
     }
 
-    private void NavigateLeft()
+    public void NavigateLeft()
     {
-        if (_focusedGO != null)
+        
+        if (_focusedGO != null && InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), gameObject))
         {
-            if (Equals(_focusedGO.name, "Upgrade 4"))
+
+            if (_focusedGO.name.CompareTo("Upgrade 4") == 0)
             {
                 GameObject go = InternalCalls.GetChildrenByName(gameObject, "Upgrade 3");
                 UI.SetUIState(go, (int)UI_STATE.FOCUSED);
+                EnableScripts(false, stationName);
             }
 
             else
             {
-                switch (gameObject.name)
+                if (stationName == 1)
                 {
-                    case "Sub Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
-                    case "Shotgun Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
-                    case "Plasma Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
+                    GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Plasma");
+                }
+
+                else if (stationName == 2)
+                {
+                    GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Sub");
+                }
+
+                else if (stationName == 3)
+                {
+                    GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Shotgun");
                 }
             }
         }
     }
 
-    private void NavigateRight()
+    public void NavigateRight()
     {
-        if (_focusedGO != null)
+
+        if (_focusedGO != null && InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), gameObject))
         {
-            if (Equals(_focusedGO.name, "Upgrade 3"))
+            if (_focusedGO.name.CompareTo("Upgrade 3") == 0)
             {
                 GameObject go = InternalCalls.GetChildrenByName(gameObject, "Upgrade 4");
                 UI.SetUIState(go, (int)UI_STATE.FOCUSED);
+                EnableScripts(false, stationName);
             }
 
             else
             {
-                switch (gameObject.name)
+                if (stationName == 1)
                 {
-                    case "Sub Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
-                    case "Shotgun Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
-                    case "Plasma Upgrade":
-                        {
-                            GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
-                            UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
-                        }
-                        break;
+                    GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Shotgun");
+                }
+
+                else if (stationName == 2)
+                {
+                    GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Plasma");
+                }
+
+                else if (stationName == 3)
+                {
+                    GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
+                    UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
+                    EnableScripts(false, stationName);
+                    Debug.Log("para Sub");
                 }
             }
+        }
+    }
+
+    private void EnableScripts(bool enable, int stationType)
+    {
+        if (stationType == 1)
+        {
+            GameObject go1 = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
+            GameObject go2 = InternalCalls.GetGameObjectByName("Plasma Upgrade");
+            go1.GetComponent<UI_Upgrade_Navigation>().active = enable;
+            go2.GetComponent<UI_Upgrade_Navigation>().active = enable;
+        }
+
+        else if (stationType == 2)
+        {
+            GameObject go1 = InternalCalls.GetGameObjectByName("Sub Upgrade");
+            GameObject go2 = InternalCalls.GetGameObjectByName("Plasma Upgrade");
+            go1.GetComponent<UI_Upgrade_Navigation>().active = enable;
+            go2.GetComponent<UI_Upgrade_Navigation>().active = enable;
+        }
+
+        else if (stationType == 3)
+        {
+            GameObject go1 = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
+            GameObject go2 = InternalCalls.GetGameObjectByName("Sub Upgrade");
+            go1.GetComponent<UI_Upgrade_Navigation>().active = enable;
+            go2.GetComponent<UI_Upgrade_Navigation>().active = enable;
         }
     }
 }

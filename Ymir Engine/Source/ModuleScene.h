@@ -95,7 +95,7 @@ public:
 	void LoadScriptsData(GameObject* rootObject = nullptr);
 
 	// UI navigation
-	void GetUINaviagte(GameObject* go, std::vector<C_UI*>& listgo);
+	void GetUINavigate(GameObject* go, std::vector<C_UI*>& listgo);
 	GameObject* GetUISelected(GameObject* go);
 	void ResetSelected();
 	bool TabNavigate(bool isForward);

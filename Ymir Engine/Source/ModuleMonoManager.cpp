@@ -55,7 +55,9 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateGameObject", CSCreateGameObject);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByName", FindObjectWithName);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetChildrenByName", FindChildrenWithName);
-	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByUID", FindObjectWithUID);
+	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByUID", FindObjectWithUID);	
+	mono_add_internal_call("YmirEngine.InternalCalls::CS_GetParent", CS_GetParent);
+	mono_add_internal_call("YmirEngine.InternalCalls::CompareGameObjectsByUID", CompareGameObjectsByUID);
 	mono_add_internal_call("YmirEngine.GameObject::TryGetComponent", CS_GetComponent);
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);
 
@@ -140,6 +142,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.UI::GetFocused", GetFocused);
 	mono_add_internal_call("YmirEngine.UI::SwitchPosition", SwitchPosition);
 	mono_add_internal_call("YmirEngine.UI::NavigateGrid", NavigateGrid);
+	mono_add_internal_call("YmirEngine.UI::CompareStringToName", CompareStringToName);
 
 
 

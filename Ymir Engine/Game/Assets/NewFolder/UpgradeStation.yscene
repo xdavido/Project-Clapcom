@@ -26,7 +26,7 @@
             "UID": 521471341,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 783083727,
+            "Parent UID": 1536945254,
             "Components": [
                 {
                     "Type": "Transform",
@@ -74,9 +74,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -101,17 +101,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -156,8 +156,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1092,
-                    "Height": 891,
+                    "Width": 411,
+                    "Height": 687,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -217,8 +217,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1092,
-                    "Height": 891,
+                    "Width": 411,
+                    "Height": 687,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -232,7 +232,8 @@
                     "Type": "Script",
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
-                    "UID": 0
+                    "UID": 0,
+                    "stationName": 1
                 }
             ],
             "Children UID": [
@@ -1211,7 +1212,7 @@
             ]
         },
         {
-            "Name": "Shotgun  Upgrade  ",
+            "Name": "Shotgun Upgrade",
             "Tag": "Untagged",
             "UID": 973145517,
             "Active": true,
@@ -1243,8 +1244,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1092,
-                    "Height": 891,
+                    "Width": 411,
+                    "Height": 687,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -1258,7 +1259,8 @@
                     "Type": "Script",
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
-                    "UID": 0
+                    "UID": 0,
+                    "stationName": 2
                 }
             ],
             "Children UID": [
@@ -1388,7 +1390,7 @@
                     "description": "Start",
                     "cost": 0,
                     "isUnlocked": true,
-                    "stationName": "Shotgun  Upgrade  "
+                    "stationName": "Shotgun Upgrade"
                 }
             ],
             "Children UID": [
@@ -1575,7 +1577,7 @@
                     "description": "Upgrade 1",
                     "cost": 1,
                     "isUnlocked": false,
-                    "stationName": "Shotgun  Upgrade  "
+                    "stationName": "Shotgun Upgrade"
                 }
             ],
             "Children UID": [
@@ -1762,7 +1764,7 @@
                     "description": "Upgrade2",
                     "cost": 2,
                     "isUnlocked": false,
-                    "stationName": "Shotgun  Upgrade  "
+                    "stationName": "Shotgun Upgrade "
                 }
             ],
             "Children UID": [
@@ -2205,7 +2207,7 @@
             ]
         },
         {
-            "Name": "Empty (1)",
+            "Name": "Eempty",
             "Tag": "Untagged",
             "UID": 669063827,
             "Active": true,
@@ -2237,7 +2239,7 @@
             ]
         },
         {
-            "Name": "Plasma Upgrade ",
+            "Name": "Plasma Upgrade",
             "Tag": "Untagged",
             "UID": 807582257,
             "Active": true,
@@ -2269,8 +2271,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1092,
-                    "Height": 891,
+                    "Width": 411,
+                    "Height": 687,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -2284,7 +2286,8 @@
                     "Type": "Script",
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
-                    "UID": 0
+                    "UID": 0,
+                    "stationName": 3
                 }
             ],
             "Children UID": [
@@ -2414,7 +2417,7 @@
                     "description": "Start",
                     "cost": 0,
                     "isUnlocked": true,
-                    "stationName": "Plasma Upgrade "
+                    "stationName": "Plasma Upgrade"
                 }
             ],
             "Children UID": [
@@ -2601,7 +2604,7 @@
                     "description": "Upgrade 1",
                     "cost": 1,
                     "isUnlocked": false,
-                    "stationName": "Plasma Upgrade "
+                    "stationName": "Plasma Upgrade"
                 }
             ],
             "Children UID": [
@@ -2788,7 +2791,7 @@
                     "description": "Upgrade2",
                     "cost": 2,
                     "isUnlocked": false,
-                    "stationName": "Plasma Upgrade "
+                    "stationName": "Plasma Upgrade"
                 }
             ],
             "Children UID": [
@@ -2975,7 +2978,7 @@
                     "description": "Upgrade 3",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "Plasma Upgrade "
+                    "stationName": "Plasma Upgrade"
                 }
             ],
             "Children UID": [
@@ -3162,7 +3165,7 @@
                     "description": "Upgrade 4",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "Plasma Upgrade "
+                    "stationName": "Plasma Upgrade"
                 }
             ],
             "Children UID": [
