@@ -169,8 +169,14 @@ namespace YmirEngine
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern GameObject NavigateGrid(object go, int rows, int columns, bool isRight);
+        
+        /// <summary>
+        /// Switch position of two game objects.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern GameObject UpgradeToUnlock(object go);
     }
-
+    
     /// <summary>
     /// Provides methods for handling input.
     /// </summary>

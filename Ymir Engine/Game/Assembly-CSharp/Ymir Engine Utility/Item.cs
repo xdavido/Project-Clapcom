@@ -42,4 +42,19 @@ namespace YmirEngine
             this.itemType = itemType;
         }
     }
+
+    public class Upgrade
+    {
+        public string name, description;
+        public int cost;
+        public bool isUnlocked;
+
+        public Upgrade(string name, string description, int cost, bool isUnlocked)
+        {
+            this.name = name;
+            this.description = description;
+            this.cost = cost;
+            this.isUnlocked = isUnlocked;
+        }
+    }
 }
