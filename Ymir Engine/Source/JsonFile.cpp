@@ -3333,6 +3333,9 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 					float posZ = json_array_get_number(posArr, 2);
 					eBase->emitterOrigin = { posX,posY,posZ };
 
+					eBase->distanceLimit = (float)json_object_get_number(modulo, "DistanceLimit");
+					eBase->hasDistanceLimit = json_object_get_boolean(modulo, "HasDistanceLimit");
+
 					break;
 				}
 				case PAR_SPAWN:
