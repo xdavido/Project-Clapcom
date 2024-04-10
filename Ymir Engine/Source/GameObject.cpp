@@ -216,49 +216,23 @@ template <typename t> void move(std::vector<t>& v, size_t oldIndex, size_t newIn
 void GameObject::SwapChildren(GameObject* go)
 {
 	int index = std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin();
-	auto index2 = std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin();
+	int index2 = std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin();
 
 	GameObject* aux = go->mParent;
 	go->ReParent(mParent);
 	this->ReParent(aux);
 
-	move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
-	move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
-	
+	if (index < index2)
+	{
+		move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
+		move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
+	}
+	else
+	{
+		move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
+		move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
+	}
 
-	//mParent->mChildren.swap(this, go);
-
-	//GameObject* aux = mParent;
-
-	//mParent = go->mParent;
-	//go->mParent = aux;
-
-	//std::swap(*this, *go);
-	////std::iter_swap(this, go);
-
-	////Update transform values
-	//if (mParent->mTransform != nullptr)
-	//{
-	//	mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
-	//}
-
-	//else
-	//{
-	//	mTransform->ReparentTransform(mTransform->mGlobalMatrix);
-	//}
-
-	////Update transform values
-	//if (go->mParent->mTransform != nullptr)
-	//{
-	//	go->mTransform->ReparentTransform(go->mParent->mTransform->mGlobalMatrix.Inverted() * go->mTransform->mGlobalMatrix);
-	//}
-
-	//else
-	//{
-	//	go->mTransform->ReparentTransform(go->mTransform->mGlobalMatrix);
-	//}
-
-	//mChildren.swap(go1, go2);
 }
 
 void GameObject::AddComponent(Component* component)
