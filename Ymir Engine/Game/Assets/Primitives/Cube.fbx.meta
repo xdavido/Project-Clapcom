@@ -1,15 +1,15 @@
 {
     "Name": "Cube",
     "Assets Path": "Assets\/Primitives\/Cube.fbx",
-    "Library Path": ".\/Library\/Models\/45989887.ymodel",
-    "UID": 45989887,
+    "Library Path": ".\/Library\/Models\/1405534503.ymodel",
+    "UID": 1405534503,
     "Type": "Model",
     "Meshes num": 1,
     "Meshes Embedded UID": [
-        1100324108
+        855930628
     ],
     "Resources num": 1,
     "Resources Embedded UID": [
-        1186438183
+        715211585
     ]
 }
