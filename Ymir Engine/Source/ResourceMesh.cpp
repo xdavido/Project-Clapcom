@@ -70,6 +70,14 @@ bool ResourceMesh::LoadInMemory()
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, MAX_BONE_INFLUENCE, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
 
+    // Vertex tangents
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangents));
+
+    // Vertex bitangents
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangents));
+
     // 4. Load data into Vertex Buffers
 
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
@@ -86,13 +94,13 @@ bool ResourceMesh::LoadInMemory()
     glDisableVertexAttribArray(2);
     glDisableVertexAttribArray(3);
     glDisableVertexAttribArray(4);
+    glDisableVertexAttribArray(5);
+    glDisableVertexAttribArray(6);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     isLoaded = true;
-
-    InitBoundingBoxes();
 
     return ret;
 }
@@ -148,41 +156,4 @@ bool ResourceMesh::Render()
     glBindVertexArray(0);
 
     return ret;
-}
-
-void ResourceMesh::InitBoundingBoxes()
-{
-    obb.SetNegativeInfinity();
-    globalAABB.SetNegativeInfinity();
-
-    std::vector<float3> floatArray;
-
-    floatArray.reserve(vertices.size());
-
-    for (const auto& vertex : vertices) {
-
-        floatArray.push_back(vertex.position);
-
-    }
-
-    aabb.SetFrom(&floatArray[0], floatArray.size());
-}
-
-void ResourceMesh::UpdateBoundingBoxes()
-{
-    obb = aabb;
-
-    globalAABB.SetNegativeInfinity();
-    globalAABB.Enclose(obb);
-}
-
-void ResourceMesh::RenderBoundingBoxes()
-{
-    float3 verticesOBB[8];
-    obb.GetCornerPoints(verticesOBB);
-    External->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
-
-    float3 verticesAABB[8];
-    globalAABB.GetCornerPoints(verticesAABB);
-    External->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
 }

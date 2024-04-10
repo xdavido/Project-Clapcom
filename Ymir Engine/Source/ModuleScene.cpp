@@ -78,6 +78,7 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 	LoadSceneFromStart("Assets/Scenes", "GameUI");
 	/*LoadSceneFromStart("Assets", "Enemigo player"); */
+	//LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
 
 #endif // _RELEASE
 
@@ -86,7 +87,8 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets", "VS2 Release");
 	//LoadSceneFromStart("Assets/Scenes", "UI_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
-	LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
+	LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
 
 #endif // _STANDALONE
 
@@ -269,22 +271,53 @@ GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 
 std::string ModuleScene::GetUniqueName(std::string name)
 {
-	//Check if a Game Object with same name exists
+	// Check if a Game Object with the same name exists
 	bool exists = false;
 	int counter = 0;
-	if (gameObjects.size() > 0)
-	{
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			if (name == gameObjects[i]->name)    //If the name exists, add 1 to counter
-			{
-				counter++;
-				name = ReName(name, counter);
-			}
+
+	// Iterate through existing game object names
+	for (auto gameObject : gameObjects) {
+
+		if (name == gameObject->name) {
+
+			exists = true;
+
+			break;
+
 		}
-		return name;
+
 	}
-	else return name;
+
+	// If the name already exists, rename it
+	if (exists) {
+
+		do {
+
+			counter++;
+
+			name = ReName(name, counter);
+
+			exists = false;
+
+			// Check if the new name already exists
+
+			for (auto gameObject : gameObjects) {
+
+				if (name == gameObject->name) {
+
+					exists = true;
+
+					break;
+
+				}
+
+			}
+
+		} while (exists);
+
+	}
+
+	return name;
 }
 
 std::string ModuleScene::ReName(std::string name, uint counter)
@@ -333,13 +366,13 @@ void ModuleScene::ClearScene()
 {
 	//JsonFile::DeleteJSON(External->fileSystem->libraryScenesPath + std::to_string(mRootNode->UID) + ".yscene");
 
-	uint deletedSceneUID = mRootNode->UID;
-
 	isLocked = false;
 	SetSelected();
 
 	// FRANCESC: Doing this RELEASE here makes the meshes disappear
-	//RELEASE(mRootNode);
+	// RELEASE(mRootNode);
+
+	External->resourceManager->resources.clear();
 
 	External->lightManager->lights.clear();
 
@@ -352,9 +385,6 @@ void ModuleScene::ClearScene()
 
 	ClearVec(vTempComponents);
 	ClearVec(vCanvas);
-
-	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
-	mRootNode->UID = deletedSceneUID;
 }
 
 void ModuleScene::SaveScene(const std::string& dir, const std::string& fileName)
@@ -398,7 +428,12 @@ void ModuleScene::LoadScene(const std::string& dir, const std::string& fileName)
 	App->camera->editorCamera->SetUp(sceneToLoad->GetFloat3("Editor Camera Up (Y)"));
 	App->camera->editorCamera->SetFront(sceneToLoad->GetFloat3("Editor Camera Front (Z)"));
 
+	uint deletedSceneUID = mRootNode->UID;
+
 	ClearScene();
+
+	mRootNode = CreateGameObject("Scene", nullptr); // Recreate scene
+	mRootNode->UID = deletedSceneUID;
 
 	gameObjects = sceneToLoad->GetHierarchy("Hierarchy");
 	mRootNode = gameObjects[0];
@@ -591,10 +626,10 @@ void ModuleScene::HandleGameObjectSelection(const LineSegment& ray)
 		if (meshToTest != nullptr)
 		{
 			// Check for intersection between the ray and the global axis-aligned bounding box (AABB) of the mesh.
-			if (ray.Intersects(meshToTest->rMeshReference->globalAABB, closest, furthest)) {
+			if (ray.Intersects(meshToTest->globalAABB, closest, furthest)) {
 
 				// Test if the mesh is inside another AABB (avoid Skybox selection).
-				if (!IsInsideAABB(ray.a, meshToTest->rMeshReference->globalAABB))
+				if (!IsInsideAABB(ray.a, meshToTest->globalAABB))
 				{
 					// Store the mesh in the map based on the closest intersection distance.
 					meshCandidates[closest] = meshToTest;
