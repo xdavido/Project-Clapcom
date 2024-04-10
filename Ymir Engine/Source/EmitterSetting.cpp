@@ -709,35 +709,122 @@ void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
 
 EmitterRotation::EmitterRotation()
 {
-	cameraSelected = External->scene->gameCameraComponent;
+	horAlign = true;
 }
 
 void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 {
-	float4x4* camaraMatrix = (float4x4*)cameraSelected->GetViewMatrix().ptr();
+	/*float4x4* camaraMatrix = (float4x4*)cameraSelected->GetViewMatrix().ptr();
 	float3 tempPos;
 	Quat tempRot;
 	float3 tempSca;
-	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
+	camaraMatrix->Decompose(tempPos, tempRot, tempSca);*/
 
 	for (int i = 0; i < emitter->listParticles.size(); i++)
 	{
-		emitter->listParticles.at(i)->worldRotation = tempRot;
+		//emitter->listParticles.at(i)->worldRotation = tempRot;
+		emitter->listParticles.at(i)->worldRotation = rotation;
 	}
 }
 
 void EmitterRotation::OnInspector()
 {
-	if (ImGui::Button("EditorCamera"))
+	//if (ImGui::Button("EditorCamera"))
+	//{
+	//	//cameraSelected = External->camera->editorCamera;
+	//	viewMatrix = External->camera->editorCamera->GetViewMatrix();
+	//}
+
+	//if (ImGui::Button("GameCamera"))
+	//{
+	//	//cameraSelected = External->scene->gameCameraComponent;
+	//	viewMatrix = External->scene->gameCameraComponent->GetViewMatrix();
+
+	//}
+
+	std::string tempAlignment = "Not Aligned Yet";
+
+	switch (currentAlignment) 
 	{
-		cameraSelected = External->camera->editorCamera;
+		case BILLBOARD_TYPE::AXISALIGNED: tempAlignment = "Axis Aligned"; break;
+		case BILLBOARD_TYPE::EDITORCAMERA: tempAlignment = "Screen Aligned"; break;
+		case BILLBOARD_TYPE::GAMECAMERA: tempAlignment = "Camera Aligned"; break;
+		case BILLBOARD_TYPE::WORLDALIGNED: tempAlignment = "World Aligned"; break;
+	}
+	ImGui::Text("Current Billboard: %s", tempAlignment.c_str());
+
+	if (ImGui::BeginMenu("Change billboard")) 
+	{
+		if (ImGui::MenuItem("Editor Camera Aligned")) EditorCameraAlign();
+		if (ImGui::MenuItem("Game Camera Aligned")) GameCameraAlign();
+		if (ImGui::MenuItem("World Aligned")) WorldAlign();
+		if (ImGui::MenuItem("Axis Aligned")) AxisAlign();
+		ImGui::EndMenu();
 	}
 
-	if (ImGui::Button("GameCamera"))
+	if (currentAlignment == BILLBOARD_TYPE::AXISALIGNED)
 	{
-		cameraSelected = External->scene->gameCameraComponent;
+		std::string tempName = (horAlign ? "Horizontal" : "Vertical");
+		ImGui::Text("Current Aligned Axis: %s", tempName.c_str());
+
+		if (ImGui::BeginMenu("Change aligned axis"))
+		{
+			if (ImGui::MenuItem("Horizontal")) horAlign = true;
+			if (ImGui::MenuItem("Vertical")) horAlign = false;
+
+			ImGui::EndMenu();
+		}
 	}
+
 	ImGui::Separator();
+}
+
+void EmitterRotation::SetRotation(Quat rot)
+{
+	rotation = rot;
+}
+
+void EmitterRotation::EditorCameraAlign()
+{ 
+	float4x4* camaraMatrix = (float4x4*)External->camera->editorCamera->GetViewMatrix().ptr();
+	float3 tempPos;
+	Quat tempRot;
+	float3 tempSca;
+	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
+	SetRotation(tempRot);
+	currentAlignment = BILLBOARD_TYPE::EDITORCAMERA;
+}
+
+void EmitterRotation::GameCameraAlign()
+{
+	float4x4* camaraMatrix = (float4x4*)External->scene->gameCameraComponent->GetViewMatrix().ptr();
+	float3 tempPos;
+	Quat tempRot;
+	float3 tempSca;
+	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
+	SetRotation(tempRot);
+	currentAlignment = BILLBOARD_TYPE::GAMECAMERA;
+}
+
+void EmitterRotation::WorldAlign()
+{
+	SetRotation(Quat::identity);
+	currentAlignment = BILLBOARD_TYPE::WORLDALIGNED;
+}
+
+void EmitterRotation::AxisAlign()
+{
+	if (horAlign)
+	{
+		currentAlignment = BILLBOARD_TYPE::AXISALIGNED;
+		SetRotation(Quat(0.701, 0, 0, -0.713));
+	}
+	else
+	{
+		currentAlignment = BILLBOARD_TYPE::AXISALIGNED;
+		return SetRotation(Quat::identity);
+	}
+
 }
 
 EmitterSize::EmitterSize()
