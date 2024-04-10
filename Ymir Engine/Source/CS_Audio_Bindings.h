@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Globals.h"
 #include "Application.h"
 #include "GameObject.h"
