@@ -1136,6 +1136,12 @@ public class Player : YmirComponent
         //Setup de todo lo necesario
 
         StopPlayer();
+
+        Vector3 pos = gameObject.transform.globalPosition;
+        Quaternion rot = gameObject.transform.globalRotation;
+
+        InternalCalls.CreateTailSensor(pos, rot);
+
         swipeTimer = swipeDuration;
     }
 
