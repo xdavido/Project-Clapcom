@@ -34,11 +34,21 @@ UI_Image::UI_Image(GameObject* g, float x, float y, float w, float h, std::strin
 
 UI_Image::~UI_Image()
 {
-	RELEASE(selectedTexture);
+	/*if (mapTextures.size() > 0)
+	{
+		for (std::map<UI_STATE, ResourceTexture*>::iterator it = mapTextures.begin(); it != mapTextures.end(); ++it)
+		{
+			External->resourceManager->UnloadResource(it->second->UID);
+		}
+		mapTextures.clear();
+	}*/
+
 	RELEASE(mat);
 
+	//External->resourceManager->UnloadResource(selectedTexture->UID);
+
+	selectedTexture = nullptr;
 	mapTextures.clear();
-	//RELEASE(mapTextures);
 }
 
 void UI_Image::OnInspector()
@@ -471,6 +481,7 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 	auto itr = mapTextures.find(state);
 	if (itr != mapTextures.end())
 	{
+		External->resourceManager->UnloadResource(itr->second->GetUID());
 		mat->rTextures.erase(std::find(mat->rTextures.begin(), mat->rTextures.end(), itr->second));
 		mat->rTextures.shrink_to_fit();
 

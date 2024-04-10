@@ -248,8 +248,6 @@ update_status ModuleScene::PostUpdate(float dt)
 	{
 		for (std::map<GameObject*, GameObject*>::iterator it = swapList.begin(); it != swapList.end(); ++it)
 		{
-			//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
-
 			it->first->SwapChildren(it->second);
 		}
 		swapList.clear();

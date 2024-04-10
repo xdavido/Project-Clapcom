@@ -1398,7 +1398,6 @@ void ModuleEditor::DrawEditor()
 
 						App->resourceManager->ImportFile(assetsFilePathDrop);
 					}
-
 				}
 
 				else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("asset"))

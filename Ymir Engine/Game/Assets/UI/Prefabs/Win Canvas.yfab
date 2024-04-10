@@ -75,31 +75,35 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 1920,
-                    "Height": 1080,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        1920,
-                        1080
-                    ],
-                    "Path": "Assets\/UI\/WinScreen.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 0,
+                "Position Y": 0,
+                "Width": 1920,
+                "Height": 1080,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  0,
+                  0,
+                  1920,
+                  1080
+                ],
+                "Path": "Assets\/UI\/WinScreen.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Current Frame X": 0,
+                "Current Frame Y": 0,
+                "Rows": 1,
+                "Columns": 1,
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
@@ -132,84 +136,89 @@
                         1
                     ]
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 670,
-                    "Position Y": 738,
-                    "Width": 649,
-                    "Height": 196,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        670,
-                        738,
-                        649,
-                        196
-                    ],
-                    "Path": "Assets\/Baker_house.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 670,
+                "Position Y": 738,
+                "Width": 649,
+                "Height": 196,
+                "UI Type": 1,
+                "UI State": 1,
+                "Drag Limits": [
+                  670,
+                  738,
+                  649,
+                  196
+                ],
+                "Path": "Assets\/Baker_house.png",
+                "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                "Current Frame X": 0,
+                "Current Frame Y": 0,
+                "Rows": 1,
+                "Columns": 1,
+                "Color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
                 },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 0,
-                    "Position Y": 0,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 3,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        0,
-                        0,
-                        300,
-                        50
-                    ],
-                    "Is interactable": true,
-                    "Text": 1850778591,
-                    "Image": 1984199107,
-                    "Normal": "Assets\/UI\/Death Buttons\/ButtonUnselected.png",
-                    "Focused": "Assets\/UI\/Buttons\/Button.png",
-                    "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
-                    "Selected": "Assets\/UI\/Buttons\/Button.png",
-                    "Release": "Assets\/Baker_house.png",
-                    "Focused color": [
-                        0,
-                        1,
-                        0,
-                        1
-                    ],
-                    "Pressed color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Selected color": [
-                        0,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Disabled color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
+              {
+                "Type": "UI",
+                "Active": 1,
+                "Draggeable": false,
+                "Position X": 0,
+                "Position Y": 0,
+                "Width": 300,
+                "Height": 50,
+                "UI Type": 3,
+                "UI State": 1,
+                "Drag Limits": [
+                  0,
+                  0,
+                  300,
+                  50
+                ],
+                "Is interactable": true,
+                "Text": 1850778591,
+                "Image": 1984199107,
+                "Normal": "Assets\/UI\/Death Buttons\/ButtonUnselected.png",
+                "Focused": "Assets\/UI\/Buttons\/Button.png",
+                "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
+                "Selected": "Assets\/UI\/Buttons\/Button.png",
+                "Release": "Assets\/Baker_house.png",
+                "Disabled": "Assets\/Baker_house.png",
+                "Focused color": [
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "Pressed color": [
+                  1,
+                  0,
+                  1,
+                  1
+                ],
+                "Selected color": [
+                  0,
+                  0,
+                  1,
+                  1
+                ],
+                "Disabled color": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",

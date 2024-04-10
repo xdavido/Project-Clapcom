@@ -2,10 +2,11 @@
     "Prefab": [
         {
             "Name": "Start Canvas",
+            "Tag": "Untagged",
             "UID": 2047246996,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1849948901,
+            "Parent UID": 2060278463,
             "Components": [
                 {
                     "Type": "Transform",
@@ -32,8 +33,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 764,
-                    "Height": 614,
+                    "Width": 636,
+                    "Height": 453,
                     "UI Type": 0,
                     "UI State": 5,
                     "Drag Limits": [
@@ -51,6 +52,7 @@
         },
         {
             "Name": "Image",
+            "Tag": "Untagged",
             "UID": 1031026276,
             "Active": true,
             "Element_Type": "None",
@@ -93,6 +95,10 @@
                     ],
                     "Path": "Assets\/UI\/MainMenu.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -108,6 +114,7 @@
         },
         {
             "Name": "Empty",
+            "Tag": "Untagged",
             "UID": 147158853,
             "Active": true,
             "Element_Type": "None",
@@ -142,6 +149,7 @@
         },
         {
             "Name": "Start",
+            "Tag": "Untagged",
             "UID": 163943387,
             "Active": true,
             "Element_Type": "None",
@@ -182,8 +190,12 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -219,6 +231,7 @@
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
                     "Selected": "Assets\/UI\/Buttons\/Button.png",
                     "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
                         0,
                         1,
@@ -247,6 +260,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Navigation.cs",
+                    "Active": 1,
                     "UID": 0,
                     "sceneName": "Assets\/VS2 Release.yscene"
                 }
@@ -256,7 +270,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (1)",
+            "Tag": "Untagged",
             "UID": 1649756452,
             "Active": true,
             "Element_Type": "None",
@@ -317,6 +332,7 @@
         },
         {
             "Name": "Settings",
+            "Tag": "Untagged",
             "UID": 1643314356,
             "Active": true,
             "Element_Type": "None",
@@ -357,8 +373,12 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -394,6 +414,7 @@
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
                     "Selected": "Assets\/UI\/Buttons\/Button.png",
                     "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
                         0,
                         1,
@@ -425,7 +446,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (2)",
+            "Tag": "Untagged",
             "UID": 377903530,
             "Active": true,
             "Element_Type": "None",
@@ -486,6 +508,7 @@
         },
         {
             "Name": "Credits",
+            "Tag": "Untagged",
             "UID": 1999302453,
             "Active": true,
             "Element_Type": "None",
@@ -526,8 +549,12 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -563,6 +590,7 @@
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
                     "Selected": "Assets\/UI\/Buttons\/Button.png",
                     "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
                         0,
                         1,
@@ -594,7 +622,8 @@
             ]
         },
         {
-            "Name": "Text",
+            "Name": "Text (3)",
+            "Tag": "Untagged",
             "UID": 1806740315,
             "Active": true,
             "Element_Type": "None",
@@ -655,6 +684,7 @@
         },
         {
             "Name": "Exit",
+            "Tag": "Untagged",
             "UID": 1276237982,
             "Active": true,
             "Element_Type": "None",
@@ -695,8 +725,12 @@
                         424,
                         152
                     ],
-                    "Path": "Assets\/UI\/Buttons\/Button_unpressed.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
                     "Color": [
                         1,
                         1,
@@ -732,6 +766,7 @@
                     "Pressed": "Assets\/UI\/Buttons\/Button_pressed.png",
                     "Selected": "Assets\/UI\/Buttons\/Button.png",
                     "Release": "Assets\/Baker_house.png",
+                    "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
                         0,
                         1,
@@ -760,6 +795,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "Button_Exit.cs",
+                    "Active": 1,
                     "UID": 0
                 }
             ],
@@ -769,6 +805,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 1527662185,
             "Active": true,
             "Element_Type": "None",
