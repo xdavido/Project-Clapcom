@@ -145,6 +145,12 @@ public class Player : YmirComponent
     //--------------------- External Scripts ---------------------\\
     private UI_Bullets csBullets;
     private Health csHealth;
+
+    private UI_Animation csUI_AnimationDash;
+    private UI_Animation csUI_AnimationPredatory;
+    private UI_Animation csUI_AnimationSwipe;
+    private UI_Animation csUI_AnimationAcid;
+
     #endregion
 
     //Hay que dar valor a las variables en el start
@@ -193,6 +199,9 @@ public class Player : YmirComponent
         //--------------------- Get Player Scripts ---------------------\\
         GetPlayerScripts();
 
+        //--------------------- Get Skills Scripts ---------------------\\
+        GetSkillsScripts();
+
         //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
 
@@ -216,8 +225,6 @@ public class Player : YmirComponent
         {
             godMode = !godMode;
         }
-
-        Debug.Log("swipeCD = " + swipeCDTimer);
     }
 
     #region FSM
@@ -240,6 +247,15 @@ public class Player : YmirComponent
             if (dashCDTimer <= 0)
             {
                 hasDashed = false;
+
+                // SARA: vuelve ui normal
+                // Without ping-pong
+                //csUI_AnimationDash.SetAnimationState(false);
+                //csUI_AnimationDash.SetCurrentFrame(0, 0);
+                
+                // With ping-pong
+                csUI_AnimationDash.Reset();
+                csUI_AnimationDash.backwards = true;
             }
         }
 
@@ -294,6 +310,7 @@ public class Player : YmirComponent
             if (predatoryCDTimer <= 0)
             {
                 hasPred = false;
+                // SARA: vuelve ui normal
             }
         }
 
@@ -315,6 +332,7 @@ public class Player : YmirComponent
             if (swipeCDTimer <= 0)
             {
                 hasSwipe = false;
+                // SARA: vuelve ui normal
             }
         }
 
@@ -968,6 +986,12 @@ public class Player : YmirComponent
         StopPlayer();
         dashCDTimer = dashCD;
         //gameObject.transform.localPosition.y = dashStartYPos;
+
+        // SARA: start dash cooldown
+
+        csUI_AnimationDash.Reset();
+        csUI_AnimationDash.backwards = false;
+        csUI_AnimationDash.SetAnimationState(true);
     }
 
     private void StartJump()
@@ -1080,7 +1104,6 @@ public class Player : YmirComponent
         gameObject.SetRotation(targetRotation);
     }
 
-    // TODO: use the generic functions
     private void GetPlayerScripts()
     {
         GameObject gameObject = InternalCalls.GetGameObjectByName("Player");
@@ -1088,6 +1111,35 @@ public class Player : YmirComponent
         {
             csBullets = gameObject.GetComponent<UI_Bullets>();
             csHealth = gameObject.GetComponent<Health>();
+        }
+    }
+
+    private void GetSkillsScripts()
+    {
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Dash");
+
+        Debug.Log(gameObject.name);
+        if (gameObject != null)
+        {
+            csUI_AnimationDash = gameObject.GetComponent<UI_Animation>();
+        }
+
+        gameObject = InternalCalls.GetGameObjectByName("Skill1");
+        if (gameObject != null)
+        {
+            csUI_AnimationPredatory = gameObject.GetComponent<UI_Animation>();
+        }
+
+        gameObject = InternalCalls.GetGameObjectByName("Skill2");
+        if (gameObject != null)
+        {
+            csUI_AnimationSwipe = gameObject.GetComponent<UI_Animation>();
+        }
+
+        gameObject = InternalCalls.GetGameObjectByName("Skill3");
+        if (gameObject != null)
+        {
+            csUI_AnimationAcid = gameObject.GetComponent<UI_Animation>();
         }
     }
 
@@ -1122,6 +1174,8 @@ public class Player : YmirComponent
         //Increase dash CD / 0,5
 
         predatoryCDTimer = predatoryCD;
+
+        // SARA: start dash cooldown
     }
 
     #endregion
@@ -1149,6 +1203,8 @@ public class Player : YmirComponent
         //StopPlayer();
         //Delete de la hitbox de la cola
         swipeCDTimer = swipeCD;
+
+        // SARA: start dash cooldown
     }
 
     #endregion

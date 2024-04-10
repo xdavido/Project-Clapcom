@@ -11,6 +11,7 @@ public class UI_Animation : YmirComponent
     public bool loop = false;
     public bool pingpongWIP = false;
     public bool backwards = false;
+    public bool animState = true;
 
     public float delay = 1f;
     public int loopCount = 0;
@@ -25,78 +26,92 @@ public class UI_Animation : YmirComponent
 
     public void Start()
     {
-        image = InternalCalls.GetGameObjectByName("Image");
+        image = gameObject;
         rowXcolumn = new Vector2(UI.GetImageRows(image), UI.GetImageColumns(image));
         currentFrame = new Vector2(UI.GetImageCurrentFrameX(image), UI.GetImageCurrentFrameY(image));
     }
 
     public void Update()
     {
-        if ((loop || loopCount == 0) && (_timer += Time.deltaTime) >= delay)
+        if (animState)
         {
-            _timer = 0;
-
-            if (!backwards)
+            if ((loop || loopCount == 0) && (_timer += Time.deltaTime) >= delay)
             {
-                if (currentFrame.y < rowXcolumn.y) { ++currentFrame.y; }
-                else if (currentFrame.x >= rowXcolumn.x)
-                {
-                    currentFrame.x = 0;
-                    currentFrame.y = 0;
-                }
-                else
-                {
-                    ++currentFrame.x;
-                    currentFrame.y = 0;
-                }
+                _timer = 0;
 
-                ++currentIndex;
-                if (currentIndex >= totalFrames)
+                if (!backwards)
                 {
-                    if (!pingpongWIP)
+                    if (currentFrame.y < rowXcolumn.y) { ++currentFrame.y; }
+                    else if (currentFrame.x >= rowXcolumn.x)
                     {
-                        IncreaseLoopCount();
+                        currentFrame.x = 0;
+                        currentFrame.y = 0;
                     }
                     else
                     {
-                        backwards = !backwards;
-                        if (!loop) { pingpongWIP = false; }
+                        ++currentFrame.x;
+                        currentFrame.y = 0;
                     }
-                }
-            }
-            else
-            {
-                if (currentFrame.y > 0) { --currentFrame.y; }
-                else if (currentFrame.x == 0)
-                {
-                    currentFrame.x = rowXcolumn.x;
-                    currentFrame.y = rowXcolumn.y;
+
+                    ++currentIndex;
+                    if (currentIndex >= totalFrames)
+                    {
+                        if (!pingpongWIP)
+                        {
+                            IncreaseLoopCount();
+                        }
+                        else
+                        {
+                            backwards = !backwards;
+                            if (!loop) { pingpongWIP = false; }
+                        }
+                    }
                 }
                 else
                 {
-                    --currentFrame.x;
-                    currentFrame.y = rowXcolumn.y;
-                }
-
-                ++currentIndex;
-                if (currentIndex >= totalFrames)
-                {
-                    if (!pingpongWIP)
+                    if (currentFrame.y > 0) { --currentFrame.y; }
+                    else if (currentFrame.x == 0)
                     {
-                        IncreaseLoopCount();
+                        currentFrame.x = rowXcolumn.x;
+                        currentFrame.y = rowXcolumn.y;
                     }
                     else
                     {
-                        backwards = !backwards;
-                        if (!loop) { pingpongWIP = false; }
+                        --currentFrame.x;
+                        currentFrame.y = rowXcolumn.y;
+                    }
+
+                    ++currentIndex;
+                    if (currentIndex >= totalFrames)
+                    {
+                        if (!pingpongWIP)
+                        {
+                            IncreaseLoopCount();
+                        }
+                        else
+                        {
+                            backwards = !backwards;
+                            if (!loop) { pingpongWIP = false; }
+                        }
                     }
                 }
-            }
 
-            UI.SetImageCurrentFrame(image, (int)currentFrame.x, (int)currentFrame.y);
+                UI.SetImageCurrentFrame(image, (int)currentFrame.x, (int)currentFrame.y);
+            }
         }
 
         return;
+    }
+
+    public void SetCurrentFrame(int x, int y)
+    {
+        currentFrame.x = x; currentFrame.y = y;
+        UI.SetImageCurrentFrame(image, (int)currentFrame.x, (int)currentFrame.y);
+    }
+
+    public void SetAnimationState(bool anim)
+    {
+        animState = anim;
     }
 
     bool HasFinished()
@@ -107,13 +122,17 @@ public class UI_Animation : YmirComponent
     void IncreaseLoopCount()
     {
         loopCount++;
-        currentIndex = 0;
 
-        currentFrame.x = 0;
-        currentFrame.y = 0;
+        if (loop)
+        {
+            currentIndex = 0;
+
+            currentFrame.x = 0;
+            currentFrame.y = 0;
+        }
     }
 
-    void Reset()
+    public void Reset()
     {
         currentIndex = 0;
         loopCount = 0;

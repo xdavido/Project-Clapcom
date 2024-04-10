@@ -1,6 +1,7 @@
 {
     "Assets Path": "Assets\/NewFolder\/penguin.png",
-    "Library Path": ".\/Library\/Textures\/661144534.dds",
-    "UID": 661144534,
-    "Type": "Texture"
+    "Library Path": ".\/Library\/Textures\/337267335.dds",
+    "UID": 337267335,
+    "Type": "Texture",
+    "TextureType": "Diffuse"
 }

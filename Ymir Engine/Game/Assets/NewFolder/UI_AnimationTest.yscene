@@ -22,10 +22,11 @@
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Tag": "Untagged",
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 879811075,
+            "Parent UID": 1818629686,
             "Components": [
                 {
                     "Type": "Transform",
@@ -54,6 +55,7 @@
         },
         {
             "Name": "Main Camera",
+            "Tag": "Untagged",
             "UID": 598771385,
             "Active": true,
             "Element_Type": "None",
@@ -68,9 +70,9 @@
                         54
                     ],
                     "Rotation": [
-                        180,
+                        -180,
                         40.000007629394531,
-                        180
+                        -180
                     ],
                     "Scale": [
                         1,
@@ -95,17 +97,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        1.4361705780174816e-07,
+                        -1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         1,
-                        -1.4361705780174816e-07
+                        1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        -6.696972576492044e-08,
+                        6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -119,6 +121,7 @@
         },
         {
             "Name": "Canvas",
+            "Tag": "Untagged",
             "UID": 1077363194,
             "Active": true,
             "Element_Type": "None",
@@ -149,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 841,
-                    "Height": 517,
+                    "Width": 636,
+                    "Height": 450,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -163,12 +166,12 @@
             ],
             "Children UID": [
                 1760279179,
-                524550714,
-                873300220
+                524550714
             ]
         },
         {
             "Name": "Image",
+            "Tag": "Untagged",
             "UID": 1760279179,
             "Active": true,
             "Element_Type": "None",
@@ -229,6 +232,7 @@
                 {
                     "Type": "Script",
                     "ScriptName": "UI_Animation.cs",
+                    "Active": 1,
                     "UID": 0,
                     "loop": true,
                     "pingpongWIP": false,
@@ -242,6 +246,7 @@
         },
         {
             "Name": "Text",
+            "Tag": "Untagged",
             "UID": 524550714,
             "Active": true,
             "Element_Type": "None",
@@ -297,275 +302,6 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 2
-                }
-            ]
-        },
-        {
-            "Name": "Slider",
-            "UID": 873300220,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1077363194,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 148,
-                    "Position Y": 242,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 6,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        148,
-                        242,
-                        300,
-                        50
-                    ],
-                    "Is interactable": true,
-                    "Fill image": 758776326,
-                    "Handle image": 884734286,
-                    "Use Floats": false,
-                    "Value": 0,
-                    "Value min": 0,
-                    "Value max": 10,
-                    "Direction": 0,
-                    "Focused color": [
-                        0,
-                        -1.5816255460782938e+38,
-                        0,
-                        0
-                    ],
-                    "Pressed color": [
-                        1,
-                        0,
-                        1,
-                        1
-                    ],
-                    "Selected color": [
-                        0,
-                        1,
-                        1,
-                        0
-                    ],
-                    "Disabled color": [
-                        0,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 6
-                }
-            ],
-            "Children UID": [
-                2089038617,
-                758776326,
-                884734286
-            ]
-        },
-        {
-            "Name": "Background",
-            "UID": 2089038617,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 873300220,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 148,
-                    "Position Y": 242,
-                    "Width": 300,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        148,
-                        242,
-                        300,
-                        50
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Current Frame X": 0,
-                    "Current Frame Y": 0,
-                    "Rows": 1,
-                    "Columns": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 1
-                }
-            ]
-        },
-        {
-            "Name": "Fill",
-            "UID": 758776326,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 873300220,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 148,
-                    "Position Y": 242,
-                    "Width": 0,
-                    "Height": 50,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        148,
-                        242,
-                        0,
-                        50
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Current Frame X": 0,
-                    "Current Frame Y": 0,
-                    "Rows": 1,
-                    "Columns": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 1
-                }
-            ]
-        },
-        {
-            "Name": "Handle",
-            "UID": 884734286,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 873300220,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI",
-                    "Active": 1,
-                    "Draggeable": false,
-                    "Position X": 113,
-                    "Position Y": 232,
-                    "Width": 70,
-                    "Height": 70,
-                    "UI Type": 1,
-                    "UI State": 1,
-                    "Drag Limits": [
-                        113,
-                        232,
-                        70,
-                        70
-                    ],
-                    "Path": "Assets\/InGameConeptPng.png",
-                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
-                    "Current Frame X": 0,
-                    "Current Frame Y": 0,
-                    "Rows": 1,
-                    "Columns": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "UI Transform",
-                    "Component reference": 1
                 }
             ]
         }
