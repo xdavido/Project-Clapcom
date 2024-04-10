@@ -151,6 +151,7 @@ public class Player : YmirComponent
 
     public void Start()
     {
+        //
         weaponType = WEAPON.SMG;
 
         movementSpeed = 7000.0f;    //Antes 35
