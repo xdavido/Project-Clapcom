@@ -222,8 +222,8 @@ void GameObject::SwapChildren(GameObject* go)
 	go->ReParent(mParent);
 	this->ReParent(aux);
 
-	move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
 	move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
+	move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
 	
 
 	//mParent->mChildren.swap(this, go);

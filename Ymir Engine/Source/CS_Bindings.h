@@ -842,7 +842,8 @@ void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
 		}
 	}
 
-	selectedgo->SwapChildren(targetgo);
+	External->scene->swapList.insert(std::pair<GameObject*, GameObject*>(selectedgo, targetgo));
+	//selectedgo->SwapChildren(targetgo);
 
 	External->scene->focusedUIGO = External->scene->selectedUIGO;
 	External->scene->selectedUIGO = nullptr;

@@ -124,7 +124,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		swapList.insert(std::pair<GameObject*, GameObject*>(mRootNode->mChildren[1], mRootNode->mChildren[3]));
-		//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
+		//mRootNode->mChildren[1]->SwapChildren(mRootNode->mChildren[3]);
 	}
 
 	return UPDATE_CONTINUE;
@@ -255,7 +255,6 @@ update_status ModuleScene::PostUpdate(float dt)
 		}
 		swapList.clear();
 	}
-
 	return UPDATE_CONTINUE;
 }
 
