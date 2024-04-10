@@ -555,6 +555,41 @@ void CreateBullet(MonoObject* position, MonoObject* rotation, MonoObject* scale)
 
 }
 
+void CreateTailSensor(MonoObject* position, MonoObject* rotation)
+{
+	//Crea un game object temporal llamado "Bullet"
+	if (External == nullptr) return;
+	GameObject* go = External->scene->PostUpdateCreateGameObject("Tail", External->scene->mRootNode);
+	go->UID = Random::Generate();
+
+	//Hace unbox de los parametros de transform pasados
+	float3 posVector = External->moduleMono->UnboxVector(position);
+	Quat rotVector = External->moduleMono->UnboxQuat(rotation);
+	float3 scaleVector = float3(0, 0, 0);
+
+	//Settea el transform a la bullet
+	go->mTransform->SetPosition(posVector);
+	go->mTransform->rotation = rotVector.Normalized();
+
+
+	//Añade RigidBody a la bala
+	CCollider* physBody;
+	physBody = new CCollider(go);
+	physBody->useGravity = false;
+	physBody->size = scaleVector;
+	physBody->physBody->SetPosition(posVector);
+	physBody->physBody->isSensor = true;
+
+	go->AddComponent(physBody);
+
+	//Añade el script Tail al gameObject Bullet
+	const char* t = "BH_Tail";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+}
+
 //---------- GLOBAL GETTERS ----------//
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {
@@ -618,11 +653,12 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 	return External->moduleMono->GoToCSGO(tempGameObject);
 }
 
-void Rumble_Controller(int time)
+void Rumble_Controller(int time, int intenisty)
 {
 	if (External != nullptr) {
 
-		if (SDL_JoystickRumble(External->input->joystick, 0xFFFF, 0xFFFF, time) == -1) {
+		intenisty = intenisty * 6500;
+		if (SDL_JoystickRumble(External->input->joystick, intenisty, intenisty, time) == -1) {
 			printf("Rumble failed...?\n");
 		}
 		else {
