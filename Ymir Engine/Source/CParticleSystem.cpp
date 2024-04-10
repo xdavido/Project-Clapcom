@@ -297,6 +297,13 @@ void CParticleSystem::OnInspector()
 						ImGui::TreePop();
 					}
 				}
+				//Delete emmiter
+				ImGui::SameLine();
+				if(ImGui::Button("Delete"))
+				{
+					allEmitters.erase(allEmitters.begin() + i);
+				}
+
 				std::string CEid;
 				if (ImGui::CollapsingHeader(CEid.append("Emitter Options ##").append(std::to_string(i)).c_str()))
 				{
@@ -354,6 +361,7 @@ void CParticleSystem::OnInspector()
 					allEmitters.at(i)->name.assign(textInfo);
 				}*/
 			}
+			
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7,0.3,0,1));
 			if (ImGui::Button("Create Particle Emitter"))
 			{
@@ -363,6 +371,7 @@ void CParticleSystem::OnInspector()
 
 			ImGui::TreePop();
 		}
+		
 	}
 
 	if (!exists) { mOwner->RemoveComponent(this); }
