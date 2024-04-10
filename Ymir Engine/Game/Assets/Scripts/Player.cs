@@ -133,7 +133,7 @@ public class Player : YmirComponent
     private float swipeDuration = 3.0f;
     private float swipeCDTimer;
     private float swipeCD = 13.0f;
-    public bool hasSwipe = false;
+    private bool hasSwipe = false;
 
     #endregion
 
@@ -1136,11 +1136,6 @@ public class Player : YmirComponent
         //Setup de todo lo necesario
 
         StopPlayer();
-    
-        Vector3 pos = gameObject.transform.globalPosition;
-        Quaternion rot = gameObject.transform.globalRotation;
-        InternalCalls.CreateTailSensor(pos, rot);
-
         swipeTimer = swipeDuration;
     }
 

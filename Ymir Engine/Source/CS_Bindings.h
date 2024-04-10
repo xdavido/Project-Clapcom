@@ -652,7 +652,6 @@ MonoObject* CreateImageUI(MonoObject* pParent, MonoString* newImage, int x, int 
 
 void Rumble_Controller(int time, int intenisty)
 {
-
 	if (External != nullptr) {
 
 		intenisty = intenisty * 6500;
