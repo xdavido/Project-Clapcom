@@ -76,7 +76,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	float speed = 20.0f * dt;
 
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) speed *= 2;
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) speed *= 6;
 
 	// Mouse wheel Zoom In and Zoom Out handling
 	if (hoveringEditor)

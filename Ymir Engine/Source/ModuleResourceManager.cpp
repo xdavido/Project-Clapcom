@@ -191,7 +191,7 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 					}
 
 					// Handle new imported textures
-
+					bool textureUpdated = false;
 					for (auto& texture : static_cast<CMaterial*>((*jt))->rTextures) {
 						if (texture->type == rTexTemp->type) {
 							// Clean up old texture resource
@@ -199,12 +199,15 @@ void ModuleResourceManager::ImportFile(const std::string& assetsFilePath, bool o
 
 							// Update existing texture data with the new texture
 							texture = rTexTemp;
-							return; // Exit the loop since we've found and updated the texture
+							textureUpdated = true;  // Mark that texture has been updated
+							break; // Exit the loop since we've found and updated the texture
 						}
 					}
 
 					// If a texture of the same type doesn't exist, add it
-					static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add a copy of the new texture
+					if (!textureUpdated) {
+						static_cast<CMaterial*>((*jt))->rTextures.push_back(rTexTemp); // Add a copy of the new texture
+					}
 
 				}
 				else if (static_cast<C_UI*>((*jt))->UI_type == UI_TYPE::IMAGE)
