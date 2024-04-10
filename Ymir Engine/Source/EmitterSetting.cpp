@@ -388,7 +388,7 @@ void EmitterPosition::OnInspector()
 	{
 		ImGui::DragFloat3("Position", &(this->direction1[0]), 0.1f);
 	}
-	ImGui::Checkbox("Acceraltion ##POSITION", &this->acceleration);
+	ImGui::Checkbox("Acceleration ##POSITION", &this->acceleration);
 	if (this->acceleration)
 	{
 		ImGui::DragFloat("SpeedInit ##POSITION", &(this->particleSpeed1), 0.2F);
@@ -524,8 +524,6 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 
 void EmitterRotation::OnInspector()
 {
-	ImGui::Separator();
-
 	if (ImGui::Button("EditorCamera"))
 	{
 		cameraSelected = External->camera->editorCamera;
@@ -535,6 +533,7 @@ void EmitterRotation::OnInspector()
 	{
 		cameraSelected = External->scene->gameCameraComponent;
 	}
+	ImGui::Separator();
 }
 
 EmitterSize::EmitterSize()
@@ -689,8 +688,6 @@ std::vector<std::string> ListFilesInParticlesFolder() {
 
 void EmitterImage::OnInspector()
 {
-	ImGui::Text("Select particle:");
-	
 	ImGui::Spacing();
 
 	std::vector<std::string> particleFiles = ListFilesInParticlesFolder();

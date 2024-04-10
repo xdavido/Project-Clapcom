@@ -808,7 +808,6 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 		//Matrix transform de la particula
 		float4x4 m = float4x4::FromTRS(par->position, par->worldRotation, par->size).Transposed();
 
-		//ERIC: Maybe creo que esto haya que hacer un rework tocho por los shadders y el VAO :(
 		glPushMatrix();
 		glMultMatrixf(m.ptr());
 
@@ -826,25 +825,7 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 				textures->BindTexture(true, 0);
 			}
 		}
-
-		//ParticleEmitter thisParticleEmitter; // TODO: Rework
-
-		/* TODO TONI : Tienes que acceder al particle emitter que est� utilizando
-		estas particulas y con eso ya puedes llegar al material del gameobject.
-
-		Necesitar�s reworkear el draw de esta forma: Primero hacemos draw de los emitters
-		y luego draw de cada emitter, ya que cada emitter tendr� su propia lista de particulas,
-		as� que no podr� ser static. Despu�s ya deber�an verse por pantalla bien.*/
-
-		// Esto iria bien
-		//CMaterial* particleMaterial = (CMaterial*)thisParticleEmitter.owner->mOwner->GetComponent(ComponentType::MATERIAL);
-
-		//CMaterial* particleMaterial = (CMaterial*)particleEmitters[j]->owner->mOwner->GetComponent(ComponentType::MATERIAL);
-
-		// Esto iria bien
-		//par->mat->shader.UseShader(true);
-		//par->mat->shader.SetShaderUniforms(&m);
-
+		
 		//Drawing to tris in direct mode
 		glBegin(GL_TRIANGLES);
 
@@ -869,9 +850,6 @@ void ModuleRenderer3D::DrawParticles(ParticleEmitter* emitter)
 				textures->BindTexture(false, 0);
 			}
 		}
-
-		//// Esto iria bien
-		//par->mat->shader.UseShader(false);
 
 		glEnd();
 		glPopMatrix();
