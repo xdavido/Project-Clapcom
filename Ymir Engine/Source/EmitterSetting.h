@@ -20,6 +20,23 @@ enum EmitterType
 	PARTICLES_MAX,
 };
 
+//EnumS of types of spawn of the spawn setting
+enum ParticlesSpawnMode
+{
+	PAR_NUM_PARTICLES_BURST, //Spawn X particles at a time and doesn't spawn again until that number decreases due to the particles dying
+	PAR_ONE_PARTICLE_OVER_DELAY, //Spawn one particle every X seconds (works using delta time).
+	PAR_SPAWN_MODE_END
+};
+
+enum ParticlesSpawnEnabeling
+{
+	PAR_START_NON_STOP, //Starts emittng and won´t stop
+	PAR_START_STOP, //Starts emitting but stops after X particles spawned
+	PAR_WAIT_NON_STOP, //Starts waiting for a Play then won't stop
+	PAR_WAIT_STOP, //Starts waiting for a Play and stops after X particles, waiting again
+	PAR_ENABLE_MODES_END
+};
+
 //Enum of the modes as positions change after spawn
 enum SpeedChangeMode
 {
@@ -73,13 +90,18 @@ struct EmitterSpawner : EmitterSetting
 	EmitterSpawner();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
+	bool PlayTrigger(bool val = true);
 	void OnInspector();
 
 	//Variable unica, ritmo de spawn
-	bool basedTimeSpawn;
+	ParticlesSpawnMode spawnMode;
+	bool playTriggered;
+	ParticlesSpawnEnabeling startMode;
 	float spawnRatio; //Dividir en current time por cuantas se spawnean 
 	float currentTimer;
 	int numParticlesToSpawn;
+	int numParticlesForStop; //When played, if enabeling mode is stop once it spawn X particles it stops playing
+	int numParticlesSpawned;
 };
 
 struct EmitterPosition : EmitterSetting

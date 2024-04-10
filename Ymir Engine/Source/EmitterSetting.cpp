@@ -121,10 +121,14 @@ void EmitterBase::OnInspector()
 
 EmitterSpawner::EmitterSpawner()
 {
-	basedTimeSpawn = false;
+	startMode = ParticlesSpawnEnabeling::PAR_START_NON_STOP;
+	playTriggered = false;
+	spawnMode = ParticlesSpawnMode::PAR_ONE_PARTICLE_OVER_DELAY;
 	spawnRatio = 0.2f; //Dividir en current time por cuantas se spawnean 
 	currentTimer = 0.0f;
 	numParticlesToSpawn = 5;
+	numParticlesForStop = 100;
+	numParticlesSpawned = 0;
 
 }
 
@@ -134,48 +138,253 @@ void EmitterSpawner::Spawn(ParticleEmitter* emitter, Particle* particle)
 
 void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
 {
-	if (!basedTimeSpawn)
+	bool spawnFromStart = true;
+	bool countParticles = false;
+	switch (startMode)
 	{
-		int remainingParticlesToSpawn = numParticlesToSpawn - emitter->listParticles.size();
-		if (remainingParticlesToSpawn > 0)
+	case ParticlesSpawnEnabeling::PAR_START_NON_STOP:
+	{
+		spawnFromStart = true;
+		countParticles = false;
+	}
+		break;
+	case ParticlesSpawnEnabeling::PAR_START_STOP:
+	{
+		spawnFromStart = true;
+		countParticles = true;
+	}
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_NON_STOP:
+	{
+		spawnFromStart = false;
+		countParticles = false;
+	}
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_STOP:
+	{
+		spawnFromStart = false;
+		countParticles = true;
+	}
+		break;
+	case ParticlesSpawnEnabeling::PAR_ENABLE_MODES_END:
+		break;
+	default:
+		break;
+	}
+
+	if((spawnFromStart || playTriggered) && numParticlesSpawned < numParticlesForStop)
+	{
+		switch (spawnMode)
 		{
-			emitter->SpawnParticle(remainingParticlesToSpawn);
+		case PAR_NUM_PARTICLES_BURST:
+		{
+			int remainingParticlesToSpawn = numParticlesToSpawn - emitter->listParticles.size();
+			if (remainingParticlesToSpawn > 0)
+			{
+				emitter->SpawnParticle(remainingParticlesToSpawn);
+				if (countParticles)
+				{
+					numParticlesSpawned++;
+				}
+			}
+		}
+		
+			break;
+		case PAR_ONE_PARTICLE_OVER_DELAY:
+		{
+			currentTimer += dt;
+				int numToSpawn = 0;
+				if (currentTimer > spawnRatio)
+				{
+					numToSpawn = currentTimer / spawnRatio;
+					emitter->SpawnParticle(numToSpawn);
+					if (countParticles)
+					{
+						numParticlesSpawned++;
+					}
+				}
+				currentTimer -= (spawnRatio * numToSpawn);
+		}
+			break;
+		case PAR_SPAWN_MODE_END:
+			break;
+		default:
+			break;
 		}
 	}
-	else
+
+	//Stop
+	if (numParticlesSpawned < numParticlesForStop)
 	{
-		currentTimer += dt;
-		int numToSpawn = 0;
-		if (currentTimer > spawnRatio)
-		{
-			numToSpawn = currentTimer / spawnRatio;
-			emitter->SpawnParticle(numToSpawn);
-		}
-		currentTimer -= (spawnRatio * numToSpawn);
+		playTriggered = false;
 	}
+
+	
+}
+
+bool EmitterSpawner::PlayTrigger(bool val) //Stats play or pause
+{
+	playTriggered = val;
+	numParticlesSpawned = 0;
+	return playTriggered;
 }
 
 void EmitterSpawner::OnInspector()
 {
 	int numParticles = this->numParticlesToSpawn;
-	std::string numParticlesWithID = "Particles ##";
 
-	ImGui::Checkbox("(Time / Num) Spawn ", &(this->basedTimeSpawn));
+	//Spawn types
+	std::string modeName;
+	switch (spawnMode)
+	{
+	case ParticlesSpawnMode::PAR_NUM_PARTICLES_BURST:
+		modeName = "Maximun Particles";
+		break;
+	case ParticlesSpawnMode::PAR_ONE_PARTICLE_OVER_DELAY:
+		modeName = "Spawn after delay";
+		break;
+	case ParticlesSpawnMode::PAR_SPAWN_MODE_END:
+		modeName = "";
+		break;
+	default:
+		break;
+	}
 
-	if (this->basedTimeSpawn)
+	if (ImGui::BeginCombo("##SpawnMode", modeName.c_str()))
 	{
-		if (ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.02f, 1.0f))
+		for (int i = 0; i < ParticlesSpawnMode::PAR_SPAWN_MODE_END; i++)
 		{
-			
+			/*std::string modeName;*/
+
+			switch (ParticlesSpawnMode(i))
+			{
+			case ParticlesSpawnMode::PAR_NUM_PARTICLES_BURST:
+				modeName = "Maximun Particles";
+				break;
+			case ParticlesSpawnMode::PAR_ONE_PARTICLE_OVER_DELAY:
+				modeName = "Spawn after delay";
+				break;
+			case ParticlesSpawnMode::PAR_SPAWN_MODE_END:
+				modeName = "";
+				break;
+			default:
+				break;
+			}
+			if (ImGui::Selectable(modeName.c_str()))
+			{
+				spawnMode = (ParticlesSpawnMode)i;
+			}
 		}
+
+		ImGui::EndCombo();
 	}
-	else
+	ImGui::SameLine();
+	ImGui::Text("Spawn Mode");
+
+	switch (spawnMode)
 	{
-		if (ImGui::SliderInt(numParticlesWithID.append(std::to_string(0/*i*/)).c_str(), &numParticles, 0, MAXPARTICLES)) //ERIC: No recuerdo para que esta en Append de la i aqui, no parece romper nada quitarlo asi que quiza fue una flipada mia inutil del pasados
+	case ParticlesSpawnMode::PAR_NUM_PARTICLES_BURST:
+		if (ImGui::SliderInt("Number Particles ## SPAWN", &numParticles, 0, MAXPARTICLES)) 
 		{
-			this->numParticlesToSpawn = numParticles;
+			this->numParticlesToSpawn = numParticles; //I thing this was made because it exploded in the original engine if using nPRS directly (Eric)
 		}
+		break;
+	case ParticlesSpawnMode::PAR_ONE_PARTICLE_OVER_DELAY:
+		ImGui::SliderFloat("Delay ##SPAWN", &(this->spawnRatio), 0.02f, 1.0f);
+		break;
+	case ParticlesSpawnMode::PAR_SPAWN_MODE_END:
+		modeName = "";
+		break;
+	default:
+		break;
 	}
+
+	//Init types (when plays and when it stops)
+	std::string modeName2;
+	switch (startMode)
+	{
+	case ParticlesSpawnEnabeling::PAR_START_NON_STOP:
+		modeName2 = "Start and NonStop";
+		break;
+	case ParticlesSpawnEnabeling::PAR_START_STOP:
+		modeName2 = "Start with Stop";
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_NON_STOP:
+		modeName2 = "Wait then NonStop";
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_STOP:
+		modeName2 = "Init with Stop";
+		break;
+	case ParticlesSpawnEnabeling::PAR_ENABLE_MODES_END:
+		break;
+	default:
+		break;
+	}
+
+	if (ImGui::BeginCombo("##InitMode", modeName2.c_str()))
+	{
+		for (int i = 0; i < ParticlesSpawnEnabeling::PAR_ENABLE_MODES_END; i++)
+		{
+			/*std::string modeName;*/
+
+			switch (ParticlesSpawnEnabeling(i))
+			{
+			case ParticlesSpawnEnabeling::PAR_START_NON_STOP:
+				modeName2 = "Start and NonStop";
+				break;
+			case ParticlesSpawnEnabeling::PAR_START_STOP:
+				modeName2 = "Start with Stop";
+				break;
+			case ParticlesSpawnEnabeling::PAR_WAIT_NON_STOP:
+				modeName2 = "Wait then NonStop";
+				break;
+			case ParticlesSpawnEnabeling::PAR_WAIT_STOP:
+				modeName2 = "Wait with Stop";
+				break;
+			case ParticlesSpawnEnabeling::PAR_ENABLE_MODES_END:
+				break;
+			}
+			if (ImGui::Selectable(modeName2.c_str()))
+			{
+				startMode = (ParticlesSpawnEnabeling)i;
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+	ImGui::SameLine();
+	ImGui::Text("Start Mode");
+
+	switch (startMode)
+	{
+	case ParticlesSpawnEnabeling::PAR_START_NON_STOP:
+		//modeName2 = "Start and NonStop";
+		break;
+	case ParticlesSpawnEnabeling::PAR_START_STOP:
+		ImGui::SliderInt("Max Particles until stop ## SPAWN", &numParticlesForStop, 1, MAXPARTICLES);
+		ImGui::Text(("Remaining Particles:" + std::to_string(numParticlesForStop - numParticlesSpawned)).c_str());
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_NON_STOP:
+		//modeName2 = "Wait then NonStop";
+		if (ImGui::Button("Play Trigger"))
+		{
+			PlayTrigger();
+		}
+		break;
+	case ParticlesSpawnEnabeling::PAR_WAIT_STOP:
+		ImGui::SliderInt("Max Particles until stop ## SPAWN", &numParticlesForStop, 1, MAXPARTICLES);
+		ImGui::Text(("Remaining Particles:" + std::to_string(numParticlesForStop - numParticlesSpawned)).c_str());
+		if (ImGui::Button("Play Trigger"))
+		{
+			PlayTrigger();
+		}
+		break;
+	case ParticlesSpawnEnabeling::PAR_ENABLE_MODES_END:
+		break;
+	default:
+		break;
+	}
+	
 	
 	ImGui::Separator();
 }
@@ -199,50 +408,45 @@ void EmitterPosition::Spawn(ParticleEmitter* emitter, Particle* particle)
 {
 	if (randomized)
 	{
-		//X
-		float x1 = direction1.x;
-		float x2 = direction2.x;
-		//Y
-		float y1 = direction1.y;
-		float y2 = direction2.y;
-		//Z
-		float z1 = direction1.z;
-		float z2 = direction2.z;
+		float3 dir1, dir2;
+
+		dir1 = { direction1.x ,direction1.y ,direction1.z };
+		dir2 = { direction2.x ,direction2.y ,direction2.z };
 
 		float maxX, minX;
-		if (x1 > x2)
+		if (dir1.x > dir2.x)
 		{
-			maxX = x1;
-			minX = x2;
+			maxX = dir1.x;
+			minX = dir2.x;
 		}
 		else
 		{
-			maxX = x2;
-			minX = x1;
+			maxX = dir2.x;
+			minX = dir1.x;
 		}
 
-		float maxY,minY;
-		if (y1 > y2)
+		float maxY, minY;
+		if (dir1.y > dir2.y)
 		{
-			maxY = y1;
-			minY = y2;
+			maxY = dir1.y;
+			minY = dir2.y;
 		}
 		else
 		{
-			maxY = y2;
-			minY = y1;
+			maxY = dir2.y;
+			minY = dir1.y;
 		}
 
 		float maxZ, minZ;
-		if (z1 > z2)
+		if (dir1.z > dir2.z)
 		{
-			maxZ = z1;
-			minZ = z2;
+			maxZ = dir1.z;
+			minZ = dir2.z;
 		}
 		else
 		{
-			maxZ = z2;
-			minZ = z1;
+			maxZ = dir2.z;
+			minZ = dir1.z;
 		}
 
 		float randomX = ((float)rand()) / (float)RAND_MAX;

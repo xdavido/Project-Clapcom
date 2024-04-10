@@ -47,7 +47,6 @@ public:
 	void OnInspector();
 
 	const char* SaveMetaEmitters(); //Returns the Meta Path File
-	uint32_t SaveEmmiterJSON(ParticleEmitter* emitter);
 	JSON_Value* SaveEmmiterJSON2(ParticleEmitter* emitter); //ERIC: WIP, cambiando el base para otra cosa, que no quiero matar el primer save emitter por si acaso
 	ParticleEmitter* LoadEmitterFromMeta(const char* pathMeta);
 	void LoadAllEmmitersJSON(const char* path);

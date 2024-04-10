@@ -3342,9 +3342,12 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				{
 					EmitterSpawner* eSpawn = (EmitterSpawner*)instancia;
 
-					eSpawn->basedTimeSpawn = json_object_get_boolean(modulo, "TimeBased");
+					eSpawn->spawnMode = (ParticlesSpawnMode)json_object_get_number(modulo, "SpawnMode");
+					eSpawn->startMode = (ParticlesSpawnEnabeling)json_object_get_number(modulo, "StartMode");
+
 					eSpawn->numParticlesToSpawn = json_object_get_number(modulo, "NumParticles");
 					eSpawn->spawnRatio = (float)json_object_get_number(modulo, "SpawnRatio");
+					eSpawn->numParticlesForStop = json_object_get_number(modulo, "NumParticlesToStop");
 
 					break;
 				}
