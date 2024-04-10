@@ -143,7 +143,6 @@
     <ClInclude Include="Source\CCollider.h" />
     <ClInclude Include="Source\CLight.h" />
     <ClInclude Include="Source\CParticleSystem.h" />
-    <ClInclude Include="Source\CRigidBody.h" />
     <ClInclude Include="Source\CScript.h" />
     <ClInclude Include="Source\CS_Animation_Bindings.h" />
     <ClInclude Include="Source\CS_Audio_Bindings.h" />
@@ -486,7 +485,6 @@
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\CParticleSystem.cpp" />
-    <ClCompile Include="Source\CRigidBody.cpp" />
     <ClCompile Include="Source\CScript.cpp" />
     <ClCompile Include="Source\CTransform.cpp" />
     <ClCompile Include="Source\C_UI.cpp" />

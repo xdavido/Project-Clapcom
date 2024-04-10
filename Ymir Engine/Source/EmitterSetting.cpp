@@ -635,7 +635,7 @@ void EmitterImage::SetImage(std::string imgPath)
 	rTexTemp->type = TextureType::DIFFUSE;
 	rTexTemp->UID = Random::Generate();
 
-	mat->path = imgPath;
+	mat->diffuse_path = imgPath;
 	mat->rTextures.push_back(rTexTemp);
 }
 
