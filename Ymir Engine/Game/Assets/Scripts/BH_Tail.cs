@@ -12,12 +12,15 @@ public class BH_Tail : YmirComponent
     private float timer;
     private bool destroyed;
 
+    GameObject playerObject;
+
     public void Start()
 	{
         //timer = 0;
         destroyed = false;
 
-        GameObject playerObject = InternalCalls.GetGameObjectByName("Player");
+        playerObject = InternalCalls.GetGameObjectByName("Player");
+
         if (playerObject != null)
         {
             player = playerObject.GetComponent<Player>();
@@ -31,6 +34,11 @@ public class BH_Tail : YmirComponent
 	{
         timer = player.swipeTimer;
 
+        gameObject.SetRotation(playerObject.transform.globalRotation);
+        gameObject.SetPosition(playerObject.transform.globalPosition + (playerObject.transform.GetForward() * -5));
+
+        //gameObject.transform.globalPosition = playerObject.transform.globalPosition;
+
         if (player.swipeTimer <= 0 && !destroyed)
         {
             InternalCalls.Destroy(gameObject);
@@ -40,12 +48,11 @@ public class BH_Tail : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
-        if (other.Tag == "Enemy")
+        if (other.name == "Enemy")
         {
             Debug.Log("Enemigo Colisionando");
             other.SetImpulse(other.transform.GetForward() * -1 * 60);
             
-            //other.SetImpulse(new Vector3(0, 0, 1));
             //Le hace daño
         }
     }

@@ -561,23 +561,25 @@ void CreateTailSensor(MonoObject* position, MonoObject* rotation)
 	if (External == nullptr) return;
 	GameObject* go = External->scene->PostUpdateCreateGameObject("Tail", External->scene->mRootNode);
 	go->UID = Random::Generate();
+	go->tag = "Tail";
 
 	//Hace unbox de los parametros de transform pasados
 	float3 posVector = External->moduleMono->UnboxVector(position);
 	Quat rotVector = External->moduleMono->UnboxQuat(rotation);
-	float3 scaleVector = float3(2, 1, 2);
+	float3 scaleVector = float3(1, 1, 3);
 
 
 	//Añade RigidBody a la bala
 	CCollider* physBody;
 	physBody = new CCollider(go);
 	physBody->useGravity = false;
-	physBody->size = scaleVector;
 	physBody->physBody->SetPosition(posVector);
 	physBody->physBody->SetRotation(rotVector.Normalized());
 	physBody->SetAsSensor(true);
 
 	go->AddComponent(physBody);
+	physBody->size = scaleVector;
+	physBody->shape->setLocalScaling(btVector3(scaleVector.x, scaleVector.y, scaleVector.z));
 
 	//Añade el script Tail al gameObject Bullet
 	const char* t = "BH_Tail";

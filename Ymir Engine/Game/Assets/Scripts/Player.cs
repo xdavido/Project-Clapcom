@@ -135,6 +135,8 @@ public class Player : YmirComponent
     private float swipeCD = 13.0f;
     private bool hasSwipe = false;
 
+    private float angle;
+
     #endregion
 
     #region DEFINE EXTERNAL THINGS
@@ -151,6 +153,7 @@ public class Player : YmirComponent
 
     public void Start()
     {
+        angle = 0;
         //
         weaponType = WEAPON.SMG;
 
@@ -182,7 +185,7 @@ public class Player : YmirComponent
         swipeTimer = 0;
         swipeDuration = 3.0f;
         swipeCDTimer = 0;
-        swipeCD = 13.0f;
+        swipeCD = 2.0f; //Es 13.0f
         hasSwipe = false;
 
         //--------------------- Shoot ---------------------\\
@@ -825,7 +828,8 @@ public class Player : YmirComponent
 
         Vector3 offset = new Vector3(0, 15, 0);
         //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
-        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+        //Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * 2);
 
         //Debug.Log("ParentPos: " + gameObject.transform.globalPosition.x + gameObject.transform.globalPosition.y + gameObject.transform.globalPosition.z);
         //Debug.Log("Spawn pos: " + pos);
@@ -1137,7 +1141,8 @@ public class Player : YmirComponent
 
         StopPlayer();
 
-        Vector3 pos = gameObject.transform.globalPosition;
+        //Vector3 offset = new Vector3(0, 15, 0);
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -5);
         Quaternion rot = gameObject.transform.globalRotation;
 
         InternalCalls.CreateTailSensor(pos, rot);
@@ -1147,7 +1152,10 @@ public class Player : YmirComponent
 
     private void UpdateTailSwipe()
     {
+        angle += 1;
+        Quaternion targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
 
+        gameObject.SetRotation(targetRotation);
     }
 
     private void EndTailSwipe()
