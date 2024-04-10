@@ -100,9 +100,9 @@ using YmirEngine;
        
             player = InternalCalls.GetGameObjectByName("Player");
             agent = gameObject.GetComponent<PathFinding>();
-            Debug.Log("Position"+ gameObject.transform.localPosition);
+            Debug.Log("Position"+ gameObject.transform.globalPosition);
 
-        agent.CalculateRandomPath(gameObject.transform.localPosition, wanderRange);
+        agent.CalculateRandomPath(gameObject.transform.globalPosition, wanderRange);
         Debug.Log("gola2");
 
         
@@ -119,7 +119,7 @@ using YmirEngine;
             {
                 case WanderState.REACHED:
 
-                    agent.CalculateRandomPath(gameObject.transform.localPosition, wanderRange);
+                    agent.CalculateRandomPath(gameObject.transform.globalPosition, wanderRange);
                     wanderTimer = wanderDuration;
                     Debug.Log("[ERROR] Current State: REACHED");
                     wanderState = WanderState.GOING;
@@ -335,7 +335,7 @@ using YmirEngine;
         Vector3 pos = gameObject.transform.globalPosition;
         //Debug.Log("[WARNING] Position" + gameObject.transform.globalPosition);
         Vector3 direction = agent.GetDestination() - pos;
-        //Debug.Log("[WARNING] Destination" + agent.GetDestination());
+        Debug.Log("[WARNING] Destination" + agent.GetDestination());
 
         gameObject.transform.localPosition += direction.normalized * speed * Time.deltaTime;
     }

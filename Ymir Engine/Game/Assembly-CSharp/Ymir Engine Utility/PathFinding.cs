@@ -57,6 +57,9 @@ namespace YmirEngine
         public extern Vector3 GetPointAt(int index);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public extern int GetIndexPath(object path);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public extern int GetPathSize();
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
