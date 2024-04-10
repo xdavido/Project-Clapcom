@@ -73,6 +73,10 @@ bool ModuleScene::Start()
 {
 	currentSceneDir = "Assets";
 
+	CreateGameObject("go1", mRootNode);
+	CreateGameObject("go2", mRootNode);
+	CreateGameObject("go3", mRootNode);
+
 #ifdef _RELEASE
 
 	//LoadSceneFromStart("Assets", "VS2 Release");
@@ -80,7 +84,7 @@ bool ModuleScene::Start()
 	//LoadSceneFromStart("Assets/Scenes", "Start_scene");
 	//LoadSceneFromStart("Assets/Scenes", "GameUI");
 	//LoadSceneFromStart("Assets", "Enemigo player");
-	LoadSceneFromStart("Assets/NewFolder", "teleport");
+	//LoadSceneFromStart("Assets/NewFolder", "teleport");
 	//LoadSceneFromStart("Assets/UI/Inventory", "InventoryScene");
 	/*LoadSceneFromStart("Assets", "Enemigo player"); */
 	//LoadSceneFromStart("Assets/Test_Francesc", "TestPrefabs");
@@ -121,7 +125,22 @@ update_status ModuleScene::PreUpdate(float dt)
 {
 	OPTICK_EVENT();
 
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		swapList.insert(std::pair<GameObject*, GameObject*>(mRootNode->mChildren[1], mRootNode->mChildren[3]));
+		//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
+	}
+	/*swap gameobjects inside the swap queue*/
+	if (swapList.size() > 0)
+	{
+		for (std::map<GameObject*, GameObject*>::iterator it = swapList.begin(); it != swapList.end(); ++it)
+		{
+			//mRootNode->mChildren[0]->SwapChildren(mRootNode->mChildren[1]);
 
+			it->first->SwapChildren(it->second);
+		}
+		swapList.clear();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -239,7 +258,7 @@ update_status ModuleScene::PostUpdate(float dt)
 		}
 		destroyList.clear();
 	}
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -350,6 +369,11 @@ GameObject* ModuleScene::PostUpdateCreateGameObject(std::string name, GameObject
 	pendingToAdd.push_back(tempGameObject);
 
 	return tempGameObject;
+}
+
+void ModuleScene::SwapGameObjects(GameObject* go1, GameObject* go2)
+{
+
 }
 
 void ModuleScene::PostUpdateCreateGameObject_UI(GameObject* go)

@@ -206,6 +206,62 @@ void GameObject::RemoveChild(GameObject* go)
 	mChildren.shrink_to_fit();
 }
 
+template <typename t> void move(std::vector<t>& v, size_t oldIndex, size_t newIndex)
+{
+	if (oldIndex > newIndex)
+		std::rotate(v.rend() - oldIndex - 1, v.rend() - oldIndex, v.rend() - newIndex);
+	else
+		std::rotate(v.begin() + oldIndex, v.begin() + oldIndex + 1, v.begin() + newIndex + 1);
+}
+
+void GameObject::SwapChildren(GameObject* go)
+{
+	int index = std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin();
+	auto index2 = std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin();
+
+	GameObject* aux = go->mParent;
+	go->ReParent(mParent);
+	this->ReParent(aux);
+
+	move(mParent->mChildren, index2, index);
+	move(go->mParent->mChildren, index, index2);
+	
+
+	//mParent->mChildren.swap(this, go);
+
+	//GameObject* aux = mParent;
+
+	//mParent = go->mParent;
+	//go->mParent = aux;
+
+	//std::swap(*this, *go);
+	////std::iter_swap(this, go);
+
+	////Update transform values
+	//if (mParent->mTransform != nullptr)
+	//{
+	//	mTransform->ReparentTransform(mParent->mTransform->mGlobalMatrix.Inverted() * mTransform->mGlobalMatrix);
+	//}
+
+	//else
+	//{
+	//	mTransform->ReparentTransform(mTransform->mGlobalMatrix);
+	//}
+
+	////Update transform values
+	//if (go->mParent->mTransform != nullptr)
+	//{
+	//	go->mTransform->ReparentTransform(go->mParent->mTransform->mGlobalMatrix.Inverted() * go->mTransform->mGlobalMatrix);
+	//}
+
+	//else
+	//{
+	//	go->mTransform->ReparentTransform(go->mTransform->mGlobalMatrix);
+	//}
+
+	//mChildren.swap(go1, go2);
+}
+
 void GameObject::AddComponent(Component* component)
 {
 	mComponents.push_back(component);

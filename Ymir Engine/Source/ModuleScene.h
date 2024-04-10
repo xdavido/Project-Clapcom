@@ -47,6 +47,8 @@ public:
 	GameObject* CreateGameObject(std::string name, GameObject* parent);
 	GameObject* PostUpdateCreateGameObject(std::string name, GameObject* parent);
 
+	void SwapGameObjects(GameObject* go1, GameObject* go2);
+
 	void PostUpdateCreateGameObject_UI(GameObject* go);
 	std::string GetUniqueName(std::string name);
 	std::string ReName(std::string name, uint counter);
@@ -103,7 +105,6 @@ public:
 	// Handle both keyboard and gamepad control of all UI game objects
 	void HandleUINavigation();
 
-
 public:
 
 	GameObject* mRootNode;
@@ -112,6 +113,7 @@ public:
 	CCamera* gameCameraComponent;
 
 	std::vector<GameObject*> destroyList;
+	std::map<GameObject*, GameObject*> swapList;
 	std::vector<GameObject*> gameObjects;
 	std::vector<GameObject*> pendingToAdd;
 
@@ -137,6 +139,7 @@ public:
 	bool godMode;
 	GameObject* selectedUIGO;
 	GameObject* focusedUIGO;
+
 private:
 	G_UI* canvas;
 
@@ -146,6 +149,7 @@ private:
 	bool canTab;
 	
 	GameObject* audiosource;	
+
 public:
 	// DO NOT USE, Save/Load purposes only
     std::vector<Component*> vTempComponents;

@@ -46,6 +46,7 @@ public:
 	void DeleteChild(GameObject* go);
 	//Remove from children vector (do not use)
 	void RemoveChild(GameObject* go);
+	void SwapChildren(GameObject* go);
 
 	void AddComponent(Component* component);
 	bool AddComponent(ComponentType ctype, void* var = NULL);

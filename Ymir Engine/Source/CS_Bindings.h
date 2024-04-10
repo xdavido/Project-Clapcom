@@ -843,6 +843,8 @@ void SwitchPosition(MonoObject* selectedObject, MonoObject* targetObject)
 		}
 	}
 
+	selectedgo->SwapChildren(targetgo);
+
 	External->scene->focusedUIGO = External->scene->selectedUIGO;
 	External->scene->selectedUIGO = nullptr;
 
@@ -937,7 +939,6 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight)
 
 		else
 		{
-
 			if (External->scene->onHoverUI - rows < offset)
 			{
 				External->scene->SetSelected(listUI[External->scene->onHoverUI - offset + (rows * (columns - 1))]->mOwner);
