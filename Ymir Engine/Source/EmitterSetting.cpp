@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "ImporterTexture.h"
+#include "ModuleScene.h"
 
 //SHAPES
 //#include "EmitterShapeArea.h"
@@ -502,9 +503,14 @@ void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
 {
 }
 
+EmitterRotation::EmitterRotation()
+{
+	cameraSelected = External->scene->gameCameraComponent;
+}
+
 void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 {
-	float4x4* camaraMatrix = (float4x4*)External->camera->editorCamera->GetViewMatrix().ptr();
+	float4x4* camaraMatrix = (float4x4*)cameraSelected->GetViewMatrix().ptr();
 	float3 tempPos;
 	Quat tempRot;
 	float3 tempSca;
@@ -519,6 +525,16 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 void EmitterRotation::OnInspector()
 {
 	ImGui::Separator();
+
+	if (ImGui::Button("EditorCamera"))
+	{
+		cameraSelected = External->camera->editorCamera;
+	}
+
+	if (ImGui::Button("GameCamera"))
+	{
+		cameraSelected = External->scene->gameCameraComponent;
+	}
 }
 
 EmitterSize::EmitterSize()

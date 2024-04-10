@@ -107,9 +107,12 @@ struct EmitterPosition : EmitterSetting
 
 struct EmitterRotation : EmitterSetting
 {
+	EmitterRotation();
 	void Spawn(ParticleEmitter* emitter, Particle* particle);
 	void Update(float dt, ParticleEmitter* emitter);
 	void OnInspector();
+
+	CCamera* cameraSelected;
 };
 
 struct EmitterSize : EmitterSetting
