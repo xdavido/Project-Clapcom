@@ -1,27 +1,29 @@
 {
+    "NavMesh": "677915967",
     "Editor Camera Position": [
-        36.672477722167969,
-        16.441911697387695,
-        57.084819793701172
+        46.951442718505859,
+        31.439685821533203,
+        40.512290954589844
     ],
     "Editor Camera Right (X)": [
-        0.61562001705169678,
-        -6.3329935073852539e-07,
-        -0.78735500574111938
+        -0.054546225816011429,
+        -6.9662928581237793e-07,
+        -0.9979594349861145
     ],
     "Editor Camera Up (Y)": [
-        -0.15984612703323364,
-        0.97864288091659546,
-        -0.12498185783624649
+        -0.44379618763923645,
+        0.89518868923187256,
+        0.024256281554698944
     ],
     "Editor Camera Front (Z)": [
-        -0.77137905359268188,
-        -0.20301026105880737,
-        -0.60312849283218384
+        -0.89434307813644409,
+        -0.44469419121742249,
+        0.048883102834224701
     ],
     "Hierarchy": [
         {
             "Name": "Scene",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 381266425,
             "Active": true,
@@ -54,12 +56,14 @@
                 1398847280,
                 1676754095,
                 1676754095,
-                1286993888,
-                1617197167
+                1617197167,
+                1009784856,
+                908980609
             ]
         },
         {
             "Name": "Point Light",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1058808307,
             "Active": true,
@@ -86,22 +90,17 @@
                     ]
                 },
                 {
-                    "Type": "Light",
+                    "Type": "NavMesh",
                     "Active": 1,
-                    "Debug": 1,
-                    "Color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "Intensity": 0.69999998807907104,
-                    "Light Type": 0,
-                    "Radius": 1
+                    "Speed": -6.2601255278356726e+18,
+                    "Angular Speed": -4.2201683186052844e+37,
+                    "Stopping Distance": -8.8026012370366143e-30
                 }
             ]
         },
         {
             "Name": "Player_Camera_Suelo",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1858338460,
             "Active": true,
@@ -130,12 +129,12 @@
             ],
             "Children UID": [
                 1270585162,
-                1589760253,
-                2128342503
+                1589760253
             ]
         },
         {
             "Name": "Main Camera",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1270585162,
             "Active": true,
@@ -208,6 +207,7 @@
         },
         {
             "Name": "Player",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1589760253,
             "Active": true,
@@ -221,7 +221,7 @@
                     "Translation": [
                         -0.23614722490310669,
                         7.0544619560241699,
-                        -0.0022822630126029253
+                        -228.39080810546875
                     ],
                     "Rotation": [
                         -2.8740343623212539e-05,
@@ -306,6 +306,7 @@
         },
         {
             "Name": "Backpack",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 433503244,
             "Active": true,
@@ -345,6 +346,7 @@
         },
         {
             "Name": "backpack",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 328689476,
             "Active": true,
@@ -406,6 +408,7 @@
         },
         {
             "Name": "beltD",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 28280604,
             "Active": true,
@@ -467,6 +470,7 @@
         },
         {
             "Name": "beltI.001",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 824516471,
             "Active": true,
@@ -528,6 +532,7 @@
         },
         {
             "Name": "lightD",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 566477109,
             "Active": true,
@@ -589,6 +594,7 @@
         },
         {
             "Name": "lightI",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1693908760,
             "Active": true,
@@ -650,6 +656,7 @@
         },
         {
             "Name": "metalD",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 114144529,
             "Active": true,
@@ -711,6 +718,7 @@
         },
         {
             "Name": "metalI",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1814991651,
             "Active": true,
@@ -772,6 +780,7 @@
         },
         {
             "Name": "radio",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 2030945739,
             "Active": true,
@@ -833,6 +842,7 @@
         },
         {
             "Name": "Body",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 109009799,
             "Active": true,
@@ -894,6 +904,7 @@
         },
         {
             "Name": "Eyes",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1060511610,
             "Active": true,
@@ -955,6 +966,7 @@
         },
         {
             "Name": "Tail",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 873998742,
             "Active": true,
@@ -1015,60 +1027,8 @@
             ]
         },
         {
-            "Name": "Suelo",
-            "Tag": "Untagged",
-            "UID": 2128342503,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1858338460,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        -1.7038817405700684,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        854.3233642578125,
-                        10.345239639282227,
-                        964.65826416015625
-                    ]
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        854.3233642578125,
-                        10.345239639282227,
-                        964.65826416015625
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "UseGravity": false,
-                    "IsSensor": false,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false
-                }
-            ]
-        },
-        {
             "Name": "Game Canva",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1398847280,
             "Active": true,
@@ -1100,8 +1060,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 437,
-                    "Height": 610,
+                    "Width": 786,
+                    "Height": 1018,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -1129,6 +1089,7 @@
         },
         {
             "Name": "Background",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1206971064,
             "Active": true,
@@ -1187,6 +1148,7 @@
         },
         {
             "Name": "Skill1",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 567052357,
             "Active": true,
@@ -1245,6 +1207,7 @@
         },
         {
             "Name": "Skill2",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1597692316,
             "Active": true,
@@ -1303,6 +1266,7 @@
         },
         {
             "Name": "Skill3",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1163739394,
             "Active": true,
@@ -1361,6 +1325,7 @@
         },
         {
             "Name": "Dash",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1710342307,
             "Active": true,
@@ -1419,6 +1384,7 @@
         },
         {
             "Name": "Dpad_Down",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1749880555,
             "Active": true,
@@ -1477,6 +1443,7 @@
         },
         {
             "Name": "Dpad_Right",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1378669993,
             "Active": true,
@@ -1535,6 +1502,7 @@
         },
         {
             "Name": "Dpad_Up",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 823303942,
             "Active": true,
@@ -1593,6 +1561,7 @@
         },
         {
             "Name": "Bullets Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1647798137,
             "Active": true,
@@ -1654,6 +1623,7 @@
         },
         {
             "Name": "Item",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 118355006,
             "Active": true,
@@ -1712,6 +1682,7 @@
         },
         {
             "Name": "Heal",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1843557112,
             "Active": true,
@@ -1770,6 +1741,7 @@
         },
         {
             "Name": "Health_Frame",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1408335669,
             "Active": true,
@@ -1831,6 +1803,7 @@
         },
         {
             "Name": "Health Bar",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 664762359,
             "Active": true,
@@ -1881,28 +1854,28 @@
                     "Value max": 10,
                     "Direction": 2,
                     "Focused color": [
-                        -1.5816255460782938e+38,
                         9.8090892502737195e-45,
-                        -1.5816255460782938e+38,
+                        9.8090892502737195e-45,
+                        9.8090892502737195e-45,
                         9.8090892502737195e-45
                     ],
                     "Pressed color": [
-                        -1.5816255460782938e+38,
                         9.8090892502737195e-45,
-                        -1.5816255460782938e+38,
-                        9.8090892502737195e-45
+                        9.8090892502737195e-45,
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38
                     ],
                     "Selected color": [
-                        -1.5816255460782938e+38,
                         9.8090892502737195e-45,
                         -1.5816255460782938e+38,
-                        9.8090892502737195e-45
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38
                     ],
                     "Disabled color": [
-                        -1.5816255460782938e+38,
                         9.8090892502737195e-45,
                         -1.5816255460782938e+38,
-                        9.8090892502737195e-45
+                        9.8090892502737195e-45,
+                        -1.5816255460782938e+38
                     ]
                 },
                 {
@@ -1918,6 +1891,7 @@
         },
         {
             "Name": "Background",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 995673855,
             "Active": true,
@@ -1976,6 +1950,7 @@
         },
         {
             "Name": "Fill",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1746115142,
             "Active": true,
@@ -2034,6 +2009,7 @@
         },
         {
             "Name": "Handle",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 256935145,
             "Active": false,
@@ -2092,6 +2068,7 @@
         },
         {
             "Name": "Death Canvas",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1676754095,
             "Active": false,
@@ -2144,6 +2121,7 @@
         },
         {
             "Name": "Background",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1076335875,
             "Active": false,
@@ -2202,6 +2180,7 @@
         },
         {
             "Name": "Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 604314097,
             "Active": false,
@@ -2263,6 +2242,7 @@
         },
         {
             "Name": "Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 43054277,
             "Active": false,
@@ -2324,6 +2304,7 @@
         },
         {
             "Name": "Empty",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 199456300,
             "Active": false,
@@ -2357,6 +2338,7 @@
         },
         {
             "Name": "Respawn",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1541707194,
             "Active": false,
@@ -2474,6 +2456,7 @@
         },
         {
             "Name": "Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1641626881,
             "Active": false,
@@ -2535,6 +2518,7 @@
         },
         {
             "Name": "Back To Menu",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 150558645,
             "Active": false,
@@ -2652,6 +2636,7 @@
         },
         {
             "Name": "Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1500166531,
             "Active": false,
@@ -2713,6 +2698,7 @@
         },
         {
             "Name": "Win Canvas",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1676754095,
             "Active": false,
@@ -2763,6 +2749,7 @@
         },
         {
             "Name": "Background",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1076335875,
             "Active": false,
@@ -2821,6 +2808,7 @@
         },
         {
             "Name": "Back To Menu",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1984199107,
             "Active": false,
@@ -2938,6 +2926,7 @@
         },
         {
             "Name": "Text",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1850778591,
             "Active": false,
@@ -2998,1691 +2987,8 @@
             ]
         },
         {
-            "Name": "ANIM_CHAR_Facehugger_All",
-            "Tag": "Untagged",
-            "UID": 1286993888,
-            "Active": true,
-            "Element_Type": "Model",
-            "Origin_Path": "Assets\/ANIM_CHAR_Facehugger_All.fbx",
-            "Parent UID": 381266425,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        32.359066009521484
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Animation",
-                    "Active": 1,
-                    "NumPaths": 1,
-                    "Paths": [
-                        ".\/Library\/Animations\/1286993888.yanim"
-                    ],
-                    "AssetsPath": [
-                        ""
-                    ]
-                }
-            ],
-            "Children UID": [
-                2031517303,
-                1384088557
-            ]
-        },
-        {
-            "Name": "Central",
-            "Tag": "Untagged",
-            "UID": 2031517303,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1286993888,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -0.010627560317516327,
-                        2.811223030090332,
-                        0.074392929673194885
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                497316965,
-                1573122994,
-                1652275851,
-                63721548,
-                407246915
-            ]
-        },
-        {
-            "Name": "Leg_R",
-            "Tag": "Untagged",
-            "UID": 497316965,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2031517303,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0.96595007181167603,
-                        -0.34064352512359619,
-                        -0.8319849967956543
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                123742240,
-                1243895730,
-                706229143,
-                1796864357
-            ]
-        },
-        {
-            "Name": "Leg_R_1_Botom",
-            "Tag": "Untagged",
-            "UID": 123742240,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 497316965,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                391424329
-            ]
-        },
-        {
-            "Name": "Leg_R_1_Midle",
-            "Tag": "Untagged",
-            "UID": 391424329,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 123742240,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                814187907
-            ]
-        },
-        {
-            "Name": "Leg_R_1_Top",
-            "Tag": "Untagged",
-            "UID": 814187907,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 391424329,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                586595161
-            ]
-        },
-        {
-            "Name": "Leg_R_1_Tip",
-            "Tag": "Untagged",
-            "UID": 586595161,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 814187907,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_R_2_Botom",
-            "Tag": "Untagged",
-            "UID": 1243895730,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 497316965,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1905821251
-            ]
-        },
-        {
-            "Name": "Leg_R_2_Midle",
-            "Tag": "Untagged",
-            "UID": 1905821251,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1243895730,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                759494672
-            ]
-        },
-        {
-            "Name": "Leg_R_2_Top",
-            "Tag": "Untagged",
-            "UID": 759494672,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1905821251,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1389448933
-            ]
-        },
-        {
-            "Name": "Leg_R_2_Tip",
-            "Tag": "Untagged",
-            "UID": 1389448933,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 759494672,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_R_3_Botom",
-            "Tag": "Untagged",
-            "UID": 706229143,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 497316965,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                922711617
-            ]
-        },
-        {
-            "Name": "Leg_R_3_Midle",
-            "Tag": "Untagged",
-            "UID": 922711617,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 706229143,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                396793871
-            ]
-        },
-        {
-            "Name": "Leg_R_3_Top",
-            "Tag": "Untagged",
-            "UID": 396793871,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 922711617,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                403397514
-            ]
-        },
-        {
-            "Name": "Leg_R_3_Tip",
-            "Tag": "Untagged",
-            "UID": 403397514,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 396793871,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_R_4_Botom",
-            "Tag": "Untagged",
-            "UID": 1796864357,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 497316965,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        1.2019549608230591,
-                        0,
-                        0.88629341125488281
-                    ],
-                    "Rotation": [
-                        1.284643292427063,
-                        -8.0567197799682617,
-                        9.0904817581176758
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                725976134
-            ]
-        },
-        {
-            "Name": "Leg_R_4_Midle",
-            "Tag": "Untagged",
-            "UID": 725976134,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1796864357,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        2.8807992935180664,
-                        0,
-                        -0.051502533257007599
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        -22.283008575439453
-                    ],
-                    "Scale": [
-                        0.99999994039535522,
-                        0.99999994039535522,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1525612051
-            ]
-        },
-        {
-            "Name": "Leg_R_4_Top",
-            "Tag": "Untagged",
-            "UID": 1525612051,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 725976134,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        2.6203546524047852,
-                        0,
-                        -0.038318388164043427
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        -28.639999389648438
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1626823825
-            ]
-        },
-        {
-            "Name": "Leg_R_4_Tip",
-            "Tag": "Untagged",
-            "UID": 1626823825,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1525612051,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        3.0342311859130859,
-                        0,
-                        -0.006011799443513155
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Ala_L_1",
-            "Tag": "Untagged",
-            "UID": 1573122994,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2031517303,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1716860338
-            ]
-        },
-        {
-            "Name": "Ala_L_2",
-            "Tag": "Untagged",
-            "UID": 1716860338,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1573122994,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1584309077
-            ]
-        },
-        {
-            "Name": "Ala_L_3",
-            "Tag": "Untagged",
-            "UID": 1584309077,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1716860338,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Ala_R_1",
-            "Tag": "Untagged",
-            "UID": 1652275851,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2031517303,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                949669708
-            ]
-        },
-        {
-            "Name": "Ala_R_2",
-            "Tag": "Untagged",
-            "UID": 949669708,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1652275851,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1011731892
-            ]
-        },
-        {
-            "Name": "Ala_R_3",
-            "Tag": "Untagged",
-            "UID": 1011731892,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 949669708,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_L",
-            "Tag": "Untagged",
-            "UID": 63721548,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2031517303,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                728268359,
-                1375865273,
-                1404248839,
-                1234484319
-            ]
-        },
-        {
-            "Name": "Leg_L_1_Botom1",
-            "Tag": "Untagged",
-            "UID": 728268359,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 63721548,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                152129960
-            ]
-        },
-        {
-            "Name": "Leg_L_1_Midle1",
-            "Tag": "Untagged",
-            "UID": 152129960,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 728268359,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                842841259
-            ]
-        },
-        {
-            "Name": "Leg_L_1_Top1",
-            "Tag": "Untagged",
-            "UID": 842841259,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 152129960,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                362010321
-            ]
-        },
-        {
-            "Name": "Leg_L_1_Tip1",
-            "Tag": "Untagged",
-            "UID": 362010321,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 842841259,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_L_2_Botom1",
-            "Tag": "Untagged",
-            "UID": 1375865273,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 63721548,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1263848849
-            ]
-        },
-        {
-            "Name": "Leg_L_2_Midle1",
-            "Tag": "Untagged",
-            "UID": 1263848849,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1375865273,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1814642237
-            ]
-        },
-        {
-            "Name": "Leg_L_2_Top1",
-            "Tag": "Untagged",
-            "UID": 1814642237,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1263848849,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                710900528
-            ]
-        },
-        {
-            "Name": "Leg_L_2_Tip1",
-            "Tag": "Untagged",
-            "UID": 710900528,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1814642237,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_L_3_Botom1",
-            "Tag": "Untagged",
-            "UID": 1404248839,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 63721548,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                731027236
-            ]
-        },
-        {
-            "Name": "Leg_L_3_Midle1",
-            "Tag": "Untagged",
-            "UID": 731027236,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1404248839,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1191795565
-            ]
-        },
-        {
-            "Name": "Leg_L_3_Top1",
-            "Tag": "Untagged",
-            "UID": 1191795565,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 731027236,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1398012013
-            ]
-        },
-        {
-            "Name": "Leg_L_3_Tip1",
-            "Tag": "Untagged",
-            "UID": 1398012013,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1191795565,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Leg_L_4_Botom1",
-            "Tag": "Untagged",
-            "UID": 1234484319,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 63721548,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -1.2019569873809814,
-                        -1.6653345369377348e-16,
-                        -0.88629299402236938
-                    ],
-                    "Rotation": [
-                        1.2503770589828491,
-                        -8.4099922180175781,
-                        8.4879722595214844
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                515911261
-            ]
-        },
-        {
-            "Name": "Leg_L_4_Midle1",
-            "Tag": "Untagged",
-            "UID": 515911261,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1234484319,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -2.8808000087738037,
-                        -1.9428902930940239e-16,
-                        0.051502201706171036
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        -22.28333854675293
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                2034961297
-            ]
-        },
-        {
-            "Name": "Leg_L_4_Top1",
-            "Tag": "Untagged",
-            "UID": 2034961297,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 515911261,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -2.6203498840332031,
-                        -2.4980018054066022e-16,
-                        0.038318399339914322
-                    ],
-                    "Rotation": [
-                        0,
-                        0,
-                        -28.639530181884766
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1871817634
-            ]
-        },
-        {
-            "Name": "Leg_L_4_Tip1",
-            "Tag": "Untagged",
-            "UID": 1871817634,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2034961297,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        -3.0342700481414795,
-                        -1.9428902930940239e-16,
-                        0.0060117999091744423
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Tail_1",
-            "Tag": "Untagged",
-            "UID": 407246915,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 2031517303,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1414999922
-            ]
-        },
-        {
-            "Name": "Tail_2",
-            "Tag": "Untagged",
-            "UID": 1414999922,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 407246915,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                781566530
-            ]
-        },
-        {
-            "Name": "Tail_3",
-            "Tag": "Untagged",
-            "UID": 781566530,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1414999922,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                825184354
-            ]
-        },
-        {
-            "Name": "Tail_4",
-            "Tag": "Untagged",
-            "UID": 825184354,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 781566530,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1612670428
-            ]
-        },
-        {
-            "Name": "Tail_5",
-            "Tag": "Untagged",
-            "UID": 1612670428,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 825184354,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                1503058637
-            ]
-        },
-        {
-            "Name": "Tail_6",
-            "Tag": "Untagged",
-            "UID": 1503058637,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1612670428,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "Children UID": [
-                727561211
-            ]
-        },
-        {
-            "Name": "Tail_7",
-            "Tag": "Untagged",
-            "UID": 727561211,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1503058637,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "Name": "Enemy",
-            "Tag": "Untagged",
-            "UID": 1384088557,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1286993888,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        12.990797996520996,
-                        0.32548904418945312
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        11.599998474121094,
-                        25.860225677490234,
-                        11.599998474121094
-                    ]
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        11.599998474121094,
-                        25.860225677490234,
-                        11.599998474121094
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 0,
-                    "Mass": 1,
-                    "UseGravity": true,
-                    "IsSensor": false,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "QueenXenomorphBaseScript.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "life": 0,
-                    "speed": 0,
-                    "armor": 0,
-                    "xSpeed": 0,
-                    "ySpeed": 0,
-                    "DetectionRadius": 120
-                }
-            ],
-            "Children UID": [
-                268083481
-            ]
-        },
-        {
-            "Name": "Repo",
-            "Tag": "Untagged",
-            "UID": 268083481,
-            "Active": true,
-            "Element_Type": "None",
-            "Parent UID": 1384088557,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        -0.50234663486480713,
-                        -0.028059482574462891
-                    ],
-                    "Rotation": [
-                        -90.000030517578125,
-                        -2.0355550198972866e-13,
-                        180
-                    ],
-                    "Scale": [
-                        0.086206905543804169,
-                        0.086206898093223572,
-                        0.038669418543577194
-                    ]
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/ColorShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                10.563426971435547,
-                                112.62493896484375,
-                                138.20832824707031
-                            ],
-                            "color": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "light": false
-                        }
-                    ],
-                    "ID": 0,
-                    "Diffuse": "",
-                    "UID": 0
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "Vertex Count": 5694,
-                    "Index Count": 8340
-                }
-            ]
-        },
-        {
             "Name": "Sensor",
+            "Static": false,
             "Tag": "Untagged",
             "UID": 1617197167,
             "Active": true,
@@ -4734,10 +3040,1864 @@
                 },
                 {
                     "Type": "Script",
-                    "ScriptName": "QueenXenomorphAttack.cs",
+                    "ScriptName": "FaceHuggerAttack.cs",
                     "Active": 1,
                     "UID": 0,
-                    "queen": 1384088557
+                    "facehugger": 24052806
+                }
+            ]
+        },
+        {
+            "Name": "Cube",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1009784856,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/Primitives\/Cube.fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        -2.030940055847168,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        348.6142578125,
+                        1,
+                        326.4329833984375
+                    ]
+                }
+            ],
+            "Children UID": [
+                1553236809
+            ]
+        },
+        {
+            "Name": "1553236809",
+            "Static": true,
+            "Tag": "Untagged",
+            "UID": 1553236809,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1009784856,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                10.563426971435547,
+                                112.62493896484375,
+                                138.20832824707031
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        348.6142578125,
+                        1,
+                        326.4329833984375
+                    ],
+                    "Radius": 238.79457092285156,
+                    "Height": 1,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ]
+        },
+        {
+            "Name": "ANIM_CHAR_Facehugger (1)",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 908980609,
+            "Active": true,
+            "Element_Type": "Model",
+            "Origin_Path": "Assets\/ANIM_CHAR_Facehugger (1).fbx",
+            "Parent UID": 381266425,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        31.011512756347656
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Animation",
+                    "Active": 1,
+                    "NumPaths": 8,
+                    "Paths": [
+                        ".\/Library\/Animations\/908980609.yanim",
+                        ".\/Library\/Animations\/313970820.yanim",
+                        ".\/Library\/Animations\/1294251062.yanim",
+                        ".\/Library\/Animations\/1709888042.yanim",
+                        ".\/Library\/Animations\/1951938036.yanim",
+                        ".\/Library\/Animations\/987834182.yanim",
+                        ".\/Library\/Animations\/1442144459.yanim",
+                        ".\/Library\/Animations\/1445200076.yanim"
+                    ],
+                    "AssetsPath": [
+                        ".\/Assets\/T-Pose.yanim",
+                        ".\/Assets\/Idle_Facehugger.yanim",
+                        ".\/Assets\/Walk_Facehugger.yanim",
+                        ".\/Assets\/TailAttack_Facehugger.yanim",
+                        ".\/Assets\/Cry_Facehugger.yanim",
+                        ".\/Assets\/Death_Facehugger.yanim",
+                        ".\/Assets\/IdleCombat_Facehugger.yanim",
+                        ".\/Assets\/DeathFrame_Facehugger.yanim"
+                    ]
+                }
+            ],
+            "Children UID": [
+                24052806,
+                1453996861
+            ]
+        },
+        {
+            "Name": "Enemy",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 24052806,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 908980609,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": false,
+                            "transparency": 1
+                        }
+                    ],
+                    "ID": 0,
+                    "Diffuse": "Checker Image",
+                    "UID": 4277009102
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "Vertex Count": 5688,
+                    "Index Count": 8340
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        21.765869140625,
+                        2.0131797790527344,
+                        39.19610595703125
+                    ],
+                    "Radius": 22.43958854675293,
+                    "Height": 2.0131797790527344,
+                    "Physics Type": 0,
+                    "Mass": 1,
+                    "UseGravity": true,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "FaceHuggerBaseScript.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "movementSpeed": 20,
+                    "life": 100,
+                    "armor": 0,
+                    "rarity": 0,
+                    "xSpeed": 0,
+                    "ySpeed": 0,
+                    "PlayerDetected": false,
+                    "DetectionRadius": 60,
+                    "wanderDuration": 5,
+                    "stopedDuration": 1,
+                    "cumDuration": 2,
+                    "cumDuration2": 5,
+                    "attackTimer": 0,
+                    "attackSensor": false
+                },
+                {
+                    "Type": "NavMesh",
+                    "Active": 1,
+                    "Speed": 5,
+                    "Angular Speed": 10,
+                    "Stopping Distance": 1
+                }
+            ]
+        },
+        {
+            "Name": "Central",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1453996861,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 908980609,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        1.5,
+                        -0.18989717960357666,
+                        10.404133796691895
+                    ],
+                    "Rotation": [
+                        180,
+                        -0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                824363428,
+                203343485,
+                1716779759,
+                1302847639,
+                1642678244
+            ]
+        },
+        {
+            "Name": "Leg_R",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 824363428,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1453996861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                893018662,
+                1050057273,
+                1733695214,
+                2068731582
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Botom",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 893018662,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 824363428,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2101573764
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Midle",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 2101573764,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 893018662,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1515474865
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Top",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1515474865,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2101573764,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1980198561
+            ]
+        },
+        {
+            "Name": "Leg_R_1_Tip",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1980198561,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1515474865,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Botom",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1050057273,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 824363428,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                821077342
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Midle",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 821077342,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1050057273,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                701228961
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Top",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 701228961,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 821077342,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                486204223
+            ]
+        },
+        {
+            "Name": "Leg_R_2_Tip",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 486204223,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 701228961,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Botom",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1733695214,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 824363428,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                717109215
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Midle",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 717109215,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1733695214,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1640828227
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Top",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1640828227,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 717109215,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                25836704
+            ]
+        },
+        {
+            "Name": "Leg_R_4_Tip",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 25836704,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1640828227,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Botom",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 2068731582,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 824363428,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1077725328
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Midle",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1077725328,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 2068731582,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1923498310
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Top",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1923498310,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1077725328,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                250732058
+            ]
+        },
+        {
+            "Name": "Leg_R_3_Tip",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 250732058,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1923498310,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Ala_R_1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 203343485,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1453996861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                910011714
+            ]
+        },
+        {
+            "Name": "Ala_R_2",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 910011714,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 203343485,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                189511594
+            ]
+        },
+        {
+            "Name": "Ala_R_3",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 189511594,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 910011714,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1716779759,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1453996861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                289328734,
+                1262331212,
+                366098220,
+                457833376
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Botom1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 289328734,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716779759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                692217785
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Midle1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 692217785,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 289328734,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1534846121
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Top1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1534846121,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 692217785,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1116532119
+            ]
+        },
+        {
+            "Name": "Leg_L_1_Tip1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1116532119,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1534846121,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Botom1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1262331212,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716779759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                46497824
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Midle1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 46497824,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1262331212,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1341383684
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Top1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1341383684,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 46497824,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1388131432
+            ]
+        },
+        {
+            "Name": "Leg_L_2_Tip1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1388131432,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1341383684,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Botom1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 366098220,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716779759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1797733145
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Midle1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1797733145,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 366098220,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1484875806
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Top1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1484875806,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1797733145,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1221004887
+            ]
+        },
+        {
+            "Name": "Leg_L_3_Tip1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1221004887,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1484875806,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Botom1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 457833376,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1716779759,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1673907768
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Midle1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1673907768,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 457833376,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1513423998
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Top1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1513423998,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1673907768,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                835083469
+            ]
+        },
+        {
+            "Name": "Leg_L_4_Tip1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 835083469,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1513423998,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Tail_1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1302847639,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1453996861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1448270042
+            ]
+        },
+        {
+            "Name": "Tail_2",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1448270042,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1302847639,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                53138991
+            ]
+        },
+        {
+            "Name": "Tail_3",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 53138991,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1448270042,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                367174244
+            ]
+        },
+        {
+            "Name": "Tail_4",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 367174244,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 53138991,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                1905796332
+            ]
+        },
+        {
+            "Name": "Tail_5",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1905796332,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 367174244,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                803424050
+            ]
+        },
+        {
+            "Name": "Tail_6",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 803424050,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1905796332,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                2045984071
+            ]
+        },
+        {
+            "Name": "Tail_7",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 2045984071,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 803424050,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Ala_L_1",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 1642678244,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1453996861,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                155394480
+            ]
+        },
+        {
+            "Name": "Ala_L_2",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 155394480,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1642678244,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ],
+            "Children UID": [
+                193674296
+            ]
+        },
+        {
+            "Name": "Ala_L_3",
+            "Static": false,
+            "Tag": "Untagged",
+            "UID": 193674296,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 155394480,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
                 }
             ]
         }

@@ -43,7 +43,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 
     private QueenState queenState;
 
-	private Phase phase;
+	
 
 	public float life;
 
@@ -118,7 +118,7 @@ public class QueenXenomorphBaseScript : YmirComponent
 	{
 		//Temporary until we know for sure
 		queenState = QueenState.IDLE_PHASE_2;
-		phase = Phase.PHASE2;
+		
 		life = 10000;
 		speed = 12f;
 		queenRotationSpeed = 2f;

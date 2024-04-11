@@ -61,7 +61,7 @@ public class FaceHuggerBaseScript : YmirComponent
     //0 = Common, 1 = Rare, 2 = Elite
     public int rarity = 0;
 
-    private float wanderRadius = 10f;
+    private float wanderRange = 10f;
 
     public float xSpeed = 0, ySpeed = 0;
 
@@ -69,6 +69,7 @@ public class FaceHuggerBaseScript : YmirComponent
     //public float wanderTimer = 5f;
 
     private GameObject player;
+    protected PathFinding agent;
 
     public bool PlayerDetected = false;
 
@@ -82,7 +83,7 @@ public class FaceHuggerBaseScript : YmirComponent
     RandomPointGenerator pointGenerator;
     private Health healthScript;
 
-    private Vector3 vectorToPlayer = null;
+   
 
     private float wanderTimer;
     public float wanderDuration = 5f;
@@ -108,14 +109,18 @@ public class FaceHuggerBaseScript : YmirComponent
         wanderTimer = wanderDuration;
         player = InternalCalls.GetGameObjectByName("Player");
         healthScript = player.GetComponent<Health>();
+        agent = gameObject.GetComponent<PathFinding>();
+        agent.stoppingDistance = 1f;
+        agent.speed = 10f;
         movementSpeed = 20f;
         stopedDuration = 1f;
         DetectionRadius = 60f;
-        wanderRadius = 10f;
+        wanderRange = 100f;
         cumDuration = 2f;
         cumDuration2 = 5f;
 
         attackTimer = attackDuration;
+        agent.stoppingDistance = 1f;
 
         cumTimer = cumDuration2;
 
@@ -147,35 +152,35 @@ public class FaceHuggerBaseScript : YmirComponent
             switch (wanderState)
             {
                 case WanderState.REACHED:
-                    (xSpeed, ySpeed) = pointGenerator.GetRandomPointInRadius(wanderRadius);
+                    agent.CalculateRandomPath(gameObject.transform.globalPosition, wanderRange);
                     wanderTimer = wanderDuration;
-                    //Debug.Log("[ERROR] Current State: REACHED");
+                    Debug.Log("[ERROR] Current State: REACHED");
                     wanderState = WanderState.GOING;
-                    actualMovementSpeed = movementSpeed;
-                break;
+                    break;
 
                 case WanderState.GOING:
-                    attackSensor = false;
-                    HandleRotation();
-                    //Debug.Log("[ERROR] Current State: GOING");
-                    ProcessMovement();
-                    //Debug.Log("[ERROR] Forward: " + gameObject.transform.GetForward());
-                    gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed);
-                break;
+                    agent.speed = 30f;
+
+                    LookAt(agent.GetDestination());
+                    LookAt(agent.GetDestination());
+                    MoveToCalculatedPos(agent.speed);
+                    Debug.Log("[ERROR] Current State: GOING");
+
+                    //if(Mathf.Distance(gameObject.transform.globalPosition,agent.GetPointAt(agent.GetPathSize())) < 1)
+                    //{
+                    //    wanderState = WanderState.REACHED; break;
+                    //}
+                    break;
 
 
                 case WanderState.CHASING:
 
                     //Debug.Log("[ERROR] Current State: CHASING");
-                    vectorToPlayer = player.transform.globalPosition - gameObject.transform.globalPosition;
-                    vectorToPlayer = Vector3.Normalize(vectorToPlayer);
+                    agent.CalculatePath(gameObject.transform.globalPosition, player.transform.globalPosition);
 
-                    xSpeed = vectorToPlayer.x;
-                    ySpeed = vectorToPlayer.z;
-
-                    RotateEnemy();
-                    //Debug.Log("[ERROR] Velocity: " + actualMovementSpeed);
-                    gameObject.SetVelocity(gameObject.transform.GetForward() * actualMovementSpeed * 2);
+                    MoveToCalculatedPos(agent.speed);
+                    
+                    Debug.Log("[ERROR] Current State: CHASING");
                     break;
 
                 case WanderState.STOPED:
@@ -340,6 +345,37 @@ public class FaceHuggerBaseScript : YmirComponent
 
         gameObject.SetRotation(targetRotation);
 
+    }
+
+    public void LookAt(Vector3 pointToLook)
+    {
+        Vector3 direction = pointToLook - gameObject.transform.globalPosition;
+        direction = direction.normalized;
+        float angle = (float)Math.Atan2(direction.x, direction.z);
+
+        //Debug.Log("Desired angle: " + (angle * Mathf.Rad2Deg).ToString());
+
+        if (Math.Abs(angle * Mathf.Rad2Deg) < 1.0f)
+            return;
+
+        Quaternion dir = Quaternion.RotateAroundAxis(Vector3.up, angle);
+
+        float rotationSpeed = Time.deltaTime * agent.angularSpeed * 100;
+
+
+        Quaternion desiredRotation = Quaternion.Slerp(gameObject.transform.localRotation, dir, rotationSpeed);
+
+        gameObject.transform.localRotation = desiredRotation;
+
+    }
+
+    public void MoveToCalculatedPos(float speed)
+    {
+        Vector3 pos = gameObject.transform.globalPosition;
+        Vector3 destination = agent.GetDestination();
+        Vector3 direction = destination - pos;
+
+        gameObject.SetVelocity(direction.normalized * 5f);
     }
 
     private void RotateEnemy()
