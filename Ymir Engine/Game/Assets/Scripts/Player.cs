@@ -139,6 +139,10 @@ public class Player : YmirComponent
 
     //--------------------- Acidic Spit ------------------------\\
     private float acidicTimer;
+    private float acidicDuration = 1.8f;
+    private float acidicCDTimer;
+    private float acidicCD = 7.0f;
+    private bool hasAcidic = false;
 
     #endregion
 
@@ -173,6 +177,14 @@ public class Player : YmirComponent
         hasDashed = false;
 
         dashSpeed = dashDistance / dashDuration;
+
+        //--------------------- Acidic Spit ------------------------\\
+
+        acidicTimer = 0;
+        acidicDuration = 1.8f;
+        acidicCDTimer = 0;
+        acidicCD = 7.0f;
+        hasAcidic = false;
 
         //--------------------- Predatory Rush ---------------------\\
         
@@ -292,7 +304,17 @@ public class Player : YmirComponent
                 inputsList.Add(INPUT.I_ACID_END);
             }
         }
-        
+
+        if (acidicCDTimer > 0)
+        {
+            acidicCDTimer -= Time.deltaTime;
+
+            if (acidicCDTimer <= 0)
+            {
+                hasAcidic = false;
+            }
+        }
+
         //--------------------- Predatory Timer ---------------------\\
         if (predatoryTimer > 0)
         {
@@ -383,9 +405,10 @@ public class Player : YmirComponent
             inputsList.Add(INPUT.I_DASH);
         }
 
-        //----------------- Predatory Rush (Skill 1) -----------------\\
-        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        //----------------- Acidic Spit (Skill 1) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN && hasAcidic == false && acidicCDTimer <= 0)
         {
+            hasAcidic = true;
             inputsList.Add(INPUT.I_ACID);
         }
 
@@ -396,7 +419,7 @@ public class Player : YmirComponent
             inputsList.Add(INPUT.I_PRED);
         }
 
-        //----------------- Predatory Rush (Skill 3) -----------------\\
+        //----------------- Tail Swipe (Skill 3) -----------------\\
         if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN && hasSwipe == false && swipeCDTimer <= 0)
         {
             hasSwipe = true;
@@ -469,20 +492,20 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
-                        case INPUT.I_PRED:
-                            StartPredRush();
-                            break;
-
-                        case INPUT.I_PRED_END:
-                            EndPredRush();
-                            break;
-
                         case INPUT.I_ACID:
                             StartAcidicSpit();
                             break;
 
                         case INPUT.I_ACID_END:
                             EndAcidicSpit();
+                            break;
+
+                        case INPUT.I_PRED:
+                            StartPredRush();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
                             break;
 
                         case INPUT.I_SWIPE:
@@ -530,6 +553,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
+                            break;
+
                         case INPUT.I_PRED:
                             StartPredRush();
                             break;
@@ -538,14 +569,6 @@ public class Player : YmirComponent
                             EndPredRush();
                             break;
 
-                        case INPUT.I_ACID:
-                            StartAcidicSpit();
-                            break;
-
-                        case INPUT.I_ACID_END:
-                            EndAcidicSpit();
-                            break;
-                            
                         case INPUT.I_SWIPE:
                             currentState = STATE.TAILSWIPE;
                             StartTailSwipe();
@@ -1211,11 +1234,13 @@ public class Player : YmirComponent
         
         //Crea la bola de acido
         InternalCalls.CreateAcidicSpit("AcidSpit", pos);
+
+        acidicTimer = acidicDuration;
     }
 
     private void EndAcidicSpit()
     {
-
+        acidicCDTimer = acidicCD;
     }
 
     #endregion

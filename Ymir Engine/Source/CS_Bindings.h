@@ -598,7 +598,7 @@ void CreateAcidicSpit(MonoObject* name, MonoObject* position)
 void CreateAcidPuddle(MonoObject* name, MonoObject* position)
 {
 	float3 posVector = External->moduleMono->UnboxVector(position);
-	float3 scaleVector = float3(6.0f, 0.5f, 6.0f);
+	float3 scaleVector = float3(12.0f, 1.0f, 12.0f);
 	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
 
 	if (External == nullptr) return;
