@@ -20,34 +20,6 @@ enum EmitterType
 	PARTICLES_MAX,
 };
 
-//EnumS of types of spawn of the spawn setting
-enum ParticlesSpawnMode
-{
-	PAR_NUM_PARTICLES_BURST, //Spawn X particles at a time and doesn't spawn again until that number decreases due to the particles dying
-	PAR_ONE_PARTICLE_OVER_DELAY, //Spawn one particle every X seconds (works using delta time).
-	PAR_SPAWN_MODE_END
-};
-
-enum ParticlesSpawnEnabeling
-{
-	PAR_START_NON_STOP, //Starts emittng and won´t stop
-	PAR_START_STOP, //Starts emitting but stops after X particles spawned
-	PAR_WAIT_NON_STOP, //Starts waiting for a Play then won't stop
-	PAR_WAIT_STOP, //Starts waiting for a Play and stops after X particles, waiting again
-	PAR_ENABLE_MODES_END
-};
-
-//Enum of the modes as positions change after spawn
-enum SpeedChangeMode
-{
-	PAR_NO_SPEED_CHANGE,
-	PAR_IF_TIME_ADD, //Si en el time añadir el vector a la direccion
-	PAR_ADD_OVER_TIME, //Añadir paulatinamente el nuevo vector
-	PAR_IF_TIME_SUBSTITUTE, //Si el time cuadra position substituir velocidad
-	PAR_SUBSTITUTE_OVER_TIME, //Sobre el tiempo cambia la direccion
-	PAR_SPEED_CHANGE_MODE_END,
-};
-
 class ParticleEmitter;
 
 //Plantillas para los Emitters, que seran los settings de las particulas
@@ -85,6 +57,23 @@ struct EmitterBase : EmitterSetting
 	float distanceLimit;
 };
 
+//EnumS of types of spawn of the spawn setting
+enum ParticlesSpawnMode
+{
+	PAR_NUM_PARTICLES_BURST, //Spawn X particles at a time and doesn't spawn again until that number decreases due to the particles dying
+	PAR_ONE_PARTICLE_OVER_DELAY, //Spawn one particle every X seconds (works using delta time).
+	PAR_SPAWN_MODE_END
+};
+
+enum ParticlesSpawnEnabeling
+{
+	PAR_START_NON_STOP, //Starts emittng and won´t stop
+	PAR_START_STOP, //Starts emitting but stops after X particles spawned
+	PAR_WAIT_NON_STOP, //Starts waiting for a Play then won't stop
+	PAR_WAIT_STOP, //Starts waiting for a Play and stops after X particles, waiting again
+	PAR_ENABLE_MODES_END
+};
+
 struct EmitterSpawner : EmitterSetting
 {
 	EmitterSpawner();
@@ -102,6 +91,17 @@ struct EmitterSpawner : EmitterSetting
 	int numParticlesToSpawn;
 	int numParticlesForStop; //When played, if enabeling mode is stop once it spawn X particles it stops playing
 	int numParticlesSpawned;
+};
+
+//Enum of the modes as positions change after spawn
+enum SpeedChangeMode
+{
+	PAR_NO_SPEED_CHANGE,
+	PAR_IF_TIME_ADD, //Si en el time añadir el vector a la direccion
+	PAR_ADD_OVER_TIME, //Añadir paulatinamente el nuevo vector
+	PAR_IF_TIME_SUBSTITUTE, //Si el time cuadra position substituir velocidad
+	PAR_SUBSTITUTE_OVER_TIME, //Sobre el tiempo cambia la direccion
+	PAR_SPEED_CHANGE_MODE_END,
 };
 
 struct EmitterPosition : EmitterSetting
@@ -127,12 +127,13 @@ struct EmitterPosition : EmitterSetting
 
 };
 
-enum class BILLBOARD_TYPE : int
+enum BillboardType
 {
-	EDITORCAMERA,
-	GAMECAMERA,
-	WORLDALIGNED,
-	AXISALIGNED,
+	PAR_LOOK_EDITOR_CAMERA,
+	PAR_LOOK_GAME_CAMERA,
+	PAR_WORLD_ALIGNED,
+	PAR_AXIS_ALIGNED,
+	PAR_BILLBOARDING_MODE_END
 };
 
 struct EmitterRotation : EmitterSetting
@@ -153,7 +154,7 @@ struct EmitterRotation : EmitterSetting
 	bool verAlign;
 
 	Quat rotation;
-	BILLBOARD_TYPE currentAlignment;
+	BillboardType currentAlignmentMode;
 };
 
 struct EmitterSize : EmitterSetting

@@ -57,14 +57,14 @@ bool CParticleSystem::Update(float dt)
 	{
 		if (dt > 0.00f && (localPlay || TimeManager::gameTimer.GetState() != TimerState::STOPPED)) //Si no esta parado sino que esta paused tambien ha de hacer cosas
 		{
-			for (unsigned int i = 0; i < allEmitters.size(); ++i)
+			for (uint i = 0; i < allEmitters.size(); ++i)
 			{
 				allEmitters.at(i)->Update(dt);
 			}
 		}
 		else
 		{
-			for (unsigned int i = 0; i < allEmitters.size(); ++i)
+			for (uint i = 0; i < allEmitters.size(); ++i)
 			{
 				allEmitters.at(i)->Reset();
 			}
