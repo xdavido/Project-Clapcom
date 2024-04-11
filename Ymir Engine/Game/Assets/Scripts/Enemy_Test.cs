@@ -25,7 +25,8 @@ public class Enemy_Test : YmirComponent
         if (other.Name == "Tail")
         {
             Debug.Log("Enemigo Colisionando");
-            gameObject.SetImpulse(gameObject.transform.GetForward() * -1 * 60);
+            //gameObject.SetImpulse(gameObject.transform.GetForward() * -1 * 60);
+            //InternalCalls.Destroy(gameObject);
 
             //Le hace daño
         }

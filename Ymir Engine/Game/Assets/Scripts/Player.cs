@@ -201,6 +201,9 @@ public class Player : YmirComponent
         //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
 
+        //--------------------- Set Animation Parameters ---------------------\\
+        SetAnimParameters();
+        
         currentState = STATE.IDLE;
 
         //Debug.Log("START!");
@@ -342,6 +345,12 @@ public class Player : YmirComponent
     }
     private void ProcessExternalInput()
     {
+        //----------------- Debug KEY to test Die Animation -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        {
+            inputsList.Add(INPUT.I_DEAD);
+        }
+
         //----------------- Joystic -----------------\\
         if (JoystickMoving() == true)
         {
@@ -480,6 +489,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -491,7 +501,7 @@ public class Player : YmirComponent
                     {
                         case INPUT.I_IDLE:
                             currentState = STATE.IDLE;
-                            //StartIdle(); //Trigger de la animacion //Arreglar esto
+                            StartIdle();
                             break;
 
                         case INPUT.I_STOP:
@@ -534,6 +544,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -559,6 +570,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -583,6 +595,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -629,6 +642,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -653,6 +667,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -695,6 +710,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -735,6 +751,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -782,6 +799,13 @@ public class Player : YmirComponent
                 Debug.Log("No State? :(");
                 break;
         }
+    }
+    #endregion
+
+    #region IDLE
+    private void StartIdle()
+    {
+        Animation.PlayAnimation(gameObject, "Idle");
     }
     #endregion
 
@@ -1022,6 +1046,7 @@ public class Player : YmirComponent
     private void StartMove()
     {
         //Trigger de la animacion
+        Animation.PlayAnimation(gameObject, "Run");
         //Trigger del SFX de caminar
         //Vector3 impulse = new Vector3(0.0f,0.0f,0.01f);
         //gameObject.SetImpulse(gameObject.transform.GetForward() * 0.5f);
@@ -1086,6 +1111,11 @@ public class Player : YmirComponent
         gameObject.SetRotation(targetRotation);
     }
 
+    private void StartDeath()
+    {
+        Animation.PlayAnimation(gameObject, "Die");
+    }
+
     // TODO: use the generic functions
     private void GetPlayerScripts()
     {
@@ -1095,6 +1125,29 @@ public class Player : YmirComponent
             csBullets = gameObject.GetComponent<UI_Bullets>();
             csHealth = gameObject.GetComponent<Health>();
         }
+    }
+
+    private void SetAnimParameters()
+    {
+        Animation.SetLoop(gameObject, "Idle", true);
+        Animation.SetLoop(gameObject, "Walk", true);
+        Animation.SetLoop(gameObject, "Run", true);
+
+        Animation.AddBlendOption(gameObject, "Idle", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Die", 5.0f);
+
+
+        Animation.AddBlendOption(gameObject, "Walk", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Die", 5.0f);
+
+        Animation.AddBlendOption(gameObject, "Run", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Die", 5.0f);
+
+
+        Animation.PlayAnimation(gameObject, "Idle");
     }
 
     #endregion
@@ -1144,7 +1197,7 @@ public class Player : YmirComponent
         StopPlayer();
 
         //Vector3 offset = new Vector3(0, 15, 0);
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -2);
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -2.5f);
         Quaternion rot = gameObject.transform.globalRotation;
 
         InternalCalls.CreateTailSensor(pos, rot);

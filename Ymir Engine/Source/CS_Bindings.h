@@ -578,6 +578,7 @@ void CreateTailSensor(MonoObject* position, MonoObject* rotation)
 	physBody->SetAsSensor(true);
 
 	go->AddComponent(physBody);
+	physBody->physBody->body->activate(true);
 	physBody->size = scaleVector;
 	physBody->shape->setLocalScaling(btVector3(scaleVector.x, scaleVector.y, scaleVector.z));
 
