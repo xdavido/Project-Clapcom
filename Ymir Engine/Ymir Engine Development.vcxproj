@@ -149,6 +149,7 @@
     <ClInclude Include="Source\CS_Audio_Bindings.h" />
     <ClInclude Include="Source\CS_Bindings.h" />
     <ClInclude Include="Source\CS_Input_Bindings.h" />
+    <ClInclude Include="Source\CS_Particle_Bindings.h" />
     <ClInclude Include="Source\C_UI.h" />
     <ClInclude Include="Source\DefaultShader.h" />
     <ClInclude Include="Source\Delegate.h" />

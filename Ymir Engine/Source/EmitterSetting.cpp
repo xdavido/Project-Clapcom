@@ -218,8 +218,6 @@ void EmitterSpawner::Update(float dt, ParticleEmitter* emitter)
 	{
 		playTriggered = false;
 	}
-
-	
 }
 
 bool EmitterSpawner::PlayTrigger(bool val) //Stats play or pause

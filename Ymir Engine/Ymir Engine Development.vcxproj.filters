@@ -1132,6 +1132,10 @@
     <ClInclude Include="Source\EmitterSetting.h" />
     <ClInclude Include="Source\Particle.h" />
     <ClInclude Include="Source\ParticleEmitter.h" />
+    <ClInclude Include="CS_Particle_Bindings.h" />
+    <ClInclude Include="Source\CS_Particle_Bindings.h">
+      <Filter>Sources\Utils\Bindings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
