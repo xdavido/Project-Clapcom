@@ -33,16 +33,16 @@ public class Test_Anim : YmirComponent
 
 	public void Update()
 	{
-        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.W) == KeyState.KEY_DOWN)
             Animation.PlayAnimation(gameObject, "Idle");
 
-        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.S) == KeyState.KEY_DOWN)
             Animation.PlayAnimation(gameObject, "Walk");
 
-        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.A) == KeyState.KEY_DOWN)
             Animation.PlayAnimation(gameObject, "Die");
 
-        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_REPEAT)
+        if (Input.GetKey(YmirKeyCode.D) == KeyState.KEY_DOWN)
             Animation.PlayAnimation(gameObject, "Run");
     }
 }

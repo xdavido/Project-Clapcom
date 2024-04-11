@@ -24,10 +24,11 @@ public class Player : YmirComponent
         SHOOT,
         DEAD,
         JUMP,
+        TAILSWIPE,
 
         All_TYPES
     }
-    public enum INPUT : int
+    enum INPUT : int
     {
         I_IDLE,
         I_MOVE,
@@ -46,6 +47,8 @@ public class Player : YmirComponent
         I_PRED_END,
         I_ACID,
         I_ACID_END,
+        I_SWIPE,
+        I_SWIPE_END,
     }
 
     enum WEAPON : int
@@ -64,7 +67,7 @@ public class Player : YmirComponent
 
     //--------------------- State ---------------------\\
     private STATE currentState = STATE.NONE;   //NEVER SET THIS VARIABLE DIRECTLLY, ALLWAYS USE INPUTS
-    public List<INPUT> inputsList = new List<INPUT>();
+    private List<INPUT> inputsList = new List<INPUT>();
 
     //--------------------- Movement ---------------------\\
     //public float rotationSpeed = 2.0f;
@@ -112,15 +115,27 @@ public class Player : YmirComponent
     private float dashTimer = 0.0f;
     private float jumpTimer = 0.0f;
 
-    //private float timeSinceLastDash = 0.0f;
-    //public float dashCD = 0.1f;
+    private bool hasDashed;
+    private float dashCD = 3.5f;
+    private float dashCDTimer;
     public float dashDuration = 0.250f;
     public float dashDistance = 200.0f;
     private float dashSpeed = 0.0f;
     //private float dashStartYPos = 0.0f;
 
     //--------------------- Predatory Rush ---------------------\\
-    private float PredatoryTimer;
+    private float predatoryTimer;
+    private float predatoryDuration = 6.0f;
+    private float predatoryCDTimer;
+    private float predatoryCD = 22.0f;
+    private bool hasPred = false;
+
+    //--------------------- Tail Swipe ---------------------\\
+    private float swipeTimer;
+    private float swipeDuration = 3.0f;
+    private float swipeCDTimer;
+    private float swipeCD = 13.0f;
+    private bool hasSwipe = false;
 
     //--------------------- Acidic Spit ------------------------\\
     private float acidicTimer;
@@ -141,19 +156,39 @@ public class Player : YmirComponent
 
     public void Start()
     {
+        //
         weaponType = WEAPON.SMG;
 
         movementSpeed = 7000.0f;    //Antes 35
 
         //--------------------- Dash ---------------------\\
-        dashDistance = 200.0f;   //Antes 2        
+        dashDistance = 200.0f;     //Antes 2 
+
+        dashTimer = 0f;       
         dashDuration = 0.250f;
-        dashTimer = 0f;
-        jumpTimer = 0.0f;
+        dashCDTimer = 0;
+        dashCD = 3.5f;
+
+        jumpTimer = 0.0f;  
+        hasDashed = false;
+
         dashSpeed = dashDistance / dashDuration;
 
         //--------------------- Predatory Rush ---------------------\\
-        PredatoryTimer = 0;
+        
+        predatoryTimer = 0;
+        predatoryDuration = 6.0f;
+        predatoryCDTimer = 0;
+        predatoryCD = 22.0f;
+      
+        hasPred = false;
+
+        //--------------------- Predatory Rush ---------------------\\
+        swipeTimer = 0;
+        swipeDuration = 3.0f;
+        swipeCDTimer = 0;
+        swipeCD = 13.0f;
+        hasSwipe = false;
 
         //--------------------- Shoot ---------------------\\
         GetWeaponVars();
@@ -186,12 +221,14 @@ public class Player : YmirComponent
         {
             godMode = !godMode;
         }
+
+        Debug.Log("swipeCD = " + swipeCDTimer);
     }
 
     #region FSM
     private void ProcessInternalInput()
     {
-        //--------------------- Dash Timer ---------------------\\
+        //--------------------- Dash Timers ---------------------\\
         if (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
@@ -199,6 +236,15 @@ public class Player : YmirComponent
             if (dashTimer <= 0)
             {
                 inputsList.Add(INPUT.I_DASH_END);
+            }
+        }
+
+        if (dashCDTimer > 0)
+        {
+            dashCDTimer -= Time.deltaTime;
+            if (dashCDTimer <= 0)
+            {
+                hasDashed = false;
             }
         }
 
@@ -235,16 +281,6 @@ public class Player : YmirComponent
             }
         }
 
-        //--------------------- Predatory Timer ---------------------\\
-        if (PredatoryTimer > 0)
-        {
-            PredatoryTimer -= Time.deltaTime;
-
-            if (PredatoryTimer <= 0)
-            {
-                inputsList.Add(INPUT.I_PRED_END);
-            }
-        }
 
         //--------------------- Acidic Spit Timer ---------------------\\
         if (acidicTimer > 0)
@@ -254,6 +290,48 @@ public class Player : YmirComponent
             if (acidicTimer <= 0)
             {
                 inputsList.Add(INPUT.I_ACID_END);
+            }
+        }
+        
+        //--------------------- Predatory Timer ---------------------\\
+        if (predatoryTimer > 0)
+        {
+            predatoryTimer -= Time.deltaTime;
+
+            if (predatoryTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_PRED_END);
+            }
+        }
+
+        if (predatoryCDTimer > 0)
+        {
+            predatoryCDTimer -= Time.deltaTime;
+
+            if(predatoryCDTimer <= 0)
+            {
+                hasPred = false;
+            }
+        }
+
+        //--------------------- Tail Swipe Timer ---------------------\\
+        if (swipeTimer > 0)
+        {
+            swipeTimer -= Time.deltaTime;
+
+            if (swipeTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_SWIPE_END);
+            }
+        }
+
+        if (swipeCDTimer > 0)
+        {
+            swipeCDTimer -= Time.deltaTime;
+
+            if (swipeCDTimer <= 0)
+            {
+                hasSwipe = false;
             }
         }
 
@@ -299,8 +377,9 @@ public class Player : YmirComponent
         }
 
         //----------------- Dash -----------------\\
-        if (Input.GetGamepadLeftTrigger() > 0)
+        if (Input.GetGamepadLeftTrigger() > 0 && hasDashed == false && dashCDTimer <= 0)
         {
+            hasDashed = true;
             inputsList.Add(INPUT.I_DASH);
         }
 
@@ -311,9 +390,17 @@ public class Player : YmirComponent
         }
 
         //----------------- Predatory Rush (Skill 2) -----------------\\
-        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN)
+        if (Input.GetGamepadButton(GamePadButton.B) == KeyState.KEY_DOWN && hasPred == false && predatoryCDTimer <= 0)
         {
+            hasPred = true;
             inputsList.Add(INPUT.I_PRED);
+        }
+
+        //----------------- Predatory Rush (Skill 3) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN && hasSwipe == false && swipeCDTimer <= 0)
+        {
+            hasSwipe = true;
+            inputsList.Add(INPUT.I_SWIPE);
         }
 
         //----------------- Reload -----------------\\
@@ -398,6 +485,11 @@ public class Player : YmirComponent
                             EndAcidicSpit();
                             break;
 
+                        case INPUT.I_SWIPE:
+                            currentState = STATE.TAILSWIPE;
+                            StartTailSwipe();
+                            break;
+
                         case INPUT.I_JUMP:
                             currentState = STATE.JUMP;
                             StartJump();
@@ -452,6 +544,11 @@ public class Player : YmirComponent
 
                         case INPUT.I_ACID_END:
                             EndAcidicSpit();
+                            break;
+                            
+                        case INPUT.I_SWIPE:
+                            currentState = STATE.TAILSWIPE;
+                            StartTailSwipe();
                             break;
 
                         case INPUT.I_JUMP:
@@ -652,6 +749,30 @@ public class Player : YmirComponent
                     }
                     break;
 
+                case STATE.TAILSWIPE:
+                    //Debug.Log("Tail Swipe");
+                    switch (input)
+                    {
+                        case INPUT.I_STOP:
+                            currentState = STATE.STOP;
+                            StopPlayer();
+                            break;
+
+                        case INPUT.I_PRED_END:
+                            EndPredRush();
+                            break;
+
+                        case INPUT.I_SWIPE_END:
+                            currentState = STATE.IDLE;
+                            EndTailSwipe();
+                            break;
+
+                        case INPUT.I_DEAD:
+                            currentState = STATE.DEAD;
+                            break;
+                    }
+                    break;
+
                 default:
                     Debug.Log("No State? :(");
                     break;
@@ -675,6 +796,9 @@ public class Player : YmirComponent
                 break;
             case STATE.DASH:
                 UpdateDash();
+                break;
+            case STATE.TAILSWIPE:
+                UpdateTailSwipe();
                 break;
             case STATE.JUMP:
                 UpdateJump();
@@ -708,20 +832,20 @@ public class Player : YmirComponent
 
         //TO DO
         //Logica del disparo depende del arma equipada
-        switch (weaponType)
-        {
-            case WEAPON.SMG:
-                //SmgShoot();
-                break;
+        //switch (weaponType)
+        //{
+        //    case WEAPON.SMG:
+        //        //SmgShoot();
+        //        break;
 
-            case WEAPON.SHOTGUN:
-                //ShotgunShoot();
-                break;
+        //    case WEAPON.SHOTGUN:
+        //        //ShotgunShoot();
+        //        break;
 
-            case WEAPON.TRACE:
-                //TraceShoot();
-                break;
-        }
+        //    case WEAPON.TRACE:
+        //        //TraceShoot();
+        //        break;
+        //}
 
         // Añadir efecto de sonido
         Audio.PlayAudio(gameObject, "P_Shoot");
@@ -773,6 +897,47 @@ public class Player : YmirComponent
         isReloading = true;
         reloadTimer = reloadDuration;
     }
+
+    private void SmgShoot()
+    {
+        Audio.PlayAudio(gameObject, "P_Shoot");
+        Input.Rumble_Controller(shootRumbleDuration, shootRumbleIntensity);
+
+        if (!godMode)
+        {
+            --ammo;
+            csBullets.UseBullets();
+        }
+
+        StopPlayer();
+
+        Vector3 offset = new Vector3(0, 15, 0);
+
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
+        //Rotacion desde la que se crea la bala (la misma que el game object que le dispara)
+        Quaternion rot = gameObject.transform.globalRotation;
+
+        //Tamaño de la bala
+        Vector3 scale = new Vector3(2.0f, 2.0f, 4.0f);
+
+        //Crea la bala
+        InternalCalls.CreateBullet(pos, rot, scale);
+
+        inputsList.Add(INPUT.I_SHOOT_END);
+    }
+
+    private void ShotgunShoot()
+    {
+
+    }
+
+    private void TraceShoot()
+    {
+
+    }
+
 
     private void GetWeaponVars()
     {
@@ -840,6 +1005,7 @@ public class Player : YmirComponent
     private void EndDash()
     {
         StopPlayer();
+        dashCDTimer = dashCD;
         //gameObject.transform.localPosition.y = dashStartYPos;
     }
 
@@ -981,7 +1147,7 @@ public class Player : YmirComponent
         reloadDuration = reloadDuration * 0.5f;
         //Reduce dash CD * 0,5
 
-        PredatoryTimer = 6.0f;
+        predatoryTimer = predatoryDuration;
     }
 
     private void EndPredRush()
@@ -993,6 +1159,35 @@ public class Player : YmirComponent
         fireRate = fireRate / 0.7f;
         reloadDuration = reloadDuration / 0.5f;
         //Increase dash CD / 0,5
+
+        predatoryCDTimer = predatoryCD;
+    }
+
+    #endregion
+
+    #region TAIL SWIPE
+    private void StartTailSwipe()
+    {
+        //trigger del sonido
+        Audio.PlayAudio(gameObject, "P_TailSweep");
+
+        //trigger de la animacion
+        //Setup de todo lo necesario
+
+        StopPlayer();
+        swipeTimer = swipeDuration;
+    }
+
+    private void UpdateTailSwipe()
+    {
+        
+    }
+
+    private void EndTailSwipe()
+    {
+        //StopPlayer();
+        //Delete de la hitbox de la cola
+        swipeCDTimer = swipeCD;
     }
 
     #endregion
