@@ -61,13 +61,6 @@ void UI_Button::OnInspector()
 
 		ImGui::Dummy(ImVec2(0, 10));
 
-		ImGui::SeparatorText("States");
-		SetStateImg("Normal", UI_STATE::NORMAL); ImGui::SameLine();
-		SetStateImg("Focused", UI_STATE::FOCUSED); ImGui::SameLine();
-		SetStateImg("Pressed", UI_STATE::PRESSED); 
-		SetStateImg("Selected", UI_STATE::SELECTED); ImGui::SameLine();
-		SetStateImg("Disabled", UI_STATE::DISABLED); ImGui::SameLine();
-
 		// Colors
 		//ImGui::SeparatorText("Colors");
 		//ImGui::ColorEdit4("Normal color", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar);
@@ -193,24 +186,4 @@ void UI_Button::OnRelease()
 void UI_Button::OnDisabled()
 {
 	image->selectedTexture = image->mapTextures.find(state)->second;
-}
-
-void UI_Button::SetStateImg(const char* label, UI_STATE s)
-{
-	ImGui::Button(label, ImVec2(70, 30));
-
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
-		{
-			std::string path = (const char*)payload->Data;
-
-			// Fix ImGui problems with big sized strings. Modify if enine supports other type of imgs.
-			path.erase(path.find(".png") + 4);
-
-			image->SetImg(path, s);
-		}
-
-		ImGui::EndDragDropTarget();
-	}
 }

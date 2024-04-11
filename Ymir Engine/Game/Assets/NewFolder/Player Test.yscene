@@ -1,8 +1,8 @@
 {
     "Editor Camera Position": [
-        -36.413654327392578,
-        48.551536560058594,
-        101.1490478515625
+        -36,
+        48,
+        100
     ],
     "Editor Camera Right (X)": [
         0.94088733196258545,
@@ -23,10 +23,10 @@
         {
             "Name": "Scene",
             "Tag": "Untagged",
-            "UID": 1818629686,
+            "UID": 501132211,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1240926600,
+            "Parent UID": 501132211,
             "Components": [
                 {
                     "Type": "Transform",
@@ -49,19 +49,19 @@
                 }
             ],
             "Children UID": [
-                177506610,
-                788775880,
-                1398847280,
-                1328915840
+                1931204618,
+                66928688,
+                348294896,
+                1398847280
             ]
         },
         {
             "Name": "Main Camera",
             "Tag": "Untagged",
-            "UID": 177506610,
+            "UID": 1931204618,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1818629686,
+            "Parent UID": 501132211,
             "Components": [
                 {
                     "Type": "Transform",
@@ -72,9 +72,9 @@
                         54
                     ],
                     "Rotation": [
-                        -180,
+                        180,
                         40.000007629394531,
-                        -180
+                        180
                     ],
                     "Scale": [
                         1,
@@ -99,17 +99,17 @@
                     "Active": 1,
                     "Right": [
                         0.76604437828063965,
-                        -1.4361705780174816e-07,
+                        1.4361705780174816e-07,
                         0.64278769493103027
                     ],
                     "Up": [
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         1,
-                        1.4361705780174816e-07
+                        -1.4361705780174816e-07
                     ],
                     "Front": [
                         0.64278769493103027,
-                        6.696972576492044e-08,
+                        -6.696972576492044e-08,
                         -0.76604437828063965
                     ],
                     "FOV": 60.000003814697266,
@@ -124,17 +124,17 @@
         {
             "Name": "Player",
             "Tag": "Untagged",
-            "UID": 788775880,
+            "UID": 66928688,
             "Active": true,
             "Element_Type": "Model",
-            "Parent UID": 1818629686,
+            "Parent UID": 501132211,
             "Components": [
                 {
                     "Type": "Transform",
                     "Active": 1,
                     "Translation": [
-                        0,
-                        27.494203567504883,
+                        5.2504587173461914,
+                        35.906475067138672,
                         0
                     ],
                     "Rotation": [
@@ -143,9 +143,9 @@
                         -0
                     ],
                     "Scale": [
-                        7.4249997138977051,
-                        7.4249997138977051,
-                        7.4249997138977051
+                        1,
+                        1,
+                        1
                     ]
                 },
                 {
@@ -158,9 +158,9 @@
                     "Active": 1,
                     "Collider Type": 0,
                     "Size": [
-                        7.4249997138977051,
-                        7.4249997138977051,
-                        7.4249997138977051
+                        1,
+                        1,
+                        1
                     ],
                     "Radius": 5,
                     "Height": 10,
@@ -184,36 +184,36 @@
                 },
                 {
                     "Type": "Script",
+                    "ScriptName": "UI_Bullets.cs",
+                    "Active": 1,
+                    "UID": 0
+                },
+                {
+                    "Type": "Script",
                     "ScriptName": "Player.cs",
                     "Active": 1,
                     "UID": 0,
                     "movementSpeed": 35,
                     "godMode": false,
-                    "fireRate": 0.20000000298023224,
+                    "fireRate": 0,
                     "ammo": 0,
                     "magsize": 5,
-                    "dashDuration": 50,
-                    "dashDistance": 10
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Bullets.cs",
-                    "Active": 1,
-                    "UID": 0
+                    "dashDuration": 0.25,
+                    "dashDistance": 200
                 }
             ],
             "Children UID": [
-                173663824
+                422447351
             ]
         },
         {
             "Name": "Cube (1)",
             "Tag": "Untagged",
-            "UID": 173663824,
+            "UID": 422447351,
             "Active": true,
             "Element_Type": "Mesh",
             "Origin_Path": "Assets\/Primitives\/Cube.fbx",
-            "Parent UID": 788775880,
+            "Parent UID": 66928688,
             "Components": [
                 {
                     "Type": "Transform",
@@ -237,7 +237,126 @@
                 {
                     "Type": "Mesh",
                     "Active": 1,
-                    "UID": 1079846435,
+                    "UID": 624621770,
+                    "Vertex Count": 24,
+                    "Index Count": 36
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/MyShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Cube (2)",
+            "Tag": "Untagged",
+            "UID": 348294896,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 501132211,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        -14.701729774475098,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        78.618194580078125,
+                        2.0241270065307617,
+                        78.618194580078125
+                    ]
+                },
+                {
+                    "World gravity": [
+                        0,
+                        -10,
+                        0
+                    ],
+                    "Type": "Physics",
+                    "Active": 1,
+                    "Collider Type": 0,
+                    "Size": [
+                        78.618194580078125,
+                        2.0241270065307617,
+                        78.618194580078125
+                    ],
+                    "Radius": 5,
+                    "Height": 10,
+                    "Physics Type": 2,
+                    "Mass": 0,
+                    "UseGravity": false,
+                    "IsSensor": false,
+                    "LockX": false,
+                    "LockY": false,
+                    "LockZ": false
+                }
+            ],
+            "Children UID": [
+                1829455242
+            ]
+        },
+        {
+            "Name": "Cube",
+            "Tag": "Untagged",
+            "UID": 1829455242,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "",
+            "Parent UID": 348294896,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 624621770,
                     "Vertex Count": 24,
                     "Index Count": 36
                 },
@@ -275,7 +394,7 @@
             "UID": 1398847280,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1818629686,
+            "Parent UID": 501132211,
             "Components": [
                 {
                     "Type": "Transform",
@@ -303,7 +422,7 @@
                     "Position X": 0,
                     "Position Y": 0,
                     "Width": 636,
-                    "Height": 731,
+                    "Height": 450,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -879,13 +998,13 @@
                     "Value max": 10,
                     "Direction": 2,
                     "Focused color": [
-                        -1.5816255460782938e+38,
                         1.4012984643248171e-44,
-                        -1.5816255460782938e+38,
+                        1.4012984643248171e-44,
+                        1.4012984643248171e-44,
                         1.4012984643248171e-44
                     ],
                     "Pressed color": [
-                        -1.5816255460782938e+38,
+                        1.4012984643248171e-44,
                         1.4012984643248171e-44,
                         -1.5816255460782938e+38,
                         1.4012984643248171e-44
@@ -1661,125 +1780,6 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
-                }
-            ]
-        },
-        {
-            "Name": "Cube",
-            "Tag": "Untagged",
-            "UID": 1328915840,
-            "Active": true,
-            "Element_Type": "Model",
-            "Parent UID": 1818629686,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        244.54788208007812,
-                        1.2334843873977661,
-                        308.68157958984375
-                    ]
-                },
-                {
-                    "World gravity": [
-                        0,
-                        -10,
-                        0
-                    ],
-                    "Type": "Physics",
-                    "Active": 1,
-                    "Collider Type": 0,
-                    "Size": [
-                        244.54788208007812,
-                        1.2334843873977661,
-                        308.68157958984375
-                    ],
-                    "Radius": 5,
-                    "Height": 10,
-                    "Physics Type": 2,
-                    "Mass": 0,
-                    "UseGravity": false,
-                    "IsSensor": false,
-                    "LockX": false,
-                    "LockY": false,
-                    "LockZ": false
-                }
-            ],
-            "Children UID": [
-                769718186
-            ]
-        },
-        {
-            "Name": "769718186",
-            "Tag": "Untagged",
-            "UID": 769718186,
-            "Active": true,
-            "Element_Type": "Mesh",
-            "Origin_Path": "",
-            "Parent UID": 1328915840,
-            "Components": [
-                {
-                    "Type": "Transform",
-                    "Active": 1,
-                    "Translation": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "Rotation": [
-                        -0,
-                        0,
-                        -0
-                    ],
-                    "Scale": [
-                        1,
-                        1,
-                        1
-                    ]
-                },
-                {
-                    "Type": "Mesh",
-                    "Active": 1,
-                    "UID": 1406625195,
-                    "Vertex Count": 24,
-                    "Index Count": 36
-                },
-                {
-                    "Type": "Material",
-                    "Active": 1,
-                    "Shader": "Assets\/Shaders\/MyShader.glsl",
-                    "Uniforms": [
-                        {
-                            "lightDir": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "lightInt": 1,
-                            "lightColor": [
-                                0,
-                                0,
-                                0
-                            ],
-                            "numLights": 1,
-                            "displayNormalMap": true,
-                            "transparency": 1
-                        }
-                    ],
-                    "Diffuse_ID": 0,
-                    "Diffuse_Path": "Checker Image",
-                    "Diffuse_UID": 0
                 }
             ]
         }

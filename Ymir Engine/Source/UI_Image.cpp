@@ -426,6 +426,42 @@ update_status UI_Image::Update(float dt)
 	return update_status();
 }
 
+void UI_Image::OnNormal()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
+void UI_Image::OnFocused()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
+void UI_Image::OnPressed()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
+void UI_Image::OnSelected()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
+void UI_Image::OnRelease()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
+void UI_Image::OnDisabled()
+{
+	color = color;
+	selectedTexture = mapTextures.find(state)->second;
+}
+
 void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 {
 	std::string metaFilePath = imgPath + ".meta"; // Assuming the meta file exists.
@@ -492,6 +528,26 @@ void UI_Image::SetImg(std::string imgPath, UI_STATE state)
 	mat->rTextures.push_back(rTexTemp);
 
 	mapTextures.insert({ state, rTexTemp });
+}
+
+void UI_Image::SetStateImg(const char* label, UI_STATE s)
+{
+	ImGui::Button(label, ImVec2(70, 30));
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("tex"))
+		{
+			std::string path = (const char*)payload->Data;
+
+			// Fix ImGui problems with big sized strings. Modify if enine supports other type of imgs.
+			path.erase(path.find(".png") + 4);
+
+			SetImg(path, s);
+		}
+
+		ImGui::EndDragDropTarget();
+	}
 }
 
 void UI_Image::SetNativeSize()

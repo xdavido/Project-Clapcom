@@ -29,8 +29,6 @@ public:
 	void OnRelease();
 	void OnDisabled();
 
-	void SetStateImg(const char* label, UI_STATE s = UI_STATE::NONE);
-
 public:
 	bool isInteractable;
 
