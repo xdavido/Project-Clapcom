@@ -607,23 +607,12 @@ void EmitterPosition::OnInspector()
 
 	switch (actualSpeedChange)
 	{
-	case SpeedChangeMode::PAR_NO_SPEED_CHANGE:
-		modeName = "None";
-		break;
-	case SpeedChangeMode::PAR_IF_TIME_ADD:
-		modeName = "Add during time";
-		break;
-	case SpeedChangeMode::PAR_ADD_OVER_TIME:
-		modeName = "Add over time";
-		break;
-	case SpeedChangeMode::PAR_IF_TIME_SUBSTITUTE:
-		modeName = "Change during time";
-		break;
-	case SpeedChangeMode::PAR_SUBSTITUTE_OVER_TIME:
-		modeName = "Change over time";
-		break;
-	default:
-		break;
+	case SpeedChangeMode::PAR_NO_SPEED_CHANGE:modeName = "None";break;
+	case SpeedChangeMode::PAR_IF_TIME_ADD:modeName = "Add during time";break;
+	case SpeedChangeMode::PAR_ADD_OVER_TIME:modeName = "Add over time";break;
+	case SpeedChangeMode::PAR_IF_TIME_SUBSTITUTE:modeName = "Change during time";break;
+	case SpeedChangeMode::PAR_SUBSTITUTE_OVER_TIME:modeName = "Change over time";break;
+	default:break;
 	}
 
 	if (ImGui::BeginCombo("##ChangeSpeed", modeName.c_str()))
@@ -634,26 +623,12 @@ void EmitterPosition::OnInspector()
 
 			switch ((SpeedChangeMode)i)
 			{
-			case SpeedChangeMode::PAR_NO_SPEED_CHANGE:
-				modeName = "None";
-				break;
-			case SpeedChangeMode::PAR_IF_TIME_ADD:
-				modeName = "Add during time";
-				break;
-			case SpeedChangeMode::PAR_ADD_OVER_TIME:
-				modeName = "Add over time";
-				break;
-			case SpeedChangeMode::PAR_IF_TIME_SUBSTITUTE:
-				modeName = "Change during time";
-				break;
-			case SpeedChangeMode::PAR_SUBSTITUTE_OVER_TIME:
-				modeName = "Change over time";
-				break;
-			case SpeedChangeMode::PAR_SPEED_CHANGE_MODE_END:
-				modeName = "";
-				break;
-			default:
-				break;
+			case SpeedChangeMode::PAR_NO_SPEED_CHANGE:modeName = "None";break;
+			case SpeedChangeMode::PAR_IF_TIME_ADD:modeName = "Add during time";break;
+			case SpeedChangeMode::PAR_ADD_OVER_TIME:modeName = "Add over time";break;
+			case SpeedChangeMode::PAR_IF_TIME_SUBSTITUTE:modeName = "Change during time";break;
+			case SpeedChangeMode::PAR_SUBSTITUTE_OVER_TIME:modeName = "Change over time";break;
+			default:break;
 			}
 			if (ImGui::Selectable(modeName.c_str()))
 			{
