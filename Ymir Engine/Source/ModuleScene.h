@@ -98,7 +98,7 @@ public:
 	void GetUINavigate(GameObject* go, std::vector<C_UI*>& listgo);
 	GameObject* GetUISelected(GameObject* go);
 	void ResetSelected();
-	bool TabNavigate(bool isForward);
+	void TabNavigate(bool isForward);
 
 	// Handle both keyboard and gamepad control of all UI game objects
 	void HandleUINavigation();

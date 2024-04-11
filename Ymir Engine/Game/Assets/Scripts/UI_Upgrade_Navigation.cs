@@ -23,7 +23,7 @@ public class UI_Upgrade_Navigation : YmirComponent
         active = true;
 
         _timer = 0.0f;
-        _time = 0.5f;
+        _time = 0.3f;
     }
 
     public void Update()

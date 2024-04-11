@@ -27,7 +27,7 @@ public class UI_Inventory_Grid : YmirComponent
         leftGrid = InternalCalls.GetGameObjectByName(leftGridName);
         rightGrid = InternalCalls.GetGameObjectByName(rightGridName);
         _timer = 0.0f;
-        _time = 0.5f;
+        _time = 0.3f;
     }
 
     public void Update()
