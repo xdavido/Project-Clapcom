@@ -1,8 +1,8 @@
 {
     "Editor Camera Position": [
-        -35.796260833740234,
-        47.728347778320312,
-        99.434051513671875
+        -35.611042022705078,
+        47.481388092041016,
+        98.9195556640625
     ],
     "Editor Camera Right (X)": [
         0.94088733196258545,
@@ -120,7 +120,7 @@
             ]
         },
         {
-            "Name": "Canvas",
+            "Name": "Inventory Menu",
             "Tag": "Untagged",
             "UID": 1904908806,
             "Active": true,
@@ -152,8 +152,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1200,
-                    "Height": 619,
+                    "Width": 1281,
+                    "Height": 891,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -205,8 +205,7 @@
             ],
             "Children UID": [
                 294962486,
-                1671257493,
-                541837697,
+                110478800,
                 1708915839,
                 2060313977,
                 1799950518
@@ -331,6 +330,17 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "ARMOR"
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -464,12 +474,56 @@
             ]
         },
         {
+            "Name": "Grid Chips",
+            "Tag": "Untagged",
+            "UID": 110478800,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1421884452,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 2,
+                    "leftGridName": "",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
+                }
+            ],
+            "Children UID": [
+                1671257493,
+                541837697
+            ]
+        },
+        {
             "Name": "Chip1",
             "Tag": "Untagged",
             "UID": 1671257493,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1421884452,
+            "Parent UID": 110478800,
             "Components": [
                 {
                     "Type": "Transform",
@@ -720,7 +774,7 @@
             "UID": 541837697,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1421884452,
+            "Parent UID": 110478800,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1084,6 +1138,17 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "CONSUMABLE1"
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": " ",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1335,6 +1400,17 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "CONSUMABLE2"
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1546,10 +1622,10 @@
                     "Is interactable": true,
                     "Text": 1617470444,
                     "Image": 1799950518,
-                    "Normal": "Assets\/InGameConeptPng.png",
+                    "Normal": "Assets\/pato.png",
                     "Focused": "Assets\/Lava.png",
-                    "Pressed": "Assets\/pato.png",
-                    "Selected": "Assets\/pato.png",
+                    "Pressed": "Assets\/juan.png",
+                    "Selected": "Assets\/Baker_house.png",
                     "Release": "Assets\/Baker_house.png",
                     "Disabled": "Assets\/Baker_house.png",
                     "Focused color": [
@@ -1586,6 +1662,17 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "SAVE"
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "Inventory",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1751,7 +1838,10 @@
                     "Active": 1,
                     "UID": 0,
                     "rows": 5,
-                    "cols": 3
+                    "cols": 3,
+                    "leftGridName": "",
+                    "rightGridName": "",
+                    "naviagteGrids": false
                 }
             ],
             "Children UID": [
@@ -1815,7 +1905,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/juan.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,
@@ -3070,7 +3160,7 @@
                         100,
                         100
                     ],
-                    "Path": "Assets\/juan.png",
+                    "Path": "Assets\/Baker_house.png",
                     "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
                     "Current Frame X": 0,
                     "Current Frame Y": 0,

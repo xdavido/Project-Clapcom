@@ -55,7 +55,6 @@ public class UI_Upgrade_Button : YmirComponent
                 case 2:
                     {
                         GameObject go3 = InternalCalls.GetChildrenByName(InternalCalls.GetGameObjectByName(stationName), "Upgrade 3");
-
                         GameObject go4 = InternalCalls.GetChildrenByName(InternalCalls.GetGameObjectByName(stationName), "Upgrade 4");
 
                         UI.SetUIState(go3, (int)UI_STATE.NORMAL);

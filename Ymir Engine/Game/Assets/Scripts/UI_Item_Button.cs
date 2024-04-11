@@ -16,10 +16,12 @@ public class UI_Item_Button : YmirComponent
     public string enumSlot = "";
 
     private GameObject _text;
+    private GameObject _inventoryReference;
 
     public void Start()
     {
         _text = InternalCalls.GetChildrenByName(gameObject, "Description");
+        _inventoryReference = InternalCalls.GetGameObjectByName("Inventory Menu");
 
         itemType = SetType(enumItem);
         currentSlot = SetType(enumSlot);
@@ -31,7 +33,13 @@ public class UI_Item_Button : YmirComponent
 
     public void Update()
     {
-
+        if (_inventoryReference.GetComponent<UI_Inventory>()._focusedGO != null)
+        {
+            if (!InternalCalls.CompareGameObjectsByUID(_inventoryReference.GetComponent<UI_Inventory>()._focusedGO, gameObject))
+            {
+                _text.SetActive(false);
+            }
+        }
         return;
     }
 

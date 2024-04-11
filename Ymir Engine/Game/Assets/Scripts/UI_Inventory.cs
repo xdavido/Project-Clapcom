@@ -9,7 +9,7 @@ using YmirEngine;
 public class UI_Inventory : YmirComponent
 {
     private GameObject _selectedGO;
-    private GameObject _focusedGO;
+    public GameObject _focusedGO;
     private bool _show;
     public void Start()
     {
@@ -47,8 +47,9 @@ public class UI_Inventory : YmirComponent
                 SwitchItems();
             }
 
-            if ((_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE ||
+            if (((_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE ||
                 _focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.SAVE) &&
+                _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot == ITEM_SLOT.NONE) &&
                 Input.GetGamepadButton(GamePadButton.LEFTSHOULDER) == KeyState.KEY_DOWN)
             {
                 _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot = ITEM_SLOT.NONE;
@@ -79,8 +80,8 @@ public class UI_Inventory : YmirComponent
 
         if (_selectedGO != null)
         {
-            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
-            Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
+            //Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.itemType.ToString());
+            //Debug.Log(_selectedGO.GetComponent<UI_Item_Button>().item.currentSlot.ToString());
 
             if ((_selectedGO.GetComponent<UI_Item_Button>().item.itemType == _focusedGO.GetComponent<UI_Item_Button>().item.currentSlot &&
                 _selectedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE) ||

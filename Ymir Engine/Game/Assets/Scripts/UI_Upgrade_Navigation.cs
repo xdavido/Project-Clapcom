@@ -68,7 +68,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Plasma");
+                    //Debug.Log("para Plasma");
                 }
 
                 else if (stationName == 2)
@@ -76,7 +76,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Sub");
+                    //Debug.Log("para Sub");
                 }
 
                 else if (stationName == 3)
@@ -84,7 +84,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Shotgun");
+                    //Debug.Log("para Shotgun");
                 }
             }
         }
@@ -109,7 +109,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Shotgun Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Shotgun");
+                    //Debug.Log("para Shotgun");
                 }
 
                 else if (stationName == 2)
@@ -117,7 +117,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Plasma Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Plasma");
+                    //Debug.Log("para Plasma");
                 }
 
                 else if (stationName == 3)
@@ -125,7 +125,7 @@ public class UI_Upgrade_Navigation : YmirComponent
                     GameObject go = InternalCalls.GetGameObjectByName("Sub Upgrade");
                     UI.SetUIState(InternalCalls.GetChildrenByName(go, "Start"), (int)UI_STATE.FOCUSED);
                     EnableScripts(false, stationName);
-                    Debug.Log("para Sub");
+                    //Debug.Log("para Sub");
                 }
             }
         }
