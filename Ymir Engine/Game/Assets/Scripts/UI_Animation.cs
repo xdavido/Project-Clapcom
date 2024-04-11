@@ -62,6 +62,7 @@ public class UI_Animation : YmirComponent
                         }
                         else
                         {
+                            Reset();
                             backwards = !backwards;
                             if (!loop) { pingpongWIP = false; }
                         }
@@ -90,6 +91,7 @@ public class UI_Animation : YmirComponent
                         }
                         else
                         {
+                            Reset();
                             backwards = !backwards;
                             if (!loop) { pingpongWIP = false; }
                         }
@@ -116,7 +118,7 @@ public class UI_Animation : YmirComponent
 
     bool HasFinished()
     {
-        return ((!loop && !pingpongWIP && currentIndex >= totalFrames) || (pingpongWIP && currentIndex >= totalFrames * 2)) && loopCount > 0;
+        return (!loop && !pingpongWIP && currentIndex >= totalFrames) && loopCount > 0;
     }
 
     void IncreaseLoopCount()

@@ -205,14 +205,6 @@ void GameObject::RemoveChild(GameObject* go)
 	mChildren.shrink_to_fit();
 }
 
-template <typename t> void move(std::vector<t>& v, size_t oldIndex, size_t newIndex)
-{
-	if (oldIndex > newIndex)
-		std::rotate(v.rend() - oldIndex - 1, v.rend() - oldIndex, v.rend() - newIndex);
-	else
-		std::rotate(v.begin() + oldIndex, v.begin() + oldIndex + 1, v.begin() + newIndex + 1);
-}
-
 void GameObject::SwapChildren(GameObject* go)
 {
 	int index = std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin();
@@ -224,13 +216,13 @@ void GameObject::SwapChildren(GameObject* go)
 
 	if (index < index2)
 	{
-		move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
-		move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
+		Swap(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
+		Swap(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
 	}
 	else
 	{
-		move(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
-		move(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
+		Swap(mParent->mChildren, std::find(mParent->mChildren.begin(), mParent->mChildren.end(), this) - mParent->mChildren.begin(), index2);
+		Swap(go->mParent->mChildren, std::find(go->mParent->mChildren.begin(), go->mParent->mChildren.end(), go) - go->mParent->mChildren.begin(), index);
 	}
 
 }

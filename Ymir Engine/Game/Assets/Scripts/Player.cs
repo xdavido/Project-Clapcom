@@ -312,6 +312,14 @@ public class Player : YmirComponent
             {
                 hasPred = false;
                 // SARA: vuelve ui normal
+                // Without ping-pong
+                //csUI_AnimationPredatory.SetAnimationState(false);
+                //csUI_AnimationPredatory.SetCurrentFrame(0, 0);
+
+                // With ping-pong
+                csUI_AnimationPredatory.Reset();
+                //csUI_AnimationPredatory.backwards = true;
+                csUI_AnimationPredatory.backwards = !csUI_AnimationPredatory.backwards;
             }
         }
 
@@ -334,6 +342,14 @@ public class Player : YmirComponent
             {
                 hasSwipe = false;
                 // SARA: vuelve ui normal
+                // Without ping-pong
+                //csUI_AnimationSwipe.SetAnimationState(false);
+                //csUI_AnimationSwipe.SetCurrentFrame(0, 0);
+
+                // With ping-pong
+                csUI_AnimationSwipe.Reset();
+                //csUI_AnimationSwipe.backwards = true;
+                csUI_AnimationSwipe.backwards = !csUI_AnimationSwipe.backwards;
             }
         }
 
@@ -383,6 +399,11 @@ public class Player : YmirComponent
         {
             hasDashed = true;
             inputsList.Add(INPUT.I_DASH);
+
+            // SARA: start dash cooldown
+            csUI_AnimationDash.Reset();
+            csUI_AnimationDash.backwards = false;
+            csUI_AnimationDash.SetAnimationState(true);
         }
 
         //----------------- Predatory Rush (Skill 2) -----------------\\
@@ -390,13 +411,23 @@ public class Player : YmirComponent
         {
             hasPred = true;
             inputsList.Add(INPUT.I_PRED);
+
+            // SARA: start predatory cooldown
+            csUI_AnimationPredatory.Reset();
+            csUI_AnimationPredatory.backwards = false;
+            csUI_AnimationPredatory.SetAnimationState(true);
         }
 
-        //----------------- Predatory Rush (Skill 3) -----------------\\
+        //----------------- Swipe (Skill 3) -----------------\\
         if (Input.GetGamepadButton(GamePadButton.Y) == KeyState.KEY_DOWN && hasSwipe == false && swipeCDTimer <= 0)
         {
             hasSwipe = true;
             inputsList.Add(INPUT.I_SWIPE);
+
+            // SARA: start swipe cooldown
+            csUI_AnimationSwipe.Reset();
+            csUI_AnimationSwipe.backwards = false;
+            csUI_AnimationSwipe.SetAnimationState(true);
         }
 
         //----------------- Reload -----------------\\
@@ -497,7 +528,6 @@ public class Player : YmirComponent
                             break;
                     }
                     break;
-
 
                 case STATE.MOVE:
                     //Debug.Log("MOVE");
@@ -809,7 +839,6 @@ public class Player : YmirComponent
     }
     private void StartShoot()
     {
-
         //TO DO
         //Logica del disparo depende del arma equipada
         //switch (weaponType)
@@ -987,13 +1016,6 @@ public class Player : YmirComponent
         StopPlayer();
         dashCDTimer = dashCD;
         //gameObject.transform.localPosition.y = dashStartYPos;
-
-        // SARA: start dash cooldown
-
-        csUI_AnimationDash.Reset();
-        csUI_AnimationDash.backwards = !csUI_AnimationDash.backwards;
-        //csUI_AnimationDash.backwards = false;
-        csUI_AnimationDash.SetAnimationState(true);
     }
 
     private void StartJump()
@@ -1118,30 +1140,31 @@ public class Player : YmirComponent
 
     private void GetSkillsScripts()
     {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Dash");
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Frame (1)");
 
         Debug.Log(gameObject.name);
-        if (gameObject != null)
-        {
-            csUI_AnimationDash = gameObject.GetComponent<UI_Animation>();
-        }
-
-        gameObject = InternalCalls.GetGameObjectByName("Skill1");
-        if (gameObject != null)
-        {
-            csUI_AnimationPredatory = gameObject.GetComponent<UI_Animation>();
-        }
-
-        gameObject = InternalCalls.GetGameObjectByName("Skill2");
+;
         if (gameObject != null)
         {
             csUI_AnimationSwipe = gameObject.GetComponent<UI_Animation>();
         }
 
-        gameObject = InternalCalls.GetGameObjectByName("Skill3");
+        gameObject = InternalCalls.GetGameObjectByName("Frame (2)");
+        if (gameObject != null)
+        {
+            csUI_AnimationPredatory = gameObject.GetComponent<UI_Animation>();
+        }
+
+        gameObject = InternalCalls.GetGameObjectByName("Frame (3)");
         if (gameObject != null)
         {
             csUI_AnimationAcid = gameObject.GetComponent<UI_Animation>();
+        }
+
+        gameObject = InternalCalls.GetGameObjectByName("Frame (4)");
+        if (gameObject != null)
+        {
+            csUI_AnimationDash = gameObject.GetComponent<UI_Animation>();
         }
     }
 
@@ -1176,8 +1199,6 @@ public class Player : YmirComponent
         //Increase dash CD / 0,5
 
         predatoryCDTimer = predatoryCD;
-
-        // SARA: start dash cooldown
     }
 
     #endregion
@@ -1205,8 +1226,6 @@ public class Player : YmirComponent
         //StopPlayer();
         //Delete de la hitbox de la cola
         swipeCDTimer = swipeCD;
-
-        // SARA: start dash cooldown
     }
 
     #endregion
