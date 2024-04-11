@@ -1152,7 +1152,16 @@ public class Player : YmirComponent
 
     private void UpdateTailSwipe()
     {
-        angle += 1;
+        if(angle < 360)
+        {
+            angle += 1;
+        }
+        else
+        {
+            angle = 0;
+        }
+       
+        //angle += 3 * Time.deltaTime;
         Quaternion targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
 
         gameObject.SetRotation(targetRotation);

@@ -48,9 +48,11 @@ public class BH_Tail : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
+        Debug.Log("Enemigo Colisionando");
+
         if (other.name == "Enemy")
         {
-            Debug.Log("Enemigo Colisionando");
+            //Debug.Log("Enemigo Colisionando");
             other.SetImpulse(other.transform.GetForward() * -1 * 60);
             
             //Le hace daño
