@@ -16,13 +16,13 @@ public class SelectLvl : YmirComponent
 
     public void Start()
     {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Screen");
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Background");
         if (gameObject != null)
         {
             levelSelector = gameObject.GetComponent<BaseTeleporter>();
         }
 
-        locked = InternalCalls.GetChildrenByName(this.gameObject, "Image");
+        locked = InternalCalls.GetChildrenByName(this.gameObject, "Lock");
         locked.SetActive(isLocked);
     }
 

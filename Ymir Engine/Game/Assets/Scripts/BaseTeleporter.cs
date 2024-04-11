@@ -13,8 +13,8 @@ public enum LEVELS
 
 public enum WEAPON_TYPE
 {
-    SHOTGUN,
     SMG,
+    SHOTGUN,
     PLASMA,
 
     NONE

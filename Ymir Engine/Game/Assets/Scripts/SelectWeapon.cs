@@ -13,7 +13,7 @@ public class SelectWeapon : YmirComponent
 
     public void Start()
     {
-        GameObject gameObject = InternalCalls.GetGameObjectByName("Screen");
+        GameObject gameObject = InternalCalls.GetGameObjectByName("Background");
         if (gameObject != null)
         {
             levelSelector = gameObject.GetComponent<BaseTeleporter>();
@@ -50,12 +50,12 @@ public class SelectWeapon : YmirComponent
                     UI.TextEdit(levelSelector.weaponText, "");
                 }
                 break;
-            case WEAPON_TYPE.SHOTGUN:
+            case WEAPON_TYPE.SMG:
                 {
-                    UI.TextEdit(levelSelector.weaponText, "SHOTGUN");
+                    UI.TextEdit(levelSelector.weaponText, "SMG");
                 }
                 break;
-            case WEAPON_TYPE.SMG:
+            case WEAPON_TYPE.SHOTGUN:
                 {
                     UI.TextEdit(levelSelector.weaponText, "SHOTGUN");
                 }
