@@ -35,7 +35,7 @@ public class BH_Tail : YmirComponent
         timer = player.swipeTimer;
 
         gameObject.SetRotation(playerObject.transform.globalRotation);
-        gameObject.SetPosition(playerObject.transform.globalPosition + (playerObject.transform.GetForward() * -5));
+        gameObject.SetPosition(playerObject.transform.globalPosition + (playerObject.transform.GetForward() * -2));
 
         //gameObject.transform.globalPosition = playerObject.transform.globalPosition;
 

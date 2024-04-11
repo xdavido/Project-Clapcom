@@ -72,6 +72,7 @@
 		<Compile Include="Assets\Scripts\BH_Tail.cs" />
 		<Compile Include="Assets\Scripts\Teleport.cs" />
 		<Compile Include="Assets\Scripts\Level_Selection_Canvas.cs" />
+		<Compile Include="Assets\Scripts\Enemy_Test.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -136,6 +136,7 @@ public class Player : YmirComponent
     private bool hasSwipe = false;
 
     private float angle;
+    private bool has360;
 
     #endregion
 
@@ -154,6 +155,7 @@ public class Player : YmirComponent
     public void Start()
     {
         angle = 0;
+        has360 = false;
         //
         weaponType = WEAPON.SMG;
 
@@ -1142,22 +1144,25 @@ public class Player : YmirComponent
         StopPlayer();
 
         //Vector3 offset = new Vector3(0, 15, 0);
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -5);
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -2);
         Quaternion rot = gameObject.transform.globalRotation;
 
         InternalCalls.CreateTailSensor(pos, rot);
+
+        has360 = false;
 
         swipeTimer = swipeDuration;
     }
 
     private void UpdateTailSwipe()
     {
-        if(angle < 360)
+        if(angle < 360 && has360 == false)
         {
             angle += 1;
         }
         else
         {
+            has360 = true;
             angle = 0;
         }
        
