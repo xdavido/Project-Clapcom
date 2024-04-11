@@ -26,7 +26,7 @@
             "UID": 521471341,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1536945254,
+            "Parent UID": 585413406,
             "Components": [
                 {
                     "Type": "Transform",
@@ -156,8 +156,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 411,
-                    "Height": 687,
+                    "Width": 1223,
+                    "Height": 643,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -217,8 +217,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 411,
-                    "Height": 687,
+                    "Width": 1223,
+                    "Height": 643,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -233,6 +233,7 @@
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
                     "UID": 0,
+                    "active": true,
                     "stationName": 1
                 }
             ],
@@ -1244,8 +1245,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 411,
-                    "Height": 687,
+                    "Width": 1223,
+                    "Height": 643,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -1260,6 +1261,7 @@
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
                     "UID": 0,
+                    "active": true,
                     "stationName": 2
                 }
             ],
@@ -1761,10 +1763,10 @@
                     "Active": 1,
                     "UID": 0,
                     "name": "Level 2",
-                    "description": "Upgrade2",
+                    "description": "Upgrade 2",
                     "cost": 2,
                     "isUnlocked": false,
-                    "stationName": "Shotgun Upgrade "
+                    "stationName": "Shotgun Upgrade"
                 }
             ],
             "Children UID": [
@@ -1833,7 +1835,7 @@
             ]
         },
         {
-            "Name": "Upgrade 3   (1)",
+            "Name": "Upgrade 3 (1)",
             "Tag": "Untagged",
             "UID": 584746059,
             "Active": true,
@@ -1951,7 +1953,7 @@
                     "description": "Upgrade 3",
                     "cost": 4,
                     "isUnlocked": false,
-                    "stationName": "Shotgun  Upgrade  "
+                    "stationName": "Shotgun  Upgrade"
                 }
             ],
             "Children UID": [
@@ -2271,8 +2273,8 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 411,
-                    "Height": 687,
+                    "Width": 1223,
+                    "Height": 643,
                     "UI Type": 0,
                     "UI State": 1,
                     "Drag Limits": [
@@ -2287,6 +2289,7 @@
                     "ScriptName": "UI_Upgrade_Navigation.cs",
                     "Active": 1,
                     "UID": 0,
+                    "active": true,
                     "stationName": 3
                 }
             ],

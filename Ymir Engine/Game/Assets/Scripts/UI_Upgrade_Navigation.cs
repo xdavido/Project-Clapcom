@@ -54,7 +54,7 @@ public class UI_Upgrade_Navigation : YmirComponent
         if (_focusedGO != null && InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), gameObject))
         {
 
-            if (_focusedGO.name.CompareTo("Upgrade 4") == 0)
+            if (InternalCalls.CompareGameObjectsByUID(_focusedGO, InternalCalls.GetChildrenByName(gameObject, "Upgrade 4")))
             {
                 GameObject go = InternalCalls.GetChildrenByName(gameObject, "Upgrade 3");
                 UI.SetUIState(go, (int)UI_STATE.FOCUSED);
@@ -95,7 +95,7 @@ public class UI_Upgrade_Navigation : YmirComponent
 
         if (_focusedGO != null && InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), gameObject))
         {
-            if (_focusedGO.name.CompareTo("Upgrade 3") == 0)
+            if (InternalCalls.CompareGameObjectsByUID(_focusedGO, InternalCalls.GetChildrenByName(gameObject, "Upgrade 3")))
             {
                 GameObject go = InternalCalls.GetChildrenByName(gameObject, "Upgrade 4");
                 UI.SetUIState(go, (int)UI_STATE.FOCUSED);
