@@ -12,21 +12,37 @@ public class UI_Upgrade_Navigation : YmirComponent
     public bool active;
     public int stationName;
     private GameObject _focusedGO;
+
+    private float _time;
+    private float _timer;
+
     public void Start()
     {
         _focusedGO = UI.GetFocused();
         _canTab = false;
         active = true;
+
+        _timer = 0.0f;
+        _time = 0.5f;
     }
 
     public void Update()
     {
         _focusedGO = UI.GetFocused();
 
-        if (!_canTab && Input.GetLeftAxisX() == 0)
+        if (!_canTab)
         {
-            EnableScripts(true, stationName);
-            _canTab = true;
+            if (_time > _timer)
+            {
+                _timer += Time.deltaTime;
+            }
+
+            else
+            {
+                _timer = 0.0f;
+                EnableScripts(true, stationName);
+                _canTab = true;
+            }
         }
 
         if (active)
@@ -50,7 +66,7 @@ public class UI_Upgrade_Navigation : YmirComponent
 
     public void NavigateLeft()
     {
-        
+
         if (_focusedGO != null && InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), gameObject))
         {
 
