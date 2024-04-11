@@ -3,7 +3,7 @@
         {
             "Name": "Frame",
             "Tag": "Untagged",
-            "UID": 183930958,
+            "UID": 878129821,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 1398847280,
@@ -76,16 +76,17 @@
                 }
             ],
             "Children UID": [
-                567052357
+                825327980,
+                451280011
             ]
         },
         {
             "Name": "Skill",
             "Tag": "Untagged",
-            "UID": 567052357,
+            "UID": 825327980,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 183930958,
+            "Parent UID": 878129821,
             "Components": [
                 {
                     "Type": "Transform",
@@ -138,6 +139,132 @@
                 {
                     "Type": "UI Transform",
                     "Component reference": 1
+                }
+            ]
+        },
+        {
+            "Name": "GamePad Key",
+            "Tag": "Untagged",
+            "UID": 451280011,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 878129821,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 22,
+                    "Position Y": 58,
+                    "Width": 29,
+                    "Height": 29,
+                    "UI Type": 1,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        22,
+                        58,
+                        29,
+                        29
+                    ],
+                    "Path": "Assets\/UI\/HUD Buttons\/BotonSelected.png",
+                    "Shader Path": "Assets\/Shaders\/UI Shader.glsl",
+                    "Current Frame X": 0,
+                    "Current Frame Y": 0,
+                    "Rows": 1,
+                    "Columns": 1,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 1
+                }
+            ],
+            "Children UID": [
+                1502913607
+            ]
+        },
+        {
+            "Name": "Key",
+            "Tag": "Untagged",
+            "UID": 1502913607,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 451280011,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI",
+                    "Active": 1,
+                    "Draggeable": false,
+                    "Position X": 32,
+                    "Position Y": 77,
+                    "Width": 300,
+                    "Height": 50,
+                    "UI Type": 2,
+                    "UI State": 1,
+                    "Drag Limits": [
+                        32,
+                        77,
+                        300,
+                        50
+                    ],
+                    "Text": "A",
+                    "Font name": "arial.ttf",
+                    "Font path": "Assets\\Fonts",
+                    "Font size": 8,
+                    "Line Spacing": 0.5,
+                    "Color": [
+                        1,
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "UI Transform",
+                    "Component reference": 2
                 }
             ]
         }

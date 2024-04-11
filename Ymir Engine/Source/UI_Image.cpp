@@ -112,6 +112,14 @@ void UI_Image::OnInspector()
 			ImGui::EndCombo();
 		}
 
+		ImGui::SeparatorText("States");
+		SetStateImg("Normal", UI_STATE::NORMAL); ImGui::SameLine();
+		SetStateImg("Focused", UI_STATE::FOCUSED); ImGui::SameLine();
+		SetStateImg("Pressed", UI_STATE::PRESSED);
+		SetStateImg("Selected", UI_STATE::SELECTED); ImGui::SameLine();
+		SetStateImg("Disabled", UI_STATE::DISABLED);
+
+		ImGui::SeparatorText("Parameters");
 		if (ImGui::Button("Set Native Size", ImVec2(110, 30)))
 		{
 			SetNativeSize();
@@ -547,6 +555,11 @@ void UI_Image::SetStateImg(const char* label, UI_STATE s)
 		}
 
 		ImGui::EndDragDropTarget();
+	}
+
+	if (state == s)
+	{
+		selectedTexture = mapTextures.find(state)->second;
 	}
 }
 

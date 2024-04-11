@@ -26,7 +26,7 @@
             "UID": 1406306264,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1818629686,
+            "Parent UID": 1406306264,
             "Components": [
                 {
                     "Type": "Transform",
@@ -490,7 +490,10 @@
                     "Active": 1,
                     "UID": 0,
                     "rows": 3,
-                    "cols": 2
+                    "cols": 2,
+                    "leftGridName": "",
+                    "rightGridName": "",
+                    "naviagteGrids": true
                 }
             ],
             "Children UID": [

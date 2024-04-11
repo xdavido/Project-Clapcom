@@ -49,9 +49,7 @@ void UI_Button::OnInspector()
 		ImGui::Checkbox("Draggeable", &isDraggeable);
 
 		// Image reference
-		ImGui::Text(("Image: " + (image == nullptr ? "<null>" : image->mat->diffuse_path)).c_str());	ImGui::SameLine();
-
-		ImGui::Dummy(ImVec2(0, 10));
+		ImGui::Text(("Image: " + (image == nullptr ? "<null>" : image->mat->diffuse_path)).c_str());	//ImGui::SameLine();
 
 		ImGui::Text(("State: " + std::to_string((int)state)).c_str());
 

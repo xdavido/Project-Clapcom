@@ -675,7 +675,7 @@ void SetUIState(MonoObject* object, int uiState)
 	{
 		((C_UI*)(*it))->SetState((UI_STATE)uiState);
 
-		if ((UI_STATE)uiState == UI_STATE::FOCUSED)
+		if (((C_UI*)(*it))->tabNav_ && (UI_STATE)uiState == UI_STATE::FOCUSED)
 		{
 			int offset = 0;
 			std::vector<C_UI*> listOffset;
