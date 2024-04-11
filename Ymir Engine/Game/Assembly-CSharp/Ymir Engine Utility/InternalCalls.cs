@@ -28,6 +28,18 @@ namespace YmirEngine
         public static extern void CreateTailSensor(object position, object rotation);
 
         /// <summary>
+        /// Creates a bullet.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void CreateAcidicSpit(object name, object position);
+
+        /// <summary>
+        /// Creates a bullet.
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void CreateAcidPuddle(object name, object position);
+
+        /// <summary>
         /// Destroys a game object.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

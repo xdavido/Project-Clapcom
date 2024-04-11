@@ -35,7 +35,7 @@ public class BH_Tail : YmirComponent
         timer = player.swipeTimer;
 
         gameObject.SetRotation(playerObject.transform.globalRotation);
-        gameObject.SetPosition(playerObject.transform.globalPosition + (playerObject.transform.GetForward() * -5));
+        gameObject.SetPosition(playerObject.transform.globalPosition + (playerObject.transform.GetForward() * -2.5f));
 
         //gameObject.transform.globalPosition = playerObject.transform.globalPosition;
 
@@ -48,9 +48,11 @@ public class BH_Tail : YmirComponent
 
     public void OnCollisionStay(GameObject other)
     {
+        Debug.Log("Enemigo Colisionando");
+
         if (other.name == "Enemy")
         {
-            Debug.Log("Enemigo Colisionando");
+            //Debug.Log("Enemigo Colisionando");
             other.SetImpulse(other.transform.GetForward() * -1 * 60);
             
             //Le hace daño

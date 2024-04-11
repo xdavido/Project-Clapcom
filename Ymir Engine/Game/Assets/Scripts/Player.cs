@@ -43,6 +43,8 @@ public class Player : YmirComponent
         I_DEAD,
         I_JUMP,
         I_JUMP_END,
+        I_ACID,
+        I_ACID_END,
         I_PRED,
         I_PRED_END,
         I_SWIPE,
@@ -136,6 +138,14 @@ public class Player : YmirComponent
     private bool hasSwipe = false;
 
     private float angle;
+    private bool has360;
+
+    //--------------------- Acidic Spit ------------------------\\
+    private float acidicTimer;
+    private float acidicDuration = 1.8f;
+    private float acidicCDTimer;
+    private float acidicCD = 7.0f;
+    private bool hasAcidic = false;
 
     #endregion
 
@@ -154,6 +164,7 @@ public class Player : YmirComponent
     public void Start()
     {
         angle = 0;
+        has360 = false;
         //
         weaponType = WEAPON.SMG;
 
@@ -171,6 +182,14 @@ public class Player : YmirComponent
         hasDashed = false;
 
         dashSpeed = dashDistance / dashDuration;
+
+        //--------------------- Acidic Spit ------------------------\\
+
+        acidicTimer = 0;
+        acidicDuration = 1.8f;
+        acidicCDTimer = 0;
+        acidicCD = 7.0f;
+        hasAcidic = false;
 
         //--------------------- Predatory Rush ---------------------\\
 
@@ -199,6 +218,9 @@ public class Player : YmirComponent
         //--------------------- Get Camera GameObject ---------------------\\
         cameraObject = InternalCalls.GetGameObjectByName("Main Camera");
 
+        //--------------------- Set Animation Parameters ---------------------\\
+        SetAnimParameters();
+        
         currentState = STATE.IDLE;
 
         //Debug.Log("START!");
@@ -279,6 +301,27 @@ public class Player : YmirComponent
             }
         }
 
+        //--------------------- Acidic Spit Timer ---------------------\\
+        if (acidicTimer > 0)
+        {
+            acidicTimer -= Time.deltaTime;
+
+            if (acidicTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_ACID_END);
+            }
+        }
+
+        if (acidicCDTimer > 0)
+        {
+            acidicCDTimer -= Time.deltaTime;
+
+            if (acidicCDTimer <= 0)
+            {
+                hasAcidic = false;
+            }
+        }
+
         //--------------------- Predatory Timer ---------------------\\
         if (predatoryTimer > 0)
         {
@@ -340,6 +383,12 @@ public class Player : YmirComponent
     }
     private void ProcessExternalInput()
     {
+        //----------------- Debug KEY to test Die Animation -----------------\\
+        //if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        //{
+        //    inputsList.Add(INPUT.I_DEAD);
+        //}
+
         //----------------- Joystic -----------------\\
         if (JoystickMoving() == true)
         {
@@ -367,6 +416,13 @@ public class Player : YmirComponent
         {
             hasDashed = true;
             inputsList.Add(INPUT.I_DASH);
+        }
+
+        //----------------- Acidic Spit (Skill 1) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN && hasAcidic == false && acidicCDTimer <= 0)
+        {
+            hasAcidic = true;
+            inputsList.Add(INPUT.I_ACID);
         }
 
         //----------------- Predatory Rush (Skill 2) -----------------\\
@@ -449,6 +505,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
+                            break;
+
                         case INPUT.I_PRED:
                             StartPredRush();
                             break;
@@ -478,6 +542,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -489,7 +554,7 @@ public class Player : YmirComponent
                     {
                         case INPUT.I_IDLE:
                             currentState = STATE.IDLE;
-                            //StartIdle(); //Trigger de la animacion //Arreglar esto
+                            StartIdle();
                             break;
 
                         case INPUT.I_STOP:
@@ -502,6 +567,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
+                            break;
+
                         case INPUT.I_PRED:
                             StartPredRush();
                             break;
@@ -532,6 +605,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -557,6 +631,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -581,6 +656,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -627,6 +703,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -651,6 +728,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -693,6 +771,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -733,6 +812,7 @@ public class Player : YmirComponent
 
                         case INPUT.I_DEAD:
                             currentState = STATE.DEAD;
+                            StartDeath();
                             break;
                     }
                     break;
@@ -780,6 +860,13 @@ public class Player : YmirComponent
                 Debug.Log("No State? :(");
                 break;
         }
+    }
+    #endregion
+
+    #region IDLE
+    private void StartIdle()
+    {
+        Animation.PlayAnimation(gameObject, "Idle");
     }
     #endregion
 
@@ -1020,6 +1107,7 @@ public class Player : YmirComponent
     private void StartMove()
     {
         //Trigger de la animacion
+        Animation.PlayAnimation(gameObject, "Run");
         //Trigger del SFX de caminar
         //Vector3 impulse = new Vector3(0.0f,0.0f,0.01f);
         //gameObject.SetImpulse(gameObject.transform.GetForward() * 0.5f);
@@ -1084,6 +1172,11 @@ public class Player : YmirComponent
         gameObject.SetRotation(targetRotation);
     }
 
+    private void StartDeath()
+    {
+        Animation.PlayAnimation(gameObject, "Die");
+    }
+
     // TODO: use the generic functions
     private void GetPlayerScripts()
     {
@@ -1093,6 +1186,29 @@ public class Player : YmirComponent
             csBullets = gameObject.GetComponent<UI_Bullets>();
             csHealth = gameObject.GetComponent<Health>();
         }
+    }
+
+    private void SetAnimParameters()
+    {
+        Animation.SetLoop(gameObject, "Idle", true);
+        Animation.SetLoop(gameObject, "Walk", true);
+        Animation.SetLoop(gameObject, "Run", true);
+
+        Animation.AddBlendOption(gameObject, "Idle", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Idle", "Die", 5.0f);
+
+
+        Animation.AddBlendOption(gameObject, "Walk", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Run", 5.0f);
+        Animation.AddBlendOption(gameObject, "Walk", "Die", 5.0f);
+
+        Animation.AddBlendOption(gameObject, "Run", "Idle", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Walk", 5.0f);
+        Animation.AddBlendOption(gameObject, "Run", "Die", 5.0f);
+
+
+        Animation.PlayAnimation(gameObject, "Idle");
     }
 
     #endregion
@@ -1142,17 +1258,29 @@ public class Player : YmirComponent
         StopPlayer();
 
         //Vector3 offset = new Vector3(0, 15, 0);
-        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -5);
+        Vector3 pos = gameObject.transform.globalPosition + (gameObject.transform.GetForward() * -2.5f);
         Quaternion rot = gameObject.transform.globalRotation;
 
         InternalCalls.CreateTailSensor(pos, rot);
+
+        has360 = false;
 
         swipeTimer = swipeDuration;
     }
 
     private void UpdateTailSwipe()
     {
-        angle += 1;
+        if(angle < 360 && has360 == false)
+        {
+            angle += 1;
+        }
+        else
+        {
+            has360 = true;
+            angle = 0;
+        }
+       
+        //angle += 3 * Time.deltaTime;
         Quaternion targetRotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up);
 
         gameObject.SetRotation(targetRotation);
@@ -1163,6 +1291,36 @@ public class Player : YmirComponent
         //StopPlayer();
         //Delete de la hitbox de la cola
         swipeCDTimer = swipeCD;
+    }
+
+    #endregion
+
+    #region ACIDIC SPIT
+
+    private void StartAcidicSpit()
+    {
+        //Trigger del sonido
+        Audio.PlayAudio(gameObject, "P_AcidSpit");
+
+        //Trigger de la animación
+
+        // --- Creación de la bola de acido ---
+
+        //Offset para que la bola salga a la altura del torso del player
+        Vector3 offset = new Vector3(0, 15, 0);
+
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
+        //Crea la bola de acido
+        InternalCalls.CreateAcidicSpit("AcidSpit", pos);
+
+        acidicTimer = acidicDuration;
+    }
+
+    private void EndAcidicSpit()
+    {
+        acidicCDTimer = acidicCD;
     }
 
     #endregion
