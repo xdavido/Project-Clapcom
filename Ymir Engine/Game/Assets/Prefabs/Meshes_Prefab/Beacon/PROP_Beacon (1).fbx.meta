@@ -1,0 +1,29 @@
+{
+    "Name": "PROP_Beacon (1)",
+    "Assets Path": "Assets\/Prefabs\/Meshes_Prefab\/PROP_Beacon (1).fbx",
+    "Library Path": ".\/Library\/Models\/1368684721.ymodel",
+    "UID": 1368684721,
+    "Type": "Model",
+    "Meshes num": 8,
+    "Meshes Embedded UID": [
+        891365949,
+        1589270654,
+        154113200,
+        616119635,
+        1937942680,
+        2127167228,
+        210076020,
+        1140018070
+    ],
+    "Resources num": 8,
+    "Resources Embedded UID": [
+        19675811,
+        1761437625,
+        1855174836,
+        1872124978,
+        1478885365,
+        1136778649,
+        1921219418,
+        1363656927
+    ]
+}

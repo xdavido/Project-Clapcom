@@ -73,6 +73,8 @@
 		<Compile Include="Assets\Scripts\Teleport.cs" />
 		<Compile Include="Assets\Scripts\Level_Selection_Canvas.cs" />
 		<Compile Include="Assets\Scripts\Enemy_Test.cs" />
+		<Compile Include="Assets\Scripts\Inventory_chest.cs" />
+		<Compile Include="Assets\Scripts\Beacon.cs" />
 	</ItemGroup>
 	<ItemGroup />
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
