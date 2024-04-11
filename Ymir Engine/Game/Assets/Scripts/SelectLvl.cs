@@ -35,6 +35,14 @@ public class SelectLvl : YmirComponent
     {
         if (!isLocked)
         {
+            GameObject gameObject = InternalCalls.GetGameObjectByName("Lvl (" + ((int)levelSelector.selectedLvl + 1) + ")");
+            GameObject gameObject1 = InternalCalls.GetGameObjectByName("Weapon (" + ((int)levelSelector.selectedWeapon + 1) + ")");
+
+            //Debug.Log("Lvl (" + ((int)levelSelector.selectedLvl + 1) + ")");
+
+            LEVELS selectedLvlPrev = levelSelector.selectedLvl;
+            WEAPON_TYPE selectedWeaponPrev = levelSelector.selectedWeapon;
+
             if (levelSelector.selectedLvl != (LEVELS)lvl)
             {
                 levelSelector.selectedLvl = (LEVELS)lvl;
@@ -44,10 +52,61 @@ public class SelectLvl : YmirComponent
                 levelSelector.selectedLvl = LEVELS.NONE;
             }
 
+            if (gameObject != null)
+            {
+                switch (selectedLvlPrev)
+                {
+                    case LEVELS.NONE:
+                        {
+                            break;
+                        }
+                    case LEVELS.WAREHOUSE:
+                        {
+                            UI.ChangeImageUI(gameObject, "Assets/UI/Teleport Buttons/BotonUnselected.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                    case LEVELS.LAB:
+                        {
+                            UI.ChangeImageUI(gameObject, "Assets/UI/Teleport Buttons/BotonUnselected.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                    case LEVELS.HATCHERY:
+                        {
+                            UI.ChangeImageUI(gameObject, "Assets/UI/Teleport Buttons/BotonUnselected.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                }
+            }
+
+            if (gameObject1 != null/* && levelSelector.selectedWeapon != selectedWeaponPrev*/)
+            {
+                switch (selectedWeaponPrev)
+                {
+                    case WEAPON_TYPE.NONE:
+                        {
+                            break;
+                        }
+                    case WEAPON_TYPE.SMG:
+                        {
+                            UI.ChangeImageUI(gameObject1, "Assets/UI/Teleport Buttons/SmgHover.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                    case WEAPON_TYPE.SHOTGUN:
+                        {
+                            UI.ChangeImageUI(gameObject1, "Assets/UI/Teleport Buttons/ShotgunHover.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                    case WEAPON_TYPE.PLASMA:
+                        {
+                            UI.ChangeImageUI(gameObject1, "Assets/UI/Teleport Buttons/LaserHover.png", (int)UI_STATE.NORMAL);
+                            break;
+                        }
+                }
+            }
+
+
             Debug.Log("Lvl: " + levelSelector.selectedLvl.ToString());
         }
-
-        //UI.TextEdit(levelSelector.lvlText, levelSelector.lvlDescriptions[(int)levelSelector.selectedLvl]);
     }
 
     public void OnHoverButton()
@@ -61,17 +120,17 @@ public class SelectLvl : YmirComponent
                 break;
             case LEVELS.WAREHOUSE:
                 {
-                    UI.TextEdit(levelSelector.lvlText, "WAREHOUSE");
+                    UI.TextEdit(levelSelector.lvlText, "WAREHOUSE - Donde estan \nlas descripciones?");
                 }
                 break;
             case LEVELS.LAB:
                 {
-                    UI.TextEdit(levelSelector.lvlText, "LAB");
+                    UI.TextEdit(levelSelector.lvlText, "LAB - En el gdd no estan");
                 }
                 break;
             case LEVELS.HATCHERY:
                 {
-                    UI.TextEdit(levelSelector.lvlText, "HATCHERY");
+                    UI.TextEdit(levelSelector.lvlText, "HATCHERY - AAA");
                 }
                 break;
 

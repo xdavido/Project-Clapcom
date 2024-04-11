@@ -152,7 +152,7 @@
                     "Draggeable": false,
                     "Position X": 0,
                     "Position Y": 0,
-                    "Width": 1176,
+                    "Width": 878,
                     "Height": 883,
                     "UI Type": 0,
                     "UI State": 1,
@@ -259,7 +259,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        57.099998474121094,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -277,22 +277,22 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 126,
-                    "Position Y": 0,
+                    "Position X": 284,
+                    "Position Y": 321,
                     "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        126,
-                        57.099998474121094,
+                        284,
+                        321,
                         200,
                         50
                     ],
                     "Text": "Select Level",
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\\Fonts",
-                    "Font size": 21,
+                    "Font size": 30,
                     "Line Spacing": 0.5,
                     "Color": [
                         1,
@@ -320,7 +320,7 @@
                     "Active": 1,
                     "Translation": [
                         0,
-                        57.099998474121094,
+                        0,
                         0
                     ],
                     "Rotation": [
@@ -338,22 +338,22 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 620,
-                    "Position Y": 0,
+                    "Position X": 1377,
+                    "Position Y": 321,
                     "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        620,
-                        57.099998474121094,
+                        1377,
+                        321,
                         200,
                         50
                     ],
                     "Text": "Select weapon",
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\\Fonts",
-                    "Font size": 21,
+                    "Font size": 30,
                     "Line Spacing": 0.5,
                     "Color": [
                         1,
@@ -1158,7 +1158,7 @@
             ]
         },
         {
-            "Name": "SMG",
+            "Name": "Weapon (1)",
             "Tag": "Untagged",
             "UID": 1489064132,
             "Active": true,
@@ -1277,7 +1277,7 @@
             ]
         },
         {
-            "Name": "Shotgun",
+            "Name": "Weapon (2)",
             "Tag": "Untagged",
             "UID": 314406228,
             "Active": true,
@@ -1396,7 +1396,7 @@
             ]
         },
         {
-            "Name": "Plasma",
+            "Name": "Weapon (3)",
             "Tag": "Untagged",
             "UID": 1271137560,
             "Active": true,
@@ -1545,23 +1545,23 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 57,
-                    "Position Y": 503,
+                    "Position X": 190,
+                    "Position Y": 820,
                     "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        57,
-                        503,
+                        190,
+                        820,
                         200,
                         50
                     ],
-                    "Text": "This is a text",
+                    "Text": "",
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\\Fonts",
                     "Font size": 15,
-                    "Line Spacing": 0.5,
+                    "Line Spacing": 3.2999999523162842,
                     "Color": [
                         1,
                         1,
@@ -1606,23 +1606,23 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 550,
-                    "Position Y": 503,
+                    "Position X": 1284,
+                    "Position Y": 820,
                     "Width": 200,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        550,
-                        503,
+                        1284,
+                        820,
                         200,
                         50
                     ],
-                    "Text": "This is a text",
+                    "Text": "",
                     "Font name": "de-valencia-beta.otf",
                     "Font path": "Assets\\Fonts",
                     "Font size": 15,
-                    "Line Spacing": 0.5,
+                    "Line Spacing": 3.2999999523162842,
                     "Color": [
                         1,
                         1,
@@ -1789,14 +1789,14 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 893,
+                    "Position X": 890,
                     "Position Y": 898,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
                     "UI State": 1,
                     "Drag Limits": [
-                        893,
+                        890,
                         898,
                         300,
                         50

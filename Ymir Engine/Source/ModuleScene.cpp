@@ -98,23 +98,6 @@ bool ModuleScene::Start()
 
 #endif // _STANDALONE
 
-	// Test for Physics
-	// LoadSceneFromStart("Assets", "PhysicsTest"); 
-
-	// Test for Game Extraction
-	// LoadSceneFromStart("Assets", "Water");
-
-	//CreateGUI(UI_TYPE::BUTTON);
-	//CreateGUI(UI_TYPE::BUTTON, nullptr, 500, 500);
-	//CreateGUI(UI_TYPE::BUTTON, nullptr, 750, 750);
-
-	//CreateGUI(UI_TYPE::SLIDER);
-
-	//CreateGUI(UI_TYPE::SLIDER, nullptr, 100, 100);
-	//CreateGUI(UI_TYPE::CHECKBOX, nullptr, 500, 500);
-	//CreateGUI(UI_TYPE::INPUTBOX, nullptr, 500, 500);
-	//CreateGUI(UI_TYPE::TEXT);
-
 	return false;
 }
 
