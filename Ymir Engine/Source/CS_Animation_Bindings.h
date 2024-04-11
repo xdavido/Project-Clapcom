@@ -188,3 +188,43 @@ void AddBlendOption(MonoObject* go, MonoString* animationName, MonoString* blend
 		LOG("[WARNING] Couldn't find ANIMATION COMPONENT!");
 	}
 }
+
+void SetResetToZero(MonoObject* go, MonoString* animationName, bool resetToZero) {
+
+	if (External == nullptr)
+		return;
+
+	GameObject* GO = External->moduleMono->GameObject_From_CSGO(go);
+	std::string animName = mono_string_to_utf8(animationName);
+
+	CAnimation* animComp = dynamic_cast<CAnimation*>(GO->GetComponent(ComponentType::ANIMATION));
+	if (animComp != nullptr)
+	{
+		animComp->SetResetToZero(animName, resetToZero);
+
+	}
+	else
+	{
+		LOG("[WARNING] Couldn't find ANIMATION COMPONENT!");
+	}
+}
+
+bool HasFinished(MonoObject* go, MonoString* animationName) {
+
+	if (External == nullptr)
+		return false;
+
+	GameObject* GO = External->moduleMono->GameObject_From_CSGO(go);
+	std::string animName = mono_string_to_utf8(animationName);
+
+	CAnimation* animComp = dynamic_cast<CAnimation*>(GO->GetComponent(ComponentType::ANIMATION));
+	if (animComp != nullptr)
+	{
+		return animComp->HasFinished(animName);
+
+	}
+	else
+	{
+		LOG("[WARNING] Couldn't find ANIMATION COMPONENT!");
+	}
+}

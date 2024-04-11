@@ -187,6 +187,31 @@ void CAnimation::AddBlendOption(std::string animationName, std::string blendName
     }
 }
 
+void CAnimation::SetResetToZero(std::string animationName, bool resetToZero) {
+
+    if (animationName != "") {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            if (animator->animations[i].name == animationName) {
+                animator->animations[i].resetToZero = resetToZero;
+                return;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < animator->animations.size(); i++) {
+            animator->animations[i].resetToZero = resetToZero;
+        }
+    }
+}
+
+bool CAnimation::HasFinished(std::string animationName) {
+
+    if (animator->previousAnimation == nullptr) return false;
+
+    return (animationName == animator->previousAnimation->name &&
+        animationName != animator->currentAnimation->name) ? true : false;
+}
+
 void CAnimation::YAnimDragDropTarget() {
 
     if (ImGui::BeginDragDropTarget())

@@ -5,6 +5,7 @@
 Animator::Animator()
 {
 	finalBoneMatrices.reserve(100);
+
 	for (int i = 0; i < 100; i++) {
 		finalBoneMatrices.push_back(identity.identity);
 	}
@@ -148,18 +149,21 @@ void Animator::UpdateCurrentTime(ResourceAnimation* animation) {
 		}
 	}
 
-	if (animation->currentTime < animation->GetDuration()) {
-		//CalculateBoneTransform(&animationsPlaying[i]->animation->GetRootNode(), identity.identity);
-	}
-
 	float stepTime = animation->currentTime + animation->GetTickPerSecond() * deltaTime * animation->speed;
 
 	if (stepTime > animation->GetDuration() && !animation->loop && !animation->pingPong) {
-		//Leave animation in its final state
-		animation->currentTime = animation->GetDuration() - 0.01f;
 
-		animation->currentTime = 0.0f;
-		StopAnimation();
+		animation->isPlaying = false;
+
+		if (animation->resetToZero) {
+			currentAnimation->currentTime = 0.0f;
+			CalculateBoneTransform(&currentAnimation->GetRootNode(), identity.identity);
+		}
+		else {
+			//Leave animation in its final state
+			animation->currentTime = animation->GetDuration() - 0.01f;
+		}
+
 		ResetAnimation(animation);
 	}
 		
@@ -201,12 +205,11 @@ void Animator::StopAnimation() {
 
 void Animator::ResetAnimation(ResourceAnimation* animation) {
 
-	animation->currentTime = 0.0f;
 	animation->backwardsAux = true;
 	animation->pingPongAux = true;
 	animation->pingPongBackwardsAux = true;
-	animation->easeInSpeed = 1;
-	animation->easeOutSpeed = 1;
+	//animation->easeInSpeed = 1;
+	//animation->easeOutSpeed = 1;
 }
 
 float Animator::CalculatePreviousTime(ResourceAnimation* lastAnimation, float transitionTime) {

@@ -37,25 +37,31 @@ namespace YmirEngine
         /// Set animation to loop when played. If not given <c>animationName</c> it applies to all animations in GameObject.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void SetLoop(object go, string animationName, bool loop);
+        public static extern void SetLoop(object go, string animationName = "", bool loop = false);
 
         /// <summary>
         /// Set animation to play blackawards. If not given <c>animationName</c> it applies to all animations in GameObject.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void SetBackward(object go, string animationName, bool backwards);
+        public static extern void SetBackward(object go, string animationName = "", bool backwards = false);
 
         /// <summary>
         /// Set animation to ping-pong when played. If not given <c>animationName</c> it applies to all animations in GameObject.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void SetPingPong(object go, string animationName, bool pingPong);
+        public static extern void SetPingPong(object go, string animationName = "", bool pingPong = false);
 
         /// <summary>
         /// Set animation speed. If not given <c>animationName</c> it applies to all animations in GameObject.
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
-        public static extern void SetSpeed(object go, string animationName, float speed);
+        public static extern void SetSpeed(object go, string animationName = "", float speed = 1.0f);
+
+        /// <summary>
+        /// Set animation to reset to zero when it ends. If not given <c>animationName</c> it applies to all animations in GameObject.        
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern void SetResetToZero(object go, string animationName = "", bool resetToZero = true);
 
         /// <summary>
         /// Specify if <c>animationName</c> will blend  with <c>blendAnimation</c> when changing to it and the duration of the blend. If not given <c>animationName</c> it applies to all animations.
@@ -72,5 +78,11 @@ namespace YmirEngine
         /// </summary>
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void AddBlendOption(object go, string animationName  = "", string blendName = "", float transitionTime = 10.0f);
+
+        /// <summary>
+        /// Returns <c>true</c> if animation has ended, <c>false</c> if its currently playing
+        /// </summary>
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        public static extern bool HasFinished(object go, string animationName);
     }
 }

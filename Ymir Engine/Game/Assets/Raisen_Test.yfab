@@ -1,0 +1,275 @@
+{
+    "Prefab": [
+        {
+            "Name": "CHAR_Raisen_Mixamo",
+            "Tag": "Untagged",
+            "UID": 1425909290,
+            "Active": true,
+            "Element_Type": "Model",
+            "Parent UID": 1476078865,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        0.25999999046325684,
+                        0.25999999046325684,
+                        0.25999999046325684
+                    ]
+                },
+                {
+                    "Type": "Animation",
+                    "Active": 1,
+                    "NumPaths": 4,
+                    "Paths": [
+                        ".\/Library\/Animations\/1425909290.yanim",
+                        ".\/Library\/Animations\/1197152465.yanim",
+                        ".\/Library\/Animations\/1710915946.yanim",
+                        ".\/Library\/Animations\/481984458.yanim"
+                    ],
+                    "AssetsPath": [
+                        ".\/Assets\/Idle.yanim",
+                        ".\/Assets\/Walk.yanim",
+                        ".\/Assets\/Run.yanim",
+                        ".\/Assets\/Die.yanim"
+                    ]
+                }
+            ],
+            "Children UID": [
+                305668878,
+                255429362,
+                1566681797,
+                1360019322
+            ]
+        },
+        {
+            "Name": "Tail",
+            "Tag": "Untagged",
+            "UID": 305668878,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/CHAR_Raisen_Mixamo.fbx",
+            "Parent UID": 1425909290,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 731778956,
+                    "Vertex Count": 248,
+                    "Index Count": 660
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Eyes",
+            "Tag": "Untagged",
+            "UID": 255429362,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/CHAR_Raisen_Mixamo.fbx",
+            "Parent UID": 1425909290,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 1936651565,
+                    "Vertex Count": 717,
+                    "Index Count": 2592
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Body",
+            "Tag": "Untagged",
+            "UID": 1566681797,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/CHAR_Raisen_Mixamo.fbx",
+            "Parent UID": 1425909290,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Mesh",
+                    "Active": 1,
+                    "UID": 283203964,
+                    "Vertex Count": 10134,
+                    "Index Count": 36885
+                },
+                {
+                    "Type": "Material",
+                    "Active": 1,
+                    "Shader": "Assets\/Shaders\/AnimationShader.glsl",
+                    "Uniforms": [
+                        {
+                            "lightDir": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "lightInt": 1,
+                            "lightColor": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "numLights": 1,
+                            "displayNormalMap": true,
+                            "transparency": 1
+                        }
+                    ],
+                    "Diffuse_ID": 0,
+                    "Diffuse_Path": "Checker Image",
+                    "Diffuse_UID": 0
+                }
+            ]
+        },
+        {
+            "Name": "Backpack",
+            "Tag": "Untagged",
+            "UID": 1360019322,
+            "Active": true,
+            "Element_Type": "Mesh",
+            "Origin_Path": "Assets\/CHAR_Raisen_Mixamo.fbx",
+            "Parent UID": 1425909290,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

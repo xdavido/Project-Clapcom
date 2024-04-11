@@ -27,6 +27,7 @@ Animation::Animation(const std::string& animationPath, Model* model, int index)
 	easeIn = false;
 	easeOut = false;
 	speed = 1;
+	resetToZero = true;
 	backwardsAux = true;
 	pingPongAux = true;
 	pingPongBackwardsAux = true;

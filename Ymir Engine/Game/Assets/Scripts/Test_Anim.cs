@@ -29,6 +29,10 @@ public class Test_Anim : YmirComponent
 
 
         Animation.PlayAnimation(gameObject, "Idle");
+
+        Animation.SetResetToZero(gameObject, "Die", false);
+
+
     }
 
 	public void Update()

@@ -56,6 +56,9 @@ public:
 
 	float speed;
 
+	// If when ending the animation resets currentTime to 0.0f frames
+	bool resetToZero;
+
 	std::map<std::string, float> blendMap;
 
 	float duration;

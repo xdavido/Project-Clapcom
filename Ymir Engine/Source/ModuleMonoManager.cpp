@@ -173,6 +173,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.Animation::SetSpeed", SetSpeed);		
 	mono_add_internal_call("YmirEngine.Animation::SetPingPong", SetPingPong);
 	mono_add_internal_call("YmirEngine.Animation::AddBlendOption", AddBlendOption);
+	mono_add_internal_call("YmirEngine.Animation::SetResetToZero", SetResetToZero);
+	mono_add_internal_call("YmirEngine.Animation::AnimationHasFinished", HasFinished);
 #pragma endregion
 
 	mono_add_internal_call("YmirEngine.Time::get_deltaTime", GetDT);

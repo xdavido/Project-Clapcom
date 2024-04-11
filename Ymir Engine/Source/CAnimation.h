@@ -57,6 +57,13 @@ public:
 	// Specify which animations will blend into and the duration of the blend. If not given a name it applies to all animations
 	void AddBlendOption(std::string animationName = "", std::string blendName = "", float frames = 10.0f);
 
+	// Set animation to reset to frame 0 when ending. If not given a name it applies to all animations
+	void SetResetToZero(std::string animationName = "", bool resetToZero = true);
+
+	bool HasFinished(std::string animationName);
+
+
+
 
 
 private:
