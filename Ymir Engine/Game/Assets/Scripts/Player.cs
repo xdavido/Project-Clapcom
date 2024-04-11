@@ -43,6 +43,8 @@ public class Player : YmirComponent
         I_DEAD,
         I_JUMP,
         I_JUMP_END,
+        I_ACID,
+        I_ACID_END,
         I_PRED,
         I_PRED_END,
         I_SWIPE,
@@ -138,6 +140,13 @@ public class Player : YmirComponent
     private float angle;
     private bool has360;
 
+    //--------------------- Acidic Spit ------------------------\\
+    private float acidicTimer;
+    private float acidicDuration = 1.8f;
+    private float acidicCDTimer;
+    private float acidicCD = 7.0f;
+    private bool hasAcidic = false;
+
     #endregion
 
     #region DEFINE EXTERNAL THINGS
@@ -173,6 +182,14 @@ public class Player : YmirComponent
         hasDashed = false;
 
         dashSpeed = dashDistance / dashDuration;
+
+        //--------------------- Acidic Spit ------------------------\\
+
+        acidicTimer = 0;
+        acidicDuration = 1.8f;
+        acidicCDTimer = 0;
+        acidicCD = 7.0f;
+        hasAcidic = false;
 
         //--------------------- Predatory Rush ---------------------\\
 
@@ -284,6 +301,27 @@ public class Player : YmirComponent
             }
         }
 
+        //--------------------- Acidic Spit Timer ---------------------\\
+        if (acidicTimer > 0)
+        {
+            acidicTimer -= Time.deltaTime;
+
+            if (acidicTimer <= 0)
+            {
+                inputsList.Add(INPUT.I_ACID_END);
+            }
+        }
+
+        if (acidicCDTimer > 0)
+        {
+            acidicCDTimer -= Time.deltaTime;
+
+            if (acidicCDTimer <= 0)
+            {
+                hasAcidic = false;
+            }
+        }
+
         //--------------------- Predatory Timer ---------------------\\
         if (predatoryTimer > 0)
         {
@@ -346,10 +384,10 @@ public class Player : YmirComponent
     private void ProcessExternalInput()
     {
         //----------------- Debug KEY to test Die Animation -----------------\\
-        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
-        {
-            inputsList.Add(INPUT.I_DEAD);
-        }
+        //if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+        //{
+        //    inputsList.Add(INPUT.I_DEAD);
+        //}
 
         //----------------- Joystic -----------------\\
         if (JoystickMoving() == true)
@@ -378,6 +416,13 @@ public class Player : YmirComponent
         {
             hasDashed = true;
             inputsList.Add(INPUT.I_DASH);
+        }
+
+        //----------------- Acidic Spit (Skill 1) -----------------\\
+        if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN && hasAcidic == false && acidicCDTimer <= 0)
+        {
+            hasAcidic = true;
+            inputsList.Add(INPUT.I_ACID);
         }
 
         //----------------- Predatory Rush (Skill 2) -----------------\\
@@ -460,6 +505,14 @@ public class Player : YmirComponent
                             StartDash();
                             break;
 
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
+                            break;
+
                         case INPUT.I_PRED:
                             StartPredRush();
                             break;
@@ -512,6 +565,14 @@ public class Player : YmirComponent
                         case INPUT.I_DASH:
                             currentState = STATE.DASH;
                             StartDash();
+                            break;
+
+                        case INPUT.I_ACID:
+                            StartAcidicSpit();
+                            break;
+
+                        case INPUT.I_ACID_END:
+                            EndAcidicSpit();
                             break;
 
                         case INPUT.I_PRED:
@@ -1230,6 +1291,36 @@ public class Player : YmirComponent
         //StopPlayer();
         //Delete de la hitbox de la cola
         swipeCDTimer = swipeCD;
+    }
+
+    #endregion
+
+    #region ACIDIC SPIT
+
+    private void StartAcidicSpit()
+    {
+        //Trigger del sonido
+        Audio.PlayAudio(gameObject, "P_AcidSpit");
+
+        //Trigger de la animación
+
+        // --- Creación de la bola de acido ---
+
+        //Offset para que la bola salga a la altura del torso del player
+        Vector3 offset = new Vector3(0, 15, 0);
+
+        //Posicion desde la que se crea la bala (la misma que el game object que le dispara)
+        Vector3 pos = gameObject.transform.globalPosition + offset + (gameObject.transform.GetForward() * 2);
+
+        //Crea la bola de acido
+        InternalCalls.CreateAcidicSpit("AcidSpit", pos);
+
+        acidicTimer = acidicDuration;
+    }
+
+    private void EndAcidicSpit()
+    {
+        acidicCDTimer = acidicCD;
     }
 
     #endregion

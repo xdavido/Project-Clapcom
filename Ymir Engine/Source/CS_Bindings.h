@@ -590,6 +590,97 @@ void CreateTailSensor(MonoObject* position, MonoObject* rotation)
 
 }
 
+void CreateAcidicSpit(MonoObject* name, MonoObject* position)
+{
+	float3 posVector = External->moduleMono->UnboxVector(position);
+	float3 scaleVector = float3(2.0f, 2.0f, 2.0f);
+	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
+
+	if (External == nullptr) return;
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
+	go->UID = Random::Generate();
+
+	//Settea el transform a la bola de acido
+	go->mTransform->SetPosition(posVector);
+	go->mTransform->SetScale(scaleVector);
+
+	uint UID = 1798080460; // UID of Sphere.fbx mesh in meta (lo siento)
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
+
+	//Añade la mesh a la bola de acido
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID));
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
+
+	//Añade el material a la bola de acido
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = WATER_SHADER;
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//Añade RigidBody a la bola de acido
+	CCollider* physBody = new CCollider(go);
+	physBody->useGravity = false;
+	physBody->size = scaleVector;
+	physBody->physBody->SetPosition(posVector);
+	go->AddComponent(physBody);
+
+	//Añade el script AcidicSpit al gameObject go
+	const char* t = "AcidicSpit";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+}
+
+void CreateAcidPuddle(MonoObject* name, MonoObject* position)
+{
+	float3 posVector = External->moduleMono->UnboxVector(position);
+	float3 scaleVector = float3(12.0f, 1.0f, 12.0f);
+	char* p = mono_string_to_utf8(mono_object_to_string(name, NULL));
+
+	if (External == nullptr) return;
+	GameObject* go = External->scene->PostUpdateCreateGameObject(p, External->scene->mRootNode);
+	go->UID = Random::Generate();
+
+	//Settea el transform a la bullet
+	go->mTransform->SetPosition(posVector);
+	go->mTransform->SetScale(scaleVector);
+
+	uint UID = 1051177528; // UID of Cylinder.fbx mesh in meta (lo siento)
+	std::string libraryPath = External->fileSystem->libraryMeshesPath + std::to_string(UID) + ".ymesh";
+
+	//Añade la mesh a la bullet
+	ResourceMesh* rMesh = (ResourceMesh*)(External->resourceManager->CreateResourceFromLibrary(libraryPath, ResourceType::MESH, UID));
+	CMesh* cmesh = new CMesh(go);
+	cmesh->rMeshReference = rMesh;
+	go->AddComponent(cmesh);
+
+	//Añade el material a la Bullet
+	CMaterial* cmaterial = new CMaterial(go);
+	cmaterial->shaderPath = "Assets/Shaders/LavaShader.glsl";
+	cmaterial->shader.LoadShader(cmaterial->shaderPath);
+	cmaterial->shaderDirtyFlag = false;
+	go->AddComponent(cmaterial);
+
+	//Añade RigidBody a la bala
+	CCollider* physBody = new CCollider(go);
+	physBody->useGravity = true;
+	physBody->size = scaleVector;
+	physBody->physBody->SetPosition(posVector);
+	go->AddComponent(physBody);
+
+	//Añade el script Bullet al gameObject Bullet
+	const char* t = "AcidPuddle";
+	Component* c = nullptr;
+	c = new CScript(go, t);
+	go->AddComponent(c);
+
+}
+
+
 //---------- GLOBAL GETTERS ----------//
 MonoObject* SendGlobalPosition(MonoObject* obj) //Allows to send float3 as "objects" in C#, should find a way to move Vector3 as class
 {

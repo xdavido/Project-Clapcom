@@ -71,6 +71,8 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateBullet", CreateBullet);	//TODO: Descomentar cuando est� el CreateBullet()
 	mono_add_internal_call("YmirEngine.InternalCalls::CreateTailSensor", CreateTailSensor);
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateAcidicSpit", CreateAcidicSpit);
+	mono_add_internal_call("YmirEngine.InternalCalls::CreateAcidPuddle", CreateAcidPuddle);
 
 #pragma region Transform
 	mono_add_internal_call("YmirEngine.Transform::GetForward", GetForward);
