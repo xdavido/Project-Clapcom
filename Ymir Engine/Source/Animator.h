@@ -1,5 +1,6 @@
 #pragma once
 #include "Globals.h"
+#include "Application.h"
 
 #include "ResourceAnimation.h"
 #include "Model.h"
