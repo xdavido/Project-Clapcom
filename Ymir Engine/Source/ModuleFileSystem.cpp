@@ -176,11 +176,11 @@ bool ModuleFileSystem::SaveAnimationToFile(ResourceAnimation* anim, const std::s
 
 	std::string name = filename;
 
-	/*for (name; PhysfsEncapsule::FileExists(name); name) {
+	for (name; PhysfsEncapsule::FileExists(name); name) {
 		int pos = name.length() - 6;
 		name.insert(pos, "_Copy");
 		LOG("File with name '%s'; changed to '%s'", filename.c_str(), name.c_str());
-	}*/
+	}
 
 	std::ofstream outFile(name, std::ios::binary);
 
