@@ -703,13 +703,14 @@ float EmitterPosition::GetModuleVec(float3 vec)
 	return sqrt((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 }
 
-void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
-{
-}
-
 EmitterRotation::EmitterRotation()
 {
 	horAlign = true;
+	currentAlignmentMode = BillboardType::PAR_LOOK_EDITOR_CAMERA;
+}
+
+void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
+{
 }
 
 void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
@@ -719,6 +720,26 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 	Quat tempRot;
 	float3 tempSca;
 	camaraMatrix->Decompose(tempPos, tempRot, tempSca);*/
+
+	switch (currentAlignmentMode)
+	{
+	case PAR_LOOK_EDITOR_CAMERA:
+		EditorCameraAlign();
+		break;
+	case PAR_LOOK_GAME_CAMERA:
+		GameCameraAlign();
+		break;
+	case PAR_WORLD_ALIGNED:
+		WorldAlign();
+		break;
+	case PAR_AXIS_ALIGNED:
+		AxisAlign();
+		break;
+	case PAR_BILLBOARDING_MODE_END:
+		break;
+	default:
+		break;
+	}
 
 	for (int i = 0; i < emitter->listParticles.size(); i++)
 	{
@@ -744,11 +765,11 @@ void EmitterRotation::OnInspector()
 
 	//}
 
-	std::string tempAlignment = "Not Aligned Yet";
+	std::string tempAlignment;
 
 	switch (currentAlignmentMode) 
 	{
-		case BillboardType::PAR_AXIS_ALIGNED: tempAlignment = "Axis Aligned"; break;
+	case BillboardType::PAR_AXIS_ALIGNED: tempAlignment = "Axis Aligned"; break;
 		case BillboardType::PAR_LOOK_EDITOR_CAMERA: tempAlignment = "Screen Aligned"; break;
 		case BillboardType::PAR_LOOK_GAME_CAMERA: tempAlignment = "Camera Aligned"; break;
 		case BillboardType::PAR_WORLD_ALIGNED: tempAlignment = "World Aligned"; break;
@@ -757,28 +778,26 @@ void EmitterRotation::OnInspector()
 	
 	ImGui::Text("Current Billboard: %s", tempAlignment.c_str());
 
-	if (ImGui::BeginMenu("Change billboard")) 
+	/*if (ImGui::BeginMenu("Change billboard")) 
 	{
 		if (ImGui::MenuItem("Editor Camera Aligned")) EditorCameraAlign();
 		if (ImGui::MenuItem("Game Camera Aligned")) GameCameraAlign();
 		if (ImGui::MenuItem("World Aligned")) WorldAlign();
 		if (ImGui::MenuItem("Axis Aligned")) AxisAlign();
 		ImGui::EndMenu();
-	}
+	}*/
 
-	if (ImGui::BeginCombo("##ChangeSpeed", tempAlignment.c_str()))
+	if (ImGui::BeginCombo("##ChangeBillboard", tempAlignment.c_str()))
 	{
 		for (int i = 0; i < BillboardType::PAR_BILLBOARDING_MODE_END; i++)
 		{
-			/*std::string modeName;*/
-
 			switch ((BillboardType)i)
 			{
-			case BillboardType::PAR_AXIS_ALIGNED: tempAlignment = "Axis Aligned"; break;
-			case BillboardType::PAR_LOOK_EDITOR_CAMERA: tempAlignment = "Screen Aligned"; break;
-			case BillboardType::PAR_LOOK_GAME_CAMERA: tempAlignment = "Camera Aligned"; break;
-			case BillboardType::PAR_WORLD_ALIGNED: tempAlignment = "World Aligned"; break;
-			case BillboardType::PAR_BILLBOARDING_MODE_END: tempAlignment = ""; break;
+				case BillboardType::PAR_AXIS_ALIGNED: tempAlignment = "Axis Aligned"; break;
+				case BillboardType::PAR_LOOK_EDITOR_CAMERA: tempAlignment = "Screen Aligned"; break;
+				case BillboardType::PAR_LOOK_GAME_CAMERA: tempAlignment = "Camera Aligned"; break;
+				case BillboardType::PAR_WORLD_ALIGNED: tempAlignment = "World Aligned"; break;
+				case BillboardType::PAR_BILLBOARDING_MODE_END: tempAlignment = ""; break;
 			}
 			if (ImGui::Selectable(tempAlignment.c_str()))
 			{
@@ -789,8 +808,14 @@ void EmitterRotation::OnInspector()
 		ImGui::EndCombo();
 	}
 
-	if (currentAlignmentMode == BillboardType::PAR_AXIS_ALIGNED)
+	switch (currentAlignmentMode)
 	{
+	case BillboardType::PAR_AXIS_ALIGNED: 
+	{
+		//Yo aqui pondria un float 3 o algo, idk, revisare como lo hace unity
+		//Unity hace algo raro, vertical es que si rota pero solo en el eje Y, horizontal no rota solo mira arriba. La idea seria mas despues que una opcion sea mirar solo dirrecion y otra con el vertical rotar pero en un solo eje
+		//Lo unico que no es lo mas util del mundo, se puede dejar para lo ultimo o quiza ni hacerlo, porque con vertical axis fijo tenemos de sobra
+		
 		std::string tempName = (horAlign ? "Horizontal" : "Vertical");
 		ImGui::Text("Current Aligned Axis: %s", tempName.c_str());
 
@@ -802,22 +827,23 @@ void EmitterRotation::OnInspector()
 			ImGui::EndMenu();
 		}
 	}
-
-	switch (currentAlignmentMode)
-	{
-	case BillboardType::PAR_AXIS_ALIGNED: 
-	{
-		//Yo aqui pondria un float 3 o algo, idk, revisare como lo hace unity
-	}
 	break;
 	case BillboardType::PAR_LOOK_EDITOR_CAMERA: 
 	{
 		//Solo texto
 	}
 	break;
-	case BillboardType::PAR_LOOK_GAME_CAMERA: tempAlignment = "Camera Aligned"; break;
-	case BillboardType::PAR_WORLD_ALIGNED: tempAlignment = "World Aligned"; break;
-	case BillboardType::PAR_BILLBOARDING_MODE_END: tempAlignment = "Not Aligned Yet"; break;
+	case BillboardType::PAR_LOOK_GAME_CAMERA: 
+	{
+		//Solo texto
+	}  
+	break;
+	case BillboardType::PAR_WORLD_ALIGNED: 
+	{
+		//Ni idea, no entiendo ni que es el world aligment
+	}
+	break;
+	case BillboardType::PAR_BILLBOARDING_MODE_END: break;
 	}
 
 	ImGui::Separator();
@@ -836,7 +862,6 @@ void EmitterRotation::EditorCameraAlign()
 	float3 tempSca;
 	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
 	SetRotation(tempRot);
-	currentAlignmentMode = BillboardType::PAR_LOOK_EDITOR_CAMERA;
 }
 
 void EmitterRotation::GameCameraAlign()
@@ -847,25 +872,21 @@ void EmitterRotation::GameCameraAlign()
 	float3 tempSca;
 	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
 	SetRotation(tempRot);
-	currentAlignmentMode = BillboardType::PAR_LOOK_GAME_CAMERA;
 }
 
 void EmitterRotation::WorldAlign()
 {
 	SetRotation(Quat::identity);
-	currentAlignmentMode = BillboardType::PAR_WORLD_ALIGNED;
 }
 
 void EmitterRotation::AxisAlign()
 {
 	if (horAlign)
 	{
-		currentAlignmentMode = BillboardType::PAR_AXIS_ALIGNED;
 		SetRotation(Quat(0.701, 0, 0, -0.713));
 	}
 	else
 	{
-		currentAlignmentMode = BillboardType::PAR_AXIS_ALIGNED;
 		return SetRotation(Quat::identity);
 	}
 
