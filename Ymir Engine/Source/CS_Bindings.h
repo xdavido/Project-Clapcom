@@ -942,30 +942,14 @@ bool NavigateGrid(MonoObject* go, int rows, int columns, bool isRight, bool navi
 	{
 		for (auto i = 0; i < listOffset.size(); i++)
 		{
-			if (rows == 1 && columns == 1)
+			if (listOffset[i]->mOwner->UID != gameObject->mChildren[0]->UID)
 			{
-				if (listOffset[i]->mOwner->UID != gameObject->UID)
-				{
-					offset++;
-				}
-
-				else
-				{
-					break;
-				}
+				offset++;
 			}
-			
+
 			else
 			{
-				if (listOffset[i]->mOwner->UID != gameObject->mChildren[0]->UID)
-				{
-					offset++;
-				}
-
-				else
-				{
-					break;
-				}
+				break;
 			}
 		}
 

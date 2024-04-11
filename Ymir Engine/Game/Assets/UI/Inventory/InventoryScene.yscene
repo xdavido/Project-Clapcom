@@ -204,20 +204,63 @@
                 }
             ],
             "Children UID": [
-                294962486,
+                63357937,
                 110478800,
-                1708915839,
-                2060313977,
-                1799950518
+                1379424156,
+                1645631563,
+                693555061
             ]
         },
         {
-            "Name": "Armor",
+            "Name": "Grid Armor",
+            "Tag": "Untagged",
+            "UID": 63357937,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1421884452,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "Grid Chips",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
+                }
+            ],
+            "Children UID": [
+                294962486
+            ]
+        },
+        {
+            "Name": "Armor (1)",
             "Tag": "Untagged",
             "UID": 294962486,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1421884452,
+            "Parent UID": 63357937,
             "Components": [
                 {
                     "Type": "Transform",
@@ -330,17 +373,6 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "ARMOR"
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Inventory_Grid.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "rows": 1,
-                    "cols": 1,
-                    "leftGridName": "",
-                    "rightGridName": "Inventory",
-                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -507,7 +539,7 @@
                     "UID": 0,
                     "rows": 1,
                     "cols": 2,
-                    "leftGridName": "",
+                    "leftGridName": "Grid Armor",
                     "rightGridName": "Inventory",
                     "naviagteGrids": true
                 }
@@ -1020,12 +1052,55 @@
             ]
         },
         {
+            "Name": "Grid Consumable 1",
+            "Tag": "Untagged",
+            "UID": 1379424156,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1421884452,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "Grid Chips",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
+                }
+            ],
+            "Children UID": [
+                1708915839
+            ]
+        },
+        {
             "Name": "Consumable1",
             "Tag": "Untagged",
             "UID": 1708915839,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1421884452,
+            "Parent UID": 1379424156,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1138,17 +1213,6 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "CONSUMABLE1"
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Inventory_Grid.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "rows": 1,
-                    "cols": 1,
-                    "leftGridName": " ",
-                    "rightGridName": "Inventory",
-                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1282,12 +1346,55 @@
             ]
         },
         {
+            "Name": "Grid Consumable 2",
+            "Tag": "Untagged",
+            "UID": 1645631563,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 1421884452,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "Grid Consumable 1",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
+                }
+            ],
+            "Children UID": [
+                2060313977
+            ]
+        },
+        {
             "Name": "Consumable2",
             "Tag": "Untagged",
             "UID": 2060313977,
             "Active": true,
             "Element_Type": "None",
-            "Parent UID": 1421884452,
+            "Parent UID": 1645631563,
             "Components": [
                 {
                     "Type": "Transform",
@@ -1400,17 +1507,6 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "CONSUMABLE2"
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Inventory_Grid.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "rows": 1,
-                    "cols": 1,
-                    "leftGridName": "",
-                    "rightGridName": "Inventory",
-                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1544,9 +1640,9 @@
             ]
         },
         {
-            "Name": "Save Item",
+            "Name": "Grid Save",
             "Tag": "Untagged",
-            "UID": 1799950518,
+            "UID": 693555061,
             "Active": true,
             "Element_Type": "None",
             "Parent UID": 1421884452,
@@ -1571,18 +1667,61 @@
                     ]
                 },
                 {
+                    "Type": "Script",
+                    "ScriptName": "UI_Inventory_Grid.cs",
+                    "Active": 1,
+                    "UID": 0,
+                    "rows": 1,
+                    "cols": 1,
+                    "leftGridName": "Grid Consumable 2",
+                    "rightGridName": "Inventory",
+                    "naviagteGrids": true
+                }
+            ],
+            "Children UID": [
+                1799950518
+            ]
+        },
+        {
+            "Name": "Save Item",
+            "Tag": "Untagged",
+            "UID": 1799950518,
+            "Active": true,
+            "Element_Type": "None",
+            "Parent UID": 693555061,
+            "Components": [
+                {
+                    "Type": "Transform",
+                    "Active": 1,
+                    "Translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0,
+                        0,
+                        -0
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 736,
-                    "Position Y": 818,
+                    "Position X": 274,
+                    "Position Y": 702,
                     "Width": 100,
                     "Height": 100,
                     "UI Type": 1,
                     "UI State": 1,
                     "Drag Limits": [
-                        736,
-                        818,
+                        274,
+                        702,
                         100,
                         100
                     ],
@@ -1662,17 +1801,6 @@
                     "itemType": 0,
                     "enumItem": "NONE",
                     "enumSlot": "SAVE"
-                },
-                {
-                    "Type": "Script",
-                    "ScriptName": "UI_Inventory_Grid.cs",
-                    "Active": 1,
-                    "UID": 0,
-                    "rows": 1,
-                    "cols": 1,
-                    "leftGridName": "Inventory",
-                    "rightGridName": "Inventory",
-                    "naviagteGrids": true
                 }
             ],
             "Children UID": [
@@ -1710,8 +1838,8 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 641,
-                    "Position Y": 759,
+                    "Position X": 179,
+                    "Position Y": 643,
                     "Width": 100,
                     "Height": 100,
                     "UI Type": 1,
@@ -1775,8 +1903,8 @@
                     "Type": "UI",
                     "Active": 1,
                     "Draggeable": false,
-                    "Position X": 649,
-                    "Position Y": 797,
+                    "Position X": 187,
+                    "Position Y": 681,
                     "Width": 300,
                     "Height": 50,
                     "UI Type": 2,
