@@ -57,6 +57,7 @@ ModuleMonoManager::ModuleMonoManager(Application* app, bool start_enabled) : Mod
 	mono_add_internal_call("YmirEngine.InternalCalls::GetChildrenByName", FindChildrenWithName);
 	mono_add_internal_call("YmirEngine.InternalCalls::GetGameObjectByUID", FindObjectWithUID);	
 	mono_add_internal_call("YmirEngine.InternalCalls::CS_GetParent", CS_GetParent);
+	mono_add_internal_call("YmirEngine.InternalCalls::CS_GetChild", CS_GetChild);
 	mono_add_internal_call("YmirEngine.InternalCalls::CompareGameObjectsByUID", CompareGameObjectsByUID);
 	mono_add_internal_call("YmirEngine.GameObject::TryGetComponent", CS_GetComponent);
 	mono_add_internal_call("YmirEngine.GameObject::get_Name", Get_GO_Name);

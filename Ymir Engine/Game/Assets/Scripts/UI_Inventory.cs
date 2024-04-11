@@ -45,6 +45,11 @@ public class UI_Inventory : YmirComponent
             if (Input.GetGamepadButton(GamePadButton.A) == KeyState.KEY_DOWN)
             {
                 SwitchItems();
+            } 
+            
+            if (Input.GetGamepadButton(GamePadButton.X) == KeyState.KEY_DOWN)
+            {
+                SwitchMenu();
             }
 
             if (((_focusedGO.GetComponent<UI_Item_Button>().item.itemType != ITEM_SLOT.NONE ||
@@ -106,4 +111,20 @@ public class UI_Inventory : YmirComponent
         }
     }
 
+    private void SwitchMenu()
+    {
+        // Can't do it with names
+        GameObject inventoryGO = InternalCalls.GetGameObjectByName("Inventory");
+
+        if (InternalCalls.CompareGameObjectsByUID(InternalCalls.CS_GetParent(_focusedGO), inventoryGO))
+        {
+            GameObject gridGO = InternalCalls.GetGameObjectByName("Grid Armor");
+            UI.SetUIState(InternalCalls.CS_GetChild(gridGO, 0), (int)UI_STATE.FOCUSED);
+        }
+
+        else
+        {
+            UI.SetUIState(InternalCalls.CS_GetChild(inventoryGO, 0), (int)UI_STATE.FOCUSED);
+        }
+    }
 }

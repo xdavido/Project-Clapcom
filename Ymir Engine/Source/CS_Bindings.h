@@ -293,6 +293,13 @@ MonoObject* CS_GetParent(MonoObject* obj)
 	return External->moduleMono->GoToCSGO(go->mParent);
 }
 
+MonoObject* CS_GetChild(MonoObject* obj, int numberChild)
+{
+	GameObject* go = External->moduleMono->GameObject_From_CSGO(obj);
+
+	return External->moduleMono->GoToCSGO(go->mChildren[numberChild]);
+}
+
 bool CompareGameObjectsByUID(MonoObject* obj1, MonoObject* obj2)
 {
 	GameObject* go1 = External->moduleMono->GameObject_From_CSGO(obj1);
