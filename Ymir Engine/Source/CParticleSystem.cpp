@@ -513,7 +513,21 @@ JSON_Value* CParticleSystem::SaveEmmiterJSON2(ParticleEmitter* emitter)
 			}
 			case EmitterType::PAR_ROTATION:
 			{
-				//Doesn't store any value (Don't have different billboarding orientations)
+				EmitterRotation* eRotation = (EmitterRotation*)emitter->modules.at(i);
+
+				//Enums de options
+				json_object_set_number(child_object,"AligmentMode",eRotation->currentAlignmentMode); 
+				json_object_set_number(child_object,"WorldOrientation",eRotation->orientationFromWorld); 
+				json_object_set_number(child_object,"AxisOrientation",eRotation->orientationOfAxis); 
+
+				JSON_Value* jValueFreeOrient = json_value_init_array();
+				JSON_Array* arrFreeWorldRotation = json_value_get_array(jValueFreeOrient);
+
+				json_object_dotset_value(child_object, "FreeRotation", jValueFreeOrient);
+				json_array_append_number(arrFreeWorldRotation, eRotation->freeWorldRotation.x);
+				json_array_append_number(arrFreeWorldRotation, eRotation->freeWorldRotation.y);
+				json_array_append_number(arrFreeWorldRotation, eRotation->freeWorldRotation.z);
+
 
 				break;
 			}

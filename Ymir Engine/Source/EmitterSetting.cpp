@@ -487,7 +487,14 @@ void EmitterPosition::Update(float dt, ParticleEmitter* emitter)
 	{
 		//Acceleration
 		float actualLT = emitter->listParticles.at(i)->lifetime;
-		emitter->listParticles.at(i)->velocity.w = particleSpeed1 + ((particleSpeed2 - particleSpeed1) * (actualLT / 1.0f));
+		if (acceleration)
+		{
+			emitter->listParticles.at(i)->velocity.w = particleSpeed1 + ((particleSpeed2 - particleSpeed1) * (actualLT / 1.0f));
+		}
+		else 
+		{
+			emitter->listParticles.at(i)->velocity.w = particleSpeed1;
+		}
 		switch (actualSpeedChange)
 		{
 		case SpeedChangeMode::PAR_NO_SPEED_CHANGE:
@@ -682,6 +689,9 @@ EmitterRotation::EmitterRotation()
 {
 	horAlign = true;
 	currentAlignmentMode = BillboardType::PAR_LOOK_EDITOR_CAMERA;
+	orientationFromWorld = OrientationDirection::PAR_Y_AXIS;
+	orientationOfAxis = OrientationDirection::PAR_Y_AXIS;
+	freeWorldRotation = { 0,0,0 };
 }
 
 void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
@@ -690,12 +700,6 @@ void EmitterRotation::Spawn(ParticleEmitter* emitter, Particle* particle)
 
 void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 {
-	/*float4x4* camaraMatrix = (float4x4*)cameraSelected->GetViewMatrix().ptr();
-	float3 tempPos;
-	Quat tempRot;
-	float3 tempSca;
-	camaraMatrix->Decompose(tempPos, tempRot, tempSca);*/
-
 	switch (currentAlignmentMode)
 	{
 	case PAR_LOOK_EDITOR_CAMERA:
@@ -721,25 +725,10 @@ void EmitterRotation::Update(float dt, ParticleEmitter* emitter)
 		//emitter->listParticles.at(i)->worldRotation = tempRot;
 		emitter->listParticles.at(i)->worldRotation = rotation;
 	}
-
-	//ERIC TODO: Las funciones, giros y aligns han de estar aqui, no en el On Inspector
 }
 
 void EmitterRotation::OnInspector()
 {
-	//if (ImGui::Button("EditorCamera"))
-	//{
-	//	//cameraSelected = External->camera->editorCamera;
-	//	viewMatrix = External->camera->editorCamera->GetViewMatrix();
-	//}
-
-	//if (ImGui::Button("GameCamera"))
-	//{
-	//	//cameraSelected = External->scene->gameCameraComponent;
-	//	viewMatrix = External->scene->gameCameraComponent->GetViewMatrix();
-
-	//}
-
 	std::string tempAlignment;
 
 	switch (currentAlignmentMode) 
@@ -752,15 +741,6 @@ void EmitterRotation::OnInspector()
 	}
 	
 	ImGui::Text("Current Billboard: %s", tempAlignment.c_str());
-
-	/*if (ImGui::BeginMenu("Change billboard")) 
-	{
-		if (ImGui::MenuItem("Editor Camera Aligned")) EditorCameraAlign();
-		if (ImGui::MenuItem("Game Camera Aligned")) GameCameraAlign();
-		if (ImGui::MenuItem("World Aligned")) WorldAlign();
-		if (ImGui::MenuItem("Axis Aligned")) AxisAlign();
-		ImGui::EndMenu();
-	}*/
 
 	if (ImGui::BeginCombo("##ChangeBillboard", tempAlignment.c_str()))
 	{
@@ -801,6 +781,48 @@ void EmitterRotation::OnInspector()
 
 			ImGui::EndMenu();
 		}
+
+		ImGui::Text("Actual Axis Orientation");
+		std::string actualAxisOrient;
+		switch (orientationOfAxis)
+		{
+		case OrientationDirection::PAR_X_AXIS:actualAxisOrient = "Fixed X Axis"; break;
+		case OrientationDirection::PAR_Y_AXIS:actualAxisOrient = "Fixed Y Axis"; break;
+		case OrientationDirection::PAR_Z_AXIS:actualAxisOrient = "Fixed Z Axis"; break;
+		case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualAxisOrient = ""; break;
+		default:actualAxisOrient = "None";
+			break;
+		}
+
+		if (ImGui::BeginCombo("##Change In Fixed Axis Direction", actualAxisOrient.c_str()))
+		{
+			for (int i = OrientationDirection::PAR_X_AXIS; i < OrientationDirection::PAR_ORIENTATION_DIRECTION_END; i+=2)
+			{
+				switch ((OrientationDirection)i)
+				{
+				case OrientationDirection::PAR_X_AXIS:actualAxisOrient = "Fixed X Axis"; break;
+				case OrientationDirection::PAR_Y_AXIS:actualAxisOrient = "Fixed Y Axis"; break;
+				case OrientationDirection::PAR_Z_AXIS:actualAxisOrient = "Fixed Z Axis"; break;
+				case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualAxisOrient = ""; break;
+				}
+				if (ImGui::Selectable(actualAxisOrient.c_str()))
+				{
+					orientationOfAxis = (OrientationDirection)i;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		switch (orientationOfAxis)
+		{
+		case OrientationDirection::PAR_X_AXIS:ImGui::Text("Billboarding Fixed on X Axis"); break;
+		case OrientationDirection::PAR_Y_AXIS:ImGui::Text("Billboarding Fixed on Y Axis"); break;
+		case OrientationDirection::PAR_Z_AXIS:ImGui::Text("Billboarding Fixed on Z Axis"); break;
+		case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualAxisOrient = ""; break;
+		default:actualAxisOrient = "None";
+			break;
+		}
 	}
 	break;
 	case BillboardType::PAR_LOOK_EDITOR_CAMERA: 
@@ -815,7 +837,60 @@ void EmitterRotation::OnInspector()
 	break;
 	case BillboardType::PAR_WORLD_ALIGNED: 
 	{
-		//Ni idea, no entiendo ni que es el world aligment
+		ImGui::Text("Actual World Orientation");
+		std::string actualWorldOrient;
+		switch (orientationFromWorld)
+		{		
+		case OrientationDirection::PAR_FREE_ORIENT: actualWorldOrient = "Free Orientation";break;
+		case OrientationDirection::PAR_X_AXIS:actualWorldOrient = "X Axis"; break;
+		case OrientationDirection::PAR_X_AXIS_NEGATIVE:actualWorldOrient = "Negative X Axis"; break;
+		case OrientationDirection::PAR_Y_AXIS:actualWorldOrient = "Y Axis"; break;
+		case OrientationDirection::PAR_Y_AXIS_NEGATIVE:actualWorldOrient = "Negative Y Axis"; break;
+		case OrientationDirection::PAR_Z_AXIS:actualWorldOrient = "Z Axis"; break;
+		case OrientationDirection::PAR_Z_AXIS_NEGATIVE:actualWorldOrient = "Negative Z Axia"; break;
+		case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualWorldOrient = ""; break;
+		default:
+			break;
+		}
+
+		if (ImGui::BeginCombo("##Change In World Direction", actualWorldOrient.c_str()))
+		{
+			for (int i = 0; i < OrientationDirection::PAR_ORIENTATION_DIRECTION_END; i++)
+			{
+				switch ((OrientationDirection)i)
+				{
+				case OrientationDirection::PAR_FREE_ORIENT: actualWorldOrient = "Free Rotation"; break;
+				case OrientationDirection::PAR_X_AXIS:actualWorldOrient = "X Axis"; break;
+				case OrientationDirection::PAR_X_AXIS_NEGATIVE:actualWorldOrient = "Negative X Axis"; break;
+				case OrientationDirection::PAR_Y_AXIS:actualWorldOrient = "Y Axis"; break;
+				case OrientationDirection::PAR_Y_AXIS_NEGATIVE:actualWorldOrient = "Negative Y Axis"; break;
+				case OrientationDirection::PAR_Z_AXIS:actualWorldOrient = "Z Axis"; break;
+				case OrientationDirection::PAR_Z_AXIS_NEGATIVE:actualWorldOrient = "Negative Z Axia"; break;
+				case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualWorldOrient = ""; break;
+				}
+				if (ImGui::Selectable(actualWorldOrient.c_str()))
+				{
+					orientationFromWorld = (OrientationDirection)i;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		switch (orientationFromWorld)
+		{
+		case OrientationDirection::PAR_FREE_ORIENT: ImGui::DragFloat3("Free Rotation# ROTATION World Orient",&freeWorldRotation[0],1.0f,-180.0f,180.0f); break;
+		case OrientationDirection::PAR_X_AXIS: ImGui::Text("Looking to Positive X"); break;
+		case OrientationDirection::PAR_X_AXIS_NEGATIVE:ImGui::Text("Looking to Negative X"); break;
+		case OrientationDirection::PAR_Y_AXIS:ImGui::Text("Looking to Positive Y"); break;
+		case OrientationDirection::PAR_Y_AXIS_NEGATIVE:ImGui::Text("Looking to Negative Y"); break;
+		case OrientationDirection::PAR_Z_AXIS: ImGui::Text("Looking to Positive Z"); break;
+		case OrientationDirection::PAR_Z_AXIS_NEGATIVE:ImGui::Text("Looking to Negative Z"); break;
+		case OrientationDirection::PAR_ORIENTATION_DIRECTION_END:actualWorldOrient = ""; break;
+		default:
+			break;
+		}
+
 	}
 	break;
 	case BillboardType::PAR_BILLBOARDING_MODE_END: break;
@@ -852,19 +927,97 @@ void EmitterRotation::GameCameraAlign()
 void EmitterRotation::WorldAlign()
 {
 	SetRotation(Quat::identity);
+	switch (orientationFromWorld)
+	{
+	case PAR_FREE_ORIENT:
+	{
+		SetRotation(Quat::FromEulerXYZ(DegToRad(freeWorldRotation.x), DegToRad(freeWorldRotation.y), DegToRad(freeWorldRotation.z)));
+	}
+		break;
+	case PAR_X_AXIS:
+	{
+		SetRotation(Quat::FromEulerXYZ(0.0f, DegToRad(90.0f), 0.0f));
+	}
+		break;
+	case PAR_X_AXIS_NEGATIVE:
+	{
+		SetRotation(Quat::FromEulerXYZ(0.0f, DegToRad(-90.0f), 0.0f));
+	}
+		break;
+	case PAR_Y_AXIS:
+	{
+		SetRotation(Quat::FromEulerXYZ(DegToRad(-90.0f) , 0.0f, 0.0f));
+	}
+	break;
+	case PAR_Y_AXIS_NEGATIVE:
+	{
+		SetRotation(Quat::FromEulerXYZ(DegToRad(90.0f), 0.0f, 0.0f));
+	}
+		break;
+	case PAR_Z_AXIS: 
+	{
+		SetRotation(Quat::FromEulerXYZ(0.0f, 0.0f, 0.0f));
+	}
+		break;
+	case PAR_Z_AXIS_NEGATIVE:
+	{
+		SetRotation(Quat::FromEulerXYZ(0.0f, DegToRad(180.0f), 0.0f));
+	}
+		break;
+	case PAR_ORIENTATION_DIRECTION_END:
+		break;
+	default:
+		break;
+	}
 }
 
 void EmitterRotation::AxisAlign()
 {
-	if (horAlign)
+	float4x4* camaraMatrix;
+	#ifdef _STANDALONE
+		 camaraMatrix = (float4x4*)External->scene->gameCameraComponent->GetViewMatrix().ptr();
+	#else
+		camaraMatrix = (float4x4*)External->camera->editorCamera->GetViewMatrix().ptr();
+	#endif // _STANDALONE
+	
+	float3 tempPos;
+	Quat tempRot;
+	float3 tempSca;
+	camaraMatrix->Decompose(tempPos, tempRot, tempSca);
+	
+	float3 newRot;
+	switch (orientationOfAxis)
 	{
-		SetRotation(Quat(0.701, 0, 0, -0.713));
-	}
-	else
+	case OrientationDirection::PAR_X_AXIS:
 	{
-		return SetRotation(Quat::identity);
+		newRot = tempRot.ToEulerXYZ();
+		newRot.y = 0;
+		newRot.z = 0;
+		tempRot = tempRot.FromEulerXYZ(newRot.x,newRot.y,newRot.z);
 	}
-
+	break;
+	case OrientationDirection::PAR_Y_AXIS:
+	{
+		newRot = tempRot.ToEulerXYZ();
+		newRot.x = 0;
+		newRot.z = 0;
+		tempRot = tempRot.FromEulerXYZ(newRot.x, newRot.y, newRot.z);
+	}
+	break;
+	case OrientationDirection::PAR_Z_AXIS:
+	{
+		newRot = tempRot.ToEulerXYZ();
+		newRot.x = 0;
+		newRot.y = 0;
+		tempRot = tempRot.FromEulerXYZ(newRot.x, newRot.y, newRot.z);
+	}
+	break;
+	case OrientationDirection::PAR_ORIENTATION_DIRECTION_END: break;
+	default:
+		break;
+		
+	}
+	SetRotation(tempRot);
 }
 
 EmitterSize::EmitterSize()
@@ -925,8 +1078,8 @@ EmitterColor::EmitterColor()
 	progresive = false;
 	startChange = 0.0f; //Range from 0 to 1 as lifetime
 	stopChange = 1.0f; //Range from 0 to 1 as lifetime
-	color1 = { 0,0,0,1 };
-	color2 = { 1,1,1,1 };
+	color1 = { 1,1,1,1 };
+	color2 = { 0,0,0,0 };
 }
 
 void EmitterColor::Update(float dt, ParticleEmitter* emitter)

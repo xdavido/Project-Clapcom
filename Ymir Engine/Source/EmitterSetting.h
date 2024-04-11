@@ -127,6 +127,7 @@ struct EmitterPosition : EmitterSetting
 
 };
 
+//Enum particles
 enum BillboardType
 {
 	PAR_LOOK_EDITOR_CAMERA,
@@ -134,6 +135,18 @@ enum BillboardType
 	PAR_WORLD_ALIGNED,
 	PAR_AXIS_ALIGNED,
 	PAR_BILLBOARDING_MODE_END
+};
+
+enum OrientationDirection //Usado para world y axis orientation, aunque uno de ellos se salta de dos en dos para solo hacer los 3 axis
+{
+	PAR_FREE_ORIENT,
+	PAR_X_AXIS,
+	PAR_X_AXIS_NEGATIVE,
+	PAR_Y_AXIS,
+	PAR_Y_AXIS_NEGATIVE,
+	PAR_Z_AXIS,
+	PAR_Z_AXIS_NEGATIVE,
+	PAR_ORIENTATION_DIRECTION_END
 };
 
 struct EmitterRotation : EmitterSetting
@@ -145,16 +158,20 @@ struct EmitterRotation : EmitterSetting
 
 	void SetRotation(Quat rot);
 
-	void EditorCameraAlign();
-	void GameCameraAlign();
-	void WorldAlign();
-	void AxisAlign();
-
 	bool horAlign;
 	bool verAlign;
 
 	Quat rotation;
 	BillboardType currentAlignmentMode;
+	OrientationDirection orientationOfAxis;
+	OrientationDirection orientationFromWorld;
+	float3 freeWorldRotation;
+	
+private:
+	void EditorCameraAlign();
+	void GameCameraAlign();
+	void WorldAlign();
+	void AxisAlign();
 };
 
 struct EmitterSize : EmitterSetting

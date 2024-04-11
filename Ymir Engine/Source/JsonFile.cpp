@@ -3397,6 +3397,22 @@ void JsonFile::GetComponent(const JSON_Object* componentObject, G_UI* gameObject
 				}
 				case PAR_ROTATION:
 				{
+					EmitterRotation* eRot = (EmitterRotation*)instancia;
+
+					//Enums of settings
+					eRot->currentAlignmentMode = (BillboardType)json_object_get_number(modulo, "AligmentMode");;
+					eRot->orientationFromWorld = (OrientationDirection)json_object_get_number(modulo, "WorldOrientation");
+					eRot->orientationOfAxis = (OrientationDirection)json_object_get_number(modulo, "AxisOrientation");
+
+					//Get newPosition array
+					JSON_Array* arrFreeDir = json_object_get_array(modulo, "FreeRotation");
+
+					//Get elements of position
+					float posXN = json_array_get_number(arrFreeDir, 0);
+					float posYN = json_array_get_number(arrFreeDir, 1);
+					float posZN = json_array_get_number(arrFreeDir, 2);
+					eRot->freeWorldRotation = { posXN,posYN,posZN };
+
 					break;
 				}
 				case PAR_SIZE:
